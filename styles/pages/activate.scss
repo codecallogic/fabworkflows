@@ -1,0 +1,17 @@
+.activate {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: center;
+  color: $color-scheme-3;
+
+  &-form {
+    grid-column: 1/-1;
+    justify-self: center;
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 10rem 0;
+  }
+}

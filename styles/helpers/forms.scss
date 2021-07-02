@@ -1,0 +1,126 @@
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  &-title {
+    align-self: flex-start;
+    font-size: 2.8rem;
+  }
+
+  &-group-double {
+    padding: 1.5rem 0 0 0;
+    width: 100%;
+    display: flex;
+    width: 50rem;
+
+    &-item {
+      width: 100%;
+
+      label {
+        display: block;
+        font-size: 1.2rem;
+        padding: 0.5rem 0;
+        width: 100%;
+      }
+
+      input {
+        padding: 0.8rem 0;
+        width: 100%;
+        font-size: 1.4rem;
+        text-indent: 1rem;
+        border: 0.1rem solid $color-light-shade-scheme-1;
+        box-shadow: 0 0.5px 1px rgb(219, 219, 219);
+        border-radius: 0.4rem;
+        transition: all 0.5s;
+
+        &:focus {
+          outline: none;
+          border: 0.1rem solid $color-scheme-1;
+        }
+      }
+
+      &:first-child {
+        margin-right: 1rem;
+        width: calc(100% - 2rem) !important;
+      }
+    }
+
+    &-image {
+      label {
+        display: block;
+      }
+
+      img {
+        object-fit: contain;
+        width: 25%;
+        height: auto;
+        image-rendering: pixelated;
+      }
+    }
+  }
+
+  &-group-single {
+    padding: 1.5rem 0 0 0;
+    grid-column: 1/-1;
+    width: 50rem;
+
+    label {
+      display: block;
+      font-size: 1.2rem;
+      padding: 0.5rem 0;
+    }
+
+    input {
+      padding: 0.8rem 0;
+      width: 100%;
+      font-size: 1.4rem;
+      text-indent: 1rem;
+      border: 0.1rem solid $color-light-shade-scheme-1;
+      box-shadow: 0 0.5px 1px rgb(219, 219, 219);
+      border-radius: 0.4rem;
+      transition: all 0.5s;
+
+      &:focus {
+        outline: none;
+        border: 0.1rem solid $color-scheme-1;
+        box-shadow: 0 0 1px 1px rgba(14, 120, 241, 0.5);
+      }
+    }
+
+    &-quill {
+      color: black !important;
+    }
+  }
+
+  &-button {
+    width: 100%;
+    margin: 2.5rem 0;
+    background-color: $color-scheme-1;
+    padding: 1rem 0;
+    color: white;
+    border-color: transparent;
+    font-size: 1.5rem;
+    border-radius: 0.4rem;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &-button-fit {
+    width: max-content;
+    margin: 2.5rem 0;
+    background-color: $color-scheme-2;
+    padding: 1rem 2rem;
+    color: white;
+    border-color: transparent;
+    font-size: 1.5rem;
+    border-radius: 0.4rem;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

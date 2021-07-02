@@ -1,0 +1,12 @@
+// BASE
+@import './base.scss';
+
+// HELPERS
+@import './helpers/forms.scss';
+@import './helpers/alignments.scss';
+
+// PAGES
+@import './pages/home.scss';
+@import './pages/login.scss';
+@import './pages/signup.scss';
+@import './pages/activate.scss';

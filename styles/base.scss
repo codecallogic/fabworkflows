@@ -1,0 +1,50 @@
+// COLORS
+$color-scheme-1: #1f72eb;
+$color-scheme-2: #1bc9a2;
+$color-scheme-3: #545365;
+$color-scheme-4: #041219;
+$color-scheme-5: #024060;
+
+// SHADES
+$color-dark-shade-scheme-1: #413838;
+$color-dark-shade-scheme-2: #262626;
+$color-light-shade-scheme-1: #dbdbdb;
+
+//BREAKPOINTS
+$wide-large: 1800px;
+$wide: 1500px;
+$extra-large: 1200px;
+$large-medium: 1050px;
+$large: 992px;
+$extra-medium: 800px;
+$medium: 768px;
+$small: 600px;
+$extra-small: 350px;
+$extra-small-alt-1: 375px;
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box; // Tells the browser to account for any border and padding in the values you specify for an element's width and height
+  font-size: 62.5%; // Sets font-size to 10px
+  scroll-behavior: smooth;
+  padding: env(safe-area-inset);
+}
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Helvetica';
+  font-style: normal;
+  color: black;
+  line-height: 1.6;
+}

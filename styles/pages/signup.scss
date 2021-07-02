@@ -1,0 +1,75 @@
+.signup {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: center;
+  color: $color-scheme-3;
+
+  &-banner {
+    grid-column: 1/-1;
+    background-color: $color-scheme-1;
+    text-align: center;
+    color: white;
+    padding: 3rem 0;
+
+    &-title {
+      font-size: 3.8rem;
+      font-weight: 800;
+    }
+
+    &-subtitle {
+      font-size: 1.4rem;
+    }
+  }
+
+  &-form-container {
+    grid-column: 1/-1;
+    justify-self: center;
+    display: flex;
+    margin: 5rem 0;
+
+    form {
+      margin-right: 15rem;
+    }
+  }
+
+  &-free_trial {
+    text-align: center;
+
+    &-title {
+      font-size: 2.8rem;
+      margin: 0 0 2rem 0;
+    }
+
+    &-features {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+
+      &-column {
+        display: flex;
+        flex-direction: column;
+
+        &-item {
+          justify-self: start;
+          display: flex;
+          align-items: center;
+          margin: 1rem 0 0 0;
+
+          svg {
+            width: 1.5rem !important;
+            height: 1.5rem !important;
+            fill: $color-scheme-3;
+            margin-right: 1rem;
+          }
+
+          span {
+            font-size: 1.6rem;
+          }
+        }
+
+        &:first-child {
+          margin-right: 5rem;
+        }
+      }
+    }
+  }
+}
