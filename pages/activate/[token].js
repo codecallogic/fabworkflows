@@ -8,8 +8,8 @@ const Activate = ({}) => {
 
   const router = useRouter()
 
-  const [password, setPassword] = useState('Testemail1!')
-  const [confirm_password, setConfirmPassword] = useState('Testemail1!')
+  const [password, setPassword] = useState('')
+  const [confirm_password, setConfirmPassword] = useState('')
   const [message, setMessage] = useState('')
 
   useEffect(() => {
