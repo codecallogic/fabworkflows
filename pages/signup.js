@@ -5,10 +5,10 @@ import {API} from '../config'
 
 const Signup = ({}) => {
 
-  const [first_name, setFirstName] = useState('Fabricio')
-  const [last_name, setLastName] = useState('Guardia')
-  const [email, setEmail] = useState('j.fabricio.au@gmail.com')
-  const [phone_number, setPhoneNumber] = useState('818-915-9551')
+  const [first_name, setFirstName] = useState('')
+  const [last_name, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone_number, setPhoneNumber] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
@@ -61,7 +61,7 @@ const Signup = ({}) => {
             <input type="tel" name={phone_number} value={phone_number} onChange={(e) => setPhoneNumber(e.target.value)}/>
           </div>
           <button type="submit" className="form-button-fit">Start free trial</button>
-          <span>Already have an account? <a className="link" onClick={() => window.location.href = '/login'}>Login</a></span>
+          <span className="link-text">Already have an account? <a className="link" onClick={() => window.location.href = '/login'}>Login</a></span>
           {loading ? <iframe src="https://giphy.com/embed/sSgvbe1m3n93G" width="30" height="30" frameBorder="0" className="giphy-loading" allowFullScreen></iframe> : null }
           {message &&  <div className="form-message">{message}</div>}
         </form>

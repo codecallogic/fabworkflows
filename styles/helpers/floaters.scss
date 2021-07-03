@@ -8,7 +8,13 @@
 }
 
 .link {
+  text-decoration: underline;
+
   &:hover {
     cursor: pointer;
+  }
+
+  &-text {
+    font-size: 1.4rem;
   }
 }

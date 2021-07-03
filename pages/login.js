@@ -8,8 +8,8 @@ const Login = ({}) => {
 
   const router = useRouter()
 
-  const [email, setEmail] = useState('j.fabricio.au@gmail.com')
-  const [password, setPassword] = useState('Testemail1!')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
@@ -42,7 +42,7 @@ const Login = ({}) => {
         {loading ? <iframe src="https://giphy.com/embed/sSgvbe1m3n93G" width="30" height="30" frameBorder="0" className="giphy-loading" allowFullScreen></iframe> : null }
         {message &&  <div className="form-message">{message}</div>}
       </form>
-      <span>Don't have an account? <a className="link" onClick={() => window.location.href = `/signup`}>Sign up</a></span>
+      <span className="link-text">Don't have an account? <a className="link" onClick={() => window.location.href = `/signup`}>Sign up</a></span>
     </div>
   )
 }

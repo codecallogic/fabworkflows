@@ -152,8 +152,12 @@ body {
   .logout:hover {
     cursor: pointer; }
 
-.link:hover {
-  cursor: pointer; }
+.link {
+  text-decoration: underline; }
+  .link:hover {
+    cursor: pointer; }
+  .link-text {
+    font-size: 1.4rem; }
 
 .home {
   display: flex;
