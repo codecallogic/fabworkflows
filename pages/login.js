@@ -42,7 +42,7 @@ const Login = ({}) => {
         {loading ? <iframe src="https://giphy.com/embed/sSgvbe1m3n93G" width="30" height="30" frameBorder="0" className="giphy-loading" allowFullScreen></iframe> : null }
         {message &&  <div className="form-message">{message}</div>}
       </form>
-      <span>Don't have an account? <a href="/signup">Sign up</a></span>
+      <span>Don't have an account? <a className="link" onClick={() => window.location.href = '/signup'}>Sign up</a></span>
     </div>
   )
 }

@@ -152,6 +152,9 @@ body {
   .logout:hover {
     cursor: pointer; }
 
+.link:hover {
+  cursor: pointer; }
+
 .home {
   display: flex;
   justify-content: center;

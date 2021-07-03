@@ -61,7 +61,7 @@ const Signup = ({}) => {
             <input type="tel" name={phone_number} value={phone_number} onChange={(e) => setPhoneNumber(e.target.value)}/>
           </div>
           <button type="submit" className="form-button-fit">Start free trial</button>
-          <span>Already have an account? <a href="/login">Login</a></span>
+          <span>Already have an account? <a className="link" onClick={() => window.location.href = '/login'}>Login</a></span>
           {loading ? <iframe src="https://giphy.com/embed/sSgvbe1m3n93G" width="30" height="30" frameBorder="0" className="giphy-loading" allowFullScreen></iframe> : null }
           {message &&  <div className="form-message">{message}</div>}
         </form>
