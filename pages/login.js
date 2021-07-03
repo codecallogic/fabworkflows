@@ -33,10 +33,10 @@ const Login = ({}) => {
       <div className="login-title">Login</div>
       <form className="form" onSubmit={(e) => login(e)}>
         <div className="form-group-single">
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="email"/>
         </div>
         <div className="form-group-single">
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="password"/>
         </div>
         <button type="submit" className="form-button">sign in</button>
         {loading ? <iframe src="https://giphy.com/embed/sSgvbe1m3n93G" width="30" height="30" frameBorder="0" className="giphy-loading" allowFullScreen></iframe> : null }
