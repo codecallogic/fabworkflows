@@ -27,17 +27,35 @@
     display: flex;
     margin: 5rem 0;
 
+    @media only screen and (max-width: $large) {
+      display: block;
+    }
+
     form {
       margin-right: 15rem;
+
+      @media only screen and (max-width: $large) {
+        margin: 0;
+      }
     }
   }
 
   &-free_trial {
     text-align: center;
 
+    @media only screen and (max-width: $large) {
+      text-align: left;
+      margin: 3rem 0;
+      padding: 0 1rem;
+    }
+
     &-title {
       font-size: 2.8rem;
       margin: 0 0 2rem 0;
+
+      @media only screen and (max-width: $large) {
+        text-align: center;
+      }
     }
 
     &-features {

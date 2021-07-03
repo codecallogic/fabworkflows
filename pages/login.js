@@ -29,6 +29,7 @@ const Login = ({}) => {
   
   return (
     <div className="login">
+      <div className="login-logo">Fabworkflows</div>
       <div className="login-title">Login</div>
       <form className="form" onSubmit={(e) => login(e)}>
         <div className="form-group-single">
@@ -41,6 +42,7 @@ const Login = ({}) => {
         {loading ? <iframe src="https://giphy.com/embed/sSgvbe1m3n93G" width="30" height="30" frameBorder="0" className="giphy-loading" allowFullScreen></iframe> : null }
         {message &&  <div className="form-message">{message}</div>}
       </form>
+      <span>Don't have an account? <a href="/signup">Sign up</a></span>
     </div>
   )
 }

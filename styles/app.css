@@ -26,6 +26,10 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column; }
+  @media only screen and (max-width: 992px) {
+    .form {
+      width: 100%;
+      padding: 0 2rem; } }
   .form-title {
     align-self: flex-start;
     font-size: 2.8rem; }
@@ -34,11 +38,18 @@ body {
     color: red;
     width: 50rem;
     text-align: center; }
+    @media only screen and (max-width: 992px) {
+      .form-message {
+        width: 25rem; } }
   .form-group-double {
     padding: 1.5rem 0 0 0;
     width: 100%;
     display: flex;
     width: 50rem; }
+    @media only screen and (max-width: 992px) {
+      .form-group-double {
+        width: 100%;
+        display: block; } }
     .form-group-double-item {
       width: 100%; }
       .form-group-double-item label {
@@ -61,6 +72,9 @@ body {
       .form-group-double-item:first-child {
         margin-right: 1rem;
         width: calc(100% - 2rem) !important; }
+        @media only screen and (max-width: 992px) {
+          .form-group-double-item:first-child {
+            width: 100% !important; } }
     .form-group-double-image label {
       display: block; }
     .form-group-double-image img {
@@ -72,6 +86,9 @@ body {
     padding: 1.5rem 0 0 0;
     grid-column: 1/-1;
     width: 50rem; }
+    @media only screen and (max-width: 992px) {
+      .form-group-single {
+        width: 100%; } }
     .form-group-single label {
       display: block;
       font-size: 1.2rem;
@@ -149,6 +166,12 @@ body {
   align-items: center;
   flex-direction: column;
   margin: 15rem 0; }
+  .login-logo {
+    font-size: 4.2rem;
+    font-weight: 800;
+    color: #1f72eb;
+    margin: 1rem 0;
+    font-style: italic; }
   .login-title {
     font-size: 1.8rem; }
 
@@ -173,13 +196,27 @@ body {
     justify-self: center;
     display: flex;
     margin: 5rem 0; }
+    @media only screen and (max-width: 992px) {
+      .signup-form-container {
+        display: block; } }
     .signup-form-container form {
       margin-right: 15rem; }
+      @media only screen and (max-width: 992px) {
+        .signup-form-container form {
+          margin: 0; } }
   .signup-free_trial {
     text-align: center; }
+    @media only screen and (max-width: 992px) {
+      .signup-free_trial {
+        text-align: left;
+        margin: 3rem 0;
+        padding: 0 1rem; } }
     .signup-free_trial-title {
       font-size: 2.8rem;
       margin: 0 0 2rem 0; }
+      @media only screen and (max-width: 992px) {
+        .signup-free_trial-title {
+          text-align: center; } }
     .signup-free_trial-features {
       display: grid;
       grid-template-columns: repeat(2, 1fr); }

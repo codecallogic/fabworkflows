@@ -10,7 +10,7 @@ const Signup = ({}) => {
   const [email, setEmail] = useState('j.fabricio.au@gmail.com')
   const [phone_number, setPhoneNumber] = useState('818-915-9551')
   const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState('Email sent to j.fabricio.au@gmail.com.')
+  const [message, setMessage] = useState('')
 
   const reset = () => {
     setFirstName('')
@@ -61,6 +61,7 @@ const Signup = ({}) => {
             <input type="tel" name={phone_number} value={phone_number} onChange={(e) => setPhoneNumber(e.target.value)}/>
           </div>
           <button type="submit" className="form-button-fit">Start free trial</button>
+          <span>Already have an account? <a href="/login">Login</a></span>
           {loading ? <iframe src="https://giphy.com/embed/sSgvbe1m3n93G" width="30" height="30" frameBorder="0" className="giphy-loading" allowFullScreen></iframe> : null }
           {message &&  <div className="form-message">{message}</div>}
         </form>
