@@ -9,14 +9,23 @@ const Signup = ({}) => {
   const [last_name, setLastName] = useState('Guardia')
   const [email, setEmail] = useState('j.fabricio.au@gmail.com')
   const [phone_number, setPhoneNumber] = useState('818-915-9551')
+  const [message, setMessage] = useState('Email sent to j.fabricio.au@gmail.com.')
+
+  const reset = () => {
+    setFirstName('')
+    setLastName('')
+    setEmail('')
+    setPhoneNumber('')
+  }
 
   const signup = async (e) => {
     e.preventDefault()
     try {
       const responseSignup = await axios.post(`${API}/auth/register`, {first_name, last_name, email, phone_number})
-      console.log(responseSignup)
+      reset()
+      setMessage(responseSignup.data)
     } catch (error) {
-      console.log(error)
+      if(error) error.response ? setMessage(error.response.data) : setMessage('')
     }
   }
   
@@ -32,22 +41,23 @@ const Signup = ({}) => {
           <div className="form-group-double">
             <div className="form-group-double-item">
               <label htmlFor="first_name">First Name</label>
-              <input type="text" name={first_name} value={first_name} onChange={(e) => setFirstName(e.target.value)}/>
+              <input type="text" name={first_name} value={first_name} onChange={(e) => setFirstName(e.target.value)} required/>
             </div>
             <div className="form-group-double-item">
               <label htmlFor="last_name">Last Name</label>
-              <input type="text" name={last_name} value={last_name} onChange={(e) => setLastName(e.target.value)}/>
+              <input type="text" name={last_name} value={last_name} onChange={(e) => setLastName(e.target.value)} required/>
             </div>
           </div>
           <div className="form-group-single">
             <label htmlFor="email">Email</label>
-            <input type="email" name={email} value={email} onChange={(e) => setEmail(e.target.value)}/>
+            <input type="email" name={email} value={email} onChange={(e) => setEmail(e.target.value)} required/>
           </div>
           <div className="form-group-single">
-            <label htmlFor="phone_number">Phone Number</label>
+            <label htmlFor="phone_number">Phone Number (optional)</label>
             <input type="tel" name={phone_number} value={phone_number} onChange={(e) => setPhoneNumber(e.target.value)}/>
           </div>
           <button type="submit" className="form-button-fit">Start free trial</button>
+          {message &&  <div className="form-message">{message}</div>}
         </form>
         <div className="signup-free_trial">
           <div className="signup-free_trial-title">Free trial includes</div>
