@@ -9,6 +9,7 @@ const Signup = ({}) => {
   const [last_name, setLastName] = useState('Guardia')
   const [email, setEmail] = useState('j.fabricio.au@gmail.com')
   const [phone_number, setPhoneNumber] = useState('818-915-9551')
+  const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('Email sent to j.fabricio.au@gmail.com.')
 
   const reset = () => {
@@ -19,13 +20,16 @@ const Signup = ({}) => {
   }
 
   const signup = async (e) => {
+    setLoading(true)
     e.preventDefault()
     try {
       const responseSignup = await axios.post(`${API}/auth/register`, {first_name, last_name, email, phone_number})
       reset()
+      setLoading(false)
       setMessage(responseSignup.data)
     } catch (error) {
       if(error) error.response ? setMessage(error.response.data) : setMessage('')
+      setLoading(false)
     }
   }
   
@@ -57,6 +61,7 @@ const Signup = ({}) => {
             <input type="tel" name={phone_number} value={phone_number} onChange={(e) => setPhoneNumber(e.target.value)}/>
           </div>
           <button type="submit" className="form-button-fit">Start free trial</button>
+          {loading ? <iframe src="https://giphy.com/embed/sSgvbe1m3n93G" width="30" height="30" frameBorder="0" className="giphy-loading" allowFullScreen></iframe> : null }
           {message &&  <div className="form-message">{message}</div>}
         </form>
         <div className="signup-free_trial">

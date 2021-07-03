@@ -23,7 +23,7 @@ const Activate = ({}) => {
       try {
         const responseActivate = await axios.post(`${API}/auth/activate-account`, {query, password})
         setMessage('')
-        window.location.href = '/'
+        window.location.href = '/login'
       } catch (error) {
         console.log(error)
         if(error.response.data.error) return setMessage(error.response.data.error.msg)
