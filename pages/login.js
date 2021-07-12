@@ -29,7 +29,7 @@ const Login = ({}) => {
   
   return (
     <div className="login">
-      <div className="login-logo">Fabworkflow</div>
+      <img src="/media/logo_2.png" alt="" className="login-logo" />
       <div className="login-title">Login</div>
       <form className="form" onSubmit={(e) => login(e)}>
         <div className="form-group-single">

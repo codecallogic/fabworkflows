@@ -6,6 +6,11 @@
 @import './helpers/alignments.scss';
 @import './helpers/animations.scss';
 @import './helpers/floaters.scss';
+@import './helpers/navigation.scss';
+
+// CLIENT
+@import './client/dashboard/navigation.scss';
+@import './client/dashboard/dashboard.scss';
 
 // PAGES
 @import './pages/home.scss';

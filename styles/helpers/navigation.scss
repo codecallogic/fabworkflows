@@ -1,0 +1,29 @@
+.hide {
+  &-sidenav {
+    width: 0 !important;
+    transform: translateX(-100%);
+
+    &-menu {
+      background-color: black;
+
+      &-item {
+        width: 100%;
+      }
+    }
+
+    &-items {
+      font-size: 0 !important;
+      width: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    &-dropdown {
+      font-size: 0 !important;
+      width: 0 !important;
+      height: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+  }
+}
