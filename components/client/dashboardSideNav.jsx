@@ -9,7 +9,7 @@ const SideNav = ({nav}) => {
   const toggleDropdown = () => {
     let el = document.getElementById('dropdown-toggle-inventory').checked
     setDropdownToggle(el)
-  }
+  }                                                                                                                              
   
   return (
     <div className={`clientDashboard_sidenav` + (!nav.sidenav ? ' hide-sidenav' : '')}>

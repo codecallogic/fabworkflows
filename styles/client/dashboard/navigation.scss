@@ -30,7 +30,7 @@
 
 .clientDashboard_sidenav {
   width: 30rem;
-  height: 100vh;
+  height: 100rem;
   transition: all 0.5s ease-in-out;
   background-color: $color-dark-shade-scheme-1;
 
@@ -45,6 +45,10 @@
       background-color: white;
       position: relative;
       transition: all 0.5s ease-in-out;
+
+      &:hover {
+        cursor: pointer;
+      }
 
       &-tab {
         display: flex;
@@ -118,6 +122,11 @@
           border-left: 0.1rem solid white;
           position: relative;
           transition: all 0.5s ease-in-out;
+
+          &:hover {
+            cursor: pointer;
+            color: $color-dark-shade-scheme-3;
+          }
 
           svg {
             position: absolute;

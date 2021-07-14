@@ -152,4 +152,225 @@
       cursor: pointer;
     }
   }
+
+  &-group-double-dropdown {
+    display: flex;
+    flex-direction: column;
+    width: calc(50% - 1rem);
+    margin: 0rem 1rem 2rem 0;
+
+    label {
+      font-size: 1.6rem;
+      margin: 1rem 0;
+    }
+
+    &-input {
+      border-top-right-radius: 0.5rem;
+      border-top-left-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      position: relative;
+      border: 0.1rem solid $color-light-shade-scheme-1;
+
+      textarea {
+        flex-grow: 1;
+        border-top-right-radius: 0.5rem;
+        border-top-left-radius: 0.5rem;
+        resize: none;
+        padding: 1.2rem 2rem 0 2rem;
+        outline: none;
+        font-size: 1.4rem;
+        font-family: inherit;
+        border: none;
+      }
+
+      svg {
+        width: 3rem;
+        height: 3rem;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      &-list {
+        position: absolute;
+        top: 100%;
+        width: 100%;
+        font-size: 1.4rem;
+        border-top: 0.1rem solid $color-light-shade-scheme-1;
+        border: 0.1rem solid $color-light-shade-scheme-1;
+        border-bottom-right-radius: 1rem;
+        border-bottom-left-radius: 1rem;
+        box-shadow: 0rem 1rem 0.5rem 0.2rem rgba(0, 0, 0, 0.2);
+        z-index: 100;
+
+        &-item {
+          display: flex;
+          align-items: center;
+          padding: 0.8rem 2rem;
+          font-size: inherit;
+          background-color: white;
+
+          &:last-child {
+            border-bottom-right-radius: 0.5rem;
+            border-bottom-left-radius: 0.5rem;
+            padding-bottom: 1.5rem;
+          }
+
+          svg {
+            width: 2rem;
+            height: 2rem;
+            fill: $color-scheme-2;
+            margin-right: 1rem;
+          }
+
+          &:hover {
+            cursor: pointer;
+            background-color: $color-light-shade-scheme-1;
+          }
+        }
+      }
+    }
+  }
+
+  &-group-triple {
+    display: flex;
+    flex-direction: column;
+    width: calc(33% - 1rem);
+    margin: 0rem 1rem 2rem 0;
+
+    label {
+      font-size: 1.6rem;
+      margin: 1rem 0;
+    }
+
+    &-input {
+      border-top-right-radius: 0.5rem;
+      border-top-left-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      position: relative;
+      border: 0.1rem solid $color-light-shade-scheme-1;
+
+      textarea {
+        flex-grow: 1;
+        border-top-right-radius: 0.5rem;
+        border-top-left-radius: 0.5rem;
+        resize: none;
+        padding: 1.2rem 2rem 0 2rem;
+        outline: none;
+        font-size: 1.4rem;
+        font-family: inherit;
+        border: none;
+      }
+
+      svg {
+        width: 3rem;
+        height: 3rem;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      &-list {
+        position: absolute;
+        top: 100%;
+        width: 100%;
+        font-size: 1.4rem;
+        border-top: 0.1rem solid $color-light-shade-scheme-1;
+        border: 0.1rem solid $color-light-shade-scheme-1;
+        border-bottom-right-radius: 1rem;
+        border-bottom-left-radius: 1rem;
+        box-shadow: 0rem 1rem 0.5rem 0.2rem rgba(0, 0, 0, 0.2);
+        z-index: 100;
+
+        &-item {
+          display: flex;
+          align-items: center;
+          padding: 0.8rem 2rem;
+          font-size: inherit;
+          background-color: white;
+
+          &:last-child {
+            border-bottom-right-radius: 0.5rem;
+            border-bottom-left-radius: 0.5rem;
+            padding-bottom: 1.5rem;
+          }
+
+          svg {
+            width: 2rem;
+            height: 2rem;
+            fill: $color-scheme-2;
+            margin-right: 1rem;
+          }
+
+          &:hover {
+            cursor: pointer;
+            background-color: $color-light-shade-scheme-1;
+          }
+        }
+      }
+    }
+  }
+}
+
+// BORDERS
+.border_bottom {
+  border-bottom: 0.1rem solid $color-light-shade-scheme-1;
+  font-weight: 700;
+}
+
+// INPUT FIELDS ADJUSTMENTS
+.units {
+  width: 100%;
+  position: relative;
+
+  &::before {
+    content: 'X';
+    position: absolute;
+    top: calc(50% - 1rem);
+    left: calc(50% - 1rem);
+    width: min-content;
+    height: 100%;
+    font-size: 1.4rem;
+    color: $color-light-shade-scheme-2;
+  }
+
+  span {
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: calc(50% - 0.6rem);
+      width: 0.1rem;
+      height: 25%;
+      font-size: 1.4rem;
+      background-color: $color-light-shade-scheme-1;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: calc(50% - 0.6rem);
+      width: 0.1rem;
+      height: 25%;
+      font-size: 1.4rem;
+      background-color: $color-light-shade-scheme-1;
+    }
+  }
+}
+
+// ICONS
+.dollar {
+  width: 2rem !important;
+  height: 2rem !important;
+  margin-left: 0.5rem;
+  padding: 0 0 0.2rem 0;
+
+  &-input {
+    padding: 1.2rem 2rem 0 1rem !important;
+  }
 }

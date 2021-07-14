@@ -1,5 +1,8 @@
 const initialState = {
-  sidenav: true
+  sidenav: true,
+  main: false,
+  new: false,
+  slab: true
 }
 
 export const navReducer = (state = initialState, action) => {
