@@ -6,13 +6,27 @@ const initialState = {
 }
 
 export const navReducer = (state = initialState, action) => {
-  console.log(action)
   switch(action.type){
 
     case "TOGGLE_SIDENAV":
+      if(action.toggle == 'toggle_nav_button'){
+        document.getElementById('nav-toggle').checked = false
+      }
       return {
         ...state,
         sidenav: !state.sidenav
+      }
+
+    case "HIDE_SIDENAV":
+      return {
+        ...state,
+        sidenav: false
+      }
+
+    case "SHOW_SIDENAV":
+      return {
+        ...state,
+        sidenav: true
       }
     
     case "CHANGE_VIEW":
@@ -20,6 +34,14 @@ export const navReducer = (state = initialState, action) => {
         ...state,
         [action.name]: !state[action.name],
         [action.toggle]: !state[action.toggle]
+      }
+
+    case "NEW_VIEW":
+      return {
+        ...state,
+        new: true,
+        slab: false,
+        main: false
       }
     
     default: 

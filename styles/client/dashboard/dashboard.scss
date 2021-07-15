@@ -7,6 +7,10 @@
     width: 100%;
     height: 100%;
 
+    @media only screen and (max-width: $large) {
+      padding: 0 0 20rem 0;
+    }
+
     &-main {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -33,6 +37,11 @@
       height: 100%;
       padding: 3rem 5rem;
 
+      @media only screen and (max-width: $large) {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
       &-item {
         margin-bottom: 2rem;
         border-radius: 1.2rem;
@@ -48,6 +57,10 @@
         outline: none;
         transition: all 0.5s ease-in-out;
         margin-right: 3rem;
+
+        @media only screen and (max-width: $large) {
+          width: 100%;
+        }
 
         &:hover {
           cursor: pointer;

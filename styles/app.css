@@ -20,6 +20,11 @@ body {
   font-style: normal;
   color: black;
   line-height: 1.6; }
+  body::-webkit-scrollbar {
+    width: 0.5rem;
+    background-color: #757575; }
+  body::-webkit-scrollbar-thumb {
+    background-color: #fd7e3c; }
 
 .form {
   display: flex;
@@ -329,6 +334,12 @@ body {
     padding: 0 !important;
     color: transparent; }
 
+@keyframes slideFromLeft {
+  0% {
+    transform: translateX(-100%); }
+  100% {
+    transform: translateX(0); } }
+
 .logout {
   color: #1bc9a2;
   font-size: 1.6rem; }
@@ -353,7 +364,12 @@ body {
     font-size: 0 !important;
     width: 0 !important;
     padding: 0 !important;
-    margin: 0 !important; }
+    margin: 0 !important;
+    height: 0 !important;
+    transition: all 0.5s ease-in-out; }
+    .hide-sidenav-items img {
+      width: 0;
+      height: 0; }
   .hide-sidenav-dropdown {
     font-size: 0 !important;
     width: 0 !important;
@@ -378,14 +394,31 @@ body {
       display: flex;
       align-items: center;
       font-size: 1.6rem; }
+      @media only screen and (max-width: 992px) {
+        .clientDashboard_topnav-menu-account {
+          display: none; } }
       .clientDashboard_topnav-menu-account img {
         height: 4rem;
         margin-right: 1rem;
         background-color: #404141;
         border-radius: 50%; }
     .clientDashboard_topnav-menu-mobile {
-      display: flex;
-      align-items: center; }
+      display: none; }
+      @media only screen and (max-width: 992px) {
+        .clientDashboard_topnav-menu-mobile {
+          display: flex;
+          align-items: center;
+          margin: 0 2rem 0 0; } }
+      .clientDashboard_topnav-menu-mobile-checkbox {
+        display: none; }
+      .clientDashboard_topnav-menu-mobile-checkbox:checked + .clientDashboard_topnav-menu-mobile-button .clientDashboard_topnav-menu-mobile-icon {
+        background-color: transparent; }
+      .clientDashboard_topnav-menu-mobile-checkbox:checked + .clientDashboard_topnav-menu-mobile-button .clientDashboard_topnav-menu-mobile-icon:before {
+        top: 0%;
+        transform: rotate(135deg); }
+      .clientDashboard_topnav-menu-mobile-checkbox:checked + .clientDashboard_topnav-menu-mobile-button .clientDashboard_topnav-menu-mobile-icon:after {
+        top: 0%;
+        transform: rotate(-135deg); }
       .clientDashboard_topnav-menu-mobile-button {
         display: flex;
         align-items: center;
@@ -421,7 +454,24 @@ body {
   transition: all 0.5s ease-in-out;
   background-color: #413838; }
   .clientDashboard_sidenav-menu {
-    margin: 5rem 0 0 0; }
+    margin: 2rem 0 0 0; }
+    .clientDashboard_sidenav-menu-account {
+      display: none;
+      padding: 0 0 0 2rem;
+      font-size: 1.6rem;
+      margin: 3rem 0;
+      color: white;
+      animation: slideFromLeft 1s ease-in-out;
+      transition: all 0.6s ease-in-out; }
+      @media only screen and (max-width: 992px) {
+        .clientDashboard_sidenav-menu-account {
+          display: flex;
+          align-items: center; } }
+      .clientDashboard_sidenav-menu-account img {
+        height: 4rem;
+        margin-right: 1rem;
+        background-color: white;
+        border-radius: 50%; }
     .clientDashboard_sidenav-menu-item {
       display: flex;
       justify-content: space-between;
@@ -510,6 +560,9 @@ body {
   .clientDashboard-view {
     width: 100%;
     height: 100%; }
+    @media only screen and (max-width: 992px) {
+      .clientDashboard-view {
+        padding: 0 0 20rem 0; } }
     .clientDashboard-view-main {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -530,6 +583,10 @@ body {
       width: 100%;
       height: 100%;
       padding: 3rem 5rem; }
+      @media only screen and (max-width: 992px) {
+        .clientDashboard-view-new {
+          display: grid;
+          grid-template-columns: 1fr; } }
       .clientDashboard-view-new-item {
         margin-bottom: 2rem;
         border-radius: 1.2rem;
@@ -545,6 +602,9 @@ body {
         outline: none;
         transition: all 0.5s ease-in-out;
         margin-right: 3rem; }
+        @media only screen and (max-width: 992px) {
+          .clientDashboard-view-new-item {
+            width: 100%; } }
         .clientDashboard-view-new-item:hover {
           cursor: pointer;
           box-shadow: 0rem 0.5rem 0.5rem 0.5rem rgba(0, 0, 0, 0.4); }

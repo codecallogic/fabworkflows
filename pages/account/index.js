@@ -11,9 +11,10 @@ const formatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 2,
 });
 
-const Dashboard = ({nav, changeView, slab, createSlab}) => {
+const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab}) => {
 
   const [input_dropdown, setInputDropdown] = useState('')
+  const [width, setWidth] = useState()
 
   const validateIsNumber = (type) => {
     const input = document.getElementById(type)
@@ -37,6 +38,21 @@ const Dashboard = ({nav, changeView, slab, createSlab}) => {
       console.error(err)
     }
   }
+
+  useEffect(() => {
+    if(window.innerWidth < 992) hideSideNav()
+    
+    function handleResize() {
+      if(width){
+        if(width < 992){hideSideNav()}
+        if(width > 992){showSideNav()}
+      }
+      setWidth(window.innerWidth);
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+
+  }, [width])
   
   return (
     <>
@@ -194,6 +210,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    hideSideNav: () => dispatch({type: 'HIDE_SIDENAV'}),
+    showSideNav: () => dispatch({type: 'SHOW_SIDENAV'}),
     changeView: (type, toggle) => dispatch({type: 'CHANGE_VIEW', name: type, toggle: toggle}),
     createSlab: (type, data) => dispatch({type: 'CREATE_SLAB', name: type, value: data})
   }

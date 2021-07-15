@@ -49,4 +49,13 @@ body {
   font-style: normal;
   color: black;
   line-height: 1.6;
+
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+    background-color: #757575;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $color-scheme-1;
+  }
 }

@@ -22,6 +22,10 @@
       align-items: center;
       font-size: 1.6rem;
 
+      @media only screen and (max-width: $large) {
+        display: none;
+      }
+
       img {
         height: 4rem;
         margin-right: 1rem;
@@ -31,8 +35,31 @@
     }
 
     &-mobile {
-      display: flex;
-      align-items: center;
+      display: none;
+
+      @media only screen and (max-width: $large) {
+        display: flex;
+        align-items: center;
+        margin: 0 2rem 0 0;
+      }
+
+      &-checkbox {
+        display: none;
+      }
+
+      &-checkbox:checked + &-button &-icon {
+        background-color: transparent;
+      }
+
+      &-checkbox:checked + &-button &-icon:before {
+        top: 0%;
+        transform: rotate(135deg);
+      }
+
+      &-checkbox:checked + &-button &-icon:after {
+        top: 0%;
+        transform: rotate(-135deg);
+      }
 
       &-button {
         display: flex;
@@ -42,7 +69,6 @@
         width: 3rem;
         z-index: 1000;
         cursor: pointer;
-        // margin-right: -3rem;
       }
 
       &-button:hover &-icon:before {
@@ -92,7 +118,29 @@
   background-color: $color-dark-shade-scheme-1;
 
   &-menu {
-    margin: 5rem 0 0 0;
+    margin: 2rem 0 0 0;
+
+    &-account {
+      display: none;
+      padding: 0 0 0 2rem;
+      font-size: 1.6rem;
+      margin: 3rem 0;
+      color: white;
+      animation: slideFromLeft 1s ease-in-out;
+      transition: all 0.6s ease-in-out;
+
+      @media only screen and (max-width: $large) {
+        display: flex;
+        align-items: center;
+      }
+
+      img {
+        height: 4rem;
+        margin-right: 1rem;
+        background-color: white;
+        border-radius: 50%;
+      }
+    }
 
     &-item {
       display: flex;
