@@ -219,6 +219,9 @@ body {
         cursor: pointer; }
     .form-group-triple a {
       margin: 0 auto; }
+      @media only screen and (max-width: 992px) {
+        .form-group-triple a {
+          width: 100%; } }
     .form-group-triple img {
       width: 300px;
       height: 300px;
@@ -631,7 +634,8 @@ body {
         border-radius: 1.2rem; }
         @media only screen and (max-width: 992px) {
           .clientDashboard-view-slab_form-container {
-            height: 100%; } }
+            height: 100%;
+            margin: 3rem 2rem; } }
       .clientDashboard-view-slab_form-heading {
         font-size: 1.4rem;
         color: white;
