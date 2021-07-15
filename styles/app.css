@@ -224,6 +224,9 @@ body {
       height: 300px;
       margin: 0 auto;
       padding: 1rem 0; }
+      @media only screen and (max-width: 992px) {
+        .form-group-triple img {
+          width: 100%; } }
     .form-group-triple-input {
       border-top-right-radius: 0.5rem;
       border-top-left-radius: 0.5rem;
