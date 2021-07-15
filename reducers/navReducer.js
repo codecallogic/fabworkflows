@@ -1,18 +1,25 @@
 const initialState = {
   sidenav: true,
   main: false,
-  new: false,
-  slab: true
+  slab: false,
+  new: true,
 }
 
 export const navReducer = (state = initialState, action) => {
+  console.log(action)
   switch(action.type){
 
-    case "toggleSideNav":
-      console.log('hello')
+    case "TOGGLE_SIDENAV":
       return {
         ...state,
         sidenav: !state.sidenav
+      }
+    
+    case "CHANGE_VIEW":
+      return {
+        ...state,
+        [action.name]: !state[action.name],
+        [action.toggle]: !state[action.toggle]
       }
     
     default: 

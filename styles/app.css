@@ -44,8 +44,7 @@ body {
   .form-group-double {
     padding: 1.5rem 0 0 0;
     width: 100%;
-    display: flex;
-    width: 50rem; }
+    display: flex; }
     @media only screen and (max-width: 992px) {
       .form-group-double {
         width: 100%;
@@ -135,6 +134,9 @@ body {
     flex-direction: column;
     width: calc(50% - 1rem);
     margin: 0rem 1rem 2rem 0; }
+    @media only screen and (max-width: 992px) {
+      .form-group-double-dropdown {
+        width: 100%; } }
     .form-group-double-dropdown label {
       font-size: 1.6rem;
       margin: 1rem 0; }
@@ -194,9 +196,29 @@ body {
     flex-direction: column;
     width: calc(33% - 1rem);
     margin: 0rem 1rem 2rem 0; }
+    @media only screen and (max-width: 992px) {
+      .form-group-triple {
+        width: 100%; } }
     .form-group-triple label {
       font-size: 1.6rem;
       margin: 1rem 0; }
+    .form-group-triple button {
+      padding: 1rem 2rem;
+      font-size: 1.4rem;
+      outline: none;
+      border: none;
+      border-radius: 0.5rem;
+      color: white;
+      background-color: #fd7e3c; }
+      .form-group-triple button:hover {
+        cursor: pointer; }
+    .form-group-triple a {
+      margin: 0 auto; }
+    .form-group-triple img {
+      width: 300px;
+      height: 300px;
+      margin: 0 auto;
+      padding: 1rem 0; }
     .form-group-triple-input {
       border-top-right-radius: 0.5rem;
       border-top-left-radius: 0.5rem;
@@ -348,15 +370,50 @@ body {
   padding: 1rem 2rem; }
   .clientDashboard_topnav-logo img {
     height: 8rem; }
-  .clientDashboard_topnav-menu-account {
+  .clientDashboard_topnav-menu {
     display: flex;
     align-items: center;
-    font-size: 1.6rem; }
-    .clientDashboard_topnav-menu-account img {
-      height: 4rem;
-      margin-right: 1rem;
-      background-color: #404141;
-      border-radius: 50%; }
+    position: relative; }
+    .clientDashboard_topnav-menu-account {
+      display: flex;
+      align-items: center;
+      font-size: 1.6rem; }
+      .clientDashboard_topnav-menu-account img {
+        height: 4rem;
+        margin-right: 1rem;
+        background-color: #404141;
+        border-radius: 50%; }
+    .clientDashboard_topnav-menu-mobile {
+      display: flex;
+      align-items: center; }
+      .clientDashboard_topnav-menu-mobile-button {
+        display: flex;
+        align-items: center;
+        border-radius: 50%;
+        height: 3rem;
+        width: 3rem;
+        z-index: 1000;
+        cursor: pointer; }
+      .clientDashboard_topnav-menu-mobile-button:hover .clientDashboard_topnav-menu-mobile-icon:before {
+        top: -1rem; }
+      .clientDashboard_topnav-menu-mobile-button:hover .clientDashboard_topnav-menu-mobile-icon:after {
+        top: 1rem; }
+      .clientDashboard_topnav-menu-mobile-icon {
+        position: relative; }
+        .clientDashboard_topnav-menu-mobile-icon, .clientDashboard_topnav-menu-mobile-icon:before, .clientDashboard_topnav-menu-mobile-icon:after {
+          width: 3rem;
+          height: 0.2rem;
+          background-color: #413838;
+          display: inline-block; }
+        .clientDashboard_topnav-menu-mobile-icon:before, .clientDashboard_topnav-menu-mobile-icon:after {
+          content: '';
+          position: absolute;
+          left: 0;
+          transition: all 0.2s; }
+        .clientDashboard_topnav-menu-mobile-icon:before {
+          top: -0.6rem; }
+        .clientDashboard_topnav-menu-mobile-icon:after {
+          top: 0.6rem; }
 
 .clientDashboard_sidenav {
   width: 30rem;
@@ -507,8 +564,11 @@ body {
       .clientDashboard-view-slab_form-container {
         margin: 3rem 5rem;
         background-color: white;
-        height: 70rem;
+        height: 100%;
         border-radius: 1.2rem; }
+        @media only screen and (max-width: 992px) {
+          .clientDashboard-view-slab_form-container {
+            height: 100%; } }
       .clientDashboard-view-slab_form-heading {
         font-size: 1.4rem;
         color: white;

@@ -2,14 +2,16 @@ import TopNav from '../../components/client/dashboardTopNav'
 import SideNav from '../../components/client/dashboardSideNav'
 import {connect} from 'react-redux'
 import SVGs from '../../files/svgs'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import QRCode from 'qrcode'
+import withUser from '../withUser'
 
 const formatter = new Intl.NumberFormat('en-US', {
   minimumFractionDigits: 2,      
   maximumFractionDigits: 2,
 });
 
-const Dashboard = ({nav, slab, createSlab}) => {
+const Dashboard = ({nav, changeView, slab, createSlab}) => {
 
   const [input_dropdown, setInputDropdown] = useState('')
 
@@ -23,6 +25,17 @@ const Dashboard = ({nav, slab, createSlab}) => {
     if(type == 'thickness') input.value = input.value.split(regex).join('') + ' cm'
 
     if(input.value == ' cm') input.value = ''
+  }
+
+  const generateQR = async (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    try {
+      const image = await QRCode.toDataURL('Hello')
+      createSlab('qr_code', image)
+    } catch (err) {
+      console.error(err)
+    }
   }
   
   return (
@@ -41,7 +54,7 @@ const Dashboard = ({nav, slab, createSlab}) => {
           }
           {nav.new &&
             <div className="clientDashboard-view-new">
-              <div className="clientDashboard-view-new-item">
+              <div className="clientDashboard-view-new-item" onClick={() => changeView('slab', 'new')}>
                 <SVGs svg={'slab'}></SVGs>
                 <span>New Slab</span>
               </div>
@@ -138,6 +151,31 @@ const Dashboard = ({nav, slab, createSlab}) => {
                     <textarea id="block" rows="2" placeholder="(Block #)" onChange={() => validateIsNumber('block')}></textarea>
                   </div>
                 </div>
+                <div className="form-group-triple">
+                  <label htmlFor="material">Lot Number</label>
+                  <div className="form-group-triple-input">
+                    <textarea id="lot" rows="2" placeholder="(Lot #)" onChange={() => validateIsNumber('lot')}></textarea>
+                  </div>
+                </div>
+                <div className="form-group-double-dropdown">
+                  <label htmlFor="material">Location</label>
+                  <div className="form-group-double-dropdown-input">
+                    <textarea rows="2" name="material" placeholder="(Select Location)"></textarea>
+                    <div onClick={() => (input_dropdown !== 'location' ? setInputDropdown('location') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
+                    { input_dropdown == 'location' &&
+                    <div className="form-group-double-dropdown-input-list">
+                      <div className="form-group-double-dropdown-input-list-item border_bottom"><SVGs svg={'plus'}></SVGs> Add new</div>
+                      <div className="form-group-double-dropdown-input-list-item">Warehouse</div>
+                    </div>
+                    }
+                  </div>
+                </div>
+                <div className="form-group-triple">
+                  <label htmlFor="material">Generate QR Code</label>
+                  <button onClick={(e) => generateQR(e)}>Generate</button>
+                  {!slab.qr_code && <img src='https://free-qr.com/images/placeholder.svg' alt="QR Code" />}
+                  {slab.qr_code && <a download="qr-code.png" href={slab.qr_code} alt="QR Code" title="QR-code"><img src={slab.qr_code} alt="QR Code" /></a>}
+                </div>
               </form>
             </div>
           }
@@ -156,8 +194,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    changeView: (type, toggle) => dispatch({type: 'CHANGE_VIEW', name: type, toggle: toggle}),
     createSlab: (type, data) => dispatch({type: 'CREATE_SLAB', name: type, value: data})
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)
+export default connect(mapStateToProps, mapDispatchToProps)(withUser(Dashboard))

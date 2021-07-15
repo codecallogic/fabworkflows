@@ -77,8 +77,12 @@
       &-container {
         margin: 3rem 5rem;
         background-color: white;
-        height: 70rem;
+        height: 100%;
         border-radius: 1.2rem;
+
+        @media only screen and (max-width: $large) {
+          height: 100%;
+        }
       }
 
       &-heading {

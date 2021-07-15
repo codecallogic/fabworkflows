@@ -27,6 +27,7 @@ const Signup = ({}) => {
       reset()
       setLoading(false)
       setMessage(responseSignup.data)
+      window.location.href = '/login'
     } catch (error) {
       if(error) error.response ? setMessage(error.response.data) : setMessage('')
       setLoading(false)
