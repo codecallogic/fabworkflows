@@ -12,6 +12,7 @@ export const navReducer = (state = initialState, action) => {
       if(action.toggle == 'toggle_nav_button'){
         document.getElementById('nav-toggle').checked = false
       }
+      
       return {
         ...state,
         sidenav: !state.sidenav

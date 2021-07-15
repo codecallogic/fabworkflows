@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import SVGs from '../../files/svgs'
 
-const SideNav = ({nav, toggleSideNav, newView}) => {
+const SideNav = ({nav, width, toggleSideNav, newView}) => {
 
   const [toggle, setDropdownToggle] = useState(false)
   
@@ -30,7 +30,7 @@ const SideNav = ({nav, toggleSideNav, newView}) => {
           </div>
           <div className="clientDashboard_sidenav-menu-item-dropdown">
             <div className={`clientDashboard_sidenav-menu-item-dropdown-fill` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}></div>
-            <div onClick={() => (newView(), toggleSideNav('toggle_nav_button'))} className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}><SVGs svg={'circle-thin'} classprop={`clientDashboard_sidenav-menu-item-arrow` + (!nav.sidenav ? ' hide-sidenav-items' : '')  + (toggle ? ' hide-sidenav-dropdown' : '')}></SVGs>New</div>
+            <div onClick={() => (newView(), width < 992 ? toggleSideNav('toggle_nav_button') : null)} className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}><SVGs svg={'circle-thin'} classprop={`clientDashboard_sidenav-menu-item-arrow` + (!nav.sidenav ? ' hide-sidenav-items' : '')  + (toggle ? ' hide-sidenav-dropdown' : '')}></SVGs>New</div>
             <div className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}><SVGs svg={'circle-thin'} classprop={'clientDashboard_sidenav-menu-item-arrow' + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}></SVGs>List of Slabs</div>
             <div className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}><SVGs svg={'circle-thin'} classprop={'clientDashboard_sidenav-menu-item-arrow' + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}></SVGs>List of Tracker</div>
             <div className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}><SVGs svg={'circle-thin'} classprop={'clientDashboard_sidenav-menu-item-arrow' + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}></SVGs>List of Products</div>

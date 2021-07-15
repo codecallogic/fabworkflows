@@ -58,7 +58,7 @@ const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab}
     <>
       <TopNav></TopNav>
       <div className="clientDashboard">
-        <SideNav></SideNav>
+        <SideNav width={width}></SideNav>
         <div className="clientDashboard-view">
           {nav.main &&
           <div className="clientDashboard-view-main">
