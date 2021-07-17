@@ -5,7 +5,7 @@ const TopNav = ({toggleSideNav}) => {
   return (
     <div className="clientDashboard_topnav">
       <div className="clientDashboard_topnav-logo">
-        <img src="/media/logo_2.png" alt="Logo" />
+        <img src="/media/logo_4.png" alt="Logo" />
       </div>
       <div className="clientDashboard_topnav-menu">
         <div className="clientDashboard_topnav-menu-mobile">

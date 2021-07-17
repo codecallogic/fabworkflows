@@ -141,7 +141,8 @@ body {
     margin: 0rem 1rem 2rem 0; }
     @media only screen and (max-width: 992px) {
       .form-group-double-dropdown {
-        width: 100%; } }
+        width: 100%;
+        margin: 0 0 2rem 0; } }
     .form-group-double-dropdown label {
       font-size: 1.6rem;
       margin: 1rem 0; }
@@ -203,7 +204,8 @@ body {
     margin: 0rem 1rem 2rem 0; }
     @media only screen and (max-width: 992px) {
       .form-group-triple {
-        width: 100%; } }
+        width: 100%;
+        margin: 0 0 2rem 0; } }
     .form-group-triple label {
       font-size: 1.6rem;
       margin: 1rem 0; }
@@ -389,9 +391,10 @@ body {
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: 1rem 2rem; }
+  padding: 1rem 2rem;
+  background-color: #404141; }
   .clientDashboard_topnav-logo img {
-    height: 8rem; }
+    height: 6rem; }
   .clientDashboard_topnav-menu {
     display: flex;
     align-items: center;
@@ -399,14 +402,15 @@ body {
     .clientDashboard_topnav-menu-account {
       display: flex;
       align-items: center;
-      font-size: 1.6rem; }
+      font-size: 1.6rem;
+      color: white; }
       @media only screen and (max-width: 992px) {
         .clientDashboard_topnav-menu-account {
           display: none; } }
       .clientDashboard_topnav-menu-account img {
         height: 4rem;
         margin-right: 1rem;
-        background-color: #404141;
+        background-color: white;
         border-radius: 50%; }
     .clientDashboard_topnav-menu-mobile {
       display: none; }
@@ -442,7 +446,7 @@ body {
         .clientDashboard_topnav-menu-mobile-icon, .clientDashboard_topnav-menu-mobile-icon:before, .clientDashboard_topnav-menu-mobile-icon:after {
           width: 3rem;
           height: 0.2rem;
-          background-color: #413838;
+          background-color: white;
           display: inline-block; }
         .clientDashboard_topnav-menu-mobile-icon:before, .clientDashboard_topnav-menu-mobile-icon:after {
           content: '';
@@ -458,9 +462,10 @@ body {
   width: 30rem;
   height: 100rem;
   transition: all 0.5s ease-in-out;
-  background-color: #413838; }
+  background-color: white;
+  border-right: solid 0.1rem #dbdbdb; }
   .clientDashboard_sidenav-menu {
-    margin: 2rem 0 0 0; }
+    margin: 1rem 0 0 0; }
     .clientDashboard_sidenav-menu-account {
       display: none;
       padding: 0 0 0 2rem;
@@ -472,7 +477,8 @@ body {
       @media only screen and (max-width: 992px) {
         .clientDashboard_sidenav-menu-account {
           display: flex;
-          align-items: center; } }
+          align-items: center;
+          color: #404141; } }
       .clientDashboard_sidenav-menu-account img {
         height: 4rem;
         margin-right: 1rem;
@@ -492,7 +498,8 @@ body {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        transition: all 0.5s ease-in-out; }
+        transition: all 0.5s ease-in-out;
+        color: #404141; }
         .clientDashboard_sidenav-menu-item-tab svg {
           margin-right: 1rem; }
       .clientDashboard_sidenav-menu-item-tabIcon {
@@ -531,7 +538,7 @@ body {
         padding: 1rem 0;
         font-size: 1.4rem;
         color: white;
-        border-left: 0.1rem solid white;
+        border-left: 0.1rem solid #404141;
         transition: all 0.5s ease-in-out; }
       .clientDashboard_sidenav-menu-item-dropdown-item {
         display: flex;
@@ -539,8 +546,8 @@ body {
         margin: 0 2rem;
         padding: 0.5rem 1.5rem;
         font-size: 1.4rem;
-        color: white;
-        border-left: 0.1rem solid white;
+        color: #404141;
+        border-left: 0.1rem solid #404141;
         position: relative;
         transition: all 0.5s ease-in-out; }
         .clientDashboard_sidenav-menu-item-dropdown-item:hover {
@@ -562,7 +569,7 @@ body {
 .clientDashboard {
   display: flex;
   width: 100%;
-  background-color: #c8c8cb; }
+  background-color: white; }
   .clientDashboard-view {
     width: 100%;
     height: 100%; }
@@ -596,8 +603,7 @@ body {
       .clientDashboard-view-new-item {
         margin-bottom: 2rem;
         border-radius: 1.2rem;
-        border: 0.2rem solid #1bc9a2;
-        background-color: #1bc9a2;
+        background-color: white;
         padding: 2rem 3rem;
         width: 20rem;
         height: 20rem;
@@ -627,6 +633,9 @@ body {
       width: 100%;
       display: flex;
       flex-wrap: wrap; }
+      @media only screen and (max-width: 992px) {
+        .clientDashboard-view-slab_form {
+          padding: 1rem 0.5rem; } }
       .clientDashboard-view-slab_form-container {
         margin: 3rem 5rem;
         background-color: white;
@@ -635,7 +644,7 @@ body {
         @media only screen and (max-width: 992px) {
           .clientDashboard-view-slab_form-container {
             height: 100%;
-            margin: 3rem 2rem; } }
+            margin: 3rem 1rem; } }
       .clientDashboard-view-slab_form-heading {
         font-size: 1.4rem;
         color: white;

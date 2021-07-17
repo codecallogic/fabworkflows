@@ -1,7 +1,7 @@
 .clientDashboard {
   display: flex;
   width: 100%;
-  background-color: $color-light-shade-scheme-2;
+  background-color: white;
 
   &-view {
     width: 100%;
@@ -45,8 +45,8 @@
       &-item {
         margin-bottom: 2rem;
         border-radius: 1.2rem;
-        border: 0.2rem solid $color-scheme-2;
-        background-color: $color-scheme-2;
+        // border: 0.2rem solid $color-scheme-2;
+        background-color: white;
         padding: 2rem 3rem;
         width: 20rem;
         height: 20rem;
@@ -87,6 +87,10 @@
       display: flex;
       flex-wrap: wrap;
 
+      @media only screen and (max-width: $large) {
+        padding: 1rem 0.5rem;
+      }
+
       &-container {
         margin: 3rem 5rem;
         background-color: white;
@@ -95,7 +99,7 @@
 
         @media only screen and (max-width: $large) {
           height: 100%;
-          margin: 3rem 2rem;
+          margin: 3rem 1rem;
         }
       }
 

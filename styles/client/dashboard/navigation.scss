@@ -5,10 +5,11 @@
   width: 100%;
   height: 100%;
   padding: 1rem 2rem;
+  background-color: $color-scheme-3;
 
   &-logo {
     img {
-      height: 8rem;
+      height: 6rem;
     }
   }
 
@@ -21,6 +22,7 @@
       display: flex;
       align-items: center;
       font-size: 1.6rem;
+      color: white;
 
       @media only screen and (max-width: $large) {
         display: none;
@@ -29,7 +31,7 @@
       img {
         height: 4rem;
         margin-right: 1rem;
-        background-color: $color-scheme-3;
+        background-color: white;
         border-radius: 50%;
       }
     }
@@ -87,7 +89,7 @@
         &:after {
           width: 3rem;
           height: 0.2rem;
-          background-color: $color-dark-shade-scheme-1;
+          background-color: white;
           display: inline-block;
         }
 
@@ -115,10 +117,11 @@
   width: 30rem;
   height: 100rem;
   transition: all 0.5s ease-in-out;
-  background-color: $color-dark-shade-scheme-1;
+  background-color: white;
+  border-right: solid 0.1rem $color-light-shade-scheme-1;
 
   &-menu {
-    margin: 2rem 0 0 0;
+    margin: 1rem 0 0 0;
 
     &-account {
       display: none;
@@ -132,6 +135,7 @@
       @media only screen and (max-width: $large) {
         display: flex;
         align-items: center;
+        color: $color-scheme-3;
       }
 
       img {
@@ -160,6 +164,7 @@
         justify-content: space-between;
         align-items: center;
         transition: all 0.5s ease-in-out;
+        color: $color-scheme-3;
 
         svg {
           margin-right: 1rem;
@@ -213,7 +218,7 @@
           padding: 1rem 0;
           font-size: 1.4rem;
           color: white;
-          border-left: 0.1rem solid white;
+          border-left: 0.1rem solid $color-scheme-3;
           transition: all 0.5s ease-in-out;
         }
 
@@ -223,8 +228,8 @@
           margin: 0 2rem;
           padding: 0.5rem 1.5rem;
           font-size: 1.4rem;
-          color: white;
-          border-left: 0.1rem solid white;
+          color: $color-scheme-3;
+          border-left: 0.1rem solid $color-scheme-3;
           position: relative;
           transition: all 0.5s ease-in-out;
 
