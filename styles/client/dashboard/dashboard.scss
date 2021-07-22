@@ -104,7 +104,9 @@
       }
 
       &-heading {
+        display: flex;
         font-size: 1.4rem;
+        height: 5rem;
         color: white;
         background-color: $color-dark-shade-scheme-1;
         padding: 1rem 1rem;
