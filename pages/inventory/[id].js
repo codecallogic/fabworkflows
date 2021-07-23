@@ -350,7 +350,7 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages}) =
                   }
                   {selectedFiles.length > 0 && <>
                     {selectedFiles.map((item, idx) => (
-                      <div className="form-group-triple-upload-item" key={idx}>{item.location ? <img src={item.location}></img> : <SVGs svg={'file-image'}></SVGs>} {item.key ? <a href={item.location} target="_blank">{item.key}</a>: <span>{item.name}</span>}</div>
+                      <div className="form-group-triple-upload-item" key={idx}>{item.location ? <img src={item.location}></img> : <SVGs svg={'file-image'}></SVGs>} {item.key ? <a href={item.location} target="_blank" rel="noreferrer">{item.key}</a>: <span>{item.name}</span>}</div>
                     ))}
                     {imageCount < 3 && 
                       <>
