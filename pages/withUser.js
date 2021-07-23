@@ -1,11 +1,18 @@
 import {API} from '../config'
 import axios from 'axios'
 import {getUser, getToken} from '../helpers/auth'
+import absoluteURL from 'next-absolute-url'
+import Cookies from 'cookies'
 axios.defaults.withCredentials = true
 
 const withUser = Page => {
     const WithAuthUser = props => <Page {...props} />
     WithAuthUser.getInitialProps = async (context)  => {
+      const cookies = new Cookies(context.req, context.res)
+      const { origin } = absoluteURL(context.req)
+      const id = context.query.id
+      cookies.set('inventoryURL', `${origin}/inventory/${id}`)
+
       const user = getUser(context.req)
       const token = getToken(context.req)
       let newUser = null

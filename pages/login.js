@@ -4,8 +4,8 @@ import {API} from '../config'
 import axios from 'axios'
 axios.defaults.withCredentials = true
 
-const Login = ({}) => {
-
+const Login = ({redirectLoginURL}) => {
+  console.log(redirectLoginURL)
   const router = useRouter()
 
   const [email, setEmail] = useState('')
@@ -19,6 +19,7 @@ const Login = ({}) => {
     try {
       const responseLogin = await axios.post(`${API}/auth/login`, {email, password})
       setLoading(false)
+      if(redirectLoginURL) return window.location.href = `${redirectLoginURL}`
       window.location.href = '/account'
     } catch (error) {
       console.log(error.response)
@@ -45,6 +46,18 @@ const Login = ({}) => {
       <span className="link-text">Don't have an account? <a className="link" onClick={() => window.location.href = `/signup`}>Sign up</a></span>
     </div>
   )
+}
+
+Login.getInitialProps = ({req}) => {
+  let redirect = null
+  if(req.cookies){
+    redirect = req.cookies ? req.cookies.inventoryURL : null
+  }
+  
+return {
+  redirectLoginURL: redirect
+}
+  
 }
 
 export default Login
