@@ -24,6 +24,7 @@ const withUser = Page => {
           })
           newUser = responseUser.data
         } catch (error) {
+          newUser = null
           console.log(error) 
         }
       }

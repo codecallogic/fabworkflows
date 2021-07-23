@@ -326,6 +326,14 @@ body {
         @media only screen and (max-width: 992px) {
           .form-group-triple-upload-item {
             margin: 0 0 1.5rem 3rem; } }
+        .form-group-triple-upload-item img {
+          object-fit: cover;
+          width: 20rem;
+          height: 8rem; }
+        .form-group-triple-upload-item a {
+          margin-left: 1rem; }
+        .form-group-triple-upload-item span {
+          margin-left: 1rem; }
     .form-group-triple button {
       padding: 1rem 2rem;
       font-size: 1.4rem;
@@ -565,6 +573,12 @@ body {
     height: 4rem !important;
     padding: 0 !important;
     color: transparent; }
+  .giphy-loading-slab {
+    width: 3rem !important;
+    height: 4rem !important;
+    padding: 0 !important;
+    color: transparent;
+    margin-left: 2rem !important; }
 
 @keyframes slideFromLeft {
   0% {

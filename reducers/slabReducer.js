@@ -15,7 +15,7 @@ const initialState = {
   order_status: '',
   lot_number: '',
   delivery_date: '',
-  images: '',
+  images: [],
   qr_code: '',
 }
 

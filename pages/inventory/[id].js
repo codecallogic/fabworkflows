@@ -1,27 +1,22 @@
 import TopNav from '../../components/client/dashboardTopNav'
 import SideNav from '../../components/client/dashboardSideNav'
-import {connect} from 'react-redux'
 import SVGs from '../../files/svgs'
-import React, { useState, useEffect } from 'react'
-import QRCode from 'qrcode'
-import {nanoid} from 'nanoid'
-import withUser from '../withUser'
-import {API} from '../../config'
+import {connect} from 'react-redux'
 import axios from 'axios'
-axios.defaults.withCredentials = true
+import {API} from '../../config'
+import withUser from '../withUser'
+import {useEffect, useState} from 'react'
 
-const formatter = new Intl.NumberFormat('en-US', {
-  minimumFractionDigits: 2,      
-  maximumFractionDigits: 2,
-});
+// http://localhost:3000/inventory/60fa370f5d01d515b87ae169
 
-const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab, addSlabImages}) => {
-
+const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages}) => {
+  const sendRedirect = true
+  console.log(slab.images)
   const [input_dropdown, setInputDropdown] = useState('')
   const [width, setWidth] = useState()
-  const [selectedFiles, setSelectedFiles] = useState([])
-  const [imageCount, setImageCount] = useState(0)
   const [error, setError] = useState('')
+  const [selectedFiles, setSelectedFiles] = useState(slab.images ? [...slab.images] : [])
+  const [imageCount, setImageCount] = useState(slab.images ? slab.images.length : 0)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -50,6 +45,31 @@ const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab,
 
     if(input.value == ' in') input.value = ''
     if(input.value == ' cm') input.value = ''
+  }
+
+  const dateNow = () => {
+    let date = new Date(Date.now())
+    let hr = date.getHours()
+    let min = date.getMinutes();
+
+    if (min < 10) {
+      min = "0" + min;
+    }
+
+    let ampm = "am";
+    if( hr > 12 ) {
+        hr -= 12;
+        ampm = "pm";
+    }
+
+
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    var month = monthNames[date.getUTCMonth()]
+    var day = date.getUTCDate()
+    var year = date.getUTCFullYear()
+
+    return `${month} ${day}, ${year}, ${hr}:${min} ${ampm}`
   }
 
   function checkValue(str, max){
@@ -85,31 +105,6 @@ const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab,
       if(input == '') name.classList.remove("red")
       return
     }
-  }
-
-  const dateNow = () => {
-    let date = new Date(Date.now())
-    let hr = date.getHours()
-    let min = date.getMinutes();
-
-    if (min < 10) {
-      min = "0" + min;
-    }
-
-    let ampm = "am";
-    if( hr > 12 ) {
-        hr -= 12;
-        ampm = "pm";
-    }
-
-
-    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-    var month = monthNames[date.getUTCMonth()]
-    var day = date.getUTCDate()
-    var year = date.getUTCFullYear()
-
-    return `${month} ${day}, ${year}, ${hr}:${min} ${ampm}`
   }
 
   const generateQR = async (e) => {
@@ -156,90 +151,24 @@ const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab,
     setImageCount(imageMax)
   }
 
-  const handleAddSlab = async (e) => {
+  const handleUpdateSlab = (e) => {
     e.preventDefault()
-    setError('')
-    if(!slab.qr_code){setError('QR Code required'); window.scrollTo(0,document.body.scrollHeight); return}
-    if(!slab.material){setError('Material required'); window.scrollTo(0,document.body.scrollHeight); return}
-    if(!slab.color){setError('Color required'); window.scrollTo(0,document.body.scrollHeight); return}
-    if(!slab.grade){setError('Grade required'); window.scrollTo(0,document.body.scrollHeight); return}
-    if(!slab.finish){setError('Finish required'); window.scrollTo(0,document.body.scrollHeight); return}
-    if(!slab.supplier){setError('Supplier required'); window.scrollTo(0,document.body.scrollHeight); return}
-    if(!slab.location){setError('Location required'); window.scrollTo(0,document.body.scrollHeight); return}
-    if(!slab.order_status){setError('Order status required'); window.scrollTo(0,document.body.scrollHeight); return}
-    setLoading(true)
-    
-    let data = new FormData()
-    
-    if(slab.images.length > 0){
-      slab.images.forEach((item) => {
-        let fileID = nanoid()
-        data.append('file', item, `slab-${fileID}.${item.name.split('.')[1]}`)
-      })
-    }
-
-    if(slab){
-      for(const key in slab){
-        if(key !== 'images') data.append(key, slab[key])
-      }
-    }
-
-    try {
-      const responseSlab = await axios.post(`${API}/inventory/create`, data, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-      setLoading(false)
-      console.log(responseSlab)
-      let id = responseSlab.data
-      window.location.href = `/inventory/${id}`
-    } catch (error) {
-      console.log(error)
-      if(error) error.response ? setError(error.response.data) : setError('Error adding slab to inventory')
-    }
   }
   
   return (
     <>
       <TopNav></TopNav>
       <div className="clientDashboard">
-        <SideNav width={width}></SideNav>
+        <SideNav width={width} redirect={sendRedirect}></SideNav>
         <div className="clientDashboard-view">
-          {nav.main &&
-          <div className="clientDashboard-view-main">
-            <div className="clientDashboard-view-main-box"></div>
-            <div className="clientDashboard-view-main-box"></div>
-            <div className="clientDashboard-view-main-box"></div>
-            <div className="clientDashboard-view-main-box"></div>
-          </div>
-          }
-          {nav.new &&
-            <div className="clientDashboard-view-new">
-              <div className="clientDashboard-view-new-item" onClick={() => changeView('slab', 'new')}>
-                <SVGs svg={'slab'}></SVGs>
-                <span>New Slab</span>
-              </div>
-              <div className="clientDashboard-view-new-item">
-                <SVGs svg={'stopwatch'}></SVGs>
-                <span>New Tracker</span>
-              </div>
-              <div className="clientDashboard-view-new-item">
-                <SVGs svg={'box'}></SVGs>
-                <span>New Product</span>
-              </div>
-            </div>
-          }
-          {
-            nav.slab && 
-            <div className="clientDashboard-view-slab_form-container">
+        <div className="clientDashboard-view-slab_form-container">
               <div className="clientDashboard-view-slab_form-heading">
-                <span>New Slab </span>
+                <span>Update Slab #{id}</span>
                 <div className="form-error-container">
                   {error && <span className="form-error"><SVGs svg={'error'}></SVGs></span>}
                 </div>
               </div>
-              <form className="clientDashboard-view-slab_form" onSubmit={handleAddSlab}>
+              <form className="clientDashboard-view-slab_form" onSubmit={handleUpdateSlab}>
                 <div className="form-group-double-dropdown">
                   <label htmlFor="material">Material</label>
                   <div className="form-group-double-dropdown-input">
@@ -421,7 +350,7 @@ const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab,
                   }
                   {selectedFiles.length > 0 && <>
                     {selectedFiles.map((item, idx) => (
-                      <div className="form-group-triple-upload-item" key={idx}><SVGs svg={'file-image'}></SVGs> {item.name}</div>
+                      <div className="form-group-triple-upload-item" key={idx}>{item.location ? <img src={item.location}></img> : <SVGs svg={'file-image'}></SVGs>} {item.key ? <a href={item.location} target="_blank">{item.key}</a>: <span>{item.name}</span>}</div>
                     ))}
                     {imageCount < 3 && 
                       <>
@@ -444,7 +373,7 @@ const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab,
                   }
                 </div>
                 <div className="form-button-container">
-                  <button type="submit" className="form-button" onClick={() => setError('Please complete entire form')}>Add Slab</button>
+                  <button type="submit" className="form-button" onClick={() => setError('Update form is currently being built')}>Update Slab</button>
                   <div className="form-error-container">
                   {loading ? <iframe src="https://giphy.com/embed/sSgvbe1m3n93G" width="30" height="30" frameBorder="0" className="giphy-loading-slab" allowFullScreen></iframe> : null }
                   {error && <span className="form-error" id="error-message"><SVGs svg={'error'}></SVGs> {error}</span>}
@@ -452,24 +381,40 @@ const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab,
                 </div>
               </form>
             </div>
-          }
         </div>
       </div>
     </>
   )
 }
 
-Dashboard.getInitialProps = ({query}) => {
-  console.log(query)
-  return {
-    test: 'Hello'
-  }
-}
+Slab.getInitialProps = async ({query, res}) => {
+  let id = query.id
 
-const mapStateToProps = state => {
+  let slab = null
+
+  try {
+    const responseSlab = await axios.post(`${API}/inventory/slab`, {id})
+    if(responseSlab.data){
+      slab = responseSlab.data
+    }else{
+      res.writeHead(307, {
+        Location: '/account'
+      });
+      res.end();
+    }
+    
+  } catch (error) {
+    if(error){
+      res.writeHead(307, {
+        Location: '/account'
+      });
+      res.end();
+    }
+  }
+
   return {
-    nav: state.nav,
-    slab: state.slab
+    id: id,
+    slab: slab
   }
 }
 
@@ -477,10 +422,9 @@ const mapDispatchToProps = dispatch => {
   return {
     hideSideNav: () => dispatch({type: 'HIDE_SIDENAV'}),
     showSideNav: () => dispatch({type: 'SHOW_SIDENAV'}),
-    changeView: (type, toggle) => dispatch({type: 'CHANGE_VIEW', name: type, toggle: toggle}),
     createSlab: (type, data) => dispatch({type: 'CREATE_SLAB', name: type, value: data}),
     addSlabImages: (data) => dispatch({type: 'ADD_SLAB_IMAGES', value: data})
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withUser(Dashboard))
+export default connect(null, mapDispatchToProps)(withUser(Slab))

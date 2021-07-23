@@ -425,6 +425,20 @@
         @media only screen and (max-width: $large) {
           margin: 0 0 1.5rem 3rem;
         }
+
+        img {
+          object-fit: cover;
+          width: 20rem;
+          height: 8rem;
+        }
+
+        a {
+          margin-left: 1rem;
+        }
+
+        span {
+          margin-left: 1rem;
+        }
       }
     }
 
