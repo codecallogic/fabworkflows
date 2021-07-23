@@ -196,6 +196,7 @@ const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab,
       window.location.href = `/inventory/${id}`
     } catch (error) {
       console.log(error)
+      setLoading(false)
       if(error) error.response ? setError(error.response.data) : setError('Error adding slab to inventory')
     }
   }
