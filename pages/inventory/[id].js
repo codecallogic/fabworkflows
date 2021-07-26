@@ -6,10 +6,11 @@ import axios from 'axios'
 import {API} from '../../config'
 import withUser from '../withUser'
 import {useEffect, useState} from 'react'
+import QRCode from 'qrcode'
 
 // http://localhost:3000/inventory/60fa370f5d01d515b87ae169
 
-const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages}) => {
+const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, updateSlab}) => {
   const sendRedirect = true
   const [input_dropdown, setInputDropdown] = useState('')
   const [width, setWidth] = useState()
@@ -19,7 +20,11 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages}) =
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    console.log(slab.order_status)
+    
+    for(let key in slab){
+      if(key !== 'images') createSlab(key, slab[key])
+    }
+    
     if(window.innerWidth < 992) hideSideNav()
     
     function handleResize() {
@@ -33,6 +38,16 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages}) =
     return () => window.removeEventListener("resize", handleResize);
 
   }, [width, slab.order_status])
+
+  const validateIsPrice = (evt) => {
+    let newValue = Number(evt.target.value.replace(/\D/g, '')) / 100
+    let formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    })
+    
+    return formatter.format(newValue)
+  }
 
   const validateIsNumber = (type) => {
     const input = document.getElementById(type)
@@ -118,15 +133,15 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages}) =
     e.preventDefault()
     e.stopPropagation()
 
-    if(slab.size_1 && slab.size_2 && slab.lot_number && slab.material){
+    if(updateSlab.size_1 && updateSlab.size_2 && updateSlab.lot_number && updateSlab.material){
       try {
 
         let qrData = new Object()
 
-        qrData.name = slab.material
-        qrData.size_width = slab.size_1
-        qrData.size_height = slab.size_2
-        qrData.lot = slab.lot_number
+        qrData.name = updateSlab.material
+        qrData.size_width = updateSlab.size_1
+        qrData.size_height = updateSlab.size_2
+        qrData.lot = updateSlab.lot_number
         
         const image = await QRCode.toDataURL(JSON.stringify(qrData), options)
         createSlab('qr_code', image)
@@ -146,6 +161,15 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages}) =
   const multipleFileChangeHandler = (e) => {
     let imageMax = imageCount + e.target.files.length
     if(imageMax > 3){ setError('Max number of images is 3'); window.scrollTo(0,document.body.scrollHeight); return}
+
+    if(e.target.files.length > 0){
+      let array = Array.from(e.target.files)
+      array.forEach( (item) => {
+        let url = URL.createObjectURL(item);
+        item.location = url
+      })
+    }
+    
     setSelectedFiles( prevState => [...selectedFiles, ...e.target.files])
     addSlabImages([...selectedFiles, ...e.target.files])
     setImageCount(imageMax)
@@ -172,7 +196,7 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages}) =
                 <div className="form-group-double-dropdown">
                   <label htmlFor="material">Material</label>
                   <div className="form-group-double-dropdown-input">
-                    <textarea rows="2" name="material" placeholder="(Select Material)" readOnly onClick={() => setInputDropdown('slab_material')} value={slab.material} onChange={(e) => createSlab('material', e.target.value)}></textarea>
+                    <textarea rows="2" name="material" placeholder="(Select Material)" onClick={() => setInputDropdown('slab_material')} value={updateSlab.material} onChange={(e) => createSlab('material', e.target.value)}></textarea>
                     <div onClick={() => (input_dropdown !== 'slab_material' ? setInputDropdown('slab_material') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
                     { input_dropdown == 'slab_material' &&
                     <div className="form-group-double-dropdown-input-list">
@@ -189,9 +213,9 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages}) =
                   </div>
                 </div>
                 <div className="form-group-double-dropdown">
-                  <label htmlFor="material">Color Name</label>
+                  <label htmlFor="color">Color Name</label>
                   <div className="form-group-double-dropdown-input">
-                    <textarea rows="2" name="color" placeholder="(Select Color)" readOnly onClick={() => setInputDropdown('slab_color')} value={slab.color} onChange={(e) => createSlab('color', e.target.value)}></textarea>
+                    <textarea rows="2" name="color" placeholder="(Select Color)" onClick={() => setInputDropdown('slab_color')} value={updateSlab.color} onChange={(e) => createSlab('color', e.target.value)}></textarea>
                     <div onClick={() => (input_dropdown !== 'slab_color' ? setInputDropdown('slab_color') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
                     { input_dropdown == 'slab_color' &&
                     <div className="form-group-double-dropdown-input-list">
@@ -208,29 +232,29 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages}) =
                   </div>
                 </div>
                 <div className="form-group-triple">
-                  <label htmlFor="material">Quantity</label>
+                  <label htmlFor="quantity">Quantity</label>
                   <div className="form-group-triple-input">
-                    <textarea id="quantity" rows="2" name="quantity" placeholder="(Quantity)" value={slab.quantity} onChange={(e) => (validateIsNumber('quantity'), createSlab('quantity', e.target.value))} required></textarea>
+                    <textarea id="quantity" rows="2" name="quantity" placeholder="(Quantity)" value={updateSlab.quantity} onChange={(e) => (validateIsNumber('quantity'), createSlab('quantity', e.target.value))} required></textarea>
                   </div>
                 </div>
                 <div className="form-group-triple">
                   <label htmlFor="material">Size</label>
                   <div className="form-group-triple-input units">
                     <span></span>
-                    <textarea id="size_1" rows="2" name="size_1" placeholder="# in" value={slab.size_1} onChange={(e) => (validateIsNumber('size_1'), createSlab('size_1', e.target.value))} required></textarea>
-                    <textarea id="size_2" rows="2" name="size_2" placeholder="# in" value={slab.size_2} onChange={(e) => (validateIsNumber('size_2'), createSlab('size_2', e.target.value))} required></textarea>
+                    <textarea id="size_1" rows="2" name="size_1" placeholder="# in" value={updateSlab.size_1} onChange={(e) => (validateIsNumber('size_1'), createSlab('size_1', e.target.value))} required></textarea>
+                    <textarea id="size_2" rows="2" name="size_2" placeholder="# in" value={updateSlab.size_2} onChange={(e) => (validateIsNumber('size_2'), createSlab('size_2', e.target.value))} required></textarea>
                   </div>
                 </div>
                 <div className="form-group-triple">
                   <label htmlFor="material">Thickness</label>
                   <div className="form-group-triple-input">
-                    <textarea id="thickness" rows="2" name="thickness" placeholder="(Thickness)" value={slab.thickness} onChange={(e) => (validateIsNumber('thickness'), createSlab('thickness', e.target.value))} required></textarea>
+                    <textarea id="thickness" rows="2" name="thickness" placeholder="(Thickness)" value={updateSlab.thickness} onChange={(e) => (validateIsNumber('thickness'), createSlab('thickness', e.target.value))} required></textarea>
                   </div>
                 </div>
                 <div className="form-group-double-dropdown">
                   <label htmlFor="grade">Grade</label>
                   <div className="form-group-double-dropdown-input">
-                    <textarea rows="2" name="grade" placeholder="(Select Grade)" readOnly onClick={() => setInputDropdown('slab_grade')} value={slab.grade} onChange={(e) => createSlab('grade', e.target.value)}></textarea>
+                    <textarea rows="2" name="grade" placeholder="(Select Grade)" onClick={() => setInputDropdown('slab_grade')} value={updateSlab.grade} onChange={(e) => createSlab('grade', e.target.value)}></textarea>
                     <div onClick={() => (input_dropdown !== 'slab_grade' ? setInputDropdown('slab_grade') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
                     { input_dropdown == 'slab_grade' &&
                     <div className="form-group-double-dropdown-input-list">
@@ -245,7 +269,7 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages}) =
                 <div className="form-group-double-dropdown">
                   <label htmlFor="finish">Finish</label>
                   <div className="form-group-double-dropdown-input">
-                    <textarea rows="2" name="finish" placeholder="(Select Finish)" readOnly onClick={() => setInputDropdown('slab_finish')} value={slab.finish} onChange={(e) => createSlab('finish', e.target.value)}></textarea>
+                    <textarea rows="2" name="finish" placeholder="(Select Finish)" onClick={() => setInputDropdown('slab_finish')} value={updateSlab.finish} onChange={(e) => createSlab('finish', e.target.value)}></textarea>
                     <div onClick={() => (input_dropdown !== 'slab_finish' ? setInputDropdown('slab_finish') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
                     { input_dropdown == 'slab_finish' &&
                     <div className="form-group-double-dropdown-input-list">
@@ -261,26 +285,26 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages}) =
                   <label htmlFor="price_slab">Price per Slab</label>
                   <div className="form-group-double-dropdown-input">
                     <SVGs svg={'dollar'} classprop="dollar"></SVGs>
-                    <textarea id="price_slab" rows="2" placeholder="0.00" className="dollar-input" value={slab.price_slab == 'NaN' ? '' : slab.price_slab} onChange={(e) => createSlab('price_slab', parseFloat(e.target.value).toFixed(2))} required></textarea>
+                    <textarea id="price_slab" rows="2" placeholder="0.00" className="dollar-input" value={updateSlab.price_slab} onChange={(e) => createSlab('price_slab', validateIsPrice(e))} required></textarea>
                   </div>
                 </div>
                 <div className="form-group-triple">
                   <label htmlFor="price_sqft">Price per Sqft</label>
                   <div className="form-group-double-dropdown-input">
                     <SVGs svg={'dollar'} classprop="dollar"></SVGs>
-                    <textarea id="price_sqft" rows="2" placeholder="0.00" className="dollar-input" value={slab.price_sqft == 'NaN' ? '' : slab.price_sqft} onChange={(e) => createSlab('price_sqft', parseFloat(e.target.value).toFixed(2))} required></textarea>
+                    <textarea id="price_sqft" rows="2" placeholder="0.00" className="dollar-input" value={updateSlab.price_sqft} onChange={(e) => createSlab('price_sqft', validateIsPrice(e))} required></textarea>
                   </div>
                 </div>
                 <div className="form-group-triple">
                   <label htmlFor="block">Block Number</label>
                   <div className="form-group-triple-input">
-                    <textarea id="block" rows="2" placeholder="(Block #)" value={slab.block} onChange={(e) => (validateIsNumber('block'), createSlab('block', e.target.value))} required></textarea>
+                    <textarea id="block" rows="2" placeholder="(Block #)" value={updateSlab.block} onChange={(e) => (validateIsNumber('block'), createSlab('block', e.target.value))} required></textarea>
                   </div>
                 </div>
                 <div className="form-group-double-dropdown">
                   <label htmlFor="supplier">Supplier</label>
                   <div className="form-group-double-dropdown-input">
-                    <textarea rows="2" name="supplier" placeholder="(Select Supplier)" readOnly onClick={() => setInputDropdown('supplier')} value={slab.supplier} onChange={(e) => createSlab('supplier', e.target.value)} required></textarea>
+                    <textarea rows="2" name="supplier" placeholder="(Select Supplier)" onClick={() => setInputDropdown('supplier')} value={updateSlab.supplier} onChange={(e) => createSlab('supplier', e.target.value)} required></textarea>
                     <div onClick={() => (input_dropdown !== 'supplier' ? setInputDropdown('supplier') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
                     { input_dropdown == 'supplier' &&
                     <div className="form-group-double-dropdown-input-list">
@@ -295,7 +319,7 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages}) =
                 <div className="form-group-double-dropdown">
                   <label htmlFor="location">Location</label>
                   <div className="form-group-double-dropdown-input">
-                    <textarea rows="2" name="location" placeholder="(Select Location)" readOnly value={slab.location} onClick={() => setInputDropdown('location')} onChange={(e) => createSlab('location', e.target.value)} required></textarea>
+                    <textarea rows="2" name="location" placeholder="(Select Location)" value={updateSlab.location} onClick={() => setInputDropdown('location')} onChange={(e) => createSlab('location', e.target.value)} required></textarea>
                     <div onClick={() => (input_dropdown !== 'location' ? setInputDropdown('location') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
                     { input_dropdown == 'location' &&
                     <div className="form-group-double-dropdown-input-list">
@@ -305,37 +329,24 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages}) =
                     }
                   </div>
                 </div>
-                <div className="form-group-triple-dropdown">
-                  <label htmlFor="material">Order Status</label>
-                  <div className="form-group-triple-dropdown-input">
-                    <textarea rows="2" name="order" placeholder="(Select Order Status)" readOnly value={slab.order_status} onClick={() => setInputDropdown('order_status')} onChange={(e) => createSlab('order_status', e.target.value)} required></textarea>
-                    <div onClick={() => (input_dropdown !== 'order_status' ? setInputDropdown('order_status') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
-                    { input_dropdown == 'order_status' &&
-                    <div className="form-group-triple-dropdown-input-list">
-                      <div className="form-group-triple-dropdown-input-list-item" onClick={(e) => (createSlab('order_status', `${e.target.innerText} ${dateNow()}`), setInputDropdown(''))}>Ordered</div>
-                      <div className="form-group-triple-dropdown-input-list-item" onClick={(e) => (createSlab('order_status', `${e.target.innerText} ${dateNow()}`), setInputDropdown(''))}>Received</div>
-                      <div className="form-group-triple-dropdown-input-list-item" onClick={(e) => (createSlab('order_status', `${e.target.innerText} ${dateNow()}`), setInputDropdown(''))}>Rejected</div>
-                    </div>
-                    }
-                  </div>
-                </div>
                 <div className="form-group-triple">
                   <label htmlFor="material">Lot Number</label>
                   <div className="form-group-triple-input">
-                    <textarea id="lot" rows="2" placeholder="(Lot #)" value={slab.lot_number} onChange={(e) => (validateIsNumber('lot'), createSlab('lot_number', e.target.value))} required></textarea>
+                    <textarea id="lot" rows="2" placeholder="(Lot #)" value={updateSlab.lot_number} onChange={(e) => (validateIsNumber('lot'), createSlab('lot_number', e.target.value))} required></textarea>
                   </div>
                 </div>
                 <div className="form-group-triple">
                   <label htmlFor="delivery_date">Delivery Date</label>
                   <div className="form-group-triple-input">
-                    <textarea id="delivery_date" rows="2" placeholder="(Delivery Date)" name="delivery_date" value={slab.delivery_date} onChange={(e) => handleDate(e)} required></textarea>
+                    <textarea id="delivery_date" rows="2" placeholder="(Delivery Date)" name="delivery_date" value={updateSlab.delivery_date} onChange={(e) => handleDate(e)} required></textarea>
                   </div>
                 </div>
+                <div className="form-group-triple-dropdown"></div>
                 <div className="form-group-triple-qr">
                   <label htmlFor="material">Generate QR Code</label>
                   <button onClick={(e) => generateQR(e)}>Generate</button>
-                  {!slab.qr_code && <img className="form-group-triple-qr-image-2" src='https://free-qr.com/images/placeholder.svg' alt="QR Code" />}
-                  {slab.qr_code && <a download="qr-code.png" href={slab.qr_code} alt="QR Code" title="QR-code"><img src={slab.qr_code} alt="QR Code" className="form-group-triple-qr-image" /></a>}
+                  {!updateSlab.qr_code && <img className="form-group-triple-qr-image-2" src='https://free-qr.com/images/placeholder.svg' alt="QR Code" />}
+                  {updateSlab.qr_code && <a download="qr-code.png" href={updateSlab.qr_code} alt="QR Code" title="QR-code"><img src={updateSlab.qr_code} alt="QR Code" className="form-group-triple-qr-image" /></a>}
                 </div>
                 <div className="form-group-triple form-group-triple-upload">
                   {/* <div className="form-group-triple-title">Add Images</div> */}
@@ -379,9 +390,9 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages}) =
                 <div className="form-group-triple-button-list">
                   <label htmlFor="material">Order Status</label>
                   <div className="form-group-triple-button-list">
-                    <div className={`form-group-triple-button-list-item ` + (slab.order_status ? slab.order_status.split(',')[0] == 'Ordered' ? ` selected` : null : null)} onClick={(e) => (createSlab('order_status', `Ordered, ${dateNow()}`), setInputDropdown(''))}>{slab.order_status ? slab.order_status.split(',')[0] == 'Ordered' ? slab.order_status : 'Ordered' : 'Ordered'}</div>
-                    <div className={`form-group-triple-button-list-item ` + (slab.order_status ? slab.order_status.split(',')[0] == 'Received' ? ` selected` : null : null)} onClick={(e) => (createSlab('order_status', `Received, ${dateNow()}`), setInputDropdown(''))}>{slab.order_status ? slab.order_status.split(',')[0] == 'Received' ? slab.order_status : 'Received' : 'Received'}</div>
-                    <div className={`form-group-triple-button-list-item ` + (slab.order_status ? slab.order_status.split(',')[0] == 'Delivered' ? ` selected` : null : null)} onClick={(e) => (createSlab('order_status', `Delivered, ${dateNow()}`), setInputDropdown(''))}>{slab.order_status ? slab.order_status.split(',')[0] == 'Delivered' ? slab.order_status : 'Delivered' : 'Delivered'}</div>
+                    <div className={`form-group-triple-button-list-item ` + (updateSlab.order_status ? updateSlab.order_status.split(',')[0] == 'Ordered' ? ` selected` : null : null)} onClick={(e) => (createSlab('order_status', `Ordered, ${dateNow()}`), setInputDropdown(''))}>{updateSlab.order_status ? updateSlab.order_status.split(',')[0] == 'Ordered' ? updateSlab.order_status : 'Ordered' : 'Ordered'}</div>
+                    <div className={`form-group-triple-button-list-item ` + (updateSlab.order_status ? updateSlab.order_status.split(',')[0] == 'Received' ? ` selected` : null : null)} onClick={(e) => (createSlab('order_status', `Received, ${dateNow()}`), setInputDropdown(''))}>{updateSlab.order_status ? updateSlab.order_status.split(',')[0] == 'Received' ? updateSlab.order_status : 'Received' : 'Received'}</div>
+                    <div className={`form-group-triple-button-list-item ` + (updateSlab.order_status ? updateSlab.order_status.split(',')[0] == 'Delivered' ? ` selected` : null : null)} onClick={(e) => (createSlab('order_status', `Delivered, ${dateNow()}`), setInputDropdown(''))}>{updateSlab.order_status ? updateSlab.order_status.split(',')[0] == 'Delivered' ? updateSlab.order_status : 'Delivered' : 'Delivered'}</div>
                   </div>
                 </div>
                 <div className="form-button-container">

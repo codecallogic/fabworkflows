@@ -62,10 +62,6 @@ const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab,
     return formatter.format(newValue)
   }
 
-  useEffect(() => {
-    
-  }, [slab.price_slab])
-
   function checkValue(str, max){
     if (str.charAt(0) !== '0' || str == '00') {
       var num = parseInt(str);
@@ -165,15 +161,12 @@ const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab,
   const multipleFileChangeHandler = (e) => {
     let imageMax = imageCount + e.target.files.length
     if(imageMax > 3){ setError('Max number of images is 3'); window.scrollTo(0,document.body.scrollHeight); return}
-    let newArray = []
 
     if(e.target.files.length > 0){
       let array = Array.from(e.target.files)
-      console.log(array)
       array.forEach( (item) => {
         let url = URL.createObjectURL(item);
         item.location = url
-        newArray.push(item)
       })
     }
 
@@ -415,9 +408,7 @@ const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab,
                     <textarea id="delivery_date" rows="2" placeholder="(Delivery Date)" name="delivery_date" value={slab.delivery_date} onChange={(e) => handleDate(e)} required></textarea>
                   </div>
                 </div>
-                <div className="form-group-triple-dropdown">
-
-                </div>
+                <div className="form-group-triple-dropdown"></div>
                 <div className="form-group-triple-qr">
                   <label htmlFor="material">Generate QR Code</label>
                   <button onClick={(e) => generateQR(e)}>Generate</button>
@@ -466,9 +457,9 @@ const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab,
                 <div className="form-group-triple-button-list">
                   <label htmlFor="material">Order Status</label>
                   <div className="form-group-triple-button-list">
-                    <div className={`form-group-triple-button-list-item ` + (slab.order_status ? slab.order_status.split(',')[0] == 'Ordered' ? ` selected` : null : null)} onClick={(e) => (createSlab('order_status', `Ordered, ${dateNow()}`), setInputDropdown(''))}>{slab.order_status ? slab.order_status.split(',')[0] == 'Ordered' ? slab.order_status : 'Ordered' : 'Ordered'}</div>
-                    <div className={`form-group-triple-button-list-item ` + (slab.order_status ? slab.order_status.split(',')[0] == 'Received' ? ` selected` : null : null)} onClick={(e) => (createSlab('order_status', `Received, ${dateNow()}`), setInputDropdown(''))}>{slab.order_status ? slab.order_status.split(',')[0] == 'Received' ? slab.order_status : 'Received' : 'Received'}</div>
-                    <div className={`form-group-triple-button-list-item ` + (slab.order_status ? slab.order_status.split(',')[0] == 'Delivered' ? ` selected` : null : null)} onClick={(e) => (createSlab('order_status', `Delivered, ${dateNow()}`), setInputDropdown(''))}>{slab.order_status ? slab.order_status.split(',')[0] == 'Delivered' ? slab.order_status : 'Delivered' : 'Delivered'}</div>
+                    <div className={`form-group-triple-button-list-item ` + (slab.ordered_status ? slab.ordered_status.split(',')[0] == 'Ordered' ? ` selected` : null : null)} onClick={(e) => (slab.ordered_status ? createSlab('ordered_status', '') : createSlab('ordered_status', `Ordered, ${dateNow()}`), setInputDropdown(''))}>{slab.ordered_status ? slab.ordered_status.split(',')[0] == 'Ordered' ? slab.ordered_status : 'Ordered' : 'Ordered'}</div>
+                    <div className={`form-group-triple-button-list-item ` + (slab.received_status ? slab.received_status.split(',')[0] == 'Received' ? ` selected` : null : null)} onClick={(e) => (slab.delivered_status ? createSlab('received_status', '') : createSlab('received_status', `Received, ${dateNow()}`), setInputDropdown(''))}>{slab.received_status ? slab.received_status.split(',')[0] == 'Received' ? slab.received_status : 'Received' : 'Received'}</div>
+                    <div className={`form-group-triple-button-list-item ` + (slab.delivered_status ? slab.delivered_status.split(',')[0] == 'Delivered' ? ` selected` : null : null)} onClick={(e) => (slab.delivered_status ? createSlab('delivered_status', '') : createSlab('delivered_status', `Delivered, ${dateNow()}`), setInputDropdown(''))}>{slab.delivered_status ? slab.delivered_status.split(',')[0] == 'Delivered' ? slab.delivered_status : 'Delivered' : 'Delivered'}</div>
                   </div>
                 </div>
                 <div className="form-button-container">
