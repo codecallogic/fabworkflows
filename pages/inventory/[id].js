@@ -11,7 +11,6 @@ import {useEffect, useState} from 'react'
 
 const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages}) => {
   const sendRedirect = true
-  console.log(slab.images)
   const [input_dropdown, setInputDropdown] = useState('')
   const [width, setWidth] = useState()
   const [error, setError] = useState('')
@@ -20,6 +19,7 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages}) =
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    console.log(slab.order_status)
     if(window.innerWidth < 992) hideSideNav()
     
     function handleResize() {
@@ -32,7 +32,7 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages}) =
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
 
-  }, [width])
+  }, [width, slab.order_status])
 
   const validateIsNumber = (type) => {
     const input = document.getElementById(type)
@@ -331,11 +331,11 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages}) =
                     <textarea id="delivery_date" rows="2" placeholder="(Delivery Date)" name="delivery_date" value={slab.delivery_date} onChange={(e) => handleDate(e)} required></textarea>
                   </div>
                 </div>
-                <div className="form-group-double-qr">
+                <div className="form-group-triple-qr">
                   <label htmlFor="material">Generate QR Code</label>
                   <button onClick={(e) => generateQR(e)}>Generate</button>
-                  {!slab.qr_code && <img className="form-group-double-qr-image-2" src='https://free-qr.com/images/placeholder.svg' alt="QR Code" />}
-                  {slab.qr_code && <a download="qr-code.png" href={slab.qr_code} alt="QR Code" title="QR-code"><img src={slab.qr_code} alt="QR Code" className="form-group-double-qr-image" /></a>}
+                  {!slab.qr_code && <img className="form-group-triple-qr-image-2" src='https://free-qr.com/images/placeholder.svg' alt="QR Code" />}
+                  {slab.qr_code && <a download="qr-code.png" href={slab.qr_code} alt="QR Code" title="QR-code"><img src={slab.qr_code} alt="QR Code" className="form-group-triple-qr-image" /></a>}
                 </div>
                 <div className="form-group-triple form-group-triple-upload">
                   {/* <div className="form-group-triple-title">Add Images</div> */}
@@ -349,9 +349,13 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages}) =
                   </>
                   }
                   {selectedFiles.length > 0 && <>
+                    <div className="form-group-triple-upload-item-container">
                     {selectedFiles.map((item, idx) => (
-                      <div className="form-group-triple-upload-item" key={idx}>{item.location ? <img src={item.location}></img> : <SVGs svg={'file-image'}></SVGs>} {item.key ? <a href={item.location} target="_blank" rel="noreferrer">{item.key}</a>: <span>{item.name}</span>}</div>
+                      <a className="form-group-triple-upload-item" href={item.location} target="_blank" rel="noreferrer" key={idx}>
+                        <div>{item.location ? <img src={item.location}></img> : <SVGs svg={'file-image'}></SVGs>} </div>
+                      </a>
                     ))}
+                    </div>
                     {imageCount < 3 && 
                       <>
                       <label htmlFor="files_upload" className="form-group-triple-upload-more">
@@ -371,6 +375,14 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages}) =
                     }
                     </>
                   }
+                </div>
+                <div className="form-group-triple-button-list">
+                  <label htmlFor="material">Order Status</label>
+                  <div className="form-group-triple-button-list">
+                    <div className={`form-group-triple-button-list-item ` + (slab.order_status ? slab.order_status.split(',')[0] == 'Ordered' ? ` selected` : null : null)} onClick={(e) => (createSlab('order_status', `Ordered, ${dateNow()}`), setInputDropdown(''))}>{slab.order_status ? slab.order_status.split(',')[0] == 'Ordered' ? slab.order_status : 'Ordered' : 'Ordered'}</div>
+                    <div className={`form-group-triple-button-list-item ` + (slab.order_status ? slab.order_status.split(',')[0] == 'Received' ? ` selected` : null : null)} onClick={(e) => (createSlab('order_status', `Received, ${dateNow()}`), setInputDropdown(''))}>{slab.order_status ? slab.order_status.split(',')[0] == 'Received' ? slab.order_status : 'Received' : 'Received'}</div>
+                    <div className={`form-group-triple-button-list-item ` + (slab.order_status ? slab.order_status.split(',')[0] == 'Delivered' ? ` selected` : null : null)} onClick={(e) => (createSlab('order_status', `Delivered, ${dateNow()}`), setInputDropdown(''))}>{slab.order_status ? slab.order_status.split(',')[0] == 'Delivered' ? slab.order_status : 'Delivered' : 'Delivered'}</div>
+                  </div>
                 </div>
                 <div className="form-button-container">
                   <button type="submit" className="form-button" onClick={() => setError('Update form is currently being built')}>Update Slab</button>
@@ -418,6 +430,12 @@ Slab.getInitialProps = async ({query, res}) => {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    updateSlab: state.slab
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     hideSideNav: () => dispatch({type: 'HIDE_SIDENAV'}),
@@ -427,4 +445,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(withUser(Slab))
+export default connect(mapStateToProps, mapDispatchToProps)(withUser(Slab))
