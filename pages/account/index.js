@@ -185,7 +185,6 @@ const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab,
     if(!slab.finish){setError('Finish required'); window.scrollTo(0,document.body.scrollHeight); return}
     if(!slab.supplier){setError('Supplier required'); window.scrollTo(0,document.body.scrollHeight); return}
     if(!slab.location){setError('Location required'); window.scrollTo(0,document.body.scrollHeight); return}
-    if(!slab.order_status){setError('Order status required'); window.scrollTo(0,document.body.scrollHeight); return}
     setLoading(true)
     
     let data = new FormData()
@@ -204,7 +203,7 @@ const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab,
     }
 
     try {
-      const responseSlab = await axios.post(`${API}/inventory/create`, data, {
+      const responseSlab = await axios.post(`${API}/inventory/create-slab`, data, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -399,7 +398,7 @@ const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab,
                 <div className="form-group-triple">
                   <label htmlFor="material">Lot Number</label>
                   <div className="form-group-triple-input">
-                    <textarea id="lot" rows="2" placeholder="(Lot #)" value={slab.lot_number} onChange={(e) => (validateIsNumber('lot'), createSlab('lot_number', e.target.value))} required></textarea>
+                    <textarea id="lot" rows="2" placeholder="(Lot #)" value={slab.lot_number} onChange={(e) => (createSlab('lot_number', e.target.value))} required></textarea>
                   </div>
                 </div>
                 <div className="form-group-triple">

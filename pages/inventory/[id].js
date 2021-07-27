@@ -7,6 +7,7 @@ import {API} from '../../config'
 import withUser from '../withUser'
 import {useEffect, useState} from 'react'
 import QRCode from 'qrcode'
+import {nanoid} from 'nanoid'
 
 // http://localhost:3000/inventory/60fa370f5d01d515b87ae169
 
@@ -175,8 +176,51 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
     setImageCount(imageMax)
   }
 
-  const handleUpdateSlab = (e) => {
+  const handleUpdateSlab = async (e) => {
     e.preventDefault()
+    setError('')
+    if(!updateSlab.qr_code){setError('QR Code required'); window.scrollTo(0,document.body.scrollHeight); return}
+    if(!updateSlab.material){setError('Material required'); window.scrollTo(0,document.body.scrollHeight); return}
+    if(!updateSlab.color){setError('Color required'); window.scrollTo(0,document.body.scrollHeight); return}
+    if(!updateSlab.grade){setError('Grade required'); window.scrollTo(0,document.body.scrollHeight); return}
+    if(!updateSlab.finish){setError('Finish required'); window.scrollTo(0,document.body.scrollHeight); return}
+    if(!updateSlab.supplier){setError('Supplier required'); window.scrollTo(0,document.body.scrollHeight); return}
+    if(!updateSlab.location){setError('Location required'); window.scrollTo(0,document.body.scrollHeight); return}
+    setLoading(true)
+    
+    let data = new FormData()
+    let existing_images = []
+    
+    if(updateSlab.images.length > 0){
+      updateSlab.images.forEach((item, idx) => {
+        let fileID = nanoid()
+        if(!item.key) slab.images[idx] ? (existing_images.push(slab.images[idx]), data.append('file', item, `slab-${fileID}.${item.name.split('.')[1]}`)) : data.append('file', item, `slab-${fileID}.${item.name.split('.')[1]}`)
+      })
+    }
+
+    if(updateSlab){
+      for(const key in updateSlab){
+        if(key !== 'images') data.append(key, updateSlab[key])
+      }
+    }
+    console.log(existing_images)
+    if(slab.images.length > 0) data.append('existing_images', JSON.stringify(existing_images))
+
+    try {
+      const responseSlab = await axios.post(`${API}/inventory/update-slab`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      setLoading(false)
+      console.log(responseSlab)
+      let id = responseSlab.data
+      window.location.href = `/inventory/${id}`
+    } catch (error) {
+      console.log(error)
+      setLoading(false)
+      if(error) error.response ? setError(error.response.data) : setError('Error adding slab to inventory')
+    }
   }
   
   return (
@@ -332,7 +376,7 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
                 <div className="form-group-triple">
                   <label htmlFor="material">Lot Number</label>
                   <div className="form-group-triple-input">
-                    <textarea id="lot" rows="2" placeholder="(Lot #)" value={updateSlab.lot_number} onChange={(e) => (validateIsNumber('lot'), createSlab('lot_number', e.target.value))} required></textarea>
+                    <textarea id="lot" rows="2" placeholder="(Lot #)" value={updateSlab.lot_number} onChange={(e) => (createSlab('lot_number', e.target.value))} required></textarea>
                   </div>
                 </div>
                 <div className="form-group-triple">
@@ -390,9 +434,9 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
                 <div className="form-group-triple-button-list">
                   <label htmlFor="material">Order Status</label>
                   <div className="form-group-triple-button-list">
-                    <div className={`form-group-triple-button-list-item ` + (updateSlab.order_status ? updateSlab.order_status.split(',')[0] == 'Ordered' ? ` selected` : null : null)} onClick={(e) => (createSlab('order_status', `Ordered, ${dateNow()}`), setInputDropdown(''))}>{updateSlab.order_status ? updateSlab.order_status.split(',')[0] == 'Ordered' ? updateSlab.order_status : 'Ordered' : 'Ordered'}</div>
-                    <div className={`form-group-triple-button-list-item ` + (updateSlab.order_status ? updateSlab.order_status.split(',')[0] == 'Received' ? ` selected` : null : null)} onClick={(e) => (createSlab('order_status', `Received, ${dateNow()}`), setInputDropdown(''))}>{updateSlab.order_status ? updateSlab.order_status.split(',')[0] == 'Received' ? updateSlab.order_status : 'Received' : 'Received'}</div>
-                    <div className={`form-group-triple-button-list-item ` + (updateSlab.order_status ? updateSlab.order_status.split(',')[0] == 'Delivered' ? ` selected` : null : null)} onClick={(e) => (createSlab('order_status', `Delivered, ${dateNow()}`), setInputDropdown(''))}>{updateSlab.order_status ? updateSlab.order_status.split(',')[0] == 'Delivered' ? updateSlab.order_status : 'Delivered' : 'Delivered'}</div>
+                    <div className={`form-group-triple-button-list-item ` + (updateSlab.ordered_status ? updateSlab.ordered_status.split(',')[0] == 'Ordered' ? ` selected` : null : null)} onClick={(e) => (updateSlab.ordered_status ? createSlab('ordered_status', '') : createSlab('ordered_status', `Ordered, ${dateNow()}`), setInputDropdown(''))}>{updateSlab.ordered_status ? updateSlab.ordered_status.split(',')[0] == 'Ordered' ? updateSlab.ordered_status : 'Ordered' : 'Ordered'}</div>
+                    <div className={`form-group-triple-button-list-item ` + (updateSlab.received_status ? updateSlab.received_status.split(',')[0] == 'Received' ? ` selected` : null : null)} onClick={(e) => (updateSlab.received_status ? createSlab('received_status', '') : createSlab('received_status', `Received, ${dateNow()}`), setInputDropdown(''))}>{updateSlab.received_status ? updateSlab.received_status.split(',')[0] == 'Received' ? updateSlab.received_status : 'Received' : 'Received'}</div>
+                    <div className={`form-group-triple-button-list-item ` + (updateSlab.delivered_status ? updateSlab.delivered_status.split(',')[0] == 'Delivered' ? ` selected` : null : null)} onClick={(e) => (updateSlab.delivered_status ? createSlab('delivered_status', '') : createSlab('delivered_status', `Delivered, ${dateNow()}`), setInputDropdown(''))}>{updateSlab.delivered_status ? updateSlab.delivered_status.split(',')[0] == 'Delivered' ? updateSlab.delivered_status : 'Delivered' : 'Delivered'}</div>
                   </div>
                 </div>
                 <div className="form-button-container">
