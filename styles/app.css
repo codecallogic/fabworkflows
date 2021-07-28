@@ -938,6 +938,107 @@ body {
         padding: 1rem 1rem;
         border-top-left-radius: 1.2rem;
         border-top-right-radius: 1.2rem; }
+    .clientDashboard-view-slab_list {
+      padding: 1rem 2rem;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap; }
+      @media only screen and (max-width: 992px) {
+        .clientDashboard-view-slab_list {
+          padding: 1rem 0.5rem; } }
+      .clientDashboard-view-slab_list-container {
+        margin: 3rem 5rem;
+        background-color: white;
+        height: 100%;
+        border-radius: 1.2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center; }
+        @media only screen and (max-width: 992px) {
+          .clientDashboard-view-slab_list-container {
+            height: 100%;
+            margin: 3rem 1rem; } }
+      .clientDashboard-view-slab_list-heading {
+        display: flex;
+        font-size: 1.4rem;
+        width: 100%;
+        height: 5rem;
+        color: white;
+        background-color: #413838;
+        padding: 1rem 1rem;
+        border-top-left-radius: 1.2rem;
+        border-top-right-radius: 1.2rem; }
+      .clientDashboard-view-slab_list-headers {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center; }
+        @media only screen and (max-width: 1500px) {
+          .clientDashboard-view-slab_list-headers {
+            overflow-x: scroll; }
+            .clientDashboard-view-slab_list-headers::-webkit-scrollbar {
+              width: 0.1rem;
+              height: 0.3rem; }
+            .clientDashboard-view-slab_list-headers::-webkit-scrollbar-thumb {
+              background-color: #fd7e3c; } }
+        .clientDashboard-view-slab_list-headers-checkbox {
+          width: max-content;
+          height: 100%;
+          padding: 1rem 2rem; }
+        .clientDashboard-view-slab_list-headers-item {
+          padding: 1rem 3rem;
+          font-size: 1.4rem;
+          font-weight: 700;
+          border: 0.05rem solid #ededec; }
+          @media only screen and (max-width: 1500px) {
+            .clientDashboard-view-slab_list-headers-item {
+              width: 25rem; } }
+          .clientDashboard-view-slab_list-headers-item-container {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min-content, 21.5rem)); }
+            @media only screen and (max-width: 1500px) {
+              .clientDashboard-view-slab_list-headers-item-container {
+                width: 200rem;
+                display: flex;
+                justify-content: space-between; } }
+      .clientDashboard-view-slab_list-slabs {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center; }
+        @media only screen and (max-width: 1500px) {
+          .clientDashboard-view-slab_list-slabs {
+            overflow-x: scroll; }
+            .clientDashboard-view-slab_list-slabs::-webkit-scrollbar {
+              width: 0.1rem;
+              height: 0.3rem; }
+            .clientDashboard-view-slab_list-slabs::-webkit-scrollbar-thumb {
+              background-color: #fd7e3c; } }
+        .clientDashboard-view-slab_list-slabs-checkbox {
+          width: max-content;
+          height: 100%;
+          padding: 1rem 2rem; }
+        .clientDashboard-view-slab_list-slabs-item {
+          padding: 2rem 3rem;
+          font-size: 1.4rem;
+          font-weight: 700; }
+          @media only screen and (max-width: 1500px) {
+            .clientDashboard-view-slab_list-slabs-item {
+              width: 25rem; } }
+          .clientDashboard-view-slab_list-slabs-item-container {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min-content, 21.5rem));
+            background-color: #ededec; }
+            .clientDashboard-view-slab_list-slabs-item-container:hover {
+              cursor: pointer;
+              background-color: #c8c8cb; }
+            @media only screen and (max-width: 1500px) {
+              .clientDashboard-view-slab_list-slabs-item-container {
+                width: 200rem;
+                display: flex;
+                justify-content: space-between; } }
 
 .home {
   display: flex;

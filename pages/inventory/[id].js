@@ -189,12 +189,18 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
     setLoading(true)
     
     let data = new FormData()
-    let existing_images = []
+    let delete_images = []
     
     if(updateSlab.images.length > 0){
       updateSlab.images.forEach((item, idx) => {
         let fileID = nanoid()
-        if(!item.key) slab.images[idx] ? (existing_images.push(slab.images[idx]), data.append('file', item, `slab-${fileID}.${item.name.split('.')[1]}`)) : data.append('file', item, `slab-${fileID}.${item.name.split('.')[1]}`)
+        if(!item.key) return data.append('file', item, `slabs/slab-${fileID}.${item.name.split('.')[1]}`)
+      })
+    }
+
+    if(slab.images.length > 0){
+      slab.images.forEach((item) => {
+        delete_images.push(item)
       })
     }
 
@@ -203,8 +209,8 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
         if(key !== 'images') data.append(key, updateSlab[key])
       }
     }
-    console.log(existing_images)
-    if(slab.images.length > 0) data.append('existing_images', JSON.stringify(existing_images))
+
+    if(slab.images.length > 0){data.append('delete_images', JSON.stringify(delete_images))}
 
     try {
       const responseSlab = await axios.post(`${API}/inventory/update-slab`, data, {
@@ -413,9 +419,9 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
                     </div>
                     {imageCount < 3 && 
                       <>
-                      <label htmlFor="files_upload" className="form-group-triple-upload-more">
+                      <label onClick={() => (setSelectedFiles([]), setImageCount(0), addSlabImages([]))} htmlFor="files_upload" className="form-group-triple-upload-more">
                         <SVGs svg={'upload'}></SVGs> 
-                        Add more
+                        Update
                       </label>
                       <input type="file" name="files_upload" accept="image/*" id="files_upload" multiple onChange={(e) => multipleFileChangeHandler(e)}/>
                       </>

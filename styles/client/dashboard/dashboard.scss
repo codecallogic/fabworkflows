@@ -114,5 +114,152 @@
         border-top-right-radius: 1.2rem;
       }
     }
+
+    &-slab_list {
+      padding: 1rem 2rem;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+
+      @media only screen and (max-width: $large) {
+        padding: 1rem 0.5rem;
+      }
+
+      &-container {
+        margin: 3rem 5rem;
+        background-color: white;
+        height: 100%;
+        border-radius: 1.2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        @media only screen and (max-width: $large) {
+          height: 100%;
+          margin: 3rem 1rem;
+        }
+      }
+
+      &-heading {
+        display: flex;
+        font-size: 1.4rem;
+        width: 100%;
+        height: 5rem;
+        color: white;
+        background-color: $color-dark-shade-scheme-1;
+        padding: 1rem 1rem;
+        border-top-left-radius: 1.2rem;
+        border-top-right-radius: 1.2rem;
+      }
+
+      &-headers {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+
+        @media only screen and (max-width: $wide) {
+          overflow-x: scroll;
+
+          &::-webkit-scrollbar {
+            width: 0.1rem;
+            height: 0.3rem;
+          }
+
+          &::-webkit-scrollbar-thumb {
+            background-color: $color-scheme-1;
+          }
+        }
+
+        &-checkbox {
+          width: max-content;
+          height: 100%;
+          padding: 1rem 2rem;
+        }
+
+        &-item {
+          padding: 1rem 3rem;
+          font-size: 1.4rem;
+          font-weight: 700;
+          border: 0.05rem solid $color-light-shade-scheme-3;
+
+          @media only screen and (max-width: $wide) {
+            width: 25rem;
+          }
+
+          &-container {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(
+              auto-fit,
+              minmax(min-content, 21.5rem)
+            );
+
+            @media only screen and (max-width: $wide) {
+              width: 200rem;
+              display: flex;
+              justify-content: space-between;
+            }
+          }
+        }
+      }
+
+      &-slabs {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+
+        @media only screen and (max-width: $wide) {
+          overflow-x: scroll;
+
+          &::-webkit-scrollbar {
+            width: 0.1rem;
+            height: 0.3rem;
+          }
+
+          &::-webkit-scrollbar-thumb {
+            background-color: $color-scheme-1;
+          }
+        }
+
+        &-checkbox {
+          width: max-content;
+          height: 100%;
+          padding: 1rem 2rem;
+        }
+
+        &-item {
+          padding: 2rem 3rem;
+          font-size: 1.4rem;
+          font-weight: 700;
+
+          @media only screen and (max-width: $wide) {
+            width: 25rem;
+          }
+
+          &-container {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(
+              auto-fit,
+              minmax(min-content, 21.5rem)
+            );
+            background-color: $color-light-shade-scheme-3;
+
+            &:hover {
+              cursor: pointer;
+              background-color: $color-light-shade-scheme-2;
+            }
+
+            @media only screen and (max-width: $wide) {
+              width: 200rem;
+              display: flex;
+              justify-content: space-between;
+            }
+          }
+        }
+      }
+    }
   }
 }

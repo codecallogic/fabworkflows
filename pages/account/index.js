@@ -211,7 +211,7 @@ const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab,
       setLoading(false)
       console.log(responseSlab)
       let id = responseSlab.data
-      window.location.href = `/inventory/${id}`
+      window.location.href = `/slabs`
     } catch (error) {
       console.log(error)
       setLoading(false)
