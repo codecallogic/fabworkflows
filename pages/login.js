@@ -5,7 +5,7 @@ import axios from 'axios'
 axios.defaults.withCredentials = true
 
 const Login = ({redirectLoginURL}) => {
-  console.log(redirectLoginURL)
+  // console.log(redirectLoginURL)
   const router = useRouter()
 
   const [email, setEmail] = useState('')
@@ -19,7 +19,7 @@ const Login = ({redirectLoginURL}) => {
     try {
       const responseLogin = await axios.post(`${API}/auth/login`, {email, password})
       setLoading(false)
-      if(redirectLoginURL) return window.location.href = `${redirectLoginURL}`
+      // if(redirectLoginURL) return window.location.href = `${redirectLoginURL}`
       window.location.href = '/account'
     } catch (error) {
       console.log(error.response)
@@ -48,16 +48,16 @@ const Login = ({redirectLoginURL}) => {
   )
 }
 
-Login.getInitialProps = ({req}) => {
-  let redirect = null
-  if(req.cookies){
-    redirect = req.cookies ? req.cookies.inventoryURL : null
-  }
+// Login.getInitialProps = ({req}) => {
+//   let redirect = null
+//   if(req.cookies){
+//     redirect = req.cookies ? req.cookies.inventoryURL : null
+//   }
   
-return {
-  redirectLoginURL: redirect
-}
+// return {
+//   redirectLoginURL: redirect
+// }
   
-}
+// }
 
 export default Login
