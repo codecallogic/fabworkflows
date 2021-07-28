@@ -11,7 +11,7 @@ const withUser = Page => {
       const cookies = new Cookies(context.req, context.res)
       const { origin } = absoluteURL(context.req)
       const id = context.query.id
-      cookies.set('inventoryURL', `${origin}/inventory/${id}`)
+      if(id) cookies.set('inventoryURL', `${origin}/inventory/${id}`)
 
       const user = getUser(context.req)
       const token = getToken(context.req)
