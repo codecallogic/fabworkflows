@@ -53,8 +53,8 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
               <div className="clientDashboard-view-slab_list-headers-item">Location</div>
             </div>
           </div>
-          {list && list.map((item) => (
-          <div className="clientDashboard-view-slab_list-slabs">
+          {list && list.map((item, idx) => (
+          <div key={idx} className="clientDashboard-view-slab_list-slabs">
                 <div className="clientDashboard-view-slab_list-slabs-checkbox"></div>
                 <div className="clientDashboard-view-slab_list-slabs-item-container"  onClick={() => window.location.href = `/inventory/${item._id}`}>
                   <div className="clientDashboard-view-slab_list-slabs-item">{item.block}</div>
