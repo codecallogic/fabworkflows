@@ -1,8 +1,6 @@
 const initialState = {
   sidenav: true,
-  main: false,
-  slab: false,
-  new: true,
+  view: 'new',
 }
 
 export const navReducer = (state = initialState, action) => {
@@ -33,16 +31,13 @@ export const navReducer = (state = initialState, action) => {
     case "CHANGE_VIEW":
       return {
         ...state,
-        [action.name]: !state[action.name],
-        [action.toggle]: !state[action.toggle]
+        view: action.value,
       }
 
     case "NEW_VIEW":
       return {
         ...state,
-        new: true,
-        slab: false,
-        main: false
+        view: action.value
       }
     
     default: 

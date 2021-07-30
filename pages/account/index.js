@@ -15,7 +15,7 @@ const formatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 2,
 });
 
-const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab, addSlabImages}) => {
+const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, createSlab, addSlabImages}) => {
 
   const [input_dropdown, setInputDropdown] = useState('')
   const [width, setWidth] = useState()
@@ -25,6 +25,8 @@ const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab,
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    if(params) changeView(params.change)
+    
     if(window.innerWidth < 992) hideSideNav()
     
     function handleResize() {
@@ -225,7 +227,7 @@ const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab,
       <div className="clientDashboard">
         <SideNav width={width}></SideNav>
         <div className="clientDashboard-view">
-          {nav.main &&
+          {nav.view == 'main' &&
           <div className="clientDashboard-view-main">
             <div className="clientDashboard-view-main-box"></div>
             <div className="clientDashboard-view-main-box"></div>
@@ -233,9 +235,9 @@ const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab,
             <div className="clientDashboard-view-main-box"></div>
           </div>
           }
-          {nav.new &&
+          {nav.view == 'new' &&
             <div className="clientDashboard-view-new">
-              <div className="clientDashboard-view-new-item" onClick={() => changeView('slab', 'new')}>
+              <div className="clientDashboard-view-new-item" onClick={() => changeView('slab')}>
                 <SVGs svg={'slab'}></SVGs>
                 <span>New Slab</span>
               </div>
@@ -243,14 +245,14 @@ const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab,
                 <SVGs svg={'stopwatch'}></SVGs>
                 <span>New Tracker</span>
               </div>
-              <div className="clientDashboard-view-new-item">
+              <div className="clientDashboard-view-new-item" onClick={() => changeView('product')}>
                 <SVGs svg={'box'}></SVGs>
                 <span>New Product</span>
               </div>
             </div>
           }
           {
-            nav.slab && 
+            nav.view == 'slab' && 
             <div className="clientDashboard-view-slab_form-container">
               <div className="clientDashboard-view-slab_form-heading">
                 <span>New Slab </span>
@@ -471,6 +473,12 @@ const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab,
               </form>
             </div>
           }
+          {
+            nav.view == 'product' && 
+            <div>
+              Hello
+            </div>
+          }
         </div>
       </div>
     </>
@@ -478,9 +486,9 @@ const Dashboard = ({nav, hideSideNav, showSideNav, changeView, slab, createSlab,
 }
 
 Dashboard.getInitialProps = ({query}) => {
-  console.log(query)
+  
   return {
-    test: 'Hello'
+    params: query
   }
 }
 
@@ -495,7 +503,7 @@ const mapDispatchToProps = dispatch => {
   return {
     hideSideNav: () => dispatch({type: 'HIDE_SIDENAV'}),
     showSideNav: () => dispatch({type: 'SHOW_SIDENAV'}),
-    changeView: (type, toggle) => dispatch({type: 'CHANGE_VIEW', name: type, toggle: toggle}),
+    changeView: (view) => dispatch({type: 'CHANGE_VIEW', value: view}),
     createSlab: (type, data) => dispatch({type: 'CREATE_SLAB', name: type, value: data}),
     addSlabImages: (data) => dispatch({type: 'ADD_SLAB_IMAGES', value: data})
   }

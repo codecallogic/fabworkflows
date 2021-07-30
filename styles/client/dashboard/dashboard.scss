@@ -133,6 +133,16 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        overflow-y: scroll;
+
+        &::-webkit-scrollbar {
+          width: 0.3rem;
+          height: 0.3rem;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: $color-scheme-1;
+        }
 
         @media only screen and (max-width: $large) {
           height: 100%;
@@ -142,6 +152,7 @@
 
       &-heading {
         display: flex;
+        align-items: center;
         font-size: 1.4rem;
         width: 100%;
         height: 5rem;
@@ -150,6 +161,22 @@
         padding: 1rem 1rem;
         border-top-left-radius: 1.2rem;
         border-top-right-radius: 1.2rem;
+
+        &-controls {
+          display: flex;
+          align-items: center;
+          margin-left: 2rem;
+
+          &-item {
+            margin-left: 1rem;
+            padding: 0.5rem 2rem;
+            border-radius: 1.2rem;
+
+            &:hover {
+              cursor: pointer;
+            }
+          }
+        }
       }
 
       &-headers {
@@ -157,18 +184,15 @@
         height: 100%;
         display: flex;
         align-items: center;
+        overflow-x: scroll;
 
-        @media only screen and (max-width: $wide) {
-          overflow-x: scroll;
+        &::-webkit-scrollbar {
+          width: 0.1rem;
+          height: 0.3rem;
+        }
 
-          &::-webkit-scrollbar {
-            width: 0.1rem;
-            height: 0.3rem;
-          }
-
-          &::-webkit-scrollbar-thumb {
-            background-color: $color-scheme-1;
-          }
+        &::-webkit-scrollbar-thumb {
+          background-color: $color-scheme-1;
         }
 
         &-checkbox {
@@ -178,22 +202,22 @@
         }
 
         &-item {
+          display: flex;
+          align-items: center;
+          justify-content: center;
           padding: 1rem 3rem;
           font-size: 1.4rem;
           font-weight: 700;
           border: 0.05rem solid $color-light-shade-scheme-3;
+          width: 25rem;
 
           @media only screen and (max-width: $wide) {
-            width: 25rem;
+            width: 20rem;
           }
 
           &-container {
-            width: 100%;
-            display: grid;
-            grid-template-columns: repeat(
-              auto-fit,
-              minmax(min-content, 21.5rem)
-            );
+            display: flex;
+            width: 8000px;
 
             @media only screen and (max-width: $wide) {
               width: 200rem;
@@ -206,46 +230,77 @@
 
       &-slabs {
         width: 100%;
-        height: 100%;
+        height: min-content;
         display: flex;
         align-items: center;
+        overflow-x: scroll;
 
-        @media only screen and (max-width: $wide) {
-          overflow-x: scroll;
+        &::-webkit-scrollbar {
+          width: 0.1rem;
+          height: 0.3rem;
+        }
 
-          &::-webkit-scrollbar {
-            width: 0.1rem;
-            height: 0.3rem;
-          }
-
-          &::-webkit-scrollbar-thumb {
-            background-color: $color-scheme-1;
-          }
+        &::-webkit-scrollbar-thumb {
+          background-color: $color-scheme-3;
         }
 
         &-checkbox {
+          display: flex;
+          align-items: center;
           width: max-content;
           height: 100%;
-          padding: 1rem 2rem;
+          padding: 1rem 0.5rem;
+
+          label {
+            width: 2em;
+            height: 2rem;
+            border: 0.2rem solid $color-dark-shade-scheme-3;
+            border-radius: 50%;
+
+            &:hover {
+              cursor: pointer;
+            }
+          }
+
+          input {
+            display: none;
+
+            &:checked + label {
+              background-color: $color-light-shade-scheme-1;
+            }
+          }
+        }
+
+        &-container {
+          width: 100%;
+          height: 1000px;
+
+          @media only screen and (max-width: $wide) {
+            height: 800px;
+          }
         }
 
         &-item {
+          display: flex;
+          align-items: center;
+          justify-content: center;
           padding: 2rem 3rem;
           font-size: 1.4rem;
-          font-weight: 700;
+          font-weight: 400;
+          width: 25rem;
+          border-bottom: 0.05rem solid $color-dark-shade-scheme-2;
 
           @media only screen and (max-width: $wide) {
-            width: 25rem;
+            width: 20rem;
           }
 
           &-container {
-            width: 100%;
-            display: grid;
-            grid-template-columns: repeat(
-              auto-fit,
-              minmax(min-content, 21.5rem)
-            );
-            background-color: $color-light-shade-scheme-3;
+            display: flex;
+            width: 8000px;
+            // width: 100%;
+            // display: grid;
+            // grid-template-columns: repeat(auto-fit, minmax(min-content, 13rem));
+            // background-color: $color-light-shade-scheme-3;
 
             &:hover {
               cursor: pointer;
@@ -256,6 +311,18 @@
               width: 200rem;
               display: flex;
               justify-content: space-between;
+            }
+          }
+
+          img {
+            text-align: center;
+            margin: 0 auto;
+            width: 20rem;
+            height: 100%;
+            box-shadow: 0.2rem 0.2rem 1rem 0.4rem rgba(0, 0, 0, 0.4);
+
+            @media only screen and (max-width: $wide) {
+              width: 15rem;
             }
           }
         }

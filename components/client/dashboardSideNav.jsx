@@ -30,7 +30,7 @@ const SideNav = ({nav, width, toggleSideNav, newView, redirect}) => {
           </div>
           <div className="clientDashboard_sidenav-menu-item-dropdown">
             <div className={`clientDashboard_sidenav-menu-item-dropdown-fill` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}></div>
-            <div onClick={() => (redirect ? window.location.href = `/account?change=new` : null, newView(), width < 992 ? toggleSideNav('toggle_nav_button') : null)} className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}><SVGs svg={'circle-thin'} classprop={`clientDashboard_sidenav-menu-item-arrow` + (!nav.sidenav ? ' hide-sidenav-items' : '')  + (toggle ? ' hide-sidenav-dropdown' : '')}></SVGs>New</div>
+            <div onClick={() => (redirect ? window.location.href = `/account?change=new` : null, newView('new'), width < 992 ? toggleSideNav('toggle_nav_button') : null)} className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}><SVGs svg={'circle-thin'} classprop={`clientDashboard_sidenav-menu-item-arrow` + (!nav.sidenav ? ' hide-sidenav-items' : '')  + (toggle ? ' hide-sidenav-dropdown' : '')}></SVGs>New</div>
             <div onClick={() => {window.location.href = `/slabs`}} className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}><SVGs svg={'circle-thin'} classprop={'clientDashboard_sidenav-menu-item-arrow' + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}></SVGs>List of Slabs</div>
             <div className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}><SVGs svg={'circle-thin'} classprop={'clientDashboard_sidenav-menu-item-arrow' + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}></SVGs>List of Tracker</div>
             <div className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}><SVGs svg={'circle-thin'} classprop={'clientDashboard_sidenav-menu-item-arrow' + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}></SVGs>List of Products</div>
@@ -50,7 +50,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     toggleSideNav: (toggle) => dispatch({type: 'TOGGLE_SIDENAV', toggle: toggle}),
-    newView: (type) => dispatch({type: 'NEW_VIEW'}),
+    newView: (value) => dispatch({type: 'NEW_VIEW', value: value}),
   }
 }
 

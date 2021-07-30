@@ -5,7 +5,6 @@ import axios from 'axios'
 axios.defaults.withCredentials = true
 
 const Login = ({redirectLoginURL}) => {
-  // console.log(redirectLoginURL)
   const router = useRouter()
 
   const [email, setEmail] = useState('')
@@ -19,7 +18,6 @@ const Login = ({redirectLoginURL}) => {
     try {
       const responseLogin = await axios.post(`${API}/auth/login`, {email, password})
       setLoading(false)
-      // if(redirectLoginURL) return window.location.href = `${redirectLoginURL}`
       window.location.href = '/account'
     } catch (error) {
       console.log(error.response)
@@ -39,25 +37,12 @@ const Login = ({redirectLoginURL}) => {
         <div className="form-group-single">
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="password"/>
         </div>
-        <button type="submit" className="form-button">sign in</button>
-        {loading ? <iframe src="https://giphy.com/embed/sSgvbe1m3n93G" width="30" height="30" frameBorder="0" className="giphy-loading" allowFullScreen></iframe> : null }
+        <button type="submit" className="form-button">{!loading && <span>sign in</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
         {message &&  <div className="form-message">{message}</div>}
       </form>
       <span className="link-text">Don't have an account? <a className="link" onClick={() => window.location.href = `/signup`}>Sign up</a></span>
     </div>
   )
 }
-
-// Login.getInitialProps = ({req}) => {
-//   let redirect = null
-//   if(req.cookies){
-//     redirect = req.cookies ? req.cookies.inventoryURL : null
-//   }
-  
-// return {
-//   redirectLoginURL: redirect
-// }
-  
-// }
 
 export default Login

@@ -818,3 +818,11 @@
   background-color: $color-scheme-2;
   transform: scale(1.05);
 }
+
+.edit {
+  background-color: $color-scheme-1;
+}
+
+.delete {
+  background-color: red;
+}

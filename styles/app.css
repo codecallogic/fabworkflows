@@ -605,6 +605,12 @@ body {
   background-color: #1bc9a2;
   transform: scale(1.05); }
 
+.edit {
+  background-color: #fd7e3c; }
+
+.delete {
+  background-color: red; }
+
 .center {
   text-align: center;
   justify-self: center;
@@ -625,6 +631,29 @@ body {
     padding: 0 !important;
     color: transparent;
     margin-left: 2rem !important; }
+
+.loading span {
+  width: 0.5rem;
+  height: 0.5rem;
+  margin: 0 0.5rem;
+  background-color: white;
+  border-radius: 50%;
+  display: inline-block;
+  animation-name: dots;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out; }
+  .loading span:nth-child(1) {
+    animation-delay: 0.2s; }
+  .loading span:nth-child(2) {
+    animation-delay: 0.4s; }
+  .loading span:nth-child(3) {
+    animation-delay: 0.8s; }
+
+@keyframes dots {
+  50% {
+    opacity: 0;
+    transform: scale(0.7) translateY(0.1rem); } }
 
 @keyframes slideFromLeft {
   0% {
@@ -953,13 +982,20 @@ body {
         border-radius: 1.2rem;
         display: flex;
         flex-direction: column;
-        align-items: center; }
+        align-items: center;
+        overflow-y: scroll; }
+        .clientDashboard-view-slab_list-container::-webkit-scrollbar {
+          width: 0.3rem;
+          height: 0.3rem; }
+        .clientDashboard-view-slab_list-container::-webkit-scrollbar-thumb {
+          background-color: #fd7e3c; }
         @media only screen and (max-width: 992px) {
           .clientDashboard-view-slab_list-container {
             height: 100%;
             margin: 3rem 1rem; } }
       .clientDashboard-view-slab_list-heading {
         display: flex;
+        align-items: center;
         font-size: 1.4rem;
         width: 100%;
         height: 5rem;
@@ -968,35 +1004,46 @@ body {
         padding: 1rem 1rem;
         border-top-left-radius: 1.2rem;
         border-top-right-radius: 1.2rem; }
+        .clientDashboard-view-slab_list-heading-controls {
+          display: flex;
+          align-items: center;
+          margin-left: 2rem; }
+          .clientDashboard-view-slab_list-heading-controls-item {
+            margin-left: 1rem;
+            padding: 0.5rem 2rem;
+            border-radius: 1.2rem; }
+            .clientDashboard-view-slab_list-heading-controls-item:hover {
+              cursor: pointer; }
       .clientDashboard-view-slab_list-headers {
         width: 100%;
         height: 100%;
         display: flex;
-        align-items: center; }
-        @media only screen and (max-width: 1500px) {
-          .clientDashboard-view-slab_list-headers {
-            overflow-x: scroll; }
-            .clientDashboard-view-slab_list-headers::-webkit-scrollbar {
-              width: 0.1rem;
-              height: 0.3rem; }
-            .clientDashboard-view-slab_list-headers::-webkit-scrollbar-thumb {
-              background-color: #fd7e3c; } }
+        align-items: center;
+        overflow-x: scroll; }
+        .clientDashboard-view-slab_list-headers::-webkit-scrollbar {
+          width: 0.1rem;
+          height: 0.3rem; }
+        .clientDashboard-view-slab_list-headers::-webkit-scrollbar-thumb {
+          background-color: #fd7e3c; }
         .clientDashboard-view-slab_list-headers-checkbox {
           width: max-content;
           height: 100%;
           padding: 1rem 2rem; }
         .clientDashboard-view-slab_list-headers-item {
+          display: flex;
+          align-items: center;
+          justify-content: center;
           padding: 1rem 3rem;
           font-size: 1.4rem;
           font-weight: 700;
-          border: 0.05rem solid #ededec; }
+          border: 0.05rem solid #ededec;
+          width: 25rem; }
           @media only screen and (max-width: 1500px) {
             .clientDashboard-view-slab_list-headers-item {
-              width: 25rem; } }
+              width: 20rem; } }
           .clientDashboard-view-slab_list-headers-item-container {
-            width: 100%;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min-content, 21.5rem)); }
+            display: flex;
+            width: 8000px; }
             @media only screen and (max-width: 1500px) {
               .clientDashboard-view-slab_list-headers-item-container {
                 width: 200rem;
@@ -1004,33 +1051,53 @@ body {
                 justify-content: space-between; } }
       .clientDashboard-view-slab_list-slabs {
         width: 100%;
-        height: 100%;
+        height: min-content;
         display: flex;
-        align-items: center; }
-        @media only screen and (max-width: 1500px) {
-          .clientDashboard-view-slab_list-slabs {
-            overflow-x: scroll; }
-            .clientDashboard-view-slab_list-slabs::-webkit-scrollbar {
-              width: 0.1rem;
-              height: 0.3rem; }
-            .clientDashboard-view-slab_list-slabs::-webkit-scrollbar-thumb {
-              background-color: #fd7e3c; } }
+        align-items: center;
+        overflow-x: scroll; }
+        .clientDashboard-view-slab_list-slabs::-webkit-scrollbar {
+          width: 0.1rem;
+          height: 0.3rem; }
+        .clientDashboard-view-slab_list-slabs::-webkit-scrollbar-thumb {
+          background-color: #404141; }
         .clientDashboard-view-slab_list-slabs-checkbox {
+          display: flex;
+          align-items: center;
           width: max-content;
           height: 100%;
-          padding: 1rem 2rem; }
+          padding: 1rem 0.5rem; }
+          .clientDashboard-view-slab_list-slabs-checkbox label {
+            width: 2em;
+            height: 2rem;
+            border: 0.2rem solid #666;
+            border-radius: 50%; }
+            .clientDashboard-view-slab_list-slabs-checkbox label:hover {
+              cursor: pointer; }
+          .clientDashboard-view-slab_list-slabs-checkbox input {
+            display: none; }
+            .clientDashboard-view-slab_list-slabs-checkbox input:checked + label {
+              background-color: #dbdbdb; }
+        .clientDashboard-view-slab_list-slabs-container {
+          width: 100%;
+          height: 1000px; }
+          @media only screen and (max-width: 1500px) {
+            .clientDashboard-view-slab_list-slabs-container {
+              height: 800px; } }
         .clientDashboard-view-slab_list-slabs-item {
+          display: flex;
+          align-items: center;
+          justify-content: center;
           padding: 2rem 3rem;
           font-size: 1.4rem;
-          font-weight: 700; }
+          font-weight: 400;
+          width: 25rem;
+          border-bottom: 0.05rem solid #1e1e1e; }
           @media only screen and (max-width: 1500px) {
             .clientDashboard-view-slab_list-slabs-item {
-              width: 25rem; } }
+              width: 20rem; } }
           .clientDashboard-view-slab_list-slabs-item-container {
-            width: 100%;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min-content, 21.5rem));
-            background-color: #ededec; }
+            display: flex;
+            width: 8000px; }
             .clientDashboard-view-slab_list-slabs-item-container:hover {
               cursor: pointer;
               background-color: #c8c8cb; }
@@ -1039,6 +1106,15 @@ body {
                 width: 200rem;
                 display: flex;
                 justify-content: space-between; } }
+          .clientDashboard-view-slab_list-slabs-item img {
+            text-align: center;
+            margin: 0 auto;
+            width: 20rem;
+            height: 100%;
+            box-shadow: 0.2rem 0.2rem 1rem 0.4rem rgba(0, 0, 0, 0.4); }
+            @media only screen and (max-width: 1500px) {
+              .clientDashboard-view-slab_list-slabs-item img {
+                width: 15rem; } }
 
 .home {
   display: flex;
