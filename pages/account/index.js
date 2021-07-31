@@ -497,7 +497,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
                 <div className="form-group-triple">
                   <label htmlFor="lot">Lot Number</label>
                   <div className="form-group-triple-input">
-                    <textarea id="lot" rows="1" wrap="off" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} placeholder="(Lot #)" value={slab.lot_number} onChange={(e) => (createSlab('lot_number', e.target.value))} required></textarea>
+                    <textarea id="lot" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} placeholder="(Lot #)" value={slab.lot_number} onChange={(e) => (createSlab('lot_number', e.target.value))} required></textarea>
                   </div>
                 </div>
                 <div className="form-group-triple">
