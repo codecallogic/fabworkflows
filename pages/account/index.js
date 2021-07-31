@@ -338,10 +338,6 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
                 <SVGs svg={'slab'}></SVGs>
                 <span>New Slab</span>
               </div>
-              <div className="clientDashboard-view-new-item">
-                <SVGs svg={'stopwatch'}></SVGs>
-                <span>New Tracker</span>
-              </div>
               <div className="clientDashboard-view-new-item" onClick={() => changeView('product')}>
                 <SVGs svg={'box'}></SVGs>
                 <span>New Product</span>
