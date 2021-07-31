@@ -219,8 +219,12 @@ body {
       align-items: center;
       justify-content: center;
       margin: 0; }
+      @media only screen and (max-width: 1500px) {
+        .form-group-triple-upload {
+          width: calc(67% - 1rem); } }
       @media only screen and (max-width: 992px) {
         .form-group-triple-upload {
+          width: 100%;
           margin: 2rem 0; } }
       .form-group-triple-upload-add {
         display: flex;
@@ -606,10 +610,12 @@ body {
   transform: scale(1.05); }
 
 .edit {
-  background-color: #fd7e3c; }
+  background-color: #fd7e3c;
+  animation: slideFromRight 0.5s ease-in-out; }
 
 .delete {
-  background-color: red; }
+  background-color: red;
+  animation: slideFromRight 0.5s ease-in-out; }
 
 .center {
   text-align: center;
@@ -660,6 +666,12 @@ body {
     transform: translateX(-100%); }
   100% {
     transform: translateX(0); } }
+
+@keyframes slideFromRight {
+  0% {
+    transform: translateX(100%); }
+  100% {
+    transform: translateX(0%); } }
 
 .logout {
   color: #1bc9a2;
@@ -982,13 +994,7 @@ body {
         border-radius: 1.2rem;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        overflow-y: scroll; }
-        .clientDashboard-view-slab_list-container::-webkit-scrollbar {
-          width: 0.3rem;
-          height: 0.3rem; }
-        .clientDashboard-view-slab_list-container::-webkit-scrollbar-thumb {
-          background-color: #fd7e3c; }
+        align-items: center; }
         @media only screen and (max-width: 992px) {
           .clientDashboard-view-slab_list-container {
             height: 100%;
@@ -1054,10 +1060,11 @@ body {
         height: min-content;
         display: flex;
         align-items: center;
-        overflow-x: scroll; }
+        overflow-x: scroll;
+        overflow-y: scroll; }
         .clientDashboard-view-slab_list-slabs::-webkit-scrollbar {
           width: 0.1rem;
-          height: 0.3rem; }
+          height: 0.2rem; }
         .clientDashboard-view-slab_list-slabs::-webkit-scrollbar-thumb {
           background-color: #404141; }
         .clientDashboard-view-slab_list-slabs-checkbox {
@@ -1079,7 +1086,13 @@ body {
               background-color: #dbdbdb; }
         .clientDashboard-view-slab_list-slabs-container {
           width: 100%;
-          height: 1000px; }
+          height: 1000px;
+          overflow-y: scroll; }
+          .clientDashboard-view-slab_list-slabs-container::-webkit-scrollbar {
+            width: 0.1rem;
+            height: 0.1rem; }
+          .clientDashboard-view-slab_list-slabs-container::-webkit-scrollbar-thumb {
+            background-color: #404141; }
           @media only screen and (max-width: 1500px) {
             .clientDashboard-view-slab_list-slabs-container {
               height: 800px; } }
@@ -1089,7 +1102,7 @@ body {
           justify-content: center;
           padding: 2rem 3rem;
           font-size: 1.4rem;
-          font-weight: 400;
+          font-weight: 300;
           width: 25rem;
           border-bottom: 0.05rem solid #1e1e1e; }
           @media only screen and (max-width: 1500px) {
@@ -1100,7 +1113,7 @@ body {
             width: 8000px; }
             .clientDashboard-view-slab_list-slabs-item-container:hover {
               cursor: pointer;
-              background-color: #c8c8cb; }
+              background-color: #ededec; }
             @media only screen and (max-width: 1500px) {
               .clientDashboard-view-slab_list-slabs-item-container {
                 width: 200rem;
@@ -1115,6 +1128,9 @@ body {
             @media only screen and (max-width: 1500px) {
               .clientDashboard-view-slab_list-slabs-item img {
                 width: 15rem; } }
+
+.tracker-list {
+  height: 500px !important; }
 
 .home {
   display: flex;

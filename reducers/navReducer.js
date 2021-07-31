@@ -1,4 +1,4 @@
-const initialState = {
+let initialState = {
   sidenav: true,
   view: 'new',
 }
@@ -27,6 +27,7 @@ export const navReducer = (state = initialState, action) => {
         ...state,
         sidenav: true
       }
+
     
     case "CHANGE_VIEW":
       return {
@@ -34,13 +35,17 @@ export const navReducer = (state = initialState, action) => {
         view: action.value,
       }
 
+
     case "NEW_VIEW":
       return {
         ...state,
         view: action.value
       }
-    
-    default: 
-      return state
+
+    default: {
+      return {
+        ...state
+      }
+    }
   }
 }

@@ -279,7 +279,12 @@
       justify-content: center;
       margin: 0;
 
+      @media only screen and (max-width: $wide) {
+        width: calc(67% - 1rem);
+      }
+
       @media only screen and (max-width: $large) {
+        width: 100%;
         margin: 2rem 0;
       }
 
@@ -821,8 +826,10 @@
 
 .edit {
   background-color: $color-scheme-1;
+  animation: slideFromRight 0.5s ease-in-out;
 }
 
 .delete {
   background-color: red;
+  animation: slideFromRight 0.5s ease-in-out;
 }

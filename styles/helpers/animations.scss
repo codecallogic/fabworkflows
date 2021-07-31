@@ -60,3 +60,13 @@
     transform: translateX(0);
   }
 }
+
+@keyframes slideFromRight {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(0%);
+  }
+}

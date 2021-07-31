@@ -1,15 +1,13 @@
-import TopNav from '../../components/client/dashboardTopNav'
-import SideNav from '../../components/client/dashboardSideNav'
-import SVGs from '../../files/svgs'
+import TopNav from '../../../components/client/dashboardTopNav'
+import SideNav from '../../../components/client/dashboardSideNav'
+import SVGs from '../../../files/svgs'
 import {connect} from 'react-redux'
 import axios from 'axios'
-import {API} from '../../config'
-import withUser from '../withUser'
+import {API} from '../../../config'
+import withUser from '../../withUser'
 import {useEffect, useState} from 'react'
 import QRCode from 'qrcode'
 import {nanoid} from 'nanoid'
-
-// http://localhost:3000/inventory/60fa370f5d01d515b87ae169
 
 const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, updateSlab}) => {
   const sendRedirect = true
