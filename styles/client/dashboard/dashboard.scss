@@ -174,45 +174,59 @@
         height: 100%;
         display: flex;
         align-items: center;
-        overflow-x: scroll;
 
-        &::-webkit-scrollbar {
-          width: 0.1rem;
-          height: 0.3rem;
-        }
+        @media only screen and (max-width: $extra-large) {
+          overflow-x: scroll;
 
-        &::-webkit-scrollbar-thumb {
-          background-color: $color-scheme-1;
+          &::-webkit-scrollbar {
+            width: 0.1rem;
+            height: 0.3rem;
+          }
+
+          &::-webkit-scrollbar-thumb {
+            background-color: $color-scheme-1;
+          }
         }
 
         &-checkbox {
+          display: flex;
+          align-items: center;
           width: max-content;
           height: 100%;
-          padding: 1rem 2rem;
+          padding: 1rem 1.5rem;
         }
 
         &-item {
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 1rem 3rem;
-          font-size: 1.4rem;
+          padding: 1rem 0rem;
+          margin-left: 1rem;
+          font-size: 1.2rem;
           font-weight: 700;
-          border: 0.05rem solid $color-light-shade-scheme-3;
-          width: 25rem;
+          border-bottom: 0.05rem solid $color-light-shade-scheme-3;
+          width: 8rem;
+          text-align: center;
+
+          &:first-child {
+            width: 25rem;
+
+            @media only screen and (max-width: $wide) {
+              width: 15rem !important;
+            }
+          }
 
           @media only screen and (max-width: $wide) {
-            width: 20rem;
+            font-size: 1rem;
+            width: 6rem;
           }
 
           &-container {
             display: flex;
-            width: 8000px;
+            width: 100%;
 
-            @media only screen and (max-width: $wide) {
-              width: 200rem;
-              display: flex;
-              justify-content: space-between;
+            @media only screen and (max-width: $extra-large) {
+              width: 300rem;
             }
           }
         }
@@ -286,23 +300,30 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 2rem 3rem;
-          font-size: 1.4rem;
+          padding: 1rem 0rem;
+          margin-left: 1rem;
+          font-size: 1.2rem;
           font-weight: 300;
-          width: 25rem;
-          border-bottom: 0.05rem solid $color-dark-shade-scheme-2;
+          // border-bottom: 0.05rem solid $color-dark-shade-scheme-2;
+          width: 8rem;
+          text-align: center;
+
+          &:first-child {
+            width: 25rem;
+
+            @media only screen and (max-width: $wide) {
+              width: 15rem !important;
+            }
+          }
 
           @media only screen and (max-width: $wide) {
-            width: 20rem;
+            font-size: 1.1rem;
+            width: 6rem;
           }
 
           &-container {
             display: flex;
-            width: 8000px;
-            // width: 100%;
-            // display: grid;
-            // grid-template-columns: repeat(auto-fit, minmax(min-content, 13rem));
-            // background-color: $color-light-shade-scheme-3;
+            width: 100%;
 
             &:hover {
               cursor: pointer;
@@ -310,21 +331,21 @@
             }
 
             @media only screen and (max-width: $wide) {
-              width: 200rem;
+              width: 300rem;
               display: flex;
-              justify-content: space-between;
             }
           }
 
           img {
             text-align: center;
+            object-fit: cover;
             margin: 0 auto;
             width: 20rem;
-            height: 100%;
+            height: 10rem;
             box-shadow: 0.2rem 0.2rem 1rem 0.4rem rgba(0, 0, 0, 0.4);
 
             @media only screen and (max-width: $wide) {
-              width: 15rem;
+              width: 10rem;
             }
           }
         }

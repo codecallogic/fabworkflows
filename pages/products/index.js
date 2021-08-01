@@ -71,6 +71,7 @@ const Products = ({hideSideNav, showSideNav, list}) => {
               <div className="clientDashboard-view-slab_list-headers-item">Description</div>
               <div className="clientDashboard-view-slab_list-headers-item">Price</div>
               <div className="clientDashboard-view-slab_list-headers-item"></div>
+              <div className="clientDashboard-view-slab_list-headers-item"></div>
             </div>
           </div>
           <div className="clientDashboard-view-slab_list-slabs-container">
@@ -89,6 +90,7 @@ const Products = ({hideSideNav, showSideNav, list}) => {
                   <div className="clientDashboard-view-slab_list-slabs-item">{item.location} x {item.size_2}</div>
                   <div className="clientDashboard-view-slab_list-slabs-item">{item.description}</div>
                   <div className="clientDashboard-view-slab_list-slabs-item">{item.price}</div>
+                  <div className="clientDashboard-view-slab_list-slabs-item"></div>
                   <div className="clientDashboard-view-slab_list-slabs-item"></div>
                 </div>
             </div>

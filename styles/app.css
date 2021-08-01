@@ -1024,37 +1024,47 @@ body {
         width: 100%;
         height: 100%;
         display: flex;
-        align-items: center;
-        overflow-x: scroll; }
-        .clientDashboard-view-slab_list-headers::-webkit-scrollbar {
-          width: 0.1rem;
-          height: 0.3rem; }
-        .clientDashboard-view-slab_list-headers::-webkit-scrollbar-thumb {
-          background-color: #fd7e3c; }
+        align-items: center; }
+        @media only screen and (max-width: 1250px) {
+          .clientDashboard-view-slab_list-headers {
+            overflow-x: scroll; }
+            .clientDashboard-view-slab_list-headers::-webkit-scrollbar {
+              width: 0.1rem;
+              height: 0.3rem; }
+            .clientDashboard-view-slab_list-headers::-webkit-scrollbar-thumb {
+              background-color: #fd7e3c; } }
         .clientDashboard-view-slab_list-headers-checkbox {
+          display: flex;
+          align-items: center;
           width: max-content;
           height: 100%;
-          padding: 1rem 2rem; }
+          padding: 1rem 1.5rem; }
         .clientDashboard-view-slab_list-headers-item {
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 1rem 3rem;
-          font-size: 1.4rem;
+          padding: 1rem 0rem;
+          margin-left: 1rem;
+          font-size: 1.2rem;
           font-weight: 700;
-          border: 0.05rem solid #ededec;
-          width: 25rem; }
+          border-bottom: 0.05rem solid #ededec;
+          width: 8rem;
+          text-align: center; }
+          .clientDashboard-view-slab_list-headers-item:first-child {
+            width: 25rem; }
+            @media only screen and (max-width: 1500px) {
+              .clientDashboard-view-slab_list-headers-item:first-child {
+                width: 15rem !important; } }
           @media only screen and (max-width: 1500px) {
             .clientDashboard-view-slab_list-headers-item {
-              width: 20rem; } }
+              font-size: 1rem;
+              width: 6rem; } }
           .clientDashboard-view-slab_list-headers-item-container {
             display: flex;
-            width: 8000px; }
-            @media only screen and (max-width: 1500px) {
+            width: 100%; }
+            @media only screen and (max-width: 1250px) {
               .clientDashboard-view-slab_list-headers-item-container {
-                width: 200rem;
-                display: flex;
-                justify-content: space-between; } }
+                width: 300rem; } }
       .clientDashboard-view-slab_list-slabs {
         width: 100%;
         height: min-content;
@@ -1100,34 +1110,41 @@ body {
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 2rem 3rem;
-          font-size: 1.4rem;
+          padding: 1rem 0rem;
+          margin-left: 1rem;
+          font-size: 1.2rem;
           font-weight: 300;
-          width: 25rem;
-          border-bottom: 0.05rem solid #1e1e1e; }
+          width: 8rem;
+          text-align: center; }
+          .clientDashboard-view-slab_list-slabs-item:first-child {
+            width: 25rem; }
+            @media only screen and (max-width: 1500px) {
+              .clientDashboard-view-slab_list-slabs-item:first-child {
+                width: 15rem !important; } }
           @media only screen and (max-width: 1500px) {
             .clientDashboard-view-slab_list-slabs-item {
-              width: 20rem; } }
+              font-size: 1.1rem;
+              width: 6rem; } }
           .clientDashboard-view-slab_list-slabs-item-container {
             display: flex;
-            width: 8000px; }
+            width: 100%; }
             .clientDashboard-view-slab_list-slabs-item-container:hover {
               cursor: pointer;
               background-color: #ededec; }
             @media only screen and (max-width: 1500px) {
               .clientDashboard-view-slab_list-slabs-item-container {
-                width: 200rem;
-                display: flex;
-                justify-content: space-between; } }
+                width: 300rem;
+                display: flex; } }
           .clientDashboard-view-slab_list-slabs-item img {
             text-align: center;
+            object-fit: cover;
             margin: 0 auto;
             width: 20rem;
-            height: 100%;
+            height: 10rem;
             box-shadow: 0.2rem 0.2rem 1rem 0.4rem rgba(0, 0, 0, 0.4); }
             @media only screen and (max-width: 1500px) {
               .clientDashboard-view-slab_list-slabs-item img {
-                width: 15rem; } }
+                width: 10rem; } }
 
 .tracker-list {
   height: 500px !important; }
