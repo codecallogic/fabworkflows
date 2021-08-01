@@ -14,6 +14,9 @@ const Products = ({hideSideNav, showSideNav, list}) => {
   const [error, setError] = useState('')
   const [controls, setControls] = useState(false)
   const [idControls, setIDControls] = useState('')
+  const [filterProduct, setFilterProduct] = useState('')
+  const [ascProduct, setAscProduct] = useState(true)
+  const [descProduct, setDescProduct] = useState(false)
 
   useEffect(() => {
     if(window.innerWidth < 992) hideSideNav()
@@ -63,19 +66,19 @@ const Products = ({hideSideNav, showSideNav, list}) => {
             <div className="clientDashboard-view-slab_list-headers-checkbox"></div>
             <div className="clientDashboard-view-slab_list-headers-item-container">
               <div className="clientDashboard-view-slab_list-headers-item">Image</div>
-              <div className="clientDashboard-view-slab_list-headers-item">Brand</div>
-              <div className="clientDashboard-view-slab_list-headers-item">Model</div>
-              <div className="clientDashboard-view-slab_list-headers-item">Category</div>
-              <div className="clientDashboard-view-slab_list-headers-item">Quantity</div>
-              <div className="clientDashboard-view-slab_list-headers-item">Location</div>
-              <div className="clientDashboard-view-slab_list-headers-item">Description</div>
-              <div className="clientDashboard-view-slab_list-headers-item">Price</div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'brand' ? (setAscProduct(!ascProduct), setDescProduct(!descProduct)) : setFilterProduct('brand')}>Brand <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'model' ? (setAscProduct(!ascProduct), setDescProduct(!descProduct)) : setFilterProduct('model')}>Model <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'category' ? (setAscProduct(!ascProduct), setDescProduct(!descProduct)) : setFilterProduct('category')}>Category <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'quantity' ? (setAscProduct(!ascProduct), setDescProduct(!descProduct)) : setFilterProduct('quantity')}>Quantity <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'location' ? (setAscProduct(!ascProduct), setDescProduct(!descProduct)) : setFilterProduct('location')}>Location <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'description' ? (setAscProduct(!ascProduct), setDescProduct(!descProduct)) : setFilterProduct('description')}>Description <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'price' ? (setAscProduct(!ascProduct), setDescProduct(!descProduct)) : setFilterProduct('price')}>Price <SVGs svg={'sort'}></SVGs></div>
               <div className="clientDashboard-view-slab_list-headers-item"></div>
               <div className="clientDashboard-view-slab_list-headers-item"></div>
             </div>
           </div>
           <div className="clientDashboard-view-slab_list-slabs-container">
-            {list && list.map((item, idx) => (
+            {list && list.sort((a, b) => a[filterProduct] > b[filterProduct] ? ascProduct ? 1 : -1 : descProduct ? 1 : -1).map((item, idx) => (
             <div key={idx} className="clientDashboard-view-slab_list-slabs">
                 <div className="clientDashboard-view-slab_list-slabs-checkbox">
                   <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`slab ` + `${idx}`} onClick={(e) => e.target.checked == true ? (handleControls(e), setControls(true), setIDControls(item._id), window.scrollTo({top: 0})) : (setControls(false), setIDControls(''))} />

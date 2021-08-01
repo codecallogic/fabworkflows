@@ -208,6 +208,17 @@
           width: 8rem;
           text-align: center;
 
+          &:hover {
+            cursor: pointer;
+          }
+
+          svg {
+            width: 1.5rem;
+            height: 1.5rem;
+            fill: $color-scheme-1;
+            margin-left: 0.5rem;
+          }
+
           &:first-child {
             width: 25rem;
 

@@ -446,14 +446,14 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
                   <label htmlFor="price_slab">Price per Slab</label>
                   <div className="form-group-double-dropdown-input">
                     <SVGs svg={'dollar'} classprop="dollar"></SVGs>
-                    <textarea id="price_slab" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} placeholder="0.00" className="dollar-input" value={slab.price_slab == 'NaN' ? '' : slab.price_slab} onChange={(e) => createSlab('price_slab', validateIsPrice(e))} required></textarea>
+                    <textarea id="price_slab" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} placeholder="0.00" className="dollar-input" value={slab.price_slab == 'NaN' ? '' : slab.price_slab.replace("$", "")} onChange={(e) => createSlab('price_slab', validateIsPrice(e))} required></textarea>
                   </div>
                 </div>
                 <div className="form-group-triple">
                   <label htmlFor="price_sqft">Price per Sqft</label>
                   <div className="form-group-double-dropdown-input">
                     <SVGs svg={'dollar'} classprop="dollar"></SVGs>
-                    <textarea id="price_sqft" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} placeholder="0.00" className="dollar-input" value={slab.price_sqft == 'NaN' ? '' : slab.price_sqft} onChange={(e) => createSlab('price_sqft', validateIsPrice(e))} required></textarea>
+                    <textarea id="price_sqft" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} placeholder="0.00" className="dollar-input" value={slab.price_sqft == 'NaN' ? '' : slab.price_sqft.replace("$", "")} onChange={(e) => createSlab('price_sqft', validateIsPrice(e))} required></textarea>
                   </div>
                 </div>
                 <div className="form-group-triple">
@@ -653,7 +653,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
                   <label htmlFor="price">Price</label>
                   <div className="form-group-double-dropdown-input">
                     <SVGs svg={'dollar'} classprop="dollar"></SVGs>
-                    <textarea id="price" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} placeholder="0.00" className="dollar-input" value={product.price == 'NaN' ? '' : product.price} onChange={(e) => createProduct('price', validateIsPrice(e))} required></textarea>
+                    <textarea id="price" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} placeholder="0.00" className="dollar-input" value={product.price == 'NaN' ? '' : product.price.replace("$", "")} onChange={(e) => createProduct('price', validateIsPrice(e))} required></textarea>
                   </div>
                 </div>
                 <div className="form-group-triple-dropdown"></div>
