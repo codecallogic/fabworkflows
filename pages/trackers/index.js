@@ -61,7 +61,7 @@ const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
             {controlsSlabs &&
               <div className="clientDashboard-view-slab_list-heading-controls">
                 <div className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControlsSlabs ? window.location.href = `inventory/slab/${idControlsSlabs}` : null}>Edit</div>
-                <div className="clientDashboard-view-slab_list-heading-controls-item delete">Delete</div>
+                {/* <div className="clientDashboard-view-slab_list-heading-controls-item delete">Delete</div> */}
               </div>
             }
             <div className="form-error-container">
@@ -118,7 +118,7 @@ const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
             {controlsProducts &&
               <div className="clientDashboard-view-slab_list-heading-controls">
                 <div className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControlsProducts ? window.location.href = `inventory/product/${idControlsProducts}` : null}>Edit</div>
-                <div className="clientDashboard-view-slab_list-heading-controls-item delete">Delete</div>
+                {/* <div className="clientDashboard-view-slab_list-heading-controls-item delete">Delete</div> */}
               </div>
             }
             <div className="form-error-container">
