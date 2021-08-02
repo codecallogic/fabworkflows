@@ -15,8 +15,8 @@ const Products = ({hideSideNav, showSideNav, list}) => {
   const [controls, setControls] = useState(false)
   const [idControls, setIDControls] = useState('')
   const [filterProduct, setFilterProduct] = useState('')
-  const [ascProduct, setAscProduct] = useState(true)
-  const [descProduct, setDescProduct] = useState(false)
+  const [ascProduct, setAscProduct] = useState(-1)
+  const [descProduct, setDescProduct] = useState(1)
 
   useEffect(() => {
     if(window.innerWidth < 992) hideSideNav()
@@ -75,19 +75,19 @@ const Products = ({hideSideNav, showSideNav, list}) => {
             <div className="clientDashboard-view-slab_list-headers-checkbox"></div>
             <div className="clientDashboard-view-slab_list-headers-item-container">
               <div className="clientDashboard-view-slab_list-headers-item">Image</div>
-              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'brand' ? (setAscProduct(!ascProduct), setDescProduct(!descProduct)) : setFilterProduct('brand')}>Brand <SVGs svg={'sort'}></SVGs></div>
-              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'model' ? (setAscProduct(!ascProduct), setDescProduct(!descProduct)) : setFilterProduct('model')}>Model <SVGs svg={'sort'}></SVGs></div>
-              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'category' ? (setAscProduct(!ascProduct), setDescProduct(!descProduct)) : setFilterProduct('category')}>Category <SVGs svg={'sort'}></SVGs></div>
-              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'quantity' ? (setAscProduct(!ascProduct), setDescProduct(!descProduct)) : setFilterProduct('quantity')}>Quantity <SVGs svg={'sort'}></SVGs></div>
-              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'location' ? (setAscProduct(!ascProduct), setDescProduct(!descProduct)) : setFilterProduct('location')}>Location <SVGs svg={'sort'}></SVGs></div>
-              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'description' ? (setAscProduct(!ascProduct), setDescProduct(!descProduct)) : setFilterProduct('description')}>Description <SVGs svg={'sort'}></SVGs></div>
-              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'price' ? (setAscProduct(!ascProduct), setDescProduct(!descProduct)) : setFilterProduct('price')}>Price <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'brand' ? (setAscProduct(ascProduct == 1 ? -1 : 1 ), setDescProduct(descProduct == -1 ? 1 : -1)) : setFilterProduct('brand')}>Brand <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'model' ? (setAscProduct(ascProduct == 1 ? -1 : 1 ), setDescProduct(descProduct == -1 ? 1 : -1)) : setFilterProduct('model')}>Model <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'category' ? (setAscProduct(ascProduct == 1 ? -1 : 1 ), setDescProduct(descProduct == -1 ? 1 : -1)) : setFilterProduct('category')}>Category <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'quantity' ? (setAscProduct(ascProduct == 1 ? -1 : 1 ), setDescProduct(descProduct == -1 ? 1 : -1)) : setFilterProduct('quantity')}>Quantity <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'location' ? (setAscProduct(ascProduct == 1 ? -1 : 1 ), setDescProduct(descProduct == -1 ? 1 : -1)) : setFilterProduct('location')}>Location <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'description' ? (setAscProduct(ascProduct == 1 ? -1 : 1 ), setDescProduct(descProduct == -1 ? 1 : -1)) : setFilterProduct('description')}>Description <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'price' ? (setAscProduct(ascProduct == 1 ? -1 : 1 ), setDescProduct(descProduct == -1 ? 1 : -1)) : setFilterProduct('price')}>Price <SVGs svg={'sort'}></SVGs></div>
               <div className="clientDashboard-view-slab_list-headers-item"></div>
               <div className="clientDashboard-view-slab_list-headers-item"></div>
             </div>
           </div>
           <div className="clientDashboard-view-slab_list-slabs-container">
-            {list && list.sort((a, b) => a[filterProduct] > b[filterProduct] ? ascProduct ? 1 : -1 : descProduct ? 1 : -1).map((item, idx) => (
+            {list && list.sort((a, b) => a[filterProduct] > b[filterProduct] ? ascProduct : descProduct).map((item, idx) => (
             <div key={idx} className="clientDashboard-view-slab_list-slabs">
                 <div className="clientDashboard-view-slab_list-slabs-checkbox">
                   <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`slab ` + `${idx}`} onClick={(e) => e.target.checked == true ? (handleControls(e), setControls(true), setIDControls(item._id), window.scrollTo({top: 0})) : (setControls(false), setIDControls(''))} />
