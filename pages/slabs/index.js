@@ -75,16 +75,16 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
             <div className="clientDashboard-view-slab_list-headers-checkbox"></div>
             <div className="clientDashboard-view-slab_list-headers-item-container">
               <div className="clientDashboard-view-slab_list-headers-item">Image</div>
-              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filter == 'block' ? (e.stopPropagation(), setAsc(!asc), setDesc(!desc)) : setFilter('block')}>Block <SVGs svg={'sort'}></SVGs></div>
-              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filter == 'material' ? (e.stopPropagation(), setAsc(!asc), setDesc(!desc)) : setFilter('material')}>Material <SVGs svg={'sort'}></SVGs></div>
-              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filter == 'color' ? (e.stopPropagation(), setAsc(!asc), setDesc(!desc)) : setFilter('color')}>Color <SVGs svg={'sort'}></SVGs></div>
-              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filter == 'quantity' ? (e.stopPropagation(), setAsc(!asc), setDesc(!desc)) : setFilter('quantity')}>Quantity <SVGs svg={'sort'}></SVGs></div>
-              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filter == 'size' ? (e.stopPropagation(), setAsc(!asc), setDesc(!desc)) : setFilter('size')}>Size <SVGs svg={'sort'}></SVGs></div>
-              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filter == 'thickness' ? (e.stopPropagation(), setAsc(!asc), setDesc(!desc)) : setFilter('thickness')}>Thickness <SVGs svg={'sort'}></SVGs></div>
-              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filter == 'price' ? (e.stopPropagation(), setAsc(!asc), setDesc(!desc)) : setFilter('price')}>Price <SVGs svg={'sort'}></SVGs></div>
-              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filter == 'grade' ? (e.stopPropagation(), setAsc(!asc), setDesc(!desc)) : setFilter('grade')}>Grade <SVGs svg={'sort'}></SVGs></div>
-              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filter == 'finish' ? (e.stopPropagation(), setAsc(!asc), setDesc(!desc)) : setFilter('finish')}>Finish <SVGs svg={'sort'}></SVGs></div>
-              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filter == 'location' ? (e.stopPropagation(), setAsc(!asc), setDesc(!desc)) : setFilter('location')}>Location <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filter == 'block' ? (setAsc(!asc), setDesc(!desc)) : setFilter('block')}>Block <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filter == 'material' ? (setAsc(!asc), setDesc(!desc)) : setFilter('material')}>Material <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filter == 'color' ? (setAsc(!asc), setDesc(!desc)) : setFilter('color')}>Color <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filter == 'quantity' ? (setAsc(!asc), setDesc(!desc)) : setFilter('quantity')}>Quantity <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filter == 'size' ? (setAsc(!asc), setDesc(!desc)) : setFilter('size')}>Size <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filter == 'thickness' ? (setAsc(!asc), setDesc(!desc)) : setFilter('thickness')}>Thickness <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filter == 'price' ? (setAsc(!asc), setDesc(!desc)) : setFilter('price')}>Price <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filter == 'grade' ? (setAsc(!asc), setDesc(!desc)) : setFilter('grade')}>Grade <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filter == 'finish' ? (setAsc(!asc), setDesc(!desc)) : setFilter('finish')}>Finish <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filter == 'location' ? (setAsc(!asc), setDesc(!desc)) : setFilter('location')}>Location <SVGs svg={'sort'}></SVGs></div>
               <div className="clientDashboard-view-slab_list-headers-item"></div>
               <div className="clientDashboard-view-slab_list-headers-item"></div>
             </div>
@@ -93,7 +93,7 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
             {list && list.sort((a, b) => a[filter] > b[filter] ? asc ? 1 : -1 : desc ? 1 : -1).map((item, idx) => (
             <div key={idx} className="clientDashboard-view-slab_list-slabs">
                 <div className="clientDashboard-view-slab_list-slabs-checkbox">
-                  <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`slab ` + `${idx}`}  onClick={(e) => e.target.checked == true ? (handleControls(e), setControls(true), setIDControls(item._id), window.scrollTo({top: 0})) : (setControls(false), setIDControls(''))}/>
+                  <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`slab ` + `${idx}`}  onClick={(e) => e.target.checked == true ? (setControls(true), setIDControls(item._id), window.scrollTo({top: 0})) : (setControls(false), setIDControls(''))}/>
                   <label htmlFor={`slab ` + `${idx}`}><span>&nbsp;</span></label>
                 </div>
                 <div className="clientDashboard-view-slab_list-slabs-item-container"  onClick={() => window.location.href = `/inventory/slab/${item._id}`}>
@@ -151,4 +151,4 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(withUser(Slabs))
 
-// )
+// handleControls(e)
