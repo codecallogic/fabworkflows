@@ -34,8 +34,6 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
   }, [width])
 
   const handleControls = (e, id) => {
-    setControls(true), 
-    setIDControls(id)
     const els = document.querySelectorAll('.clientDashboard-view-slab_list-slabs-checkbox-input')
 
     els.forEach( (el) => {
@@ -43,6 +41,9 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
     })
 
     e.target.checked = true
+
+    setControls(true)
+    return setIDControls(id)
   }
 
   const handleDelete = async (e) => {
