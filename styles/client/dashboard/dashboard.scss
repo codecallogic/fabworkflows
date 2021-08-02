@@ -367,4 +367,8 @@
 
 .tracker-list {
   height: 500px !important;
+
+  @media only screen and (max-width: $wide) {
+    height: 400px !important;
+  }
 }

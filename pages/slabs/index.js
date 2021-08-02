@@ -49,9 +49,11 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
 
   const handleDelete = async (e) => {
     try {
-      const responseDelete = await axios.post(`${API}/inventory/delete-slab`, {id: idControls})
+      const responseDelete = await axios.post(`${API}/inventory/delete-slab`, {id: idControlsSlab})
+      console.log(responseDelete)
       window.location.href = '/slabs'
     } catch (error) {
+      console.log(error)
       if(error) error.response ? setError(error.response.data) : setError('Error deleting from inventory')
     }
   }

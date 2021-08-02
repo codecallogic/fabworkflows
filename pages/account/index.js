@@ -155,7 +155,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
         qrData.size_height = slab.size_2
         qrData.lot = slab.lot_number
         
-        const image = await QRCode.toDataURL(JSON.stringify(qrData), options)
+        const image = await QRCode.toDataURL('https://www.slabware.com/', options)
         createSlab('qr_code', image)
         setError('')
       } catch (err) {
@@ -191,7 +191,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
         qrData.category = product.category
         qrData.description = product.description
         
-        const image = await QRCode.toDataURL(JSON.stringify(qrData), options)
+        const image = await QRCode.toDataURL('https://www.slabware.com/', options)
         createProduct('qr_code', image)
         setError('')
       } catch (err) {
