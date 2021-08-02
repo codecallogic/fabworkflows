@@ -7,7 +7,7 @@ import {API} from '../config'
 const Home = ({newUser}) => {
 
   const logout = async () => {
-    console.log('Hello')
+    // console.log('Hello')
     try {
       const responseSignOut = await axios.post(`${API}/auth/logout`)
       window.location.href = '/login'

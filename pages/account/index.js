@@ -17,7 +17,7 @@ const formatter = new Intl.NumberFormat('en-US', {
 });
 
 const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, createSlab, addSlabImages, product, createProduct, addProductImages}) => {
-  console.log(product)
+  // console.log(product)
   const router = useRouter()
   const [input_dropdown, setInputDropdown] = useState('')
   const [width, setWidth] = useState()
