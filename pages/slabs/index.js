@@ -15,8 +15,8 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
   const [desc, setDesc] = useState(false)
   const [width, setWidth] = useState()
   const [error, setError] = useState('')
-  const [controls, setControls] = useState(false)
-  const [idControls, setIDControls] = useState('')
+  const [controlsSlab, setSlabControls] = useState(false)
+  const [idControlsSlab, setSlabIDControls] = useState('')
 
   useEffect(() => {
     if(window.innerWidth < 992) hideSideNav()
@@ -42,8 +42,8 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
 
     e.target.checked = true
 
-    setControls(true)
-    return setIDControls(id)
+    setSlabControls(true)
+    return setSlabIDControls(id)
   }
 
   const handleDelete = async (e) => {
@@ -64,9 +64,9 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
         <div className="clientDashboard-view-slab_list-container">
           <div className="clientDashboard-view-slab_list-heading">
             <span>Slabs List</span>
-            {controls &&
+            {controlsSlab &&
               <div className="clientDashboard-view-slab_list-heading-controls">
-                <div className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControls ? window.location.href = `inventory/slab/${idControls}` : null}>Edit</div>
+                <div className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControlsSlab ? window.location.href = `inventory/slab/${idControlsSlab}` : null}>Edit</div>
                 <div className="clientDashboard-view-slab_list-heading-controls-item delete" onClick={() => handleDelete()}>Delete</div>
               </div>
             }
@@ -96,7 +96,7 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
             {list && list.sort((a, b) => a[filter] > b[filter] ? asc ? 1 : -1 : desc ? 1 : -1).map((item, idx) => (
             <div key={idx} className="clientDashboard-view-slab_list-slabs">
                 <div className="clientDashboard-view-slab_list-slabs-checkbox">
-                  <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`slab ` + `${idx}`}  onClick={(e) => e.target.checked == true ? (handleControls(e, item._id), window.scrollTo({top: 0})) : (setIDControls(''))}/>
+                  <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`slab ` + `${idx}`}  onClick={(e) => e.target.checked == true ? (handleControls(e, item._id), window.scrollTo({top: 0})) : (setSlabControls(false), setSlabIDControls(''))}/>
                   <label htmlFor={`slab ` + `${idx}`}><span>&nbsp;</span></label>
                 </div>
                 <div className="clientDashboard-view-slab_list-slabs-item-container"  onClick={() => window.location.href = `/inventory/slab/${item._id}`}>
