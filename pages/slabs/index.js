@@ -93,7 +93,7 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
             {list && list.sort((a, b) => a[filter] > b[filter] ? asc ? 1 : -1 : desc ? 1 : -1).map((item, idx) => (
             <div key={idx} className="clientDashboard-view-slab_list-slabs">
                 <div className="clientDashboard-view-slab_list-slabs-checkbox">
-                  <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`slab ` + `${idx}`}  />
+                  <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`slab ` + `${idx}`}  onClick={(e) => e.target.checked == true ? (handleControls(e), setControls(true), setIDControls(item._id)) : (setControls(false), setIDControls(''))}/>
                   <label htmlFor={`slab ` + `${idx}`}><span>&nbsp;</span></label>
                 </div>
                 <div className="clientDashboard-view-slab_list-slabs-item-container"  onClick={() => window.location.href = `/inventory/slab/${item._id}`}>
@@ -151,5 +151,4 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(withUser(Slabs))
 
-
-// onClick={(e) => e.target.checked == true ? (handleControls(e), setControls(true), setIDControls(item._id), window.scrollTo({top: 0})) : (setControls(false), setIDControls(''))}
+// window.scrollTo({top: 0})
