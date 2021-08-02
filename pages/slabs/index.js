@@ -93,7 +93,7 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
             </div>
           </div>
           <div className="clientDashboard-view-slab_list-slabs-container">
-            {list && list.sort((a, b) => a[filter] > b[filter] ? asc ? 1 : -1 : desc ? 1 : -1).map((item, idx) => (
+            {list && list.sort((a, b) => a[filter] > b[filter] ? asc ? 1 : 1 : desc ? 1 : -1).map((item, idx) => (
             <div key={idx} className="clientDashboard-view-slab_list-slabs">
                 <div className="clientDashboard-view-slab_list-slabs-checkbox">
                   <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`slab ` + `${idx}`}  onClick={(e) => e.target.checked == true ? (handleControls(e, item._id), window.scrollTo({top: 0})) : (setSlabControls(false), setSlabIDControls(''))}/>
