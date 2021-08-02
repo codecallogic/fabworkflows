@@ -33,7 +33,7 @@ const Products = ({hideSideNav, showSideNav, list}) => {
 
   }, [width])
 
-  const handleControls = (e) => {
+  const handleControls = (e, id) => {
     const els = document.querySelectorAll('.clientDashboard-view-slab_list-slabs-checkbox-input')
 
     els.forEach( (el) => {
@@ -41,6 +41,9 @@ const Products = ({hideSideNav, showSideNav, list}) => {
     })
 
     e.target.checked = true
+
+    setControls(true)
+    return setIDControls(id)
   }
 
   const handleDelete = async (e) => {
@@ -90,7 +93,7 @@ const Products = ({hideSideNav, showSideNav, list}) => {
             {list && list.sort((a, b) => a[filterProduct] > b[filterProduct] ? ascProduct : descProduct).map((item, idx) => (
             <div key={idx} className="clientDashboard-view-slab_list-slabs">
                 <div className="clientDashboard-view-slab_list-slabs-checkbox">
-                  <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`slab ` + `${idx}`} onClick={(e) => e.target.checked == true ? (handleControls(e), setControls(true), setIDControls(item._id), window.scrollTo({top: 0})) : (setControls(false), setIDControls(''))} />
+                  <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`slab ` + `${idx}`} onClick={(e) => e.target.checked == true ? (handleControls(e, item._id), window.scrollTo({top: 0})) : (setControls(false), setIDControls(''))} />
                   <label htmlFor={`slab ` + `${idx}`}><span>&nbsp;</span></label>
                 </div>
                 <div className="clientDashboard-view-slab_list-slabs-item-container"  onClick={() => window.location.href = `/inventory/product/${item._id}`}>
