@@ -19,9 +19,9 @@ const Home = ({newUser}) => {
   return (
     <div className="home">
       Website is under development...
-      {newUser && <a onClick={logout} className="logout">Logout</a>}
+      {newUser ? <a onClick={logout} className="logout">Logout</a> : <a onClick={() => window.location.href = '/login'} className="logout">Login</a>}
     </div>
   )
 }
 
-export default withUser(Home)
+export default (Home)

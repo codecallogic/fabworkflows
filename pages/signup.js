@@ -10,6 +10,7 @@ const Signup = ({}) => {
   const [email, setEmail] = useState('')
   const [phone_number, setPhoneNumber] = useState('')
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('dfajsdifoj')
   const [message, setMessage] = useState('')
 
   const reset = () => {
@@ -26,10 +27,9 @@ const Signup = ({}) => {
       const responseSignup = await axios.post(`${API}/auth/register`, {first_name, last_name, email, phone_number})
       reset()
       setLoading(false)
-      setMessage(responseSignup.data)
-      window.location.href = '/login'
+      setMessage(`${responseSignup.data}, please activate account to continue.`)
     } catch (error) {
-      if(error) error.response ? setMessage(error.response.data) : setMessage('')
+      if(error) error.response ? setError(error.response.data) : setError('')
       setLoading(false)
     }
   }
@@ -61,9 +61,8 @@ const Signup = ({}) => {
             <label htmlFor="phone_number">Phone Number (optional)</label>
             <input type="tel" name={phone_number} value={phone_number} onChange={(e) => setPhoneNumber(e.target.value)}/>
           </div>
-          <button type="submit" className="form-button-fit">Start free trial</button>
+          <button type="submit" className="form-button-fit">{!loading && <span>Start free trial</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
           <span className="link-text">Already have an account? <a className="link" onClick={() => window.location.href = '/login'}>Login</a></span>
-          {loading ? <iframe src="https://giphy.com/embed/sSgvbe1m3n93G" width="30" height="30" frameBorder="0" className="giphy-loading" allowFullScreen></iframe> : null }
           {message &&  <div className="form-message">{message}</div>}
         </form>
         <div className="signup-free_trial">

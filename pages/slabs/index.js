@@ -1,6 +1,6 @@
 import TopNav from '../../components/client/dashboardTopNav'
 import SideNav from '../../components/client/dashboardSideNav'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import withUser from '../withUser'
 import SVGs from '../../files/svgs'
 import {connect} from 'react-redux'
@@ -8,7 +8,8 @@ import {API} from '../../config'
 import axios from 'axios'
 
 const Slabs = ({hideSideNav, showSideNav, list}) => {
-  
+  const myRefs = useRef([])
+
   const sendRedirect = true
   const [filter, setFilter] = useState('')
   const [asc, setAsc] = useState(-1)
@@ -17,6 +18,32 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
   const [error, setError] = useState('')
   const [controlsSlab, setSlabControls] = useState(false)
   const [idControlsSlab, setSlabIDControls] = useState('')
+
+  const handleClickOutside = (event) => {
+    if(myRefs.current){
+      myRefs.current.forEach((item) => {
+        if(item.contains(event.target)) return
+        item.childNodes[0].checked = false
+        setSlabControls(false)
+        setSlabIDControls('')
+      })
+    }
+  }
+
+  const unselectInputs = () => {
+    let els = document.querySelectorAll('.clientDashboard-view-slab_list-slabs-checkbox-input')
+    els.forEach( (el) => {
+      el.checked = false
+    })
+  }
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, true);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, [])
 
   useEffect(() => {
     
@@ -30,7 +57,7 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
       setWidth(window.innerWidth);
     }
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {window.removeEventListener("resize", handleResize)}
 
   }, [width])
 
@@ -98,9 +125,9 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
           <div className="clientDashboard-view-slab_list-slabs-container">
             {list && list.sort((a, b) => a[filter] > b[filter] ? asc : desc).map((item, idx) => (
             <div key={idx} className="clientDashboard-view-slab_list-slabs">
-                <div className="clientDashboard-view-slab_list-slabs-checkbox">
-                  <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`slab ` + `${idx}`}  onClick={(e) => e.target.checked == true ? (handleControls(e, item._id), window.scrollTo({top: 0})) : (setSlabControls(false), setSlabIDControls(''))}/>
-                  <label htmlFor={`slab ` + `${idx}`}><span>&nbsp;</span></label>
+                <div className="clientDashboard-view-slab_list-slabs-checkbox" ref={(el) => (myRefs.current[idx] = el)}>
+                  <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`slab ` + `${idx}`} onClick={(e) => e.target.checked == true ? (handleControls(e, item._id), window.scrollTo({top: 0})) : (setSlabControls(false), setSlabIDControls(''))}/>
+                  <label htmlFor={`slab ` + `${idx}`} onBlur={() => (setSlabControls(false), setSlabIDControls(''))}><span>&nbsp;</span></label>
                 </div>
                 <div className="clientDashboard-view-slab_list-slabs-item-container"  onClick={() => window.location.href = `/inventory/slab/${item._id}`}>
                   <div className="clientDashboard-view-slab_list-slabs-item">{item.images.length > 0 ? <img src={item.images[0].location} alt="" /> : null}</div>

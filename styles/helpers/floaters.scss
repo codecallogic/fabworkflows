@@ -17,4 +17,11 @@
   &-text {
     font-size: 1.4rem;
   }
+
+  &-forgotPassword {
+    margin: 1rem 0;
+    font-size: 1.4rem;
+    text-decoration: underline;
+    color: $color-scheme-1;
+  }
 }

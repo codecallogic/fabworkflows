@@ -19,6 +19,7 @@ body {
   font-family: 'Helvetica';
   font-style: normal;
   color: black;
+  font-weight: 300;
   line-height: 1.6; }
   body::-webkit-scrollbar {
     width: 0.5rem;
@@ -552,6 +553,23 @@ body {
         width: 100%; } }
     .form-error-container {
       width: max-content; }
+  .form-group-single-textarea {
+    padding: 1.5rem 0 0 0;
+    width: 100%; }
+    .form-group-single-textarea label {
+      display: block;
+      font-size: 1.8rem;
+      padding: 1rem; }
+    .form-group-single-textarea-field textarea {
+      width: 100%;
+      border-radius: 1rem;
+      resize: none;
+      padding: 1.2rem 2rem 0 2rem;
+      box-sizing: border-box;
+      outline: none;
+      font-size: 1.4rem;
+      font-family: inherit;
+      border: none; }
 
 .border_bottom {
   border-bottom: 0.1rem solid #dbdbdb;
@@ -616,6 +634,11 @@ body {
 .delete {
   background-color: red;
   animation: slideFromRight 0.5s ease-in-out; }
+
+.w100 {
+  text-align: center;
+  width: 100% !important;
+  box-sizing: border-box; }
 
 .center {
   text-align: center;
@@ -685,6 +708,11 @@ body {
     cursor: pointer; }
   .link-text {
     font-size: 1.4rem; }
+  .link-forgotPassword {
+    margin: 1rem 0;
+    font-size: 1.4rem;
+    text-decoration: underline;
+    color: #fd7e3c; }
 
 .hide-sidenav {
   width: 0 !important;
@@ -709,6 +737,52 @@ body {
     height: 0 !important;
     padding: 0 !important;
     margin: 0 !important; }
+
+.forgotPassword-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+  .forgotPassword-modal-box {
+    padding: 1rem 2rem;
+    box-sizing: content-box;
+    background-color: #dbdbdb;
+    width: 40%;
+    height: 40rem;
+    border-bottom-left-radius: 1.2rem; }
+    @media only screen and (max-width: 1250px) {
+      .forgotPassword-modal-box {
+        width: 70%; } }
+    @media only screen and (max-width: 600px) {
+      .forgotPassword-modal-box {
+        width: 90%; } }
+    .forgotPassword-modal-box-header {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      font-size: 2.2rem;
+      padding: 1rem 0; }
+      .forgotPassword-modal-box-header svg {
+        width: 2rem;
+        height: 2rem;
+        fill: black;
+        transition: all 0.2s ease-in-out; }
+        .forgotPassword-modal-box-header svg:hover {
+          cursor: pointer;
+          fill: #fd7e3c; }
+  .forgotPassword-modal-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; }
+    .forgotPassword-modal-form-title {
+      font-size: 2.4rem;
+      text-align: center;
+      margin: 1rem 0; }
 
 .clientDashboard_topnav {
   display: flex;
