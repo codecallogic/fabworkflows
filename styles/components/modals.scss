@@ -15,7 +15,7 @@
     background-color: $color-light-shade-scheme-1;
     width: 40%;
     height: 40rem;
-    border-bottom-left-radius: 1.2rem;
+    border-radius: 1.2rem;
 
     @media only screen and (max-width: $extra-large) {
       width: 70%;
@@ -28,6 +28,68 @@
     &-header {
       display: flex;
       justify-content: flex-end;
+      align-items: center;
+      font-size: 2.2rem;
+      padding: 1rem 0;
+
+      svg {
+        width: 2rem;
+        height: 2rem;
+        fill: black;
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+          cursor: pointer;
+          fill: $color-scheme-1;
+        }
+      }
+    }
+  }
+
+  &-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &-title {
+      font-size: 2.4rem;
+      text-align: center;
+      margin: 1rem 0;
+    }
+  }
+}
+
+.addFieldItems-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &-box {
+    padding: 1rem 2rem;
+    box-sizing: content-box;
+    background-color: $color-light-shade-scheme-1;
+    width: 40%;
+    min-height: min-content;
+    max-height: max-content;
+    border-radius: 1.2rem;
+
+    @media only screen and (max-width: $extra-large) {
+      width: 70%;
+    }
+
+    @media only screen and (max-width: $small) {
+      width: 90%;
+    }
+
+    &-header {
+      display: flex;
+      justify-content: space-between;
       align-items: center;
       font-size: 2.2rem;
       padding: 1rem 0;

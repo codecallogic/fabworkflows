@@ -570,6 +570,75 @@ body {
       font-size: 1.4rem;
       font-family: inherit;
       border: none; }
+    .form-group-single-textarea-dropdown {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      margin: 0rem 1rem 2rem 0; }
+      @media only screen and (max-width: 992px) {
+        .form-group-single-textarea-dropdown {
+          width: 100%;
+          margin: 0 0 2rem 0; } }
+      .form-group-single-textarea-dropdown label {
+        font-size: 1.6rem;
+        margin: 1rem 0; }
+      .form-group-single-textarea-dropdown-input {
+        border-radius: 1.2rem;
+        display: flex;
+        align-items: center;
+        position: relative;
+        border: 0.1rem solid #dbdbdb;
+        background-color: white; }
+        .form-group-single-textarea-dropdown-input textarea {
+          border-radius: 1.2rem;
+          flex-grow: 1;
+          resize: none;
+          padding: 1.2rem 2rem 0 2rem;
+          outline: none;
+          font-size: 1.4rem;
+          font-family: inherit;
+          border: none; }
+        .form-group-single-textarea-dropdown-input svg {
+          width: 3rem;
+          height: 3rem; }
+          .form-group-single-textarea-dropdown-input svg:hover {
+            cursor: pointer; }
+        .form-group-single-textarea-dropdown-input-list {
+          position: absolute;
+          top: 100%;
+          width: 100%;
+          font-size: 1.4rem;
+          border-top: 0.1rem solid #dbdbdb;
+          border: 0.1rem solid #dbdbdb;
+          border-bottom-right-radius: 1rem;
+          border-bottom-left-radius: 1rem;
+          box-shadow: 0rem 1rem 0.5rem 0.2rem rgba(0, 0, 0, 0.2);
+          z-index: 100;
+          max-height: 30rem;
+          overflow-y: scroll; }
+          .form-group-single-textarea-dropdown-input-list::-webkit-scrollbar {
+            width: 0.3rem;
+            height: 0.3rem; }
+          .form-group-single-textarea-dropdown-input-list::-webkit-scrollbar-thumb {
+            background-color: #fd7e3c; }
+          .form-group-single-textarea-dropdown-input-list-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 2rem;
+            font-size: inherit;
+            background-color: white; }
+            .form-group-single-textarea-dropdown-input-list-item:last-child {
+              border-bottom-right-radius: 0.5rem;
+              border-bottom-left-radius: 0.5rem;
+              padding-bottom: 1.5rem; }
+            .form-group-single-textarea-dropdown-input-list-item svg {
+              width: 2rem;
+              height: 2rem;
+              fill: #1bc9a2;
+              margin-right: 1rem; }
+            .form-group-single-textarea-dropdown-input-list-item:hover {
+              cursor: pointer;
+              background-color: #dbdbdb; }
 
 .border_bottom {
   border-bottom: 0.1rem solid #dbdbdb;
@@ -754,7 +823,7 @@ body {
     background-color: #dbdbdb;
     width: 40%;
     height: 40rem;
-    border-bottom-left-radius: 1.2rem; }
+    border-radius: 1.2rem; }
     @media only screen and (max-width: 1250px) {
       .forgotPassword-modal-box {
         width: 70%; } }
@@ -780,6 +849,53 @@ body {
     flex-direction: column;
     justify-content: center; }
     .forgotPassword-modal-form-title {
+      font-size: 2.4rem;
+      text-align: center;
+      margin: 1rem 0; }
+
+.addFieldItems-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+  .addFieldItems-modal-box {
+    padding: 1rem 2rem;
+    box-sizing: content-box;
+    background-color: #dbdbdb;
+    width: 40%;
+    min-height: min-content;
+    max-height: max-content;
+    border-radius: 1.2rem; }
+    @media only screen and (max-width: 1250px) {
+      .addFieldItems-modal-box {
+        width: 70%; } }
+    @media only screen and (max-width: 600px) {
+      .addFieldItems-modal-box {
+        width: 90%; } }
+    .addFieldItems-modal-box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 2.2rem;
+      padding: 1rem 0; }
+      .addFieldItems-modal-box-header svg {
+        width: 2rem;
+        height: 2rem;
+        fill: black;
+        transition: all 0.2s ease-in-out; }
+        .addFieldItems-modal-box-header svg:hover {
+          cursor: pointer;
+          fill: #fd7e3c; }
+  .addFieldItems-modal-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; }
+    .addFieldItems-modal-form-title {
       font-size: 2.4rem;
       text-align: center;
       margin: 1rem 0; }
@@ -1226,6 +1342,28 @@ body {
             @media only screen and (max-width: 1500px) {
               .clientDashboard-view-slab_list-slabs-item img {
                 width: 10rem; } }
+    .clientDashboard-view-form-left {
+      width: calc(50% - 1rem); }
+      .clientDashboard-view-form-left-box {
+        border: 0.1rem solid #dbdbdb;
+        border-top-right-radius: 1.2rem;
+        border-top-left-radius: 1.2rem; }
+        .clientDashboard-view-form-left-box-heading {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          color: white;
+          background-color: #413838;
+          font-size: 1.4rem;
+          padding: 1rem 2rem;
+          border-top-right-radius: 1.2rem;
+          border-top-left-radius: 1.2rem; }
+          .clientDashboard-view-form-left-box-heading svg {
+            width: 3rem;
+            height: 3rem;
+            fill: #fd7e3c; }
+            .clientDashboard-view-form-left-box-heading svg:hover {
+              cursor: pointer; }
 
 .tracker-list {
   height: 500px !important; }

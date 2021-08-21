@@ -362,6 +362,40 @@
         }
       }
     }
+
+    &-form {
+      &-left {
+        width: calc(50% - 1rem);
+
+        &-box {
+          border: 0.1rem solid $color-light-shade-scheme-1;
+          border-top-right-radius: 1.2rem;
+          border-top-left-radius: 1.2rem;
+
+          &-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+            background-color: $color-dark-shade-scheme-1;
+            font-size: 1.4rem;
+            padding: 1rem 2rem;
+            border-top-right-radius: 1.2rem;
+            border-top-left-radius: 1.2rem;
+
+            svg {
+              width: 3rem;
+              height: 3rem;
+              fill: $color-scheme-1;
+
+              &:hover {
+                cursor: pointer;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
 

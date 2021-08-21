@@ -9,6 +9,7 @@ import withUser from '../withUser'
 import {API} from '../../config'
 import axios from 'axios'
 import {useRouter} from 'next/router'
+import SlabFields from '../../components/account/slabFields'
 axios.defaults.withCredentials = true
 
 const formatter = new Intl.NumberFormat('en-US', {
@@ -341,6 +342,10 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
               <div className="clientDashboard-view-new-item" onClick={() => changeView('product')}>
                 <SVGs svg={'box'}></SVGs>
                 <span>New Product</span>
+              </div>
+              <div className="clientDashboard-view-new-item" onClick={() => changeView('slab-fields')}>
+                <SVGs svg={'box'}></SVGs>
+                <span>Slab Fields</span>
               </div>
             </div>
           }
@@ -711,6 +716,9 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
                 </div>
               </form>
             </div>
+          }
+          { nav.view == 'slab-fields' &&
+            <SlabFields></SlabFields>
           }
         </div>
       </div>
