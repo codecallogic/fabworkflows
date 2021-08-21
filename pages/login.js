@@ -19,8 +19,8 @@ const Login = ({redirectLoginURL}) => {
     setLoading(true)
     try {
       const responseLogin = await axios.post(`${API}/auth/login`, {email, password})
-      setLoading(false)
       window.location.href = '/account'
+      setLoading(false)
     } catch (error) {
       console.log(error.response)
       if(error) error.response ? setMessage(error.response.data) : setMessage(null)

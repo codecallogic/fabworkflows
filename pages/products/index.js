@@ -1,6 +1,6 @@
 import TopNav from '../../components/client/dashboardTopNav'
 import SideNav from '../../components/client/dashboardSideNav'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef} from 'react'
 import withUser from '../withUser'
 import SVGs from '../../files/svgs'
 import {connect} from 'react-redux'
@@ -9,6 +9,8 @@ import axios from 'axios'
 
 const Products = ({hideSideNav, showSideNav, list}) => {
   // console.log(list)
+  const myRefs = useRef([])
+  
   const sendRedirect = true
   const [width, setWidth] = useState()
   const [error, setError] = useState('')
@@ -17,6 +19,27 @@ const Products = ({hideSideNav, showSideNav, list}) => {
   const [filterProduct, setFilterProduct] = useState('')
   const [ascProduct, setAscProduct] = useState(-1)
   const [descProduct, setDescProduct] = useState(1)
+
+  const handleClickOutside = (event) => {
+    if(myRefs.current){
+      myRefs.current.forEach((item) => {
+        if(item.contains(event.target)) return
+        if(event.target == document.getElementById('delete-product')) return
+        if(event.target == document.getElementById('edit-product')) return
+        item.childNodes[0].checked = false
+        setControls(false)
+        setIDControls('')
+      })
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, true);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, [])
 
   useEffect(() => {
     if(window.innerWidth < 992) hideSideNav()
@@ -66,8 +89,8 @@ const Products = ({hideSideNav, showSideNav, list}) => {
             <span>Product List</span>
             {controls &&
               <div className="clientDashboard-view-slab_list-heading-controls">
-                <div className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControls ? window.location.href = `inventory/product/${idControls}` : null}>Edit</div>
-                <div className="clientDashboard-view-slab_list-heading-controls-item delete" onClick={() => handleDelete()}>Delete</div>
+                <div id="edit-product" className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControls ? window.location.href = `inventory/product/${idControls}` : null}>Edit</div>
+                <div id="delete-product" className="clientDashboard-view-slab_list-heading-controls-item delete" onClick={() => handleDelete()}>Delete</div>
               </div>
             }
             <div className="form-error-container">
@@ -92,7 +115,7 @@ const Products = ({hideSideNav, showSideNav, list}) => {
           <div className="clientDashboard-view-slab_list-slabs-container">
             {list && list.sort((a, b) => a[filterProduct] > b[filterProduct] ? ascProduct : descProduct).map((item, idx) => (
             <div key={idx} className="clientDashboard-view-slab_list-slabs">
-                <div className="clientDashboard-view-slab_list-slabs-checkbox">
+                <div className="clientDashboard-view-slab_list-slabs-checkbox" ref={(el) => (myRefs.current[idx] = el)}>
                   <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`slab ` + `${idx}`} onClick={(e) => e.target.checked == true ? (handleControls(e, item._id), window.scrollTo({top: 0})) : (setControls(false), setIDControls(''))} />
                   <label htmlFor={`slab ` + `${idx}`}><span>&nbsp;</span></label>
                 </div>

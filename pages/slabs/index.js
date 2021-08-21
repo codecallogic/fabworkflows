@@ -23,18 +23,13 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
     if(myRefs.current){
       myRefs.current.forEach((item) => {
         if(item.contains(event.target)) return
+        if(event.target == document.getElementById('delete-slab')) return
+        if(event.target == document.getElementById('edit-slab')) return
         item.childNodes[0].checked = false
         setSlabControls(false)
         setSlabIDControls('')
       })
     }
-  }
-
-  const unselectInputs = () => {
-    let els = document.querySelectorAll('.clientDashboard-view-slab_list-slabs-checkbox-input')
-    els.forEach( (el) => {
-      el.checked = false
-    })
   }
 
   useEffect(() => {
@@ -96,8 +91,8 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
             <span>Slabs List</span>
             {controlsSlab &&
               <div className="clientDashboard-view-slab_list-heading-controls">
-                <div className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControlsSlab ? window.location.href = `inventory/slab/${idControlsSlab}` : null}>Edit</div>
-                <div className="clientDashboard-view-slab_list-heading-controls-item delete" onClick={() => handleDelete()}>Delete</div>
+                <div id="edit-slab" className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControlsSlab ? window.location.href = `inventory/slab/${idControlsSlab}` : null}>Edit</div>
+                <div id="delete-slab" className="clientDashboard-view-slab_list-heading-controls-item delete" onClick={() => handleDelete()}>Delete</div>
               </div>
             }
             <div className="form-error-container">

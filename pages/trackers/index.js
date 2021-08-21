@@ -9,6 +9,9 @@ import axios from 'axios'
 
 const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
   // console.log(listProducts)
+  const myRefsSlabs = useRef([])
+  const myRefsProducts = useRef([])
+  
   const sendRedirect = true
   const refProducts = useRef(null)
   const [filterSlab, setFilterSlab] = useState('')
@@ -23,6 +26,44 @@ const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
   const [idControlsSlabs, setIDControlsSlabs] = useState('')
   const [controlsProducts, setControlsProducts] = useState(false)
   const [idControlsProducts, setIDControlsProducts] = useState('')
+
+  const handleClickOutsideSlabs = (event) => {
+    if(myRefsSlabs.current){
+      myRefsSlabs.current.forEach((item) => {
+        if(item.contains(event.target)) return
+        if(event.target == document.getElementById('delete-slab')) return
+        if(event.target == document.getElementById('edit-slab')) return
+        // console.log(item.childNodes)
+        item.childNodes[0].checked = false
+        setControlsSlabs(false)
+        setIDControlsSlabs('')
+      })
+    }
+  }
+
+  const handleClickOutsideProducts = (event) => {
+    if(myRefsProducts.current){
+      myRefsProducts.current.forEach((item) => {
+        if(item.contains(event.target)) return
+        if(event.target == document.getElementById('delete-product')) return
+        if(event.target == document.getElementById('edit-product')) return
+        // console.log(item.childNodes)
+        item.childNodes[0].checked = false
+        setControlsProducts(false)
+        setIDControlsProducts('')
+      })
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutsideSlabs, true);
+    document.addEventListener("click", handleClickOutsideProducts, true);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutsideSlabs, true);
+      document.removeEventListener("click", handleClickOutsideProducts, true);
+    };
+  }, [])
 
   useEffect(() => {
     if(window.innerWidth < 992) hideSideNav()
@@ -48,6 +89,26 @@ const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
 
     e.target.checked = true
   }
+
+  const handleDeleteSlab = async (e) => {
+    try {
+      const responseDelete = await axios.post(`${API}/inventory/delete-slab`, {id: idControlsSlabs})
+      console.log(responseDelete)
+      window.location.href = '/trackers'
+    } catch (error) {
+      console.log(error)
+      if(error) error.response ? setError(error.response.data) : setError('Error deleting from inventory')
+    }
+  }
+
+  const handleDeleteProduct = async (e) => {
+    try {
+      const responseDelete = await axios.post(`${API}/inventory/delete-product`, {id: idControlsProducts})
+      window.location.href = '/products'
+    } catch (error) {
+      if(error) error.response ? setError(error.response.data) : setError('Error deleting from inventory')
+    }
+  }
   
   return (
     <>
@@ -60,8 +121,8 @@ const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
             <span>Slabs List</span>
             {controlsSlabs &&
               <div className="clientDashboard-view-slab_list-heading-controls">
-                <div className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControlsSlabs ? window.location.href = `inventory/slab/${idControlsSlabs}` : null}>Edit</div>
-                {/* <div className="clientDashboard-view-slab_list-heading-controls-item delete">Delete</div> */}
+                <div id="edit-slab" className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControlsSlabs ? window.location.href = `inventory/slab/${idControlsSlabs}` : null}>Edit</div>
+                <div id="delete-slab" className="clientDashboard-view-slab_list-heading-controls-item delete" onClick={() => handleDeleteSlab()}>Delete</div>
               </div>
             }
             <div className="form-error-container">
@@ -89,7 +150,7 @@ const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
           <div className="clientDashboard-view-slab_list-slabs-container tracker-list">
             {listSlabs && listSlabs.sort((a, b) => a[filterSlab] > b[filterSlab] ? ascSlab : descSlab).map((item, idx) => (
             <div key={idx} className="clientDashboard-view-slab_list-slabs">
-                <div className="clientDashboard-view-slab_list-slabs-checkbox">
+                <div className="clientDashboard-view-slab_list-slabs-checkbox" ref={(el) => (myRefsSlabs.current[idx] = el)}>
                   <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`slab ` + `${idx}`} onClick={(e) => e.target.checked == true ? (handleControls(e), setControlsSlabs(true), setIDControlsSlabs(item._id), window.scrollTo({top: 0})) : (setControlsSlabs(false), setIDControlsSlabs(''))} />
                   <label htmlFor={`slab ` + `${idx}`}><span>&nbsp;</span></label>
                 </div>
@@ -117,8 +178,8 @@ const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
             <span>Products List</span>
             {controlsProducts &&
               <div className="clientDashboard-view-slab_list-heading-controls">
-                <div className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControlsProducts ? window.location.href = `inventory/product/${idControlsProducts}` : null}>Edit</div>
-                {/* <div className="clientDashboard-view-slab_list-heading-controls-item delete">Delete</div> */}
+                <div id="edit-product" className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControlsProducts ? window.location.href = `inventory/product/${idControlsProducts}` : null}>Edit</div>
+                <div id="delete-product" className="clientDashboard-view-slab_list-heading-controls-item delete" onClick={() => handleDeleteProduct()}>Delete</div>
               </div>
             }
             <div className="form-error-container">
@@ -143,7 +204,7 @@ const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
           <div className="clientDashboard-view-slab_list-slabs-container tracker-list">
             {listProducts && listProducts.sort((a, b) => a[filterProduct] > b[filterProduct] ? ascProduct : descProduct).map((item, idx) => (
             <div key={idx} className="clientDashboard-view-slab_list-slabs">
-                <div className="clientDashboard-view-slab_list-slabs-checkbox">
+                <div className="clientDashboard-view-slab_list-slabs-checkbox" ref={(el) => (myRefsProducts.current[idx] = el)}>
                   <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`product ` + `${idx}`} onClick={(e) => e.target.checked == true ? (handleControls(e), setControlsProducts(true), setIDControlsProducts(item._id)) : (setControlsProducts(false), setIDControlsProducts(''))} />
                   <label htmlFor={`product ` + `${idx}`}><span>&nbsp;</span></label>
                 </div>
