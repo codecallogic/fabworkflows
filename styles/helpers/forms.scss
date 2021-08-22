@@ -14,17 +14,6 @@
     font-size: 2.8rem;
   }
 
-  &-message {
-    font-size: 1.4rem;
-    color: red;
-    width: 50rem;
-    text-align: center;
-
-    @media only screen and (max-width: $large) {
-      width: 25rem;
-    }
-  }
-
   &-group-single {
     padding: 1.5rem 0 0 0;
     grid-column: 1/-1;
@@ -723,6 +712,17 @@
     }
   }
 
+  &-message {
+    font-size: 1.4rem;
+    color: $color-scheme-1;
+    width: 50rem;
+    text-align: center;
+
+    @media only screen and (max-width: $large) {
+      width: 25rem;
+    }
+  }
+
   &-error {
     display: flex;
     align-items: center;
@@ -953,6 +953,10 @@
 .delete {
   background-color: red;
   animation: slideFromRight 0.5s ease-in-out;
+}
+
+.clear-field {
+  font-weight: 800;
 }
 
 .w100 {

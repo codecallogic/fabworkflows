@@ -39,14 +39,6 @@ body {
   .form-title {
     align-self: flex-start;
     font-size: 2.8rem; }
-  .form-message {
-    font-size: 1.4rem;
-    color: red;
-    width: 50rem;
-    text-align: center; }
-    @media only screen and (max-width: 992px) {
-      .form-message {
-        width: 25rem; } }
   .form-group-single {
     padding: 1.5rem 0 0 0;
     grid-column: 1/-1;
@@ -537,6 +529,14 @@ body {
         .form-button-container {
           display: block;
           justify-content: center; } }
+  .form-message {
+    font-size: 1.4rem;
+    color: #fd7e3c;
+    width: 50rem;
+    text-align: center; }
+    @media only screen and (max-width: 992px) {
+      .form-message {
+        width: 25rem; } }
   .form-error {
     display: flex;
     align-items: center;
@@ -704,6 +704,9 @@ body {
   background-color: red;
   animation: slideFromRight 0.5s ease-in-out; }
 
+.clear-field {
+  font-weight: 800; }
+
 .w100 {
   text-align: center;
   width: 100% !important;
@@ -864,12 +867,11 @@ body {
   align-items: center;
   justify-content: center; }
   .addFieldItems-modal-box {
-    padding: 1rem 2rem;
-    box-sizing: content-box;
     background-color: #dbdbdb;
     width: 40%;
     min-height: min-content;
     max-height: max-content;
+    padding: 0 0 2rem 0;
     border-radius: 1.2rem; }
     @media only screen and (max-width: 1250px) {
       .addFieldItems-modal-box {
@@ -882,11 +884,15 @@ body {
       justify-content: space-between;
       align-items: center;
       font-size: 2.2rem;
-      padding: 1rem 0; }
+      padding: 1rem 3rem;
+      background-color: #666;
+      color: white;
+      border-top-right-radius: 1.2rem;
+      border-top-left-radius: 1.2rem; }
       .addFieldItems-modal-box-header svg {
         width: 2rem;
         height: 2rem;
-        fill: black;
+        fill: white;
         transition: all 0.2s ease-in-out; }
         .addFieldItems-modal-box-header svg:hover {
           cursor: pointer;
@@ -894,7 +900,8 @@ body {
   .addFieldItems-modal-form {
     display: flex;
     flex-direction: column;
-    justify-content: center; }
+    justify-content: center;
+    padding: 1rem 2rem; }
     .addFieldItems-modal-form-title {
       font-size: 2.4rem;
       text-align: center;
@@ -1343,11 +1350,17 @@ body {
               .clientDashboard-view-slab_list-slabs-item img {
                 width: 10rem; } }
     .clientDashboard-view-form-left {
-      width: calc(50% - 1rem); }
+      width: calc(50% - 1rem);
+      margin-right: 2rem; }
+      @media only screen and (max-width: 1250px) {
+        .clientDashboard-view-form-left {
+          width: 100%;
+          margin-bottom: 1rem; } }
       .clientDashboard-view-form-left-box {
         border: 0.1rem solid #dbdbdb;
         border-top-right-radius: 1.2rem;
-        border-top-left-radius: 1.2rem; }
+        border-top-left-radius: 1.2rem;
+        margin-bottom: 1rem; }
         .clientDashboard-view-form-left-box-heading {
           display: flex;
           align-items: center;
@@ -1364,6 +1377,54 @@ body {
             fill: #fd7e3c; }
             .clientDashboard-view-form-left-box-heading svg:hover {
               cursor: pointer; }
+        .clientDashboard-view-form-left-box-container-item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%; }
+          .clientDashboard-view-form-left-box-container-item-info {
+            display: flex;
+            width: calc(100% - 10rem);
+            overflow-x: auto; }
+            .clientDashboard-view-form-left-box-container-item-info::-webkit-scrollbar {
+              width: 0.1rem;
+              height: 0.3rem; }
+            .clientDashboard-view-form-left-box-container-item-info::-webkit-scrollbar-thumb {
+              background-color: #fd7e3c; }
+            .clientDashboard-view-form-left-box-container-item-info-headers {
+              display: flex;
+              width: calc(100% - 10rem);
+              overflow-x: auto; }
+              .clientDashboard-view-form-left-box-container-item-info-headers::-webkit-scrollbar {
+                width: 0.1rem;
+                height: 0.3rem; }
+              .clientDashboard-view-form-left-box-container-item-info-headers::-webkit-scrollbar-thumb {
+                background-color: #dbdbdb; }
+              .clientDashboard-view-form-left-box-container-item-info-headers span {
+                font-weight: 700;
+                font-size: 1.4rem;
+                padding: 0.5rem 1.5rem;
+                min-width: 12rem; }
+            .clientDashboard-view-form-left-box-container-item-info span {
+              font-size: 1.4rem;
+              padding: 1.5rem;
+              min-width: 12rem; }
+          .clientDashboard-view-form-left-box-container-item-controls span {
+            margin: 0 1rem; }
+            .clientDashboard-view-form-left-box-container-item-controls span svg {
+              width: 3rem;
+              height: 2.5rem;
+              fill: #fd7e3c; }
+              .clientDashboard-view-form-left-box-container-item-controls span svg:hover {
+                cursor: pointer;
+                fill: #404141; }
+    .clientDashboard-view-form-right {
+      width: calc(50% - 3rem);
+      margin-right: 2rem; }
+      @media only screen and (max-width: 1250px) {
+        .clientDashboard-view-form-right {
+          width: 100%;
+          margin-bottom: 1rem; } }
 
 .tracker-list {
   height: 500px !important; }

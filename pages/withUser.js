@@ -36,6 +36,22 @@ const withUser = Page => {
         }
       }
 
+      let materials
+      try {
+        const responseMaterials = await axios.get(`${API}/inventory/materials`)
+        materials = responseMaterials.data
+      } catch (error) {
+        console.log(error)
+      }
+
+      let colors
+      try {
+        const responseColors = await axios.get(`${API}/inventory/colors`)
+        colors = responseColors.data
+      } catch (error) {
+        console.log(error)
+      }
+
       if(!newUser){
         context.res.writeHead(302, {
           Location: '/login'
@@ -45,6 +61,8 @@ const withUser = Page => {
         return {
             ...(Page.getInitialProps ? await Page.getInitialProps(context) : {}),
             newUser,
+            materials,
+            colors
         }
       }
     }

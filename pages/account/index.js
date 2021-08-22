@@ -17,7 +17,7 @@ const formatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 2,
 });
 
-const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, createSlab, addSlabImages, product, createProduct, addProductImages}) => {
+const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, createSlab, addSlabImages, product, createProduct, addProductImages, materials, colors}) => {
   // console.log(product)
   const router = useRouter()
   const [input_dropdown, setInputDropdown] = useState('')
@@ -718,7 +718,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
             </div>
           }
           { nav.view == 'slab-fields' &&
-            <SlabFields></SlabFields>
+            <SlabFields preloadMaterials={materials} preloadColors={colors}></SlabFields>
           }
         </div>
       </div>
