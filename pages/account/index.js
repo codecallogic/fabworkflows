@@ -335,7 +335,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
           }
           { nav.view == 'new' &&
             <div className="clientDashboard-view-new">
-              <div className="clientDashboard-view-new-item" onClick={() => (changeView('slab'))}>
+              <div className="clientDashboard-view-new-item" onClick={() => (window.location.href = 'account?change=slab')}>
                 <SVGs svg={'slab'}></SVGs>
                 <span>New Slab</span>
               </div>

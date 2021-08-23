@@ -627,7 +627,8 @@ body {
             align-items: center;
             padding: 0.8rem 2rem;
             font-size: inherit;
-            background-color: white; }
+            background-color: white;
+            text-transform: capitalize; }
             .form-group-single-textarea-dropdown-input-list-item:last-child {
               border-bottom-right-radius: 0.5rem;
               border-bottom-left-radius: 0.5rem;

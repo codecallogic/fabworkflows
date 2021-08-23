@@ -336,9 +336,9 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
               { input_dropdown == 'material_color' &&
               <div className="form-group-single-textarea-dropdown-input-list">
                 <div className="form-group-single-textarea-dropdown-input-list-item clear-field" onClick={(e) => (addMaterial('color', ''), setInputDropdown(''))}>- Clear Field -</div>
-                <div className="form-group-single-textarea-dropdown-input-list-item" onClick={(e) => (addMaterial('color', e.target.innerText), setInputDropdown(''))}>Brown</div>
-                <div className="form-group-single-textarea-dropdown-input-list-item" onClick={(e) => (addMaterial('color', e.target.innerText), setInputDropdown(''))}>Blue</div>
-                <div className="form-group-single-textarea-dropdown-input-list-item" onClick={(e) => (addMaterial('color', e.target.innerText), setInputDropdown(''))}>Gold</div>
+                {allColors && allColors.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                  <div key={idx} className="form-group-single-textarea-dropdown-input-list-item" onClick={(e) => (addMaterial('color', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
+                ))}
               </div>
               }
             </div>
