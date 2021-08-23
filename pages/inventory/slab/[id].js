@@ -250,7 +250,7 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
                     <div className="form-group-double-dropdown-input-list">
                       <div className="form-group-double-dropdown-input-list-item border_bottom"><SVGs svg={'plus'}></SVGs> Add new</div>
                       {materials && materials.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('material', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
+                      <div key={idx} className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('material', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
                       ))} 
                     </div>
                     }
