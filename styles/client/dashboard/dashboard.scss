@@ -270,7 +270,7 @@
           label {
             width: 2em;
             height: 2rem;
-            border: 0.2rem solid $color-dark-shade-scheme-3;
+            border: 0.1rem solid $color-dark-shade-scheme-1;
             border-radius: 50%;
 
             &:hover {
@@ -282,7 +282,7 @@
             display: none;
 
             &:checked + label {
-              background-color: $color-light-shade-scheme-1;
+              background-color: $color-scheme-1;
             }
           }
         }
@@ -437,6 +437,7 @@
                   }
 
                   span {
+                    text-transform: capitalize;
                     font-weight: 700;
                     font-size: 1.4rem;
                     padding: 0.5rem 1.5rem;
@@ -445,9 +446,22 @@
                 }
 
                 span {
+                  text-transform: capitalize;
                   font-size: 1.4rem;
                   padding: 1.5rem;
                   min-width: 12rem;
+                }
+
+                a {
+                  text-decoration: underline;
+                  color: $color-scheme-1;
+                  font-size: 1.4rem;
+                  padding: 1.5rem;
+                  min-width: 12rem;
+
+                  &:hover {
+                    cursor: pointer;
+                  }
                 }
               }
 

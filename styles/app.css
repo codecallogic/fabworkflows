@@ -177,7 +177,8 @@ body {
           align-items: center;
           padding: 0.8rem 2rem;
           font-size: inherit;
-          background-color: white; }
+          background-color: white;
+          text-transform: capitalize; }
           .form-group-double-dropdown-input-list-item:last-child {
             border-bottom-right-radius: 0.5rem;
             border-bottom-left-radius: 0.5rem;
@@ -870,9 +871,15 @@ body {
     background-color: #dbdbdb;
     width: 40%;
     min-height: min-content;
-    max-height: max-content;
+    max-height: 90%;
     padding: 0 0 2rem 0;
-    border-radius: 1.2rem; }
+    border-radius: 1.2rem;
+    overflow-y: scroll; }
+    .addFieldItems-modal-box::-webkit-scrollbar {
+      width: 0.3rem;
+      height: 0.3rem; }
+    .addFieldItems-modal-box::-webkit-scrollbar-thumb {
+      background-color: #fd7e3c; }
     @media only screen and (max-width: 1250px) {
       .addFieldItems-modal-box {
         width: 70%; } }
@@ -1290,14 +1297,14 @@ body {
           .clientDashboard-view-slab_list-slabs-checkbox label {
             width: 2em;
             height: 2rem;
-            border: 0.2rem solid #666;
+            border: 0.1rem solid #413838;
             border-radius: 50%; }
             .clientDashboard-view-slab_list-slabs-checkbox label:hover {
               cursor: pointer; }
           .clientDashboard-view-slab_list-slabs-checkbox input {
             display: none; }
             .clientDashboard-view-slab_list-slabs-checkbox input:checked + label {
-              background-color: #dbdbdb; }
+              background-color: #fd7e3c; }
         .clientDashboard-view-slab_list-slabs-container {
           width: 100%;
           height: 1000px;
@@ -1401,14 +1408,24 @@ body {
               .clientDashboard-view-form-left-box-container-item-info-headers::-webkit-scrollbar-thumb {
                 background-color: #dbdbdb; }
               .clientDashboard-view-form-left-box-container-item-info-headers span {
+                text-transform: capitalize;
                 font-weight: 700;
                 font-size: 1.4rem;
                 padding: 0.5rem 1.5rem;
                 min-width: 12rem; }
             .clientDashboard-view-form-left-box-container-item-info span {
+              text-transform: capitalize;
               font-size: 1.4rem;
               padding: 1.5rem;
               min-width: 12rem; }
+            .clientDashboard-view-form-left-box-container-item-info a {
+              text-decoration: underline;
+              color: #fd7e3c;
+              font-size: 1.4rem;
+              padding: 1.5rem;
+              min-width: 12rem; }
+              .clientDashboard-view-form-left-box-container-item-info a:hover {
+                cursor: pointer; }
           .clientDashboard-view-form-left-box-container-item-controls span {
             margin: 0 1rem; }
             .clientDashboard-view-form-left-box-container-item-controls span svg {

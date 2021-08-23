@@ -9,7 +9,7 @@ import {useEffect, useState} from 'react'
 import QRCode from 'qrcode'
 import {nanoid} from 'nanoid'
 
-const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, updateSlab}) => {
+const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, updateSlab, materials, colors, suppliers}) => {
   const sendRedirect = true
   const [input_dropdown, setInputDropdown] = useState('')
   const [width, setWidth] = useState()
@@ -249,13 +249,9 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
                     { input_dropdown == 'slab_material' &&
                     <div className="form-group-double-dropdown-input-list">
                       <div className="form-group-double-dropdown-input-list-item border_bottom"><SVGs svg={'plus'}></SVGs> Add new</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('material', e.target.innerText), setInputDropdown(''))}>Bianco Carrara</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('material', e.target.innerText), setInputDropdown(''))}>Calacatta Milano</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('material', e.target.innerText), setInputDropdown(''))}>Calacatta Mirragio</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('material', e.target.innerText), setInputDropdown(''))}>Calacatta Sierra</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('material', e.target.innerText), setInputDropdown(''))}>Calacatta Trevi</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('material', e.target.innerText), setInputDropdown(''))}>Carrara Lumos</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('material', e.target.innerText), setInputDropdown(''))}>White Soul</div>
+                      {materials && materials.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('material', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
+                      ))} 
                     </div>
                     }
                   </div>
@@ -268,13 +264,9 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
                     { input_dropdown == 'slab_color' &&
                     <div className="form-group-double-dropdown-input-list">
                       <div className="form-group-double-dropdown-input-list-item border_bottom"><SVGs svg={'plus'}></SVGs> Add new</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('color', e.target.innerText), setInputDropdown(''))}>Summerhill</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('color', e.target.innerText), setInputDropdown(''))}>Agatha Black</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('color', e.target.innerText), setInputDropdown(''))}>Alpine Valley</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('color', e.target.innerText), setInputDropdown(''))}>Artic Valley</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('color', e.target.innerText), setInputDropdown(''))}>Aspin White</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('color', e.target.innerText), setInputDropdown(''))}>Peacock Green</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('color', e.target.innerText), setInputDropdown(''))}>Raja Pink</div>
+                      {colors && colors.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                      <div key={idx} className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('color', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
+                      ))}
                     </div>
                     }
                   </div>
@@ -306,10 +298,9 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
                     <div onClick={() => (input_dropdown !== 'slab_grade' ? setInputDropdown('slab_grade') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
                     { input_dropdown == 'slab_grade' &&
                     <div className="form-group-double-dropdown-input-list">
-                      <div className="form-group-double-dropdown-input-list-item border_bottom"><SVGs svg={'plus'}></SVGs> Add new</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('grade', e.target.innerText), setInputDropdown(''))}>Entry Level Granite</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('grade', e.target.innerText), setInputDropdown(''))}>Mid Level Granite</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('grade', e.target.innerText), setInputDropdown(''))}>High Grade Granite</div>
+                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('grade', e.target.innerText), setInputDropdown(''))}>A</div>
+                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('grade', e.target.innerText), setInputDropdown(''))}>B</div>
+                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('grade', e.target.innerText), setInputDropdown(''))}>C</div>
                     </div>
                     }
                   </div>
@@ -321,10 +312,10 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
                     <div onClick={() => (input_dropdown !== 'slab_finish' ? setInputDropdown('slab_finish') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
                     { input_dropdown == 'slab_finish' &&
                     <div className="form-group-double-dropdown-input-list">
-                      <div className="form-group-double-dropdown-input-list-item border_bottom"><SVGs svg={'plus'}></SVGs> Add new</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('finish', e.target.innerText), setInputDropdown(''))}>Natural Cleft</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('finish', e.target.innerText), setInputDropdown(''))}>Polished Stone Finish</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('finish', e.target.innerText), setInputDropdown(''))}>Tumbled Stone Finish</div>
+                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('finish', e.target.innerText), setInputDropdown(''))}>Brushed</div>
+                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('finish', e.target.innerText), setInputDropdown(''))}>Polished</div>
+                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('finish', e.target.innerText), setInputDropdown(''))}>Honed</div>
+                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('finish', e.target.innerText), setInputDropdown(''))}>Leather</div>
                     </div>
                     }
                   </div>
@@ -357,9 +348,9 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
                     { input_dropdown == 'supplier' &&
                     <div className="form-group-double-dropdown-input-list">
                       <div className="form-group-double-dropdown-input-list-item border_bottom"><SVGs svg={'plus'}></SVGs> Add new</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('supplier', e.target.innerText), setInputDropdown(''))}>MSI</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('supplier', e.target.innerText), setInputDropdown(''))}>Slabware</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('supplier', e.target.innerText), setInputDropdown(''))}>Your Company</div>
+                      {suppliers && suppliers.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                      <div key={idx} className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('supplier', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
+                      ))}
                     </div>
                     }
                   </div>

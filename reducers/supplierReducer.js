@@ -10,7 +10,7 @@ const initialState = {
   bank: '',
   account: '',
   agency: '',
-  bank_notes: ''
+  bank_note: ''
 }
 
 export const supplierReducer = (state = initialState, action) => {
