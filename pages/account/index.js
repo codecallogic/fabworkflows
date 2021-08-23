@@ -553,9 +553,8 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
                   </div>
                 </div>
                 <div className="form-button-container">
-                  <button type="submit" className="form-button" onClick={() => setError('Please complete entire form')}>Add Slab</button>
+                  <button type="submit" className="form-button" onClick={() => setError('Please complete entire form')}>{!loading && <span>Add Slab</span>}{loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
                   <div className="form-error-container">
-                  {loading ? <iframe src="https://giphy.com/embed/sSgvbe1m3n93G" width="30" height="30" frameBorder="0" className="giphy-loading-slab" allowFullScreen></iframe> : null }
                   {error && <span className="form-error" id="error-message"><SVGs svg={'error'}></SVGs> {error}</span>}
                   </div>
                 </div>

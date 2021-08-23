@@ -18,6 +18,7 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
   const [error, setError] = useState('')
   const [controlsSlab, setSlabControls] = useState(false)
   const [idControlsSlab, setSlabIDControls] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleClickOutside = (event) => {
     if(myRefs.current){

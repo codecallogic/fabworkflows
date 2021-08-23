@@ -440,7 +440,7 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
           <div className="form-group-single-textarea">
             <div className="form-group-single-textarea-field">
               <label htmlFor="supplier_note">Note</label>
-              <textarea id="supplier_note" rows="4" name="supplier_note" placeholder="(Note)" value={supplier.note} onChange={(e) => addSupplier('note', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Note)'} onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} readOnly={edit == 'readOnly' ? true : false}></textarea>
+              <textarea id="supplier_note" rows="4" name="supplier_note" placeholder="(Note)" value={supplier.note} onChange={(e) => addSupplier('note', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Note)'} readOnly={edit == 'readOnly' ? true : false}></textarea>
             </div>
           </div>
           <div className="form-group-single-textarea">
@@ -482,7 +482,7 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
           <div className="form-group-single-textarea">
             <div className="form-group-single-textarea-field">
               <label htmlFor="supplier_bank_note">Bank Note</label>
-              <textarea id="supplier_bank_note" rows="4" name="supplier_bank_note" placeholder="(Bank Note)" value={supplier.bank_note} onChange={(e) => addSupplier('bank_note', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Bank Note)'} onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} readOnly={edit == 'readOnly' ? true : false}></textarea>
+              <textarea id="supplier_bank_note" rows="4" name="supplier_bank_note" placeholder="(Bank Note)" value={supplier.bank_note} onChange={(e) => addSupplier('bank_note', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Bank Note)'} readOnly={edit == 'readOnly' ? true : false}></textarea>
             </div>
           </div>
           {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Supplier</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
