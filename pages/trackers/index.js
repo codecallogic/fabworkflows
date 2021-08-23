@@ -26,6 +26,8 @@ const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
   const [idControlsSlabs, setIDControlsSlabs] = useState('')
   const [controlsProducts, setControlsProducts] = useState(false)
   const [idControlsProducts, setIDControlsProducts] = useState('')
+  const [loadingSlab, setLoadingSlab] = useState(false)
+  const [loadingProduct, setLoadingProduct] = useState(false)
 
   const handleClickOutsideSlabs = (event) => {
     if(myRefsSlabs.current){
@@ -91,21 +93,27 @@ const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
   }
 
   const handleDeleteSlab = async (e) => {
+    setLoadingSlab(true)
     try {
       const responseDelete = await axios.post(`${API}/inventory/delete-slab`, {id: idControlsSlabs})
-      console.log(responseDelete)
+      // console.log(responseDelete)
       window.location.href = '/trackers'
+      setLoadingSlab(false)
     } catch (error) {
       console.log(error)
+      setLoadingSlab(false)
       if(error) error.response ? setError(error.response.data) : setError('Error deleting from inventory')
     }
   }
 
   const handleDeleteProduct = async (e) => {
+    setLoadingProduct(true)
     try {
       const responseDelete = await axios.post(`${API}/inventory/delete-product`, {id: idControlsProducts})
       window.location.href = '/products'
+      setLoadingProduct(false)
     } catch (error) {
+      setLoadingProduct(false)
       if(error) error.response ? setError(error.response.data) : setError('Error deleting from inventory')
     }
   }
@@ -125,6 +133,7 @@ const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
                 <div id="delete-slab" className="clientDashboard-view-slab_list-heading-controls-item delete" onClick={() => handleDeleteSlab()}>Delete</div>
               </div>
             }
+            {loadingSlab && <div className="loading"><span></span><span></span><span></span></div>}
             <div className="form-error-container">
               {error && <span className="form-error"><SVGs svg={'error'}></SVGs></span>}
             </div>
@@ -182,6 +191,7 @@ const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
                 <div id="delete-product" className="clientDashboard-view-slab_list-heading-controls-item delete" onClick={() => handleDeleteProduct()}>Delete</div>
               </div>
             }
+            {loadingProduct && <div className="loading"><span></span><span></span><span></span></div>}
             <div className="form-error-container">
               {error && <span className="form-error"><SVGs svg={'error'}></SVGs></span>}
             </div>

@@ -169,8 +169,8 @@ const Product = ({id, hideSideNav, showSideNav, product, createProduct, addProdu
       })
     }
     
-    setSelectedFiles( prevState => [...selectedFiles, ...e.target.files])
-    addProductImages([...selectedFiles, ...e.target.files])
+    setSelectedFiles( prevState => [...e.target.files])
+    addProductImages([...e.target.files])
     setImageCount(imageMax)
   }
 
@@ -189,17 +189,19 @@ const Product = ({id, hideSideNav, showSideNav, product, createProduct, addProdu
     
     let data = new FormData()
     let delete_images = []
+
+    if(updateProduct.images.length > 0){
+      if(product.images.length > 0){
+        product.images.forEach((item) => {
+          delete_images.push(item)
+        })
+      }
+    }
     
     if(updateProduct.images.length > 0){
       updateProduct.images.forEach((item, idx) => {
         let fileID = nanoid()
-        if(!item.key) return data.append('file', item, `products/slab-${fileID}.${item.name.split('.')[1]}`)
-      })
-    }
-
-    if(product.images.length > 0){
-      product.images.forEach((item) => {
-        delete_images.push(item)
+        if(!item.key) return data.append('file', item, `products/product-${fileID}.${item.name.split('.')[1]}`)
       })
     }
 
@@ -369,9 +371,8 @@ const Product = ({id, hideSideNav, showSideNav, product, createProduct, addProdu
                   }
                 </div>
                 <div className="form-button-container">
-                  <button type="submit" className="form-button" onClick={() => setError('Update form is currently being built')}>Update Product</button>
+                  <button type="submit" className="form-button" onClick={() => setError('Update form is currently being built')}>{!loading && <span>Update Product</span>}{loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
                   <div className="form-error-container">
-                  {loading ? <iframe src="https://giphy.com/embed/sSgvbe1m3n93G" width="30" height="30" frameBorder="0" className="giphy-loading-slab" allowFullScreen></iframe> : null }
                   {error && <span className="form-error" id="error-message"><SVGs svg={'error'}></SVGs> {error}</span>}
                   </div>
                 </div>

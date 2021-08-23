@@ -14,14 +14,14 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
   const [input_dropdown, setInputDropdown] = useState('')
   const [width, setWidth] = useState()
   const [error, setError] = useState('')
-  const [selectedFiles, setSelectedFiles] = useState(slab.images ? [...slab.images] : [])
+  const [selectedFiles, setSelectedFiles] = useState(slab.images ? slab.images : [])
   const [imageCount, setImageCount] = useState(slab.images ? slab.images.length : 0)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     
     for(let key in slab){
-      if(key !== 'images') createSlab(key, slab[key])
+      if(key != 'images') createSlab(key, slab[key])
     }
     
     if(window.innerWidth < 992) hideSideNav()
@@ -169,8 +169,8 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
       })
     }
     
-    setSelectedFiles( prevState => [...selectedFiles, ...e.target.files])
-    addSlabImages([...selectedFiles, ...e.target.files])
+    setSelectedFiles( prevState => [...e.target.files])
+    addSlabImages([...e.target.files])
     setImageCount(imageMax)
   }
 
@@ -188,17 +188,19 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
     
     let data = new FormData()
     let delete_images = []
+
+    if(updateSlab.images.length > 0){
+      if(slab.images.length > 0){
+        slab.images.forEach((item) => {
+          delete_images.push(item)
+        })
+      }
+    }
     
     if(updateSlab.images.length > 0){
       updateSlab.images.forEach((item, idx) => {
         let fileID = nanoid()
         if(!item.key) return data.append('file', item, `slabs/slab-${fileID}.${item.name.split('.')[1]}`)
-      })
-    }
-
-    if(slab.images.length > 0){
-      slab.images.forEach((item) => {
-        delete_images.push(item)
       })
     }
 
@@ -240,7 +242,7 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
                   {error && <span className="form-error"><SVGs svg={'error'}></SVGs></span>}
                 </div>
               </div>
-              <form className="clientDashboard-view-slab_form" onSubmit={handleUpdateSlab}>
+              <form className="clientDashboard-view-slab_form" onSubmit={(e) => (handleUpdateSlab(e))}>
                 <div className="form-group-double-dropdown">
                   <label htmlFor="material">Material</label>
                   <div className="form-group-double-dropdown-input">

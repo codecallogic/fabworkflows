@@ -71,12 +71,16 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
   }
 
   const handleDelete = async (e) => {
+    setLoading(true)
+    setError('')
     try {
       const responseDelete = await axios.post(`${API}/inventory/delete-slab`, {id: idControlsSlab})
       console.log(responseDelete)
       window.location.href = '/slabs'
+      setLoading(false)
     } catch (error) {
       console.log(error)
+      setLoading(false)
       if(error) error.response ? setError(error.response.data) : setError('Error deleting from inventory')
     }
   }
@@ -96,6 +100,7 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
                 <div id="delete-slab" className="clientDashboard-view-slab_list-heading-controls-item delete" onClick={() => handleDelete()}>Delete</div>
               </div>
             }
+            {loading && <div className="loading"><span></span><span></span><span></span></div>}
             <div className="form-error-container">
               {error && <span className="form-error"><SVGs svg={'error'}></SVGs></span>}
             </div>
