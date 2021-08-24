@@ -301,7 +301,7 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
               {allColors && allColors.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
                 <div key={idx} className="clientDashboard-view-form-left-box-container-item">
                   <div className="clientDashboard-view-form-left-box-container-item-info">
-                    <span>{item.name}</span>
+                    <span className="single-column">{item.name}</span>
                   </div>
                   <div className="clientDashboard-view-form-left-box-container-item-controls">
                   <span onClick={() => editColor(item)}><SVGs svg={'edit'}></SVGs></span>

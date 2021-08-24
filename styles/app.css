@@ -699,10 +699,12 @@ body {
   transform: scale(1.05); }
 
 .edit {
+  font-weight: 700;
   background-color: #fd7e3c;
   animation: slideFromRight 0.5s ease-in-out; }
 
 .delete {
+  font-weight: 700;
   background-color: red;
   animation: slideFromRight 0.5s ease-in-out; }
 
@@ -1415,16 +1417,19 @@ body {
                 padding: 0.5rem 1.5rem;
                 min-width: 12rem; }
             .clientDashboard-view-form-left-box-container-item-info span {
+              text-align: start;
               text-transform: capitalize;
               font-size: 1.4rem;
               padding: 1.5rem;
-              min-width: 12rem; }
+              min-width: 12rem;
+              max-width: 13rem; }
             .clientDashboard-view-form-left-box-container-item-info a {
               text-decoration: underline;
               color: #fd7e3c;
               font-size: 1.4rem;
               padding: 1.5rem;
-              min-width: 12rem; }
+              min-width: 12rem;
+              max-width: 13rem; }
               .clientDashboard-view-form-left-box-container-item-info a:hover {
                 cursor: pointer; }
           .clientDashboard-view-form-left-box-container-item-controls span {
@@ -1449,6 +1454,9 @@ body {
   @media only screen and (max-width: 1500px) {
     .tracker-list {
       height: 400px !important; } }
+
+.single-column {
+  max-width: 100% !important; }
 
 .home {
   display: flex;

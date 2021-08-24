@@ -446,10 +446,12 @@
                 }
 
                 span {
+                  text-align: start;
                   text-transform: capitalize;
                   font-size: 1.4rem;
                   padding: 1.5rem;
                   min-width: 12rem;
+                  max-width: 13rem;
                 }
 
                 a {
@@ -458,6 +460,7 @@
                   font-size: 1.4rem;
                   padding: 1.5rem;
                   min-width: 12rem;
+                  max-width: 13rem;
 
                   &:hover {
                     cursor: pointer;
@@ -505,4 +508,8 @@
   @media only screen and (max-width: $wide) {
     height: 400px !important;
   }
+}
+
+.single-column {
+  max-width: 100% !important;
 }

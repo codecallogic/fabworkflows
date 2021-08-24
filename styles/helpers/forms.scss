@@ -948,11 +948,13 @@
 }
 
 .edit {
+  font-weight: 700;
   background-color: $color-scheme-1;
   animation: slideFromRight 0.5s ease-in-out;
 }
 
 .delete {
+  font-weight: 700;
   background-color: red;
   animation: slideFromRight 0.5s ease-in-out;
 }
