@@ -1,6 +1,6 @@
 let initialState = {
   sidenav: true,
-  view: 'new',
+  view: 'slab-fields',
 }
 
 export const navReducer = (state = initialState, action) => {

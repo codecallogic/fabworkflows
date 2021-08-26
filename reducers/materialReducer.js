@@ -1,8 +1,6 @@
 const initialState = {
   name: '',
-  color: '',
-  classification: '',
-  composition: ''
+  description: ''
 }
 
 export const materialReducer = (state = initialState, action) => {

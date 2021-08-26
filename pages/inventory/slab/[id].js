@@ -330,6 +330,42 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
       6
     )}-${phoneNumber.slice(6, 10)}`)
   }
+
+  const deleteImage = async (item) => {
+    console.log(item)
+    console.log(slab)
+    let storedImages = []
+
+    selectedFiles.forEach((item, idx) => {
+      if(item.key){
+        return storedImages.push('true')
+      }else{
+        return storedImages.push('false')
+      }
+    })
+
+    if(!storedImages.includes('false')){
+      setLoading(true)
+      try {
+        const responseSlab = await axios.post(`${API}/inventory/delete-slab-image`, {id: slab._id, delete: item.key, images: selectedFiles})
+        setError('')
+        let response = responseSlab.data
+
+        for(let key in response){
+          if(key != 'images') createSlab(key, response[key])
+        }
+        setSelectedFiles(response.images)
+        setLoading(false)
+        // window.location.href = `/inventory/slab/${responseSlab.data.id}`
+      } catch (error) {
+        console.log(error.response)
+        setLoading(false)
+        if(error) error.response ? setError(error.response.data) : setError('Error deleting image from slab')
+      }
+    }else{
+      return setError('Click reset to change images')
+    }
+  }
   
   return (
     <>
@@ -505,8 +541,8 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
                   {selectedFiles.length > 0 && <>
                     <div className="form-group-triple-upload-item-container">
                     {selectedFiles.map((item, idx) => (
-                      <a className="form-group-triple-upload-item" href={item.location} target="_blank" rel="noreferrer" key={idx}>
-                        <div>{item.location ? <img src={item.location}></img> : <SVGs svg={'file-image'}></SVGs>} </div>
+                      <a className="form-group-triple-upload-item" key={idx}>
+                        <div>{item.location ? (<><span className="form-group-triple-upload-item-delete" onClick={(e) => deleteImage(item)}><SVGs svg={'close'} classprop={'form-group-triple-upload-item-delete-svg'}></SVGs></span><img src={item.location} onClick={() => window.open(item.location, '_blank').focus()}></img></>): <SVGs svg={'file-image'}></SVGs>} </div>
                       </a>
                     ))}
                     </div>
@@ -521,7 +557,7 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
                     }
                     {imageCount == 3 && 
                       <>
-                      <label onClick={() => (setSelectedFiles([]), setImageCount(0), addSlabImages([]))} className="form-group-triple-upload-more">
+                      <label onClick={() => (setError(''), setSelectedFiles([]), setImageCount(0), addSlabImages([]))} className="form-group-triple-upload-more">
                         <SVGs svg={'reset'}></SVGs> 
                         Reset
                       </label>
@@ -560,53 +596,10 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
                     <textarea id="name_material" rows="1" name="name_material" placeholder="(Material Name)" value={material.name} onChange={(e) => addMaterial('name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Material Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
                   </div>
                 </div>
-                <div className="form-group-single-textarea-dropdown">
-                  <label htmlFor="material_color">Color</label>
-                  <div className="form-group-single-textarea-dropdown-input">
-                    <textarea rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="color" placeholder="(Material Color)" value={material.color} onClick={() => (setInputDropdown('material_color'))} onChange={(e) => addMaterial('color', e.target.value)} readOnly></textarea>
-                    <div onClick={() => (input_dropdown !== 'material_color' ? setInputDropdown('material_color') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
-                    { input_dropdown == 'material_color' &&
-                    <div className="form-group-single-textarea-dropdown-input-list">
-                      <div className="form-group-single-textarea-dropdown-input-list-item clear-field" onClick={(e) => (addMaterial('color', ''), setInputDropdown(''))}>- Clear Field -</div>
-                      {allColors && allColors.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
-                        <div key={idx} className="form-group-single-textarea-dropdown-input-list-item" onClick={(e) => (addMaterial('color', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
-                      ))}
-                    </div>
-                    }
-                  </div>
-                </div>
-                <div className="form-group-single-textarea-dropdown">
-                  <label htmlFor="material_classification">Classfication</label>
-                  <div className="form-group-single-textarea-dropdown-input">
-                    <textarea rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="classification" placeholder="(Material Classification)" value={material.classification} onClick={() => (setInputDropdown('material_classification'))} onChange={(e) => addMaterial('classification', e.target.value)} readOnly></textarea>
-                    <div onClick={() => (input_dropdown !== 'material_classification' ? setInputDropdown('material_classification') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
-                    { input_dropdown == 'material_classification' &&
-                    <div className="form-group-single-textarea-dropdown-input-list">
-                      <div className="form-group-single-textarea-dropdown-input-list-item clear-field" onClick={(e) => (addMaterial('classification', ''), setInputDropdown(''))}>- Clear Field -</div>
-                      <div className="form-group-single-textarea-dropdown-input-list-item" onClick={(e) => (addMaterial('classification', e.target.innerText), setInputDropdown(''))}>Classic</div>
-                      <div className="form-group-single-textarea-dropdown-input-list-item" onClick={(e) => (addMaterial('classification', e.target.innerText), setInputDropdown(''))}>Exotic</div>
-                      <div className="form-group-single-textarea-dropdown-input-list-item" onClick={(e) => (addMaterial('classification', e.target.innerText), setInputDropdown(''))}>Standard</div>
-                    </div>
-                    }
-                  </div>
-                </div>
-                <div className="form-group-single-textarea-dropdown">
-                  <label htmlFor="material_composition">Composition</label>
-                  <div className="form-group-single-textarea-dropdown-input">
-                    <textarea rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="color" placeholder="(Material Composition)" value={material.composition} onClick={() => (setInputDropdown('material_composition'))} onChange={(e) => addMaterial('composition', e.target.value)} readOnly></textarea>
-                    <div onClick={() => (input_dropdown !== 'material_composition' ? setInputDropdown('material_composition') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
-                    { input_dropdown == 'material_composition' &&
-                    <div className="form-group-single-textarea-dropdown-input-list">
-                      <div className="form-group-single-textarea-dropdown-input-list-item clear-field" onClick={(e) => (addMaterial('composition', ''), setInputDropdown(''))}>- Clear Field -</div>
-                      <div className="form-group-single-textarea-dropdown-input-list-item" onClick={(e) => (addMaterial('composition', e.target.innerText), setInputDropdown(''))}>Granite</div>
-                      <div className="form-group-single-textarea-dropdown-input-list-item" onClick={(e) => (addMaterial('composition', e.target.innerText), setInputDropdown(''))}>Marble</div>
-                      <div className="form-group-single-textarea-dropdown-input-list-item" onClick={(e) => (addMaterial('composition', e.target.innerText), setInputDropdown(''))}>Quartzite</div>
-                      <div className="form-group-single-textarea-dropdown-input-list-item" onClick={(e) => (addMaterial('composition', e.target.innerText), setInputDropdown(''))}>Soapstone</div>
-                      <div className="form-group-single-textarea-dropdown-input-list-item" onClick={(e) => (addMaterial('composition', e.target.innerText), setInputDropdown(''))}>Limestone</div>
-                      <div className="form-group-single-textarea-dropdown-input-list-item" onClick={(e) => (addMaterial('composition', e.target.innerText), setInputDropdown(''))}>Travertine</div>
-                      <div className="form-group-single-textarea-dropdown-input-list-item" onClick={(e) => (addMaterial('composition', e.target.innerText), setInputDropdown(''))}>Quartz</div>
-                    </div>
-                    }
+                <div className="form-group-single-textarea">
+                  <label htmlFor="material_description">Description</label>
+                  <div className="form-group-single-textarea-field">
+                    <textarea rows="5" wrap="wrap" name="description" placeholder="(Material Description)" value={material.description} onChange={(e) => addMaterial('description', e.target.value)}></textarea>
                   </div>
                 </div>
                 {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Material</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}

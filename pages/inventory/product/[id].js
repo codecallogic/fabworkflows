@@ -229,6 +229,40 @@ const Product = ({id, hideSideNav, showSideNav, product, createProduct, addProdu
       if(error) error.response ? setError(error.response.data) : setError('Error adding product to inventory')
     }
   }
+
+  const deleteImage = async (item) => {
+    let storedImages = []
+
+    selectedFiles.forEach((item, idx) => {
+      if(item.key){
+        return storedImages.push('true')
+      }else{
+        return storedImages.push('false')
+      }
+    })
+
+    if(!storedImages.includes('false')){
+      setLoading(true)
+      try {
+        const responseProduct = await axios.post(`${API}/inventory/delete-product-image`, {id: product._id, delete: item.key, images: selectedFiles})
+        setError('')
+        let response = responseProduct.data
+
+        for(let key in response){
+          if(key != 'images') createProduct(key, response[key])
+        }
+        setSelectedFiles(response.images)
+        setLoading(false)
+        // window.location.href = `/inventory/slab/${responseSlab.data.id}`
+      } catch (error) {
+        console.log(error.response)
+        setLoading(false)
+        if(error) error.response ? setError(error.response.data) : setError('Error deleting image from product')
+      }
+    }else{
+      return setError('Click reset to change images')
+    }
+  }
   
   return (
     <>
@@ -345,8 +379,8 @@ const Product = ({id, hideSideNav, showSideNav, product, createProduct, addProdu
                   {selectedFiles.length > 0 && <>
                     <div className="form-group-triple-upload-item-container">
                     {selectedFiles.map((item, idx) => (
-                      <a className="form-group-triple-upload-item" href={item.location} target="_blank" rel="noreferrer" key={idx}>
-                        <div>{item.location ? <img src={item.location}></img> : <SVGs svg={'file-image'}></SVGs>} </div>
+                      <a className="form-group-triple-upload-item" key={idx}>
+                        <div>{item.location ? (<><span className="form-group-triple-upload-item-delete" onClick={(e) => deleteImage(item)}><SVGs svg={'close'} classprop={'form-group-triple-upload-item-delete-svg'}></SVGs></span><img src={item.location} onClick={() => window.open(item.location, '_blank').focus()}></img></>) : <SVGs svg={'file-image'}></SVGs>} </div>
                       </a>
                     ))}
                     </div>

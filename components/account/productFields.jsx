@@ -4,8 +4,8 @@ import {connect} from 'react-redux'
 import {API} from '../../config'
 import axios from 'axios'
 
-const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, preloadColors, preloadSuppliers, preloadLocations, addSupplier, supplier}) => {
-  console.log(preloadLocations)
+const SlabItems = ({preloadProducts}) => {
+
   const [error, setError] = useState('')
   const [modal, setModal] = useState('')
   const [edit, setEdit] = useState('')
@@ -14,11 +14,8 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
   const [allMaterials, setAllMaterials] = useState(preloadMaterials ? preloadMaterials : [])
   const [allColors, setAllColors] = useState(preloadColors ? preloadColors : [])
   const [allSuppliers, setAllSuppliers] = useState(preloadSuppliers ? preloadSuppliers : [])
-  const [allLocations, setAllLocations] = useState(preloadLocations ? preloadLocations : [])
   const [color, setColor] = useState('')
   const [colorID, setColorID] = useState('')
-  const [location, setLocation] = useState('')
-  const [locationID, setLocationID] = useState('')
   
   // console.log(allMaterials)
   const validateIsNumber = (type) => {
@@ -45,7 +42,7 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
     )}-${phoneNumber.slice(6, 10)}`)
   }
   
-  const submitAddMaterial = async (e) => {
+  const submitAddProduct = async (e) => {
     e.preventDefault()
     setLoading(true)
     try {
@@ -63,7 +60,7 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
     }
   }
 
-  const editMaterial = (item) => {
+  const editProduct = (item) => {
     setModal('add_material')
     setEdit('material')
     for(const key in item){
@@ -72,7 +69,7 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
   }
 
 
-  const deleteMaterial = async (id) => {
+  const deleteProduct = async (id) => {
     try {
       const responseDelete = await axios.post(`${API}/inventory/delete-material`, {id: id})
       // console.log(responseDelete)
@@ -83,7 +80,7 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
     }
   }
 
-  const updateMaterial = async (e) => {
+  const updateProduct = async (e) => {
     e.preventDefault()
     try {
       const responseUpdate = await axios.post(`${API}/inventory/update-material`, material)
@@ -210,57 +207,6 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
     }
   }
 
-  const submitAddLocation = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    try {
-      const responseColor = await axios.post(`${API}/inventory/add-location`, {name: location})
-      setLocation('')
-      setModal('')
-      setLoading(false)
-      setError('')
-      setAllLocations(responseColor.data)
-    } catch (error) {
-      console.log(error.response)
-      setLoading(false)
-      if(error) error.response ? setError(error.response.data) : setError('Error adding location to inventory')
-    }
-  }
-
-  const editLocation = (item) => {
-    setModal('add_location')
-    setEdit('location')
-    setLocation(item.name)
-    setLocationID(item._id)
-  }
-
-
-  const deleteLocation = async (id) => {
-    try {
-      const responseDelete = await axios.post(`${API}/inventory/delete-supplier`, {id: id})
-      // console.log(responseDelete)
-      setAllSuppliers(responseDelete.data)
-    } catch (error) {
-      console.log(error)
-      if(error) error.response ? setError(error.response.data) : setError('Error deleting from inventory')
-    }
-  }
-
-  const updateLocation = async (e) => {
-    e.preventDefault()
-    try {
-      const responseUpdate = await axios.post(`${API}/inventory/update-supplier`, supplier)
-      // console.log(responseUpdate)
-      setModal('')
-      setError('')
-      setEdit('')
-      setAllSuppliers(responseUpdate.data)
-    } catch (error) {
-      console.log(error)
-      if(error) error.response ? setError(error.response.data) : setError('Error deleting from inventory')
-    }
-  }
-
   const readOnly = (modal, type, item) => {
     setModal(modal)
     setEdit(type)
@@ -357,30 +303,6 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
                   <div className="clientDashboard-view-form-left-box-container-item-controls">
                   <span onClick={() => editColor(item)}><SVGs svg={'edit'}></SVGs></span>
                   <span onClick={() => deleteColor(item._id)}><SVGs svg={'delete'}></SVGs></span>
-                  </div>
-                </div>
-              ))}              
-            </div>
-          </div>
-          <div className="clientDashboard-view-form-left-box">
-            <div className="clientDashboard-view-form-left-box-heading">
-              <span>Add Location</span>
-              <span onClick={() => setModal('add_location')}><SVGs svg={'plus'}></SVGs></span>
-            </div>
-            <div className="clientDashboard-view-form-left-box-container">
-              <div className="clientDashboard-view-form-left-box-container-item">
-                  <div className="clientDashboard-view-form-left-box-container-item-info-headers">
-                    <span>Location</span>
-                  </div>
-              </div>
-              {allLocations && allLocations.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
-                <div key={idx} className="clientDashboard-view-form-left-box-container-item">
-                  <div className="clientDashboard-view-form-left-box-container-item-info">
-                    <span className="single-column">{item.name}</span>
-                  </div>
-                  <div className="clientDashboard-view-form-left-box-container-item-controls">
-                  <span onClick={() => editLocation(item)}><SVGs svg={'edit'}></SVGs></span>
-                  <span onClick={() => deleteLocation(item._id)}><SVGs svg={'delete'}></SVGs></span>
                   </div>
                 </div>
               ))}              
@@ -524,44 +446,20 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
       </div>
     </div>
     }
-    { modal == 'add_location' &&
-      <div className="addFieldItems-modal">
-      <div className="addFieldItems-modal-box">
-        <div className="addFieldItems-modal-box-header">
-          <span className="addFieldItems-modal-form-title">{edit ? 'Edit Location' : 'New Location'}</span>
-          <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
-        </div>
-        <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddLocation(e)}>
-          <div className="form-group-single-textarea">
-            <div className="form-group-single-textarea-field">
-              <label htmlFor="name_location">Location Name</label>
-              <textarea id="name_location" rows="1" name="name_location" placeholder="(Location Name)" value={location} onChange={(e) => setLocation(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Location Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
-            </div>
-          </div>
-          {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Location</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-          {edit == 'location' && <button onClick={(e) => updateLocation(e)} className="form-button w100">{!loading && <span>Update Location</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-          {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
-        </form>
-      </div>
-    </div>
-    }
     </>
   )
 }
 
 const mapStateToProps = (state) => {
   return {
-    material: state.material,
-    supplier: state.supplier
+    product: state.product,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    addMaterial: (name, data) => dispatch({type: 'ADD', name: name, value: data}),
-    resetMaterial: () => dispatch({type: 'RESET'}),
-    addSupplier: (name, data) => dispatch({type: 'ADD', name: name, value: data}),
-    resetSupplier: () => dispatch({type: 'RESET'})
+    addProduct: (name, data) => dispatch({type: 'ADD', name: name, value: data}),
+    resetProduct: () => dispatch({type: 'RESET'}),
   }
 }
 
