@@ -10,6 +10,7 @@ import {API} from '../../config'
 import axios from 'axios'
 import {useRouter} from 'next/router'
 import SlabFields from '../../components/account/slabFields'
+import ProductFields from '../../components/account/productFields'
 axios.defaults.withCredentials = true
 
 const formatter = new Intl.NumberFormat('en-US', {
@@ -17,7 +18,7 @@ const formatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 2,
 });
 
-const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, createSlab, addSlabImages, product, createProduct, addProductImages, materials, colors, suppliers, locations, material, supplier, addMaterial, resetMaterial, addSupplier, resetSupplier}) => {
+const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, createSlab, addSlabImages, product, createProduct, addProductImages, materials, colors, suppliers, locations, brands, models, material, supplier, addMaterial, resetMaterial, addSupplier, resetSupplier}) => {
   const myRefs = useRef(null)
   // console.log(product)
   const router = useRouter()
@@ -815,7 +816,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
             <SlabFields preloadMaterials={materials} preloadColors={colors} preloadSuppliers={suppliers} preloadLocations={locations}></SlabFields>
           }
           { nav.view == 'product-fields' &&
-            <ProductFields preloadProducts={materials}></ProductFields>
+            <ProductFields preloadBrands={brands} preloadModels={models}></ProductFields>
           }
           { modal == 'add_material' &&
             <div className="addFieldItems-modal">

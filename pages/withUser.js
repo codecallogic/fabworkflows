@@ -68,6 +68,22 @@ const withUser = Page => {
         console.log(error)
       }
 
+      let brands
+      try {
+        const responseBrands = await axios.get(`${API}/inventory/brands`)
+        brands = responseBrands.data
+      } catch (error) {
+        console.log(error)
+      }
+
+      let models
+      try {
+        const responseModels = await axios.get(`${API}/inventory/models`)
+        models = responseModels.data
+      } catch (error) {
+        console.log(error)
+      }
+
       if(!newUser){
         context.res.writeHead(302, {
           Location: '/login'
@@ -80,7 +96,9 @@ const withUser = Page => {
             materials,
             colors,
             suppliers,
-            locations
+            locations,
+            brands,
+            models
         }
       }
     }

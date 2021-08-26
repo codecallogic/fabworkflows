@@ -5,7 +5,6 @@ import {API} from '../../config'
 import axios from 'axios'
 
 const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, preloadColors, preloadSuppliers, preloadLocations, addSupplier, supplier}) => {
-  console.log(preloadLocations)
   const [error, setError] = useState('')
   const [modal, setModal] = useState('')
   const [edit, setEdit] = useState('')
@@ -19,6 +18,10 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
   const [colorID, setColorID] = useState('')
   const [location, setLocation] = useState('')
   const [locationID, setLocationID] = useState('')
+  const [filter, setFilter] = useState('')
+  const [filterType, setFilterType] = useState('')
+  const [asc, setAsc] = useState(-1)
+  const [desc, setDesc] = useState(1)
   
   // console.log(allMaterials)
   const validateIsNumber = (type) => {
@@ -234,12 +237,11 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
     setLocationID(item._id)
   }
 
-
   const deleteLocation = async (id) => {
     try {
-      const responseDelete = await axios.post(`${API}/inventory/delete-supplier`, {id: id})
+      const responseDelete = await axios.post(`${API}/inventory/delete-location`, {id: id})
       // console.log(responseDelete)
-      setAllSuppliers(responseDelete.data)
+      setAllLocations(responseDelete.data)
     } catch (error) {
       console.log(error)
       if(error) error.response ? setError(error.response.data) : setError('Error deleting from inventory')
@@ -288,11 +290,11 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
             <div className="clientDashboard-view-form-left-box-container">
               <div className="clientDashboard-view-form-left-box-container-item">
                   <div className="clientDashboard-view-form-left-box-container-item-info-headers double-column">
-                    <span>Name</span>
-                    <span>Description</span>
+                    <span onClick={(e) => filter == 'name' && filterType == 'material' ? (setAsc(asc == 1 ? -1 : 1 ), setDesc(desc == -1 ? 1 : -1)) : (setFilter('name'), setFilterType('material'))}>Name <SVGs svg={'sort'}></SVGs></span>
+                    <span onClick={(e) => filter == 'description' && filterType == 'material' ? (setAsc(asc == 1 ? -1 : 1 ), setDesc(desc == -1 ? 1 : -1)) : (setFilter('description'), setFilterType('material'))}>Description <SVGs svg={'sort'}></SVGs></span>
                   </div>
               </div>
-              {allMaterials && allMaterials.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+              {allMaterials && allMaterials.sort( (a, b) => filterType == 'material' ? a[filter] > b[filter] ? asc : desc : null).map( (item, idx) => (
                 <div key={idx} className="clientDashboard-view-form-left-box-container-item">
                   <div className="clientDashboard-view-form-left-box-container-item-info double-column">
                     <span>{item.name}</span>
@@ -315,12 +317,12 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
             <div className="clientDashboard-view-form-left-box-container">
               <div className="clientDashboard-view-form-left-box-container-item">
                 <div className="clientDashboard-view-form-left-box-container-item-info-headers">
-                  <span>Name</span>
-                  <span>Phone</span>
-                  <span>Address</span>
+                  <span onClick={(e) => filter == 'name' && filterType == 'supplier' ? (setAsc(asc == 1 ? -1 : 1 ), setDesc(desc == -1 ? 1 : -1)) : (setFilter('name'), setFilterType('supplier'))}>Name <SVGs svg={'sort'}></SVGs></span>
+                  <span onClick={(e) => filter == 'phone' && filterType == 'supplier' ? (setAsc(asc == 1 ? -1 : 1 ), setDesc(desc == -1 ? 1 : -1)) : (setFilter('phone'), setFilterType('supplier'))}>Phone <SVGs svg={'sort'}></SVGs></span>
+                  <span onClick={(e) => filter == 'address' && filterType == 'supplier' ? (setAsc(asc == 1 ? -1 : 1 ), setDesc(desc == -1 ? 1 : -1)) : (setFilter('address'), setFilterType('supplier'))}>Address <SVGs svg={'sort'}></SVGs></span>
                 </div>
               </div>
-              {allSuppliers && allSuppliers.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+              {allSuppliers && allSuppliers.sort( (a, b) => filterType == 'supplier' ? a[filter] > b[filter] ? asc : desc : null).map( (item, idx) => (
               <div key={idx} className="clientDashboard-view-form-left-box-container-item">
                 <div className="clientDashboard-view-form-left-box-container-item-info">
                   <span>{item.name}</span>
@@ -400,7 +402,7 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
           <div className="form-group-single-textarea">
             <div className="form-group-single-textarea-field">
               <label htmlFor="name_material">Name</label>
-              <textarea id="name_material" rows="1" name="name_material" placeholder="(Material Name)" value={material.name} onChange={(e) => addMaterial('name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Material Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} readOnly={edit == 'readOnly' ? true : false} required></textarea>
+              <textarea id="name_material" rows="1" name="name_material" placeholder="(Material Name)" value={material.name} onChange={(e) => addMaterial('name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Material Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} readOnly={edit == 'readOnly' ? true : false} autoFocus={true} required></textarea>
             </div>
           </div>
           <div className="form-group-single-textarea">
@@ -427,7 +429,7 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
           <div className="form-group-single-textarea">
             <div className="form-group-single-textarea-field">
               <label htmlFor="name_color">Name</label>
-              <textarea id="name_color" rows="1" name="name_color" placeholder="(Color Name)" value={color} onChange={(e) => setColor(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Color Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
+              <textarea id="name_color" rows="1" name="name_color" placeholder="(Color Name)" value={color} onChange={(e) => setColor(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Color Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
             </div>
           </div>
           {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
@@ -448,7 +450,7 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
           <div className="form-group-single-textarea">
             <div className="form-group-single-textarea-field">
               <label htmlFor="name_supplier">Name</label>
-              <textarea id="name_supplier" rows="1" name="name_supplier" placeholder="(Supplier Name)" value={supplier.name} onChange={(e) => addSupplier('name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Supplier Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} readOnly={edit == 'readOnly' ? true : false} required></textarea>
+              <textarea id="name_supplier" rows="1" name="name_supplier" placeholder="(Supplier Name)" value={supplier.name} onChange={(e) => addSupplier('name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Supplier Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} readOnly={edit == 'readOnly' ? true : false} autoFocus={true} required></textarea>
             </div>
           </div>
           <div className="form-group-single-textarea">
@@ -535,7 +537,7 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
           <div className="form-group-single-textarea">
             <div className="form-group-single-textarea-field">
               <label htmlFor="name_location">Location Name</label>
-              <textarea id="name_location" rows="1" name="name_location" placeholder="(Location Name)" value={location} onChange={(e) => setLocation(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Location Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
+              <textarea id="name_location" rows="1" name="name_location" placeholder="(Location Name)" value={location} onChange={(e) => setLocation(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Location Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
             </div>
           </div>
           {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Location</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}

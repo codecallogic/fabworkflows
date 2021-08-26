@@ -1444,17 +1444,27 @@ body {
               .clientDashboard-view-form-left-box-container-item-info-headers::-webkit-scrollbar-thumb {
                 background-color: #dbdbdb; }
               .clientDashboard-view-form-left-box-container-item-info-headers span {
+                display: flex;
+                align-items: center;
                 text-transform: capitalize;
                 font-weight: 700;
                 font-size: 1.4rem;
                 padding: 0.5rem 1.5rem;
-                min-width: 12rem; }
+                min-width: 13rem;
+                max-width: 13rem; }
+                .clientDashboard-view-form-left-box-container-item-info-headers span svg {
+                  margin-left: 1rem;
+                  width: 2rem;
+                  height: 2rem;
+                  fill: #fd7e3c; }
+                  .clientDashboard-view-form-left-box-container-item-info-headers span svg:hover {
+                    cursor: pointer; }
             .clientDashboard-view-form-left-box-container-item-info span {
               text-align: start;
               text-transform: capitalize;
               font-size: 1.4rem;
               padding: 1.5rem;
-              min-width: 12rem;
+              min-width: 13rem;
               max-width: 13rem; }
             .clientDashboard-view-form-left-box-container-item-info a {
               text-decoration: underline;
