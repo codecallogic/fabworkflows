@@ -5,18 +5,45 @@ import {connect} from 'react-redux'
 import axios from 'axios'
 import {API} from '../../../config'
 import withUser from '../../withUser'
-import {useEffect, useState} from 'react'
+import {useEffect, useState, useRef} from 'react'
 import QRCode from 'qrcode'
 import {nanoid} from 'nanoid'
 
-const Product = ({id, hideSideNav, showSideNav, product, createProduct, addProductImages, updateProduct}) => {
+const Product = ({id, hideSideNav, showSideNav, product, createProduct, addProductImages, updateProduct, locations, brands, categories, models}) => {
+  const myRefs = useRef(null)
   const sendRedirect = true
   const [input_dropdown, setInputDropdown] = useState('')
   const [width, setWidth] = useState()
+  const [edit, setEdit] = useState('')
   const [error, setError] = useState('')
   const [selectedFiles, setSelectedFiles] = useState(product.images ? [...product.images] : [])
   const [imageCount, setImageCount] = useState(product.images ? product.images.length : 0)
   const [loading, setLoading] = useState(false)
+  const [modal, setModal] = useState('')
+  const [allLocations, setAllLocations] = useState(locations)
+  const [location, setLocation] = useState('')
+  const [allBrands, setAllBrands] = useState(brands)
+  const [brand, setBrand] = useState('')
+  const [allCategories, setAllCategories] = useState(categories)
+  const [category, setCategory] = useState('')
+  const [allModels, setAllModels] = useState(models)
+  const [model, setModel] = useState('')
+
+  const handleClickOutside = (event) => {
+    if(myRefs.current){
+      if(!myRefs.current.contains(event.target)){
+        setInputDropdown('')
+      }
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, true);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, [])
 
   useEffect(() => {
     
@@ -263,6 +290,75 @@ const Product = ({id, hideSideNav, showSideNav, product, createProduct, addProdu
       return setError('Click reset to change images')
     }
   }
+
+  const submitAddBrand = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const responseBrand = await axios.post(`${API}/inventory/add-brand`, {name: brand})
+      setBrand('')
+      setModal('')
+      setLoading(false)
+      setError('')
+      setAllBrands(responseBrand.data)
+    } catch (error) {
+      console.log(error.response)
+      setLoading(false)
+      if(error) error.response ? setError(error.response.data) : setError('Error adding brand to inventory')
+    }
+  }
+
+  const submitAddModel = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const responseModel = await axios.post(`${API}/inventory/add-model`, {name: model})
+      setModel('')
+      setModal('')
+      setLoading(false)
+      setError('')
+      setAllModels(responseModel.data)
+    } catch (error) {
+      console.log(error.response)
+      setLoading(false)
+      if(error) error.response ? setError(error.response.data) : setError('Error adding model to inventory')
+    }
+  }
+
+  const submitAddCategory = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const responseCategory = await axios.post(`${API}/inventory/add-category`, {name: category})
+      setCategory('')
+      setModal('')
+      setLoading(false)
+      setError('')
+      setAllCategories(responseCategory.data)
+    } catch (error) {
+      console.log(error.response)
+      setLoading(false)
+      if(error) error.response ? setError(error.response.data) : setError('Error adding category to inventory')
+    }
+  }
+
+  const submitAddLocation = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const responseColor = await axios.post(`${API}/inventory/add-location`, {name: location})
+      setLocation('')
+      setInputDropdown('')
+      setModal('')
+      setLoading(false)
+      setError('')
+      setAllLocations(responseColor.data)
+    } catch (error) {
+      console.log(error.response)
+      setLoading(false)
+      if(error) error.response ? setError(error.response.data) : setError('Error adding location to inventory')
+    }
+  }
   
   return (
     <>
@@ -284,12 +380,11 @@ const Product = ({id, hideSideNav, showSideNav, product, createProduct, addProdu
                     <textarea rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="brand" placeholder="(Select Brand)" onClick={() => setInputDropdown('product_brand')} value={updateProduct.brand} onChange={(e) => (setInputDropdown(''), createProduct('brand', e.target.value))}></textarea>
                     <div onClick={() => (input_dropdown !== 'product_brand' ? setInputDropdown('product_brand') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
                     { input_dropdown == 'product_brand' &&
-                    <div className="form-group-double-dropdown-input-list">
-                      <div className="form-group-double-dropdown-input-list-item border_bottom"><SVGs svg={'plus'}></SVGs> Add new</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('brand', e.target.innerText), setInputDropdown(''))}>Cambria</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('brand', e.target.innerText), setInputDropdown(''))}>Oupont</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('brand', e.target.innerText), setInputDropdown(''))}>Compac</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('brand', e.target.innerText), setInputDropdown(''))}>Element Surfaces</div>
+                    <div className="form-group-double-dropdown-input-list" ref={myRefs}>
+                      <div className="form-group-double-dropdown-input-list-item border_bottom" onClick={() => (setInputDropdown(''), setModal('add_brand'))}><SVGs svg={'plus'}></SVGs> Add new</div>
+                      {allBrands && allBrands.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                      <div key={idx} className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('brand', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
+                      ))}
                     </div>
                     }
                   </div>
@@ -300,12 +395,11 @@ const Product = ({id, hideSideNav, showSideNav, product, createProduct, addProdu
                     <textarea rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="model" placeholder="(Select Model)" onClick={() => setInputDropdown('product_model')} value={updateProduct.model} onChange={(e) => (setInputDropdown(''), createProduct('model', e.target.value))}></textarea>
                     <div onClick={() => (input_dropdown !== 'product_model' ? setInputDropdown('product_model') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
                     { input_dropdown == 'product_model' &&
-                    <div className="form-group-double-dropdown-input-list">
-                      <div className="form-group-double-dropdown-input-list-item border_bottom"><SVGs svg={'plus'}></SVGs> Add new</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('model', e.target.innerText), setInputDropdown(''))}>Loloi Franca</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('model', e.target.innerText), setInputDropdown(''))}>Native Trails</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('model', e.target.innerText), setInputDropdown(''))}>Farmhouse</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('model', e.target.innerText), setInputDropdown(''))}>Indian Granite</div>
+                    <div className="form-group-double-dropdown-input-list" ref={myRefs}>
+                      <div className="form-group-double-dropdown-input-list-item border_bottom" onClick={() => (setInputDropdown(''), setModal('add_model'))}><SVGs svg={'plus'}></SVGs> Add new</div>
+                      {allModels && allModels.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                      <div key={idx} className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('model', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
+                      ))}
                     </div>
                     }
                   </div>
@@ -316,12 +410,11 @@ const Product = ({id, hideSideNav, showSideNav, product, createProduct, addProdu
                     <textarea rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="category" placeholder="(Select Category)" onClick={() => setInputDropdown('product_category')} value={updateProduct.category} onChange={(e) => (setInputDropdown(''), createProduct('category', e.target.value))}></textarea>
                     <div onClick={() => (input_dropdown !== 'product_category' ? setInputDropdown('product_category') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
                     { input_dropdown == 'product_category' &&
-                    <div className="form-group-double-dropdown-input-list">
-                      <div className="form-group-double-dropdown-input-list-item border_bottom"><SVGs svg={'plus'}></SVGs> Add new</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('category', e.target.innerText), setInputDropdown(''))}>Sinks</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('category', e.target.innerText), setInputDropdown(''))}>Faucets</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('category', e.target.innerText), setInputDropdown(''))}>Tools</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('category', e.target.innerText), setInputDropdown(''))}>Other</div>
+                    <div className="form-group-double-dropdown-input-list" ref={myRefs}>
+                      <div className="form-group-double-dropdown-input-list-item border_bottom" onClick={() => (setInputDropdown(''), setModal('add_category'))}><SVGs svg={'plus'}></SVGs> Add new</div>
+                      {allCategories && allCategories.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                      <div key={idx} className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('category', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
+                      ))}
                     </div>
                     }
                   </div>
@@ -332,9 +425,11 @@ const Product = ({id, hideSideNav, showSideNav, product, createProduct, addProdu
                     <textarea rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="location" placeholder="(Select Location)" onClick={() => setInputDropdown('product_location')} value={updateProduct.location} onChange={(e) => (setInputDropdown(''), createProduct('location', e.target.value))}></textarea>
                     <div onClick={() => (input_dropdown !== 'product_location' ? setInputDropdown('product_location') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
                     { input_dropdown == 'product_location' &&
-                    <div className="form-group-double-dropdown-input-list">
-                      <div className="form-group-double-dropdown-input-list-item border_bottom"><SVGs svg={'plus'}></SVGs> Add new</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('location', e.target.innerText), setInputDropdown(''))}>Warehouse</div>
+                    <div className="form-group-double-dropdown-input-list" ref={myRefs}>
+                      <div className="form-group-double-dropdown-input-list-item border_bottom" onClick={() => (setInputDropdown(''), setModal('add_location'))}><SVGs svg={'plus'}></SVGs> Add new</div>
+                      {allLocations && allLocations.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                      <div key={idx} className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('location', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
+                      ))}
                     </div>
                     }
                   </div>
@@ -411,7 +506,91 @@ const Product = ({id, hideSideNav, showSideNav, product, createProduct, addProdu
                   </div>
                 </div>
               </form>
-            </div>
+              { modal == 'add_brand' &&
+                <div className="addFieldItems-modal">
+                <div className="addFieldItems-modal-box">
+                  <div className="addFieldItems-modal-box-header">
+                    <span className="addFieldItems-modal-form-title">{edit ? 'Edit Brand' : 'New Brand'}</span>
+                    <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
+                  </div>
+                  <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddBrand(e)}>
+                    <div className="form-group-single-textarea">
+                      <div className="form-group-single-textarea-field">
+                        <label htmlFor="name_brand">Brand Name</label>
+                        <textarea id="name_brand" rows="1" name="name_brand" placeholder="(Brand Name)" value={brand} onChange={(e) => setBrand(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Brand Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+                      </div>
+                    </div>
+                    {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Brand</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+                    {edit == 'brand' && <button onClick={(e) => updateBrand(e)} className="form-button w100">{!loading && <span>Update Brand</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+                    {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+                  </form>
+                </div>
+              </div>
+              }
+              { modal == 'add_model' &&
+                <div className="addFieldItems-modal">
+                <div className="addFieldItems-modal-box">
+                  <div className="addFieldItems-modal-box-header">
+                    <span className="addFieldItems-modal-form-title">{edit ? 'Edit Model' : 'New Model'}</span>
+                    <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
+                  </div>
+                  <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddModel(e)}>
+                    <div className="form-group-single-textarea">
+                      <div className="form-group-single-textarea-field">
+                        <label htmlFor="name_model">Model Name</label>
+                        <textarea id="name_model" rows="1" name="name_model" placeholder="(Model Name)" value={model} onChange={(e) => setModel(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Model Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+                      </div>
+                    </div>
+                    {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Model</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+                    {edit == 'model' && <button onClick={(e) => updateModel(e)} className="form-button w100">{!loading && <span>Update Model</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+                    {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+                  </form>
+                </div>
+              </div>
+              }
+              { modal == 'add_category' &&
+                <div className="addFieldItems-modal">
+                <div className="addFieldItems-modal-box">
+                  <div className="addFieldItems-modal-box-header">
+                    <span className="addFieldItems-modal-form-title">{edit ? 'Edit Category' : 'New Category'}</span>
+                    <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
+                  </div>
+                  <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddCategory(e)}>
+                    <div className="form-group-single-textarea">
+                      <div className="form-group-single-textarea-field">
+                        <label htmlFor="name_category">Category Name</label>
+                        <textarea id="name_category" rows="1" name="name_category" placeholder="(Category Name)" value={category} onChange={(e) => setCategory(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Category Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+                      </div>
+                    </div>
+                    {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Category</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+                    {edit == 'category' && <button onClick={(e) => updateCategory(e)} className="form-button w100">{!loading && <span>Update Category</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+                    {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+                  </form>
+                </div>
+              </div>
+              }
+              { modal == 'add_location' &&
+              <div className="addFieldItems-modal">
+              <div className="addFieldItems-modal-box">
+                <div className="addFieldItems-modal-box-header">
+                  <span className="addFieldItems-modal-form-title">{edit ? 'Edit Location' : 'New Location'}</span>
+                  <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
+                </div>
+                <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddLocation(e)}>
+                  <div className="form-group-single-textarea">
+                    <div className="form-group-single-textarea-field">
+                      <label htmlFor="name_location">Location Name</label>
+                      <textarea id="name_location" rows="1" name="name_location" placeholder="(Location Name)" value={location} onChange={(e) => setLocation(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Location Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+                    </div>
+                  </div>
+                  {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Location</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+                  {edit == 'location' && <button onClick={(e) => updateLocation(e)} className="form-button w100">{!loading && <span>Update Location</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+                  {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+                </form>
+              </div>
+              </div>
+              }
+          </div>
         </div>
       </div>
     </>

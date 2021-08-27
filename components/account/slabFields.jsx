@@ -251,12 +251,13 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
   const updateLocation = async (e) => {
     e.preventDefault()
     try {
-      const responseUpdate = await axios.post(`${API}/inventory/update-supplier`, supplier)
+      const responseUpdate = await axios.post(`${API}/inventory/update-location`, {id: locationID, name: location})
       // console.log(responseUpdate)
+      setLocation('')
       setModal('')
       setError('')
       setEdit('')
-      setAllSuppliers(responseUpdate.data)
+      setAllLocations(responseUpdate.data)
     } catch (error) {
       console.log(error)
       if(error) error.response ? setError(error.response.data) : setError('Error deleting from inventory')
@@ -462,7 +463,7 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
           <div className="form-group-single-textarea">
             <div className="form-group-single-textarea-field">
               <label htmlFor="supplier_address">Address</label>
-              <textarea id="supplier_address" rows="1" name="supplier_address" placeholder="(Supplier Address)" value={supplier.address} onChange={(e) => addSupplier('address', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Supplier Address)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} readOnly={edit == 'readOnly' ? true : false} required></textarea>
+              <textarea id="supplier_address" rows="3" name="supplier_address" placeholder="(Supplier Address)" value={supplier.address} onChange={(e) => addSupplier('address', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Supplier Address)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} readOnly={edit == 'readOnly' ? true : false} required></textarea>
             </div>
           </div>
           <div className="form-group-single-textarea">
@@ -474,7 +475,7 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
           <div className="form-group-single-textarea">
             <div className="form-group-single-textarea-field">
               <label htmlFor="supplier_note">Note</label>
-              <textarea id="supplier_note" rows="4" name="supplier_note" placeholder="(Note)" value={supplier.note} onChange={(e) => addSupplier('note', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Note)'} readOnly={edit == 'readOnly' ? true : false}></textarea>
+              <textarea id="supplier_note" rows="5" name="supplier_note" placeholder="(Note)" value={supplier.note} onChange={(e) => addSupplier('note', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Note)'} readOnly={edit == 'readOnly' ? true : false}></textarea>
             </div>
           </div>
           <div className="form-group-single-textarea">
@@ -516,7 +517,7 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
           <div className="form-group-single-textarea">
             <div className="form-group-single-textarea-field">
               <label htmlFor="supplier_bank_note">Bank Note</label>
-              <textarea id="supplier_bank_note" rows="4" name="supplier_bank_note" placeholder="(Bank Note)" value={supplier.bank_note} onChange={(e) => addSupplier('bank_note', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Bank Note)'} readOnly={edit == 'readOnly' ? true : false}></textarea>
+              <textarea id="supplier_bank_note" rows="5" name="supplier_bank_note" placeholder="(Bank Note)" value={supplier.bank_note} onChange={(e) => addSupplier('bank_note', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Bank Note)'} readOnly={edit == 'readOnly' ? true : false}></textarea>
             </div>
           </div>
           {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Supplier</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}

@@ -9,7 +9,7 @@ import {useEffect, useState, useRef} from 'react'
 import QRCode from 'qrcode'
 import {nanoid} from 'nanoid'
 
-const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, updateSlab, materials, colors, suppliers, material, supplier, addMaterial, resetMaterial, addSupplier, resetSupplier}) => {
+const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, updateSlab, materials, colors, suppliers, locations, material, supplier, addMaterial, resetMaterial, addSupplier, resetSupplier}) => {
   const myRefs = useRef(null)
   
   const sendRedirect = true
@@ -25,6 +25,8 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
   const [allMaterials, setAllMaterials] = useState(materials)
   const [allColors, setAllColors] = useState(colors)
   const [allSuppliers, setAllSuppliers] = useState(suppliers)
+  const [allLocations, setAllLocations] = useState(locations)
+  const [location, setLocation] = useState('')
 
   const handleClickOutside = (event) => {
     if(myRefs.current){
@@ -366,6 +368,24 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
       return setError('Click reset to change images')
     }
   }
+
+  const submitAddLocation = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const responseColor = await axios.post(`${API}/inventory/add-location`, {name: location})
+      setLocation('')
+      setInputDropdown('')
+      setModal('')
+      setLoading(false)
+      setError('')
+      setAllLocations(responseColor.data)
+    } catch (error) {
+      console.log(error.response)
+      setLoading(false)
+      if(error) error.response ? setError(error.response.data) : setError('Error adding location to inventory')
+    }
+  }
   
   return (
     <>
@@ -502,8 +522,10 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
                     <div onClick={() => (input_dropdown !== 'location' ? setInputDropdown('location') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
                     { input_dropdown == 'location' &&
                     <div className="form-group-double-dropdown-input-list" ref={myRefs}>
-                      <div className="form-group-double-dropdown-input-list-item border_bottom"><SVGs svg={'plus'}></SVGs> Add new</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('location', e.target.innerText), setInputDropdown(''))}>Warehouse</div>
+                      <div className="form-group-double-dropdown-input-list-item border_bottom" onClick={() => (setInputDropdown(''), setModal('add_location'))}><SVGs svg={'plus'}></SVGs> Add new</div>
+                      {allLocations && allLocations.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                      <div key={idx} className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('location', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
+                      ))}
                     </div>
                     }
                   </div>
@@ -593,7 +615,7 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
                 <div className="form-group-single-textarea">
                   <div className="form-group-single-textarea-field">
                     <label htmlFor="name_material">Name</label>
-                    <textarea id="name_material" rows="1" name="name_material" placeholder="(Material Name)" value={material.name} onChange={(e) => addMaterial('name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Material Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
+                    <textarea id="name_material" rows="1" name="name_material" placeholder="(Material Name)" value={material.name} onChange={(e) => addMaterial('name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Material Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
                   </div>
                 </div>
                 <div className="form-group-single-textarea">
@@ -620,7 +642,7 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
                 <div className="form-group-single-textarea">
                   <div className="form-group-single-textarea-field">
                     <label htmlFor="name_color">Name</label>
-                    <textarea id="name_color" rows="1" name="name_color" placeholder="(Color Name)" value={color} onChange={(e) => setColor(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Color Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
+                    <textarea id="name_color" rows="1" name="name_color" placeholder="(Color Name)" value={color} onChange={(e) => setColor(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Color Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
                   </div>
                 </div>
                 {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
@@ -641,7 +663,7 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
                 <div className="form-group-single-textarea">
                   <div className="form-group-single-textarea-field">
                     <label htmlFor="name_supplier">Name</label>
-                    <textarea id="name_supplier" rows="1" name="name_supplier" placeholder="(Supplier Name)" value={supplier.name} onChange={(e) => addSupplier('name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Supplier Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} readOnly={edit == 'readOnly' ? true : false} required></textarea>
+                    <textarea id="name_supplier" rows="1" name="name_supplier" placeholder="(Supplier Name)" value={supplier.name} onChange={(e) => addSupplier('name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Supplier Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} readOnly={edit == 'readOnly' ? true : false} autoFocus={true} required></textarea>
                   </div>
                 </div>
                 <div className="form-group-single-textarea">
@@ -712,6 +734,27 @@ const Slab = ({id, hideSideNav, showSideNav, slab, createSlab, addSlabImages, up
                 </div>
                 {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Supplier</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
                 {edit == 'supplier' && <button onClick={(e) => updateSupplier(e)} className="form-button w100">{!loading && <span>Update Supplier</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+                {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+              </form>
+            </div>
+          </div>
+          }
+          { modal == 'add_location' &&
+            <div className="addFieldItems-modal">
+            <div className="addFieldItems-modal-box">
+              <div className="addFieldItems-modal-box-header">
+                <span className="addFieldItems-modal-form-title">{edit ? 'Edit Location' : 'New Location'}</span>
+                <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
+              </div>
+              <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddLocation(e)}>
+                <div className="form-group-single-textarea">
+                  <div className="form-group-single-textarea-field">
+                    <label htmlFor="name_location">Location Name</label>
+                    <textarea id="name_location" rows="1" name="name_location" placeholder="(Location Name)" value={location} onChange={(e) => setLocation(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Location Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+                  </div>
+                </div>
+                {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Location</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+                {edit == 'location' && <button onClick={(e) => updateLocation(e)} className="form-button w100">{!loading && <span>Update Location</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
                 {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
               </form>
             </div>

@@ -84,6 +84,14 @@ const withUser = Page => {
         console.log(error)
       }
 
+      let categories
+      try {
+        const responseCategories = await axios.get(`${API}/inventory/categories`)
+        categories = responseCategories.data
+      } catch (error) {
+        console.log(error)
+      }
+
       if(!newUser){
         context.res.writeHead(302, {
           Location: '/login'
@@ -98,7 +106,8 @@ const withUser = Page => {
             suppliers,
             locations,
             brands,
-            models
+            models,
+            categories
         }
       }
     }

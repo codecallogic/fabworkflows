@@ -208,7 +208,7 @@
         border-bottom-right-radius: 1rem;
         border-bottom-left-radius: 1rem;
         box-shadow: 0rem 1rem 0.5rem 0.2rem rgba(0, 0, 0, 0.2);
-        z-index: 100;
+        z-index: 500;
 
         &-item {
           display: flex;
@@ -348,7 +348,6 @@
           height: 4rem;
           background-color: $color-scheme-1;
           border-radius: 50%;
-          z-index: 100 !important;
 
           &-svg {
             display: inline-block;
@@ -356,8 +355,6 @@
             width: 4rem !important;
             height: 4rem !important;
             fill: white !important;
-
-            z-index: 100 !important;
           }
 
           &:hover {

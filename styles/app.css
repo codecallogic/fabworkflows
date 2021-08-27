@@ -171,7 +171,7 @@ body {
         border-bottom-right-radius: 1rem;
         border-bottom-left-radius: 1rem;
         box-shadow: 0rem 1rem 0.5rem 0.2rem rgba(0, 0, 0, 0.2);
-        z-index: 100; }
+        z-index: 500; }
         .form-group-double-dropdown-input-list-item {
           display: flex;
           align-items: center;
@@ -272,15 +272,13 @@ body {
           width: 4rem;
           height: 4rem;
           background-color: #fd7e3c;
-          border-radius: 50%;
-          z-index: 100 !important; }
+          border-radius: 50%; }
           .form-group-triple-upload-item-delete-svg {
             display: inline-block;
             padding: 1rem;
             width: 4rem !important;
             height: 4rem !important;
-            fill: white !important;
-            z-index: 100 !important; }
+            fill: white !important; }
           .form-group-triple-upload-item-delete:hover {
             cursor: pointer; }
         .form-group-triple-upload-item:first-child {

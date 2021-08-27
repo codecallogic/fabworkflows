@@ -18,7 +18,7 @@ const formatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 2,
 });
 
-const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, createSlab, addSlabImages, product, createProduct, addProductImages, materials, colors, suppliers, locations, brands, models, material, supplier, addMaterial, resetMaterial, addSupplier, resetSupplier}) => {
+const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, createSlab, addSlabImages, product, createProduct, addProductImages, materials, colors, suppliers, locations, brands, models, categories, material, supplier, addMaterial, resetMaterial, addSupplier, resetSupplier}) => {
   const myRefs = useRef(null)
   // console.log(product)
   const router = useRouter()
@@ -34,6 +34,14 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
   const [allMaterials, setAllMaterials] = useState(materials)
   const [allColors, setAllColors] = useState(colors)
   const [allSuppliers, setAllSuppliers] = useState(suppliers)
+  const [allLocations, setAllLocations] = useState(locations)
+  const [location, setLocation] = useState('')
+  const [allBrands, setAllBrands] = useState(brands)
+  const [brand, setBrand] = useState('')
+  const [allCategories, setAllCategories] = useState(categories)
+  const [category, setCategory] = useState('')
+  const [allModels, setAllModels] = useState(models)
+  const [model, setModel] = useState('')
 
   const handleClickOutside = (event) => {
     if(myRefs.current){
@@ -403,6 +411,24 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
     }
   }
 
+  const submitAddLocation = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const responseColor = await axios.post(`${API}/inventory/add-location`, {name: location})
+      setLocation('')
+      setInputDropdown('')
+      setModal('')
+      setLoading(false)
+      setError('')
+      setAllLocations(responseColor.data)
+    } catch (error) {
+      console.log(error.response)
+      setLoading(false)
+      if(error) error.response ? setError(error.response.data) : setError('Error adding location to inventory')
+    }
+  }
+
   const handleNumber = (e, id, data) => {
     const input = document.getElementById(id)
     let phoneNumber = input.value.replace(/\D/g, '');
@@ -419,6 +445,57 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
       3,
       6
     )}-${phoneNumber.slice(6, 10)}`)
+  }
+
+  const submitAddBrand = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const responseBrand = await axios.post(`${API}/inventory/add-brand`, {name: brand})
+      setBrand('')
+      setModal('')
+      setLoading(false)
+      setError('')
+      setAllBrands(responseBrand.data)
+    } catch (error) {
+      console.log(error.response)
+      setLoading(false)
+      if(error) error.response ? setError(error.response.data) : setError('Error adding brand to inventory')
+    }
+  }
+
+  const submitAddModel = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const responseModel = await axios.post(`${API}/inventory/add-model`, {name: model})
+      setModel('')
+      setModal('')
+      setLoading(false)
+      setError('')
+      setAllModels(responseModel.data)
+    } catch (error) {
+      console.log(error.response)
+      setLoading(false)
+      if(error) error.response ? setError(error.response.data) : setError('Error adding model to inventory')
+    }
+  }
+
+  const submitAddCategory = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const responseCategory = await axios.post(`${API}/inventory/add-category`, {name: category})
+      setCategory('')
+      setModal('')
+      setLoading(false)
+      setError('')
+      setAllCategories(responseCategory.data)
+    } catch (error) {
+      console.log(error.response)
+      setLoading(false)
+      if(error) error.response ? setError(error.response.data) : setError('Error adding category to inventory')
+    }
   }
   
   return (
@@ -586,8 +663,10 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
                     <div onClick={() => (input_dropdown !== 'location' ? setInputDropdown('location') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
                     { input_dropdown == 'location' &&
                     <div className="form-group-double-dropdown-input-list" ref={myRefs}>
-                      <div className="form-group-double-dropdown-input-list-item border_bottom"><SVGs svg={'plus'}></SVGs> Add new</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('location', e.target.innerText), setInputDropdown(''))}>Warehouse</div>
+                      <div className="form-group-double-dropdown-input-list-item border_bottom" onClick={() => (setInputDropdown(''), setModal('add_location'))}><SVGs svg={'plus'}></SVGs> Add new</div>
+                      {allLocations && allLocations.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                      <div key={idx} className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('location', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
+                      ))}
                     </div>
                     }
                   </div>
@@ -683,12 +762,11 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
                     <textarea rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="brand" placeholder="(Select Brand)" onClick={() => setInputDropdown('product_brand')} value={product.brand} onChange={(e) => (setInputDropdown(''), createProduct('brand', e.target.value))}></textarea>
                     <div onClick={() => (input_dropdown !== 'product_brand' ? setInputDropdown('product_brand') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
                     { input_dropdown == 'product_brand' &&
-                    <div className="form-group-double-dropdown-input-list">
-                      <div className="form-group-double-dropdown-input-list-item border_bottom"><SVGs svg={'plus'}></SVGs> Add new</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('brand', e.target.innerText), setInputDropdown(''))}>Cambria</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('brand', e.target.innerText), setInputDropdown(''))}>Oupont</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('brand', e.target.innerText), setInputDropdown(''))}>Compac</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('brand', e.target.innerText), setInputDropdown(''))}>Element Surfaces</div>
+                    <div className="form-group-double-dropdown-input-list" ref={myRefs}>
+                      <div className="form-group-double-dropdown-input-list-item border_bottom" onClick={() => (setInputDropdown(''), setModal('add_brand'))}><SVGs svg={'plus'}></SVGs> Add new</div>
+                      {allBrands && allBrands.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                      <div key={idx} className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('brand', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
+                      ))}
                     </div>
                     }
                   </div>
@@ -699,12 +777,11 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
                     <textarea rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="model" placeholder="(Select Model)" onClick={() => setInputDropdown('product_model')} value={product.model} onChange={(e) => (setInputDropdown(''), createProduct('model', e.target.value))}></textarea>
                     <div onClick={() => (input_dropdown !== 'product_model' ? setInputDropdown('product_model') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
                     { input_dropdown == 'product_model' &&
-                    <div className="form-group-double-dropdown-input-list">
-                      <div className="form-group-double-dropdown-input-list-item border_bottom"><SVGs svg={'plus'}></SVGs> Add new</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('model', e.target.innerText), setInputDropdown(''))}>Loloi Franca</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('model', e.target.innerText), setInputDropdown(''))}>Native Trails</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('model', e.target.innerText), setInputDropdown(''))}>Farmhouse</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('model', e.target.innerText), setInputDropdown(''))}>Indian Granite</div>
+                    <div className="form-group-double-dropdown-input-list" ref={myRefs}>
+                      <div className="form-group-double-dropdown-input-list-item border_bottom" onClick={() => (setInputDropdown(''), setModal('add_model'))}><SVGs svg={'plus'}></SVGs> Add new</div>
+                      {allModels && allModels.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                      <div key={idx} className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('model', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
+                      ))}
                     </div>
                     }
                   </div>
@@ -715,12 +792,11 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
                     <textarea rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="category" placeholder="(Select Category)" onClick={() => setInputDropdown('product_category')} value={product.category} onChange={(e) => (setInputDropdown(''), createProduct('category', e.target.value))}></textarea>
                     <div onClick={() => (input_dropdown !== 'product_category' ? setInputDropdown('product_category') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
                     { input_dropdown == 'product_category' &&
-                    <div className="form-group-double-dropdown-input-list">
-                      <div className="form-group-double-dropdown-input-list-item border_bottom"><SVGs svg={'plus'}></SVGs> Add new</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('category', e.target.innerText), setInputDropdown(''))}>Sinks</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('category', e.target.innerText), setInputDropdown(''))}>Faucets</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('category', e.target.innerText), setInputDropdown(''))}>Tools</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('category', e.target.innerText), setInputDropdown(''))}>Other</div>
+                    <div className="form-group-double-dropdown-input-list" ref={myRefs}>
+                      <div className="form-group-double-dropdown-input-list-item border_bottom" onClick={() => (setInputDropdown(''), setModal('add_category'))}><SVGs svg={'plus'}></SVGs> Add new</div>
+                      {allCategories && allCategories.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                      <div key={idx} className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('category', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
+                      ))}
                     </div>
                     }
                   </div>
@@ -731,9 +807,11 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
                     <textarea rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="location" placeholder="(Select Location)" onClick={() => setInputDropdown('product_location')} value={product.location} onChange={(e) => (setInputDropdown(''), createProduct('location', e.target.value))}></textarea>
                     <div onClick={() => (input_dropdown !== 'product_location' ? setInputDropdown('product_location') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
                     { input_dropdown == 'product_location' &&
-                    <div className="form-group-double-dropdown-input-list">
-                      <div className="form-group-double-dropdown-input-list-item border_bottom"><SVGs svg={'plus'}></SVGs> Add new</div>
-                      <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('location', e.target.innerText), setInputDropdown(''))}>Warehouse</div>
+                    <div className="form-group-double-dropdown-input-list" ref={myRefs}>
+                      <div className="form-group-double-dropdown-input-list-item border_bottom" onClick={() => (setInputDropdown(''), setModal('add_location'))}><SVGs svg={'plus'}></SVGs> Add new</div>
+                      {allLocations && allLocations.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                      <div key={idx} className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('location', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
+                      ))}
                     </div>
                     }
                   </div>
@@ -816,7 +894,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
             <SlabFields preloadMaterials={materials} preloadColors={colors} preloadSuppliers={suppliers} preloadLocations={locations}></SlabFields>
           }
           { nav.view == 'product-fields' &&
-            <ProductFields preloadBrands={brands} preloadModels={models}></ProductFields>
+            <ProductFields preloadBrands={brands} preloadModels={models} preloadCategories={categories} preloadLocations={locations}></ProductFields>
           }
           { modal == 'add_material' &&
             <div className="addFieldItems-modal">
@@ -829,7 +907,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
                 <div className="form-group-single-textarea">
                   <div className="form-group-single-textarea-field">
                     <label htmlFor="name_material">Name</label>
-                    <textarea id="name_material" rows="1" name="name_material" placeholder="(Material Name)" value={material.name} onChange={(e) => addMaterial('name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Material Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
+                    <textarea id="name_material" rows="1" name="name_material" placeholder="(Material Name)" value={material.name} onChange={(e) => addMaterial('name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Material Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
                   </div>
                 </div>
                 <div className="form-group-single-textarea">
@@ -856,7 +934,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
                 <div className="form-group-single-textarea">
                   <div className="form-group-single-textarea-field">
                     <label htmlFor="name_color">Name</label>
-                    <textarea id="name_color" rows="1" name="name_color" placeholder="(Color Name)" value={color} onChange={(e) => setColor(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Color Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
+                    <textarea id="name_color" rows="1" name="name_color" placeholder="(Color Name)" value={color} onChange={(e) => setColor(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Color Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
                   </div>
                 </div>
                 {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
@@ -877,13 +955,13 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
                 <div className="form-group-single-textarea">
                   <div className="form-group-single-textarea-field">
                     <label htmlFor="name_supplier">Name</label>
-                    <textarea id="name_supplier" rows="1" name="name_supplier" placeholder="(Supplier Name)" value={supplier.name} onChange={(e) => addSupplier('name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Supplier Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} readOnly={edit == 'readOnly' ? true : false} required></textarea>
+                    <textarea id="name_supplier" rows="1" name="name_supplier" placeholder="(Supplier Name)" value={supplier.name} onChange={(e) => addSupplier('name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Supplier Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} readOnly={edit == 'readOnly' ? true : false} autoFocus={true} required></textarea>
                   </div>
                 </div>
                 <div className="form-group-single-textarea">
                   <div className="form-group-single-textarea-field">
                     <label htmlFor="supplier_phone">Phone</label>
-                    <textarea id="supplier_phone" rows="1" name="supplier_phone" placeholder="(Supplier Phone)" value={supplier.phone} onChange={(e) => (validateIsNumber('supplier_phone'), addSupplier('phone', e.target.value), handleNumber(e, 'supplier_phone', 'phone'))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Supplier Phone)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} readOnly={edit == 'readOnly' ? true : false} required></textarea>
+                    <textarea id="supplier_phone" rows="1" name="supplier_phone" placeholder="(Supplier Phone)" value={supplier.phone} onChange={(e) => (validateIsNumber('supplier_phone'), addSupplier('phone', e.target.value), handleNumber(e, 'supplier_phone', 'phone'))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Supplier Phone)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} readOnly={edit == 'readOnly' ? true : false}required></textarea>
                   </div>
                 </div>
                 <div className="form-group-single-textarea">
@@ -953,6 +1031,111 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
             </div>
           </div>
           }
+          { modal == 'add_location' &&
+            <div className="addFieldItems-modal">
+            <div className="addFieldItems-modal-box">
+              <div className="addFieldItems-modal-box-header">
+                <span className="addFieldItems-modal-form-title">{edit ? 'Edit Location' : 'New Location'}</span>
+                <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
+              </div>
+              <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddLocation(e)}>
+                <div className="form-group-single-textarea">
+                  <div className="form-group-single-textarea-field">
+                    <label htmlFor="name_location">Location Name</label>
+                    <textarea id="name_location" rows="1" name="name_location" placeholder="(Location Name)" value={location} onChange={(e) => setLocation(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Location Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+                  </div>
+                </div>
+                {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Location</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+                {edit == 'location' && <button onClick={(e) => updateLocation(e)} className="form-button w100">{!loading && <span>Update Location</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+                {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+              </form>
+            </div>
+          </div>
+          }
+          { modal == 'add_brand' &&
+            <div className="addFieldItems-modal">
+            <div className="addFieldItems-modal-box">
+              <div className="addFieldItems-modal-box-header">
+                <span className="addFieldItems-modal-form-title">{edit ? 'Edit Brand' : 'New Brand'}</span>
+                <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
+              </div>
+              <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddBrand(e)}>
+                <div className="form-group-single-textarea">
+                  <div className="form-group-single-textarea-field">
+                    <label htmlFor="name_brand">Brand Name</label>
+                    <textarea id="name_brand" rows="1" name="name_brand" placeholder="(Brand Name)" value={brand} onChange={(e) => setBrand(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Brand Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+                  </div>
+                </div>
+                {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Brand</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+                {edit == 'brand' && <button onClick={(e) => updateBrand(e)} className="form-button w100">{!loading && <span>Update Brand</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+                {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+              </form>
+            </div>
+          </div>
+          }
+          { modal == 'add_model' &&
+            <div className="addFieldItems-modal">
+            <div className="addFieldItems-modal-box">
+              <div className="addFieldItems-modal-box-header">
+                <span className="addFieldItems-modal-form-title">{edit ? 'Edit Model' : 'New Model'}</span>
+                <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
+              </div>
+              <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddModel(e)}>
+                <div className="form-group-single-textarea">
+                  <div className="form-group-single-textarea-field">
+                    <label htmlFor="name_model">Model Name</label>
+                    <textarea id="name_model" rows="1" name="name_model" placeholder="(Model Name)" value={model} onChange={(e) => setModel(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Model Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+                  </div>
+                </div>
+                {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Model</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+                {edit == 'model' && <button onClick={(e) => updateModel(e)} className="form-button w100">{!loading && <span>Update Model</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+                {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+              </form>
+            </div>
+          </div>
+          }
+          { modal == 'add_category' &&
+            <div className="addFieldItems-modal">
+            <div className="addFieldItems-modal-box">
+              <div className="addFieldItems-modal-box-header">
+                <span className="addFieldItems-modal-form-title">{edit ? 'Edit Category' : 'New Category'}</span>
+                <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
+              </div>
+              <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddCategory(e)}>
+                <div className="form-group-single-textarea">
+                  <div className="form-group-single-textarea-field">
+                    <label htmlFor="name_category">Category Name</label>
+                    <textarea id="name_category" rows="1" name="name_category" placeholder="(Category Name)" value={category} onChange={(e) => setCategory(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Category Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+                  </div>
+                </div>
+                {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Category</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+                {edit == 'category' && <button onClick={(e) => updateCategory(e)} className="form-button w100">{!loading && <span>Update Category</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+                {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+              </form>
+            </div>
+          </div>
+          }
+          {/* { modal == 'add_location' &&
+            <div className="addFieldItems-modal">
+            <div className="addFieldItems-modal-box">
+              <div className="addFieldItems-modal-box-header">
+                <span className="addFieldItems-modal-form-title">{edit ? 'Edit Location' : 'New Location'}</span>
+                <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
+              </div>
+              <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddLocation(e)}>
+                <div className="form-group-single-textarea">
+                  <div className="form-group-single-textarea-field">
+                    <label htmlFor="name_location">Location Name</label>
+                    <textarea id="name_location" rows="1" name="name_location" placeholder="(Location Name)" value={location} onChange={(e) => setLocation(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Location Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+                  </div>
+                </div>
+                {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Location</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+                {edit == 'location' && <button onClick={(e) => updateLocation(e)} className="form-button w100">{!loading && <span>Update Location</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+                {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+              </form>
+            </div>
+          </div>
+          } */}
         </div>
       </div>
     </>
