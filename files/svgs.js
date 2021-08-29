@@ -121,6 +121,13 @@ const SVG = ({svg, classprop}) => {
         </svg>  
         break;
 
+      case 'remnant':
+        return <svg version="1.1" className={classprop} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+          <title>Edit</title>
+          <path d="M0 12h32v20h-32zM18 8h14l-4-8h-10zM14 0h-10l-4 8h14z"></path>
+        </svg>  
+        break;
+
       default:
         break
     }

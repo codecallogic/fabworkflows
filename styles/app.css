@@ -677,25 +677,52 @@ body {
     content: 'X';
     position: absolute;
     top: calc(50% - 1rem);
-    left: calc(50% - 1rem);
+    left: calc(33% - 1rem);
     width: min-content;
     height: 100%;
     font-size: 1.4rem;
     color: #c8c8cb; }
-  .units span::before {
+  .units::after {
+    content: 'X';
+    position: absolute;
+    top: calc(50% - 1rem);
+    left: calc(66% - 1rem);
+    width: min-content;
+    height: 100%;
+    font-size: 1.4rem;
+    color: #c8c8cb; }
+  .units-cl-1::before {
     content: '';
     position: absolute;
     top: 0;
-    left: calc(50% - 0.6rem);
+    left: calc(33% - 0.6rem);
     width: 0.1rem;
     height: 25%;
     font-size: 1.4rem;
     background-color: #dbdbdb; }
-  .units span::after {
+  .units-cl-1::after {
     content: '';
     position: absolute;
     bottom: 0;
-    left: calc(50% - 0.6rem);
+    left: calc(33% - 0.6rem);
+    width: 0.1rem;
+    height: 25%;
+    font-size: 1.4rem;
+    background-color: #dbdbdb; }
+  .units-cl-2::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: calc(66% - 0.6rem);
+    width: 0.1rem;
+    height: 25%;
+    font-size: 1.4rem;
+    background-color: #dbdbdb; }
+  .units-cl-2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: calc(66% - 0.6rem);
     width: 0.1rem;
     height: 25%;
     font-size: 1.4rem;

@@ -921,19 +921,30 @@
     content: 'X';
     position: absolute;
     top: calc(50% - 1rem);
-    left: calc(50% - 1rem);
+    left: calc(33% - 1rem);
     width: min-content;
     height: 100%;
     font-size: 1.4rem;
     color: $color-light-shade-scheme-2;
   }
 
-  span {
+  &::after {
+    content: 'X';
+    position: absolute;
+    top: calc(50% - 1rem);
+    left: calc(66% - 1rem);
+    width: min-content;
+    height: 100%;
+    font-size: 1.4rem;
+    color: $color-light-shade-scheme-2;
+  }
+
+  &-cl-1 {
     &::before {
       content: '';
       position: absolute;
       top: 0;
-      left: calc(50% - 0.6rem);
+      left: calc(33% - 0.6rem);
       width: 0.1rem;
       height: 25%;
       font-size: 1.4rem;
@@ -944,7 +955,31 @@
       content: '';
       position: absolute;
       bottom: 0;
-      left: calc(50% - 0.6rem);
+      left: calc(33% - 0.6rem);
+      width: 0.1rem;
+      height: 25%;
+      font-size: 1.4rem;
+      background-color: $color-light-shade-scheme-1;
+    }
+  }
+
+  &-cl-2 {
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: calc(66% - 0.6rem);
+      width: 0.1rem;
+      height: 25%;
+      font-size: 1.4rem;
+      background-color: $color-light-shade-scheme-1;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: calc(66% - 0.6rem);
       width: 0.1rem;
       height: 25%;
       font-size: 1.4rem;

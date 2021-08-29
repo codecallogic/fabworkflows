@@ -11,6 +11,7 @@ import axios from 'axios'
 import {useRouter} from 'next/router'
 import SlabFields from '../../components/account/slabFields'
 import ProductFields from '../../components/account/productFields'
+import Remnant from '../../components/account/Remnant'
 axios.defaults.withCredentials = true
 
 const formatter = new Intl.NumberFormat('en-US', {
@@ -530,6 +531,10 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
                 <SVGs svg={'box'}></SVGs>
                 <span>Product Fields</span>
               </div>
+              <div className="clientDashboard-view-new-item" onClick={() => (window.location.href = 'account?change=remnant')}>
+                <SVGs svg={'remnant'}></SVGs>
+                <span>New Remnant</span>
+              </div>
             </div>
           }
           {
@@ -890,6 +895,10 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
               </form>
             </div>
           }
+          {
+            nav.view == 'remnant' &&
+            <Remnant preloadMaterials={materials}></Remnant>
+          }
           { nav.view == 'slab-fields' &&
             <SlabFields preloadMaterials={materials} preloadColors={colors} preloadSuppliers={suppliers} preloadLocations={locations}></SlabFields>
           }
@@ -1115,27 +1124,6 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
             </div>
           </div>
           }
-          {/* { modal == 'add_location' &&
-            <div className="addFieldItems-modal">
-            <div className="addFieldItems-modal-box">
-              <div className="addFieldItems-modal-box-header">
-                <span className="addFieldItems-modal-form-title">{edit ? 'Edit Location' : 'New Location'}</span>
-                <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
-              </div>
-              <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddLocation(e)}>
-                <div className="form-group-single-textarea">
-                  <div className="form-group-single-textarea-field">
-                    <label htmlFor="name_location">Location Name</label>
-                    <textarea id="name_location" rows="1" name="name_location" placeholder="(Location Name)" value={location} onChange={(e) => setLocation(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Location Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
-                  </div>
-                </div>
-                {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Location</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-                {edit == 'location' && <button onClick={(e) => updateLocation(e)} className="form-button w100">{!loading && <span>Update Location</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-                {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
-              </form>
-            </div>
-          </div>
-          } */}
         </div>
       </div>
     </>

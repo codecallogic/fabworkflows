@@ -1,0 +1,31 @@
+const initialState = {
+  name: '',
+  material: '',
+  shape: '',
+  qr_code: '',
+  l1: '',
+  w1: '',
+  l2: '',
+  images: []
+}
+
+export const remnantReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'CREATE_REMNANT':
+      return {
+        ...state,
+        [action.name]: action.value
+      }
+      break;
+    
+    case 'ADD_REMNANT_IMAGES':
+      return {
+        ...state,
+        images: [...action.value]
+      }
+      break;
+
+    default:
+      return state
+  }
+}
