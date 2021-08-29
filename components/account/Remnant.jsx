@@ -62,7 +62,7 @@ const Remnant = ({preloadMaterials, addRemnant, remnant, slab}) => {
           <div onClick={() => (input_dropdown !== 'remnant_material' ? setInputDropdown('remnant_material') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
           { input_dropdown == 'remnant_material' &&
           <div className="form-group-double-dropdown-input-list" ref={myRefs}>
-            <div className="form-group-double-dropdown-input-list-item border_bottom" onClick={() => (setInputDropdown(''), setModal('add_material'))}><SVGs svg={'plus'}></SVGs> Add new</div>
+            {/* <div className="form-group-double-dropdown-input-list-item border_bottom" onClick={() => (setInputDropdown(''), setModal('add_material'))}><SVGs svg={'plus'}></SVGs> Add new</div> */}
             {allMaterials && allMaterials.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
             <div key={idx} className="form-group-double-dropdown-input-list-item" onClick={(e) => (addRemnant('material', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
             ))}
@@ -107,6 +107,13 @@ const Remnant = ({preloadMaterials, addRemnant, remnant, slab}) => {
         </div>
       </div> */}
     </form>
+    <div className="clientDashboard-view-slab_form-shapes">
+      <div className="clientDashboard-view-slab_form-shapes-container">
+        <div className="clientDashboard-view-slab_form-shapes-item">
+          <div className="clientDashboard-view-slab_form-shapes-item-block"></div>
+        </div>
+      </div>
+    </div>
   </div>
   )
 }
