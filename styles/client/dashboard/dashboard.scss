@@ -115,7 +115,127 @@
       }
 
       &-shapes {
-        //
+        &-container {
+          display: flex;
+          justify-content: center;
+          margin: 5rem 0;
+          perspective: 2000px;
+
+          @media only screen and (max-width: $large) {
+            display: grid;
+          }
+        }
+
+        &-item {
+          @media only screen and (max-width: $large) {
+            display: grid;
+            justify-self: center;
+            margin: 1rem 0;
+          }
+
+          &-block {
+            width: min-content;
+            height: max-content;
+            transform: rotate3d(0.05, 1, -0.1, 40deg);
+
+            &-section_top {
+              width: 35rem;
+              height: 10rem;
+              background-color: #686868;
+              // box-shadow: 0 1rem 2rem rgba(12, 12, 12, 0.5),
+              //   /*bottom external highlight*/ 0 -2px 0.3rem rgb(7, 6, 6),
+              //   /*top external shadow*/ inset 0 -0.2px 0.5rem rgba(0, 0, 0, 0.5),
+              //   /*bottom internal shadow*/ inset 0 0.1rem 0.5rem
+              //     rgba(0, 0, 0, 0.3); /*top internal highlight*/
+            }
+
+            &-section_bottom {
+              width: 10rem;
+              height: 10rem;
+              background-color: #686868;
+              // box-shadow: 0 1rem 2rem rgba(12, 12, 12, 0.5),
+              //   /*bottom external highlight*/ 0 -0.01rem 0.01rem rgba(7, 6, 6, 0.9),
+              //   /*top external shadow*/ inset 0 -0.2px 0.5rem rgba(0, 0, 0, 0.5),
+              //   /*bottom internal shadow*/ inset 0 0.1rem 0.5rem
+              //     rgba(0, 0, 0, 0.3); /*top internal highlight*/
+            }
+          }
+
+          &-box {
+            margin: 0rem 10rem;
+            border: 0.1rem solid #d1d1d0;
+            background-color: #dedfde;
+            padding: 1rem 2rem;
+
+            &-container {
+              display: flex;
+              perspective: 2000px;
+            }
+
+            &-title {
+              font-size: 2.4rem;
+              color: #4996c4;
+              font-weight: 700;
+            }
+
+            &-description {
+              display: grid;
+              grid-template-columns: repeat(2, 1fr);
+              margin: 1rem 0;
+
+              &-item {
+                display: grid;
+                grid-template-columns: 1fr;
+                margin: 1rem 3rem;
+
+                label {
+                  font-size: 1.6rem;
+                  color: #b4b4b4;
+                }
+
+                span {
+                  font-size: 1.8rem;
+                }
+              }
+            }
+
+            &-remnant {
+              &-image {
+                transform: rotate3d(0.05, 1, -0.1, 35deg);
+                position: relative;
+
+                &::before {
+                  content: 'W1';
+                  position: absolute;
+                  left: -15%;
+                  border-right: 0.2rem solid $color-scheme-1;
+                  height: 100%;
+                  font-size: 1.5rem;
+                  font-weight: 700;
+                  display: flex;
+                  align-items: center;
+                  padding: 0 1rem;
+                  color: $color-scheme-1;
+                }
+
+                &::after {
+                  content: 'L1';
+                  position: absolute;
+                  top: -15%;
+                  left: 0;
+                  border-bottom: 0.2rem solid $color-scheme-1;
+                  width: 100%;
+                  font-size: 1.5rem;
+                  font-weight: 700;
+                  display: flex;
+                  justify-content: center;
+                  padding: 0 1rem;
+                  color: $color-scheme-1;
+                }
+              }
+            }
+          }
+        }
       }
     }
 
@@ -546,5 +666,43 @@
 .double-column {
   span {
     max-width: 100% !important;
+  }
+}
+
+.remnant-l2 {
+  position: relative;
+
+  &::before {
+    content: 'L2';
+    position: absolute;
+    bottom: -30%;
+    left: 11rem;
+    border-top: 0.2rem solid $color-scheme-1;
+    width: calc(100% - 11rem);
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    padding: 0 1rem;
+    color: $color-scheme-1;
+  }
+}
+
+.remnant-w2 {
+  position: relative;
+
+  &::before {
+    content: 'W2';
+    position: absolute;
+    top: 5%;
+    right: -50%;
+    border-left: 0.2rem solid $color-scheme-1;
+    height: 95%;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    color: $color-scheme-1;
   }
 }

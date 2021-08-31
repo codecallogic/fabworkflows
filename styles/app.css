@@ -677,16 +677,7 @@ body {
     content: 'X';
     position: absolute;
     top: calc(50% - 1rem);
-    left: calc(33% - 1rem);
-    width: min-content;
-    height: 100%;
-    font-size: 1.4rem;
-    color: #c8c8cb; }
-  .units::after {
-    content: 'X';
-    position: absolute;
-    top: calc(50% - 1rem);
-    left: calc(66% - 1rem);
+    left: calc(50% - 1rem);
     width: min-content;
     height: 100%;
     font-size: 1.4rem;
@@ -1237,6 +1228,84 @@ body {
         padding: 1rem 1rem;
         border-top-left-radius: 1.2rem;
         border-top-right-radius: 1.2rem; }
+      .clientDashboard-view-slab_form-shapes-container {
+        display: flex;
+        justify-content: center;
+        margin: 5rem 0;
+        perspective: 2000px; }
+        @media only screen and (max-width: 992px) {
+          .clientDashboard-view-slab_form-shapes-container {
+            display: grid; } }
+      @media only screen and (max-width: 992px) {
+        .clientDashboard-view-slab_form-shapes-item {
+          display: grid;
+          justify-self: center;
+          margin: 1rem 0; } }
+      .clientDashboard-view-slab_form-shapes-item-block {
+        width: min-content;
+        height: max-content;
+        transform: rotate3d(0.05, 1, -0.1, 40deg); }
+        .clientDashboard-view-slab_form-shapes-item-block-section_top {
+          width: 35rem;
+          height: 10rem;
+          background-color: #686868; }
+        .clientDashboard-view-slab_form-shapes-item-block-section_bottom {
+          width: 10rem;
+          height: 10rem;
+          background-color: #686868; }
+      .clientDashboard-view-slab_form-shapes-item-box {
+        margin: 0rem 10rem;
+        border: 0.1rem solid #d1d1d0;
+        background-color: #dedfde;
+        padding: 1rem 2rem; }
+        .clientDashboard-view-slab_form-shapes-item-box-container {
+          display: flex;
+          perspective: 2000px; }
+        .clientDashboard-view-slab_form-shapes-item-box-title {
+          font-size: 2.4rem;
+          color: #4996c4;
+          font-weight: 700; }
+        .clientDashboard-view-slab_form-shapes-item-box-description {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          margin: 1rem 0; }
+          .clientDashboard-view-slab_form-shapes-item-box-description-item {
+            display: grid;
+            grid-template-columns: 1fr;
+            margin: 1rem 3rem; }
+            .clientDashboard-view-slab_form-shapes-item-box-description-item label {
+              font-size: 1.6rem;
+              color: #b4b4b4; }
+            .clientDashboard-view-slab_form-shapes-item-box-description-item span {
+              font-size: 1.8rem; }
+        .clientDashboard-view-slab_form-shapes-item-box-remnant-image {
+          transform: rotate3d(0.05, 1, -0.1, 35deg);
+          position: relative; }
+          .clientDashboard-view-slab_form-shapes-item-box-remnant-image::before {
+            content: 'W1';
+            position: absolute;
+            left: -15%;
+            border-right: 0.2rem solid #fd7e3c;
+            height: 100%;
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            color: #fd7e3c; }
+          .clientDashboard-view-slab_form-shapes-item-box-remnant-image::after {
+            content: 'L1';
+            position: absolute;
+            top: -15%;
+            left: 0;
+            border-bottom: 0.2rem solid #fd7e3c;
+            width: 100%;
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            justify-content: center;
+            padding: 0 1rem;
+            color: #fd7e3c; }
     .clientDashboard-view-slab_list {
       padding: 1rem 2rem;
       width: 100%;
@@ -1528,6 +1597,38 @@ body {
 
 .double-column span {
   max-width: 100% !important; }
+
+.remnant-l2 {
+  position: relative; }
+  .remnant-l2::before {
+    content: 'L2';
+    position: absolute;
+    bottom: -30%;
+    left: 11rem;
+    border-top: 0.2rem solid #fd7e3c;
+    width: calc(100% - 11rem);
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    padding: 0 1rem;
+    color: #fd7e3c; }
+
+.remnant-w2 {
+  position: relative; }
+  .remnant-w2::before {
+    content: 'W2';
+    position: absolute;
+    top: 5%;
+    right: -50%;
+    border-left: 0.2rem solid #fd7e3c;
+    height: 95%;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    color: #fd7e3c; }
 
 .home {
   display: flex;

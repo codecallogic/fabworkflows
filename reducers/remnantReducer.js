@@ -1,11 +1,16 @@
 const initialState = {
   name: '',
   material: '',
+  lot: '',
+  bundle: '',
+  supplier_ref: '',
+  bin: '',
   shape: '',
   qr_code: '',
   l1: '',
   w1: '',
   l2: '',
+  w2: '',
   images: []
 }
 

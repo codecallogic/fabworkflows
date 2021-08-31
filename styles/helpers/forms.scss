@@ -921,23 +921,23 @@
     content: 'X';
     position: absolute;
     top: calc(50% - 1rem);
-    left: calc(33% - 1rem);
+    left: calc(50% - 1rem);
     width: min-content;
     height: 100%;
     font-size: 1.4rem;
     color: $color-light-shade-scheme-2;
   }
 
-  &::after {
-    content: 'X';
-    position: absolute;
-    top: calc(50% - 1rem);
-    left: calc(66% - 1rem);
-    width: min-content;
-    height: 100%;
-    font-size: 1.4rem;
-    color: $color-light-shade-scheme-2;
-  }
+  // &::after {
+  //   content: 'X';
+  //   position: absolute;
+  //   top: calc(50% - 1rem);
+  //   left: calc(66% - 1rem);
+  //   width: min-content;
+  //   height: 100%;
+  //   font-size: 1.4rem;
+  //   color: $color-light-shade-scheme-2;
+  // }
 
   &-cl-1 {
     &::before {
