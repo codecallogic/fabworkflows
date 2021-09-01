@@ -6,6 +6,7 @@ const initialState = {
   supplier_ref: '',
   bin: '',
   shape: '',
+  notes: '',
   qr_code: '',
   l1: '',
   w1: '',

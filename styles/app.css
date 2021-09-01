@@ -1206,7 +1206,10 @@ body {
       padding: 1rem 2rem;
       width: 100%;
       display: flex;
-      flex-wrap: wrap; }
+      flex-wrap: wrap;
+      border: 0.1rem solid #dbdbdb;
+      border-bottom-left-radius: 1.2rem;
+      border-bottom-right-radius: 1.2rem; }
       @media only screen and (max-width: 992px) {
         .clientDashboard-view-slab_form {
           padding: 1rem 0.5rem; } }
@@ -1236,76 +1239,139 @@ body {
         @media only screen and (max-width: 992px) {
           .clientDashboard-view-slab_form-shapes-container {
             display: grid; } }
-      @media only screen and (max-width: 992px) {
-        .clientDashboard-view-slab_form-shapes-item {
-          display: grid;
-          justify-self: center;
-          margin: 1rem 0; } }
-      .clientDashboard-view-slab_form-shapes-item-block {
-        width: min-content;
-        height: max-content;
-        transform: rotate3d(0.05, 1, -0.1, 40deg); }
-        .clientDashboard-view-slab_form-shapes-item-block-section_top {
-          width: 35rem;
-          height: 10rem;
-          background-color: #686868; }
-        .clientDashboard-view-slab_form-shapes-item-block-section_bottom {
-          width: 10rem;
-          height: 10rem;
-          background-color: #686868; }
-      .clientDashboard-view-slab_form-shapes-item-box {
-        margin: 0rem 10rem;
-        border: 0.1rem solid #d1d1d0;
-        background-color: #dedfde;
-        padding: 1rem 2rem; }
-        .clientDashboard-view-slab_form-shapes-item-box-container {
-          display: flex;
-          perspective: 2000px; }
-        .clientDashboard-view-slab_form-shapes-item-box-title {
-          font-size: 2.4rem;
-          color: #4996c4;
-          font-weight: 700; }
-        .clientDashboard-view-slab_form-shapes-item-box-description {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          margin: 1rem 0; }
-          .clientDashboard-view-slab_form-shapes-item-box-description-item {
+      .clientDashboard-view-slab_form-shapes-item {
+        display: flex;
+        justify-content: center;
+        background-color: rgba(64, 65, 65, 0.1);
+        box-shadow: 2rem 1rem 2rem 0.2rem rgba(0, 0, 0, 0.4);
+        padding: 5rem; }
+        @media only screen and (max-width: 992px) {
+          .clientDashboard-view-slab_form-shapes-item {
             display: grid;
-            grid-template-columns: 1fr;
-            margin: 1rem 3rem; }
-            .clientDashboard-view-slab_form-shapes-item-box-description-item label {
-              font-size: 1.6rem;
-              color: #b4b4b4; }
-            .clientDashboard-view-slab_form-shapes-item-box-description-item span {
-              font-size: 1.8rem; }
-        .clientDashboard-view-slab_form-shapes-item-box-remnant-image {
-          transform: rotate3d(0.05, 1, -0.1, 35deg);
-          position: relative; }
-          .clientDashboard-view-slab_form-shapes-item-box-remnant-image::before {
-            content: 'W1';
-            position: absolute;
-            left: -15%;
-            border-right: 0.2rem solid #fd7e3c;
-            height: 100%;
-            font-size: 1.5rem;
-            font-weight: 700;
+            justify-self: center;
+            margin: 1rem 0; } }
+        .clientDashboard-view-slab_form-shapes-item-block {
+          display: flex;
+          justify-content: flex-end;
+          width: min-content;
+          height: max-content;
+          transform: rotate3d(0.05, 1, -0.1, 40deg); }
+          .clientDashboard-view-slab_form-shapes-item-block-section_top {
+            background-color: rgba(104, 104, 104, 0.2); }
+          .clientDashboard-view-slab_form-shapes-item-block-section_bottom {
+            background-color: rgba(104, 104, 104, 0.2); }
+        .clientDashboard-view-slab_form-shapes-item-box {
+          margin: 2rem 2rem;
+          padding: 1rem 2rem; }
+          .clientDashboard-view-slab_form-shapes-item-box-container {
             display: flex;
-            align-items: center;
-            padding: 0 1rem;
-            color: #fd7e3c; }
-          .clientDashboard-view-slab_form-shapes-item-box-remnant-image::after {
-            content: 'L1';
-            position: absolute;
-            top: -15%;
-            left: 0;
-            border-bottom: 0.2rem solid #fd7e3c;
-            width: 100%;
-            font-size: 1.5rem;
-            font-weight: 700;
-            display: flex;
-            justify-content: center;
-            padding: 0 1rem;
-            color: #fd7e3c; }
+            perspective: 2000px; }
+          .clientDashboard-view-slab_form-shapes-item-box-title {
+            font-size: 2.4rem;
+            color: #fd7e3c;
+            font-weight: 500;
+            margin: 4rem 0; }
+          .clientDashboard-view-slab_form-shapes-item-box-description {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            margin: 1rem 0; }
+            .clientDashboard-view-slab_form-shapes-item-box-description-item {
+              display: grid;
+              grid-template-columns: 1fr;
+              margin: 1rem 3rem; }
+              .clientDashboard-view-slab_form-shapes-item-box-description-item label {
+                font-size: 1.6rem;
+                color: #b4b4b4; }
+              .clientDashboard-view-slab_form-shapes-item-box-description-item span {
+                font-size: 1.8rem; }
+          .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right {
+            transform: rotate3d(0.05, 1, -0.1, 30deg);
+            position: relative;
+            background-color: rgba(104, 104, 104, 0.1);
+            box-shadow: 3rem 2rem 2rem 0.3rem rgba(104, 104, 104, 0.1); }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right::before {
+              content: 'B';
+              position: absolute;
+              left: -12%;
+              border-right: 0.2rem solid #fd7e3c;
+              height: 100%;
+              font-size: 1.5rem;
+              font-weight: 700;
+              display: flex;
+              align-items: center;
+              padding: 0 1rem;
+              color: #fd7e3c; }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right::after {
+              content: 'A';
+              position: absolute;
+              top: -18%;
+              left: 0;
+              border-bottom: 0.2rem solid #fd7e3c;
+              width: 100%;
+              font-size: 1.5rem;
+              font-weight: 700;
+              display: flex;
+              justify-content: center;
+              padding: 0 1rem;
+              color: #fd7e3c; }
+          .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left {
+            transform: rotate3d(0.05, 1, -0.1, 30deg);
+            position: relative;
+            background-color: rgba(104, 104, 104, 0.1);
+            box-shadow: -3rem -2rem 2rem 0.3rem rgba(104, 104, 104, 0.1); }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left::before {
+              content: 'B';
+              position: absolute;
+              right: -12%;
+              border-left: 0.2rem solid #fd7e3c;
+              height: 100%;
+              font-size: 1.5rem;
+              font-weight: 700;
+              display: flex;
+              align-items: center;
+              padding: 0 1rem;
+              color: #fd7e3c; }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left::after {
+              content: 'A';
+              position: absolute;
+              top: 105%;
+              left: 0;
+              border-top: 0.2rem solid #fd7e3c;
+              width: 100%;
+              font-size: 1.5rem;
+              font-weight: 700;
+              display: flex;
+              justify-content: center;
+              padding: 0 1rem;
+              color: #fd7e3c; }
+          .clientDashboard-view-slab_form-shapes-item-box-remnant-image-rectangle {
+            transform: rotate3d(0.05, 1, -0.1, 30deg);
+            position: relative; }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-rectangle::before {
+              content: 'B';
+              position: absolute;
+              left: -12%;
+              border-right: 0.2rem solid #fd7e3c;
+              height: 100%;
+              font-size: 1.5rem;
+              font-weight: 700;
+              display: flex;
+              align-items: center;
+              padding: 0 1rem;
+              color: #fd7e3c; }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-rectangle::after {
+              content: 'A';
+              position: absolute;
+              top: 105%;
+              left: 0;
+              border-top: 0.2rem solid #fd7e3c;
+              width: 100%;
+              font-size: 1.5rem;
+              font-weight: 700;
+              display: flex;
+              justify-content: center;
+              padding: 0 1rem;
+              color: #fd7e3c; }
     .clientDashboard-view-slab_list {
       padding: 1rem 2rem;
       width: 100%;
@@ -1598,15 +1664,41 @@ body {
 .double-column span {
   max-width: 100% !important; }
 
-.remnant-l2 {
+.remnant-right-top {
+  width: 35rem;
+  height: 10rem; }
+
+.remnant-right-bottom {
+  width: 12rem;
+  height: 10rem; }
+
+.remnant-left-top {
+  position: absolute;
+  left: calc(100% - 12rem);
+  width: 12rem;
+  height: 10rem; }
+
+.remnant-left-bottom {
+  width: 35rem;
+  height: 10rem; }
+
+.remnant-rectangle-top {
+  width: 35rem;
+  height: 10rem; }
+
+.remnant-rectangle-bottom {
+  width: 35rem;
+  height: 10rem; }
+
+.remnant-right-l2 {
   position: relative; }
-  .remnant-l2::before {
-    content: 'L2';
+  .remnant-right-l2::before {
+    content: 'D';
     position: absolute;
-    bottom: -30%;
-    left: 11rem;
+    bottom: -32%;
+    left: 12rem;
     border-top: 0.2rem solid #fd7e3c;
-    width: calc(100% - 11rem);
+    width: calc(100% - 12rem);
     font-size: 1.5rem;
     font-weight: 700;
     display: flex;
@@ -1614,14 +1706,46 @@ body {
     padding: 0 1rem;
     color: #fd7e3c; }
 
-.remnant-w2 {
+.remnant-right-w2 {
   position: relative; }
-  .remnant-w2::before {
-    content: 'W2';
+  .remnant-right-w2::before {
+    content: 'C';
+    position: absolute;
+    top: 110%;
+    right: 0%;
+    border-top: 0.2rem solid #fd7e3c;
+    width: 100%;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    padding: 0 1rem;
+    color: #fd7e3c; }
+
+.remnant-left-l2 {
+  position: relative; }
+  .remnant-left-l2::before {
+    content: 'C';
+    position: absolute;
+    bottom: 110%;
+    left: 0;
+    border-bottom: 0.2rem solid #fd7e3c;
+    width: 100%;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    padding: 0 1rem;
+    color: #fd7e3c; }
+
+.remnant-left-w2 {
+  position: relative; }
+  .remnant-left-w2::before {
+    content: 'D';
     position: absolute;
     top: 5%;
-    right: -50%;
-    border-left: 0.2rem solid #fd7e3c;
+    right: 102%;
+    border-right: 0.2rem solid #fd7e3c;
     height: 95%;
     font-size: 1.5rem;
     font-weight: 700;

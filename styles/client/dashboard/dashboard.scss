@@ -86,6 +86,9 @@
       width: 100%;
       display: flex;
       flex-wrap: wrap;
+      border: 0.1rem solid $color-light-shade-scheme-1;
+      border-bottom-left-radius: 1.2rem;
+      border-bottom-right-radius: 1.2rem;
 
       @media only screen and (max-width: $large) {
         padding: 1rem 0.5rem;
@@ -127,6 +130,12 @@
         }
 
         &-item {
+          display: flex;
+          justify-content: center;
+          background-color: rgba($color-scheme-3, 0.1);
+          box-shadow: 2rem 1rem 2rem 0.2rem rgba(0, 0, 0, 0.4);
+          padding: 5rem;
+
           @media only screen and (max-width: $large) {
             display: grid;
             justify-self: center;
@@ -134,37 +143,31 @@
           }
 
           &-block {
+            display: flex;
+            justify-content: flex-end;
             width: min-content;
             height: max-content;
             transform: rotate3d(0.05, 1, -0.1, 40deg);
 
             &-section_top {
-              width: 35rem;
-              height: 10rem;
-              background-color: #686868;
-              // box-shadow: 0 1rem 2rem rgba(12, 12, 12, 0.5),
-              //   /*bottom external highlight*/ 0 -2px 0.3rem rgb(7, 6, 6),
-              //   /*top external shadow*/ inset 0 -0.2px 0.5rem rgba(0, 0, 0, 0.5),
-              //   /*bottom internal shadow*/ inset 0 0.1rem 0.5rem
-              //     rgba(0, 0, 0, 0.3); /*top internal highlight*/
+              background-color: rgba(104, 104, 104, 0.2);
+              // box-shadow: 0 0rem 1rem 1rem rgba(0, 0, 0, 0.4);
+              // border-top: 0.2rem solid black;
+              // border-left: 0.2rem solid black;
+              // border-right: 0.2rem solid black;
             }
 
             &-section_bottom {
-              width: 10rem;
-              height: 10rem;
-              background-color: #686868;
-              // box-shadow: 0 1rem 2rem rgba(12, 12, 12, 0.5),
-              //   /*bottom external highlight*/ 0 -0.01rem 0.01rem rgba(7, 6, 6, 0.9),
-              //   /*top external shadow*/ inset 0 -0.2px 0.5rem rgba(0, 0, 0, 0.5),
-              //   /*bottom internal shadow*/ inset 0 0.1rem 0.5rem
-              //     rgba(0, 0, 0, 0.3); /*top internal highlight*/
+              background-color: rgba(104, 104, 104, 0.2);
+              // box-shadow: 0 rem 1rem 1rem rgba(0, 0, 0, 0.4);
+              // border-left: 0.2rem solid black;
+              // border-right: 0.2rem solid black;
+              // border-bottom: 0.2rem solid black;
             }
           }
 
           &-box {
-            margin: 0rem 10rem;
-            border: 0.1rem solid #d1d1d0;
-            background-color: #dedfde;
+            margin: 2rem 2rem;
             padding: 1rem 2rem;
 
             &-container {
@@ -174,8 +177,9 @@
 
             &-title {
               font-size: 2.4rem;
-              color: #4996c4;
-              font-weight: 700;
+              color: $color-scheme-1;
+              font-weight: 500;
+              margin: 4rem 0;
             }
 
             &-description {
@@ -200,14 +204,16 @@
             }
 
             &-remnant {
-              &-image {
-                transform: rotate3d(0.05, 1, -0.1, 35deg);
+              &-image-right {
+                transform: rotate3d(0.05, 1, -0.1, 30deg);
                 position: relative;
+                background-color: rgba(104, 104, 104, 0.1);
+                box-shadow: 3rem 2rem 2rem 0.3rem rgba(104, 104, 104, 0.1);
 
                 &::before {
-                  content: 'W1';
+                  content: 'B';
                   position: absolute;
-                  left: -15%;
+                  left: -12%;
                   border-right: 0.2rem solid $color-scheme-1;
                   height: 100%;
                   font-size: 1.5rem;
@@ -219,11 +225,81 @@
                 }
 
                 &::after {
-                  content: 'L1';
+                  content: 'A';
                   position: absolute;
-                  top: -15%;
+                  top: -18%;
                   left: 0;
                   border-bottom: 0.2rem solid $color-scheme-1;
+                  width: 100%;
+                  font-size: 1.5rem;
+                  font-weight: 700;
+                  display: flex;
+                  justify-content: center;
+                  padding: 0 1rem;
+                  color: $color-scheme-1;
+                }
+              }
+
+              &-image-left {
+                transform: rotate3d(0.05, 1, -0.1, 30deg);
+                position: relative;
+                background-color: rgba(104, 104, 104, 0.1);
+                box-shadow: -3rem -2rem 2rem 0.3rem rgba(104, 104, 104, 0.1);
+
+                &::before {
+                  content: 'B';
+                  position: absolute;
+                  right: -12%;
+                  border-left: 0.2rem solid $color-scheme-1;
+                  height: 100%;
+                  font-size: 1.5rem;
+                  font-weight: 700;
+                  display: flex;
+                  align-items: center;
+                  padding: 0 1rem;
+                  color: $color-scheme-1;
+                }
+
+                &::after {
+                  content: 'A';
+                  position: absolute;
+                  top: 105%;
+                  left: 0;
+                  border-top: 0.2rem solid $color-scheme-1;
+                  width: 100%;
+                  font-size: 1.5rem;
+                  font-weight: 700;
+                  display: flex;
+                  justify-content: center;
+                  padding: 0 1rem;
+                  color: $color-scheme-1;
+                }
+              }
+
+              &-image-rectangle {
+                transform: rotate3d(0.05, 1, -0.1, 30deg);
+                position: relative;
+
+                &::before {
+                  content: 'B';
+                  position: absolute;
+                  left: -12%;
+                  border-right: 0.2rem solid $color-scheme-1;
+                  height: 100%;
+                  font-size: 1.5rem;
+                  font-weight: 700;
+                  display: flex;
+                  align-items: center;
+                  padding: 0 1rem;
+                  color: $color-scheme-1;
+                }
+
+                &::after {
+                  content: 'A';
+                  position: absolute;
+                  top: 105%;
+                  left: 0;
+                  border-top: 0.2rem solid $color-scheme-1;
                   width: 100%;
                   font-size: 1.5rem;
                   font-weight: 700;
@@ -669,16 +745,48 @@
   }
 }
 
-.remnant-l2 {
+.remnant-right-top {
+  width: 35rem;
+  height: 10rem;
+}
+
+.remnant-right-bottom {
+  width: 12rem;
+  height: 10rem;
+}
+
+.remnant-left-top {
+  position: absolute;
+  left: calc(100% - 12rem);
+  width: 12rem;
+  height: 10rem;
+}
+
+.remnant-left-bottom {
+  width: 35rem;
+  height: 10rem;
+}
+
+.remnant-rectangle-top {
+  width: 35rem;
+  height: 10rem;
+}
+
+.remnant-rectangle-bottom {
+  width: 35rem;
+  height: 10rem;
+}
+
+.remnant-right-l2 {
   position: relative;
 
   &::before {
-    content: 'L2';
+    content: 'D';
     position: absolute;
-    bottom: -30%;
-    left: 11rem;
+    bottom: -32%;
+    left: 12rem;
     border-top: 0.2rem solid $color-scheme-1;
-    width: calc(100% - 11rem);
+    width: calc(100% - 12rem);
     font-size: 1.5rem;
     font-weight: 700;
     display: flex;
@@ -688,15 +796,53 @@
   }
 }
 
-.remnant-w2 {
+.remnant-right-w2 {
   position: relative;
 
   &::before {
-    content: 'W2';
+    content: 'C';
+    position: absolute;
+    top: 110%;
+    right: 0%;
+    border-top: 0.2rem solid $color-scheme-1;
+    width: 100%;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    padding: 0 1rem;
+    color: $color-scheme-1;
+  }
+}
+
+.remnant-left-l2 {
+  position: relative;
+
+  &::before {
+    content: 'C';
+    position: absolute;
+    bottom: 110%;
+    left: 0;
+    border-bottom: 0.2rem solid $color-scheme-1;
+    width: 100%;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    padding: 0 1rem;
+    color: $color-scheme-1;
+  }
+}
+
+.remnant-left-w2 {
+  position: relative;
+
+  &::before {
+    content: 'D';
     position: absolute;
     top: 5%;
-    right: -50%;
-    border-left: 0.2rem solid $color-scheme-1;
+    right: 102%;
+    border-right: 0.2rem solid $color-scheme-1;
     height: 95%;
     font-size: 1.5rem;
     font-weight: 700;

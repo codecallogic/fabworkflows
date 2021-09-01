@@ -1,8 +1,12 @@
 import {connect} from 'react-redux'
 import SVGs from '../../files/svgs'
 import React, { useState, useEffect, useRef } from 'react'
+import QRCode from 'qrcode'
+import {nanoid} from 'nanoid'
+import {API} from '../../config'
+import axios from 'axios'
 
-const Remnant = ({preloadMaterials, addRemnant, remnant, slab}) => {
+const Remnant = ({preloadMaterials, addRemnant, remnant, addRemnantImages}) => {
   const myRefs = useRef(null)
   
   const [input_dropdown, setInputDropdown] = useState('')
@@ -10,6 +14,7 @@ const Remnant = ({preloadMaterials, addRemnant, remnant, slab}) => {
   const [edit, setEdit] = useState('')
   const [loading, setLoading] = useState(false)
   const [selectedFiles, setSelectedFiles] = useState([])
+  const [imageCount, setImageCount] = useState(remnant.images ? remnant.images.length : 0)
   const [allMaterials, setAllMaterials] = useState(preloadMaterials ? preloadMaterials : [])
 
   const handleClickOutside = (event) => {
@@ -27,10 +32,6 @@ const Remnant = ({preloadMaterials, addRemnant, remnant, slab}) => {
       document.removeEventListener("click", handleClickOutside, true);
     };
   }, [])
-
-  const submitAddRemnant = () => {
-
-  }
 
   const validateIsNumberSize = (type) => {
     const input = document.getElementById(type)
@@ -79,6 +80,7 @@ const Remnant = ({preloadMaterials, addRemnant, remnant, slab}) => {
   }
   
   const multipleFileChangeHandler = (e) => {
+    console.log([...selectedFiles, ...e.target.files])
     let imageMax = imageCount + e.target.files.length
     if(imageMax > 3){ setError('Max number of images is 3'); window.scrollTo(0,document.body.scrollHeight); return}
 
@@ -90,9 +92,50 @@ const Remnant = ({preloadMaterials, addRemnant, remnant, slab}) => {
       })
     }
     
-    setSelectedFiles( prevState => [...e.target.files])
-    addProductImages([...e.target.files])
+    setSelectedFiles( prevState => [...selectedFiles, ...e.target.files])
+    addRemnantImages([...selectedFiles, ...e.target.files])
     setImageCount(imageMax)
+  }
+
+  const submitAddRemnant= async (e) => {
+    e.preventDefault()
+    setError('')
+    if(!remnant.name){setError('Name required'); window.scrollTo(0,document.body.scrollHeight); return}
+    if(!remnant.material){setError('Material required'); window.scrollTo(0,document.body.scrollHeight); return}
+    if(!remnant.shape){setError('Shape required'); window.scrollTo(0,document.body.scrollHeight); return}
+    if(!remnant.l1){setError('L1 required'); window.scrollTo(0,document.body.scrollHeight); return}
+    if(!remnant.w1){setError('W1 required'); window.scrollTo(0,document.body.scrollHeight); return}
+    setLoading(true)
+    
+    let data = new FormData()
+    
+    if(remnant.images.length > 0){
+      remnant.images.forEach((item) => {
+        let fileID = nanoid()
+        data.append('file', item, `remnant-${fileID}.${item.name.split('.')[1]}`)
+      })
+    }
+
+    if(remnant){
+      for(const key in remnant){
+        if(key !== 'images') data.append(key, remnant[key])
+      }
+    }
+
+    try {
+      const responseRemnant = await axios.post(`${API}/inventory/create-remnant`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      setLoading(false)
+      console.log(responseRemnant.data)
+      window.location.href = `/remnants`
+    } catch (error) {
+      console.log(error)
+      setLoading(false)
+      if(error) error.response ? setError(error.response.data) : setError('Error adding remnant to inventory')
+    }
   }
   
   return (
@@ -164,25 +207,25 @@ const Remnant = ({preloadMaterials, addRemnant, remnant, slab}) => {
         </div>
       </div>
       <div className="form-group-double-dropdown">
-        <label>L x W</label>
+        <label>A x B</label>
         <div className="form-group-double-dropdown-input units">
           <span></span>
-          <textarea id="l1" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="l1" placeholder="L in" value={remnant.l1} onChange={(e) => (validateIsNumberSize('l1'), addRemnant('l1', e.target.value))} required></textarea>
-          <textarea id="w1" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="w1" placeholder="W in" value={remnant.w1} onChange={(e) => (validateIsNumberSize('w1'), addRemnant('w1', e.target.value))} required></textarea>
+          <textarea id="l1" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="l1" placeholder="A in" value={remnant.l1} onChange={(e) => (validateIsNumberSize('l1'), addRemnant('l1', e.target.value))} required></textarea>
+          <textarea id="w1" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="w1" placeholder="B in" value={remnant.w1} onChange={(e) => (validateIsNumberSize('w1'), addRemnant('w1', e.target.value))} required></textarea>
         </div>
       </div>
       <div className="form-group-double-dropdown">
-        <label>L2 x W2</label>
+        <label>C x D</label>
         <div className="form-group-double-dropdown-input units">
           <span></span>
-          <textarea id="l2" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="l2" placeholder="L2 in" value={remnant.l2} onChange={(e) => (validateIsNumberSize('l2'), addRemnant('l2', e.target.value))} required></textarea>
-          <textarea id="w2" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="w2" placeholder="W2 in" value={remnant.w2} onChange={(e) => (validateIsNumberSize('w2'), addRemnant('w2', e.target.value))} required></textarea>
+          <textarea id="l2" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="l2" placeholder="C in" value={remnant.l2} onChange={(e) => (validateIsNumberSize('l2'), addRemnant('l2', e.target.value))} required></textarea>
+          <textarea id="w2" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="w2" placeholder="D in" value={remnant.w2} onChange={(e) => (validateIsNumberSize('w2'), addRemnant('w2', e.target.value))} required></textarea>
         </div>
       </div>
       <div className="form-group-double-dropdown">
         <label htmlFor="notes">Notes</label>
         <div className="form-group-triple-input">
-          <textarea id="notes" rows="5" name="notes" placeholder="(Notes)" value={remnant.notes} onChange={(e) => (addRemnant('notes', e.target.value))} required></textarea>
+          <textarea id="notes" rows="5" name="notes" placeholder="(Notes)" value={remnant.notes} onChange={(e) => (addRemnant('notes', e.target.value))}></textarea>
         </div>
       </div>
       <div className="form-group-triple-qr">
@@ -205,14 +248,14 @@ const Remnant = ({preloadMaterials, addRemnant, remnant, slab}) => {
         {selectedFiles.length > 0 && <>
           <div className="form-group-triple-upload-item-container">
           {selectedFiles.map((item, idx) => (
-            <a className="form-group-triple-upload-item" key={idx}>
-              <div>{item.location ? (<><span className="form-group-triple-upload-item-delete" onClick={(e) => deleteImage(item)}><SVGs svg={'close'} classprop={'form-group-triple-upload-item-delete-svg'}></SVGs></span><img src={item.location} onClick={() => window.open(item.location, '_blank').focus()}></img></>) : <SVGs svg={'file-image'}></SVGs>} </div>
+            <a className="form-group-triple-upload-item" href={item.location} target="_blank" rel="noreferrer" key={idx}>
+              <div>{item.location ? <img src={item.location}></img> : <SVGs svg={'file-image'}></SVGs>} </div>
             </a>
           ))}
           </div>
           {imageCount < 3 && 
             <>
-            <label onClick={() => (setSelectedFiles([]), setImageCount(0), addProductImages([]))} htmlFor="files_upload" className="form-group-triple-upload-more">
+            <label onClick={() => (setSelectedFiles([]), setImageCount(0), addRemnantImages([]))} htmlFor="files_upload" className="form-group-triple-upload-more">
               <SVGs svg={'upload'}></SVGs> 
               Update
             </label>
@@ -230,55 +273,45 @@ const Remnant = ({preloadMaterials, addRemnant, remnant, slab}) => {
           </>
         }
       </div>
-      {/* <div className="form-button-container">
-        <button type="submit" className="form-button" onClick={() => setError('Please complete entire form')}>{!loading && <span>Add Slab</span>}{loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
+      <div className="form-button-container">
+        <button type="submit" className="form-button" onClick={() => setError('Please complete entire form')}>{!loading && <span>Add Remnant</span>}{loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
         <div className="form-error-container">
         {error && <span className="form-error" id="error-message"><SVGs svg={'error'}></SVGs> {error}</span>}
         </div>
-      </div> */}
+      </div>
     </form>
     <div className="clientDashboard-view-slab_form-shapes">
       <div className="clientDashboard-view-slab_form-shapes-container">
         <div className="clientDashboard-view-slab_form-shapes-item">
-          <div className="clientDashboard-view-slab_form-shapes-item-block">
-            <div className="clientDashboard-view-slab_form-shapes-item-block-section_top"></div>
-            <div className="clientDashboard-view-slab_form-shapes-item-block-section_bottom"></div>
-          </div>
-        </div>
-        <div className="clientDashboard-view-slab_form-shapes-item">
           <div className="clientDashboard-view-slab_form-shapes-item-box">
-            <div className="clientDashboard-view-slab_form-shapes-item-box-title">Remnant Slab - Right "L"</div>
+            <div className="clientDashboard-view-slab_form-shapes-item-box-title">Remnant Slab - Right "R"</div>
             <div className="clientDashboard-view-slab_form-shapes-item-box-container">
-              <div className="clientDashboard-view-slab_form-shapes-item-box-description">
-                <div className="clientDashboard-view-slab_form-shapes-item-box-description-item">
-                  <label>Material:</label>
-                  <span>Quartz</span>
-                </div>
-                <div className="clientDashboard-view-slab_form-shapes-item-box-description-item">
-                  <label>Bin #:</label>
-                  <span>24</span>
-                </div>
-                <div className="clientDashboard-view-slab_form-shapes-item-box-description-item">
-                  <label>Unique ID:</label>
-                  <span>dDAakoAD1AD</span>
-                </div>
-                <div className="clientDashboard-view-slab_form-shapes-item-box-description-item">
-                  <label>Lot #:</label>
-                  <span>101</span>
-                </div>
-                <div className="clientDashboard-view-slab_form-shapes-item-box-description-item">
-                  <label>L1 X W1</label>
-                  <span>72 in x 30 in</span>
-                </div>
-                <div className="clientDashboard-view-slab_form-shapes-item-box-description-item">
-                  <label>L2 X W2</label>
-                  <span>59 X 38</span>
+              <div className="clientDashboard-view-slab_form-shapes-item-box-remnant">
+                <div className="clientDashboard-view-slab_form-shapes-item-box-remnant-image-right">
+                  <div className="clientDashboard-view-slab_form-shapes-item-block-section_top remnant-right-top remnant-right-l2"></div>
+                  <div className="clientDashboard-view-slab_form-shapes-item-block-section_bottom remnant-right-bottom remnant-right-w2"></div>
                 </div>
               </div>
+            </div>
+          </div>
+          <div className="clientDashboard-view-slab_form-shapes-item-box">
+            <div className="clientDashboard-view-slab_form-shapes-item-box-title">Remnant Slab - Left "L"</div>
+            <div className="clientDashboard-view-slab_form-shapes-item-box-container">
               <div className="clientDashboard-view-slab_form-shapes-item-box-remnant">
-                <div className="clientDashboard-view-slab_form-shapes-item-box-remnant-image">
-                  <div className="clientDashboard-view-slab_form-shapes-item-block-section_top remnant-l2"></div>
-                  <div className="clientDashboard-view-slab_form-shapes-item-block-section_bottom remnant-w2"></div>
+                <div className="clientDashboard-view-slab_form-shapes-item-box-remnant-image-left">
+                  <div className="clientDashboard-view-slab_form-shapes-item-block-section_top remnant-left-top remnant-left-l2"></div>
+                  <div className="clientDashboard-view-slab_form-shapes-item-block-section_bottom remnant-left-bottom remnant-left-w2"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="clientDashboard-view-slab_form-shapes-item-box">
+            <div className="clientDashboard-view-slab_form-shapes-item-box-container">
+              <div className="clientDashboard-view-slab_form-shapes-item-box-remnant">
+                <div className="clientDashboard-view-slab_form-shapes-item-box-title">Remnant Block</div>
+                <div className="clientDashboard-view-slab_form-shapes-item-box-remnant-image-left">
+                  <div className="clientDashboard-view-slab_form-shapes-item-block-section_top remnant-rectangle-top"></div>
+                  <div className="clientDashboard-view-slab_form-shapes-item-block-section_bottom remnant-rectangle-bottom"></div>
                 </div>
               </div>
             </div>
@@ -300,8 +333,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     addRemnant: (name, data) => dispatch({type: 'CREATE_REMNANT', name: name, value: data}),
-    addRemnantImages: (name, data) => dispatch({type: 'CREATE_REMNANT', name: name, value: data}),
-    resetSupplier: () => dispatch({type: 'RESET'})
+    addRemnantImages: (data) => dispatch({type: 'ADD_REMNANT_IMAGES', value: data}),
   }
 }
 
