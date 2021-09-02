@@ -120,8 +120,6 @@ const Remnant = ({hideSideNav, showSideNav, preloadMaterials, addRemnant, remnan
   }
 
   const deleteImage = async (item) => {
-    console.log(item)
-    console.log(remnant)
     let storedImages = []
 
     selectedFiles.forEach((item, idx) => {

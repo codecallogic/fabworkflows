@@ -71,10 +71,13 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
   }
 
   const handleDelete = async (e) => {
+    let deleteImages = list.filter((item) => {
+      if(item._id == idControlsSlab) return item
+    })
     setLoading(true)
     setError('')
     try {
-      const responseDelete = await axios.post(`${API}/inventory/delete-slab`, {id: idControlsSlab})
+      const responseDelete = await axios.post(`${API}/inventory/delete-slab`, {id: idControlsSlab, images: deleteImages[0].images})
       console.log(responseDelete)
       window.location.href = '/slabs'
       setLoading(false)

@@ -19,6 +19,8 @@ const Products = ({hideSideNav, showSideNav, list}) => {
   const [filterProduct, setFilterProduct] = useState('')
   const [ascProduct, setAscProduct] = useState(-1)
   const [descProduct, setDescProduct] = useState(1)
+  const [loading, setLoading] = useState(false)
+
 
   const handleClickOutside = (event) => {
     if(myRefs.current){
@@ -70,8 +72,13 @@ const Products = ({hideSideNav, showSideNav, list}) => {
   }
 
   const handleDelete = async (e) => {
+    let deleteImages = list.filter((item) => {
+      if(item._id == idControls) return item
+    })
+    setLoading(true)
+    setError('')
     try {
-      const responseDelete = await axios.post(`${API}/inventory/delete-product`, {id: idControls})
+      const responseDelete = await axios.post(`${API}/inventory/delete-product`, {id: idControls, images: deleteImages[0].images})
       window.location.href = '/products'
     } catch (error) {
       if(error) error.response ? setError(error.response.data) : setError('Error deleting from inventory')
@@ -93,6 +100,7 @@ const Products = ({hideSideNav, showSideNav, list}) => {
                 <div id="delete-product" className="clientDashboard-view-slab_list-heading-controls-item delete" onClick={() => handleDelete()}>Delete</div>
               </div>
             }
+            {loading && <div className="loading"><span></span><span></span><span></span></div>}
             <div className="form-error-container">
               {error && <span className="form-error"><SVGs svg={'error'}></SVGs></span>}
             </div>

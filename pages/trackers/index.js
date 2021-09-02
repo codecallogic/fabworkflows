@@ -93,9 +93,13 @@ const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
   }
 
   const handleDeleteSlab = async (e) => {
+    let deleteImages = listSlabs.filter((item) => {
+      if(item._id == idControlsSlabs) return item
+    })
     setLoadingSlab(true)
+    setError('')
     try {
-      const responseDelete = await axios.post(`${API}/inventory/delete-slab`, {id: idControlsSlabs})
+      const responseDelete = await axios.post(`${API}/inventory/delete-slab`, {id: idControlsSlabs, images: deleteImages[0].images})
       // console.log(responseDelete)
       window.location.href = '/trackers'
       setLoadingSlab(false)
@@ -107,9 +111,13 @@ const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
   }
 
   const handleDeleteProduct = async (e) => {
+    let deleteImages = listProducts.filter((item) => {
+      if(item._id == idControlsProducts) return item
+    })
     setLoadingProduct(true)
+    setError('')
     try {
-      const responseDelete = await axios.post(`${API}/inventory/delete-product`, {id: idControlsProducts})
+      const responseDelete = await axios.post(`${API}/inventory/delete-product`, {id: idControlsProducts, images: deleteImages[0].images})
       window.location.href = '/products'
       setLoadingProduct(false)
     } catch (error) {

@@ -19,6 +19,7 @@ const Remnants = ({hideSideNav, showSideNav, list}) => {
   const [filterRemnant, setFilterRemnant] = useState('')
   const [ascRemnant, setAscRemnant] = useState(-1)
   const [descRemnant, setDescRemnant] = useState(1)
+  const [loading, setLoading] = useState(false)
 
   const handleClickOutside = (event) => {
     if(myRefs.current){
@@ -69,9 +70,14 @@ const Remnants = ({hideSideNav, showSideNav, list}) => {
     return setIDControls(id)
   }
 
-  const handleDelete = async (e) => {
+  const handleDelete = async (e) => {    
+    let deleteImages = list.filter((item) => {
+      if(item._id == idControls) return item
+    })
+    setLoading(true)
+    setError('')
     try {
-      const responseDelete = await axios.post(`${API}/inventory/delete-remnant`, {id: idControls})
+      const responseDelete = await axios.post(`${API}/inventory/delete-remnant`, {id: idControls, images: deleteImages[0].images})
       window.location.href = '/remnants'
     } catch (error) {
       if(error) error.response ? setError(error.response.data) : setError('Error deleting from inventory')
@@ -93,6 +99,7 @@ const Remnants = ({hideSideNav, showSideNav, list}) => {
                 <div id="delete-remnant" className="clientDashboard-view-slab_list-heading-controls-item delete" onClick={() => handleDelete()}>Delete</div>
               </div>
             }
+            {loading && <div className="loading"><span></span><span></span><span></span></div>}
             <div className="form-error-container">
               {error && <span className="form-error"><SVGs svg={'error'}></SVGs></span>}
             </div>
