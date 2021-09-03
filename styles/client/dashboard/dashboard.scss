@@ -133,7 +133,7 @@
         &-item {
           display: flex;
           justify-content: center;
-          background-color: rgba($color-scheme-3, 0.1);
+          background-color: rgba($color-scheme-3, 0.05);
           box-shadow: 2rem 1rem 2rem 0.2rem rgba(0, 0, 0, 0.4);
           padding: 5rem;
           overflow-x: scroll;
@@ -219,8 +219,8 @@
               &-image-right {
                 // transform: rotate3d(0.05, 1, -0.1, 30deg);
                 position: relative;
-                background-color: rgba(104, 104, 104, 0.1);
-                box-shadow: 3rem 0rem 1rem 0.3rem rgba(104, 104, 104, 0.1);
+                // background-color: rgba(104, 104, 104, 0.1);
+                // box-shadow: 3rem 0rem 1rem 0.3rem rgba(104, 104, 104, 0.1);
 
                 &-svg_1 {
                   position: absolute;
@@ -317,8 +317,8 @@
                 position: relative;
                 display: flex;
                 flex-direction: column;
-                background-color: rgba(104, 104, 104, 0.1);
-                box-shadow: -2rem -0.5rem 1rem 0.5rem rgba(104, 104, 104, 0.1);
+                // background-color: rgba(104, 104, 104, 0.1);
+                // box-shadow: -2rem -0.5rem 1rem 0.5rem rgba(104, 104, 104, 0.1);
                 margin-bottom: 7rem;
 
                 @media only screen and (max-width: $small) {
@@ -414,8 +414,8 @@
               &-image-left {
                 // transform: rotate3d(0.05, 1, -0.1, 30deg);
                 position: relative;
-                background-color: rgba(104, 104, 104, 0.1);
-                box-shadow: -3rem -2rem 1rem 0.3rem rgba(104, 104, 104, 0.1);
+                // background-color: rgba(104, 104, 104, 0.1);
+                // box-shadow: -3rem -2rem 1rem 0.3rem rgba(104, 104, 104, 0.1);
                 width: max-content;
 
                 &-svg_1 {
@@ -513,8 +513,8 @@
                 position: relative;
                 display: flex;
                 flex-direction: column;
-                background-color: rgba(104, 104, 104, 0.1);
-                box-shadow: -3rem -1rem 1rem 0.5rem rgba(104, 104, 104, 0.1);
+                // background-color: rgba(104, 104, 104, 0.1);
+                // box-shadow: -3rem 0rem 1rem 0.5rem rgba(104, 104, 104, 0.1);
                 width: max-content;
 
                 margin-bottom: 7rem;

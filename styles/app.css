@@ -1242,7 +1242,7 @@ body {
       .clientDashboard-view-slab_form-shapes-item {
         display: flex;
         justify-content: center;
-        background-color: rgba(64, 65, 65, 0.1);
+        background-color: rgba(64, 65, 65, 0.05);
         box-shadow: 2rem 1rem 2rem 0.2rem rgba(0, 0, 0, 0.4);
         padding: 5rem;
         overflow-x: scroll;
@@ -1296,9 +1296,7 @@ body {
           .clientDashboard-view-slab_form-shapes-item-box-remnant-right {
             transform: rotate(90deg) !important; }
           .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right {
-            position: relative;
-            background-color: rgba(104, 104, 104, 0.1);
-            box-shadow: 3rem 0rem 1rem 0.3rem rgba(104, 104, 104, 0.1); }
+            position: relative; }
             .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-svg_1 {
               position: absolute;
               top: -9.5%;
@@ -1374,8 +1372,6 @@ body {
             position: relative;
             display: flex;
             flex-direction: column;
-            background-color: rgba(104, 104, 104, 0.1);
-            box-shadow: -2rem -0.5rem 1rem 0.5rem rgba(104, 104, 104, 0.1);
             margin-bottom: 7rem; }
             @media only screen and (max-width: 600px) {
               .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse {
@@ -1450,8 +1446,6 @@ body {
               color: #fd7e3c; }
           .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left {
             position: relative;
-            background-color: rgba(104, 104, 104, 0.1);
-            box-shadow: -3rem -2rem 1rem 0.3rem rgba(104, 104, 104, 0.1);
             width: max-content; }
             .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-svg_1 {
               position: absolute;
@@ -1528,8 +1522,6 @@ body {
             position: relative;
             display: flex;
             flex-direction: column;
-            background-color: rgba(104, 104, 104, 0.1);
-            box-shadow: -3rem -1rem 1rem 0.5rem rgba(104, 104, 104, 0.1);
             width: max-content;
             margin-bottom: 7rem; }
             @media only screen and (max-width: 600px) {
