@@ -1293,176 +1293,216 @@ body {
                 color: #b4b4b4; }
               .clientDashboard-view-slab_form-shapes-item-box-description-item span {
                 font-size: 1.8rem; }
-          .clientDashboard-view-slab_form-shapes-item-box-remnant {
-            display: flex; }
-            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right {
-              position: relative;
-              background-color: rgba(104, 104, 104, 0.1);
-              box-shadow: 3rem 0rem 1rem 0.3rem rgba(104, 104, 104, 0.1); }
-              .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right::after {
-                content: 'B';
-                position: absolute;
-                top: 102%;
-                left: 0;
-                border-top: 0.2rem solid #fd7e3c;
-                width: 100%;
-                font-size: 1.5rem;
-                font-weight: 700;
-                display: flex;
-                justify-content: center;
-                padding: 0 1rem;
-                color: #fd7e3c; }
-            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse {
-              position: relative;
-              background-color: rgba(104, 104, 104, 0.1);
-              box-shadow: -2rem 1rem 1rem 0.5rem rgba(104, 104, 104, 0.1);
-              margin-right: 4rem; }
-              @media only screen and (max-width: 600px) {
-                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse {
-                  margin-right: 3.5rem; } }
-              .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse::before {
-                content: 'A';
-                position: absolute;
-                right: -19%;
-                border-left: 0.2rem solid #fd7e3c;
-                border-right: 0.2rem solid #fd7e3c;
-                height: 100%;
-                font-size: 1.5rem;
-                font-weight: 700;
-                display: flex;
-                align-items: center;
-                padding: 0 1rem;
-                color: #fd7e3c; }
-                @media only screen and (max-width: 600px) {
-                  .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse::before {
-                    right: -23%; } }
-              .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse::after {
-                content: 'B';
-                position: absolute;
-                top: -10%;
-                right: 0;
-                border-bottom: 0.2rem solid #fd7e3c;
-                width: 100%;
-                font-size: 1.5rem;
-                font-weight: 700;
-                display: flex;
-                justify-content: center;
-                padding: 0 1rem;
-                color: #fd7e3c; }
-            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left {
-              position: relative;
-              background-color: rgba(104, 104, 104, 0.1);
-              box-shadow: -3rem -2rem 1rem 0.3rem rgba(104, 104, 104, 0.1); }
-              @media only screen and (max-width: 600px) {
-                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left {
-                  margin-right: 3.5rem; } }
-              .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left::after {
-                content: 'B';
-                position: absolute;
-                bottom: 102%;
-                left: 0;
-                border-bottom: 0.2rem solid #fd7e3c;
-                width: 100%;
-                font-size: 1.5rem;
-                font-weight: 700;
-                display: flex;
-                justify-content: center;
-                padding: 0 1rem;
-                color: #fd7e3c; }
-            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse {
-              position: relative;
+          .clientDashboard-view-slab_form-shapes-item-box-remnant-right {
+            transform: rotate(90deg) !important; }
+          .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right {
+            position: relative;
+            background-color: rgba(104, 104, 104, 0.1);
+            box-shadow: 3rem 0rem 1rem 0.3rem rgba(104, 104, 104, 0.1); }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right::after {
+              content: 'B';
+              position: absolute;
+              top: 102%;
+              left: 0;
+              border-top: 0.2rem solid #fd7e3c;
+              width: 100%;
+              font-size: 1.5rem;
+              font-weight: 700;
               display: flex;
-              flex-direction: column;
-              background-color: rgba(104, 104, 104, 0.1);
-              box-shadow: -3rem -1rem 1rem 0.5rem rgba(104, 104, 104, 0.1);
-              margin-right: 4rem; }
-              .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse::before {
-                content: 'A';
-                position: absolute;
-                right: -19%;
-                border-left: 0.2rem solid #fd7e3c;
-                border-right: 0.2rem solid #fd7e3c;
-                height: 100%;
-                font-size: 1.5rem;
-                font-weight: 700;
-                display: flex;
-                align-items: center;
-                padding: 0 1rem;
-                color: #fd7e3c; }
-                @media only screen and (max-width: 600px) {
-                  .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse::before {
-                    right: -24%; } }
-              .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse::after {
-                content: 'B';
-                position: absolute;
-                top: 102%;
-                right: 0;
-                border-top: 0.2rem solid #fd7e3c;
-                width: 100%;
-                font-size: 1.5rem;
-                font-weight: 700;
-                display: flex;
-                justify-content: center;
-                padding: 0 1rem;
-                color: #fd7e3c; }
-            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-rectangle {
-              transform: rotate3d(0.05, 1, -0.1, 30deg);
-              position: relative; }
-              .clientDashboard-view-slab_form-shapes-item-box-remnant-image-rectangle::before {
-                content: 'B';
-                position: absolute;
-                left: -12%;
-                border-right: 0.2rem solid #fd7e3c;
-                height: 100%;
-                font-size: 1.5rem;
-                font-weight: 700;
-                display: flex;
-                align-items: center;
-                padding: 0 1rem;
-                color: #fd7e3c; }
-              .clientDashboard-view-slab_form-shapes-item-box-remnant-image-rectangle::after {
-                content: 'A';
-                position: absolute;
-                top: 105%;
-                left: 0;
-                border-top: 0.2rem solid #fd7e3c;
-                width: 100%;
-                font-size: 1.5rem;
-                font-weight: 700;
-                display: flex;
-                justify-content: center;
-                padding: 0 1rem;
-                color: #fd7e3c; }
-            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-box {
-              position: relative;
-              background-color: rgba(104, 104, 104, 0.1);
-              box-shadow: -3rem -2rem 1rem 0.3rem rgba(104, 104, 104, 0.1);
-              margin-left: 3rem; }
-              .clientDashboard-view-slab_form-shapes-item-box-remnant-image-box::before {
-                content: 'A';
-                position: absolute;
-                right: -12%;
-                border-left: 0.2rem solid #fd7e3c;
-                height: 100%;
-                font-size: 1.5rem;
-                font-weight: 700;
-                display: flex;
-                align-items: center;
-                padding: 0 1rem;
-                color: #fd7e3c; }
-              .clientDashboard-view-slab_form-shapes-item-box-remnant-image-box::after {
-                content: 'B';
-                position: absolute;
-                bottom: 102%;
-                left: 0;
-                border-bottom: 0.2rem solid #fd7e3c;
-                width: 100%;
-                font-size: 1.5rem;
-                font-weight: 700;
-                display: flex;
-                justify-content: center;
-                padding: 0 1rem;
-                color: #fd7e3c; }
+              justify-content: center;
+              padding: 0 1rem;
+              color: #fd7e3c; }
+          .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(104, 104, 104, 0.1);
+            box-shadow: -2rem -0.5rem 1rem 0.5rem rgba(104, 104, 104, 0.1);
+            margin-bottom: 10rem; }
+            @media only screen and (max-width: 600px) {
+              .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse {
+                margin-right: 3.5rem; } }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse-svg_1 {
+              position: absolute;
+              bottom: -9.8%;
+              left: -5%;
+              width: 3rem;
+              fill: #fd7e3c; }
+              @media only screen and (max-width: 600px) {
+                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse-svg_1 {
+                  bottom: -12.2%;
+                  left: -8%; } }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse-svg_2 {
+              position: absolute;
+              bottom: -9.8%;
+              right: -5%;
+              width: 3rem;
+              fill: #fd7e3c; }
+              @media only screen and (max-width: 600px) {
+                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse-svg_2 {
+                  bottom: -12.2%;
+                  right: -8%; } }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse-svg_3 {
+              position: absolute;
+              bottom: -4%;
+              right: -12.2%;
+              width: 3rem;
+              fill: #fd7e3c; }
+              @media only screen and (max-width: 600px) {
+                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse-svg_3 {
+                  bottom: -5%;
+                  right: -13.5%; } }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse-svg_4 {
+              position: absolute;
+              top: -4%;
+              right: -12.2%;
+              width: 3rem;
+              fill: #fd7e3c; }
+              @media only screen and (max-width: 600px) {
+                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse-svg_4 {
+                  top: -5%;
+                  right: -13.5%; } }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse::before {
+              content: 'A';
+              position: absolute;
+              right: -19%;
+              border-left: 0.2rem solid #fd7e3c;
+              height: 100%;
+              font-size: 1.5rem;
+              font-weight: 700;
+              display: flex;
+              align-items: center;
+              padding: 0 1rem;
+              color: #fd7e3c; }
+              @media only screen and (max-width: 600px) {
+                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse::before {
+                  right: -25%; } }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse::after {
+              content: 'B';
+              position: absolute;
+              top: 105%;
+              right: 0;
+              border-top: 0.2rem solid #fd7e3c;
+              width: 100%;
+              font-size: 1.5rem;
+              font-weight: 700;
+              display: flex;
+              justify-content: center;
+              padding: 0 1rem;
+              color: #fd7e3c; }
+          .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left {
+            position: relative;
+            background-color: rgba(104, 104, 104, 0.1);
+            box-shadow: -3rem -2rem 1rem 0.3rem rgba(104, 104, 104, 0.1); }
+            @media only screen and (max-width: 600px) {
+              .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left {
+                margin-right: 3.5rem; } }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left::after {
+              content: 'B';
+              position: absolute;
+              bottom: 102%;
+              left: 0;
+              border-bottom: 0.2rem solid #fd7e3c;
+              width: 100%;
+              font-size: 1.5rem;
+              font-weight: 700;
+              display: flex;
+              justify-content: center;
+              padding: 0 1rem;
+              color: #fd7e3c; }
+          .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(104, 104, 104, 0.1);
+            box-shadow: -3rem -1rem 1rem 0.5rem rgba(104, 104, 104, 0.1); }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse::before {
+              content: 'A';
+              position: absolute;
+              right: -19%;
+              border-left: 0.2rem solid #fd7e3c;
+              border-right: 0.2rem solid #fd7e3c;
+              height: 100%;
+              font-size: 1.5rem;
+              font-weight: 700;
+              display: flex;
+              align-items: center;
+              padding: 0 1rem;
+              color: #fd7e3c; }
+              @media only screen and (max-width: 600px) {
+                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse::before {
+                  right: -24%; } }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse::after {
+              content: 'B';
+              position: absolute;
+              top: 102%;
+              right: 0;
+              border-top: 0.2rem solid #fd7e3c;
+              width: 100%;
+              font-size: 1.5rem;
+              font-weight: 700;
+              display: flex;
+              justify-content: center;
+              padding: 0 1rem;
+              color: #fd7e3c; }
+          .clientDashboard-view-slab_form-shapes-item-box-remnant-image-rectangle {
+            transform: rotate3d(0.05, 1, -0.1, 30deg);
+            position: relative; }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-rectangle::before {
+              content: 'B';
+              position: absolute;
+              left: -12%;
+              border-right: 0.2rem solid #fd7e3c;
+              height: 100%;
+              font-size: 1.5rem;
+              font-weight: 700;
+              display: flex;
+              align-items: center;
+              padding: 0 1rem;
+              color: #fd7e3c; }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-rectangle::after {
+              content: 'A';
+              position: absolute;
+              top: 105%;
+              left: 0;
+              border-top: 0.2rem solid #fd7e3c;
+              width: 100%;
+              font-size: 1.5rem;
+              font-weight: 700;
+              display: flex;
+              justify-content: center;
+              padding: 0 1rem;
+              color: #fd7e3c; }
+          .clientDashboard-view-slab_form-shapes-item-box-remnant-image-box {
+            position: relative;
+            background-color: rgba(104, 104, 104, 0.1);
+            box-shadow: -3rem -2rem 1rem 0.3rem rgba(104, 104, 104, 0.1);
+            margin-left: 3rem; }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-box::before {
+              content: 'A';
+              position: absolute;
+              right: -12%;
+              border-left: 0.2rem solid #fd7e3c;
+              height: 100%;
+              font-size: 1.5rem;
+              font-weight: 700;
+              display: flex;
+              align-items: center;
+              padding: 0 1rem;
+              color: #fd7e3c; }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-box::after {
+              content: 'B';
+              position: absolute;
+              bottom: 102%;
+              left: 0;
+              border-bottom: 0.2rem solid #fd7e3c;
+              width: 100%;
+              font-size: 1.5rem;
+              font-weight: 700;
+              display: flex;
+              justify-content: center;
+              padding: 0 1rem;
+              color: #fd7e3c; }
     .clientDashboard-view-slab_list {
       padding: 1rem 2rem;
       width: 100%;
@@ -1772,24 +1812,21 @@ body {
       height: 7.5rem; } }
 
 .remnant-right-reverse-top {
-  width: 20rem;
-  height: 10rem; }
+  width: 10rem;
+  height: 25rem;
+  align-self: flex-end !important; }
   @media only screen and (max-width: 600px) {
     .remnant-right-reverse-top {
-      width: 15rem;
-      height: 7.5rem; } }
+      width: 7.5rem;
+      height: 15rem; } }
 
 .remnant-right-reverse-bottom {
-  width: 10rem;
-  height: 20rem;
-  position: absolute;
-  left: calc(100% - 10rem); }
+  width: 25rem;
+  height: 10rem; }
   @media only screen and (max-width: 600px) {
     .remnant-right-reverse-bottom {
-      width: 7.5rem;
-      height: 15rem;
-      position: absolute;
-      left: calc(100% - 7.5rem); } }
+      width: 15rem;
+      height: 7.5rem; } }
 
 .remnant-left-top {
   width: 20rem;
@@ -1866,13 +1903,30 @@ body {
 
 .remnant-right-reverse-l2 {
   position: relative; }
+  .remnant-right-reverse-l2-svg_1 {
+    position: absolute;
+    top: -11.2%;
+    left: -13%;
+    width: 3rem;
+    fill: #fd7e3c; }
+    @media only screen and (max-width: 600px) {
+      .remnant-right-reverse-l2-svg_1 {
+        top: -15.5%; } }
+  .remnant-right-reverse-l2-svg_2 {
+    position: absolute;
+    top: -11.2%;
+    right: -13%;
+    width: 3rem;
+    fill: #fd7e3c; }
+    @media only screen and (max-width: 600px) {
+      .remnant-right-reverse-l2-svg_2 {
+        top: -15.5%; } }
   .remnant-right-reverse-l2::before {
     content: 'C';
     position: absolute;
-    top: 0%;
-    right: 102%;
-    border-right: 0.2rem solid #fd7e3c;
-    height: 100%;
+    bottom: 105%;
+    border-bottom: 0.2rem solid #fd7e3c;
+    width: 100%;
     font-size: 1.5rem;
     font-weight: 700;
     display: flex;
@@ -1882,17 +1936,36 @@ body {
 
 .remnant-right-reverse-w2 {
   position: relative; }
+  .remnant-right-reverse-w2-svg_1 {
+    position: absolute;
+    top: -11.2%;
+    left: -11.5%;
+    width: 3rem;
+    fill: #fd7e3c; }
+    @media only screen and (max-width: 600px) {
+      .remnant-right-reverse-w2-svg_1 {
+        top: -15.2%;
+        left: -15.7%; } }
+  .remnant-right-reverse-w2-svg_2 {
+    position: absolute;
+    bottom: -11.2%;
+    left: -11.5%;
+    width: 3rem;
+    fill: #fd7e3c; }
+    @media only screen and (max-width: 600px) {
+      .remnant-right-reverse-w2-svg_2 {
+        bottom: -15.2%;
+        left: -15.7%; } }
   .remnant-right-reverse-w2::before {
     content: 'D';
     position: absolute;
-    top: 105%;
-    right: 0%;
-    border-top: 0.2rem solid #fd7e3c;
-    width: 100%;
+    right: 105%;
+    border-right: 0.2rem solid #fd7e3c;
+    height: 100%;
     font-size: 1.5rem;
     font-weight: 700;
     display: flex;
-    justify-content: center;
+    align-items: center;
     padding: 0 1rem;
     color: #fd7e3c; }
 

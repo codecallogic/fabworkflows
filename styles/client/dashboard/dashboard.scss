@@ -210,7 +210,11 @@
             }
 
             &-remnant {
-              display: flex;
+              // display: flex;
+
+              &-right {
+                transform: rotate(90deg) !important;
+              }
 
               &-image-right {
                 // transform: rotate3d(0.05, 1, -0.1, 30deg);
@@ -252,12 +256,66 @@
               &-image-right-reverse {
                 // transform: rotate3d(0.05, 1, 0.1, 30deg);
                 position: relative;
+                display: flex;
+                flex-direction: column;
                 background-color: rgba(104, 104, 104, 0.1);
-                box-shadow: -2rem 1rem 1rem 0.5rem rgba(104, 104, 104, 0.1);
-                margin-right: 4rem;
+                box-shadow: -2rem -0.5rem 1rem 0.5rem rgba(104, 104, 104, 0.1);
+                margin-bottom: 10rem;
 
                 @media only screen and (max-width: $small) {
                   margin-right: 3.5rem;
+                }
+
+                &-svg_1 {
+                  position: absolute;
+                  bottom: -9.8%;
+                  left: -5%;
+                  width: 3rem;
+                  fill: $color-scheme-1;
+
+                  @media only screen and (max-width: $small) {
+                    bottom: -12.2%;
+                    left: -8%;
+                  }
+                }
+
+                &-svg_2 {
+                  position: absolute;
+                  bottom: -9.8%;
+                  right: -5%;
+                  width: 3rem;
+                  fill: $color-scheme-1;
+
+                  @media only screen and (max-width: $small) {
+                    bottom: -12.2%;
+                    right: -8%;
+                  }
+                }
+
+                &-svg_3 {
+                  position: absolute;
+                  bottom: -4%;
+                  right: -12.2%;
+                  width: 3rem;
+                  fill: $color-scheme-1;
+
+                  @media only screen and (max-width: $small) {
+                    bottom: -5%;
+                    right: -13.5%;
+                  }
+                }
+
+                &-svg_4 {
+                  position: absolute;
+                  top: -4%;
+                  right: -12.2%;
+                  width: 3rem;
+                  fill: $color-scheme-1;
+
+                  @media only screen and (max-width: $small) {
+                    top: -5%;
+                    right: -13.5%;
+                  }
                 }
 
                 &::before {
@@ -265,7 +323,6 @@
                   position: absolute;
                   right: -19%;
                   border-left: 0.2rem solid $color-scheme-1;
-                  border-right: 0.2rem solid $color-scheme-1;
                   height: 100%;
                   font-size: 1.5rem;
                   font-weight: 700;
@@ -275,16 +332,16 @@
                   color: $color-scheme-1;
 
                   @media only screen and (max-width: $small) {
-                    right: -23%;
+                    right: -25%;
                   }
                 }
 
                 &::after {
                   content: 'B';
                   position: absolute;
-                  top: -10%;
+                  top: 105%;
                   right: 0;
-                  border-bottom: 0.2rem solid $color-scheme-1;
+                  border-top: 0.2rem solid $color-scheme-1;
                   width: 100%;
                   font-size: 1.5rem;
                   font-weight: 700;
@@ -342,7 +399,6 @@
                 flex-direction: column;
                 background-color: rgba(104, 104, 104, 0.1);
                 box-shadow: -3rem -1rem 1rem 0.5rem rgba(104, 104, 104, 0.1);
-                margin-right: 4rem;
 
                 &::before {
                   content: 'A';
@@ -905,26 +961,23 @@
 }
 
 .remnant-right-reverse-top {
-  width: 20rem;
+  width: 10rem;
+  height: 25rem;
+  align-self: flex-end !important;
+
+  @media only screen and (max-width: $small) {
+    width: 7.5rem;
+    height: 15rem;
+  }
+}
+
+.remnant-right-reverse-bottom {
+  width: 25rem;
   height: 10rem;
 
   @media only screen and (max-width: $small) {
     width: 15rem;
     height: 7.5rem;
-  }
-}
-
-.remnant-right-reverse-bottom {
-  width: 10rem;
-  height: 20rem;
-  position: absolute;
-  left: calc(100% - 10rem);
-
-  @media only screen and (max-width: $small) {
-    width: 7.5rem;
-    height: 15rem;
-    position: absolute;
-    left: calc(100% - 7.5rem);
   }
 }
 
@@ -1020,14 +1073,36 @@
 .remnant-right-reverse-l2 {
   position: relative;
 
+  &-svg_1 {
+    position: absolute;
+    top: -11.2%;
+    left: -13%;
+    width: 3rem;
+    fill: $color-scheme-1;
+
+    @media only screen and (max-width: $small) {
+      top: -15.5%;
+    }
+  }
+
+  &-svg_2 {
+    position: absolute;
+    top: -11.2%;
+    right: -13%;
+    width: 3rem;
+    fill: $color-scheme-1;
+
+    @media only screen and (max-width: $small) {
+      top: -15.5%;
+    }
+  }
+
   &::before {
     content: 'C';
     position: absolute;
-    top: 0%;
-    right: 102%;
-    border-right: 0.2rem solid $color-scheme-1;
-    // width: calc(100% - 12rem);
-    height: 100%;
+    bottom: 105%;
+    border-bottom: 0.2rem solid $color-scheme-1;
+    width: 100%;
     font-size: 1.5rem;
     font-weight: 700;
     display: flex;
@@ -1040,17 +1115,42 @@
 .remnant-right-reverse-w2 {
   position: relative;
 
+  &-svg_1 {
+    position: absolute;
+    top: -11.2%;
+    left: -11.5%;
+    width: 3rem;
+    fill: $color-scheme-1;
+
+    @media only screen and (max-width: $small) {
+      top: -15.2%;
+      left: -15.7%;
+    }
+  }
+
+  &-svg_2 {
+    position: absolute;
+    bottom: -11.2%;
+    left: -11.5%;
+    width: 3rem;
+    fill: $color-scheme-1;
+
+    @media only screen and (max-width: $small) {
+      bottom: -15.2%;
+      left: -15.7%;
+    }
+  }
+
   &::before {
     content: 'D';
     position: absolute;
-    top: 105%;
-    right: 0%;
-    border-top: 0.2rem solid $color-scheme-1;
-    width: 100%;
+    right: 105%;
+    border-right: 0.2rem solid $color-scheme-1;
+    height: 100%;
     font-size: 1.5rem;
     font-weight: 700;
     display: flex;
-    justify-content: center;
+    align-items: center;
     padding: 0 1rem;
     color: $color-scheme-1;
   }
@@ -1130,3 +1230,8 @@
     color: $color-scheme-1;
   }
 }
+
+// .remnantRightRotate {
+//   transform: rotate(90deg);
+//   margin: 5rem 0;
+// }

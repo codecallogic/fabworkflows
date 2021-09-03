@@ -128,6 +128,33 @@ const SVG = ({svg, classprop}) => {
         </svg>  
         break;
 
+      case 'arrow-top':
+        return <svg version="1.1" className={classprop} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <title>Edit</title>
+          <path d="M7.406 15.422l-1.406-1.406 6-6 6 6-1.406 1.406-4.594-4.594z"></path>
+        </svg>  
+        break;
+      case 'arrow-left':
+        return <svg version="1.1" className={classprop} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <title>Edit</title>
+          <path d="M15.422 16.594l-1.406 1.406-6-6 6-6 1.406 1.406-4.594 4.594z"></path>
+        </svg>  
+        break;
+
+      case 'arrow-right':
+        return <svg version="1.1" className={classprop} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <title>Edit</title>
+          <path d="M8.578 16.594l4.594-4.594-4.594-4.594 1.406-1.406 6 6-6 6z"></path>
+        </svg>  
+        break;
+
+      case 'arrow-bottom':
+        return <svg version="1.1" className={classprop} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <title>Edit</title>
+          <path d="M7.406 8.578l4.594 4.594 4.594-4.594 1.406 1.406-6 6-6-6z"></path>
+        </svg>  
+        break;
+
       default:
         break
     }
