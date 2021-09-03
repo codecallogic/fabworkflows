@@ -221,28 +221,83 @@
                 position: relative;
                 background-color: rgba(104, 104, 104, 0.1);
                 box-shadow: 3rem 0rem 1rem 0.3rem rgba(104, 104, 104, 0.1);
-                // margin-left: 3.5rem;
 
-                // &::before {
-                //   content: 'B';
-                //   position: absolute;
-                //   left: -12%;
-                //   border-right: 0.2rem solid $color-scheme-1;
-                //   height: 100%;
-                //   font-size: 1.5rem;
-                //   font-weight: 700;
-                //   display: flex;
-                //   align-items: center;
-                //   padding: 0 1rem;
-                //   color: $color-scheme-1;
-                // }
+                &-svg_1 {
+                  position: absolute;
+                  top: -9.5%;
+                  left: -5%;
+                  width: 3rem;
+                  fill: $color-scheme-1;
+
+                  @media only screen and (max-width: $small) {
+                    bottom: -12.2%;
+                    left: -8%;
+                  }
+                }
+
+                &-svg_2 {
+                  position: absolute;
+                  top: -9.5%;
+                  right: -5%;
+                  width: 3rem;
+                  fill: $color-scheme-1;
+
+                  @media only screen and (max-width: $small) {
+                    bottom: -12.2%;
+                    right: -8%;
+                  }
+                }
+
+                &-svg_3 {
+                  position: absolute;
+                  bottom: -4%;
+                  left: -13%;
+                  width: 3rem;
+                  fill: $color-scheme-1;
+
+                  @media only screen and (max-width: $small) {
+                    bottom: -5%;
+                    right: -13.5%;
+                  }
+                }
+
+                &-svg_4 {
+                  position: absolute;
+                  top: -4%;
+                  left: -13.5%;
+                  width: 3rem;
+                  fill: $color-scheme-1;
+
+                  @media only screen and (max-width: $small) {
+                    top: -5%;
+                    right: -13.5%;
+                  }
+                }
+
+                &::before {
+                  content: 'A';
+                  position: absolute;
+                  left: -20%;
+                  border-right: 0.2rem solid $color-scheme-1;
+                  height: 100%;
+                  font-size: 1.5rem;
+                  font-weight: 700;
+                  display: flex;
+                  align-items: center;
+                  padding: 0 1rem;
+                  color: $color-scheme-1;
+
+                  @media only screen and (max-width: $small) {
+                    left: -25%;
+                  }
+                }
 
                 &::after {
-                  content: 'B';
+                  content: '';
                   position: absolute;
-                  top: 102%;
+                  bottom: 105%;
                   left: 0;
-                  border-top: 0.2rem solid $color-scheme-1;
+                  border-bottom: 0.2rem solid $color-scheme-1;
                   width: 100%;
                   font-size: 1.5rem;
                   font-weight: 700;
@@ -250,6 +305,10 @@
                   justify-content: center;
                   padding: 0 1rem;
                   color: $color-scheme-1;
+
+                  @media only screen and (max-width: $small) {
+                    bottom: 102.2%;
+                  }
                 }
               }
 
@@ -260,10 +319,10 @@
                 flex-direction: column;
                 background-color: rgba(104, 104, 104, 0.1);
                 box-shadow: -2rem -0.5rem 1rem 0.5rem rgba(104, 104, 104, 0.1);
-                margin-bottom: 10rem;
+                margin-bottom: 7rem;
 
                 @media only screen and (max-width: $small) {
-                  margin-right: 3.5rem;
+                  margin-bottom: 5rem;
                 }
 
                 &-svg_1 {
@@ -357,54 +416,64 @@
                 position: relative;
                 background-color: rgba(104, 104, 104, 0.1);
                 box-shadow: -3rem -2rem 1rem 0.3rem rgba(104, 104, 104, 0.1);
+                width: max-content;
 
-                @media only screen and (max-width: $small) {
-                  margin-right: 3.5rem;
-                }
-
-                // &::before {
-                //   content: 'B';
-                //   position: absolute;
-                //   right: -12%;
-                //   border-left: 0.2rem solid $color-scheme-1;
-                //   height: 100%;
-                //   font-size: 1.5rem;
-                //   font-weight: 700;
-                //   display: flex;
-                //   align-items: center;
-                //   padding: 0 1rem;
-                //   color: $color-scheme-1;
-                // }
-
-                &::after {
-                  content: 'B';
+                &-svg_1 {
                   position: absolute;
-                  bottom: 102%;
-                  left: 0;
-                  border-bottom: 0.2rem solid $color-scheme-1;
-                  width: 100%;
-                  font-size: 1.5rem;
-                  font-weight: 700;
-                  display: flex;
-                  justify-content: center;
-                  padding: 0 1rem;
-                  color: $color-scheme-1;
-                }
-              }
+                  top: -9.5%;
+                  left: -5%;
+                  width: 3rem;
+                  fill: $color-scheme-1;
 
-              &-image-left-reverse {
-                // transform: rotate3d(0.05, 1, 0.1, 30deg);
-                position: relative;
-                display: flex;
-                flex-direction: column;
-                background-color: rgba(104, 104, 104, 0.1);
-                box-shadow: -3rem -1rem 1rem 0.5rem rgba(104, 104, 104, 0.1);
+                  @media only screen and (max-width: $small) {
+                    bottom: -12.2%;
+                    left: -8%;
+                  }
+                }
+
+                &-svg_2 {
+                  position: absolute;
+                  top: -9.5%;
+                  right: -5%;
+                  width: 3rem;
+                  fill: $color-scheme-1;
+
+                  @media only screen and (max-width: $small) {
+                    bottom: -12.2%;
+                    right: -8%;
+                  }
+                }
+
+                &-svg_3 {
+                  position: absolute;
+                  bottom: -4%;
+                  left: -13%;
+                  width: 3rem;
+                  fill: $color-scheme-1;
+
+                  @media only screen and (max-width: $small) {
+                    bottom: -5%;
+                    right: -13.5%;
+                  }
+                }
+
+                &-svg_4 {
+                  position: absolute;
+                  top: -4%;
+                  left: -13%;
+                  width: 3rem;
+                  fill: $color-scheme-1;
+
+                  @media only screen and (max-width: $small) {
+                    top: -5%;
+                    right: -13.5%;
+                  }
+                }
 
                 &::before {
                   content: 'A';
                   position: absolute;
-                  right: -19%;
-                  border-left: 0.2rem solid $color-scheme-1;
+                  right: 106.5%;
                   border-right: 0.2rem solid $color-scheme-1;
                   height: 100%;
                   font-size: 1.5rem;
@@ -415,14 +484,119 @@
                   color: $color-scheme-1;
 
                   @media only screen and (max-width: $small) {
-                    right: -24%;
+                    right: 102.5%;
+                  }
+                }
+
+                &::after {
+                  content: '';
+                  position: absolute;
+                  bottom: 105%;
+                  left: 0;
+                  border-bottom: 0.2rem solid $color-scheme-1;
+                  width: 100%;
+                  font-size: 1.5rem;
+                  font-weight: 700;
+                  display: flex;
+                  justify-content: center;
+                  padding: 0 1rem;
+                  color: $color-scheme-1;
+
+                  @media only screen and (max-width: $small) {
+                    bottom: 102%;
+                  }
+                }
+              }
+
+              &-image-left-reverse {
+                // transform: rotate3d(0.05, 1, 0.1, 30deg);
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                background-color: rgba(104, 104, 104, 0.1);
+                box-shadow: -3rem -1rem 1rem 0.5rem rgba(104, 104, 104, 0.1);
+                width: max-content;
+
+                margin-bottom: 7rem;
+
+                @media only screen and (max-width: $small) {
+                  margin-bottom: 5rem;
+                }
+
+                &-svg_1 {
+                  position: absolute;
+                  bottom: -9.5%;
+                  left: -5%;
+                  width: 3rem;
+                  fill: $color-scheme-1;
+
+                  @media only screen and (max-width: $small) {
+                    bottom: -12.2%;
+                    left: -8%;
+                  }
+                }
+
+                &-svg_2 {
+                  position: absolute;
+                  bottom: -9.5%;
+                  right: -5%;
+                  width: 3rem;
+                  fill: $color-scheme-1;
+
+                  @media only screen and (max-width: $small) {
+                    bottom: -12.2%;
+                    right: -8%;
+                  }
+                }
+
+                &-svg_3 {
+                  position: absolute;
+                  bottom: -4%;
+                  left: -11.2%;
+                  width: 3rem;
+                  fill: $color-scheme-1;
+
+                  @media only screen and (max-width: $small) {
+                    bottom: -5%;
+                    left: -13.5%;
+                  }
+                }
+
+                &-svg_4 {
+                  position: absolute;
+                  top: -4%;
+                  left: -11.2%;
+                  width: 3rem;
+                  fill: $color-scheme-1;
+
+                  @media only screen and (max-width: $small) {
+                    top: -5%;
+                    left: -13.5%;
+                  }
+                }
+
+                &::before {
+                  content: 'A';
+                  position: absolute;
+                  right: 105%;
+                  border-right: 0.2rem solid $color-scheme-1;
+                  height: 100%;
+                  font-size: 1.5rem;
+                  font-weight: 700;
+                  display: flex;
+                  align-items: center;
+                  padding: 0 1rem;
+                  color: $color-scheme-1;
+
+                  @media only screen and (max-width: $small) {
+                    right: 103%;
                   }
                 }
 
                 &::after {
                   content: 'B';
                   position: absolute;
-                  top: 102%;
+                  top: 105%;
                   right: 0;
                   border-top: 0.2rem solid $color-scheme-1;
                   width: 100%;
@@ -432,6 +606,10 @@
                   justify-content: center;
                   padding: 0 1rem;
                   color: $color-scheme-1;
+
+                  @media only screen and (max-width: $small) {
+                    top: 105%;
+                  }
                 }
               }
 
@@ -478,7 +656,7 @@
                 &::before {
                   content: 'A';
                   position: absolute;
-                  right: -12%;
+                  right: -15%;
                   border-left: 0.2rem solid $color-scheme-1;
                   height: 100%;
                   font-size: 1.5rem;
@@ -492,7 +670,7 @@
                 &::after {
                   content: 'B';
                   position: absolute;
-                  bottom: 102%;
+                  bottom: 105%;
                   left: 0;
                   border-bottom: 0.2rem solid $color-scheme-1;
                   width: 100%;
@@ -941,22 +1119,23 @@
 }
 
 .remnant-right-top {
-  width: 10rem;
-  height: 20rem;
+  width: 25rem;
+  height: 10rem;
 
   @media only screen and (max-width: $small) {
-    width: 7.5rem;
-    height: 15rem;
+    // width: 15rem;
+    width: 100%;
+    height: 7.5rem;
   }
 }
 
 .remnant-right-bottom {
-  width: 20rem;
-  height: 10rem;
+  width: 10rem;
+  height: 25rem;
 
   @media only screen and (max-width: $small) {
-    width: 15rem;
-    height: 7.5rem;
+    width: 7.5rem;
+    height: 15rem;
   }
 }
 
@@ -982,7 +1161,7 @@
 }
 
 .remnant-left-top {
-  width: 20rem;
+  width: 25rem;
   height: 10rem;
 
   @media only screen and (max-width: $small) {
@@ -1002,9 +1181,8 @@
 }
 
 .remnant-left-reverse-top {
-  align-self: flex-end !important;
   width: 10rem;
-  height: 20rem;
+  height: 25rem;
 
   @media only screen and (max-width: $small) {
     width: 7.5rem;
@@ -1013,7 +1191,7 @@
 }
 
 .remnant-left-reverse-bottom {
-  width: 20rem;
+  width: 25rem;
   height: 10rem;
 
   @media only screen and (max-width: $small) {
@@ -1025,27 +1203,94 @@
 .remnant-rectangle-top {
   width: 35rem;
   height: 10rem;
+
+  &-svg_1 {
+    position: absolute;
+    top: -12.5%;
+    left: -5%;
+    width: 3rem;
+    fill: $color-scheme-1;
+
+    @media only screen and (max-width: $small) {
+      bottom: -12.2%;
+      left: -5%;
+    }
+  }
+
+  &-svg_2 {
+    position: absolute;
+    top: -12.5%;
+    right: -5%;
+    width: 3rem;
+    fill: $color-scheme-1;
+
+    @media only screen and (max-width: $small) {
+      bottom: -12.2%;
+      right: -5%;
+    }
+  }
 }
 
 .remnant-rectangle-bottom {
   width: 35rem;
   height: 10rem;
+
+  &-svg_1 {
+    position: absolute;
+    top: -8.5%;
+    right: -10%;
+    width: 3rem;
+    fill: $color-scheme-1;
+  }
+
+  &-svg_2 {
+    position: absolute;
+    bottom: -6%;
+    right: -10%;
+    width: 3rem;
+    fill: $color-scheme-1;
+  }
 }
 
 .remnant-right-l2 {
   position: relative;
 
+  &-svg_1 {
+    position: absolute;
+    right: -11.2%;
+    top: -15%;
+    width: 3rem;
+    fill: $color-scheme-1;
+
+    @media only screen and (max-width: $small) {
+      right: -15.5%;
+      top: -15%;
+    }
+  }
+
+  &-svg_2 {
+    position: absolute;
+    bottom: -15%;
+    right: -11.2%;
+    width: 3rem;
+    fill: $color-scheme-1;
+
+    @media only screen and (max-width: $small) {
+      bottom: -15%;
+      right: -15.5%;
+    }
+  }
+
   &::before {
     content: 'D';
     position: absolute;
-    bottom: 102%;
-    left: 0;
-    border-bottom: 0.2rem solid $color-scheme-1;
-    width: 100%;
+    left: 105%;
+    border-left: 0.2rem solid $color-scheme-1;
+    height: 100%;
     font-size: 1.5rem;
     font-weight: 700;
     display: flex;
-    justify-content: center;
+    align-items: center;
     padding: 0 1rem;
     color: $color-scheme-1;
   }
@@ -1054,17 +1299,42 @@
 .remnant-right-w2 {
   position: relative;
 
+  &-svg_1 {
+    position: absolute;
+    top: 99.5%;
+    left: -15%;
+    width: 3rem;
+    fill: $color-scheme-1;
+
+    @media only screen and (max-width: $small) {
+      top: 96%;
+      left: -20%;
+    }
+  }
+
+  &-svg_2 {
+    position: absolute;
+    top: 99.5%;
+    left: 85%;
+    width: 3rem;
+    fill: $color-scheme-1;
+
+    @media only screen and (max-width: $small) {
+      top: 96%;
+      left: 80%;
+    }
+  }
+
   &::before {
     content: 'C';
     position: absolute;
-    top: 0%;
-    left: 102%;
-    border-left: 0.2rem solid $color-scheme-1;
-    height: 100%;
+    top: 105%;
+    border-top: 0.2rem solid $color-scheme-1;
+    width: 100%;
     font-size: 1.5rem;
     font-weight: 700;
     display: flex;
-    align-items: center;
+    justify-content: center;
     padding: 0 1rem;
     color: $color-scheme-1;
   }
@@ -1159,10 +1429,34 @@
 .remnant-left-reverse-l2 {
   position: relative;
 
-  &::before {
-    content: 'D';
+  &-svg_1 {
     position: absolute;
-    bottom: 102%;
+    top: -11.2%;
+    left: -13%;
+    width: 3rem;
+    fill: $color-scheme-1;
+
+    @media only screen and (max-width: $small) {
+      top: -15.5%;
+    }
+  }
+
+  &-svg_2 {
+    position: absolute;
+    top: -11.2%;
+    right: -13%;
+    width: 3rem;
+    fill: $color-scheme-1;
+
+    @media only screen and (max-width: $small) {
+      top: -15.5%;
+    }
+  }
+
+  &::before {
+    content: 'C';
+    position: absolute;
+    bottom: 105%;
     left: 0;
     border-bottom: 0.2rem solid $color-scheme-1;
     width: 100%;
@@ -1178,12 +1472,36 @@
 .remnant-left-reverse-w2 {
   position: relative;
 
+  &-svg_1 {
+    position: absolute;
+    top: -11.2%;
+    left: 99.5%;
+    width: 3rem;
+    fill: $color-scheme-1;
+
+    @media only screen and (max-width: $small) {
+      top: -11.5%;
+    }
+  }
+
+  &-svg_2 {
+    position: absolute;
+    bottom: -11.2%;
+    left: 99.5%;
+    width: 3rem;
+    fill: $color-scheme-1;
+
+    @media only screen and (max-width: $small) {
+      bottom: -15.2%;
+    }
+  }
+
   &::before {
-    content: 'C';
+    content: 'D';
     position: absolute;
     top: 5%;
-    right: 102%;
-    border-right: 0.2rem solid $color-scheme-1;
+    left: 105%;
+    border-left: 0.2rem solid $color-scheme-1;
     height: 95%;
     font-size: 1.5rem;
     font-weight: 700;
@@ -1191,17 +1509,45 @@
     align-items: center;
     padding: 0 1rem;
     color: $color-scheme-1;
+
+    @media only screen and (max-width: $small) {
+      left: 109%;
+    }
   }
 }
 
 .remnant-left-l2 {
   position: relative;
 
+  &-svg_1 {
+    position: absolute;
+    top: -11.2%;
+    left: 100%;
+    width: 3rem;
+    fill: $color-scheme-1;
+
+    @media only screen and (max-width: $small) {
+      top: -15.5%;
+    }
+  }
+
+  &-svg_2 {
+    position: absolute;
+    bottom: -11.2%;
+    left: 100%;
+    width: 3rem;
+    fill: $color-scheme-1;
+
+    @media only screen and (max-width: $small) {
+      bottom: -15.5%;
+    }
+  }
+
   &::before {
-    content: 'C';
+    content: 'D';
     position: absolute;
     // bottom: 110%;
-    left: 102%;
+    left: 105%;
     border-left: 0.2rem solid $color-scheme-1;
     height: 100%;
     font-size: 1.5rem;
@@ -1210,16 +1556,36 @@
     align-items: center;
     padding: 0 1rem;
     color: $color-scheme-1;
+
+    @media only screen and (max-width: $small) {
+      left: 109%;
+    }
   }
 }
 
 .remnant-left-w2 {
   position: relative;
 
-  &::before {
-    content: 'D';
+  &-svg_1 {
     position: absolute;
-    top: 102%;
+    top: 99.5%;
+    left: -15%;
+    width: 3rem;
+    fill: $color-scheme-1;
+  }
+
+  &-svg_2 {
+    position: absolute;
+    top: 99.5%;
+    right: -15%;
+    width: 3rem;
+    fill: $color-scheme-1;
+  }
+
+  &::before {
+    content: 'C';
+    position: absolute;
+    top: 105%;
     border-top: 0.2rem solid $color-scheme-1;
     width: 100%;
     font-size: 1.5rem;
@@ -1228,6 +1594,10 @@
     justify-content: center;
     padding: 0 1rem;
     color: $color-scheme-1;
+
+    @media only screen and (max-width: $small) {
+      top: 108.5%;
+    }
   }
 }
 

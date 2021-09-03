@@ -1299,12 +1299,67 @@ body {
             position: relative;
             background-color: rgba(104, 104, 104, 0.1);
             box-shadow: 3rem 0rem 1rem 0.3rem rgba(104, 104, 104, 0.1); }
-            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right::after {
-              content: 'B';
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-svg_1 {
               position: absolute;
-              top: 102%;
+              top: -9.5%;
+              left: -5%;
+              width: 3rem;
+              fill: #fd7e3c; }
+              @media only screen and (max-width: 600px) {
+                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-svg_1 {
+                  bottom: -12.2%;
+                  left: -8%; } }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-svg_2 {
+              position: absolute;
+              top: -9.5%;
+              right: -5%;
+              width: 3rem;
+              fill: #fd7e3c; }
+              @media only screen and (max-width: 600px) {
+                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-svg_2 {
+                  bottom: -12.2%;
+                  right: -8%; } }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-svg_3 {
+              position: absolute;
+              bottom: -4%;
+              left: -13%;
+              width: 3rem;
+              fill: #fd7e3c; }
+              @media only screen and (max-width: 600px) {
+                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-svg_3 {
+                  bottom: -5%;
+                  right: -13.5%; } }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-svg_4 {
+              position: absolute;
+              top: -4%;
+              left: -13.5%;
+              width: 3rem;
+              fill: #fd7e3c; }
+              @media only screen and (max-width: 600px) {
+                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-svg_4 {
+                  top: -5%;
+                  right: -13.5%; } }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right::before {
+              content: 'A';
+              position: absolute;
+              left: -20%;
+              border-right: 0.2rem solid #fd7e3c;
+              height: 100%;
+              font-size: 1.5rem;
+              font-weight: 700;
+              display: flex;
+              align-items: center;
+              padding: 0 1rem;
+              color: #fd7e3c; }
+              @media only screen and (max-width: 600px) {
+                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right::before {
+                  left: -25%; } }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right::after {
+              content: '';
+              position: absolute;
+              bottom: 105%;
               left: 0;
-              border-top: 0.2rem solid #fd7e3c;
+              border-bottom: 0.2rem solid #fd7e3c;
               width: 100%;
               font-size: 1.5rem;
               font-weight: 700;
@@ -1312,16 +1367,19 @@ body {
               justify-content: center;
               padding: 0 1rem;
               color: #fd7e3c; }
+              @media only screen and (max-width: 600px) {
+                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right::after {
+                  bottom: 102.2%; } }
           .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse {
             position: relative;
             display: flex;
             flex-direction: column;
             background-color: rgba(104, 104, 104, 0.1);
             box-shadow: -2rem -0.5rem 1rem 0.5rem rgba(104, 104, 104, 0.1);
-            margin-bottom: 10rem; }
+            margin-bottom: 7rem; }
             @media only screen and (max-width: 600px) {
               .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse {
-                margin-right: 3.5rem; } }
+                margin-bottom: 5rem; } }
             .clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse-svg_1 {
               position: absolute;
               bottom: -9.8%;
@@ -1393,14 +1451,67 @@ body {
           .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left {
             position: relative;
             background-color: rgba(104, 104, 104, 0.1);
-            box-shadow: -3rem -2rem 1rem 0.3rem rgba(104, 104, 104, 0.1); }
-            @media only screen and (max-width: 600px) {
-              .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left {
-                margin-right: 3.5rem; } }
-            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left::after {
-              content: 'B';
+            box-shadow: -3rem -2rem 1rem 0.3rem rgba(104, 104, 104, 0.1);
+            width: max-content; }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-svg_1 {
               position: absolute;
-              bottom: 102%;
+              top: -9.5%;
+              left: -5%;
+              width: 3rem;
+              fill: #fd7e3c; }
+              @media only screen and (max-width: 600px) {
+                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-svg_1 {
+                  bottom: -12.2%;
+                  left: -8%; } }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-svg_2 {
+              position: absolute;
+              top: -9.5%;
+              right: -5%;
+              width: 3rem;
+              fill: #fd7e3c; }
+              @media only screen and (max-width: 600px) {
+                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-svg_2 {
+                  bottom: -12.2%;
+                  right: -8%; } }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-svg_3 {
+              position: absolute;
+              bottom: -4%;
+              left: -13%;
+              width: 3rem;
+              fill: #fd7e3c; }
+              @media only screen and (max-width: 600px) {
+                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-svg_3 {
+                  bottom: -5%;
+                  right: -13.5%; } }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-svg_4 {
+              position: absolute;
+              top: -4%;
+              left: -13%;
+              width: 3rem;
+              fill: #fd7e3c; }
+              @media only screen and (max-width: 600px) {
+                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-svg_4 {
+                  top: -5%;
+                  right: -13.5%; } }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left::before {
+              content: 'A';
+              position: absolute;
+              right: 106.5%;
+              border-right: 0.2rem solid #fd7e3c;
+              height: 100%;
+              font-size: 1.5rem;
+              font-weight: 700;
+              display: flex;
+              align-items: center;
+              padding: 0 1rem;
+              color: #fd7e3c; }
+              @media only screen and (max-width: 600px) {
+                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left::before {
+                  right: 102.5%; } }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left::after {
+              content: '';
+              position: absolute;
+              bottom: 105%;
               left: 0;
               border-bottom: 0.2rem solid #fd7e3c;
               width: 100%;
@@ -1410,17 +1521,64 @@ body {
               justify-content: center;
               padding: 0 1rem;
               color: #fd7e3c; }
+              @media only screen and (max-width: 600px) {
+                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left::after {
+                  bottom: 102%; } }
           .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse {
             position: relative;
             display: flex;
             flex-direction: column;
             background-color: rgba(104, 104, 104, 0.1);
-            box-shadow: -3rem -1rem 1rem 0.5rem rgba(104, 104, 104, 0.1); }
+            box-shadow: -3rem -1rem 1rem 0.5rem rgba(104, 104, 104, 0.1);
+            width: max-content;
+            margin-bottom: 7rem; }
+            @media only screen and (max-width: 600px) {
+              .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse {
+                margin-bottom: 5rem; } }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse-svg_1 {
+              position: absolute;
+              bottom: -9.5%;
+              left: -5%;
+              width: 3rem;
+              fill: #fd7e3c; }
+              @media only screen and (max-width: 600px) {
+                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse-svg_1 {
+                  bottom: -12.2%;
+                  left: -8%; } }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse-svg_2 {
+              position: absolute;
+              bottom: -9.5%;
+              right: -5%;
+              width: 3rem;
+              fill: #fd7e3c; }
+              @media only screen and (max-width: 600px) {
+                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse-svg_2 {
+                  bottom: -12.2%;
+                  right: -8%; } }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse-svg_3 {
+              position: absolute;
+              bottom: -4%;
+              left: -11.2%;
+              width: 3rem;
+              fill: #fd7e3c; }
+              @media only screen and (max-width: 600px) {
+                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse-svg_3 {
+                  bottom: -5%;
+                  left: -13.5%; } }
+            .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse-svg_4 {
+              position: absolute;
+              top: -4%;
+              left: -11.2%;
+              width: 3rem;
+              fill: #fd7e3c; }
+              @media only screen and (max-width: 600px) {
+                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse-svg_4 {
+                  top: -5%;
+                  left: -13.5%; } }
             .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse::before {
               content: 'A';
               position: absolute;
-              right: -19%;
-              border-left: 0.2rem solid #fd7e3c;
+              right: 105%;
               border-right: 0.2rem solid #fd7e3c;
               height: 100%;
               font-size: 1.5rem;
@@ -1431,11 +1589,11 @@ body {
               color: #fd7e3c; }
               @media only screen and (max-width: 600px) {
                 .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse::before {
-                  right: -24%; } }
+                  right: 103%; } }
             .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse::after {
               content: 'B';
               position: absolute;
-              top: 102%;
+              top: 105%;
               right: 0;
               border-top: 0.2rem solid #fd7e3c;
               width: 100%;
@@ -1445,6 +1603,9 @@ body {
               justify-content: center;
               padding: 0 1rem;
               color: #fd7e3c; }
+              @media only screen and (max-width: 600px) {
+                .clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse::after {
+                  top: 105%; } }
           .clientDashboard-view-slab_form-shapes-item-box-remnant-image-rectangle {
             transform: rotate3d(0.05, 1, -0.1, 30deg);
             position: relative; }
@@ -1481,7 +1642,7 @@ body {
             .clientDashboard-view-slab_form-shapes-item-box-remnant-image-box::before {
               content: 'A';
               position: absolute;
-              right: -12%;
+              right: -15%;
               border-left: 0.2rem solid #fd7e3c;
               height: 100%;
               font-size: 1.5rem;
@@ -1493,7 +1654,7 @@ body {
             .clientDashboard-view-slab_form-shapes-item-box-remnant-image-box::after {
               content: 'B';
               position: absolute;
-              bottom: 102%;
+              bottom: 105%;
               left: 0;
               border-bottom: 0.2rem solid #fd7e3c;
               width: 100%;
@@ -1796,20 +1957,20 @@ body {
   max-width: 100% !important; }
 
 .remnant-right-top {
-  width: 10rem;
-  height: 20rem; }
-  @media only screen and (max-width: 600px) {
-    .remnant-right-top {
-      width: 7.5rem;
-      height: 15rem; } }
-
-.remnant-right-bottom {
-  width: 20rem;
+  width: 25rem;
   height: 10rem; }
   @media only screen and (max-width: 600px) {
-    .remnant-right-bottom {
-      width: 15rem;
+    .remnant-right-top {
+      width: 100%;
       height: 7.5rem; } }
+
+.remnant-right-bottom {
+  width: 10rem;
+  height: 25rem; }
+  @media only screen and (max-width: 600px) {
+    .remnant-right-bottom {
+      width: 7.5rem;
+      height: 15rem; } }
 
 .remnant-right-reverse-top {
   width: 10rem;
@@ -1829,7 +1990,7 @@ body {
       height: 7.5rem; } }
 
 .remnant-left-top {
-  width: 20rem;
+  width: 25rem;
   height: 10rem; }
   @media only screen and (max-width: 600px) {
     .remnant-left-top {
@@ -1845,16 +2006,15 @@ body {
       height: 15rem; } }
 
 .remnant-left-reverse-top {
-  align-self: flex-end !important;
   width: 10rem;
-  height: 20rem; }
+  height: 25rem; }
   @media only screen and (max-width: 600px) {
     .remnant-left-reverse-top {
       width: 7.5rem;
       height: 15rem; } }
 
 .remnant-left-reverse-bottom {
-  width: 20rem;
+  width: 25rem;
   height: 10rem; }
   @media only screen and (max-width: 600px) {
     .remnant-left-reverse-bottom {
@@ -1864,40 +2024,110 @@ body {
 .remnant-rectangle-top {
   width: 35rem;
   height: 10rem; }
+  .remnant-rectangle-top-svg_1 {
+    position: absolute;
+    top: -12.5%;
+    left: -5%;
+    width: 3rem;
+    fill: #fd7e3c; }
+    @media only screen and (max-width: 600px) {
+      .remnant-rectangle-top-svg_1 {
+        bottom: -12.2%;
+        left: -5%; } }
+  .remnant-rectangle-top-svg_2 {
+    position: absolute;
+    top: -12.5%;
+    right: -5%;
+    width: 3rem;
+    fill: #fd7e3c; }
+    @media only screen and (max-width: 600px) {
+      .remnant-rectangle-top-svg_2 {
+        bottom: -12.2%;
+        right: -5%; } }
 
 .remnant-rectangle-bottom {
   width: 35rem;
   height: 10rem; }
+  .remnant-rectangle-bottom-svg_1 {
+    position: absolute;
+    top: -8.5%;
+    right: -10%;
+    width: 3rem;
+    fill: #fd7e3c; }
+  .remnant-rectangle-bottom-svg_2 {
+    position: absolute;
+    bottom: -6%;
+    right: -10%;
+    width: 3rem;
+    fill: #fd7e3c; }
 
 .remnant-right-l2 {
   position: relative; }
+  .remnant-right-l2-svg_1 {
+    position: absolute;
+    right: -11.2%;
+    top: -15%;
+    width: 3rem;
+    fill: #fd7e3c; }
+    @media only screen and (max-width: 600px) {
+      .remnant-right-l2-svg_1 {
+        right: -15.5%;
+        top: -15%; } }
+  .remnant-right-l2-svg_2 {
+    position: absolute;
+    bottom: -15%;
+    right: -11.2%;
+    width: 3rem;
+    fill: #fd7e3c; }
+    @media only screen and (max-width: 600px) {
+      .remnant-right-l2-svg_2 {
+        bottom: -15%;
+        right: -15.5%; } }
   .remnant-right-l2::before {
     content: 'D';
     position: absolute;
-    bottom: 102%;
-    left: 0;
-    border-bottom: 0.2rem solid #fd7e3c;
-    width: 100%;
-    font-size: 1.5rem;
-    font-weight: 700;
-    display: flex;
-    justify-content: center;
-    padding: 0 1rem;
-    color: #fd7e3c; }
-
-.remnant-right-w2 {
-  position: relative; }
-  .remnant-right-w2::before {
-    content: 'C';
-    position: absolute;
-    top: 0%;
-    left: 102%;
+    left: 105%;
     border-left: 0.2rem solid #fd7e3c;
     height: 100%;
     font-size: 1.5rem;
     font-weight: 700;
     display: flex;
     align-items: center;
+    padding: 0 1rem;
+    color: #fd7e3c; }
+
+.remnant-right-w2 {
+  position: relative; }
+  .remnant-right-w2-svg_1 {
+    position: absolute;
+    top: 99.5%;
+    left: -15%;
+    width: 3rem;
+    fill: #fd7e3c; }
+    @media only screen and (max-width: 600px) {
+      .remnant-right-w2-svg_1 {
+        top: 96%;
+        left: -20%; } }
+  .remnant-right-w2-svg_2 {
+    position: absolute;
+    top: 99.5%;
+    left: 85%;
+    width: 3rem;
+    fill: #fd7e3c; }
+    @media only screen and (max-width: 600px) {
+      .remnant-right-w2-svg_2 {
+        top: 96%;
+        left: 80%; } }
+  .remnant-right-w2::before {
+    content: 'C';
+    position: absolute;
+    top: 105%;
+    border-top: 0.2rem solid #fd7e3c;
+    width: 100%;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
     padding: 0 1rem;
     color: #fd7e3c; }
 
@@ -1971,10 +2201,28 @@ body {
 
 .remnant-left-reverse-l2 {
   position: relative; }
-  .remnant-left-reverse-l2::before {
-    content: 'D';
+  .remnant-left-reverse-l2-svg_1 {
     position: absolute;
-    bottom: 102%;
+    top: -11.2%;
+    left: -13%;
+    width: 3rem;
+    fill: #fd7e3c; }
+    @media only screen and (max-width: 600px) {
+      .remnant-left-reverse-l2-svg_1 {
+        top: -15.5%; } }
+  .remnant-left-reverse-l2-svg_2 {
+    position: absolute;
+    top: -11.2%;
+    right: -13%;
+    width: 3rem;
+    fill: #fd7e3c; }
+    @media only screen and (max-width: 600px) {
+      .remnant-left-reverse-l2-svg_2 {
+        top: -15.5%; } }
+  .remnant-left-reverse-l2::before {
+    content: 'C';
+    position: absolute;
+    bottom: 105%;
     left: 0;
     border-bottom: 0.2rem solid #fd7e3c;
     width: 100%;
@@ -1987,12 +2235,30 @@ body {
 
 .remnant-left-reverse-w2 {
   position: relative; }
+  .remnant-left-reverse-w2-svg_1 {
+    position: absolute;
+    top: -11.2%;
+    left: 99.5%;
+    width: 3rem;
+    fill: #fd7e3c; }
+    @media only screen and (max-width: 600px) {
+      .remnant-left-reverse-w2-svg_1 {
+        top: -11.5%; } }
+  .remnant-left-reverse-w2-svg_2 {
+    position: absolute;
+    bottom: -11.2%;
+    left: 99.5%;
+    width: 3rem;
+    fill: #fd7e3c; }
+    @media only screen and (max-width: 600px) {
+      .remnant-left-reverse-w2-svg_2 {
+        bottom: -15.2%; } }
   .remnant-left-reverse-w2::before {
-    content: 'C';
+    content: 'D';
     position: absolute;
     top: 5%;
-    right: 102%;
-    border-right: 0.2rem solid #fd7e3c;
+    left: 105%;
+    border-left: 0.2rem solid #fd7e3c;
     height: 95%;
     font-size: 1.5rem;
     font-weight: 700;
@@ -2000,13 +2266,34 @@ body {
     align-items: center;
     padding: 0 1rem;
     color: #fd7e3c; }
+    @media only screen and (max-width: 600px) {
+      .remnant-left-reverse-w2::before {
+        left: 109%; } }
 
 .remnant-left-l2 {
   position: relative; }
-  .remnant-left-l2::before {
-    content: 'C';
+  .remnant-left-l2-svg_1 {
     position: absolute;
-    left: 102%;
+    top: -11.2%;
+    left: 100%;
+    width: 3rem;
+    fill: #fd7e3c; }
+    @media only screen and (max-width: 600px) {
+      .remnant-left-l2-svg_1 {
+        top: -15.5%; } }
+  .remnant-left-l2-svg_2 {
+    position: absolute;
+    bottom: -11.2%;
+    left: 100%;
+    width: 3rem;
+    fill: #fd7e3c; }
+    @media only screen and (max-width: 600px) {
+      .remnant-left-l2-svg_2 {
+        bottom: -15.5%; } }
+  .remnant-left-l2::before {
+    content: 'D';
+    position: absolute;
+    left: 105%;
     border-left: 0.2rem solid #fd7e3c;
     height: 100%;
     font-size: 1.5rem;
@@ -2015,13 +2302,28 @@ body {
     align-items: center;
     padding: 0 1rem;
     color: #fd7e3c; }
+    @media only screen and (max-width: 600px) {
+      .remnant-left-l2::before {
+        left: 109%; } }
 
 .remnant-left-w2 {
   position: relative; }
-  .remnant-left-w2::before {
-    content: 'D';
+  .remnant-left-w2-svg_1 {
     position: absolute;
-    top: 102%;
+    top: 99.5%;
+    left: -15%;
+    width: 3rem;
+    fill: #fd7e3c; }
+  .remnant-left-w2-svg_2 {
+    position: absolute;
+    top: 99.5%;
+    right: -15%;
+    width: 3rem;
+    fill: #fd7e3c; }
+  .remnant-left-w2::before {
+    content: 'C';
+    position: absolute;
+    top: 105%;
     border-top: 0.2rem solid #fd7e3c;
     width: 100%;
     font-size: 1.5rem;
@@ -2030,6 +2332,9 @@ body {
     justify-content: center;
     padding: 0 1rem;
     color: #fd7e3c; }
+    @media only screen and (max-width: 600px) {
+      .remnant-left-w2::before {
+        top: 108.5%; } }
 
 .home {
   display: flex;
