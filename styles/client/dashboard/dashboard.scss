@@ -36,6 +36,7 @@
       width: 100%;
       height: 100%;
       padding: 3rem 5rem;
+      flex-wrap: wrap;
 
       @media only screen and (max-width: $large) {
         display: grid;
@@ -56,7 +57,7 @@
         justify-content: center;
         outline: none;
         transition: all 0.5s ease-in-out;
-        margin-right: 3rem;
+        // margin-right: 3rem;
 
         @media only screen and (max-width: $large) {
           width: 100%;
@@ -135,8 +136,19 @@
           background-color: rgba($color-scheme-3, 0.1);
           box-shadow: 2rem 1rem 2rem 0.2rem rgba(0, 0, 0, 0.4);
           padding: 5rem;
+          overflow-x: scroll;
+          border-radius: 1.2rem;
 
-          @media only screen and (max-width: $large) {
+          &::-webkit-scrollbar {
+            width: 0.1rem;
+            height: 0.3rem;
+          }
+
+          &::-webkit-scrollbar-thumb {
+            background-color: $color-scheme-1;
+          }
+
+          @media only screen and (max-width: $extra-large) {
             display: grid;
             justify-self: center;
             margin: 1rem 0;
@@ -151,24 +163,18 @@
 
             &-section_top {
               background-color: rgba(104, 104, 104, 0.2);
-              // box-shadow: 0 0rem 1rem 1rem rgba(0, 0, 0, 0.4);
-              // border-top: 0.2rem solid black;
-              // border-left: 0.2rem solid black;
-              // border-right: 0.2rem solid black;
             }
 
             &-section_bottom {
               background-color: rgba(104, 104, 104, 0.2);
-              // box-shadow: 0 rem 1rem 1rem rgba(0, 0, 0, 0.4);
-              // border-left: 0.2rem solid black;
-              // border-right: 0.2rem solid black;
-              // border-bottom: 0.2rem solid black;
             }
           }
 
           &-box {
             margin: 2rem 2rem;
             padding: 1rem 2rem;
+            display: grid;
+            justify-content: center;
 
             &-container {
               display: flex;
@@ -204,16 +210,61 @@
             }
 
             &-remnant {
+              display: flex;
+
               &-image-right {
-                transform: rotate3d(0.05, 1, -0.1, 30deg);
+                // transform: rotate3d(0.05, 1, -0.1, 30deg);
                 position: relative;
                 background-color: rgba(104, 104, 104, 0.1);
-                box-shadow: 3rem 2rem 2rem 0.3rem rgba(104, 104, 104, 0.1);
+                box-shadow: 3rem 0rem 1rem 0.3rem rgba(104, 104, 104, 0.1);
+                // margin-left: 3.5rem;
 
-                &::before {
+                // &::before {
+                //   content: 'B';
+                //   position: absolute;
+                //   left: -12%;
+                //   border-right: 0.2rem solid $color-scheme-1;
+                //   height: 100%;
+                //   font-size: 1.5rem;
+                //   font-weight: 700;
+                //   display: flex;
+                //   align-items: center;
+                //   padding: 0 1rem;
+                //   color: $color-scheme-1;
+                // }
+
+                &::after {
                   content: 'B';
                   position: absolute;
-                  left: -12%;
+                  top: 102%;
+                  left: 0;
+                  border-top: 0.2rem solid $color-scheme-1;
+                  width: 100%;
+                  font-size: 1.5rem;
+                  font-weight: 700;
+                  display: flex;
+                  justify-content: center;
+                  padding: 0 1rem;
+                  color: $color-scheme-1;
+                }
+              }
+
+              &-image-right-reverse {
+                // transform: rotate3d(0.05, 1, 0.1, 30deg);
+                position: relative;
+                background-color: rgba(104, 104, 104, 0.1);
+                box-shadow: -2rem 1rem 1rem 0.5rem rgba(104, 104, 104, 0.1);
+                margin-right: 4rem;
+
+                @media only screen and (max-width: $small) {
+                  margin-right: 3.5rem;
+                }
+
+                &::before {
+                  content: 'A';
+                  position: absolute;
+                  right: -19%;
+                  border-left: 0.2rem solid $color-scheme-1;
                   border-right: 0.2rem solid $color-scheme-1;
                   height: 100%;
                   font-size: 1.5rem;
@@ -222,13 +273,17 @@
                   align-items: center;
                   padding: 0 1rem;
                   color: $color-scheme-1;
+
+                  @media only screen and (max-width: $small) {
+                    right: -23%;
+                  }
                 }
 
                 &::after {
-                  content: 'A';
+                  content: 'B';
                   position: absolute;
-                  top: -18%;
-                  left: 0;
+                  top: -10%;
+                  right: 0;
                   border-bottom: 0.2rem solid $color-scheme-1;
                   width: 100%;
                   font-size: 1.5rem;
@@ -241,16 +296,60 @@
               }
 
               &-image-left {
-                transform: rotate3d(0.05, 1, -0.1, 30deg);
+                // transform: rotate3d(0.05, 1, -0.1, 30deg);
                 position: relative;
                 background-color: rgba(104, 104, 104, 0.1);
-                box-shadow: -3rem -2rem 2rem 0.3rem rgba(104, 104, 104, 0.1);
+                box-shadow: -3rem -2rem 1rem 0.3rem rgba(104, 104, 104, 0.1);
 
-                &::before {
+                @media only screen and (max-width: $small) {
+                  margin-right: 3.5rem;
+                }
+
+                // &::before {
+                //   content: 'B';
+                //   position: absolute;
+                //   right: -12%;
+                //   border-left: 0.2rem solid $color-scheme-1;
+                //   height: 100%;
+                //   font-size: 1.5rem;
+                //   font-weight: 700;
+                //   display: flex;
+                //   align-items: center;
+                //   padding: 0 1rem;
+                //   color: $color-scheme-1;
+                // }
+
+                &::after {
                   content: 'B';
                   position: absolute;
-                  right: -12%;
+                  bottom: 102%;
+                  left: 0;
+                  border-bottom: 0.2rem solid $color-scheme-1;
+                  width: 100%;
+                  font-size: 1.5rem;
+                  font-weight: 700;
+                  display: flex;
+                  justify-content: center;
+                  padding: 0 1rem;
+                  color: $color-scheme-1;
+                }
+              }
+
+              &-image-left-reverse {
+                // transform: rotate3d(0.05, 1, 0.1, 30deg);
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                background-color: rgba(104, 104, 104, 0.1);
+                box-shadow: -3rem -1rem 1rem 0.5rem rgba(104, 104, 104, 0.1);
+                margin-right: 4rem;
+
+                &::before {
+                  content: 'A';
+                  position: absolute;
+                  right: -19%;
                   border-left: 0.2rem solid $color-scheme-1;
+                  border-right: 0.2rem solid $color-scheme-1;
                   height: 100%;
                   font-size: 1.5rem;
                   font-weight: 700;
@@ -258,13 +357,17 @@
                   align-items: center;
                   padding: 0 1rem;
                   color: $color-scheme-1;
+
+                  @media only screen and (max-width: $small) {
+                    right: -24%;
+                  }
                 }
 
                 &::after {
-                  content: 'A';
+                  content: 'B';
                   position: absolute;
-                  top: 105%;
-                  left: 0;
+                  top: 102%;
+                  right: 0;
                   border-top: 0.2rem solid $color-scheme-1;
                   width: 100%;
                   font-size: 1.5rem;
@@ -300,6 +403,42 @@
                   top: 105%;
                   left: 0;
                   border-top: 0.2rem solid $color-scheme-1;
+                  width: 100%;
+                  font-size: 1.5rem;
+                  font-weight: 700;
+                  display: flex;
+                  justify-content: center;
+                  padding: 0 1rem;
+                  color: $color-scheme-1;
+                }
+              }
+
+              &-image-box {
+                position: relative;
+                background-color: rgba(104, 104, 104, 0.1);
+                box-shadow: -3rem -2rem 1rem 0.3rem rgba(104, 104, 104, 0.1);
+                margin-left: 3rem;
+
+                &::before {
+                  content: 'A';
+                  position: absolute;
+                  right: -12%;
+                  border-left: 0.2rem solid $color-scheme-1;
+                  height: 100%;
+                  font-size: 1.5rem;
+                  font-weight: 700;
+                  display: flex;
+                  align-items: center;
+                  padding: 0 1rem;
+                  color: $color-scheme-1;
+                }
+
+                &::after {
+                  content: 'B';
+                  position: absolute;
+                  bottom: 102%;
+                  left: 0;
+                  border-bottom: 0.2rem solid $color-scheme-1;
                   width: 100%;
                   font-size: 1.5rem;
                   font-weight: 700;
@@ -746,25 +885,88 @@
 }
 
 .remnant-right-top {
-  width: 35rem;
-  height: 10rem;
+  width: 10rem;
+  height: 20rem;
+
+  @media only screen and (max-width: $small) {
+    width: 7.5rem;
+    height: 15rem;
+  }
 }
 
 .remnant-right-bottom {
-  width: 12rem;
+  width: 20rem;
   height: 10rem;
+
+  @media only screen and (max-width: $small) {
+    width: 15rem;
+    height: 7.5rem;
+  }
+}
+
+.remnant-right-reverse-top {
+  width: 20rem;
+  height: 10rem;
+
+  @media only screen and (max-width: $small) {
+    width: 15rem;
+    height: 7.5rem;
+  }
+}
+
+.remnant-right-reverse-bottom {
+  width: 10rem;
+  height: 20rem;
+  position: absolute;
+  left: calc(100% - 10rem);
+
+  @media only screen and (max-width: $small) {
+    width: 7.5rem;
+    height: 15rem;
+    position: absolute;
+    left: calc(100% - 7.5rem);
+  }
 }
 
 .remnant-left-top {
-  position: absolute;
-  left: calc(100% - 12rem);
-  width: 12rem;
+  width: 20rem;
   height: 10rem;
+
+  @media only screen and (max-width: $small) {
+    width: 15rem;
+    height: 7.5rem;
+  }
 }
 
 .remnant-left-bottom {
-  width: 35rem;
+  width: 10rem;
+  height: 20rem;
+
+  @media only screen and (max-width: $small) {
+    width: 7.5rem;
+    height: 15rem;
+  }
+}
+
+.remnant-left-reverse-top {
+  align-self: flex-end !important;
+  width: 10rem;
+  height: 20rem;
+
+  @media only screen and (max-width: $small) {
+    width: 7.5rem;
+    height: 15rem;
+  }
+}
+
+.remnant-left-reverse-bottom {
+  width: 20rem;
   height: 10rem;
+
+  @media only screen and (max-width: $small) {
+    width: 15rem;
+    height: 7.5rem;
+  }
 }
 
 .remnant-rectangle-top {
@@ -783,10 +985,10 @@
   &::before {
     content: 'D';
     position: absolute;
-    bottom: -32%;
-    left: 12rem;
-    border-top: 0.2rem solid $color-scheme-1;
-    width: calc(100% - 12rem);
+    bottom: 102%;
+    left: 0;
+    border-bottom: 0.2rem solid $color-scheme-1;
+    width: 100%;
     font-size: 1.5rem;
     font-weight: 700;
     display: flex;
@@ -802,7 +1004,46 @@
   &::before {
     content: 'C';
     position: absolute;
-    top: 110%;
+    top: 0%;
+    left: 102%;
+    border-left: 0.2rem solid $color-scheme-1;
+    height: 100%;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    color: $color-scheme-1;
+  }
+}
+
+.remnant-right-reverse-l2 {
+  position: relative;
+
+  &::before {
+    content: 'C';
+    position: absolute;
+    top: 0%;
+    right: 102%;
+    border-right: 0.2rem solid $color-scheme-1;
+    // width: calc(100% - 12rem);
+    height: 100%;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    padding: 0 1rem;
+    color: $color-scheme-1;
+  }
+}
+
+.remnant-right-reverse-w2 {
+  position: relative;
+
+  &::before {
+    content: 'D';
+    position: absolute;
+    top: 105%;
     right: 0%;
     border-top: 0.2rem solid $color-scheme-1;
     width: 100%;
@@ -815,13 +1056,13 @@
   }
 }
 
-.remnant-left-l2 {
+.remnant-left-reverse-l2 {
   position: relative;
 
   &::before {
-    content: 'C';
+    content: 'D';
     position: absolute;
-    bottom: 110%;
+    bottom: 102%;
     left: 0;
     border-bottom: 0.2rem solid $color-scheme-1;
     width: 100%;
@@ -834,11 +1075,11 @@
   }
 }
 
-.remnant-left-w2 {
+.remnant-left-reverse-w2 {
   position: relative;
 
   &::before {
-    content: 'D';
+    content: 'C';
     position: absolute;
     top: 5%;
     right: 102%;
@@ -848,6 +1089,43 @@
     font-weight: 700;
     display: flex;
     align-items: center;
+    padding: 0 1rem;
+    color: $color-scheme-1;
+  }
+}
+
+.remnant-left-l2 {
+  position: relative;
+
+  &::before {
+    content: 'C';
+    position: absolute;
+    // bottom: 110%;
+    left: 102%;
+    border-left: 0.2rem solid $color-scheme-1;
+    height: 100%;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    color: $color-scheme-1;
+  }
+}
+
+.remnant-left-w2 {
+  position: relative;
+
+  &::before {
+    content: 'D';
+    position: absolute;
+    top: 102%;
+    border-top: 0.2rem solid $color-scheme-1;
+    width: 100%;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
     padding: 0 1rem;
     color: $color-scheme-1;
   }

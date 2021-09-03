@@ -357,44 +357,52 @@ const Remnant = ({hideSideNav, showSideNav, preloadMaterials, addRemnant, remnan
           </div>
         </form>
         <div className="clientDashboard-view-slab_form-shapes">
-          <div className="clientDashboard-view-slab_form-shapes-container">
-            <div className="clientDashboard-view-slab_form-shapes-item">
-              <div className="clientDashboard-view-slab_form-shapes-item-box">
-                <div className="clientDashboard-view-slab_form-shapes-item-box-title">Remnant Slab - Right "R"</div>
-                <div className="clientDashboard-view-slab_form-shapes-item-box-container">
-                  <div className="clientDashboard-view-slab_form-shapes-item-box-remnant">
-                    <div className="clientDashboard-view-slab_form-shapes-item-box-remnant-image-right">
-                      <div className="clientDashboard-view-slab_form-shapes-item-block-section_top remnant-right-top remnant-right-l2"></div>
-                      <div className="clientDashboard-view-slab_form-shapes-item-block-section_bottom remnant-right-bottom remnant-right-w2"></div>
-                    </div>
+        <div className="clientDashboard-view-slab_form-shapes-container">
+          <div className="clientDashboard-view-slab_form-shapes-item">
+            <div className="clientDashboard-view-slab_form-shapes-item-box">
+              <div className="clientDashboard-view-slab_form-shapes-item-box-title">Remnant Slab - Right "R"</div>
+              <div className="clientDashboard-view-slab_form-shapes-item-box-container">
+                <div className="clientDashboard-view-slab_form-shapes-item-box-remnant">
+                  <div className="clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse">
+                    <div className="clientDashboard-view-slab_form-shapes-item-block-section_top remnant-right-reverse-top remnant-right-reverse-l2"></div>
+                    <div className="clientDashboard-view-slab_form-shapes-item-block-section_bottom remnant-right-reverse-bottom remnant-right-reverse-w2"></div>
+                  </div>
+                  <div className="clientDashboard-view-slab_form-shapes-item-box-remnant-image-right">
+                    <div className="clientDashboard-view-slab_form-shapes-item-block-section_top remnant-right-top remnant-right-l2"></div>
+                    <div className="clientDashboard-view-slab_form-shapes-item-block-section_bottom remnant-right-bottom remnant-right-w2"></div>
                   </div>
                 </div>
               </div>
-              <div className="clientDashboard-view-slab_form-shapes-item-box">
-                <div className="clientDashboard-view-slab_form-shapes-item-box-title">Remnant Slab - Left "L"</div>
-                <div className="clientDashboard-view-slab_form-shapes-item-box-container">
-                  <div className="clientDashboard-view-slab_form-shapes-item-box-remnant">
-                    <div className="clientDashboard-view-slab_form-shapes-item-box-remnant-image-left">
-                      <div className="clientDashboard-view-slab_form-shapes-item-block-section_top remnant-left-top remnant-left-l2"></div>
-                      <div className="clientDashboard-view-slab_form-shapes-item-block-section_bottom remnant-left-bottom remnant-left-w2"></div>
-                    </div>
+            </div>
+            <div className="clientDashboard-view-slab_form-shapes-item-box">
+              <div className="clientDashboard-view-slab_form-shapes-item-box-title">Remnant Slab - Left "L"</div>
+              <div className="clientDashboard-view-slab_form-shapes-item-box-container">
+                <div className="clientDashboard-view-slab_form-shapes-item-box-remnant">
+                  <div className="clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse">
+                    <div className="clientDashboard-view-slab_form-shapes-item-block-section_top remnant-left-reverse-top remnant-left-reverse-l2"></div>
+                    <div className="clientDashboard-view-slab_form-shapes-item-block-section_bottom remnant-left-reverse-bottom remnant-left-reverse-w2"></div>
+                  </div>
+                  <div className="clientDashboard-view-slab_form-shapes-item-box-remnant-image-left">
+                    <div className="clientDashboard-view-slab_form-shapes-item-block-section_top remnant-left-top remnant-left-l2"></div>
+                    <div className="clientDashboard-view-slab_form-shapes-item-block-section_bottom remnant-left-bottom remnant-left-w2"></div>
                   </div>
                 </div>
               </div>
-              <div className="clientDashboard-view-slab_form-shapes-item-box">
-                <div className="clientDashboard-view-slab_form-shapes-item-box-container">
-                  <div className="clientDashboard-view-slab_form-shapes-item-box-remnant">
-                    <div className="clientDashboard-view-slab_form-shapes-item-box-title">Remnant Block</div>
-                    <div className="clientDashboard-view-slab_form-shapes-item-box-remnant-image-left">
-                      <div className="clientDashboard-view-slab_form-shapes-item-block-section_top remnant-rectangle-top"></div>
-                      <div className="clientDashboard-view-slab_form-shapes-item-block-section_bottom remnant-rectangle-bottom"></div>
-                    </div>
+            </div>
+            <div className="clientDashboard-view-slab_form-shapes-item-box">
+              <div className="clientDashboard-view-slab_form-shapes-item-box-container">
+                <div className="clientDashboard-view-slab_form-shapes-item-box-remnant-box">
+                  <div className="clientDashboard-view-slab_form-shapes-item-box-title">Remnant Block</div>
+                  <div className="clientDashboard-view-slab_form-shapes-item-box-remnant-image-box">
+                    <div className="clientDashboard-view-slab_form-shapes-item-block-section_top remnant-rectangle-top"></div>
+                    <div className="clientDashboard-view-slab_form-shapes-item-block-section_bottom remnant-rectangle-bottom"></div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   </div>
