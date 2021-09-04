@@ -1255,7 +1255,8 @@ body {
         align-items: center;
         justify-content: center;
         outline: none;
-        transition: all 0.5s ease-in-out; }
+        transition: all 0.5s ease-in-out;
+        margin-right: 3rem; }
         @media only screen and (max-width: 992px) {
           .clientDashboard-view-new-item {
             width: 100%; } }
