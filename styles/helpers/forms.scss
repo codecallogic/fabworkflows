@@ -14,6 +14,28 @@
     font-size: 2.8rem;
   }
 
+  &-group-search {
+    margin-left: 3rem;
+    display: flex;
+    align-items: center;
+    border-radius: 1.2rem;
+    outline: none;
+    border: none;
+
+    input {
+      width: 40rem;
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+      text-indent: 1rem;
+      padding: 1rem;
+      resize: none;
+      outline: none;
+      border-radius: 2rem;
+      font-family: inherit;
+    }
+  }
+
   &-group-single {
     padding: 1.5rem 0 0 0;
     grid-column: 1/-1;
@@ -757,6 +779,10 @@
     width: max-content;
     font-size: 1.4rem;
     color: red;
+
+    &-list {
+      color: white;
+    }
 
     svg {
       width: 2.5rem;

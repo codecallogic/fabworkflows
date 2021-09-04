@@ -19,6 +19,9 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
   const [controlsSlab, setSlabControls] = useState(false)
   const [idControlsSlab, setSlabIDControls] = useState('')
   const [loading, setLoading] = useState(false)
+  const [search, setSearch] = useState('')
+  const [searchLoading, setSearchLoading] = useState(false)
+  const [allSlabs, setAllSlabs] = useState(list ? list : [])
 
   const handleClickOutside = (event) => {
     if(myRefs.current){
@@ -32,6 +35,23 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
       })
     }
   }
+
+  useEffect(() => {
+    let timeOutSearch
+    
+    if(search.length > 0){
+      setSearchLoading(true)
+      timeOutSearch = setTimeout(() => {
+        submitSearch()
+      }, 2000)
+    }
+
+    if(search.length == 0){
+      setAllSlabs(list)
+    }
+
+    return () => clearTimeout(timeOutSearch)
+  }, [search])
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
@@ -87,6 +107,18 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
       if(error) error.response ? setError(error.response.data) : setError('Error deleting from inventory')
     }
   }
+
+  const submitSearch = async (e) => {
+    try {
+      const responseSearch = await axios.post(`${API}/inventory/slab-search`, {query: search})
+      setSearchLoading(false)
+      if(responseSearch.data.length > 0) return setAllSlabs(responseSearch.data)
+      setError('Our search could not find anything')
+    } catch (error) {
+      console.log(error)
+      if(error) error.response ? setError(error.response.data) : setError('We could not find your search')
+    }
+  }
   
   return (
     <>
@@ -97,6 +129,11 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
         <div className="clientDashboard-view-slab_list-container">
           <div className="clientDashboard-view-slab_list-heading">
             <span>Slabs List</span>
+            <div className="form-group-search">
+              <form autoComplete="off">
+                <input type="text" name="search" placeholder="Search" value={search} onChange={(e) => (setSearch(e.target.value))} onFocus={(e) => (e.target.placeholder = '', setError(''))} onBlur={(e) => (e.target.placeholder = 'Search', setError(''))} onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null}  required></input>
+              </form>
+            </div>
             {controlsSlab &&
               <div className="clientDashboard-view-slab_list-heading-controls">
                 <div id="edit-slab" className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControlsSlab ? window.location.href = `inventory/slab/${idControlsSlab}` : null}>Edit</div>
@@ -105,7 +142,7 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
             }
             {loading && <div className="loading"><span></span><span></span><span></span></div>}
             <div className="form-error-container">
-              {error && <span className="form-error"><SVGs svg={'error'}></SVGs></span>}
+              {error && <span className="form-error form-error-list"><SVGs svg={'error'}></SVGs>{error}</span>}
             </div>
           </div>
           <div className="clientDashboard-view-slab_list-headers">
@@ -127,7 +164,8 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
             </div>
           </div>
           <div className="clientDashboard-view-slab_list-slabs-container">
-            {list && list.sort((a, b) => a[filter] > b[filter] ? asc : desc).map((item, idx) => (
+            {searchLoading ? <div className="search-loading"><div className="search-loading-box"><svg><circle cx="20" cy="20" r="20"></circle></svg><span>Loading slabs</span></div></div>: null}
+            {allSlabs.length > 0 && allSlabs.sort((a, b) => a[filter] > b[filter] ? asc : desc).map((item, idx) => (
             <div key={idx} className="clientDashboard-view-slab_list-slabs">
                 <div className="clientDashboard-view-slab_list-slabs-checkbox" ref={(el) => (myRefs.current[idx] = el)}>
                   <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`slab ` + `${idx}`} onClick={(e) => e.target.checked == true ? (handleControls(e, item._id), window.scrollTo({top: 0})) : (setSlabControls(false), setSlabIDControls(''))}/>

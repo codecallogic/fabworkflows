@@ -219,8 +219,8 @@
               &-image-right {
                 // transform: rotate3d(0.05, 1, -0.1, 30deg);
                 position: relative;
-                // background-color: rgba(104, 104, 104, 0.1);
-                // box-shadow: 3rem 0rem 1rem 0.3rem rgba(104, 104, 104, 0.1);
+                background-color: rgba(104, 104, 104, 0.1);
+                box-shadow: 3rem 3rem 1rem 0.1rem rgba(104, 104, 104, 0.1);
 
                 &-svg_1 {
                   position: absolute;
@@ -317,8 +317,8 @@
                 position: relative;
                 display: flex;
                 flex-direction: column;
-                // background-color: rgba(104, 104, 104, 0.1);
-                // box-shadow: -2rem -0.5rem 1rem 0.5rem rgba(104, 104, 104, 0.1);
+                background-color: rgba(104, 104, 104, 0.1);
+                box-shadow: -3rem -3rem 1rem 0.1rem rgba(104, 104, 104, 0.1);
                 margin-bottom: 7rem;
 
                 @media only screen and (max-width: $small) {
@@ -414,8 +414,10 @@
               &-image-left {
                 // transform: rotate3d(0.05, 1, -0.1, 30deg);
                 position: relative;
-                // background-color: rgba(104, 104, 104, 0.1);
-                // box-shadow: -3rem -2rem 1rem 0.3rem rgba(104, 104, 104, 0.1);
+                display: flex;
+                flex-direction: column;
+                background-color: rgba(104, 104, 104, 0.1);
+                box-shadow: -3rem 3rem 1rem 0.1rem rgba(104, 104, 104, 0.1);
                 width: max-content;
 
                 &-svg_1 {
@@ -447,34 +449,34 @@
                 &-svg_3 {
                   position: absolute;
                   bottom: -4%;
-                  left: -13%;
+                  right: -12.8%;
                   width: 3rem;
                   fill: $color-scheme-1;
 
                   @media only screen and (max-width: $small) {
                     bottom: -5%;
-                    right: -13.5%;
+                    right: -17%;
                   }
                 }
 
                 &-svg_4 {
                   position: absolute;
                   top: -4%;
-                  left: -13%;
+                  right: -12.8%;
                   width: 3rem;
                   fill: $color-scheme-1;
 
                   @media only screen and (max-width: $small) {
                     top: -5%;
-                    right: -13.5%;
+                    right: -17%;
                   }
                 }
 
                 &::before {
                   content: 'A';
                   position: absolute;
-                  right: 106.5%;
-                  border-right: 0.2rem solid $color-scheme-1;
+                  left: 106.5%;
+                  border-left: 0.2rem solid $color-scheme-1;
                   height: 100%;
                   font-size: 1.5rem;
                   font-weight: 700;
@@ -513,8 +515,8 @@
                 position: relative;
                 display: flex;
                 flex-direction: column;
-                // background-color: rgba(104, 104, 104, 0.1);
-                // box-shadow: -3rem 0rem 1rem 0.5rem rgba(104, 104, 104, 0.1);
+                background-color: rgba(104, 104, 104, 0.1);
+                box-shadow: 3rem -3rem 1rem 0.1rem rgba(104, 104, 104, 0.1);
                 width: max-content;
 
                 margin-bottom: 7rem;
@@ -862,9 +864,9 @@
 
         &-container {
           width: 100%;
-          height: 1000px;
-
+          height: max-content;
           overflow-y: scroll;
+          position: relative;
 
           &::-webkit-scrollbar {
             width: 0.1rem;
@@ -1172,7 +1174,8 @@
 
 .remnant-left-bottom {
   width: 10rem;
-  height: 20rem;
+  height: 25rem;
+  align-self: flex-end !important;
 
   @media only screen and (max-width: $small) {
     width: 7.5rem;
@@ -1522,7 +1525,7 @@
   &-svg_1 {
     position: absolute;
     top: -11.2%;
-    left: 100%;
+    right: 99.2%;
     width: 3rem;
     fill: $color-scheme-1;
 
@@ -1534,7 +1537,7 @@
   &-svg_2 {
     position: absolute;
     bottom: -11.2%;
-    left: 100%;
+    right: 99.2%;
     width: 3rem;
     fill: $color-scheme-1;
 
@@ -1547,8 +1550,8 @@
     content: 'D';
     position: absolute;
     // bottom: 110%;
-    left: 105%;
-    border-left: 0.2rem solid $color-scheme-1;
+    right: 105%;
+    border-right: 0.2rem solid $color-scheme-1;
     height: 100%;
     font-size: 1.5rem;
     font-weight: 700;
@@ -1558,7 +1561,7 @@
     color: $color-scheme-1;
 
     @media only screen and (max-width: $small) {
-      left: 109%;
+      right: 109%;
     }
   }
 }

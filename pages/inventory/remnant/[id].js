@@ -423,7 +423,7 @@ const Remnant = ({hideSideNav, showSideNav, preloadMaterials, addRemnant, remnan
                     <SVGs svg={'arrow-top'} classprop={'remnant-left-l2-svg_1'}></SVGs>
                     <SVGs svg={'arrow-bottom'} classprop={'remnant-left-l2-svg_2'}></SVGs>
                   </div>
-                  <div className="clientDashboard-view-slab_form-shapes-item-block-section_bottom remnant-right-bottom remnant-left-w2">
+                  <div className="clientDashboard-view-slab_form-shapes-item-block-section_bottom remnant-left-bottom remnant-left-w2">
                     <SVGs svg={'arrow-left'} classprop={'remnant-left-w2-svg_1'}></SVGs>
                     <SVGs svg={'arrow-right'} classprop={'remnant-left-w2-svg_2'}></SVGs>
                   </div>
