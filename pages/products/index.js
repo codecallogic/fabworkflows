@@ -20,6 +20,9 @@ const Products = ({hideSideNav, showSideNav, list}) => {
   const [ascProduct, setAscProduct] = useState(-1)
   const [descProduct, setDescProduct] = useState(1)
   const [loading, setLoading] = useState(false)
+  const [search, setSearch] = useState('')
+  const [searchLoading, setSearchLoading] = useState(false)
+  const [allProducts, setAllProducts] = useState(list ? list: [])
 
 
   const handleClickOutside = (event) => {
@@ -34,6 +37,24 @@ const Products = ({hideSideNav, showSideNav, list}) => {
       })
     }
   }
+
+  useEffect(() => {
+    let timeOutSearch
+    
+    if(search.length > 0){
+      setSearchLoading(true)
+      timeOutSearch = setTimeout(() => {
+        submitSearch()
+      }, 2000)
+    }
+
+    if(search.length == 0){
+      setAllProducts(list)
+      setError('')
+    }
+
+    return () => clearTimeout(timeOutSearch)
+  }, [search])
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
@@ -84,6 +105,18 @@ const Products = ({hideSideNav, showSideNav, list}) => {
       if(error) error.response ? setError(error.response.data) : setError('Error deleting from inventory')
     }
   }
+
+  const submitSearch = async (e) => {
+    try {
+      const responseSearch = await axios.post(`${API}/inventory/product-search`, {query: search})
+      setSearchLoading(false)
+      if(responseSearch.data.length > 0) return setAllProducts(responseSearch.data)
+      setError('Our search could not find anything')
+    } catch (error) {
+      console.log(error)
+      if(error) error.response ? setError(error.response.data) : setError('There was an error with the search')
+    }
+  }
   
   return (
     <>
@@ -93,7 +126,12 @@ const Products = ({hideSideNav, showSideNav, list}) => {
       <div className="clientDashboard-view">
         <div className="clientDashboard-view-slab_list-container">
           <div className="clientDashboard-view-slab_list-heading">
-            <span>Product List</span>
+            <div className="clientDashboard-view-slab_list-heading-title">Product List</div>
+            <div className={`form-group-search ` + (controls ? 'form-group-search-hideOnMobile' : '')}>
+              <form autoComplete="off">
+                <input type="text" name="search" placeholder="Search" value={search} onChange={(e) => (setSearch(e.target.value))} onFocus={(e) => (e.target.placeholder = '', setError(''))} onBlur={(e) => (e.target.placeholder = 'Search', setError(''))} onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null}  required></input>
+              </form>
+            </div>
             {controls &&
               <div className="clientDashboard-view-slab_list-heading-controls">
                 <div id="edit-product" className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControls ? window.location.href = `inventory/product/${idControls}` : null}>Edit</div>
@@ -121,7 +159,8 @@ const Products = ({hideSideNav, showSideNav, list}) => {
             </div>
           </div>
           <div className="clientDashboard-view-slab_list-slabs-container">
-            {list && list.sort((a, b) => a[filterProduct] > b[filterProduct] ? ascProduct : descProduct).map((item, idx) => (
+          {searchLoading ? <div className="search-loading"><div className="search-loading-box"><svg><circle cx="20" cy="20" r="20"></circle></svg><span>Loading products</span></div></div>: null}
+            {allProducts.length > 0 && allProducts.sort((a, b) => a[filterProduct] > b[filterProduct] ? ascProduct : descProduct).map((item, idx) => (
             <div key={idx} className="clientDashboard-view-slab_list-slabs">
                 <div className="clientDashboard-view-slab_list-slabs-checkbox" ref={(el) => (myRefs.current[idx] = el)}>
                   <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`slab ` + `${idx}`} onClick={(e) => e.target.checked == true ? (handleControls(e, item._id), window.scrollTo({top: 0})) : (setControls(false), setIDControls(''))} />

@@ -21,11 +21,21 @@
     border-radius: 1.2rem;
     outline: none;
     border: none;
+    width: 100%;
+
+    form {
+      width: 40rem;
+
+      @media only screen and (max-width: $small) {
+        width: auto;
+        flex-grow: 1;
+      }
+    }
 
     input {
-      width: 40rem;
-      display: flex;
-      align-items: center;
+      // display: flex;
+      // align-items: center;
+      width: 100%;
       box-sizing: border-box;
       text-indent: 1rem;
       padding: 1rem;
@@ -33,6 +43,19 @@
       outline: none;
       border-radius: 2rem;
       font-family: inherit;
+
+      // @media only screen and (max-width: $small) {
+      //   width: 100%;
+      // }
+    }
+
+    &-hideOnMobile {
+      width: 100%;
+      flex-grow: 1;
+
+      @media only screen and (max-width: $small) {
+        display: none;
+      }
     }
   }
 
@@ -1047,13 +1070,13 @@
 .edit {
   font-weight: 700;
   background-color: $color-scheme-1;
-  animation: slideFromRight 0.5s ease-in-out;
+  animation: slideFromRight 0.8s ease-in-out;
 }
 
 .delete {
   font-weight: 700;
   background-color: red;
-  animation: slideFromRight 0.5s ease-in-out;
+  animation: slideFromRight 0.8s ease-in-out;
 }
 
 .clear-field {

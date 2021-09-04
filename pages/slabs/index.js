@@ -48,6 +48,7 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
 
     if(search.length == 0){
       setAllSlabs(list)
+      setError('')
     }
 
     return () => clearTimeout(timeOutSearch)
@@ -116,7 +117,7 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
       setError('Our search could not find anything')
     } catch (error) {
       console.log(error)
-      if(error) error.response ? setError(error.response.data) : setError('We could not find your search')
+      if(error) error.response ? setError(error.response.data) : setError('There was an error with the search')
     }
   }
   
@@ -128,8 +129,8 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
       <div className="clientDashboard-view">
         <div className="clientDashboard-view-slab_list-container">
           <div className="clientDashboard-view-slab_list-heading">
-            <span>Slabs List</span>
-            <div className="form-group-search">
+            <div className="clientDashboard-view-slab_list-heading-title">Slabs List</div>
+            <div className={`form-group-search ` + (controlsSlab ? 'form-group-search-hideOnMobile' : '')}>
               <form autoComplete="off">
                 <input type="text" name="search" placeholder="Search" value={search} onChange={(e) => (setSearch(e.target.value))} onFocus={(e) => (e.target.placeholder = '', setError(''))} onBlur={(e) => (e.target.placeholder = 'Search', setError(''))} onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null}  required></input>
               </form>
