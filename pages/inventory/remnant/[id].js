@@ -7,18 +7,22 @@ import QRCode from 'qrcode'
 import {nanoid} from 'nanoid'
 import {API} from '../../../config'
 import axios from 'axios'
+import withUser from '../../withUser'
 
-const Remnant = ({hideSideNav, showSideNav, preloadMaterials, addRemnant, remnant, addRemnantImages, preloadRemnant}) => {
+const Remnant = ({hideSideNav, showSideNav, materials, colors, addRemnant, remnant, addRemnantImages, preloadRemnant, material, addMaterial, resetMaterial}) => {
   const myRefs = useRef(null)
   
   const [input_dropdown, setInputDropdown] = useState('')
   const [width, setWidth] = useState()
+  const [modal, setModal] = useState('')
   const [error, setError] = useState('')
   const [edit, setEdit] = useState('')
   const [loading, setLoading] = useState(false)
   const [selectedFiles, setSelectedFiles] = useState(preloadRemnant.images ? preloadRemnant.images : [])
   const [imageCount, setImageCount] = useState(preloadRemnant.images ? preloadRemnant.images.length : 0)
-  const [allMaterials, setAllMaterials] = useState(preloadMaterials ? preloadMaterials : [])
+  const [allMaterials, setAllMaterials] = useState(materials ? materials : [])
+  const [allColors, setAllColors] = useState(colors ? colors : [])
+  const [color, setColor] = useState('')
 
   const handleClickOutside = (event) => {
     if(myRefs.current){
@@ -208,6 +212,42 @@ const Remnant = ({hideSideNav, showSideNav, preloadMaterials, addRemnant, remnan
       if(error) error.response ? setError(error.response.data) : setError('Error updating remnant in inventory')
     }
   }
+
+  const submitAddMaterial = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const responseMaterial = await axios.post(`${API}/inventory/add-material`, material)
+      resetMaterial()
+      setInputDropdown('')
+      setModal('')
+      setLoading(false)
+      setError('')
+      setAllMaterials(responseMaterial.data)
+    } catch (error) {
+      console.log(error.response)
+      setLoading(false)
+      if(error) error.response ? setError(error.response.data) : setError('Error adding material to inventory')
+    }
+  }
+
+  const submitAddColor = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const responseColor = await axios.post(`${API}/inventory/add-color`, {name: color})
+      setColor('')
+      setInputDropdown('')
+      setModal('')
+      setLoading(false)
+      setError('')
+      setAllColors(responseColor.data)
+    } catch (error) {
+      console.log(error.response)
+      setLoading(false)
+      if(error) error.response ? setError(error.response.data) : setError('Error adding color to inventory')
+    }
+  }
   
   return (
     <>
@@ -236,9 +276,24 @@ const Remnant = ({hideSideNav, showSideNav, preloadMaterials, addRemnant, remnan
               <div onClick={() => (input_dropdown !== 'remnant_material' ? setInputDropdown('remnant_material') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
               { input_dropdown == 'remnant_material' &&
               <div className="form-group-double-dropdown-input-list" ref={myRefs}>
-                {/* <div className="form-group-double-dropdown-input-list-item border_bottom" onClick={() => (setInputDropdown(''), setModal('add_material'))}><SVGs svg={'plus'}></SVGs> Add new</div> */}
+                <div className="form-group-double-dropdown-input-list-item border_bottom" onClick={() => (setInputDropdown(''), setModal('add_material'))}><SVGs svg={'plus'}></SVGs> Add new</div>
                 {allMaterials && allMaterials.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
                 <div key={idx} className="form-group-double-dropdown-input-list-item" onClick={(e) => (addRemnant('material', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
+                ))}
+              </div>
+              }
+            </div>
+          </div>
+          <div className="form-group-double-dropdown">
+            <label htmlFor="color">Color Name</label>
+            <div className="form-group-double-dropdown-input">
+              <textarea rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="color" placeholder="(Select Color)" onClick={() => setInputDropdown('remnant_color')} value={remnant.color} onChange={(e) => (setInputDropdown(''), addRemnant('color', e.target.value))}></textarea>
+              <div onClick={() => (input_dropdown !== 'remnant_color' ? setInputDropdown('remnant_color') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
+              { input_dropdown == 'remnant_color' &&
+              <div className="form-group-double-dropdown-input-list" ref={myRefs}>
+                <div className="form-group-double-dropdown-input-list-item border_bottom" onClick={() => (setInputDropdown(''), setModal('add_color'))}><SVGs svg={'plus'}></SVGs> Add new</div>
+                {allColors && allColors.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                <div key={idx} className="form-group-double-dropdown-input-list-item" onClick={(e) => (addRemnant('color', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
                 ))}
               </div>
               }
@@ -304,6 +359,7 @@ const Remnant = ({hideSideNav, showSideNav, preloadMaterials, addRemnant, remnan
               <textarea id="notes" rows="5" name="notes" placeholder="(Notes)" value={remnant.notes} onChange={(e) => (addRemnant('notes', e.target.value))}></textarea>
             </div>
           </div>
+          <div className="form-group-double-dropdown"></div>
           <div className="form-group-triple-qr">
             <label htmlFor="qr_code">Generate QR Code</label>
             <button onClick={(e) => generateQR(e)}>Generate</button>
@@ -451,6 +507,54 @@ const Remnant = ({hideSideNav, showSideNav, preloadMaterials, addRemnant, remnan
       </div>
       </div>
     </div>
+    { modal == 'add_material' &&
+      <div className="addFieldItems-modal">
+      <div className="addFieldItems-modal-box">
+        <div className="addFieldItems-modal-box-header">
+          <span className="addFieldItems-modal-form-title">{edit ? 'Edit Material' : 'New Material'}</span>
+          <div onClick={() => (setModal(''), resetMaterial(), setError(''))}><SVGs svg={'close'}></SVGs></div>
+        </div>
+        <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddMaterial(e)}>
+          <div className="form-group-single-textarea">
+            <div className="form-group-single-textarea-field">
+              <label htmlFor="name_material">Name</label>
+              <textarea id="name_material" rows="1" name="name_material" placeholder="(Material Name)" value={material.name} onChange={(e) => addMaterial('name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Material Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+            </div>
+          </div>
+          <div className="form-group-single-textarea">
+            <label htmlFor="material_description">Description</label>
+            <div className="form-group-single-textarea-field">
+              <textarea rows="5" wrap="wrap" name="description" placeholder="(Material Description)" value={material.description} onChange={(e) => addMaterial('description', e.target.value)}></textarea>
+            </div>
+          </div>
+          {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Material</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+          {edit == 'material' && <button onClick={(e) => updateMaterial(e)} className="form-button w100">{!loading && <span>Update Material</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+          {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+        </form>
+      </div>
+      </div>
+    }
+    { modal == 'add_color' &&
+        <div className="addFieldItems-modal">
+        <div className="addFieldItems-modal-box">
+          <div className="addFieldItems-modal-box-header">
+            <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'New Color'}</span>
+            <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
+          </div>
+          <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddColor(e)}>
+            <div className="form-group-single-textarea">
+              <div className="form-group-single-textarea-field">
+                <label htmlFor="name_color">Name</label>
+                <textarea id="name_color" rows="1" name="name_color" placeholder="(Color Name)" value={color} onChange={(e) => setColor(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Color Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+              </div>
+            </div>
+            {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+            {edit == 'color' && <button onClick={(e) => updateColor(e)} className="form-button w100">{!loading && <span>Update Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+            {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+          </form>
+        </div>
+      </div>
+    }
   </div>
   </>
   )
@@ -458,7 +562,8 @@ const Remnant = ({hideSideNav, showSideNav, preloadMaterials, addRemnant, remnan
 
 const mapStateToProps = (state) => {
   return {
-    remnant: state.remnant
+    remnant: state.remnant,
+    material: state.material
   }
 }
 
@@ -468,6 +573,8 @@ const mapDispatchToProps = dispatch => {
     showSideNav: () => dispatch({type: 'SHOW_SIDENAV'}),
     addRemnant: (name, data) => dispatch({type: 'CREATE_REMNANT', name: name, value: data}),
     addRemnantImages: (data) => dispatch({type: 'ADD_REMNANT_IMAGES', value: data}),
+    addMaterial: (name, data) => dispatch({type: 'ADD', name: name, value: data}),
+    resetMaterial: () => dispatch({type: 'RESET'}),
   }
 }
 
@@ -502,4 +609,4 @@ Remnant.getInitialProps = async ({query, res}) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Remnant)
+export default connect(mapStateToProps, mapDispatchToProps)(withUser(Remnant))

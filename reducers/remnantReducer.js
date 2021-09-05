@@ -1,6 +1,7 @@
 const initialState = {
   name: '',
   material: '',
+  color: '',
   lot: '',
   bundle: '',
   supplier_ref: '',

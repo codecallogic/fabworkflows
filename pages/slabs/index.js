@@ -26,12 +26,14 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
   const handleClickOutside = (event) => {
     if(myRefs.current){
       myRefs.current.forEach((item) => {
-        if(item.contains(event.target)) return
-        if(event.target == document.getElementById('delete-slab')) return
-        if(event.target == document.getElementById('edit-slab')) return
-        item.childNodes[0].checked = false
-        setSlabControls(false)
-        setSlabIDControls('')
+        if(item){
+          if(item.contains(event.target)) return
+          if(event.target == document.getElementById('delete-slab')) return
+          if(event.target == document.getElementById('edit-slab')) return
+          item.childNodes[0].checked = false
+          setSlabControls(false)
+          setSlabIDControls('')
+        }
       })
     }
   }
@@ -114,6 +116,7 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
       const responseSearch = await axios.post(`${API}/inventory/slab-search`, {query: search})
       setSearchLoading(false)
       if(responseSearch.data.length > 0) return setAllSlabs(responseSearch.data)
+      setAllSlabs([])
       setError('Our search could not find anything')
     } catch (error) {
       console.log(error)
@@ -128,6 +131,7 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
       <SideNav width={width} redirect={sendRedirect}></SideNav>
       <div className="clientDashboard-view">
         <div className="clientDashboard-view-slab_list-container">
+          {searchLoading ? <div className="search-loading"><div className="search-loading-box"><svg><circle cx="20" cy="20" r="20"></circle></svg><span>Loading slabs</span></div></div>: null}
           <div className="clientDashboard-view-slab_list-heading">
             <div className="clientDashboard-view-slab_list-heading-title">Slabs List</div>
             <div className={`form-group-search ` + (controlsSlab ? 'form-group-search-hideOnMobile' : '')}>
@@ -143,7 +147,7 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
             }
             {loading && <div className="loading"><span></span><span></span><span></span></div>}
             <div className="form-error-container">
-              {error && <span className="form-error form-error-list"><SVGs svg={'error'}></SVGs>{error}</span>}
+              {error && <span className="form-error form-error-list"><SVGs svg={'error'}></SVGs><span>{error}</span></span>}
             </div>
           </div>
           <div className="clientDashboard-view-slab_list-headers">
@@ -165,7 +169,6 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
             </div>
           </div>
           <div className="clientDashboard-view-slab_list-slabs-container">
-            {searchLoading ? <div className="search-loading"><div className="search-loading-box"><svg><circle cx="20" cy="20" r="20"></circle></svg><span>Loading slabs</span></div></div>: null}
             {allSlabs.length > 0 && allSlabs.sort((a, b) => a[filter] > b[filter] ? asc : desc).map((item, idx) => (
             <div key={idx} className="clientDashboard-view-slab_list-slabs">
                 <div className="clientDashboard-view-slab_list-slabs-checkbox" ref={(el) => (myRefs.current[idx] = el)}>

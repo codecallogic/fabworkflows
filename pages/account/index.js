@@ -897,7 +897,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
           }
           {
             nav.view == 'remnant' &&
-            <Remnant preloadMaterials={materials}></Remnant>
+            <Remnant preloadMaterials={materials} preloadColors={colors}></Remnant>
           }
           { nav.view == 'slab-fields' &&
             <SlabFields preloadMaterials={materials} preloadColors={colors} preloadSuppliers={suppliers} preloadLocations={locations}></SlabFields>

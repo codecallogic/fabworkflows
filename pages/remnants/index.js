@@ -20,19 +20,42 @@ const Remnants = ({hideSideNav, showSideNav, list}) => {
   const [ascRemnant, setAscRemnant] = useState(-1)
   const [descRemnant, setDescRemnant] = useState(1)
   const [loading, setLoading] = useState(false)
+  const [search, setSearch] = useState('')
+  const [searchLoading, setSearchLoading] = useState(false)
+  const [allRemnants, setAllRemnants] = useState(list ? list: [])
 
   const handleClickOutside = (event) => {
     if(myRefs.current){
       myRefs.current.forEach((item) => {
-        if(item.contains(event.target)) return
-        if(event.target == document.getElementById('delete-remnant')) return
-        if(event.target == document.getElementById('edit-remnant')) return
-        item.childNodes[0].checked = false
-        setControls(false)
-        setIDControls('')
+        if(item){
+          if(item.contains(event.target)) return
+          if(event.target == document.getElementById('delete-remnant')) return
+          if(event.target == document.getElementById('edit-remnant')) return
+          item.childNodes[0].checked = false
+          setControls(false)
+          setIDControls('')
+        }
       })
     }
   }
+
+  useEffect(() => {
+    let timeOutSearch
+    
+    if(search.length > 0){
+      setSearchLoading(true)
+      timeOutSearch = setTimeout(() => {
+        submitSearch()
+      }, 2000)
+    }
+
+    if(search.length == 0){
+      setAllRemnants(list)
+      setError('')
+    }
+
+    return () => clearTimeout(timeOutSearch)
+  }, [search])
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
@@ -83,6 +106,19 @@ const Remnants = ({hideSideNav, showSideNav, list}) => {
       if(error) error.response ? setError(error.response.data) : setError('Error deleting from inventory')
     }
   }
+
+  const submitSearch = async (e) => {
+    try {
+      const responseSearch = await axios.post(`${API}/inventory/remnant-search`, {query: search})
+      setSearchLoading(false)
+      if(responseSearch.data.length > 0) return setAllRemnants(responseSearch.data)
+      setAllRemnants([])
+      setError('Our search could not find anything')
+    } catch (error) {
+      console.log(error)
+      if(error) error.response ? setError(error.response.data) : setError('There was an error with the search')
+    }
+  }
   
   return (
     <>
@@ -91,8 +127,14 @@ const Remnants = ({hideSideNav, showSideNav, list}) => {
       <SideNav width={width} redirect={sendRedirect}></SideNav>
       <div className="clientDashboard-view">
         <div className="clientDashboard-view-slab_list-container">
+          {searchLoading ? <div className="search-loading"><div className="search-loading-box"><svg><circle cx="20" cy="20" r="20"></circle></svg><span>Loading slabs</span></div></div>: null}
           <div className="clientDashboard-view-slab_list-heading">
-            <span>Remnant List</span>
+            <div className="clientDashboard-view-slab_list-heading-title">Remnants List</div>
+            <div className={`form-group-search ` + (controls ? 'form-group-search-hideOnMobile' : '')}>
+              <form autoComplete="off">
+                <input type="text" name="search" placeholder="Search" value={search} onChange={(e) => (setSearch(e.target.value))} onFocus={(e) => (e.target.placeholder = '', setError(''))} onBlur={(e) => (e.target.placeholder = 'Search', setError(''))} onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null}  required></input>
+              </form>
+            </div>
             {controls &&
               <div className="clientDashboard-view-slab_list-heading-controls">
                 <div id="edit-remnant" className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControls ? window.location.href = `inventory/remnant/${idControls}` : null}>Edit</div>
@@ -101,7 +143,7 @@ const Remnants = ({hideSideNav, showSideNav, list}) => {
             }
             {loading && <div className="loading"><span></span><span></span><span></span></div>}
             <div className="form-error-container">
-              {error && <span className="form-error"><SVGs svg={'error'}></SVGs></span>}
+              {error && <span className="form-error form-error-list"><SVGs svg={'error'}></SVGs><span>{error}</span></span>}
             </div>
           </div>
           <div className="clientDashboard-view-slab_list-headers">
@@ -110,6 +152,7 @@ const Remnants = ({hideSideNav, showSideNav, list}) => {
               <div className="clientDashboard-view-slab_list-headers-item">Image</div>
               <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterRemnant == 'name' ? (setAscRemnant(ascRemnant == 1 ? -1 : 1 ), setDescRemnant(descRemnant == -1 ? 1 : -1)) : setFilterRemnant('name')}>Name <SVGs svg={'sort'}></SVGs></div>
               <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterRemnant == 'material' ? (setAscRemnant(ascRemnant == 1 ? -1 : 1 ), setDescRemnant(descRemnant == -1 ? 1 : -1)) : setFilterRemnant('material')}>Material <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterRemnant == 'color' ? (setAscRemnant(ascRemnant == 1 ? -1 : 1 ), setDescRemnant(descRemnant == -1 ? 1 : -1)) : setFilterRemnant('color')}>Color <SVGs svg={'sort'}></SVGs></div>
               <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterRemnant == 'l1' ? (setAscRemnant(ascRemnant == 1 ? -1 : 1 ), setDescRemnant(descRemnant == -1 ? 1 : -1)) : setFilterRemnant('l1')}>A x B<SVGs svg={'sort'}></SVGs></div>
               <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterRemnant == 'l2' ? (setAscRemnant(ascRemnant == 1 ? -1 : 1 ), setDescRemnant(descRemnant == -1 ? 1 : -1)) : setFilterRemnant('l2')}>C x D<SVGs svg={'sort'}></SVGs></div>
               <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterRemnant == 'lot' ? (setAscRemnant(ascRemnant == 1 ? -1 : 1 ), setDescRemnant(descRemnant == -1 ? 1 : -1)) : setFilterRemnant('lot')}>Lot <SVGs svg={'sort'}></SVGs></div>
@@ -122,7 +165,7 @@ const Remnants = ({hideSideNav, showSideNav, list}) => {
             </div>
           </div>
           <div className="clientDashboard-view-slab_list-slabs-container">
-            {list && list.sort((a, b) => a[filterRemnant] > b[filterRemnant] ? ascRemnant : descRemnant).map((item, idx) => (
+            {allRemnants && allRemnants.sort((a, b) => a[filterRemnant] > b[filterRemnant] ? ascRemnant : descRemnant).map((item, idx) => (
             <div key={idx} className="clientDashboard-view-slab_list-slabs">
                 <div className="clientDashboard-view-slab_list-slabs-checkbox" ref={(el) => (myRefs.current[idx] = el)}>
                   <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`slab ` + `${idx}`} onClick={(e) => e.target.checked == true ? (handleControls(e, item._id), window.scrollTo({top: 0})) : (setControls(false), setIDControls(''))} />
@@ -132,6 +175,7 @@ const Remnants = ({hideSideNav, showSideNav, list}) => {
                   <div className="clientDashboard-view-slab_list-slabs-item">{item.images.length > 0 ? <img src={item.images[0].location} alt="" /> : null}</div>
                   <div className="clientDashboard-view-slab_list-slabs-item">{item.name}</div>
                   <div className="clientDashboard-view-slab_list-slabs-item">{item.material}</div>
+                  <div className="clientDashboard-view-slab_list-slabs-item">{item.color}</div>
                   <div className="clientDashboard-view-slab_list-slabs-item">{item.l1} x {item.w1}</div>
                   <div className="clientDashboard-view-slab_list-slabs-item">{item.l2} x {item.w2}</div>
                   <div className="clientDashboard-view-slab_list-slabs-item">{item.lot}</div>

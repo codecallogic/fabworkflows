@@ -60,6 +60,7 @@ body {
       padding: 1rem;
       resize: none;
       outline: none;
+      border: none;
       border-radius: 2rem;
       font-family: inherit; }
     .form-group-search-hideOnMobile {
@@ -592,6 +593,9 @@ body {
     width: max-content;
     font-size: 1.4rem;
     color: red; }
+    @media only screen and (max-width: 600px) {
+      .form-error span {
+        display: none; } }
     .form-error-list {
       color: white; }
     .form-error svg {
@@ -812,14 +816,13 @@ body {
 
 .search-loading {
   position: absolute;
-  top: 0;
+  top: 10rem;
   left: 0;
   width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
-  justify-content: center; }
+  justify-content: center;
+  z-index: 1000; }
   .search-loading-box {
     display: flex;
     align-items: center;
@@ -828,7 +831,9 @@ body {
     background-color: white;
     width: max-content;
     height: 10rem;
-    border-radius: 1.2rem; }
+    border-radius: 1.2rem;
+    margin: 5rem 0;
+    box-shadow: 0.5rem 1rem 1rem 1rem rgba(0, 0, 0, 0.2); }
     .search-loading-box svg {
       position: relative;
       width: 5rem;
@@ -1763,7 +1768,8 @@ body {
         border-radius: 1.2rem;
         display: flex;
         flex-direction: column;
-        align-items: center; }
+        align-items: center;
+        position: relative; }
         @media only screen and (max-width: 992px) {
           .clientDashboard-view-slab_list-container {
             height: 100%;

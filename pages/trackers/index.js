@@ -28,17 +28,25 @@ const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
   const [idControlsProducts, setIDControlsProducts] = useState('')
   const [loadingSlab, setLoadingSlab] = useState(false)
   const [loadingProduct, setLoadingProduct] = useState(false)
+  const [searchSlab, setSearchSlab] = useState('')
+  const [searchLoadingSlab, setSearchLoadingSlab] = useState(false)
+  const [allSlabs, setAllSlabs] = useState(listSlabs ? listSlabs : [])
+  const [searchProduct, setSearchProduct] = useState('')
+  const [searchLoadingProduct, setSearchLoadingProduct] = useState(false)
+  const [allProducts, setAllProducts] = useState(listProducts ? listProducts : [])
 
   const handleClickOutsideSlabs = (event) => {
     if(myRefsSlabs.current){
       myRefsSlabs.current.forEach((item) => {
-        if(item.contains(event.target)) return
-        if(event.target == document.getElementById('delete-slab')) return
-        if(event.target == document.getElementById('edit-slab')) return
-        // console.log(item.childNodes)
-        item.childNodes[0].checked = false
-        setControlsSlabs(false)
-        setIDControlsSlabs('')
+        if(item){
+          if(item.contains(event.target)) return
+          if(event.target == document.getElementById('delete-slab')) return
+          if(event.target == document.getElementById('edit-slab')) return
+          // console.log(item.childNodes)
+          item.childNodes[0].checked = false
+          setControlsSlabs(false)
+          setIDControlsSlabs('')
+        }
       })
     }
   }
@@ -46,16 +54,54 @@ const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
   const handleClickOutsideProducts = (event) => {
     if(myRefsProducts.current){
       myRefsProducts.current.forEach((item) => {
-        if(item.contains(event.target)) return
-        if(event.target == document.getElementById('delete-product')) return
-        if(event.target == document.getElementById('edit-product')) return
-        // console.log(item.childNodes)
-        item.childNodes[0].checked = false
-        setControlsProducts(false)
-        setIDControlsProducts('')
+        if(item){
+          if(item.contains(event.target)) return
+          if(event.target == document.getElementById('delete-product')) return
+          if(event.target == document.getElementById('edit-product')) return
+          // console.log(item.childNodes)
+          item.childNodes[0].checked = false
+          setControlsProducts(false)
+          setIDControlsProducts('')
+        }
       })
     }
   }
+
+  useEffect(() => {
+    let timeOutSearch
+    
+    if(searchSlab.length > 0){
+      setSearchLoadingSlab(true)
+      timeOutSearch = setTimeout(() => {
+        submitSearchSlab()
+      }, 2000)
+    }
+
+    if(searchSlab.length == 0){
+      setAllSlabs(listSlabs)
+      setError('')
+    }
+
+    return () => clearTimeout(timeOutSearch)
+  }, [searchSlab])
+
+  useEffect(() => {
+    let timeOutSearchProduct
+    
+    if(searchProduct.length > 0){
+      setSearchLoadingProduct(true)
+      timeOutSearchProduct = setTimeout(() => {
+        submitSearchProduct()
+      }, 2000)
+    }
+
+    if(searchProduct.length == 0){
+      setAllProducts(listProducts)
+      setError('')
+    }
+
+    return () => clearTimeout(timeOutSearchProduct)
+  }, [searchProduct])
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutsideSlabs, true);
@@ -125,6 +171,32 @@ const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
       if(error) error.response ? setError(error.response.data) : setError('Error deleting from inventory')
     }
   }
+
+  const submitSearchSlab = async (e) => {
+    try {
+      const responseSearch = await axios.post(`${API}/inventory/slab-search`, {query: searchSlab})
+      setSearchLoadingSlab(false)
+      if(responseSearch.data.length > 0) return setAllSlabs(responseSearch.data)
+      setAllSlabs([])
+      setError('Our search could not find anything')
+    } catch (error) {
+      console.log(error)
+      if(error) error.response ? setError(error.response.data) : setError('There was an error with the search')
+    }
+  }
+
+  const submitSearchProduct = async (e) => {
+    try {
+      const responseSearch = await axios.post(`${API}/inventory/product-search`, {query: searchProduct})
+      setSearchLoadingProduct(false)
+      if(responseSearch.data.length > 0) return setAllProducts(responseSearch.data)
+      setAllProducts([])
+      setError('Our search could not find anything')
+    } catch (error) {
+      console.log(error)
+      if(error) error.response ? setError(error.response.data) : setError('There was an error with the search')
+    }
+  }
   
   return (
     <>
@@ -134,7 +206,12 @@ const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
       <div className="clientDashboard-view">
         <div className="clientDashboard-view-slab_list-container">
           <div className="clientDashboard-view-slab_list-heading">
-            <span>Slabs List</span>
+            <div className="clientDashboard-view-slab_list-heading-title">Slabs List</div>
+            <div className={`form-group-search ` + (controlsSlabs ? 'form-group-search-hideOnMobile' : '')}>
+              <form autoComplete="off">
+                <input type="text" name="search" placeholder="Search" value={searchSlab} onChange={(e) => (setSearchSlab(e.target.value))} onFocus={(e) => (e.target.placeholder = '', setError(''))} onBlur={(e) => (e.target.placeholder = 'Search', setError(''))} onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null}  required></input>
+              </form>
+            </div>
             {controlsSlabs &&
               <div className="clientDashboard-view-slab_list-heading-controls">
                 <div id="edit-slab" className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControlsSlabs ? window.location.href = `inventory/slab/${idControlsSlabs}` : null}>Edit</div>
@@ -143,10 +220,11 @@ const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
             }
             {loadingSlab && <div className="loading"><span></span><span></span><span></span></div>}
             <div className="form-error-container">
-              {error && <span className="form-error"><SVGs svg={'error'}></SVGs></span>}
+              {error && <span className="form-error form-error-list"><SVGs svg={'error'}></SVGs><span>{error}</span></span>}
             </div>
           </div>
           <div className="clientDashboard-view-slab_list-headers">
+            {searchLoadingSlab ? <div className="search-loading"><div className="search-loading-box"><svg><circle cx="20" cy="20" r="20"></circle></svg><span>Loading slabs</span></div></div>: null}
             <div className="clientDashboard-view-slab_list-headers-checkbox"></div>
             <div className="clientDashboard-view-slab_list-headers-item-container">
               <div className="clientDashboard-view-slab_list-headers-item">Image</div>
@@ -165,7 +243,7 @@ const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
             </div>
           </div>
           <div className="clientDashboard-view-slab_list-slabs-container tracker-list">
-            {listSlabs && listSlabs.sort((a, b) => a[filterSlab] > b[filterSlab] ? ascSlab : descSlab).map((item, idx) => (
+            {allSlabs && allSlabs.sort((a, b) => a[filterSlab] > b[filterSlab] ? ascSlab : descSlab).map((item, idx) => (
             <div key={idx} className="clientDashboard-view-slab_list-slabs">
                 <div className="clientDashboard-view-slab_list-slabs-checkbox" ref={(el) => (myRefsSlabs.current[idx] = el)}>
                   <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`slab ` + `${idx}`} onClick={(e) => e.target.checked == true ? (handleControls(e), setControlsSlabs(true), setIDControlsSlabs(item._id), window.scrollTo({top: 0})) : (setControlsSlabs(false), setIDControlsSlabs(''))} />
@@ -191,8 +269,14 @@ const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
           </div>
         </div>
         <div ref={refProducts} className="clientDashboard-view-slab_list-container">
+          {searchLoadingProduct ? <div className="search-loading"><div className="search-loading-box"><svg><circle cx="20" cy="20" r="20"></circle></svg><span>Loading products</span></div></div>: null}
           <div className="clientDashboard-view-slab_list-heading">
-            <span>Products List</span>
+            <div className="clientDashboard-view-slab_list-heading-title">Product List</div>
+            <div className={`form-group-search ` + (controlsProducts ? 'form-group-search-hideOnMobile' : '')}>
+              <form autoComplete="off">
+                <input type="text" name="search" placeholder="Search" value={searchProduct} onChange={(e) => (setSearchProduct(e.target.value))} onFocus={(e) => (e.target.placeholder = '', setError(''))} onBlur={(e) => (e.target.placeholder = 'Search', setError(''))} onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null}  required></input>
+              </form>
+            </div>
             {controlsProducts &&
               <div className="clientDashboard-view-slab_list-heading-controls">
                 <div id="edit-product" className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControlsProducts ? window.location.href = `inventory/product/${idControlsProducts}` : null}>Edit</div>
@@ -201,7 +285,7 @@ const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
             }
             {loadingProduct && <div className="loading"><span></span><span></span><span></span></div>}
             <div className="form-error-container">
-              {error && <span className="form-error"><SVGs svg={'error'}></SVGs></span>}
+              {error && <span className="form-error form-error-list"><SVGs svg={'error'}></SVGs><span>{error}</span></span>}
             </div>
           </div>
           <div className="clientDashboard-view-slab_list-headers">
@@ -220,7 +304,7 @@ const Trackers = ({hideSideNav, showSideNav, listSlabs, listProducts}) => {
             </div>
           </div>
           <div className="clientDashboard-view-slab_list-slabs-container tracker-list">
-            {listProducts && listProducts.sort((a, b) => a[filterProduct] > b[filterProduct] ? ascProduct : descProduct).map((item, idx) => (
+            {allProducts && allProducts.sort((a, b) => a[filterProduct] > b[filterProduct] ? ascProduct : descProduct).map((item, idx) => (
             <div key={idx} className="clientDashboard-view-slab_list-slabs">
                 <div className="clientDashboard-view-slab_list-slabs-checkbox" ref={(el) => (myRefsProducts.current[idx] = el)}>
                   <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`product ` + `${idx}`} onClick={(e) => e.target.checked == true ? (handleControls(e), setControlsProducts(true), setIDControlsProducts(item._id)) : (setControlsProducts(false), setIDControlsProducts(''))} />
