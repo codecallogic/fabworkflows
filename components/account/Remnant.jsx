@@ -340,7 +340,7 @@ const Remnant = ({preloadMaterials, preloadColors, addRemnant, remnant, addRemna
       <div className="clientDashboard-view-slab_form-shapes-container">
         <div className="clientDashboard-view-slab_form-shapes-item">
           <div className="clientDashboard-view-slab_form-shapes-item-box">
-            <div className="clientDashboard-view-slab_form-shapes-item-box-title">Remnant Slab - Right "R"</div>
+            <div className="clientDashboard-view-slab_form-shapes-item-box-title">Remnant Slab - Right L</div>
             <div className="clientDashboard-view-slab_form-shapes-item-box-container">
               <div className="clientDashboard-view-slab_form-shapes-item-box-remnant">
                 <div className="clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse">
@@ -378,7 +378,7 @@ const Remnant = ({preloadMaterials, preloadColors, addRemnant, remnant, addRemna
             </div>
           </div>
           <div className="clientDashboard-view-slab_form-shapes-item-box">
-            <div className="clientDashboard-view-slab_form-shapes-item-box-title">Remnant Slab - Left "L"</div>
+            <div className="clientDashboard-view-slab_form-shapes-item-box-title">Remnant Slab - Left L</div>
             <div className="clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse">
                   <SVGs svg={'arrow-left'} classprop={'clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse-svg_1'}></SVGs>
                   <SVGs svg={'arrow-right'} classprop={'clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse-svg_2'}></SVGs>
@@ -412,7 +412,7 @@ const Remnant = ({preloadMaterials, preloadColors, addRemnant, remnant, addRemna
           <div className="clientDashboard-view-slab_form-shapes-item-box">
             <div className="clientDashboard-view-slab_form-shapes-item-box-container">
               <div className="clientDashboard-view-slab_form-shapes-item-box-remnant-box">
-                <div className="clientDashboard-view-slab_form-shapes-item-box-title">Remnant Block</div>
+                <div className="clientDashboard-view-slab_form-shapes-item-box-title">Remnant Slab - Rectangular </div>
                 <div className="clientDashboard-view-slab_form-shapes-item-box-remnant-image-box">
                   <div className="clientDashboard-view-slab_form-shapes-item-block-section_top remnant-rectangle-top">
                     <SVGs svg={'arrow-left'} classprop={'remnant-rectangle-top-svg_1'}></SVGs>

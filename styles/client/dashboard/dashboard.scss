@@ -135,7 +135,7 @@
           justify-content: center;
           background-color: rgba($color-scheme-3, 0.05);
           box-shadow: 2rem 1rem 2rem 0.2rem rgba(0, 0, 0, 0.4);
-          padding: 5rem;
+          padding: 2rem;
           overflow-x: scroll;
           border-radius: 1.2rem;
 
@@ -148,7 +148,11 @@
             background-color: $color-scheme-1;
           }
 
-          @media only screen and (max-width: $extra-large) {
+          @media only screen and (max-width: $wide) {
+            flex-wrap: wrap;
+          }
+
+          @media only screen and (max-width: $large) {
             display: grid;
             justify-self: center;
             margin: 1rem 0;
@@ -171,21 +175,26 @@
           }
 
           &-box {
-            margin: 2rem 2rem;
+            margin: 2rem 8rem;
             padding: 1rem 2rem;
             display: grid;
             justify-content: center;
 
+            @media only screen and (max-width: $small) {
+              margin: 2rem 0 !important;
+            }
+
             &-container {
               display: flex;
               perspective: 2000px;
+              justify-content: center;
             }
 
             &-title {
               font-size: 2.4rem;
               color: $color-scheme-1;
               font-weight: 500;
-              margin: 4rem 0;
+              text-align: center;
             }
 
             &-description {
@@ -210,14 +219,8 @@
             }
 
             &-remnant {
-              // display: flex;
-
-              &-right {
-                transform: rotate(90deg) !important;
-              }
-
               &-image-right {
-                // transform: rotate3d(0.05, 1, -0.1, 30deg);
+                transform: rotate(-90deg);
                 position: relative;
                 background-color: rgba(104, 104, 104, 0.1);
                 box-shadow: 3rem 3rem 1rem 0.1rem rgba(104, 104, 104, 0.1);
@@ -256,8 +259,8 @@
                   fill: $color-scheme-1;
 
                   @media only screen and (max-width: $small) {
-                    bottom: -5%;
-                    right: -13.5%;
+                    bottom: -6%;
+                    left: -14%;
                   }
                 }
 
@@ -293,7 +296,7 @@
                 }
 
                 &::after {
-                  content: '';
+                  content: 'B';
                   position: absolute;
                   bottom: 105%;
                   left: 0;
@@ -313,7 +316,7 @@
               }
 
               &-image-right-reverse {
-                // transform: rotate3d(0.05, 1, 0.1, 30deg);
+                transform: rotate(-90deg);
                 position: relative;
                 display: flex;
                 flex-direction: column;
@@ -353,14 +356,14 @@
 
                 &-svg_3 {
                   position: absolute;
-                  bottom: -4%;
+                  bottom: -4.5%;
                   right: -12.2%;
                   width: 3rem;
                   fill: $color-scheme-1;
 
                   @media only screen and (max-width: $small) {
                     bottom: -5%;
-                    right: -13.5%;
+                    right: -14%;
                   }
                 }
 
@@ -373,7 +376,7 @@
 
                   @media only screen and (max-width: $small) {
                     top: -5%;
-                    right: -13.5%;
+                    right: -14%;
                   }
                 }
 
@@ -412,10 +415,11 @@
               }
 
               &-image-left {
-                // transform: rotate3d(0.05, 1, -0.1, 30deg);
+                transform: rotate(90deg);
                 position: relative;
                 display: flex;
                 flex-direction: column;
+                margin: 0 auto;
                 background-color: rgba(104, 104, 104, 0.1);
                 box-shadow: -3rem 3rem 1rem 0.1rem rgba(104, 104, 104, 0.1);
                 width: max-content;
@@ -441,7 +445,7 @@
                   fill: $color-scheme-1;
 
                   @media only screen and (max-width: $small) {
-                    bottom: -12.2%;
+                    top: -9%;
                     right: -8%;
                   }
                 }
@@ -486,12 +490,12 @@
                   color: $color-scheme-1;
 
                   @media only screen and (max-width: $small) {
-                    right: 102.5%;
+                    left: 106.5%;
                   }
                 }
 
                 &::after {
-                  content: '';
+                  content: 'B';
                   position: absolute;
                   bottom: 105%;
                   left: 0;
@@ -511,14 +515,14 @@
               }
 
               &-image-left-reverse {
-                // transform: rotate3d(0.05, 1, 0.1, 30deg);
+                transform: rotate(90deg);
                 position: relative;
                 display: flex;
                 flex-direction: column;
+                margin: 0 auto;
                 background-color: rgba(104, 104, 104, 0.1);
                 box-shadow: 3rem -3rem 1rem 0.1rem rgba(104, 104, 104, 0.1);
                 width: max-content;
-
                 margin-bottom: 7rem;
 
                 @media only screen and (max-width: $small) {
@@ -616,7 +620,6 @@
               }
 
               &-image-rectangle {
-                transform: rotate3d(0.05, 1, -0.1, 30deg);
                 position: relative;
 
                 &::before {
@@ -650,10 +653,10 @@
               }
 
               &-image-box {
+                margin: 8rem 0;
                 position: relative;
                 background-color: rgba(104, 104, 104, 0.1);
                 box-shadow: -3rem -2rem 1rem 0.3rem rgba(104, 104, 104, 0.1);
-                margin-left: 3rem;
 
                 &::before {
                   content: 'A';
@@ -1210,8 +1213,12 @@
 }
 
 .remnant-rectangle-top {
-  width: 35rem;
+  width: 30rem;
   height: 10rem;
+
+  // @media only screen and (max-width: $small) {
+  //   width: 20rem;
+  // }
 
   &-svg_1 {
     position: absolute;
@@ -1241,23 +1248,37 @@
 }
 
 .remnant-rectangle-bottom {
-  width: 35rem;
+  width: 30rem;
   height: 10rem;
+
+  // @media only screen and (max-width: $small) {
+  //   width: 20rem;
+  // }
 
   &-svg_1 {
     position: absolute;
-    top: -8.5%;
-    right: -10%;
+    top: -7%;
+    right: -9.5%;
     width: 3rem;
     fill: $color-scheme-1;
+
+    @media only screen and (max-width: $small) {
+      top: -7%;
+      right: -9.5%;
+    }
   }
 
   &-svg_2 {
     position: absolute;
     bottom: -6%;
-    right: -10%;
+    right: -9.5%;
     width: 3rem;
     fill: $color-scheme-1;
+
+    @media only screen and (max-width: $small) {
+      bottom: -6%;
+      right: -9.5%;
+    }
   }
 }
 
@@ -1589,6 +1610,10 @@
     right: -15%;
     width: 3rem;
     fill: $color-scheme-1;
+
+    @media only screen and (max-width: $small) {
+      top: 99%;
+    }
   }
 
   &::before {

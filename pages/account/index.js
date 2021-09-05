@@ -523,6 +523,10 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
                 <SVGs svg={'box'}></SVGs>
                 <span>New Product</span>
               </div>
+              <div className="clientDashboard-view-new-item" onClick={() => (window.location.href = 'account?change=remnant')}>
+                <SVGs svg={'remnant'}></SVGs>
+                <span>New Remnant</span>
+              </div>
               <div className="clientDashboard-view-new-item" onClick={() => (window.location.href = 'account?change=slab-fields')}>
                 <SVGs svg={'slab'}></SVGs>
                 <span>Slab Fields</span>
@@ -530,10 +534,6 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
               <div className="clientDashboard-view-new-item" onClick={() => (window.location.href = 'account?change=product-fields')}>
                 <SVGs svg={'box'}></SVGs>
                 <span>Product Fields</span>
-              </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (window.location.href = 'account?change=remnant')}>
-                <SVGs svg={'remnant'}></SVGs>
-                <span>New Remnant</span>
               </div>
             </div>
           }
