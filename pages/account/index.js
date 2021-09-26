@@ -12,6 +12,7 @@ import {useRouter} from 'next/router'
 import SlabFields from '../../components/account/slabFields'
 import ProductFields from '../../components/account/productFields'
 import Remnant from '../../components/account/Remnant'
+import PriceListModal from '../../components/modals/PriceList'
 axios.defaults.withCredentials = true
 
 const formatter = new Intl.NumberFormat('en-US', {
@@ -526,6 +527,14 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
               <div className="clientDashboard-view-new-item" onClick={() => (window.location.href = 'account?change=remnant')}>
                 <SVGs svg={'remnant'}></SVGs>
                 <span>New Remnant</span>
+              </div>
+              <div className="clientDashboard-view-new-item" onClick={() => (window.location.href = 'account?change=quote')}>
+                <SVGs svg={'document'}></SVGs>
+                <span>New Quote</span>
+              </div>
+              <div className="clientDashboard-view-new-item" onClick={() => (setModal('new_price_list'))}>
+                <SVGs svg={'price-list'}></SVGs>
+                <span>New Price List</span>
               </div>
               <div className="clientDashboard-view-new-item" onClick={() => (window.location.href = 'account?change=slab-fields')}>
                 <SVGs svg={'slab'}></SVGs>
@@ -1123,6 +1132,9 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
               </form>
             </div>
           </div>
+          }
+          { modal == 'new_price_list' &&
+            <PriceListModal setmodal={(type) => setModal(type)}></PriceListModal>
           }
         </div>
       </div>
