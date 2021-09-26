@@ -17,7 +17,7 @@ const searchOptionsCities = {
 const Quote = ({quote, createQuote}) => {
 
   const [error, setError] = useState('')
-  const [modal, setModal] = useState('add_address')
+  const [modal, setModal] = useState('')
   const [edit, setEdit] = useState('')
   const [loading, setLoading] = useState('')
 
