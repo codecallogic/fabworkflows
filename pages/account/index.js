@@ -528,14 +528,6 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
                 <SVGs svg={'remnant'}></SVGs>
                 <span>New Remnant</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (window.location.href = 'account?change=quote')}>
-                <SVGs svg={'document'}></SVGs>
-                <span>New Quote</span>
-              </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (setModal('new_price_list'))}>
-                <SVGs svg={'price-list'}></SVGs>
-                <span>New Price List</span>
-              </div>
               <div className="clientDashboard-view-new-item" onClick={() => (window.location.href = 'account?change=slab-fields')}>
                 <SVGs svg={'slab'}></SVGs>
                 <span>Slab Fields</span>
@@ -543,6 +535,18 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
               <div className="clientDashboard-view-new-item" onClick={() => (window.location.href = 'account?change=product-fields')}>
                 <SVGs svg={'box'}></SVGs>
                 <span>Product Fields</span>
+              </div>
+            </div>
+          }
+          { nav.view == 'transaction-new' &&
+            <div className="clientDashboard-view-new">
+              <div className="clientDashboard-view-new-item" onClick={() => (window.location.href = 'account?change=quote')}>
+                <SVGs svg={'document'}></SVGs>
+                <span>New Quote</span>
+              </div>
+              <div className="clientDashboard-view-new-item" onClick={() => (setModal('new_price_list'))}>
+                <SVGs svg={'price-list'}></SVGs>
+                <span>New Price List</span>
               </div>
             </div>
           }
