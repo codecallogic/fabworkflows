@@ -40,7 +40,7 @@ const SideNav = ({nav, width, toggleSideNav, newView, redirect}) => {
           </div>
           <div className={`clientDashboard_sidenav-menu-item` + (!nav.sidenav ? ' hide-sidenav-items' : '')} onClick={ (e) => (document.getElementById('dropdown-toggle-transactions').checked = !document.getElementById('dropdown-toggle-transactions').checked, toggleDropdown())}>
             <div className="clientDashboard_sidenav-menu-item-tab">
-              <SVGs svg={'inventory'} classprop={'clientDashboard_sidenav-menu-item-tabIcon' + (!nav.sidenav ? ' hide-sidenav-items' : '')}></SVGs>
+              <SVGs svg={'payments'} classprop={'clientDashboard_sidenav-menu-item-tabIcon' + (!nav.sidenav ? ' hide-sidenav-items' : '')}></SVGs>
               <div className={!nav.sidenav ? ' hide-sidenav-items' : ''}>Transactions</div>
             </div>
             <div className="clientDashboard_sidenav-menu-item-arrow">
