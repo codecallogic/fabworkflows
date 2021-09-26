@@ -666,6 +666,17 @@
         }
       }
     }
+
+    &-address {
+      border: 0.1rem solid $color-light-shade-scheme-1;
+      padding: 1rem;
+      height: 6.5rem;
+      border-radius: 1.2rem;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
 
   &-group-triple-dropdown {
@@ -954,6 +965,74 @@
       }
     }
   }
+
+  &-group-single-textarea-autocomplete {
+    padding: 1.5rem 0 0 0;
+    width: 100%;
+    position: relative;
+
+    label {
+      display: block;
+      font-size: 1.8rem;
+      padding: 1rem;
+    }
+
+    textarea {
+      width: 100%;
+      border-radius: 1rem;
+      resize: none;
+      padding: 1.2rem 2rem 0 2rem;
+      box-sizing: border-box;
+      outline: none;
+      font-size: 1.4rem;
+      font-family: inherit;
+      border: none;
+
+      &::-webkit-scrollbar {
+        width: 0.3rem;
+        height: 0.3rem;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: $color-scheme-1;
+      }
+    }
+
+    &-box {
+      position: absolute;
+      top: 95%;
+      max-height: 30rem;
+      width: 100%;
+      background-color: white;
+      z-index: 100;
+      overflow-y: scroll;
+
+      &::-webkit-scrollbar {
+        width: 0.3rem;
+        height: 0.3rem;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: $color-scheme-1;
+      }
+    }
+
+    &-suggestion {
+      z-index: 100;
+      font-size: 1.4rem;
+      padding: 1rem 1rem;
+      width: 100%;
+    }
+
+    &-suggestion-active {
+      font-size: 1.4rem;
+      padding: 1rem 1rem;
+      color: white;
+      width: 100%;
+      background-color: $color-scheme-1;
+      z-index: 100;
+    }
+  }
 }
 
 // BORDERS
@@ -1088,4 +1167,14 @@
   text-align: center;
   width: 100% !important;
   box-sizing: border-box;
+}
+
+#address_place_id {
+  display: none;
+}
+
+.readOnly {
+  &:hover {
+    cursor: pointer;
+  }
 }

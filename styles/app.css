@@ -498,6 +498,13 @@ body {
             .form-group-triple-qr-image-2 {
               min-width: 288px;
               height: 30rem; } }
+    .form-group-triple-address {
+      border: 0.1rem solid #dbdbdb;
+      padding: 1rem;
+      height: 6.5rem;
+      border-radius: 1.2rem; }
+      .form-group-triple-address:hover {
+        cursor: pointer; }
   .form-group-triple-dropdown {
     display: flex;
     flex-direction: column;
@@ -700,6 +707,54 @@ body {
             .form-group-single-textarea-dropdown-input-list-item:hover {
               cursor: pointer;
               background-color: #dbdbdb; }
+  .form-group-single-textarea-autocomplete {
+    padding: 1.5rem 0 0 0;
+    width: 100%;
+    position: relative; }
+    .form-group-single-textarea-autocomplete label {
+      display: block;
+      font-size: 1.8rem;
+      padding: 1rem; }
+    .form-group-single-textarea-autocomplete textarea {
+      width: 100%;
+      border-radius: 1rem;
+      resize: none;
+      padding: 1.2rem 2rem 0 2rem;
+      box-sizing: border-box;
+      outline: none;
+      font-size: 1.4rem;
+      font-family: inherit;
+      border: none; }
+      .form-group-single-textarea-autocomplete textarea::-webkit-scrollbar {
+        width: 0.3rem;
+        height: 0.3rem; }
+      .form-group-single-textarea-autocomplete textarea::-webkit-scrollbar-thumb {
+        background-color: #fd7e3c; }
+    .form-group-single-textarea-autocomplete-box {
+      position: absolute;
+      top: 95%;
+      max-height: 30rem;
+      width: 100%;
+      background-color: white;
+      z-index: 100;
+      overflow-y: scroll; }
+      .form-group-single-textarea-autocomplete-box::-webkit-scrollbar {
+        width: 0.3rem;
+        height: 0.3rem; }
+      .form-group-single-textarea-autocomplete-box::-webkit-scrollbar-thumb {
+        background-color: #fd7e3c; }
+    .form-group-single-textarea-autocomplete-suggestion {
+      z-index: 100;
+      font-size: 1.4rem;
+      padding: 1rem 1rem;
+      width: 100%; }
+    .form-group-single-textarea-autocomplete-suggestion-active {
+      font-size: 1.4rem;
+      padding: 1rem 1rem;
+      color: white;
+      width: 100%;
+      background-color: #fd7e3c;
+      z-index: 100; }
 
 .border_bottom {
   border-bottom: 0.1rem solid #dbdbdb;
@@ -792,6 +847,12 @@ body {
   text-align: center;
   width: 100% !important;
   box-sizing: border-box; }
+
+#address_place_id {
+  display: none; }
+
+.readOnly:hover {
+  cursor: pointer; }
 
 .center {
   text-align: center;
@@ -1001,8 +1062,7 @@ body {
   .addFieldItems-modal-box {
     background-color: #dbdbdb;
     width: 40%;
-    min-height: min-content;
-    max-height: 90%;
+    max-height: 80rem;
     padding: 0 0 2rem 0;
     border-radius: 1.2rem;
     overflow-y: scroll; }

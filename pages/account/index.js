@@ -12,6 +12,7 @@ import {useRouter} from 'next/router'
 import SlabFields from '../../components/account/slabFields'
 import ProductFields from '../../components/account/productFields'
 import Remnant from '../../components/account/Remnant'
+import Quote from '../../components/account/Quote'
 import PriceListModal from '../../components/modals/PriceList'
 axios.defaults.withCredentials = true
 
@@ -917,6 +918,9 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
           }
           { nav.view == 'product-fields' &&
             <ProductFields preloadBrands={brands} preloadModels={models} preloadCategories={categories} preloadLocations={locations}></ProductFields>
+          }
+          { nav.view == 'quote' &&
+            <Quote></Quote>
           }
           { modal == 'add_material' &&
             <div className="addFieldItems-modal">
