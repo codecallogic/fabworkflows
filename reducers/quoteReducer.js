@@ -1,9 +1,14 @@
 const initialState = {
+  name: '',
   address_one: '',
   city: '',
   state: '',
   zip_code: '',
-  country: ''
+  country: '',
+  phone: '',
+  cell: '',
+  fax: '',
+  email: ''
 }
 
 export const quoteReducer = (state = initialState, action) => {

@@ -738,8 +738,9 @@
         &-controls {
           display: flex;
           align-items: center;
+          justify-content: flex-start;
           margin-left: 2rem;
-          width: max-content;
+          width: auto;
 
           &-item {
             margin-left: 1rem;
@@ -1050,6 +1051,21 @@
                       &:hover {
                         cursor: pointer;
                       }
+                    }
+                  }
+
+                  &-description {
+                    display: flex;
+                    align-items: center;
+                    text-transform: capitalize;
+                    font-weight: 700;
+                    font-size: 1.4rem;
+                    padding: 0.2rem 1.5rem !important;
+                    min-width: 13rem;
+                    max-width: 13rem;
+
+                    span {
+                      font-weight: 300;
                     }
                   }
                 }
