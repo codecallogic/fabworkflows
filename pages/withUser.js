@@ -92,6 +92,14 @@ const withUser = Page => {
         console.log(error)
       }
 
+      let priceList
+      try {
+        const responseCategories = await axios.get(`${API}/transaction/get-price-list`)
+        priceList = responseCategories.data
+      } catch (error) {
+        console.log(error)
+      }
+
       if(!newUser){
         context.res.writeHead(302, {
           Location: '/login'
@@ -107,7 +115,8 @@ const withUser = Page => {
             locations,
             brands,
             models,
-            categories
+            categories,
+            priceList
         }
       }
     }

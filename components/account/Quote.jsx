@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useRef} from 'react'
 import { connect } from 'react-redux'
 import SVGs from '../../files/svgs'
 import PlacesAutocomplete from 'react-places-autocomplete'
@@ -16,13 +16,31 @@ const searchOptionsCities = {
   types: ['(cities)']
 }
 
-const Quote = ({quote, createQuote}) => {
-
+const Quote = ({quote, createQuote, priceList}) => {
+  const myRefs = useRef(null)
   const [error, setError] = useState('')
   const [modal, setModal] = useState('')
   const [edit, setEdit] = useState('')
   const [loading, setLoading] = useState('')
   const [show, setShow] = useState(true)
+  const [input_dropdown, setInputDropdown] = useState('')
+  const [allPriceLists, setPriceLists] = useState(priceList ? priceList : '')
+
+  const handleClickOutside = (event) => {
+    if(myRefs.current){
+      if(!myRefs.current.contains(event.target)){
+        setInputDropdown('')
+      }
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, true);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, [])
 
   const handleSelect = async (e, type, id) => {
     let geo
@@ -62,17 +80,6 @@ const Quote = ({quote, createQuote}) => {
     const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/g
     return regex.test(input.value)
   }
-
-  const submitAddAddress = async (e) => {
-    e.preventdefault()
-    setLoading(true)
-    try {
-      const responseAddress = await axios.post(`${API}/transaction/create-address`, quote)
-      console.log(responseAddress)
-    } catch (error) {
-      console.log(error)
-    }
-  }
   
   return (
     <div className="clientDashboard-view-slab_form-container">
@@ -84,21 +91,146 @@ const Quote = ({quote, createQuote}) => {
       </div>
       <form className="clientDashboard-view-slab_form">
         <div className="clientDashboard-view-form-left">
-        <div className="clientDashboard-view-slab_form-left-box" onClick={() => setModal('add_address')}>
+        <div className="clientDashboard-view-slab_form-left-box">
           <div className="clientDashboard-view-form-left-box-heading">
             <span>Set Address</span>
-            <span onClick={() => setModal('add_address')}><SVGs svg={'plus'}></SVGs></span>
+            <span onClick={() => setModal('add_address')}><SVGs svg={'edit'}></SVGs></span>
           </div>
-          <div className="clientDashboard-view-form-left-box-container">
-              <div className="clientDashboard-view-form-left-box-container-item">
-              <div className="clientDashboard-view-form-left-box-container-item-info-headers double-column">
-                <span className="clientDashboard-view-form-left-box-container-item-info-headers-description">Address: <span>{quote.address_one ? quote.address_one : ''}</span></span>
+          <div className="clientDashboard-view-form-left-box-container-2">
+              <div className="clientDashboard-view-form-left-box-container-2-item">
+                <div className="clientDashboard-view-form-left-box-container-2-item-heading">Contact Name: </div>
+                <div className="clientDashboard-view-form-left-box-container-2-item-content">
+                  {quote.contact_name ? quote.contact_name : 
+                    <>
+                    <div className="clientDashboard-view-form-left-box-container-2-item-content-textarea">
+                      <textarea rows="2" name="name" placeholder="(Select By Name)" onClick={() => setInputDropdown('quote_address')} value={quote.contact_name} readOnly></textarea>
+                      <SVGs svg={'dropdown-arrow'}></SVGs>
+                    </div>
+                    {input_dropdown == 'quote_address' && 
+                    <div className="clientDashboard-view-form-left-box-container-2-item-content-list" ref={myRefs}>
+                      {/* {allPriceLists && allPriceLists.map((item) => 
+                        <div className="clientDashboard-view-form-left-box-container-2-item-content-list-item">
+                        {item.name} (`${item.tax}%`)
+                       </div>
+                      )   
+                      } */}
+                    </div>
+                    }
+                    </>
+                  }
+                </div>
               </div>
+              <div className="clientDashboard-view-form-left-box-container-2-item">
+                <div className="clientDashboard-view-form-left-box-container-2-item-heading">Address: </div>
+                <div className="clientDashboard-view-form-left-box-container-2-item-content">
+                  {quote.address_one ? quote.address_one : ''}
+                </div>
               </div>
-              <div className="clientDashboard-view-form-left-box-container-item">
-              <div className="clientDashboard-view-form-left-box-container-item-info-headers double-column">
-                <span className="clientDashboard-view-form-left-box-container-item-info-headers-description">City: <span>{quote.city ? quote.city : ''}</span></span>
+              <div className="clientDashboard-view-form-left-box-container-2-item">
+                <div className="clientDashboard-view-form-left-box-container-2-item-heading">City: </div>
+                <div className="clientDashboard-view-form-left-box-container-2-item-content">
+                  {quote.city ? quote.city : ''}
+                </div>
               </div>
+              <div className="clientDashboard-view-form-left-box-container-2-item">
+                <div className="clientDashboard-view-form-left-box-container-2-item-heading">State: </div>
+                <div className="clientDashboard-view-form-left-box-container-2-item-content">
+                  {quote.state ? quote.state : ''}
+                </div>
+              </div>
+              <div className="clientDashboard-view-form-left-box-container-2-item">
+                <div className="clientDashboard-view-form-left-box-container-2-item-heading">Zip Code: </div>
+                <div className="clientDashboard-view-form-left-box-container-2-item-content">
+                  {quote.zip_code ? quote.zip_code : ''}
+                </div>
+              </div>
+              <div className="clientDashboard-view-form-left-box-container-2-item">
+                <div className="clientDashboard-view-form-left-box-container-2-item-heading">Country: </div>
+                <div className="clientDashboard-view-form-left-box-container-2-item-content">
+                  {quote.country ? quote.country : ''}
+                </div>
+              </div>
+              <div className="clientDashboard-view-form-left-box-container-2-item">
+                <div className="clientDashboard-view-form-left-box-container-2-item-heading">Phone: </div>
+                <div className="clientDashboard-view-form-left-box-container-2-item-content">
+                  {quote.phone ? quote.phone : ''}
+                </div>
+              </div>
+              <div className="clientDashboard-view-form-left-box-container-2-item">
+                <div className="clientDashboard-view-form-left-box-container-2-item-heading">Cell: </div>
+                <div className="clientDashboard-view-form-left-box-container-2-item-content">
+                  {quote.cell ? quote.cell : ''}
+                </div>
+              </div>
+              <div className="clientDashboard-view-form-left-box-container-2-item">
+                <div className="clientDashboard-view-form-left-box-container-2-item-heading">Fax: </div>
+                <div className="clientDashboard-view-form-left-box-container-2-item-content">
+                  {quote.fax ? quote.fax : ''}
+                </div>
+              </div>
+              <div className="clientDashboard-view-form-left-box-container-2-item">
+                <div className="clientDashboard-view-form-left-box-container-2-item-heading">Email: </div>
+                <div className="clientDashboard-view-form-left-box-container-2-item-content">
+                  {quote.email ? quote.email : ''}
+                </div>
+              </div>
+              <div className="clientDashboard-view-form-left-box-container-2-item">
+                <div className="clientDashboard-view-form-left-box-container-2-item-heading">Notes: </div>
+                <div className="clientDashboard-view-form-left-box-container-2-item-content">
+                  {quote.address_notes ? quote.address_notes : ''}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="clientDashboard-view-form-right">
+        <div className="clientDashboard-view-slab_form-left-box">
+          <div className="clientDashboard-view-form-left-box-heading">
+            <span>Quote Detail</span>
+            <span onClick={() => setModal('quote_detail')}><SVGs svg={'edit'}></SVGs></span>
+          </div>
+          <div className="clientDashboard-view-form-left-box-container-2">
+          <div className="clientDashboard-view-form-left-box-container-2-item">
+                <div className="clientDashboard-view-form-left-box-container-2-item-heading">Quote Name: </div>
+                <div className="clientDashboard-view-form-left-box-container-2-item-content">
+                  {quote.quote_name? quote.quote_name : ''}
+                </div>
+              </div>
+              <div className="clientDashboard-view-form-left-box-container-2-item">
+                <div className="clientDashboard-view-form-left-box-container-2-item-heading">Price List: </div>
+                <div className="clientDashboard-view-form-left-box-container-2-item-content">
+                  {quote.price_list ? quote.price_list : ''}
+                </div>
+              </div>
+              <div className="clientDashboard-view-form-left-box-container-2-item">
+                <div className="clientDashboard-view-form-left-box-container-2-item-heading">Salesperson: </div>
+                <div className="clientDashboard-view-form-left-box-container-2-item-content">
+                  {quote.salesperson ? quote.salesperson : ''}
+                </div>
+              </div>
+              <div className="clientDashboard-view-form-left-box-container-2-item">
+                <div className="clientDashboard-view-form-left-box-container-2-item-heading">Lead: </div>
+                <div className="clientDashboard-view-form-left-box-container-2-item-content">
+                  {quote.lead ? quote.lead : ''}
+                </div>
+              </div>
+              <div className="clientDashboard-view-form-left-box-container-2-item">
+                <div className="clientDashboard-view-form-left-box-container-2-item-heading">Quote #: </div>
+                <div className="clientDashboard-view-form-left-box-container-2-item-content">
+                  {quote.quote_number ? quote.quote_number : ''}
+                </div>
+              </div>
+              <div className="clientDashboard-view-form-left-box-container-2-item">
+                <div className="clientDashboard-view-form-left-box-container-2-item-heading">PO #: </div>
+                <div className="clientDashboard-view-form-left-box-container-2-item-content">
+                  {quote.po_number ? quote.po_number : ''}
+                </div>
+              </div>
+              <div className="clientDashboard-view-form-left-box-container-2-item">
+                <div className="clientDashboard-view-form-left-box-container-2-item-heading">Notes: </div>
+                <div className="clientDashboard-view-form-left-box-container-2-item-content">
+                  {quote.quote_notes ? quote.quote_notes : ''}
+                </div>
               </div>
             </div>
           </div>
@@ -111,11 +243,11 @@ const Quote = ({quote, createQuote}) => {
             <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'Address'}</span>
             <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
           </div>
-          <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddAddress(e)}>
+          <form className="addFieldItems-modal-form" onSubmit={(e) => (e.preventDefault(), setModal(''))}>
             <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-field">
                 <label htmlFor="name">Contact Name</label>
-                <textarea id="name" rows="1" name="name" placeholder="(Contact Name)" value={quote.name} onChange={(e) => createQuote('name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Contact Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+                <textarea id="name" rows="1" name="name" placeholder="(Contact Name)" value={quote.name} onChange={(e) => createQuote('contact_name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Contact Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
               </div>
             </div>
             <PlacesAutocomplete value={quote.address_one} onChange={(e) => createQuote('address_one', e)} onSelect={(e) => handleSelect(e, 'address_one', document.getElementById('address_place_id').value)} searchOptions={searchOptionsAddress}>
@@ -173,7 +305,7 @@ const Quote = ({quote, createQuote}) => {
             <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-field">
                 <label htmlFor="fax">Fax</label>
-                <textarea id="fax" rows="1" name="fax" placeholder="(Fax)" value={quote.cell} onChange={(e) => (createQuote('fax', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Fax)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} ></textarea>
+                <textarea id="fax" rows="1" name="fax" placeholder="(Fax)" value={quote.fax} onChange={(e) => (createQuote('fax', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Fax)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} ></textarea>
               </div>
             </div>
             <div className="form-group-single-textarea">
@@ -185,7 +317,75 @@ const Quote = ({quote, createQuote}) => {
             <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-field">
                 <label htmlFor="notes">Notes</label>
-                <textarea id="notes" rows="4" name="notes" placeholder="(Notes)" value={quote.notes} onChange={(e) => (createQuote('notes', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Notes)'} ></textarea>
+                <textarea id="notes" rows="4" name="notes" placeholder="(Notes)" value={quote.address_notes} onChange={(e) => (createQuote('address_notes', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Notes)'} ></textarea>
+              </div>
+            </div>
+            {!edit && <button type="submit" className="form-button w100">{!loading && <span>Done</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+            {edit == 'color' && <button onClick={(e) => updateColor(e)} className="form-button w100">{!loading && <span>Update Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+            {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+          </form>
+        </div>
+      </div>
+      }
+      { modal == 'quote_detail' &&
+        <div className="addFieldItems-modal">
+        <div className="addFieldItems-modal-box">
+          <div className="addFieldItems-modal-box-header">
+            <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'Quote Detail'}</span>
+            <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
+          </div>
+          <form className="addFieldItems-modal-form" onSubmit={(e) => (e.preventDefault(), setModal(''))}>
+            <div className="form-group-single-textarea">
+              <div className="form-group-single-textarea-field">
+                <label htmlFor="quote_name">Quote Name</label>
+                <textarea id="quote_name" rows="1" name="quote_name" placeholder="(Quote Name)" value={quote.quote_name} onChange={(e) => createQuote('quote_name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Quote Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+              </div>
+            </div>
+            <div className="form-group-single-dropdown">
+                <label htmlFor="">Price List</label>
+                <div className="form-group-single-dropdown-textarea">
+                  <textarea id="price_list" rows="2" name="price_list" placeholder="(Select Price List)" onClick={() => setInputDropdown('price_list')} value={quote.price_list} readOnly></textarea>
+                  <SVGs svg={'dropdown-arrow'}></SVGs>
+                </div>
+                {input_dropdown == 'price_list' && 
+                <div className="form-group-single-dropdown-list" ref={myRefs}>
+                  {allPriceLists && allPriceLists.map((item, idx) => 
+                    <div key={idx} className="clientDashboard-view-form-left-box-container-2-item-content-list-item" onClick={() => (createQuote('price_list', `${item.name} (${item.tax}%)`), createQuote('price_list_id', item._id), setInputDropdown(''))}>
+                    {item.name} ({item.tax}%)
+                    </div>
+                  )   
+                  }
+                </div>
+                }
+            </div>
+            <div className="form-group-single-textarea">
+              <div className="form-group-single-textarea-field">
+                <label htmlFor="salesperson">Salesperson</label>
+                <textarea id="salesperson" rows="1" name="salesperson" placeholder="(Salesperson)" value={quote.salesperson} onChange={(e) => createQuote('salesperson', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Salesperson)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
+              </div>
+            </div>
+            <div className="form-group-single-textarea">
+              <div className="form-group-single-textarea-field">
+                <label htmlFor="lead">Lead</label>
+                <textarea id="lead" rows="1" name="lead" placeholder="(Lead)" value={quote.lead} onChange={(e) => createQuote('lead', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Lead)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
+              </div>
+            </div>
+            <div className="form-group-single-textarea">
+              <div className="form-group-single-textarea-field">
+                <label htmlFor="quote_number">Quote #</label>
+                <textarea id="quote_number" rows="1" name="quote_number" placeholder="(Quote Number)" value={quote.quote_number} onChange={(e) => (validateIsNumber('quote_number'), createQuote('quote_number', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Quote Number)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
+              </div>
+            </div>
+            <div className="form-group-single-textarea">
+              <div className="form-group-single-textarea-field">
+                <label htmlFor="po_number">PO #</label>
+                <textarea id="po_number" rows="1" name="po_number" placeholder="(PO #)" value={quote.po_number} onChange={(e) => (validateIsNumber('po_number'), createQuote('po_number', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(PO #)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null}></textarea>
+              </div>
+            </div>
+            <div className="form-group-single-textarea">
+              <div className="form-group-single-textarea-field">
+                <label htmlFor="quote_notes">Notes</label>
+                <textarea id="quote_notes" rows="4" name="quote_notes" placeholder="(Notes)" value={quote.quote_notes} onChange={(e) => (createQuote('quote_notes', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Notes)'} ></textarea>
               </div>
             </div>
             {!edit && <button type="submit" className="form-button w100">{!loading && <span>Done</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
