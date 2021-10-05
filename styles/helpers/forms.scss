@@ -800,6 +800,12 @@
     @media only screen and (max-width: $large) {
       width: 25rem;
     }
+
+    &-modal {
+      font-size: 1.8rem;
+      color: $color-scheme-1;
+      padding: 0 1rem;
+    }
   }
 
   &-error {
@@ -872,7 +878,7 @@
       display: flex;
       flex-direction: column;
       width: 100%;
-      margin: 0rem 1rem 2rem 0;
+      margin: 0rem;
 
       @media only screen and (max-width: $large) {
         width: 100%;
@@ -881,13 +887,13 @@
 
       label {
         font-size: 1.6rem;
-        margin: 1rem 0;
       }
 
       &-input {
         border-radius: 1.2rem;
         display: flex;
         align-items: center;
+        padding: 0 1rem 0 0;
         position: relative;
         border: 0.1rem solid $color-light-shade-scheme-1;
         background-color: white;
@@ -906,10 +912,19 @@
         svg {
           width: 3rem;
           height: 3rem;
+          // padding: 0.5rem;
+          fill: $color-scheme-1;
 
           &:hover {
             cursor: pointer;
           }
+        }
+
+        &-popup {
+          position: absolute;
+          top: 100%;
+          right: 0;
+          z-index: 500;
         }
 
         &-list {
@@ -1266,4 +1281,8 @@
   &:hover {
     cursor: pointer;
   }
+}
+
+.react-calendar {
+  border-radius: 1.2rem;
 }

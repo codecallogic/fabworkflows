@@ -94,8 +94,16 @@ const withUser = Page => {
 
       let priceList
       try {
-        const responseCategories = await axios.get(`${API}/transaction/get-price-list`)
-        priceList = responseCategories.data
+        const responsePriceList = await axios.get(`${API}/transaction/get-price-list`)
+        priceList = responsePriceList.data
+      } catch (error) {
+        console.log(error)
+      }
+
+      let addressList
+      try {
+        const responseAddressList = await axios.get(`${API}/transaction/get-address-list`)
+        addressList = responseAddressList.data
       } catch (error) {
         console.log(error)
       }
@@ -116,7 +124,8 @@ const withUser = Page => {
             brands,
             models,
             categories,
-            priceList
+            priceList,
+            addressList
         }
       }
     }

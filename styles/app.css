@@ -594,6 +594,10 @@ body {
     @media only screen and (max-width: 992px) {
       .form-message {
         width: 25rem; } }
+    .form-message-modal {
+      font-size: 1.8rem;
+      color: #fd7e3c;
+      padding: 0 1rem; }
   .form-error {
     display: flex;
     align-items: center;
@@ -641,18 +645,18 @@ body {
       display: flex;
       flex-direction: column;
       width: 100%;
-      margin: 0rem 1rem 2rem 0; }
+      margin: 0rem; }
       @media only screen and (max-width: 992px) {
         .form-group-single-textarea-dropdown {
           width: 100%;
           margin: 0 0 2rem 0; } }
       .form-group-single-textarea-dropdown label {
-        font-size: 1.6rem;
-        margin: 1rem 0; }
+        font-size: 1.6rem; }
       .form-group-single-textarea-dropdown-input {
         border-radius: 1.2rem;
         display: flex;
         align-items: center;
+        padding: 0 1rem 0 0;
         position: relative;
         border: 0.1rem solid #dbdbdb;
         background-color: white; }
@@ -667,9 +671,15 @@ body {
           border: none; }
         .form-group-single-textarea-dropdown-input svg {
           width: 3rem;
-          height: 3rem; }
+          height: 3rem;
+          fill: #fd7e3c; }
           .form-group-single-textarea-dropdown-input svg:hover {
             cursor: pointer; }
+        .form-group-single-textarea-dropdown-input-popup {
+          position: absolute;
+          top: 100%;
+          right: 0;
+          z-index: 500; }
         .form-group-single-textarea-dropdown-input-list {
           position: absolute;
           top: 100%;
@@ -918,6 +928,9 @@ body {
 
 .readOnly:hover {
   cursor: pointer; }
+
+.react-calendar {
+  border-radius: 1.2rem; }
 
 .center {
   text-align: center;
@@ -2197,8 +2210,8 @@ body {
             .clientDashboard-view-form-left-box-container-2-item-content {
               margin-left: 2rem;
               width: 100%;
-              position: relative;
-              font-size: 1.4rem; }
+              font-size: 1.4rem;
+              position: relative; }
               .clientDashboard-view-form-left-box-container-2-item-content-textarea {
                 border-radius: 1.2rem;
                 display: flex;
@@ -2233,7 +2246,8 @@ body {
                 z-index: 100; }
                 .clientDashboard-view-form-left-box-container-2-item-content-list-item {
                   font-size: 1.8rem;
-                  padding: 0.5rem; }
+                  padding: 0.5rem 1rem;
+                  text-transform: capitalize; }
                   .clientDashboard-view-form-left-box-container-2-item-content-list-item:last-child {
                     border-bottom-right-radius: 1.2rem;
                     border-bottom-left-radius: 1.2rem;
@@ -2653,6 +2667,100 @@ body {
     @media only screen and (max-width: 600px) {
       .remnant-left-w2::before {
         top: 108.5%; } }
+
+.clientDashboard-view-slab_form-quoteLine {
+  display: flex;
+  width: 100%; }
+  .clientDashboard-view-slab_form-quoteLine-left {
+    width: calc(30% - 1rem);
+    margin-right: 2rem;
+    padding: 0 2rem; }
+    @media only screen and (max-width: 1250px) {
+      .clientDashboard-view-slab_form-quoteLine-left {
+        width: 100%;
+        margin-bottom: 1rem; } }
+    .clientDashboard-view-slab_form-quoteLine-left-box {
+      margin-bottom: 1rem;
+      max-height: 50rem;
+      overflow-y: scroll; }
+      .clientDashboard-view-slab_form-quoteLine-left-box::-webkit-scrollbar {
+        width: 0.1rem;
+        height: 0.3rem; }
+      .clientDashboard-view-slab_form-quoteLine-left-box::-webkit-scrollbar-thumb {
+        background-color: #fd7e3c; }
+      .clientDashboard-view-slab_form-quoteLine-left-box-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: black;
+        font-size: 1.8rem;
+        font-weight: 700;
+        padding: 1rem 2rem;
+        border-bottom: 0.1rem solid #fd7e3c;
+        margin-bottom: 1rem; }
+        .clientDashboard-view-slab_form-quoteLine-left-box-heading svg {
+          width: 3rem;
+          height: 3rem;
+          fill: #fd7e3c; }
+          .clientDashboard-view-slab_form-quoteLine-left-box-heading svg:hover {
+            cursor: pointer; }
+      .clientDashboard-view-slab_form-quoteLine-left-box-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem; }
+        .clientDashboard-view-slab_form-quoteLine-left-box-item-heading {
+          align-self: flex-start;
+          font-size: 1.4rem;
+          min-width: max-content;
+          max-width: max-content;
+          font-weight: 700; }
+        .clientDashboard-view-slab_form-quoteLine-left-box-item-content {
+          margin-left: 2rem;
+          width: 100%;
+          position: relative;
+          font-size: 1.4rem; }
+  .clientDashboard-view-slab_form-quoteLine-right {
+    width: calc(70% - 1rem);
+    margin-right: 2rem;
+    padding: 0 2rem; }
+    @media only screen and (max-width: 1250px) {
+      .clientDashboard-view-slab_form-quoteLine-right {
+        width: 100%;
+        margin-bottom: 1rem; } }
+    .clientDashboard-view-slab_form-quoteLine-right-box {
+      margin-bottom: 1rem;
+      max-height: 50rem;
+      overflow-y: scroll; }
+      .clientDashboard-view-slab_form-quoteLine-right-box::-webkit-scrollbar {
+        width: 0.1rem;
+        height: 0.3rem; }
+      .clientDashboard-view-slab_form-quoteLine-right-box::-webkit-scrollbar-thumb {
+        background-color: #fd7e3c; }
+      .clientDashboard-view-slab_form-quoteLine-right-box-heading {
+        display: flex;
+        align-items: center;
+        color: black;
+        font-size: 1.8rem;
+        font-weight: 700;
+        padding: 1rem 2rem;
+        border-bottom: 0.1rem solid #fd7e3c;
+        margin-bottom: 1rem; }
+        .clientDashboard-view-slab_form-quoteLine-right-box-heading span {
+          font-weight: 400;
+          margin-left: 2rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #fd7e3c;
+          color: white;
+          padding: 0.5rem;
+          border-radius: 1.2rem; }
+          .clientDashboard-view-slab_form-quoteLine-right-box-heading span svg {
+            width: 3rem;
+            height: 3rem;
+            fill: white; }
+            .clientDashboard-view-slab_form-quoteLine-right-box-heading span svg:hover {
+              cursor: pointer; }
 
 .home {
   display: flex;

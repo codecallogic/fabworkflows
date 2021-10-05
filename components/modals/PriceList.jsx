@@ -51,7 +51,7 @@ const PriceList = ({setmodal}) => {
           <div className="form-group-single-textarea">
             <div className="form-group-single-textarea-field">
               <label htmlFor="tax">Tax %</label>
-              <textarea id="tax" rows="1" name="tax" placeholder="(Tax)" value={tax} onChange={(e) => (setError(''), setMessage(''), validateIsNumber('tax'), setTax(e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Tax)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+              <textarea id="tax" rows="1" name="tax" placeholder="(Tax)" value={tax} onChange={(e) => (setError(''), setMessage(''), validateIsNumber('tax'), setTax(e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Tax)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
             </div>
           </div>
           {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Price List</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}

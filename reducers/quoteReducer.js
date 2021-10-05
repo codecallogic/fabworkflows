@@ -1,4 +1,5 @@
 const initialState = {
+  // ADDRESS
   contact_name: '',
   address_one: '',
   city: '',
@@ -10,6 +11,7 @@ const initialState = {
   fax: '',
   email: '',
   address_notes: '',
+  // QUOTE DETAIL
   quote_name: '',
   price_list: '',
   price_list_id: '',
@@ -17,7 +19,12 @@ const initialState = {
   lead: '',
   quote_number: '',
   po_number: '',
-  quote_notes: ''
+  quote_notes: '',
+  // REVISION
+  quote_date: '',
+  quote_discount: '',
+  quote_tax: '',
+  quote_deposit: ''
 }
 
 export const quoteReducer = (state = initialState, action) => {

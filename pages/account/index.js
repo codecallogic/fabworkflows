@@ -14,6 +14,7 @@ import ProductFields from '../../components/account/productFields'
 import Remnant from '../../components/account/Remnant'
 import Quote from '../../components/account/Quote'
 import PriceListModal from '../../components/modals/PriceList'
+import AddressModal from '../../components/modals/Address'
 axios.defaults.withCredentials = true
 
 const formatter = new Intl.NumberFormat('en-US', {
@@ -21,7 +22,7 @@ const formatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 2,
 });
 
-const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, createSlab, addSlabImages, product, createProduct, addProductImages, materials, colors, suppliers, locations, brands, models, categories, material, supplier, addMaterial, resetMaterial, addSupplier, resetSupplier, priceList}) => {
+const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, createSlab, addSlabImages, product, createProduct, addProductImages, materials, colors, suppliers, locations, brands, models, categories, material, supplier, addMaterial, resetMaterial, addSupplier, resetSupplier, priceList, addressList}) => {
   const myRefs = useRef(null)
   // console.log(product)
   const router = useRouter()
@@ -549,6 +550,14 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
                 <SVGs svg={'price-list'}></SVGs>
                 <span>New Price List</span>
               </div>
+              <div className="clientDashboard-view-new-item" onClick={() => (setModal('location'))}>
+                <SVGs svg={'location'}></SVGs>
+                <span>Address</span>
+              </div>
+              <div className="clientDashboard-view-new-item" onClick={() => (setModal(''))}>
+                <SVGs svg={'clipboard'}></SVGs>
+                <span>Phase/Category</span>
+              </div>
             </div>
           }
           {
@@ -920,7 +929,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
             <ProductFields preloadBrands={brands} preloadModels={models} preloadCategories={categories} preloadLocations={locations}></ProductFields>
           }
           { nav.view == 'quote' &&
-            <Quote priceList={priceList}></Quote>
+            <Quote priceList={priceList} addressList={addressList}></Quote>
           }
           { modal == 'add_material' &&
             <div className="addFieldItems-modal">
@@ -1143,6 +1152,9 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
           }
           { modal == 'new_price_list' &&
             <PriceListModal setmodal={(type) => setModal(type)}></PriceListModal>
+          }
+          { modal == 'location' &&
+            <AddressModal setmodal={(type) => setModal(type)}></AddressModal>
           }
         </div>
       </div>
