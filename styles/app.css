@@ -2670,6 +2670,7 @@ body {
 
 .clientDashboard-view-slab_form-quoteLine {
   display: flex;
+  flex-wrap: wrap;
   width: 100%; }
   .clientDashboard-view-slab_form-quoteLine-left {
     width: calc(30% - 1rem);
@@ -2677,7 +2678,7 @@ body {
     padding: 0 2rem; }
     @media only screen and (max-width: 1250px) {
       .clientDashboard-view-slab_form-quoteLine-left {
-        width: 100%;
+        min-width: 100% !important;
         margin-bottom: 1rem; } }
     .clientDashboard-view-slab_form-quoteLine-left-box {
       margin-bottom: 1rem;
@@ -2695,7 +2696,7 @@ body {
         color: black;
         font-size: 1.8rem;
         font-weight: 700;
-        padding: 1rem 2rem;
+        padding: 1rem;
         border-bottom: 0.1rem solid #fd7e3c;
         margin-bottom: 1rem; }
         .clientDashboard-view-slab_form-quoteLine-left-box-heading svg {
@@ -2720,12 +2721,12 @@ body {
           position: relative;
           font-size: 1.4rem; }
   .clientDashboard-view-slab_form-quoteLine-right {
-    width: calc(70% - 1rem);
+    width: calc(65% - 1rem);
     margin-right: 2rem;
     padding: 0 2rem; }
     @media only screen and (max-width: 1250px) {
       .clientDashboard-view-slab_form-quoteLine-right {
-        width: 100%;
+        min-width: 100% !important;
         margin-bottom: 1rem; } }
     .clientDashboard-view-slab_form-quoteLine-right-box {
       margin-bottom: 1rem;
@@ -2742,7 +2743,7 @@ body {
         color: black;
         font-size: 1.8rem;
         font-weight: 700;
-        padding: 1rem 2rem;
+        padding: 1rem;
         border-bottom: 0.1rem solid #fd7e3c;
         margin-bottom: 1rem; }
         .clientDashboard-view-slab_form-quoteLine-right-box-heading span {

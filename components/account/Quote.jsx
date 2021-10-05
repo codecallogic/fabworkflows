@@ -298,7 +298,7 @@ const Quote = ({quote, createQuote, priceList, addressList}) => {
             <div className="clientDashboard-view-slab_form-quoteLine-left-box">
               <div className="clientDashboard-view-slab_form-quoteLine-right-box-heading">
                 <div>Quote Estimate</div>
-                <span onClick={() => setModal('revision')}>Add <SVGs svg={'dropdown-arrow'}></SVGs></span>
+                <span>Add <SVGs svg={'dropdown-arrow'}></SVGs></span>
               </div>
             </div>
           </div>
