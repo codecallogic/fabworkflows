@@ -100,6 +100,12 @@ const Quote = ({quote, createQuote, priceList, addressList}) => {
     createQuote('quote_date', formatDate(date))
     setInputDropdown('')
   }
+
+  const selectSavedAddress = (data) => {
+    for(let key in data){
+      createQuote(key, data[key])
+    }
+  }
   
   return (
     <div className="clientDashboard-view-slab_form-container">
@@ -129,7 +135,7 @@ const Quote = ({quote, createQuote, priceList, addressList}) => {
                     {input_dropdown == 'quote_address' && 
                     <div className="clientDashboard-view-form-left-box-container-2-item-content-list" ref={myRefs}>
                       {allAddresses && allAddresses.map((item, idx) => 
-                        <div key={idx} className="clientDashboard-view-form-left-box-container-2-item-content-list-item">
+                        <div key={idx} className="clientDashboard-view-form-left-box-container-2-item-content-list-item" onClick={() => selectSavedAddress(item)}>
                         {item.contact_name}
                        </div>
                       )   
