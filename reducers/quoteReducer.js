@@ -36,7 +36,7 @@ export const quoteReducer = (state = initialState, action) => {
       }
       break;
     
-    case 'RESET':
+    case 'RESET_QUOTE':
       return initialState
       break;
   

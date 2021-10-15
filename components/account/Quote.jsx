@@ -18,10 +18,10 @@ const searchOptionsCities = {
   types: ['(cities)']
 }
 
-const Quote = ({quote, createQuote, priceList, addressList}) => {
+const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuoteLine, categories}) => {
   const myRefs = useRef(null)
   const [error, setError] = useState('')
-  const [modal, setModal] = useState('')
+  const [modal, setModal] = useState('quote_line')
   const [edit, setEdit] = useState('')
   const [loading, setLoading] = useState('')
   const [show, setShow] = useState('address')
@@ -29,6 +29,8 @@ const Quote = ({quote, createQuote, priceList, addressList}) => {
   const [calendar, setCalendar] = useState('')
   const [allPriceLists, setPriceLists] = useState(priceList ? priceList : '')
   const [allAddresses, setAllAddresses] = useState(addressList ? addressList : '')
+  const [allCategories, setAllCategories] = useState(categories ? categories : '')
+  const [typeForm, setTypeForm] = useState('miscellaneous')
 
   const handleClickOutside = (event) => {
     if(myRefs.current){
@@ -105,6 +107,18 @@ const Quote = ({quote, createQuote, priceList, addressList}) => {
     for(let key in data){
       createQuote(key, data[key])
     }
+  }
+
+  const validateIsPrice = (evt) => {
+    let newValue = Number(evt.target.value.replace(/\D/g, '')) / 100
+    let formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    })
+
+    console.log(newValue)
+    
+    return formatter.format(newValue)
   }
   
   return (
@@ -298,12 +312,16 @@ const Quote = ({quote, createQuote, priceList, addressList}) => {
             <div className="clientDashboard-view-slab_form-quoteLine-left-box">
               <div className="clientDashboard-view-slab_form-quoteLine-right-box-heading">
                 <div>Quote Estimate</div>
-                <span>Add <SVGs svg={'dropdown-arrow'}></SVGs></span>
+                <span onClick={() => setModal('quote_line')}><SVGs svg={'plus'}></SVGs></span>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+{/* /////////////////////////  MODALS ///////////////////////////////////// */}
+
+
       { modal == 'add_address' &&
         <div className="addFieldItems-modal">
         <div className="addFieldItems-modal-box">
@@ -512,8 +530,83 @@ const Quote = ({quote, createQuote, priceList, addressList}) => {
               </div>
             </div>
             {!edit && <button type="submit" className="form-button w100">{!loading && <span>Done</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-            {edit == 'color' && <button onClick={(e) => updateColor(e)} className="form-button w100">{!loading && <span>Update Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
             {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+          </form>
+        </div>
+      </div>
+      }
+      { modal == 'quote_line' &&
+      <div className="addFieldItems-modal">
+        <div className="addFieldItems-modal-box">
+          <div className="addFieldItems-modal-box-header">
+            <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'Add Quote Line'}</span>
+            {typeForm == '' && 
+              <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
+            }
+            {typeForm !== '' && 
+              <div onClick={() => (setTypeForm(''))}><SVGs svg={'arrow-left-large'}></SVGs></div>
+            }
+          </div>
+          <form className="addFieldItems-modal-form" onSubmit={(e) => (e.preventDefault(), setModal(''))}>
+            {typeForm == '' && <div className="form-group-single-textarea">
+              <div className="form-group-single-textarea-box-container"><span className="form-group-single-textarea-box">Product</span></div>
+              <div className="form-group-single-textarea-box-container"><span className="form-group-single-textarea-box" onClick={() => setTypeForm('miscellaneous')}>Miscellaneous Item</span></div>
+            </div>
+            }
+            {
+              typeForm == 'miscellaneous' && 
+              <>
+              <div className="form-group-single-textarea">
+                <div className="form-group-single-textarea-field">
+                  <label htmlFor="misc_quantity">Quantity</label>
+                  <textarea id="misc_quantity" rows="1" name="misc_quantity" placeholder="(Quantity)" value={quoteLine.quantity} onChange={(e) => (validateIsNumber('misc_quantity'), createQuoteLine('quantity', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Quantity)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+                </div>
+              </div>
+              <div className="form-group-single-textarea">
+                <div className="form-group-single-textarea-field">
+                  <label htmlFor="misc_description">Description</label>
+                  <textarea id="misc_description" rows="4" name="misc_description" placeholder="(Description)" value={quoteLine.description} onChange={(e) => (createQuoteLine('description', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Description)'} ></textarea>
+                </div>
+              </div>
+              <div className="form-group-single-dropdown">
+                <label htmlFor="category">Category</label>
+                <div className="form-group-single-dropdown-textarea">
+                  <textarea id="category" rows="2" name="category" placeholder="(Select Category)" onClick={() => setInputDropdown('category')} value={quoteLine.category} readOnly></textarea>
+                  <SVGs svg={'dropdown-arrow'}></SVGs>
+                </div>
+                {input_dropdown == 'category' && 
+                <div className="form-group-single-dropdown-list" ref={myRefs}>
+                  {allCategories && allCategories.map((item, idx) => 
+                    <div key={idx} className="clientDashboard-view-form-left-box-container-2-item-content-list-item" onClick={() => (createQuoteLine('category', item.name), setInputDropdown(''))}>
+                    {item.name}
+                    </div>
+                  )   
+                  }
+                </div>
+                }
+              </div>
+              <div className="form-group-single-textarea">
+                <div className="form-group-single-textarea-field">
+                  <label htmlFor="misc_price">Unit Price</label>
+                  <textarea id="misc_price" rows="1" name="misc_price" placeholder="(0.00)" value={quoteLine.price == 'NaN' ? '' : quoteLine.price.replace("$", "")} onChange={(e) => (createQuoteLine('price', validateIsPrice(e)))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(0.00)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+                </div>
+              </div>
+              <div className="form-group-single-textarea">
+                <div className="form-group-single-textarea-checkbox">
+                  <input type="checkbox" name="taxable" id="taxable" hidden={true}/>
+                  <label htmlFor="taxable" onClick={() => document.getElementById('taxable').checked ? createQuoteLine('taxable', false) : createQuoteLine('taxable', true)}></label>
+                  <span>Taxable</span>
+                </div>
+                <div className="form-group-single-textarea-checkbox">
+                  <input type="checkbox" name="discount" id="discount" hidden={true}/>
+                  <label htmlFor="discount" onClick={() => document.getElementById('discount').checked ? createQuoteLine('discount', false) : createQuoteLine('discount', true)}></label>
+                  <span>Allow discount</span>
+                </div>
+              </div>
+              {!edit && <button className="form-button w100">{!loading && <span>Save</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+              {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+              </>
+            }
           </form>
         </div>
       </div>
@@ -524,13 +617,15 @@ const Quote = ({quote, createQuote, priceList, addressList}) => {
 
 const mapStateToProps = (state) => {
   return {
-    quote: state.quote
+    quote: state.quote,
+    quoteLine: state.quoteLine
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     createQuote: (name, data) => dispatch({type: 'CREATE_QUOTE', name: name, value: data}),
+    createQuoteLine: (name, data) => dispatch({type: 'CREATE_QUOTE_LINE', name: name, value: data})
   }
 }
 

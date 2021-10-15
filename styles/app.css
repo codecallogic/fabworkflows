@@ -589,8 +589,7 @@ body {
   .form-message {
     font-size: 1.4rem;
     color: #fd7e3c;
-    width: 50rem;
-    text-align: center; }
+    width: 50rem; }
     @media only screen and (max-width: 992px) {
       .form-message {
         width: 25rem; } }
@@ -717,6 +716,45 @@ body {
             .form-group-single-textarea-dropdown-input-list-item:hover {
               cursor: pointer;
               background-color: #dbdbdb; }
+    .form-group-single-textarea-box {
+      width: 60%;
+      display: flex;
+      justify-content: center;
+      padding: 1rem 0;
+      margin: 0 0 1.5rem 0;
+      font-size: 2.4rem;
+      background-color: #fd7e3c;
+      color: white;
+      font-weight: 400;
+      border-radius: 0.8rem;
+      border: 0.1rem solid white;
+      box-shadow: 0.3rem 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.2); }
+      .form-group-single-textarea-box:hover {
+        cursor: pointer; }
+      .form-group-single-textarea-box-container {
+        display: flex;
+        justify-content: center;
+        width: 100%; }
+    .form-group-single-textarea-checkbox {
+      display: flex;
+      align-items: center;
+      width: max-content;
+      height: 100%;
+      padding: 1rem 0.5rem; }
+      .form-group-single-textarea-checkbox label {
+        width: 1em;
+        height: 1rem;
+        border: 0.1rem solid #413838;
+        background-color: white; }
+        .form-group-single-textarea-checkbox label:hover {
+          cursor: pointer; }
+      .form-group-single-textarea-checkbox span {
+        font-size: 1.6rem;
+        margin-left: 1rem; }
+      .form-group-single-textarea-checkbox input {
+        display: none; }
+        .form-group-single-textarea-checkbox input:checked + label {
+          background-color: #1bc9a2; }
   .form-group-single-textarea-autocomplete {
     padding: 1.5rem 0 0 0;
     width: 100%;

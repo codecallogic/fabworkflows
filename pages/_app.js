@@ -9,7 +9,7 @@ const store = createStore(rootReducer, composeWithDevTools())
 function MyApp({ Component, pageProps }) {
   return <>
     <title>Fabworkflow</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBHrQuxZIoyHk51s2WxFcphYLP3PPPxT80&libraries=places"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2yMpmYuq0j5M0rYafV4XC4sKPr76SX-8&libraries=places"></script>
     <Provider store={store}><Component {...pageProps} /></Provider>
   </>
 }

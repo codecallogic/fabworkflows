@@ -15,6 +15,7 @@ import Remnant from '../../components/account/Remnant'
 import Quote from '../../components/account/Quote'
 import PriceListModal from '../../components/modals/PriceList'
 import AddressModal from '../../components/modals/Address'
+import CategoryModal from '../../components/modals/Category'
 axios.defaults.withCredentials = true
 
 const formatter = new Intl.NumberFormat('en-US', {
@@ -22,7 +23,7 @@ const formatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 2,
 });
 
-const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, createSlab, addSlabImages, product, createProduct, addProductImages, materials, colors, suppliers, locations, brands, models, categories, material, supplier, addMaterial, resetMaterial, addSupplier, resetSupplier, priceList, addressList}) => {
+const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, createSlab, addSlabImages, product, createProduct, addProductImages, materials, colors, suppliers, locations, brands, models, categories, material, supplier, addMaterial, resetMaterial, addSupplier, resetSupplier, priceList, addressList, misc_categories}) => {
   const myRefs = useRef(null)
   // console.log(product)
   const router = useRouter()
@@ -42,7 +43,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
   const [location, setLocation] = useState('')
   const [allBrands, setAllBrands] = useState(brands)
   const [brand, setBrand] = useState('')
-  const [allCategories, setAllCategories] = useState(categories)
+  const [allCategories, setAllCategories] = useState(misc_categories)
   const [category, setCategory] = useState('')
   const [allModels, setAllModels] = useState(models)
   const [model, setModel] = useState('')
@@ -554,7 +555,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
                 <SVGs svg={'location'}></SVGs>
                 <span>Address</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (setModal(''))}>
+              <div className="clientDashboard-view-new-item" onClick={() => (setModal('category'))}>
                 <SVGs svg={'clipboard'}></SVGs>
                 <span>Phase/Category</span>
               </div>
@@ -929,7 +930,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
             <ProductFields preloadBrands={brands} preloadModels={models} preloadCategories={categories} preloadLocations={locations}></ProductFields>
           }
           { nav.view == 'quote' &&
-            <Quote priceList={priceList} addressList={addressList}></Quote>
+            <Quote priceList={priceList} addressList={addressList} categories={misc_categories}></Quote>
           }
           { modal == 'add_material' &&
             <div className="addFieldItems-modal">
@@ -1155,6 +1156,9 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
           }
           { modal == 'location' &&
             <AddressModal setmodal={(type) => setModal(type)}></AddressModal>
+          }
+          { modal == 'category' &&
+            <CategoryModal setmodal={(type) => setModal(type)}></CategoryModal>
           }
         </div>
       </div>

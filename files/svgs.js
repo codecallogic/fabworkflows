@@ -218,6 +218,13 @@ const SVG = ({svg, classprop}) => {
         </svg>  
         break;
 
+      case 'arrow-left-large':
+        return <svg version="1.1" className={classprop} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+          <title>Arrow Left Large</title>
+          <path d="M1 16l15 15v-9h16v-12h-16v-9z"></path>
+        </svg>  
+        break;
+
       default:
         break
     }

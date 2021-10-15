@@ -6,6 +6,7 @@ import {materialReducer} from './materialReducer'
 import {supplierReducer} from './supplierReducer'
 import {remnantReducer} from './remnantReducer'
 import {quoteReducer} from './quoteReducer'
+import {quoteLineReducer} from './quoteLineReducer'
 
 const rootReducer = combineReducers({
   nav: navReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   material: materialReducer,
   supplier: supplierReducer,
   remnant: remnantReducer,
-  quote: quoteReducer
+  quote: quoteReducer,
+  quoteLine: quoteLineReducer
 })
 
 export default rootReducer
