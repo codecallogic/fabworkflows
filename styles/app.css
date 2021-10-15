@@ -2800,6 +2800,41 @@ body {
             fill: white; }
             .clientDashboard-view-slab_form-quoteLine-right-box-heading span svg:hover {
               cursor: pointer; }
+      .clientDashboard-view-slab_form-quoteLine-right-box-line {
+        margin-bottom: 2rem; }
+        .clientDashboard-view-slab_form-quoteLine-right-box-line-container {
+          display: flex;
+          align-items: flex-start;
+          font-size: 1.4rem;
+          width: 100%; }
+          .clientDashboard-view-slab_form-quoteLine-right-box-line-container svg {
+            width: 3rem;
+            height: 3rem;
+            fill: #fd7e3c; }
+            .clientDashboard-view-slab_form-quoteLine-right-box-line-container svg:hover {
+              cursor: grab; }
+          .clientDashboard-view-slab_form-quoteLine-right-box-line-container div {
+            margin-left: 3rem; }
+          .clientDashboard-view-slab_form-quoteLine-right-box-line-container pre {
+            margin-left: 3rem;
+            font-family: inherit; }
+        .clientDashboard-view-slab_form-quoteLine-right-box-line-description {
+          flex-grow: 1; }
+        .clientDashboard-view-slab_form-quoteLine-right-box-line-total {
+          justify-self: right; }
+        .clientDashboard-view-slab_form-quoteLine-right-box-line-label {
+          font-size: 1.2rem;
+          color: #666; }
+      .clientDashboard-view-slab_form-quoteLine-right-box-estimate {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        font-size: 1.4rem; }
+        .clientDashboard-view-slab_form-quoteLine-right-box-estimate div {
+          display: flex;
+          align-items: center; }
+          .clientDashboard-view-slab_form-quoteLine-right-box-estimate div span {
+            margin-left: 8rem; }
 
 .home {
   display: flex;

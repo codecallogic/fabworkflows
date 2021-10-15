@@ -2,7 +2,8 @@ const initialState = {
   quantity: '',
   description: '',
   category: '',
-  price: '',
+  price: 0,
+  price_unformatted: 0,
   taxable: false,
   discount: false
 }

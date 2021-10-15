@@ -23,8 +23,17 @@ const initialState = {
   // REVISION
   quote_date: '',
   quote_discount: '',
+  quote_tax: '0',
+  quote_deposit: '',
+  // QUOTE LINES
+  quote_lines: [],
+  quote_subtotal: 0,
+  quote_discount: '',
   quote_tax: '',
-  quote_deposit: ''
+  quote_nontaxable_subtotal: '',
+  quote_nontaxable_discount: '',
+  quote_total: '',
+  quote_balance: ''
 }
 
 export const quoteReducer = (state = initialState, action) => {
@@ -38,6 +47,13 @@ export const quoteReducer = (state = initialState, action) => {
     
     case 'RESET_QUOTE':
       return initialState
+      break;
+
+    case 'ADD_QUOTE_LINE':
+      return {
+        ...state,
+        quote_lines: [...state.quote_lines, action.value]
+      }
       break;
   
     default:

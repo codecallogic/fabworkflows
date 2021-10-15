@@ -18,7 +18,7 @@ const searchOptionsCities = {
   types: ['(cities)']
 }
 
-const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuoteLine, categories}) => {
+const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuoteLine, categories, addQuoteLine, resetQuoteLine}) => {
   const myRefs = useRef(null)
   const [error, setError] = useState('')
   const [modal, setModal] = useState('quote_line')
@@ -115,11 +115,37 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
       style: 'currency',
       currency: 'USD'
     })
-
-    console.log(newValue)
     
     return formatter.format(newValue)
   }
+
+  const validateIsNumberToCents = (evt) => {
+    let newValue = Number(evt.target.value.replace(/\D/g, '')) / 100
+    return newValue
+  }
+
+  const validateIsPriceNumber = (amount) => {
+    let newValue = amount
+    let formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }) 
+    return formatter.format(newValue)
+  }
+
+  useEffect(() => {
+    let subtotal = 0
+
+    quote.quote_lines.forEach((item) => {
+      console.log(item.quantity * item.price_unformatted)
+      if(item.taxable) return subtotal += (item.quantity * item.price_unformatted)
+    })
+    
+    console.log(subtotal)
+    
+    createQuote('quote_subtotal', subtotal)
+
+  }, [quote.quote_lines])
   
   return (
     <div className="clientDashboard-view-slab_form-container">
@@ -314,7 +340,50 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                 <div>Quote Estimate</div>
                 <span onClick={() => setModal('quote_line')}><SVGs svg={'plus'}></SVGs></span>
               </div>
-            </div>
+              { quote.quote_lines.length > 0 && quote.quote_lines.map((item) => 
+                <div className="clientDashboard-view-slab_form-quoteLine-right-box-line">
+                  <div className="clientDashboard-view-slab_form-quoteLine-right-box-line-container">
+                    <SVGs svg={'drag'}></SVGs>
+                    <div className="clientDashboard-view-slab_form-quoteLine-right-box-line-quantity">{item.quantity}</div>
+                    <pre className="clientDashboard-view-slab_form-quoteLine-right-box-line-description">{item.description}</pre>
+                    <div className="clientDashboard-view-slab_form-quoteLine-right-box-line-total">{validateIsPriceNumber(item.quantity * item.price_unformatted)}</div>
+                  </div>
+                  <div className="clientDashboard-view-slab_form-quoteLine-right-box-line-label">
+                    [Category: {item.category ? item.category : 'none'}][{item.price}/each]
+                  </div>
+                </div>
+              )
+              }
+              <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate">
+                { quote.quote_lines.length > 0 &&
+                  <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
+                   <label>Subtotal</label>
+                   <span>{validateIsPriceNumber(quote.quote_subtotal)}</span>
+                  </div>
+                }
+                <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-discount">
+
+                </div>
+                <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-tax">
+
+                </div>
+                <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-nontaxable-subtotal">
+
+                </div>
+                <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-nontaxable-discount">
+
+                </div>
+                <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-total">
+
+                </div>
+                <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-deposit">
+
+                </div>
+                <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-balance">
+
+                </div>
+              </div>
+          </div>
           </div>
         </div>
       </div>
@@ -547,7 +616,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               <div onClick={() => (setTypeForm(''))}><SVGs svg={'arrow-left-large'}></SVGs></div>
             }
           </div>
-          <form className="addFieldItems-modal-form" onSubmit={(e) => (e.preventDefault(), setModal(''))}>
+          <form className="addFieldItems-modal-form">
             {typeForm == '' && <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-box-container"><span className="form-group-single-textarea-box">Product</span></div>
               <div className="form-group-single-textarea-box-container"><span className="form-group-single-textarea-box" onClick={() => setTypeForm('miscellaneous')}>Miscellaneous Item</span></div>
@@ -565,7 +634,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               <div className="form-group-single-textarea">
                 <div className="form-group-single-textarea-field">
                   <label htmlFor="misc_description">Description</label>
-                  <textarea id="misc_description" rows="4" name="misc_description" placeholder="(Description)" value={quoteLine.description} onChange={(e) => (createQuoteLine('description', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Description)'} ></textarea>
+                  <textarea id="misc_description" rows="4" name="misc_description" placeholder="(Description)" value={quoteLine.description} onChange={(e) => (createQuoteLine('description', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Description)'} wrap="hard"></textarea>
                 </div>
               </div>
               <div className="form-group-single-dropdown">
@@ -588,7 +657,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               <div className="form-group-single-textarea">
                 <div className="form-group-single-textarea-field">
                   <label htmlFor="misc_price">Unit Price</label>
-                  <textarea id="misc_price" rows="1" name="misc_price" placeholder="(0.00)" value={quoteLine.price == 'NaN' ? '' : quoteLine.price.replace("$", "")} onChange={(e) => (createQuoteLine('price', validateIsPrice(e)))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(0.00)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+                  <textarea id="misc_price" rows="1" name="misc_price" placeholder="(0.00)" value={quoteLine.price} onChange={(e) => (createQuoteLine('price', validateIsPrice(e)), createQuoteLine('price_unformatted', validateIsNumberToCents(e)))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(0.00)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
                 </div>
               </div>
               <div className="form-group-single-textarea">
@@ -603,7 +672,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                   <span>Allow discount</span>
                 </div>
               </div>
-              {!edit && <button className="form-button w100">{!loading && <span>Save</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+              {!edit && <button onClick={(e) => (e.preventDefault(), addQuoteLine(quoteLine), setModal(''), setTypeForm(''))} className="form-button w100">{!loading && <span>Save</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
               {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
               </>
             }
@@ -625,7 +694,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     createQuote: (name, data) => dispatch({type: 'CREATE_QUOTE', name: name, value: data}),
-    createQuoteLine: (name, data) => dispatch({type: 'CREATE_QUOTE_LINE', name: name, value: data})
+    createQuoteLine: (name, data) => dispatch({type: 'CREATE_QUOTE_LINE', name: name, value: data}),
+    addQuoteLine: (quote_line) => dispatch({type: 'ADD_QUOTE_LINE', value: quote_line}),
+    resetQuoteLine: () => dispatch({type: 'RESET_QUOTE_LINE'})
   }
 }
 
