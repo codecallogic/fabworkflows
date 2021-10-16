@@ -208,7 +208,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               <div className="clientDashboard-view-form-left-box-container-2-item">
                 <div className="clientDashboard-view-form-left-box-container-2-item-heading">Contact Name: </div>
                 <div className="clientDashboard-view-form-left-box-container-2-item-content">
-                  {quote.contact_name ? quote.contact_name : 
+                  {quote.contact_name ? <span className="clientDashboard-view-form-left-box-container-2-item-content-toggle">{quote.contact_name} <span className="button-toggle" onClick={() => (createQuote('contact_name', ''), setInputDropdown(''))}>List</span></span>: 
                     <>
                     <div className="clientDashboard-view-form-left-box-container-2-item-content-textarea">
                       <textarea rows="2" name="name" placeholder="(Select By Name)" onClick={() => setInputDropdown('quote_address')} value={quote.contact_name} readOnly></textarea>
@@ -641,7 +641,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               <div className="form-group-single-textarea-dropdown">
                 <label htmlFor="quote_date">Date</label>
                 <div className="form-group-single-textarea-dropdown-input">
-                  <textarea id="quote_date" rows="1" name="quote_date" placeholder="(Quote Date)" value={quote.quote_date} onClick={() => input_dropdown == 'calendar' ? setInputDropdown('') : setInputDropdown('calendar')}onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Quote Date)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} readOnly required></textarea>
+                  <textarea id="quote_date" rows="1" name="quote_date" placeholder="(Quote Date)" value={quote.quote_date} onClick={() => input_dropdown == 'calendar' ? setInputDropdown('') : setInputDropdown('calendar')} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Quote Date)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} readOnly required></textarea>
                   <span onClick={() => input_dropdown == 'calendar' ? setInputDropdown('') : setInputDropdown('calendar')}><SVGs svg={'calendar'}></SVGs></span>
                   {input_dropdown == 'calendar' && <span className="form-group-single-textarea-dropdown-input-popup">
                     <Calendar

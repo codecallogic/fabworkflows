@@ -1145,6 +1145,12 @@
                 // border-bottom: 0.1rem solid $color-scheme-2;
                 position: relative;
 
+                &-toggle {
+                  margin-left: 1rem;
+                  width: 100%;
+                  font-size: 1.4rem;
+                }
+
                 &-textarea {
                   border-radius: 1.2rem;
                   display: flex;

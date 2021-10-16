@@ -1303,6 +1303,20 @@
 }
 
 // BUTTONS
+
+.button-toggle {
+  margin-left: 2rem;
+  background-color: $color-scheme-1;
+  padding: 0.5rem 2rem;
+  color: white;
+  border-radius: 1.2rem;
+  font-weight: 700;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 .selected {
   background-color: $color-scheme-2;
   transform: scale(1.05);

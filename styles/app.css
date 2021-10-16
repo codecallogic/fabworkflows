@@ -939,6 +939,16 @@ body {
   fill: red;
   margin: 0 1rem 0 1rem; }
 
+.button-toggle {
+  margin-left: 2rem;
+  background-color: #fd7e3c;
+  padding: 0.5rem 2rem;
+  color: white;
+  border-radius: 1.2rem;
+  font-weight: 700; }
+  .button-toggle:hover {
+    cursor: pointer; }
+
 .selected {
   background-color: #1bc9a2;
   transform: scale(1.05); }
@@ -2250,6 +2260,10 @@ body {
               width: 100%;
               font-size: 1.4rem;
               position: relative; }
+              .clientDashboard-view-form-left-box-container-2-item-content-toggle {
+                margin-left: 1rem;
+                width: 100%;
+                font-size: 1.4rem; }
               .clientDashboard-view-form-left-box-container-2-item-content-textarea {
                 border-radius: 1.2rem;
                 display: flex;
