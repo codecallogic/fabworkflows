@@ -21,7 +21,7 @@ const searchOptionsCities = {
 const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuoteLine, categories, addQuoteLine, resetQuoteLine, updateQuoteLine}) => {
   const myRefs = useRef(null)
   const [error, setError] = useState('')
-  const [modal, setModal] = useState('quote_line')
+  const [modal, setModal] = useState('')
   const [edit, setEdit] = useState('')
   const [loading, setLoading] = useState('')
   const [show, setShow] = useState('address')
@@ -30,7 +30,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
   const [allPriceLists, setPriceLists] = useState(priceList ? priceList : '')
   const [allAddresses, setAllAddresses] = useState(addressList ? addressList : '')
   const [allCategories, setAllCategories] = useState(categories ? categories : '')
-  const [typeForm, setTypeForm] = useState('miscellaneous')
+  const [typeForm, setTypeForm] = useState('')
   const [update, setUpdate] = useState(false)
 
   const handleClickOutside = (event) => {
