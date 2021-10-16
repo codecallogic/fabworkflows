@@ -430,7 +430,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                 { quote.quote_lines.length > 0 &&
                 <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-nontaxable-discount">
                   <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
-                   <label>Discount</label>
+                   <label>Non-Taxable Discount</label>
                    <span id="discount">{quote.quote_discount ? (validateIsPriceNumber(quote.quote_nontaxable_subtotal * (quote.quote_discount / 100))) : 0}</span>
                   </div>
                 </div>
