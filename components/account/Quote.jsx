@@ -148,7 +148,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
     createQuote('quote_subtotal', subtotal)
     createQuote('quote_nontaxable_subtotal', nontaxablesubtotal)
 
-    let total = ((quote.quote_nontaxable_subtotal - (quote.quote_nontaxable_subtotal * (quote.quote_discount / 100))) + ((subtotal - (subtotal * (quote.quote_discount / 100))) + ((subtotal - (subtotal * (quote.quote_discount / 100))) * (quote.quote_tax/100))))
+    let total = (((subtotal - (subtotal * (quote.quote_discount / 100))) + ((subtotal - (subtotal * (quote.quote_discount / 100))) * (quote.quote_tax/100))) + (quote.quote_nontaxable_subtotal - (quote.quote_nontaxable_subtotal * (quote.quote_discount/100))))
 
     createQuote('quote_total', total)
 
