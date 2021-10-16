@@ -22,8 +22,8 @@ const initialState = {
   quote_notes: '',
   // REVISION
   quote_date: '',
-  quote_discount: '',
-  quote_tax: '0',
+  quote_discount: 0,
+  quote_tax: 0,
   quote_deposit: '',
   // QUOTE LINES
   quote_lines: [],
@@ -33,7 +33,9 @@ const initialState = {
   quote_nontaxable_subtotal: '',
   quote_nontaxable_discount: '',
   quote_total: '',
-  quote_balance: ''
+  quote_balance: '',
+  // VARIABLES
+  quote_count: 0
 }
 
 export const quoteReducer = (state = initialState, action) => {
@@ -55,6 +57,15 @@ export const quoteReducer = (state = initialState, action) => {
         quote_lines: [...state.quote_lines, action.value]
       }
       break;
+
+    case 'UPDATE_QUOTE_LINE':
+      let newArray = [...state.quote_lines]
+      newArray[action.index] = action.quoteline
+
+      return {
+        ...state,
+        quote_lines: newArray
+      }
   
     default:
       return state

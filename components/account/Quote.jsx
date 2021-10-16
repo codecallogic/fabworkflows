@@ -18,7 +18,7 @@ const searchOptionsCities = {
   types: ['(cities)']
 }
 
-const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuoteLine, categories, addQuoteLine, resetQuoteLine}) => {
+const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuoteLine, categories, addQuoteLine, resetQuoteLine, updateQuoteLine}) => {
   const myRefs = useRef(null)
   const [error, setError] = useState('')
   const [modal, setModal] = useState('quote_line')
@@ -31,6 +31,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
   const [allAddresses, setAllAddresses] = useState(addressList ? addressList : '')
   const [allCategories, setAllCategories] = useState(categories ? categories : '')
   const [typeForm, setTypeForm] = useState('miscellaneous')
+  const [update, setUpdate] = useState(false)
 
   const handleClickOutside = (event) => {
     if(myRefs.current){
@@ -39,7 +40,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
       }
     }
   }
-
+  
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
 
@@ -133,19 +134,60 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
     return formatter.format(newValue)
   }
 
+
+  // ADD QUOTE LINES
   useEffect(() => {
     let subtotal = 0
+    let nontaxablesubtotal = 0
 
     quote.quote_lines.forEach((item) => {
-      console.log(item.quantity * item.price_unformatted)
-      if(item.taxable) return subtotal += (item.quantity * item.price_unformatted)
+      if(item.taxable) subtotal += (item.quantity * item.price_unformatted)
+      if(!item.taxable) nontaxablesubtotal += (item.quantity * item.price_unformatted)
     })
     
-    console.log(subtotal)
-    
     createQuote('quote_subtotal', subtotal)
+    createQuote('quote_nontaxable_subtotal', nontaxablesubtotal)
 
-  }, [quote.quote_lines])
+    let total = ((quote.quote_nontaxable_subtotal - (quote.quote_nontaxable_subtotal * (quote.quote_discount / 100))) + ((subtotal - (subtotal * (quote.quote_discount / 100))) + ((subtotal - (subtotal * (quote.quote_discount / 100))) * (quote.quote_tax/100))))
+
+    createQuote('quote_total', total)
+
+    let totalDeposit = quote.quote_deposit ? quote.quote_deposit.includes('$') ? +quote.quote_deposit.replace('$', '') : (quote.quote_total * (quote.quote_deposit.replace('%', '')/100)): 0
+
+    let balance = total - totalDeposit
+    createQuote('quote_balance', balance)
+
+  }, [quote.quote_lines, quote.quote_deposit])
+
+  // SUM UP QUOTE LINES
+  useEffect(() => {
+    const speed = 150;
+
+    if(quote.quote_lines.length > 0){
+      const updateCount = () => {
+        let el = document.getElementById('total')
+        const target = +el.getAttribute('data-target')
+        const count = +el.innerText.replace('$', '')
+
+        const inc = target / speed;
+
+        if(count < target){
+          el.innerText = count + inc
+          setTimeout(updateCount, 1)
+        }else{
+          el.innerText = validateIsPriceNumber(target)
+        }
+      }
+      updateCount()
+    }
+
+  }, [quote.quote_total])
+
+  const setQuoteLine = (item) => {
+    for(let key in item){
+      createQuoteLine(key, item[key])
+    }
+  }
   
   return (
     <div className="clientDashboard-view-slab_form-container">
@@ -338,12 +380,12 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
             <div className="clientDashboard-view-slab_form-quoteLine-left-box">
               <div className="clientDashboard-view-slab_form-quoteLine-right-box-heading">
                 <div>Quote Estimate</div>
-                <span onClick={() => setModal('quote_line')}><SVGs svg={'plus'}></SVGs></span>
+                <span onClick={() => (setUpdate(false), setModal('quote_line'))}><SVGs svg={'plus'}></SVGs></span>
               </div>
-              { quote.quote_lines.length > 0 && quote.quote_lines.map((item) => 
-                <div className="clientDashboard-view-slab_form-quoteLine-right-box-line">
-                  <div className="clientDashboard-view-slab_form-quoteLine-right-box-line-container">
-                    <SVGs svg={'drag'}></SVGs>
+              { quote.quote_lines.length > 0 && quote.quote_lines.map((item, idx) => 
+                <div key={idx} id={`quote_line_${idx}`}className="clientDashboard-view-slab_form-quoteLine-right-box-line">
+                  <div className="clientDashboard-view-slab_form-quoteLine-right-box-line-container" onClick={() => (setModal('quote_line'), setTypeForm('miscellaneous'), setQuoteLine(item), setEdit(idx), setUpdate(true))}>
+                    <SVGs svg={'adjust'}></SVGs>
                     <div className="clientDashboard-view-slab_form-quoteLine-right-box-line-quantity">{item.quantity}</div>
                     <pre className="clientDashboard-view-slab_form-quoteLine-right-box-line-description">{item.description}</pre>
                     <div className="clientDashboard-view-slab_form-quoteLine-right-box-line-total">{validateIsPriceNumber(item.quantity * item.price_unformatted)}</div>
@@ -358,30 +400,65 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                 { quote.quote_lines.length > 0 &&
                   <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
                    <label>Subtotal</label>
-                   <span>{validateIsPriceNumber(quote.quote_subtotal)}</span>
+                   <span id="subtotal">{validateIsPriceNumber(quote.quote_subtotal)}</span>
                   </div>
                 }
+                { quote.quote_lines.length > 0 &&
                 <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-discount">
-
+                  <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
+                   <label>Discount</label>
+                   <span id="discount">{quote.quote_subtotal ? (validateIsPriceNumber(quote.quote_subtotal * (quote.quote_discount / 100))) : 0}</span>
+                  </div>
                 </div>
+                }
+                { quote.quote_lines.length > 0 &&
                 <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-tax">
-
+                  <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
+                   <label>Tax</label>
+                   <span id="tax">{quote.quote_tax ? (validateIsPriceNumber((quote.quote_subtotal - (quote.quote_subtotal * (quote.quote_discount/100))) * (quote.quote_tax / 100))) : 0}</span>
+                  </div>
                 </div>
+                }
+                { quote.quote_lines.length > 0 &&
                 <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-nontaxable-subtotal">
-
+                  <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
+                   <label>Non-Taxable Subtotal</label>
+                   <span id="nontaxable_subtotal">{validateIsPriceNumber(quote.quote_nontaxable_subtotal)}</span>
+                  </div>
                 </div>
+                }
+                { quote.quote_lines.length > 0 &&
                 <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-nontaxable-discount">
-
+                  <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
+                   <label>Discount</label>
+                   <span id="discount">{quote.quote_discount ? (validateIsPriceNumber(quote.quote_nontaxable_subtotal * (quote.quote_discount / 100))) : 0}</span>
+                  </div>
                 </div>
+                }
+                { quote.quote_lines.length > 0 &&
                 <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-total">
-
+                  <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
+                    <label>Total</label>
+                    <span id="total" data-target={quote.quote_total}>{quote.quote_count}</span>
+                  </div>
                 </div>
+                }
+                { quote.quote_lines.length > 0 &&
                 <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-deposit">
-
+                  <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
+                    <label>Deposit</label>
+                    <span id="deposit" >{quote.quote_deposit ? quote.quote_deposit.includes('$') ? quote.quote_deposit : validateIsPriceNumber((quote.quote_total * (quote.quote_deposit.replace('%', '')/100))): 0}</span>
+                  </div>
                 </div>
+                }
+                { quote.quote_lines.length > 0 &&
                 <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-balance">
-
+                  <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
+                    <label>Balance Due</label>
+                    <span id="balance" >{validateIsPriceNumber(quote.quote_balance)}</span>
+                  </div>
                 </div>
+                }
               </div>
           </div>
           </div>
@@ -662,17 +739,21 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               </div>
               <div className="form-group-single-textarea">
                 <div className="form-group-single-textarea-checkbox">
-                  <input type="checkbox" name="taxable" id="taxable" hidden={true}/>
+                  <input type="checkbox" name="taxable" id="taxable" hidden={true} checked={quoteLine.taxable ? true : false} readOnly/>
                   <label htmlFor="taxable" onClick={() => document.getElementById('taxable').checked ? createQuoteLine('taxable', false) : createQuoteLine('taxable', true)}></label>
                   <span>Taxable</span>
                 </div>
                 <div className="form-group-single-textarea-checkbox">
-                  <input type="checkbox" name="discount" id="discount" hidden={true}/>
+                  <input type="checkbox" name="discount" id="discount" hidden={true} checked={quoteLine.discount ? true : false} readOnly/>
                   <label htmlFor="discount" onClick={() => document.getElementById('discount').checked ? createQuoteLine('discount', false) : createQuoteLine('discount', true)}></label>
                   <span>Allow discount</span>
                 </div>
               </div>
-              {!edit && <button onClick={(e) => (e.preventDefault(), addQuoteLine(quoteLine), setModal(''), setTypeForm(''))} className="form-button w100">{!loading && <span>Save</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+              {update ? 
+                <button onClick={(e) => (e.preventDefault(), updateQuoteLine(edit, quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100">{!loading && <span>Update</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
+                : 
+                <button onClick={(e) => (e.preventDefault(), addQuoteLine(quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100">{!loading && <span>Save</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
+              }
               {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
               </>
             }
@@ -696,7 +777,8 @@ const mapDispatchToProps = dispatch => {
     createQuote: (name, data) => dispatch({type: 'CREATE_QUOTE', name: name, value: data}),
     createQuoteLine: (name, data) => dispatch({type: 'CREATE_QUOTE_LINE', name: name, value: data}),
     addQuoteLine: (quote_line) => dispatch({type: 'ADD_QUOTE_LINE', value: quote_line}),
-    resetQuoteLine: () => dispatch({type: 'RESET_QUOTE_LINE'})
+    resetQuoteLine: () => dispatch({type: 'RESET_QUOTE_LINE'}),
+    updateQuoteLine: (index, object) => dispatch({type: 'UPDATE_QUOTE_LINE', index: index, quoteline:  object})
   }
 }
 

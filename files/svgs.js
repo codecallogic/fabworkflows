@@ -232,6 +232,13 @@ const SVG = ({svg, classprop}) => {
         </svg>  
         break;
 
+      case 'adjust':
+        return <svg version="1.1" className={classprop} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+          <title>Drag Indicator</title>
+          <path d="M26 8v4h-4v4h-4v-4h-12v-4h12v-4h4v4h4zM14 16h-4v4h-4v4h4v4h4v-4h12v-4h-12v-4z"></path>
+        </svg>  
+        break;
+
       default:
         break
     }

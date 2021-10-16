@@ -135,18 +135,20 @@
 
         &-container {
           display: flex;
-          align-items: flex-start;
+          align-items: center;
           font-size: 1.4rem;
           width: 100%;
+          padding: 0.5rem 0.5rem;
+
+          &:hover {
+            cursor: pointer;
+            background-color: $color-light-shade-scheme-3;
+          }
 
           svg {
             width: 3rem;
             height: 3rem;
             fill: $color-scheme-1;
-
-            &:hover {
-              cursor: grab;
-            }
           }
 
           div {
@@ -177,15 +179,41 @@
         width: 100%;
         display: flex;
         justify-content: flex-end;
+        align-items: flex-end;
+        flex-direction: column;
         font-size: 1.4rem;
+        padding: 0.5rem 0.5rem;
 
         div {
           display: flex;
           align-items: center;
 
-          span {
-            margin-left: 8rem;
+          label {
+            max-width: 15rem;
+            text-align: right;
           }
+
+          span {
+            text-align: right;
+            min-width: 12rem;
+            max-width: 12rem;
+          }
+        }
+
+        &-total {
+          font-size: 1.6rem;
+          padding: 1rem 0;
+          margin: 0.5rem 0 0 0;
+          border-top: 0.1rem solid $color-scheme-1;
+        }
+
+        &-balance {
+          font-size: 1.8rem;
+          color: $color-scheme-2;
+          padding: 1rem 0;
+          margin: 0.5rem 0 0 0;
+          border-top: 0.1rem solid $color-scheme-1;
+          font-weight: 500;
         }
       }
     }

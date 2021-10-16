@@ -2804,15 +2804,17 @@ body {
         margin-bottom: 2rem; }
         .clientDashboard-view-slab_form-quoteLine-right-box-line-container {
           display: flex;
-          align-items: flex-start;
+          align-items: center;
           font-size: 1.4rem;
-          width: 100%; }
+          width: 100%;
+          padding: 0.5rem 0.5rem; }
+          .clientDashboard-view-slab_form-quoteLine-right-box-line-container:hover {
+            cursor: pointer;
+            background-color: #ededec; }
           .clientDashboard-view-slab_form-quoteLine-right-box-line-container svg {
             width: 3rem;
             height: 3rem;
             fill: #fd7e3c; }
-            .clientDashboard-view-slab_form-quoteLine-right-box-line-container svg:hover {
-              cursor: grab; }
           .clientDashboard-view-slab_form-quoteLine-right-box-line-container div {
             margin-left: 3rem; }
           .clientDashboard-view-slab_form-quoteLine-right-box-line-container pre {
@@ -2829,12 +2831,32 @@ body {
         width: 100%;
         display: flex;
         justify-content: flex-end;
-        font-size: 1.4rem; }
+        align-items: flex-end;
+        flex-direction: column;
+        font-size: 1.4rem;
+        padding: 0.5rem 0.5rem; }
         .clientDashboard-view-slab_form-quoteLine-right-box-estimate div {
           display: flex;
           align-items: center; }
+          .clientDashboard-view-slab_form-quoteLine-right-box-estimate div label {
+            max-width: 15rem;
+            text-align: right; }
           .clientDashboard-view-slab_form-quoteLine-right-box-estimate div span {
-            margin-left: 8rem; }
+            text-align: right;
+            min-width: 12rem;
+            max-width: 12rem; }
+        .clientDashboard-view-slab_form-quoteLine-right-box-estimate-total {
+          font-size: 1.6rem;
+          padding: 1rem 0;
+          margin: 0.5rem 0 0 0;
+          border-top: 0.1rem solid #fd7e3c; }
+        .clientDashboard-view-slab_form-quoteLine-right-box-estimate-balance {
+          font-size: 1.8rem;
+          color: #1bc9a2;
+          padding: 1rem 0;
+          margin: 0.5rem 0 0 0;
+          border-top: 0.1rem solid #fd7e3c;
+          font-weight: 500; }
 
 .home {
   display: flex;
