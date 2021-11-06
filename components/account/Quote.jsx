@@ -7,6 +7,8 @@ import {API} from '../../config'
 import axios from 'axios'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
+import QuotePDF from '../../components/pdf/quote'
+import {PDFViewer, PDFDownloadLink, BlobProvider} from '@react-pdf/renderer'
 
 const searchOptionsAddress = {
   componentRestrictions: {country: 'us'},
@@ -42,6 +44,10 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
   }
   
   useEffect(() => {
+    let orderNumber = Math.floor(100000000 + Math.random() * 900000000)
+    createQuote('quote_number', orderNumber)
+    createQuote('quote_date', formatDate(new Date(Date.now())))
+    
     document.addEventListener("click", handleClickOutside, true);
 
     return () => {
@@ -188,9 +194,23 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
       createQuoteLine(key, item[key])
     }
   }
+
+  const downloadPDF = (url, blob) => {
+    console.log(url, blob)
+  }
   
   return (
     <div className="clientDashboard-view-slab_form-container">
+      <div className="clientDashboard">
+      {/* <BlobProvider document={<QuotePDF/>}>
+      {({ blob, url, loading, error }) =>
+        <a href={url} target="_blank">Open in new tab</a>
+      }
+      </BlobProvider> */}
+      <PDFViewer width={'100%'} height={1000}>
+        <QuotePDF date={quote.quote_date} order={quote.quote_number} contact_name={quote.contact_name} address={quote.address_one} city={quote.city} state={quote.state} zip_code={quote.zip_code} phone={quote.phone}/>
+      </PDFViewer>
+      </div>
       <div className="clientDashboard-view-slab_form-heading">
         <span>New Quote</span>
         <div className="form-error-container">
@@ -641,7 +661,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               <div className="form-group-single-textarea-dropdown">
                 <label htmlFor="quote_date">Date</label>
                 <div className="form-group-single-textarea-dropdown-input">
-                  <textarea id="quote_date" rows="1" name="quote_date" placeholder="(Quote Date)" value={quote.quote_date} onClick={() => input_dropdown == 'calendar' ? setInputDropdown('') : setInputDropdown('calendar')} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Quote Date)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} readOnly required></textarea>
+                  <textarea id="quote_date" rows="1" name="quote_date" placeholder="(Quote Date)" value={quote.quote_date} onClick={() => input_dropdown == 'calendar' ? setInputDropdown('') : setInputDropdown('calendar')} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Quote Date)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} readOnly></textarea>
                   <span onClick={() => input_dropdown == 'calendar' ? setInputDropdown('') : setInputDropdown('calendar')}><SVGs svg={'calendar'}></SVGs></span>
                   {input_dropdown == 'calendar' && <span className="form-group-single-textarea-dropdown-input-popup">
                     <Calendar
@@ -657,20 +677,20 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
             <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-field">
                 <label htmlFor="quote_discount">Discount %</label>
-                <textarea id="quote_discount" rows="1" name="quote_discount" placeholder="(Quote Discount)" value={quote.quote_discount} onChange={(e) => (validateIsNumber('quote_discount'), createQuote('quote_discount', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Quote Discount)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
+                <textarea id="quote_discount" rows="1" name="quote_discount" placeholder="(Quote Discount)" value={quote.quote_discount} onChange={(e) => (validateIsNumber('quote_discount'), createQuote('quote_discount', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Quote Discount)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null}></textarea>
               </div>
             </div>
             <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-field">
                 <label htmlFor="quote_tax">Tax %</label>
-                <textarea id="quote_tax" rows="1" name="quote_tax" placeholder="(Quote Tax)" value={quote.quote_tax} onChange={(e) => (validateIsNumber('quote_tax'), createQuote('quote_tax', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Quote Tax)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
+                <textarea id="quote_tax" rows="1" name="quote_tax" placeholder="(Quote Tax)" value={quote.quote_tax} onChange={(e) => (validateIsNumber('quote_tax'), createQuote('quote_tax', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Quote Tax)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null}></textarea>
               </div>
             </div>
             <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-dropdown">
                 <label htmlFor="quote_deposit">Deposit</label>
                 <div className="form-group-single-textarea-dropdown-input">
-                  <textarea id="quote_deposit" rows="1" name="quote_deposit" placeholder="(Quote Deposit)" value={quote.quote_deposit} onChange={(e) => (validateIsNumber('quote_deposit'), createQuote('quote_deposit', show == 'address' ? `$${e.target.value}` : `${e.target.value}%`))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Quote Deposit)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
+                  <textarea id="quote_deposit" rows="1" name="quote_deposit" placeholder="(Quote Deposit)" value={quote.quote_deposit} onChange={(e) => (validateIsNumber('quote_deposit'), createQuote('quote_deposit', show == 'address' ? `$${e.target.value}` : `${e.target.value}%`))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Quote Deposit)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null}></textarea>
                   {show == 'address' ? <span onClick={() => (createQuote('quote_deposit', ''), setShow('percentage'))}><SVGs svg={'percentage'}></SVGs></span> : <span onClick={() => (createQuote('quote_deposit', ''),setShow('address'))}><SVGs svg={'dollar'}></SVGs></span>}
                 </div>
               </div>

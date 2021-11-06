@@ -10,6 +10,7 @@
     "watch:css": "node-sass styles/main.scss styles/app.css -w"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^2.0.20",
     "axios": "^0.21.1",
     "cookies": "^0.8.0",
     "nanoid": "^3.1.23",
