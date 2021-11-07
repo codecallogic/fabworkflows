@@ -195,20 +195,25 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
     }
   }
 
-  const downloadPDF = (url, blob) => {
-    console.log(url, blob)
+  const renderQuote = (url) => {
+    if(!quote.contact_name) return setError('Contact name is required')
+    if(!quote.address_one) return setError('Contact address is required')
+    if(!quote.city) return setError('Contact city is required')
+    if(!quote.state) return setError('Contact state is required')
+    if(!quote.zip_code) return setError('Contact zip code is required')
+    if(!quote.phone) return setError('Contact phone is required')
+    if(!quote.salesperson) return setError('Salesperson is required')
+    if(quote.quote_lines < 1) return setError('At least one item is required')
+    
+    if(url) window.open(url, '_blank')
   }
   
   return (
     <div className="clientDashboard-view-slab_form-container">
       <div className="clientDashboard">
-      {/* <BlobProvider document={<QuotePDF/>}>
-      {({ blob, url, loading, error }) =>
-        <a href={url} target="_blank">Open in new tab</a>
-      }
-      </BlobProvider> */}
-      <PDFViewer width={'100%'} height={1000}>
-        <QuotePDF date={quote.quote_date} order={quote.quote_number} contact_name={quote.contact_name} address={quote.address_one} city={quote.city} state={quote.state} zip_code={quote.zip_code} phone={quote.phone}/>
+      
+      <PDFViewer width={'100%'} height={1000} showToolbar={true}>
+        <QuotePDF date={quote.quote_date} order={quote.quote_number} contact_name={quote.contact_name} address={quote.address_one} city={quote.city} state={quote.state} zip_code={quote.zip_code} phone={quote.phone} lines={quote.quote_lines} subtotal={quote.quote_subtotal} tax={quote.quote_tax} total={quote.quote_total} po_number={quote.po_number} salesperson={quote.salesperson}/>
       </PDFViewer>
       </div>
       <div className="clientDashboard-view-slab_form-heading">
@@ -401,6 +406,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               <div className="clientDashboard-view-slab_form-quoteLine-right-box-heading">
                 <div>Quote Estimate</div>
                 <span onClick={() => (setUpdate(false), setModal('quote_line'))}><SVGs svg={'plus'}></SVGs></span>
+                <span onClick={() => (setUpdate(false), setModal('print'))}><SVGs svg={'print'}></SVGs></span>
               </div>
               { quote.quote_lines.length > 0 && quote.quote_lines.map((item, idx) => 
                 <div key={idx} id={`quote_line_${idx}`}className="clientDashboard-view-slab_form-quoteLine-right-box-line">
@@ -777,6 +783,37 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
               </>
             }
+          </form>
+        </div>
+      </div>
+      }
+      { modal == 'print' &&
+      <div className="addFieldItems-modal">
+        <div className="addFieldItems-modal-box">
+          <div className="addFieldItems-modal-box-header">
+            <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'Printing Options'}</span>
+            {typeForm == '' && 
+              <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
+            }
+          </div>
+          <form className="addFieldItems-modal-form">
+            {typeForm == '' && <div className="form-group-single-textarea">
+              <div className="form-group-single-textarea-box-container" onClick={() => renderQuote()}>
+                <BlobProvider document={<QuotePDF date={quote.quote_date} order={quote.quote_number} contact_name={quote.contact_name} address={quote.address_one} city={quote.city} state={quote.state} zip_code={quote.zip_code} phone={quote.phone} lines={quote.quote_lines} subtotal={quote.quote_subtotal} tax={quote.quote_tax} total={quote.quote_total} POnumber={quote.po_number} salesperson={quote.salesperson}/>}>
+                {({ blob, url, loading, error }) =>
+                  <span className="form-group-single-textarea-box" onClick={() => renderQuote(url)}>View Quote</span>
+                }
+                </BlobProvider>
+              </div>
+              <div className="form-group-single-textarea-box-container"><PDFDownloadLink fileName="quote.pdf" document={<QuotePDF date={quote.quote_date} order={quote.quote_number} contact_name={quote.contact_name} address={quote.address_one} city={quote.city} state={quote.state} zip_code={quote.zip_code} phone={quote.phone} lines={quote.quote_lines} subtotal={quote.quote_subtotal} tax={quote.quote_tax} total={quote.quote_total} POnumber={quote.po_number} salesperson={quote.salesperson}/>}>
+                {
+                  ({ blob, url, loading, error}) =>
+                  <span className="form-group-single-textarea-box">Download Quote</span>
+                }
+              </PDFDownloadLink></div>
+            </div>
+            }
+            {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
           </form>
         </div>
       </div>

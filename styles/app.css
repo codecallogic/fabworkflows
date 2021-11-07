@@ -717,7 +717,8 @@ body {
               cursor: pointer;
               background-color: #dbdbdb; }
     .form-group-single-textarea-box {
-      width: 60%;
+      min-width: max-content;
+      width: 30rem;
       display: flex;
       justify-content: center;
       padding: 1rem 0;
@@ -728,13 +729,16 @@ body {
       font-weight: 400;
       border-radius: 0.8rem;
       border: 0.1rem solid white;
-      box-shadow: 0.3rem 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.2); }
+      box-shadow: 0.3rem 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.2);
+      text-decoration: none; }
       .form-group-single-textarea-box:hover {
         cursor: pointer; }
       .form-group-single-textarea-box-container {
         display: flex;
         justify-content: center;
         width: 100%; }
+        .form-group-single-textarea-box-container a {
+          text-decoration: none; }
     .form-group-single-textarea-checkbox {
       display: flex;
       align-items: center;
