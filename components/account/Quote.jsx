@@ -8,6 +8,7 @@ import axios from 'axios'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import QuotePDF from '../../components/pdf/quote'
+import Agreement from '../../components/pdf/agreement'
 import {PDFViewer, PDFDownloadLink, BlobProvider} from '@react-pdf/renderer'
 
 const searchOptionsAddress = {
@@ -20,7 +21,7 @@ const searchOptionsCities = {
   types: ['(cities)']
 }
 
-const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuoteLine, categories, addQuoteLine, resetQuoteLine, updateQuoteLine}) => {
+const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuoteLine, categories, addQuoteLine, resetQuoteLine, updateQuoteLine, products}) => {
   const myRefs = useRef(null)
   const [error, setError] = useState('')
   const [modal, setModal] = useState('')
@@ -207,14 +208,49 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
     
     if(url) window.open(url, '_blank')
   }
+
+  const downloadQuote = (url) => {
+    if(!quote.contact_name) return setError('Contact name is required')
+    if(!quote.address_one) return setError('Contact address is required')
+    if(!quote.city) return setError('Contact city is required')
+    if(!quote.state) return setError('Contact state is required')
+    if(!quote.zip_code) return setError('Contact zip code is required')
+    if(!quote.phone) return setError('Contact phone is required')
+    if(!quote.salesperson) return setError('Salesperson is required')
+    if(quote.quote_lines < 1) return setError('At least one item is required')
+    
+    let link = document.createElement('a');
+    link.href = url;
+    link.download = 'quote.pdf';
+    link.dispatchEvent(new MouseEvent('click'));
+  }
+
+  const renderAgreement = (url) => {
+    if(!quote.contact_name) return setError('Contact name is required')
+    if(!quote.quote_name) return setError('Quote name is required')
+    
+    if(url) window.open(url, '_blank')
+  }
+
+  const downloadAgreement = (url) => {
+    if(!quote.contact_name) return setError('Contact name is required')
+    if(!quote.quote_name) return setError('Quote name is required')
+    
+    let link = document.createElement('a');
+    link.href = url;
+    link.download = 'agreement.pdf';
+    link.dispatchEvent(new MouseEvent('click'));
+  }
   
   return (
     <div className="clientDashboard-view-slab_form-container">
       <div className="clientDashboard">
-      
-      <PDFViewer width={'100%'} height={1000} showToolbar={true}>
-        <QuotePDF date={quote.quote_date} order={quote.quote_number} contact_name={quote.contact_name} address={quote.address_one} city={quote.city} state={quote.state} zip_code={quote.zip_code} phone={quote.phone} lines={quote.quote_lines} subtotal={quote.quote_subtotal} tax={quote.quote_tax} total={quote.quote_total} po_number={quote.po_number} salesperson={quote.salesperson}/>
-      </PDFViewer>
+      {/* <PDFViewer width={'100%'} height={1000} showToolbar={true}>
+        <Agreement date={quote.quote_date} quote_name={quote.quote_name} account_name={quote.contact_name}/>
+      </PDFViewer> */}
+      {/* <PDFViewer width={'100%'} height={1000} showToolbar={true}>
+        <QuotePDF date={quote.quote_date} order={quote.quote_number} contact_name={quote.contact_name} address={quote.address_one} city={quote.city} state={quote.state} zip_code={quote.zip_code} phone={quote.phone} lines={quote.quote_lines} subtotal={quote.quote_subtotal} tax={quote.quote_tax} total={quote.quote_total} POnumber={quote.po_number} salesperson={quote.salesperson}/>
+      </PDFViewer> */}
       </div>
       <div className="clientDashboard-view-slab_form-heading">
         <span>New Quote</span>
@@ -721,13 +757,88 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
           </div>
           <form className="addFieldItems-modal-form">
             {typeForm == '' && <div className="form-group-single-textarea">
-              <div className="form-group-single-textarea-box-container"><span className="form-group-single-textarea-box">Product</span></div>
+              <div className="form-group-single-textarea-box-container"><span className="form-group-single-textarea-box" onClick={() => setTypeForm('products')}>Product</span></div>
               <div className="form-group-single-textarea-box-container"><span className="form-group-single-textarea-box" onClick={() => setTypeForm('miscellaneous')}>Miscellaneous Item</span></div>
             </div>
             }
             {
               typeForm == 'miscellaneous' && 
               <>
+              <div className="form-group-single-textarea">
+                <div className="form-group-single-textarea-field">
+                  <label htmlFor="misc_quantity">Quantity</label>
+                  <textarea id="misc_quantity" rows="1" name="misc_quantity" placeholder="(Quantity)" value={quoteLine.quantity} onChange={(e) => (validateIsNumber('misc_quantity'), createQuoteLine('quantity', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Quantity)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+                </div>
+              </div>
+              <div className="form-group-single-textarea">
+                <div className="form-group-single-textarea-field">
+                  <label htmlFor="misc_description">Description</label>
+                  <textarea id="misc_description" rows="4" name="misc_description" placeholder="(Description)" value={quoteLine.description} onChange={(e) => (createQuoteLine('description', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Description)'} wrap="hard"></textarea>
+                </div>
+              </div>
+              <div className="form-group-single-dropdown">
+                <label htmlFor="category">Category</label>
+                <div className="form-group-single-dropdown-textarea">
+                  <textarea id="category" rows="2" name="category" placeholder="(Select Category)" onClick={() => setInputDropdown('category')} value={quoteLine.category} readOnly></textarea>
+                  <SVGs svg={'dropdown-arrow'}></SVGs>
+                </div>
+                {input_dropdown == 'category' && 
+                <div className="form-group-single-dropdown-list" ref={myRefs}>
+                  {allCategories && allCategories.map((item, idx) => 
+                    <div key={idx} className="clientDashboard-view-form-left-box-container-2-item-content-list-item" onClick={() => (createQuoteLine('category', item.name), setInputDropdown(''))}>
+                    {item.name}
+                    </div>
+                  )   
+                  }
+                </div>
+                }
+              </div>
+              <div className="form-group-single-textarea">
+                <div className="form-group-single-textarea-field">
+                  <label htmlFor="misc_price">Unit Price</label>
+                  <textarea id="misc_price" rows="1" name="misc_price" placeholder="(0.00)" value={quoteLine.price} onChange={(e) => (createQuoteLine('price', validateIsPrice(e)), createQuoteLine('price_unformatted', validateIsNumberToCents(e)))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(0.00)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
+                </div>
+              </div>
+              <div className="form-group-single-textarea">
+                <div className="form-group-single-textarea-checkbox">
+                  <input type="checkbox" name="taxable" id="taxable" hidden={true} checked={quoteLine.taxable ? true : false} readOnly/>
+                  <label htmlFor="taxable" onClick={() => document.getElementById('taxable').checked ? createQuoteLine('taxable', false) : createQuoteLine('taxable', true)}></label>
+                  <span>Taxable</span>
+                </div>
+                <div className="form-group-single-textarea-checkbox">
+                  <input type="checkbox" name="discount" id="discount" hidden={true} checked={quoteLine.discount ? true : false} readOnly/>
+                  <label htmlFor="discount" onClick={() => document.getElementById('discount').checked ? createQuoteLine('discount', false) : createQuoteLine('discount', true)}></label>
+                  <span>Allow discount</span>
+                </div>
+              </div>
+              {update ? 
+                <button onClick={(e) => (e.preventDefault(), updateQuoteLine(edit, quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100">{!loading && <span>Update</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
+                : 
+                <button onClick={(e) => (e.preventDefault(), addQuoteLine(quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100">{!loading && <span>Save</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
+              }
+              {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+              </>
+            }
+            {
+              typeForm == 'products' && 
+              <>
+              <div className="form-group-single-dropdown">
+                <label htmlFor="category">Category</label>
+                <div className="form-group-single-dropdown-textarea">
+                  <textarea id="category" rows="2" name="category" placeholder="(Select Category)" onClick={() => setInputDropdown('category')} value={quoteLine.category} readOnly></textarea>
+                  <SVGs svg={'dropdown-arrow'}></SVGs>
+                </div>
+                {input_dropdown == 'category' && 
+                <div className="form-group-single-dropdown-list" ref={myRefs}>
+                  {allCategories && allCategories.map((item, idx) => 
+                    <div key={idx} className="clientDashboard-view-form-left-box-container-2-item-content-list-item" onClick={() => (createQuoteLine('category', item.name), setInputDropdown(''))}>
+                    {item.name}
+                    </div>
+                  )   
+                  }
+                </div>
+                }
+              </div>
               <div className="form-group-single-textarea">
                 <div className="form-group-single-textarea-field">
                   <label htmlFor="misc_quantity">Quantity</label>
@@ -798,19 +909,34 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
           </div>
           <form className="addFieldItems-modal-form">
             {typeForm == '' && <div className="form-group-single-textarea">
-              <div className="form-group-single-textarea-box-container" onClick={() => renderQuote()}>
+              <div className="form-group-single-textarea-box-container">
                 <BlobProvider document={<QuotePDF date={quote.quote_date} order={quote.quote_number} contact_name={quote.contact_name} address={quote.address_one} city={quote.city} state={quote.state} zip_code={quote.zip_code} phone={quote.phone} lines={quote.quote_lines} subtotal={quote.quote_subtotal} tax={quote.quote_tax} total={quote.quote_total} POnumber={quote.po_number} salesperson={quote.salesperson}/>}>
                 {({ blob, url, loading, error }) =>
                   <span className="form-group-single-textarea-box" onClick={() => renderQuote(url)}>View Quote</span>
                 }
                 </BlobProvider>
               </div>
-              <div className="form-group-single-textarea-box-container"><PDFDownloadLink fileName="quote.pdf" document={<QuotePDF date={quote.quote_date} order={quote.quote_number} contact_name={quote.contact_name} address={quote.address_one} city={quote.city} state={quote.state} zip_code={quote.zip_code} phone={quote.phone} lines={quote.quote_lines} subtotal={quote.quote_subtotal} tax={quote.quote_tax} total={quote.quote_total} POnumber={quote.po_number} salesperson={quote.salesperson}/>}>
+              <div className="form-group-single-textarea-box-container"><BlobProvider document={<QuotePDF date={quote.quote_date} order={quote.quote_number} contact_name={quote.contact_name} address={quote.address_one} city={quote.city} state={quote.state} zip_code={quote.zip_code} phone={quote.phone} lines={quote.quote_lines} subtotal={quote.quote_subtotal} tax={quote.quote_tax} total={quote.quote_total} POnumber={quote.po_number} salesperson={quote.salesperson}/>}>
                 {
                   ({ blob, url, loading, error}) =>
-                  <span className="form-group-single-textarea-box">Download Quote</span>
+                  <span className="form-group-single-textarea-box" onClick={() => downloadQuote(url)}>Download Quote</span>
                 }
-              </PDFDownloadLink></div>
+              </BlobProvider>
+              </div>
+              <div className="form-group-single-textarea-box-container">
+                <BlobProvider document={<Agreement date={quote.quote_date} quote_name={quote.quote_name} account_name={quote.contact_name}/>}>
+                {({ blob, url, loading, error }) =>
+                  <span className="form-group-single-textarea-box" onClick={() => renderAgreement(url)}>View Agreement</span>
+                }
+                </BlobProvider>
+              </div>
+              <div className="form-group-single-textarea-box-container"><BlobProvider document={<Agreement date={quote.quote_date} quote_name={quote.quote_name} account_name={quote.contact_name}/>}>
+                {
+                  ({ blob, url, loading, error}) =>
+                  <span className="form-group-single-textarea-box" onClick={() => downloadAgreement(url)}>Download Agreement</span>
+                }
+              </BlobProvider>
+              </div>
             </div>
             }
             {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}

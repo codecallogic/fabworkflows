@@ -153,6 +153,21 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: 30
   },
+  sectionSignature: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: '10mm'
+  },
+  line: {
+    width: '40mm',
+    borderBottom: '1px solid black',
+    marginRight: '8mm'
+  },
+  lineTwo: {
+    width: '25mm',
+    borderBottom: '1px solid black',
+    marginRight: '8mm'
+  }
 })
 
 const Quote = ({date, order, contact_name, address, city, state, zip_code, phone, lines, subtotal, tax, total, po_number, salesperson}) => { 
@@ -247,6 +262,14 @@ const Quote = ({date, order, contact_name, address, city, state, zip_code, phone
           <Text style={styles.fontStyleTwo}>* All countertops are made from natural granite, therefore, natural 'imperfections'(patterns, streaks, color variances, etc) will exist. Changes can not be made to these natural patterns and color variations. Seam(s) will exist depending on the size of the kitchen countertop, please consult the granite template technician on site for more details.</Text>
           <Text style={styles.fontStyleTwo}>* We reserve the right to cancel any estimate or order at any time without any reason. (Will refund Funds.)</Text>
           <Text style={styles.fontStyleTwo}>* All sales are final. No Refunds.</Text>
+        </View>
+        <View style={styles.sectionSignature}>
+          <Text style={styles.subheading}>Accepted By</Text>
+          <Text style={styles.line}></Text>
+          <Text style={styles.subheading}>Signature</Text>
+          <Text style={styles.line}></Text>
+          <Text style={styles.subheading}>Date</Text>
+          <Text style={styles.lineTwo}></Text>
         </View>
       </Page>
     </Document>

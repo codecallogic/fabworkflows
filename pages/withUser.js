@@ -108,11 +108,18 @@ const withUser = Page => {
         console.log(error)
       }
 
-
       let misc_categories
       try {
         const responseMiscCategories = await axios.get(`${API}/transaction/get-categories-list`)
         misc_categories = responseMiscCategories.data
+      } catch (error) {
+        console.log(error)
+      }
+
+      let products
+      try {
+        const responseProducts = await axios.get(`${API}/inventory/all-products`)
+        products = responseProducts.data
       } catch (error) {
         console.log(error)
       }
@@ -135,7 +142,8 @@ const withUser = Page => {
             categories,
             priceList,
             addressList,
-            misc_categories
+            misc_categories,
+            products
         }
       }
     }

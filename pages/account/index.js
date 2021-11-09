@@ -23,7 +23,7 @@ const formatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 2,
 });
 
-const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, createSlab, addSlabImages, product, createProduct, addProductImages, materials, colors, suppliers, locations, brands, models, categories, material, supplier, addMaterial, resetMaterial, addSupplier, resetSupplier, priceList, addressList, misc_categories}) => {
+const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, createSlab, addSlabImages, product, createProduct, addProductImages, materials, colors, suppliers, locations, brands, models, categories, material, supplier, addMaterial, resetMaterial, addSupplier, resetSupplier, priceList, addressList, misc_categories, products}) => {
   const myRefs = useRef(null)
   // console.log(product)
   const router = useRouter()
@@ -930,7 +930,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
             <ProductFields preloadBrands={brands} preloadModels={models} preloadCategories={categories} preloadLocations={locations}></ProductFields>
           }
           { nav.view == 'quote' &&
-            <Quote priceList={priceList} addressList={addressList} categories={misc_categories}></Quote>
+            <Quote priceList={priceList} addressList={addressList} categories={misc_categories} products={products}></Quote>
           }
           { modal == 'add_material' &&
             <div className="addFieldItems-modal">
