@@ -43,6 +43,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
   const [location, setLocation] = useState('')
   const [allBrands, setAllBrands] = useState(brands)
   const [brand, setBrand] = useState('')
+  const [allProductCategories, setAllProductCategories] = useState(categories)
   const [allCategories, setAllCategories] = useState(misc_categories)
   const [category, setCategory] = useState('')
   const [allModels, setAllModels] = useState(models)
@@ -930,7 +931,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
             <ProductFields preloadBrands={brands} preloadModels={models} preloadCategories={categories} preloadLocations={locations}></ProductFields>
           }
           { nav.view == 'quote' &&
-            <Quote priceList={priceList} addressList={addressList} categories={misc_categories} products={products}></Quote>
+            <Quote priceList={priceList} addressList={addressList} categories={misc_categories} products={products} product_categories={allProductCategories}></Quote>
           }
           { modal == 'add_material' &&
             <div className="addFieldItems-modal">

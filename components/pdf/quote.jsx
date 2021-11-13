@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     padding: 1,
-    margin: 15,
+    margin: 10,
   },
   sectionContainer: {
     display: 'flex',
@@ -161,12 +161,12 @@ const styles = StyleSheet.create({
   line: {
     width: '40mm',
     borderBottom: '1px solid black',
-    marginRight: '8mm'
+    marginRight: '5mm'
   },
   lineTwo: {
     width: '25mm',
     borderBottom: '1px solid black',
-    marginRight: '8mm'
+    marginRight: '5mm'
   }
 })
 
@@ -221,9 +221,9 @@ const Quote = ({date, order, contact_name, address, city, state, zip_code, phone
             <View style={styles.sectionRow}>
               <Text style={styles.tableRowTwo}>{item.quantity}</Text>
               <Text style={styles.tableRowTwo}>{item.description}</Text>
-              <Text style={styles.tableRowTwo}>{item.price}</Text>
+              <Text style={styles.tableRowTwo}>{item.price ? item.price : 'No Price'}</Text>
               <Text style={styles.tableRowTwo}>{item.taxable ? 'yes' : 'no'}</Text>
-              <Text style={styles.tableRowTwo}>${+item.price.replace('$', "") * +item.quantity}</Text>
+              <Text style={styles.tableRowTwo}>{item.price ? `$${+item.price.replace('$', "") * +item.quantity}` : 'No Price'}</Text>
             </View>
           )}
         </View>

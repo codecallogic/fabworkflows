@@ -65,6 +65,15 @@ export const quoteReducer = (state = initialState, action) => {
         ...state,
         quote_lines: newArray
       }
+
+    case 'DELETE_QUOTE_LINE':
+      let oldArray = [...state.quote_lines]
+      let newArrayWithRemovedQuoteLine = oldArray.filter((item, index) => index !== action.index)
+
+      return {
+        ...state,
+        quote_lines: newArrayWithRemovedQuoteLine
+      }
   
     default:
       return state

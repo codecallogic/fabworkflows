@@ -106,8 +106,29 @@
         border-bottom: 0.1rem solid $color-scheme-1;
         // border-radius: 1.2rem;
         margin-bottom: 1rem;
+        width: 100%;
+        justify-content: space-between;
 
-        span {
+        &-left {
+          display: flex;
+          align-items: center;
+        }
+
+        &-right {
+          display: flex;
+          align-items: center;
+
+          button {
+            margin: 0;
+
+            &:disabled {
+              cursor: not-allowed;
+              background-color: $color-light-shade-scheme-1;
+            }
+          }
+        }
+
+        &-icon {
           font-weight: 400;
           margin-left: 2rem;
           display: flex;
@@ -127,6 +148,10 @@
               cursor: pointer;
             }
           }
+        }
+
+        &-send {
+          justify-self: flex-end;
         }
       }
 

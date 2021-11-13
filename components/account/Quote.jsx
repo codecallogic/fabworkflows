@@ -21,20 +21,27 @@ const searchOptionsCities = {
   types: ['(cities)']
 }
 
-const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuoteLine, categories, addQuoteLine, resetQuoteLine, updateQuoteLine, products}) => {
+const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuoteLine, brands, models, categories, addQuoteLine, resetQuoteLine, updateQuoteLine, removeQuoteLine, products, productLine, createProduct, product_categories}) => {
+
   const myRefs = useRef(null)
   const [error, setError] = useState('')
   const [modal, setModal] = useState('')
   const [edit, setEdit] = useState('')
-  const [loading, setLoading] = useState('')
+  const [loading, setLoading] = useState('send')
   const [show, setShow] = useState('address')
   const [input_dropdown, setInputDropdown] = useState('')
   const [calendar, setCalendar] = useState('')
   const [allPriceLists, setPriceLists] = useState(priceList ? priceList : '')
   const [allAddresses, setAllAddresses] = useState(addressList ? addressList : '')
+  const [allBrands, setAllBrands] = useState(brands ? brands : '')
+  const [allModels, setAllModels] = useState(models ? models : '')
   const [allCategories, setAllCategories] = useState(categories ? categories : '')
+  const [allProductCategories, setAllProductCategories] = useState(product_categories ? product_categories : '')
+  const [allProducts, setAllProducts] = useState(products ? products : '')
   const [typeForm, setTypeForm] = useState('')
   const [update, setUpdate] = useState(false)
+  const [disableSubmit, setDisableSubmit] = useState(true)
+  const [customerEmail, setCustomerEmail] = useState('')
 
   const handleClickOutside = (event) => {
     if(myRefs.current){
@@ -45,6 +52,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
   }
   
   useEffect(() => {
+    
     let orderNumber = Math.floor(100000000 + Math.random() * 900000000)
     createQuote('quote_number', orderNumber)
     createQuote('quote_date', formatDate(new Date(Date.now())))
@@ -55,6 +63,10 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
       document.removeEventListener("click", handleClickOutside, true);
     };
   }, [])
+
+  useEffect(() => {
+    enableQuoteSubmission()
+  }, [quote])
 
   const handleSelect = async (e, type, id) => {
     let geo
@@ -203,6 +215,8 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
     if(!quote.state) return setError('Contact state is required')
     if(!quote.zip_code) return setError('Contact zip code is required')
     if(!quote.phone) return setError('Contact phone is required')
+    if(!quote.quote_tax) return setError('Tax is required')
+    if(!quote.quote_name) return setError('Quote name is required')
     if(!quote.salesperson) return setError('Salesperson is required')
     if(quote.quote_lines < 1) return setError('At least one item is required')
     
@@ -216,9 +230,11 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
     if(!quote.state) return setError('Contact state is required')
     if(!quote.zip_code) return setError('Contact zip code is required')
     if(!quote.phone) return setError('Contact phone is required')
+    if(!quote.quote_tax) return setError('Tax is required')
+    if(!quote.quote_name) return setError('Quote name is required')
     if(!quote.salesperson) return setError('Salesperson is required')
     if(quote.quote_lines < 1) return setError('At least one item is required')
-    
+
     let link = document.createElement('a');
     link.href = url;
     link.download = 'quote.pdf';
@@ -241,7 +257,52 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
     link.download = 'agreement.pdf';
     link.dispatchEvent(new MouseEvent('click'));
   }
+
+  const enableQuoteSubmission = () => {
+    if(!quote.contact_name) return setDisableSubmit(true)
+    if(!quote.address_one) return setDisableSubmit(true)
+    if(!quote.city) return setDisableSubmit(true)
+    if(!quote.state) return setDisableSubmit(true)
+    if(!quote.zip_code) return setDisableSubmit(true)
+    if(!quote.phone) return setDisableSubmit(true)
+    if(!quote.salesperson) return setDisableSubmit(true)
+    if(!quote.quote_tax) return setDisableSubmit(true)
+    if(!quote.quote_name) return setDisableSubmit(true)
+    if(quote.quote_lines < 1) return setDisableSubmit(true)
+
+    return setDisableSubmit(false)
+  }
+
+  const saveQuote = async () => {
+    setLoading('submit')
+    setError('')
+    try {
+      const responseSaveQuote = await axios.post(`${API}/transaction/create-quote`, quote)
+      setLoading('')
+      setCustomerEmail(responseSaveQuote.data.email)
+      // for(let key in responseSaveQuote.data){
+      //   createQuote(key, responseSaveQuote.data[key])
+      // }
+      setModal('email_quote')
+    } catch (error) {
+      setLoading('')
+      if(error) error.response ? setError(error.response.data) : setError('Error occurred could not save quote')
+    }
+  }
   
+  const sendQuote = async () => {
+    setLoading('send_quote')
+    setError('')
+    try {
+      const responseQuote = await axios.post(`${API}/transaction/send-quote`, {quote: quote, customer: customerEmail})
+      setModal('')
+      setLoading('')
+    } catch (error) {
+      setLoading('')
+      if(error) error.response ? setError(error.response.data) : setError('Error occurred could not send quote')
+    }
+  }
+
   return (
     <div className="clientDashboard-view-slab_form-container">
       <div className="clientDashboard">
@@ -440,20 +501,25 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
           <div className="clientDashboard-view-slab_form-quoteLine-right">
             <div className="clientDashboard-view-slab_form-quoteLine-left-box">
               <div className="clientDashboard-view-slab_form-quoteLine-right-box-heading">
+                <div className="clientDashboard-view-slab_form-quoteLine-right-box-heading-left">
                 <div>Quote Estimate</div>
-                <span onClick={() => (setUpdate(false), setModal('quote_line'))}><SVGs svg={'plus'}></SVGs></span>
-                <span onClick={() => (setUpdate(false), setModal('print'))}><SVGs svg={'print'}></SVGs></span>
+                <span className="clientDashboard-view-slab_form-quoteLine-right-box-heading-icon" onClick={() => (setUpdate(false), setModal('quote_line'))}><SVGs svg={'plus'}></SVGs></span>
+                <span className="clientDashboard-view-slab_form-quoteLine-right-box-heading-icon" onClick={() => (setUpdate(false), setModal('print'))}><SVGs svg={'print'}></SVGs></span>
+                </div>
+                <div className="clientDashboard-view-slab_form-quoteLine-right-box-heading-right">
+                  <button className="form-button w100" disabled={disableSubmit}>{loading !== 'submit' && <span onClick={() => saveQuote()}>Submit</span>} {loading == 'submit' && <div className="loading"><span></span><span></span><span></span></div>}</button>
+                </div>
               </div>
               { quote.quote_lines.length > 0 && quote.quote_lines.map((item, idx) => 
                 <div key={idx} id={`quote_line_${idx}`}className="clientDashboard-view-slab_form-quoteLine-right-box-line">
-                  <div className="clientDashboard-view-slab_form-quoteLine-right-box-line-container" onClick={() => (setModal('quote_line'), setTypeForm('miscellaneous'), setQuoteLine(item), setEdit(idx), setUpdate(true))}>
+                  <div className="clientDashboard-view-slab_form-quoteLine-right-box-line-container" onClick={() => (setModal('quote_line'), item.brand ? setTypeForm('products') : setTypeForm('miscellaneous'), setQuoteLine(item), setEdit(idx), setUpdate(true))}>
                     <SVGs svg={'adjust'}></SVGs>
                     <div className="clientDashboard-view-slab_form-quoteLine-right-box-line-quantity">{item.quantity}</div>
-                    <pre className="clientDashboard-view-slab_form-quoteLine-right-box-line-description">{item.description}</pre>
-                    <div className="clientDashboard-view-slab_form-quoteLine-right-box-line-total">{validateIsPriceNumber(item.quantity * item.price_unformatted)}</div>
+                    <pre className="clientDashboard-view-slab_form-quoteLine-right-box-line-description">{item.brand ? `${item.brand}/${item.model}` : item.description}</pre>
+                    <div className="clientDashboard-view-slab_form-quoteLine-right-box-line-total">{item.price_unformatted ? validateIsPriceNumber(item.quantity * item.price_unformatted) : `(No price)`}</div>
                   </div>
                   <div className="clientDashboard-view-slab_form-quoteLine-right-box-line-label">
-                    [Category: {item.category ? item.category : 'none'}][{item.price}/each]
+                    [Category: {item.category ? item.category : 'none'}][{item.price ? `${item.price}/each` : 'No Price'}]
                   </div>
                 </div>
               )
@@ -747,12 +813,12 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
       <div className="addFieldItems-modal">
         <div className="addFieldItems-modal-box">
           <div className="addFieldItems-modal-box-header">
-            <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'Add Quote Line'}</span>
+            <span className="addFieldItems-modal-form-title"><div>{edit ? 'Edit Color' : 'Add Quote Line'}</div> {update ? <span onClick={() => (removeQuoteLine(edit), setModal(''), setError(''), setEdit(''), resetQuoteLine())}><SVGs svg={'thrash-can'}></SVGs></span> : null}</span>
             {typeForm == '' && 
               <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
             }
             {typeForm !== '' && 
-              <div onClick={() => (setTypeForm(''))}><SVGs svg={'arrow-left-large'}></SVGs></div>
+              <div onClick={() => (setTypeForm(''), resetQuoteLine())}><SVGs svg={'arrow-left-large'}></SVGs></div>
             }
           </div>
           <form className="addFieldItems-modal-form">
@@ -823,16 +889,16 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               typeForm == 'products' && 
               <>
               <div className="form-group-single-dropdown">
-                <label htmlFor="category">Category</label>
+                <label htmlFor="brand">Brand</label>
                 <div className="form-group-single-dropdown-textarea">
-                  <textarea id="category" rows="2" name="category" placeholder="(Select Category)" onClick={() => setInputDropdown('category')} value={quoteLine.category} readOnly></textarea>
+                  <textarea id="brand" rows="2" name="brand" placeholder="(Select Brand)" onClick={() => setInputDropdown('products')} value={quoteLine.brand} readOnly></textarea>
                   <SVGs svg={'dropdown-arrow'}></SVGs>
                 </div>
-                {input_dropdown == 'category' && 
+                {input_dropdown == 'products' && 
                 <div className="form-group-single-dropdown-list" ref={myRefs}>
-                  {allCategories && allCategories.map((item, idx) => 
-                    <div key={idx} className="clientDashboard-view-form-left-box-container-2-item-content-list-item" onClick={() => (createQuoteLine('category', item.name), setInputDropdown(''))}>
-                    {item.name}
+                  {allProducts && allProducts.map((item, idx) => 
+                    <div key={idx} className="clientDashboard-view-form-left-box-container-2-item-content-list-item" onClick={() => (createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.category), createQuoteLine('description', item.description), setInputDropdown(''))}>
+                    {item.brand} / {item.category} / {item.model}
                     </div>
                   )   
                   }
@@ -841,14 +907,14 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               </div>
               <div className="form-group-single-textarea">
                 <div className="form-group-single-textarea-field">
-                  <label htmlFor="misc_quantity">Quantity</label>
-                  <textarea id="misc_quantity" rows="1" name="misc_quantity" placeholder="(Quantity)" value={quoteLine.quantity} onChange={(e) => (validateIsNumber('misc_quantity'), createQuoteLine('quantity', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Quantity)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+                  <label htmlFor="product_quantity">Quantity</label>
+                  <textarea id="product_quantity" rows="1" name="product_quantity" placeholder="(Quantity)" value={quoteLine.quantity} onChange={(e) => (validateIsNumber('product_quantity'), createQuoteLine('quantity', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Quantity)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
                 </div>
               </div>
               <div className="form-group-single-textarea">
                 <div className="form-group-single-textarea-field">
-                  <label htmlFor="misc_description">Description</label>
-                  <textarea id="misc_description" rows="4" name="misc_description" placeholder="(Description)" value={quoteLine.description} onChange={(e) => (createQuoteLine('description', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Description)'} wrap="hard"></textarea>
+                  <label htmlFor="product_description">Description</label>
+                  <textarea id="product_description" rows="4" name="product_description" placeholder="(Description)" value={quoteLine.description} onChange={(e) => (createQuoteLine('description', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Description)'} wrap="hard"></textarea>
                 </div>
               </div>
               <div className="form-group-single-dropdown">
@@ -859,7 +925,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                 </div>
                 {input_dropdown == 'category' && 
                 <div className="form-group-single-dropdown-list" ref={myRefs}>
-                  {allCategories && allCategories.map((item, idx) => 
+                  {allProductCategories && allProductCategories.map((item, idx) => 
                     <div key={idx} className="clientDashboard-view-form-left-box-container-2-item-content-list-item" onClick={() => (createQuoteLine('category', item.name), setInputDropdown(''))}>
                     {item.name}
                     </div>
@@ -874,7 +940,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                   <textarea id="misc_price" rows="1" name="misc_price" placeholder="(0.00)" value={quoteLine.price} onChange={(e) => (createQuoteLine('price', validateIsPrice(e)), createQuoteLine('price_unformatted', validateIsNumberToCents(e)))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(0.00)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
                 </div>
               </div>
-              <div className="form-group-single-textarea">
+              {/* <div className="form-group-single-textarea">
                 <div className="form-group-single-textarea-checkbox">
                   <input type="checkbox" name="taxable" id="taxable" hidden={true} checked={quoteLine.taxable ? true : false} readOnly/>
                   <label htmlFor="taxable" onClick={() => document.getElementById('taxable').checked ? createQuoteLine('taxable', false) : createQuoteLine('taxable', true)}></label>
@@ -885,7 +951,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                   <label htmlFor="discount" onClick={() => document.getElementById('discount').checked ? createQuoteLine('discount', false) : createQuoteLine('discount', true)}></label>
                   <span>Allow discount</span>
                 </div>
-              </div>
+              </div> */}
               {update ? 
                 <button onClick={(e) => (e.preventDefault(), updateQuoteLine(edit, quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100">{!loading && <span>Update</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
                 : 
@@ -944,6 +1010,28 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
         </div>
       </div>
       }
+      { modal == 'email_quote' &&
+      <div className="addFieldItems-modal">
+        <div className="addFieldItems-modal-box">
+          <div className="addFieldItems-modal-box-header">
+            <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'Send Quote to Client'}</span>
+            {typeForm == '' && 
+              <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
+            }
+          </div>
+          <form className="addFieldItems-modal-form">
+            <div className="form-group-single-textarea">
+              <div className="form-group-single-textarea-field">
+                <label htmlFor="email">Email</label>
+                <textarea id="email" rows="1" name="email" placeholder="(Quantity)" value={customerEmail} onChange={(e) => (setCustomerEmail(e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Customer Email)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+              </div>
+            </div>
+            <button onClick={(e) => null} className="form-button w100">{loading !== 'send_quote' && <span onClick={() => sendQuote()}>Send</span>} {loading == 'send_quote' && <div className="loading"><span></span><span></span><span></span></div>}</button>
+            {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+          </form>
+        </div>
+      </div>
+      }
     </div>
   )
 }
@@ -951,7 +1039,8 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
 const mapStateToProps = (state) => {
   return {
     quote: state.quote,
-    quoteLine: state.quoteLine
+    quoteLine: state.quoteLine,
+    productLine: state.product
   }
 }
 
@@ -961,7 +1050,9 @@ const mapDispatchToProps = dispatch => {
     createQuoteLine: (name, data) => dispatch({type: 'CREATE_QUOTE_LINE', name: name, value: data}),
     addQuoteLine: (quote_line) => dispatch({type: 'ADD_QUOTE_LINE', value: quote_line}),
     resetQuoteLine: () => dispatch({type: 'RESET_QUOTE_LINE'}),
-    updateQuoteLine: (index, object) => dispatch({type: 'UPDATE_QUOTE_LINE', index: index, quoteline:  object})
+    updateQuoteLine: (index, object) => dispatch({type: 'UPDATE_QUOTE_LINE', index: index, quoteline:  object}),
+    createProduct: (name, value) => dispatch({type:'CREATE_PRODUCT', name: name,value: value}),
+    removeQuoteLine: (index) => dispatch({type: 'DELETE_QUOTE_LINE', index: index})
   }
 }
 

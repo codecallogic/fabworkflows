@@ -5,7 +5,10 @@ const initialState = {
   price: 0,
   price_unformatted: 0,
   taxable: false,
-  discount: false
+  discount: false,
+  // PRODUCT
+  model: '',
+  brand: ''
 }
 
 export const quoteLineReducer = (state = initialState, action) => {
