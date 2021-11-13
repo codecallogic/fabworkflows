@@ -20,8 +20,4 @@ const Checkout = ({}) => {
   )
 }
 
-Confirmation.getInitialProps = async ({query}) => {
-
-}
-
 export default Checkout
