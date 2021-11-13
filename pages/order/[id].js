@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {API} from '../../config'
 
-const Checkout = ({}) => {
+const Checkout = ({newUser}) => {
   const logout = async () => {
     // console.log('Hello')
     try {
