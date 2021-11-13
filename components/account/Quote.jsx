@@ -21,13 +21,13 @@ const searchOptionsCities = {
   types: ['(cities)']
 }
 
-const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuoteLine, brands, models, categories, addQuoteLine, resetQuoteLine, updateQuoteLine, removeQuoteLine, products, productLine, createProduct, product_categories}) => {
+const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuoteLine, brands, models, categories, addQuoteLine, resetQuoteLine, updateQuoteLine, removeQuoteLine, products, productLine, createProduct, product_categories, resetQuote}) => {
 
   const myRefs = useRef(null)
   const [error, setError] = useState('')
   const [modal, setModal] = useState('')
   const [edit, setEdit] = useState('')
-  const [loading, setLoading] = useState('send')
+  const [loading, setLoading] = useState('')
   const [show, setShow] = useState('address')
   const [input_dropdown, setInputDropdown] = useState('')
   const [calendar, setCalendar] = useState('')
@@ -276,27 +276,31 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
   const saveQuote = async () => {
     setLoading('submit')
     setError('')
+    setModal('')
     try {
       const responseSaveQuote = await axios.post(`${API}/transaction/create-quote`, quote)
       setLoading('')
       setCustomerEmail(responseSaveQuote.data.email)
-      // for(let key in responseSaveQuote.data){
-      //   createQuote(key, responseSaveQuote.data[key])
-      // }
+      for(let key in responseSaveQuote.data){
+        createQuote(key, responseSaveQuote.data[key])
+      }
       setModal('email_quote')
     } catch (error) {
       setLoading('')
+      setModal('error')
       if(error) error.response ? setError(error.response.data) : setError('Error occurred could not save quote')
     }
   }
   
-  const sendQuote = async () => {
+  const sendQuote = async (e) => {
+    e.preventDefault()
     setLoading('send_quote')
     setError('')
     try {
       const responseQuote = await axios.post(`${API}/transaction/send-quote`, {quote: quote, customer: customerEmail})
       setModal('')
       setLoading('')
+      resetQuote()
     } catch (error) {
       setLoading('')
       if(error) error.response ? setError(error.response.data) : setError('Error occurred could not send quote')
@@ -682,8 +686,8 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                 <textarea id="notes" rows="4" name="notes" placeholder="(Notes)" value={quote.address_notes} onChange={(e) => (createQuote('address_notes', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Notes)'} ></textarea>
               </div>
             </div>
-            {!edit && <button type="submit" className="form-button w100">{!loading && <span>Done</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-            {edit == 'color' && <button onClick={(e) => updateColor(e)} className="form-button w100">{!loading && <span>Update Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+            {!edit && <button type="submit" className="form-button w100">{loading !== 'address' && <span>Done</span>} {loading == 'address' && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+            {edit == 'color' && <button onClick={(e) => updateColor(e)} className="form-button w100">{loading == 'address' && <span>Update Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
             {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
           </form>
         </div>
@@ -1019,14 +1023,29 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
             }
           </div>
-          <form className="addFieldItems-modal-form">
+          <form className="addFieldItems-modal-form" onSubmit={(e) => sendQuote(e)}>
             <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-field">
                 <label htmlFor="email">Email</label>
                 <textarea id="email" rows="1" name="email" placeholder="(Quantity)" value={customerEmail} onChange={(e) => (setCustomerEmail(e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Customer Email)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
               </div>
             </div>
-            <button onClick={(e) => null} className="form-button w100">{loading !== 'send_quote' && <span onClick={() => sendQuote()}>Send</span>} {loading == 'send_quote' && <div className="loading"><span></span><span></span><span></span></div>}</button>
+            <button type="submit" className="form-button w100">{loading !== 'send_quote' && <span>Send</span>} {loading == 'send_quote' && <div className="loading"><span></span><span></span><span></span></div>}</button>
+            {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+          </form>
+        </div>
+      </div>
+      }
+      { modal == 'error' &&
+      <div className="addFieldItems-modal">
+        <div className="addFieldItems-modal-box">
+          <div className="addFieldItems-modal-box-header">
+            <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'Error'}</span>
+            {typeForm == '' && 
+              <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
+            }
+          </div>
+          <form className="addFieldItems-modal-form">
             {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
           </form>
         </div>
@@ -1047,6 +1066,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     createQuote: (name, data) => dispatch({type: 'CREATE_QUOTE', name: name, value: data}),
+    resetQuote: () => dispatch({type: 'RESET_QUOTE'}),
     createQuoteLine: (name, data) => dispatch({type: 'CREATE_QUOTE_LINE', name: name, value: data}),
     addQuoteLine: (quote_line) => dispatch({type: 'ADD_QUOTE_LINE', value: quote_line}),
     resetQuoteLine: () => dispatch({type: 'RESET_QUOTE_LINE'}),
