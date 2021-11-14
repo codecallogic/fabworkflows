@@ -2998,3 +2998,57 @@ body {
     align-items: center;
     flex-direction: column;
     margin: 10rem 0; }
+
+.checkout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  margin-top: 5rem;
+  width: 80%; }
+  .checkout-title {
+    justify-self: left;
+    width: 100%;
+    display: flex;
+    align-items: center; }
+    .checkout-title-image {
+      width: 5rem;
+      height: 5rem;
+      object-fit: cover;
+      margin-right: 3rem; }
+    .checkout-title span {
+      font-size: 2.8rem;
+      font-weight: 700; }
+  .checkout-box {
+    margin: 3rem 0;
+    padding: 1rem 0rem;
+    display: flex;
+    width: 100%; }
+    .checkout-box-billing {
+      width: 40%;
+      padding: 1rem 2rem;
+      background-color: #ededec;
+      border-radius: 1.2rem; }
+      .checkout-box-billing-title {
+        font-size: 2rem;
+        font-weight: 500; }
+      .checkout-box-billing-form {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem 2rem; }
+    .checkout-box-summary {
+      width: 60%;
+      margin-left: 2rem;
+      border: 0.2rem solid #ededec;
+      border-radius: 1.2rem;
+      color: #666; }
+      .checkout-box-summary-title {
+        padding: 2rem;
+        font-size: 1.8rem;
+        font-weight: 400; }
+      .checkout-box-summary-quote {
+        padding: 0 3rem; }
+        .checkout-box-summary-quote-svg {
+          width: 3rem;
+          height: 3rem;
+          fill: #fd7e3c; }

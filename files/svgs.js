@@ -10,6 +10,13 @@ const SVG = ({svg, classprop}) => {
         </svg>  
         break;
 
+      case 'checkmark-2':
+        return <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+          <title>Checkmark</title>
+          <path d="M28 0h-24c-2.2 0-4 1.8-4 4v24c0 2.2 1.8 4 4 4h24c2.2 0 4-1.8 4-4v-24c0-2.2-1.8-4-4-4zM14 24.828l-7.414-7.414 2.828-2.828 4.586 4.586 9.586-9.586 2.828 2.828-12.414 12.414z"></path>
+        </svg>  
+        break;
+
       case 'inventory':
         return <svg version="1.1" className={classprop} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <title>Inventory</title>
