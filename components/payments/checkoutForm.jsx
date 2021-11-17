@@ -55,6 +55,7 @@ const CheckoutForm = ({email, name, address, city, state, zip_code, country, bal
     })
 
     if(error){
+      console.log(error)
       if(error) error.code ? setMessage('Invalid information') : setMessage('We are having trouble validating your card information')
       setLoading('')
     }else {

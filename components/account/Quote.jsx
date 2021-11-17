@@ -27,7 +27,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
   const [error, setError] = useState('')
   const [modal, setModal] = useState('')
   const [edit, setEdit] = useState('')
-  const [loading, setLoading] = useState('')
+  const [loading, setLoading] = useState('da')
   const [show, setShow] = useState('address')
   const [input_dropdown, setInputDropdown] = useState('')
   const [calendar, setCalendar] = useState('')
@@ -166,8 +166,14 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
     
     createQuote('quote_subtotal', subtotal)
     createQuote('quote_nontaxable_subtotal', nontaxablesubtotal)
+    
+    let total = (((subtotal - (subtotal * (quote.quote_discount / 100))) + ((subtotal - (subtotal * (quote.quote_discount / 100))) * (quote.quote_tax/100))))
 
-    let total = (((subtotal - (subtotal * (quote.quote_discount / 100))) + ((subtotal - (subtotal * (quote.quote_discount / 100))) * (quote.quote_tax/100))) + (quote.quote_nontaxable_subtotal - (quote.quote_nontaxable_subtotal * (quote.quote_discount/100))))
+    !nontaxablesubtotal
+    ? 
+      (total = total - (nontaxablesubtotal - (nontaxablesubtotal * (quote.quote_discount/100))))
+    :
+      (total = total + nontaxablesubtotal)
 
     createQuote('quote_total', total)
 
@@ -273,22 +279,34 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
     return setDisableSubmit(false)
   }
 
+  const isValidEmail = (email) => {
+    if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
+      return true
+    }else{
+      return false
+    }
+  }
+
   const saveQuote = async () => {
     setLoading('submit')
     setError('')
     setModal('')
-    try {
-      const responseSaveQuote = await axios.post(`${API}/transaction/create-quote`, quote)
-      setLoading('')
-      setCustomerEmail(responseSaveQuote.data.email)
-      for(let key in responseSaveQuote.data){
-        createQuote(key, responseSaveQuote.data[key])
+    if(isValidEmail(quote.email)){
+      try {
+        const responseSaveQuote = await axios.post(`${API}/transaction/create-quote`, quote)
+        setLoading('')
+        setCustomerEmail(responseSaveQuote.data.email)
+        for(let key in responseSaveQuote.data){
+          createQuote(key, responseSaveQuote.data[key])
+        }
+        setModal('email_quote')
+      } catch (error) {
+        setLoading('')
+        setModal('error')
+        if(error) error.response ? setError(error.response.data) : setError('Error occurred could not save quote')
       }
-      setModal('email_quote')
-    } catch (error) {
-      setLoading('')
-      setModal('error')
-      if(error) error.response ? setError(error.response.data) : setError('Error occurred could not save quote')
+    }else{
+      setError('Invalid email address')
     }
   }
   
@@ -320,7 +338,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
       <div className="clientDashboard-view-slab_form-heading">
         <span>New Quote</span>
         <div className="form-error-container">
-          {error && <span className="form-error"><SVGs svg={'error'}></SVGs></span>}
+          {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
         </div>
       </div>
       <div className="clientDashboard-view-slab_form">
@@ -611,7 +629,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
             <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-field">
                 <label htmlFor="name">Contact Name</label>
-                <textarea id="name" rows="1" name="name" placeholder="(Contact Name)" value={quote.name} onChange={(e) => createQuote('contact_name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Contact Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+                <textarea id="name" rows="1" name="name" placeholder="(Contact Name)" value={quote.contact_name} onChange={(e) => createQuote('contact_name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Contact Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
               </div>
             </div>
             <PlacesAutocomplete value={quote.address_one} onChange={(e) => createQuote('address_one', e)} onSelect={(e) => handleSelect(e, 'address_one', document.getElementById('address_place_id').value)} searchOptions={searchOptionsAddress}>
