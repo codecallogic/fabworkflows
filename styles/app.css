@@ -598,6 +598,19 @@ body {
       font-size: 1.8rem;
       color: #fd7e3c;
       padding: 0 1rem; }
+  .form-messageIcon {
+    display: flex;
+    align-items: center;
+    font-size: 1.4rem;
+    color: #fd7e3c;
+    width: 100%;
+    padding: 0;
+    margin: 0; }
+    .form-messageIcon svg {
+      width: 2.5rem;
+      height: 2.5rem;
+      fill: #fd7e3c;
+      margin: 0 1rem 0 1rem; }
   .form-error {
     display: flex;
     align-items: center;
@@ -1243,6 +1256,10 @@ body {
         .addFieldItems-modal-form-title span svg {
           width: 3rem;
           height: 3rem; }
+  .addFieldItems-modal-message {
+    font-size: 2rem;
+    text-align: center;
+    padding: 1rem 0 0 0; }
 
 .clientDashboard_topnav {
   display: flex;
@@ -3024,6 +3041,9 @@ body {
     padding: 1rem 0rem;
     display: flex;
     width: 100%; }
+    @media only screen and (max-width: 992px) {
+      .checkout-box {
+        flex-direction: column-reverse; } }
     .checkout-box-billing {
       width: 40%;
       padding: 1rem 2rem;
@@ -3036,6 +3056,9 @@ body {
         display: flex;
         flex-direction: column;
         padding: 1rem 2rem; }
+      @media only screen and (max-width: 992px) {
+        .checkout-box-billing {
+          width: 100%; } }
     .checkout-box-summary {
       width: 60%;
       margin-left: 2rem;
@@ -3052,3 +3075,14 @@ body {
           width: 3rem;
           height: 3rem;
           fill: #fd7e3c; }
+      @media only screen and (max-width: 992px) {
+        .checkout-box-summary {
+          width: 100%;
+          margin-left: 0;
+          margin-bottom: 2rem; } }
+
+.StripeElement {
+  margin-top: 0rem !important;
+  padding: 1rem !important;
+  background-color: white;
+  border-radius: 1.2rem !important; }

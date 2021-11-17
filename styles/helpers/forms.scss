@@ -808,6 +808,24 @@
     }
   }
 
+  &-messageIcon {
+    display: flex;
+    align-items: center;
+    font-size: 1.4rem;
+    color: $color-scheme-1;
+    width: 100%;
+    // text-align: center;
+    padding: 0;
+    margin: 0;
+
+    svg {
+      width: 2.5rem;
+      height: 2.5rem;
+      fill: $color-scheme-1;
+      margin: 0 1rem 0 1rem;
+    }
+  }
+
   &-error {
     display: flex;
     align-items: center;

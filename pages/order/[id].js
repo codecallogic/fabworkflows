@@ -5,6 +5,11 @@ import {connect} from 'react-redux'
 import PlacesAutocomplete from 'react-places-autocomplete'
 import {geocodeByPlaceId} from 'react-places-autocomplete'
 import SVGs from '../../files/svgs'
+import {useStripe, useElements, CardElement, Elements} from '@stripe/react-stripe-js';
+import CheckoutForm from '../../components/payments/checkoutForm'
+import {loadStripe} from '@stripe/stripe-js';
+
+const stripePromise = loadStripe("pk_test_51JiswpEVACWjVaO4kNqvAf9WUu1hp2s56IRBxxusJkxwMhe6ef3dxAB7TiR0g4LRM6UskPGIwQnd4ng7Q4VZrV4q00uEM1QnSO")
 
 const searchOptionsAddress = {
   componentRestrictions: {country: 'us'},
@@ -19,7 +24,7 @@ const searchOptionsCities = {
 const Checkout = ({quote, order, createOrder}) => {
   console.log(quote)
   const [show, setShow] = useState('address')
-  const [loading, setLoading] = useState('')
+  const [modal, setModal] = useState('')
 
   const handleSelect = async (e, type, id) => {
     let geo
@@ -58,6 +63,7 @@ const Checkout = ({quote, order, createOrder}) => {
   }
   
   return (
+    <>
     <div className="checkout">
       <div className="checkout-title">
         <img className="checkout-title-image" src="/media/logo_4.png" alt="" />
@@ -115,7 +121,14 @@ const Checkout = ({quote, order, createOrder}) => {
                 <textarea id="zip_code" rows="1" name="zip_code" placeholder="Zip Code" value={order.zip_code} onChange={(e) => createOrder('zip_code', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = 'Zip Code'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
               </div>
             </div>
-            <button type="submit" className="form-button w100">{loading !== 'address' && <span>Confirm Order</span>} {loading == 'address' && <div className="loading"><span></span><span></span><span></span></div>}</button>
+            <div className="form-group-single-textarea">
+              <div className="form-group-single-textarea-field">
+                <label htmlFor="zip_code">Debit or Credit Card</label>
+              </div>
+            </div>
+            <Elements stripe={stripePromise}>
+              <CheckoutForm name={order.name} address={order.address} city={order.city} state={order.state} zip_code={order.zip_code} country={order.country} email={quote.email} quote={quote} setmodal={setModal}></CheckoutForm>
+            </Elements>
           </form>
         </div>
         <div className="checkout-box-summary">
@@ -146,7 +159,7 @@ const Checkout = ({quote, order, createOrder}) => {
               <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-discount">
                 <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
                   <label>Discount</label>
-                  <span id="discount">{quote.quote_subtotal ? (validateIsPriceNumber(quote.quote_subtotal * (quote.quote_discount / 100))) : 0}</span>
+                  <span id="discount">{quote.quote_discount ? validateIsPriceNumber(quote.quote_discount) : 0}</span>
                 </div>
               </div>
               }
@@ -154,7 +167,7 @@ const Checkout = ({quote, order, createOrder}) => {
               <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-tax">
                 <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
                   <label>Tax</label>
-                  <span id="tax">{quote.quote_tax ? (validateIsPriceNumber((quote.quote_subtotal - (quote.quote_subtotal * (quote.quote_discount/100))) * (quote.quote_tax / 100))) : 0}</span>
+                  <span id="tax">{quote.quote_tax ? validateIsPriceNumber(quote.quote_tax) : 0}</span>
                 </div>
               </div>
               }
@@ -162,7 +175,7 @@ const Checkout = ({quote, order, createOrder}) => {
               <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-nontaxable-subtotal">
                 <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
                   <label>Non-Taxable Subtotal</label>
-                  <span id="nontaxable_subtotal">{validateIsPriceNumber(quote.quote_nontaxable_subtotal)}</span>
+                  <span id="nontaxable_subtotal">{quote.quote_nontaxable_subtotal ? validateIsPriceNumber(quote.quote_nontaxable_subtotal) : 0}</span>
                 </div>
               </div>
               }
@@ -170,7 +183,7 @@ const Checkout = ({quote, order, createOrder}) => {
               <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-nontaxable-discount">
                 <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
                   <label>Non-Taxable Discount</label>
-                  <span id="discount">{quote.quote_discount ? (validateIsPriceNumber(quote.quote_nontaxable_subtotal * (quote.quote_discount / 100))) : 0}</span>
+                  <span id="discount">{quote.quote_nontaxable_subtotal ? validateIsPriceNumber(quote.quote_nontaxable_subtotal): 0}</span>
                 </div>
               </div>
               }
@@ -178,7 +191,7 @@ const Checkout = ({quote, order, createOrder}) => {
               <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-total">
                 <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
                   <label>Total</label>
-                  <span id="total" data-target={quote.quote_total}>{quote.quote_count}</span>
+                  <span>{quote.quote_total ? validateIsPriceNumber(quote.quote_total) : 0}</span>
                 </div>
               </div>
               }
@@ -186,7 +199,7 @@ const Checkout = ({quote, order, createOrder}) => {
               <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-deposit">
                 <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
                   <label>Deposit</label>
-                  <span id="deposit" >{quote.quote_deposit ? quote.quote_deposit.includes('$') ? quote.quote_deposit : validateIsPriceNumber((quote.quote_total * (quote.quote_deposit.replace('%', '')/100))): 0}</span>
+                  <span id="deposit" >{quote.quote_deposit ? validateIsPriceNumber(quote.quote_deposit) : 0}</span>
                 </div>
               </div>
               }
@@ -203,6 +216,20 @@ const Checkout = ({quote, order, createOrder}) => {
         </div>
       </div>
     </div>
+    { modal == 'payment_made' &&
+    <div className="addFieldItems-modal">
+      <div className="addFieldItems-modal-box">
+        <div className="addFieldItems-modal-box-header">
+          <span className="addFieldItems-modal-form-title">Payment</span>
+          <div onClick={() => window.location.href = '/'}><SVGs svg={'close'}></SVGs></div>
+        </div>
+        <div className="addFieldItems-modal-message">
+          Payment was made, we will contact you soon
+        </div>
+      </div>
+    </div>
+    }
+    </>
   )
 }
 
