@@ -8,7 +8,8 @@ const initialState = {
   discount: false,
   // PRODUCT
   model: '',
-  brand: ''
+  brand: '',
+  typeForm: ''
 }
 
 export const quoteLineReducer = (state = initialState, action) => {

@@ -8,8 +8,10 @@ const PriceList = ({setmodal}) => {
   const [edit, setEdit] = useState('')
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
-  const [name, setName] = useState('')
-  const [tax, setTax] = useState('')
+  const [brand, setBrand] = useState('')
+  const [model, setModel] = useState('')
+  const [color, setColor] = useState('')
+  const [price, setPrice] = useState('')
   const [loading, setLoading] = useState('')
 
   const validateIsNumber = (type) => {
@@ -22,16 +24,32 @@ const PriceList = ({setmodal}) => {
   const submitAddPriceList = async (e) => {
     e.preventDefault()
     setLoading(true)
+    setMessage('')
+    setError('')
     try {
-      const responsePriceList = await axios.post(`${API}/transaction/create-price-list`, {name: name, tax: tax})
+      const responsePriceList = await axios.post(`${API}/transaction/create-price-list`, {brand: brand, model: model, color: color, price: price.replace('$', '')})
       setLoading(false)
-      setTax('')
-      setName('')
+      setError('')
+      setModel('')
+      setColor('')
+      setPrice('')
+      setBrand('')
       setMessage(responsePriceList.data)
     } catch (error) {
       console.log(error)
+      setMessage('')
       if(error) error.response ? setError(error.response.data) : setError('There was an error creating the price list')
     }
+  }
+
+  const validateIsPrice = (evt) => {
+    let newValue = Number(evt.target.value.replace(/\D/g, '')) / 100
+    let formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    })
+    
+    return formatter.format(newValue)
   }
   
   return (
@@ -44,20 +62,30 @@ const PriceList = ({setmodal}) => {
         <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddPriceList(e)}>
           <div className="form-group-single-textarea">
             <div className="form-group-single-textarea-field">
-              <label htmlFor="name_price_list">Price List Name</label>
-              <textarea id="name_price_list" rows="1" name="name_price_list" placeholder="(Price List Name)" value={name} onChange={(e) => (setError(''), setMessage(''), setName(e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Price List Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+              <label htmlFor="brand_price_list">Brand</label>
+              <textarea id="brand_price_list" rows="1" name="brand_price_list" placeholder="(Brand)" value={brand} onChange={(e) => (setError(''), setMessage(''), setBrand(e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Brand)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
             </div>
           </div>
           <div className="form-group-single-textarea">
             <div className="form-group-single-textarea-field">
-              <label htmlFor="tax">Tax %</label>
-              <textarea id="tax" rows="1" name="tax" placeholder="(Tax)" value={tax} onChange={(e) => (setError(''), setMessage(''), validateIsNumber('tax'), setTax(e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Tax)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
+              <label htmlFor="model_price_list">Model</label>
+              <textarea id="model_price_list" rows="1" name="model_price_list" placeholder="(Model)" value={model} onChange={(e) => (setError(''), setMessage(''), setModel(e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Model)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
+            </div>
+          </div>
+          <div className="form-group-single-textarea">
+            <div className="form-group-single-textarea-field">
+              <label htmlFor="color_price_list">Color</label>
+              <textarea id="color_price_list" rows="1" name="color_price_list" placeholder="(Color)" value={color} onChange={(e) => (setError(''), setMessage(''), setColor(e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Color)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
+            </div>
+          </div>
+          <div className="form-group-single-textarea">
+            <div className="form-group-single-textarea-field">
+              <label htmlFor="price">Price</label>
+              <textarea id="price" rows="1" name="price" placeholder="(0.00)" value={price} onChange={(e) => (setError(''), setMessage(''), setPrice(validateIsPrice(e)))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(0.00)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
             </div>
           </div>
           {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Price List</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
           {message && <div className="form-message">{message}</div>}
-          {error && <div className="form-error">{error}</div>}
-
           {/* {edit == 'category' && <button onClick={(e) => updateCategory(e)} className="form-button w100">{!loading && <span>Update Category</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>} */}
           {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
         </form>

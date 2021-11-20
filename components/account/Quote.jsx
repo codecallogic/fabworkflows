@@ -22,7 +22,7 @@ const searchOptionsCities = {
 }
 
 const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuoteLine, brands, models, categories, addQuoteLine, resetQuoteLine, updateQuoteLine, removeQuoteLine, products, productLine, createProduct, product_categories, resetQuote}) => {
-
+  console.log(priceList)
   const myRefs = useRef(null)
   const [error, setError] = useState('')
   const [modal, setModal] = useState('')
@@ -472,12 +472,12 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                   {quote.quote_name? quote.quote_name : ''}
                 </div>
               </div>
-              <div className="clientDashboard-view-form-left-box-container-2-item">
+              {/* <div className="clientDashboard-view-form-left-box-container-2-item">
                 <div className="clientDashboard-view-form-left-box-container-2-item-heading">Price List: </div>
                 <div className="clientDashboard-view-form-left-box-container-2-item-content">
                   {quote.price_list ? quote.price_list : ''}
                 </div>
-              </div>
+              </div> */}
               <div className="clientDashboard-view-form-left-box-container-2-item">
                 <div className="clientDashboard-view-form-left-box-container-2-item-heading">Salesperson: </div>
                 <div className="clientDashboard-view-form-left-box-container-2-item-content">
@@ -549,7 +549,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               <div className="clientDashboard-view-slab_form-quoteLine-right-box-heading">
                 <div className="clientDashboard-view-slab_form-quoteLine-right-box-heading-left">
                 <div>Quote Estimate</div>
-                <span className="clientDashboard-view-slab_form-quoteLine-right-box-heading-icon" onClick={() => (setUpdate(false), setModal('quote_line'))}><SVGs svg={'plus'}></SVGs></span>
+                <span className="clientDashboard-view-slab_form-quoteLine-right-box-heading-icon" onClick={() => (setUpdate(false), setTypeForm(''), setModal('quote_line'))}><SVGs svg={'plus'}></SVGs></span>
                 <span className="clientDashboard-view-slab_form-quoteLine-right-box-heading-icon" onClick={() => (setUpdate(false), setModal('print'))}><SVGs svg={'print'}></SVGs></span>
                 </div>
                 <div className="clientDashboard-view-slab_form-quoteLine-right-box-heading-right">
@@ -558,7 +558,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               </div>
               { quote.quote_lines.length > 0 && quote.quote_lines.map((item, idx) => 
                 <div key={idx} id={`quote_line_${idx}`}className="clientDashboard-view-slab_form-quoteLine-right-box-line">
-                  <div className="clientDashboard-view-slab_form-quoteLine-right-box-line-container" onClick={() => (setModal('quote_line'), item.brand ? setTypeForm('products') : setTypeForm('miscellaneous'), setQuoteLine(item), setEdit(idx), setUpdate(true))}>
+                  <div className="clientDashboard-view-slab_form-quoteLine-right-box-line-container" onClick={() => (setModal('quote_line'), setTypeForm(item.typeForm), setQuoteLine(item), setEdit(idx), setUpdate(true))}>
                     <SVGs svg={'adjust'}></SVGs>
                     <div className="clientDashboard-view-slab_form-quoteLine-right-box-line-quantity">{item.quantity}</div>
                     <pre className="clientDashboard-view-slab_form-quoteLine-right-box-line-description">{item.brand ? `${item.brand}/${item.model}` : item.description}</pre>
@@ -749,7 +749,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                 <textarea id="quote_name" rows="1" name="quote_name" placeholder="(Quote Name)" value={quote.quote_name} onChange={(e) => createQuote('quote_name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Quote Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
               </div>
             </div>
-            <div className="form-group-single-dropdown">
+            {/* <div className="form-group-single-dropdown">
                 <label htmlFor="">Price List</label>
                 <div className="form-group-single-dropdown-textarea">
                   <textarea id="price_list" rows="2" name="price_list" placeholder="(Select Price List)" onClick={() => setInputDropdown('price_list')} value={quote.price_list} readOnly></textarea>
@@ -765,7 +765,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                   }
                 </div>
                 }
-            </div>
+            </div> */}
             <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-field">
                 <label htmlFor="salesperson">Salesperson</label>
@@ -869,8 +869,9 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
           </div>
           <form className="addFieldItems-modal-form">
             {typeForm == '' && <div className="form-group-single-textarea">
-              <div className="form-group-single-textarea-box-container"><span className="form-group-single-textarea-box" onClick={() => setTypeForm('products')}>Product</span></div>
-              <div className="form-group-single-textarea-box-container"><span className="form-group-single-textarea-box" onClick={() => setTypeForm('miscellaneous')}>Miscellaneous Item</span></div>
+              <div className="form-group-single-textarea-box-container"><span className="form-group-single-textarea-box" onClick={() => (createQuoteLine('typeForm', 'products'), setTypeForm('products'))}>Product</span></div>
+              <div className="form-group-single-textarea-box-container"><span className="form-group-single-textarea-box" onClick={() => (createQuoteLine('typeForm', 'priceList'), setTypeForm('priceList'))}>Price List</span></div>
+              <div className="form-group-single-textarea-box-container"><span className="form-group-single-textarea-box" onClick={() => (createQuoteLine('typeForm', 'miscellaneous'), setTypeForm('miscellaneous'))}>Miscellaneous Item</span></div>
             </div>
             }
             {
@@ -926,7 +927,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               {update ? 
                 <button onClick={(e) => (e.preventDefault(), updateQuoteLine(edit, quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100">{!loading && <span>Update</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
                 : 
-                <button onClick={(e) => (e.preventDefault(), addQuoteLine(quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100">{!loading && <span>Save</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
+                <button onClick={(e) => (e.preventDefault(), createQuoteLine('typeForm', 'misc'), addQuoteLine(quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100">{!loading && <span>Save</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
               }
               {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
               </>
@@ -979,6 +980,72 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                   }
                 </div>
                 }
+              </div>
+              <div className="form-group-single-textarea">
+                <div className="form-group-single-textarea-field">
+                  <label htmlFor="misc_price">Unit Price</label>
+                  <textarea id="misc_price" rows="1" name="misc_price" placeholder="(0.00)" value={quoteLine.price} onChange={(e) => (createQuoteLine('price', validateIsPrice(e)), createQuoteLine('price_unformatted', validateIsNumberToCents(e)))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(0.00)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
+                </div>
+              </div>
+              {/* <div className="form-group-single-textarea">
+                <div className="form-group-single-textarea-checkbox">
+                  <input type="checkbox" name="taxable" id="taxable" hidden={true} checked={quoteLine.taxable ? true : false} readOnly/>
+                  <label htmlFor="taxable" onClick={() => document.getElementById('taxable').checked ? createQuoteLine('taxable', false) : createQuoteLine('taxable', true)}></label>
+                  <span>Taxable</span>
+                </div>
+                <div className="form-group-single-textarea-checkbox">
+                  <input type="checkbox" name="discount" id="discount" hidden={true} checked={quoteLine.discount ? true : false} readOnly/>
+                  <label htmlFor="discount" onClick={() => document.getElementById('discount').checked ? createQuoteLine('discount', false) : createQuoteLine('discount', true)}></label>
+                  <span>Allow discount</span>
+                </div>
+              </div> */}
+              {update ? 
+                <button onClick={(e) => (e.preventDefault(), updateQuoteLine(edit, quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100">{!loading && <span>Update</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
+                : 
+                <button onClick={(e) => (e.preventDefault(), addQuoteLine(quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100"><span>Save</span></button>
+              }
+              {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+              </>
+            }
+            {
+              typeForm == 'priceList' && 
+              <>
+              <div className="form-group-single-dropdown">
+                <label htmlFor="brand">Brand</label>
+                <div className="form-group-single-dropdown-textarea">
+                  <textarea id="brand" rows="2" name="brand" placeholder="(Select Brand)" onClick={() => setInputDropdown('products')} value={quoteLine.brand} readOnly></textarea>
+                  <SVGs svg={'dropdown-arrow'}></SVGs>
+                </div>
+                {input_dropdown == 'products' && 
+                <div className="form-group-single-dropdown-list" ref={myRefs}>
+                  {allPriceLists && allPriceLists.map((item, idx) => 
+                    <div key={idx} className="clientDashboard-view-form-left-box-container-2-item-content-list-item" onClick={() => (createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.color), setInputDropdown(''))}>
+                    {item.brand} / {item.color} / {item.model}
+                    </div>
+                  )   
+                  }
+                </div>
+                }
+              </div>
+              <div className="form-group-single-textarea">
+                <div className="form-group-single-textarea-field">
+                  <label htmlFor="product_quantity">Quantity</label>
+                  <textarea id="product_quantity" rows="1" name="product_quantity" placeholder="(Quantity)" value={quoteLine.quantity} onChange={(e) => (validateIsNumber('product_quantity'), createQuoteLine('quantity', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Quantity)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+                </div>
+              </div>
+              <div className="form-group-single-dropdown">
+                <label htmlFor="color">Color</label>
+                <div className="form-group-single-dropdown-textarea">
+                  <textarea id="color" rows="2" name="color" placeholder="(Color)" onChange={(e) => createQuoteLine('category', e.target.value)} value={quoteLine.category} readOnly></textarea>
+                  <SVGs svg={'dropdown-arrow'}></SVGs>
+                </div>
+              </div>
+              <div className="form-group-single-dropdown">
+                <label htmlFor="model">Model</label>
+                <div className="form-group-single-dropdown-textarea">
+                  <textarea id="model" rows="2" name="model" placeholder="(Model)" onChange={(e) => createQuoteLine('model', e.target.value)} value={quoteLine.model} readOnly></textarea>
+                  <SVGs svg={'dropdown-arrow'}></SVGs>
+                </div>
               </div>
               <div className="form-group-single-textarea">
                 <div className="form-group-single-textarea-field">
