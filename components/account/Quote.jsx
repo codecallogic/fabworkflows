@@ -22,7 +22,7 @@ const searchOptionsCities = {
 }
 
 const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuoteLine, brands, models, categories, addQuoteLine, resetQuoteLine, updateQuoteLine, removeQuoteLine, products, productLine, createProduct, product_categories, resetQuote}) => {
-  console.log(priceList)
+  // console.log(priceList)
   const myRefs = useRef(null)
   const [error, setError] = useState('')
   const [modal, setModal] = useState('')

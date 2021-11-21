@@ -51,6 +51,8 @@ const SideNav = ({nav, width, toggleSideNav, newView, redirect}) => {
           <div className="clientDashboard_sidenav-menu-item-dropdown">
             <div className={`clientDashboard_sidenav-menu-item-dropdown-fill` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}></div>
             <div onClick={() => (window.location.href = `/account?change=transaction-new`, width < 992 ? toggleSideNav('toggle_nav_button') : null)} className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}><SVGs svg={'circle-thin'} classprop={`clientDashboard_sidenav-menu-item-arrow` + (!nav.sidenav ? ' hide-sidenav-items' : '')  + (toggle ? ' hide-sidenav-dropdown' : '')}></SVGs>New</div>
+            <div onClick={() => (window.location.href = `/quotes`, width < 992 ? toggleSideNav('toggle_nav_button') : null)} className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}><SVGs svg={'circle-thin'} classprop={`clientDashboard_sidenav-menu-item-arrow` + (!nav.sidenav ? ' hide-sidenav-items' : '')  + (toggle ? ' hide-sidenav-dropdown' : '')}></SVGs>Quotes</div>
+            
           </div>
       </div>
     </div>

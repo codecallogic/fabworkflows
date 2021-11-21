@@ -2157,6 +2157,21 @@ body {
             @media only screen and (max-width: 1500px) {
               .clientDashboard-view-slab_list-slabs-item img {
                 width: 10rem; } }
+          .clientDashboard-view-slab_list-slabs-item-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center; }
+            .clientDashboard-view-slab_list-slabs-item-buttons button {
+              width: 100%;
+              padding: 1rem 2rem;
+              background-color: #fd7e3c;
+              color: white;
+              outline: none;
+              border: 0.1rem solid white;
+              font-size: 1.2rem;
+              border-radius: 1.2rem; }
+              .clientDashboard-view-slab_list-slabs-item-buttons button:hover {
+                cursor: pointer; }
     .clientDashboard-view-form-left {
       width: calc(50% - 1rem);
       margin-right: 2rem; }
