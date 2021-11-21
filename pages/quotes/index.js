@@ -1,3 +1,4 @@
+import {BlobProvider, PDFViewer, PDFDownloadLink} from '@react-pdf/renderer'
 import TopNav from '../../components/client/dashboardTopNav'
 import SideNav from '../../components/client/dashboardSideNav'
 import React, { useState, useEffect, useRef} from 'react'
@@ -5,17 +6,24 @@ import {connect} from 'react-redux'
 import SVGs from '../../files/svgs'
 import axios from 'axios'
 import {API} from '../../config'
-import {BlobProvider, PDFViewer, PDFDownloadLink} from '@react-pdf/renderer'
 import QuotePDF from '../../components/pdf/quote'
+import Agreement from '../../components/pdf/agreement'
 
 const Quotes = ({hideSideNav, showSideNav, list}) => {
-  console.log(list)
+  // console.log(list)
   const myRefs = useRef([])
   const [width, setWidth] = useState()
   const [allQuotes, setAllQuotes] = useState(list ? list: [])
   const [filterProduct, setFilterProduct] = useState('')
   const [ascProduct, setAscProduct] = useState(-1)
   const [descProduct, setDescProduct] = useState(1)
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [controls, setControls] = useState(false)
+  const [idControls, setIDControls] = useState('')
+
+  useEffect(() => {
+    setIsLoaded(true)
+  }, [])
   
   const handleClickOutside = (event) => {
     if(myRefs.current){
@@ -59,6 +67,37 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
   const renderQuote = (url) => { 
     if(url) window.open(url, '_blank')
   }
+
+  const renderAgreement = (url) => {
+    if(url) window.open(url, '_blank')
+  }
+
+  const handleControls = (e, id) => {
+    const els = document.querySelectorAll('.clientDashboard-view-slab_list-slabs-checkbox-input')
+
+    els.forEach( (el) => {
+      el.checked = false
+    })
+
+    e.target.checked = true
+
+    setControls(true)
+    return setIDControls(id)
+  }
+
+  const handleDelete = async (e) => {
+    // let deleteImages = list.filter((item) => {
+    //   if(item._id == idControls) return item
+    // })
+    // setLoading(true)
+    // setError('')
+    // try {
+    //   const responseDelete = await axios.post(`${API}/inventory/delete-product`, {id: idControls, images: deleteImages[0].images})
+    //   window.location.href = '/products'
+    // } catch (error) {
+    //   if(error) error.response ? setError(error.response.data) : setError('Error deleting from inventory')
+    // }
+  }
   
   return (
     <>
@@ -69,6 +108,12 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
           <div className="clientDashboard-view-slab_list-container">
             <div className="clientDashboard-view-slab_list-heading">
               <div className="clientDashboard-view-slab_list-heading-title">Quote List</div>
+              {controls &&
+              <div className="clientDashboard-view-slab_list-heading-controls">
+                <div id="edit-product" className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControls ? window.location.href = `quotes/${idControls}` : null}>Edit</div>
+                <div id="delete-product" className="clientDashboard-view-slab_list-heading-controls-item delete" onClick={() => handleDelete()}>Delete</div>
+              </div>
+              }
             </div>
             <div className="clientDashboard-view-slab_list-headers">
               <div className="clientDashboard-view-slab_list-headers-checkbox"></div>
@@ -91,20 +136,27 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
             {allQuotes.length > 0 && allQuotes.sort((a, b) => a[filterProduct] > b[filterProduct] ? ascProduct : descProduct).map((item, idx) => (
               <div key={idx} className="clientDashboard-view-slab_list-slabs">
                   <div className="clientDashboard-view-slab_list-slabs-checkbox" ref={(el) => (myRefs.current[idx] = el)}>
-                    <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`slab ` + `${idx}`} onClick={(e) => e.target.checked == true ? (handleControls(e, item._id), window.scrollTo({top: 0})) : (setControls(false), setIDControls(''))} />
-                    <label htmlFor={`slab ` + `${idx}`}><span>&nbsp;</span></label>
+                    <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`quote ` + `${idx}`} onClick={(e) => e.target.checked == true ? (handleControls(e, item._id), window.scrollTo({top: 0})) : (setControls(false), setIDControls(''))} />
+                    <label htmlFor={`quote ` + `${idx}`}><span>&nbsp;</span></label>
                   </div>
-                  <div className="clientDashboard-view-slab_list-slabs-item-container">
+                  <div className="clientDashboard-view-slab_list-slabs-item-container" onClick={() => window.location.href = `/quotes/${item._id}`}>
                     <div className="clientDashboard-view-slab_list-slabs-item">
                       <div className="clientDashboard-view-slab_list-slabs-item-buttons">
-                        <button>
-                        <BlobProvider document={<QuotePDF date={item.quote_date} lines={item.quote_lines} order={item.quote_number} contact_name={item.contact_name} address={item.address_one} city={item.city} state={item.state} zip_code={item.zip_code} phone={item.phone} subtotal={item.quote_subtotal} tax={item.quote_tax} total={item.quote_total} POnumber={item.po_number} salesperson={item.salesperson}/>}>
-                        {({ blob, url, loading, error }) =>
-                          <span onClick={() => renderQuote(url)}>View Quote</span>
-                        }
-                        </BlobProvider>
+                        <button onClick={(e) => e.stopPropagation()}>
+                          {isLoaded && <BlobProvider document={<QuotePDF date={item.quote_date} lines={item.quote_lines} order={item.quote_number} contact_name={item.contact_name} address={item.address_one} city={item.city} state={item.state} zip_code={item.zip_code} phone={item.phone} subtotal={item.quote_subtotal} tax={item.quote_tax} total={item.quote_total} POnumber={item.po_number} salesperson={item.salesperson}/>}>
+                          {({ blob, url, loading, error }) =>
+                            <span onClick={() => renderQuote(url)}>View Quote</span>
+                          }
+                          </BlobProvider>}
                         </button>
-                        <button>View Agreement</button>
+                        <button onClick={(e) => e.stopPropagation()}>
+                          {isLoaded && <BlobProvider document={<Agreement date={item.quote_date} quote_name={item.quote_name} account_name={item.contact_name}/>}>
+                          {({ blob, url, loading, error }) => {
+                            return <span onClick={() => renderAgreement(url)}>View Agreement</span>
+                            } 
+                          }
+                          </BlobProvider>}
+                        </button>
                       </div>
                     </div>
                     <div className="clientDashboard-view-slab_list-slabs-item">{item.quote_date}</div>
@@ -128,6 +180,19 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
   )
 }
 
+const mapStateToProps = state => {
+  return {
+    quote: state.quote
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    hideSideNav: () => dispatch({type: 'HIDE_SIDENAV'}),
+    showSideNav: () => dispatch({type: 'SHOW_SIDENAV'}),
+  }
+}
+
 Quotes.getInitialProps = async () => {
   let data
   let error
@@ -140,19 +205,6 @@ Quotes.getInitialProps = async () => {
 
   return {
     list: data ? data : null
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    quote: state.quote
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    hideSideNav: () => dispatch({type: 'HIDE_SIDENAV'}),
-    showSideNav: () => dispatch({type: 'SHOW_SIDENAV'}),
   }
 }
 
