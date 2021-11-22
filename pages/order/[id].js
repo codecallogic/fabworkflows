@@ -64,6 +64,7 @@ const Checkout = ({quote, order, createOrder}) => {
   
   return (
     <>
+    {quote ?
     <div className="checkout">
       <div className="checkout-title">
         <img className="checkout-title-image" src="/media/logo_4.png" alt="" />
@@ -216,6 +217,11 @@ const Checkout = ({quote, order, createOrder}) => {
         </div>
       </div>
     </div>
+    : 
+    <div className="home">
+      <a className="logout" onClick={() => window.location.href = '/'}>This order no longer exists please request a new one. Click here!</a>
+    </div>
+    }
     { modal == 'payment_made' &&
     <div className="addFieldItems-modal">
       <div className="addFieldItems-modal-box">
@@ -256,7 +262,7 @@ Checkout.getInitialProps = async ({query}) => {
   }
 
   return {
-    quote: quote
+    quote: quote ? quote : null
   }
 }
 
