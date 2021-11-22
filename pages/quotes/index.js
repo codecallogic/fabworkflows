@@ -139,7 +139,7 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
                     <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`quote ` + `${idx}`} onClick={(e) => e.target.checked == true ? (handleControls(e, item._id), window.scrollTo({top: 0})) : (setControls(false), setIDControls(''))} />
                     <label htmlFor={`quote ` + `${idx}`}><span>&nbsp;</span></label>
                   </div>
-                  <div className="clientDashboard-view-slab_list-slabs-item-container" onClick={() => window.location.href = `/quotes/${item._id}`}>
+                  <div className="clientDashboard-view-slab_list-slabs-item-container" onClick={() => window.open(`/quotes/${item._id}`, '_blank')}>
                     <div className="clientDashboard-view-slab_list-slabs-item">
                       <div className="clientDashboard-view-slab_list-slabs-item-buttons">
                         <button onClick={(e) => e.stopPropagation()}>

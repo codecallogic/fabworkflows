@@ -1,3 +1,5 @@
+import TopNav from '../../components/client/dashboardTopNav'
+import SideNav from '../../components/client/dashboardSideNav'
 import {useState, useEffect, useRef} from 'react'
 import { connect } from 'react-redux'
 import SVGs from '../../files/svgs'
@@ -21,9 +23,8 @@ const searchOptionsCities = {
   types: ['(cities)']
 }
 
-const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuoteLine, brands, models, categories, addQuoteLine, resetQuoteLine, updateQuoteLine, removeQuoteLine, products, productLine, createProduct, product_categories, resetQuote}) => {
-  // console.log(priceList)
-  console.log(quote)
+const Quote = ({quoteData, quote, createQuote, priceList, addressList, quoteLine, createQuoteLine, brands, models, categories, addQuoteLine, resetQuoteLine, updateQuoteLine, removeQuoteLine, products, productLine, createProduct, product_categories, resetQuote}) => {
+  // console.log(quoteData)
   const myRefs = useRef(null)
   const [error, setError] = useState('')
   const [modal, setModal] = useState('')
@@ -44,6 +45,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
   const [disableSubmit, setDisableSubmit] = useState(true)
   const [customerEmail, setCustomerEmail] = useState('')
   const [discount_total, setDiscountTotal] = useState(0)
+  const [width, setWidth] = useState()
 
   const handleClickOutside = (event) => {
     if(myRefs.current){
@@ -52,6 +54,27 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
       }
     }
   }
+
+  useEffect(() => {
+    for(let key in quoteData){
+      createQuote(key, quoteData[key])
+    }
+  }, [])
+
+  useEffect(() => {
+    if(window.innerWidth < 992) hideSideNav()
+    
+    function handleResize() {
+      if(width){
+        if(width < 992){hideSideNav()}
+        if(width > 992){showSideNav()}
+      }
+      setWidth(window.innerWidth);
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+
+  }, [width])
   
   useEffect(() => {
     
@@ -351,8 +374,12 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
   }
 
   return (
-    <div className="clientDashboard-view-slab_form-container">
-      <div className="clientDashboard">
+    <>
+    <TopNav></TopNav>
+    <div className="clientDashboard">
+      <SideNav width={width}></SideNav>
+      <div className="clientDashboard-view-slab_form-container">
+        <div className="clientDashboard">
       {/* <PDFViewer width={'100%'} height={1000} showToolbar={true}>
         <Agreement date={quote.quote_date} quote_name={quote.quote_name} account_name={quote.contact_name}/>
       </PDFViewer> */}
@@ -928,7 +955,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               {update ? 
                 <button onClick={(e) => (e.preventDefault(), updateQuoteLine(edit, quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100">{!loading && <span>Update</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
                 : 
-                <button onClick={(e) => (e.preventDefault(), addQuoteLine(quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100">{!loading && <span>Save</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
+                <button onClick={(e) => (e.preventDefault(), createQuoteLine('typeForm', 'misc'), addQuoteLine(quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100">{!loading && <span>Save</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
               }
               {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
               </>
@@ -1161,7 +1188,9 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
         </div>
       </div>
       }
+      </div>
     </div>
+    </>
   )
 }
 
@@ -1183,6 +1212,23 @@ const mapDispatchToProps = dispatch => {
     updateQuoteLine: (index, object) => dispatch({type: 'UPDATE_QUOTE_LINE', index: index, quoteline:  object}),
     createProduct: (name, value) => dispatch({type:'CREATE_PRODUCT', name: name,value: value}),
     removeQuoteLine: (index) => dispatch({type: 'DELETE_QUOTE_LINE', index: index})
+  }
+}
+
+Quote.getInitialProps = async ({query}) => {
+  // console.log(query)
+  let quote
+  try {
+    const responseQuote = await axios.post(`${API}/transaction/get-quote`, {id: query.id})
+    // console.log(responseQuote.data)
+    quote = responseQuote.data
+  } catch (error) {
+    // console.log(error)
+    if(error) console.log(error)
+  }
+
+  return {
+    quoteData: quote
   }
 }
 

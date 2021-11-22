@@ -22,7 +22,7 @@ const searchOptionsCities = {
 }
 
 const Checkout = ({quote, order, createOrder}) => {
-  console.log(quote)
+  // console.log(quote)
   const [show, setShow] = useState('address')
   const [modal, setModal] = useState('')
 
