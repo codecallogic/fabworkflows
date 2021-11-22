@@ -167,7 +167,7 @@ const Checkout = ({quote, order, createOrder}) => {
               <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-tax">
                 <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
                   <label>Tax</label>
-                  <span id="tax">{quote.quote_tax ? `$${quote.quote_tax/10}` : 0}</span>
+                  <span id="tax">{quote.quote_tax ? `${quote.quote_tax}%` : 0}</span>
                 </div>
               </div>
               }

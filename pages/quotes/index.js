@@ -14,6 +14,8 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
   // console.log(list)
   const myRefs = useRef([])
   const [width, setWidth] = useState()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
   const [allQuotes, setAllQuotes] = useState(list ? list: [])
   const [filterProduct, setFilterProduct] = useState('')
   const [ascProduct, setAscProduct] = useState(-1)
@@ -87,17 +89,15 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
   }
 
   const handleDelete = async (e) => {
-    // let deleteImages = list.filter((item) => {
-    //   if(item._id == idControls) return item
-    // })
-    // setLoading(true)
-    // setError('')
-    // try {
-    //   const responseDelete = await axios.post(`${API}/inventory/delete-product`, {id: idControls, images: deleteImages[0].images})
-    //   window.location.href = '/products'
-    // } catch (error) {
-    //   if(error) error.response ? setError(error.response.data) : setError('Error deleting from inventory')
-    // }
+    setLoading(true)
+    setError('')
+    try {
+      const responseDelete = await axios.post(`${API}/transaction/delete-quote`, {id: idControls})
+      window.location.href = '/quotes'
+    } catch (error) {
+      setLoading(false)
+      if(error) error.response ? setError(error.response.data) : setError('Error deleting quote from list')
+    }
   }
   
   return (
@@ -115,6 +115,10 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
                 <div id="delete-product" className="clientDashboard-view-slab_list-heading-controls-item delete" onClick={() => handleDelete()}>Delete</div>
               </div>
               }
+              {loading && <div className="loading"><span></span><span></span><span></span></div>}
+              <div className="form-error-container">
+                {error && <span className="form-error form-error-list"><SVGs svg={'error'}></SVGs><span>{error}</span></span>}
+              </div>
             </div>
             <div className="clientDashboard-view-slab_list-headers">
               <div className="clientDashboard-view-slab_list-headers-checkbox"></div>
