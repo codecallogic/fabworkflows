@@ -2853,7 +2853,16 @@ body {
           display: flex;
           align-items: center; }
           .clientDashboard-view-slab_form-quoteLine-right-box-heading-right button {
-            margin: 0; }
+            margin: 0;
+            margin-left: 1rem; }
+            @media only screen and (max-width: 768px) {
+              .clientDashboard-view-slab_form-quoteLine-right-box-heading-right button span {
+                font-size: 1.2rem; } }
+            .clientDashboard-view-slab_form-quoteLine-right-box-heading-right button span svg {
+              width: 1.5rem;
+              height: 1.5rem;
+              margin-right: 1rem;
+              fill: white; }
             .clientDashboard-view-slab_form-quoteLine-right-box-heading-right button:disabled {
               cursor: not-allowed;
               background-color: #dbdbdb; }
@@ -2867,10 +2876,17 @@ body {
           color: white;
           padding: 0.5rem;
           border-radius: 1.2rem; }
+          @media only screen and (max-width: 768px) {
+            .clientDashboard-view-slab_form-quoteLine-right-box-heading-icon {
+              margin-left: 1rem; } }
           .clientDashboard-view-slab_form-quoteLine-right-box-heading-icon svg {
             width: 3rem;
             height: 3rem;
             fill: white; }
+            @media only screen and (max-width: 768px) {
+              .clientDashboard-view-slab_form-quoteLine-right-box-heading-icon svg {
+                width: 2rem;
+                height: 2rem; } }
             .clientDashboard-view-slab_form-quoteLine-right-box-heading-icon svg:hover {
               cursor: pointer; }
         .clientDashboard-view-slab_form-quoteLine-right-box-heading-send {
@@ -2932,6 +2948,10 @@ body {
           margin: 0.5rem 0 0 0;
           border-top: 0.1rem solid #fd7e3c;
           font-weight: 500; }
+
+.flex-span > span {
+  display: flex;
+  align-items: center; }
 
 .home {
   display: flex;
