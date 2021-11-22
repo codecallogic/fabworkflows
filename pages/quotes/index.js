@@ -8,6 +8,7 @@ import axios from 'axios'
 import {API} from '../../config'
 import QuotePDF from '../../components/pdf/quote'
 import Agreement from '../../components/pdf/agreement'
+import withUser from '../withUser'
 
 const Quotes = ({hideSideNav, showSideNav, list}) => {
   // console.log(list)
@@ -208,4 +209,4 @@ Quotes.getInitialProps = async () => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Quotes)
+export default connect(mapStateToProps, mapDispatchToProps)(withUser(Quotes))

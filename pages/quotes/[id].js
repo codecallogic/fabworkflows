@@ -12,6 +12,7 @@ import 'react-calendar/dist/Calendar.css';
 import QuotePDF from '../../components/pdf/quote'
 import Agreement from '../../components/pdf/agreement'
 import {PDFViewer, PDFDownloadLink, BlobProvider} from '@react-pdf/renderer'
+import withUser from '../withUser'
 
 const searchOptionsAddress = {
   componentRestrictions: {country: 'us'},
@@ -362,10 +363,11 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
     e.preventDefault()
     setLoading('send_quote')
     setError('')
+    setMessage('')
     try {
       const responseQuote = await axios.post(`${API}/transaction/send-quote`, {quote: quote, customer: customerEmail})
       setLoading('')
-      setError('Email was sent')
+      setMessage('Email was sent')
     } catch (error) {
       setLoading('')
       if(error) error.response ? setError(error.response.data) : setError('Error occurred could not send quote')
@@ -1235,4 +1237,4 @@ Quote.getInitialProps = async ({query}) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Quote)
+export default connect(mapStateToProps, mapDispatchToProps)(withUser(Quote))
