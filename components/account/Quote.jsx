@@ -23,7 +23,7 @@ const searchOptionsCities = {
 
 const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuoteLine, brands, models, categories, addQuoteLine, resetQuoteLine, updateQuoteLine, removeQuoteLine, products, productLine, createProduct, product_categories, resetQuote}) => {
   // console.log(priceList)
-  console.log(quote)
+  // console.log(quote)
   const myRefs = useRef(null)
   const [error, setError] = useState('')
   const [modal, setModal] = useState('')
@@ -99,8 +99,18 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
 
   const validateIsNumber = (type) => {
     const input = document.getElementById(type)
-    const regex = /[^0-9|\n\r]/g
+    const regex = /^(\d+(\d{0,2})?|\.?\d{1,2})$/
     input.value = input.value.split(regex).join('')
+  }
+
+  const validateIsPhoneNumber = (type, property) => {
+    const input = document.getElementById(type)
+    const cleanNum = input.value.toString().replace(/\D/g, '');
+    const match = cleanNum.match(/^(\d{3})(\d{0,3})(\d{0,4})$/);
+    if (match) {
+      return  createQuote(property, '(' + match[1] + ') ' + (match[2] ? match[2] + "-" : "") + match[3]);
+    }
+    return null;
   }
 
   const validateIsEmail = (type) => {
@@ -650,6 +660,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
             <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'Address'}</span>
             <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
           </div>
+          <div className="addFieldItems-modal-form-container">
           <form className="addFieldItems-modal-form" onSubmit={(e) => (e.preventDefault(), setModal(''))}>
             <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-field">
@@ -702,13 +713,13 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
             <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-field">
                 <label htmlFor="phone">Phone</label>
-                <textarea id="phone_number" rows="1" name="phone" placeholder="(Phone Number)" value={quote.phone} onChange={(e) => (validateIsNumber('phone_number'), createQuote('phone', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Phone Number)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null}></textarea>
+                <textarea id="phone_number" rows="1" name="phone" placeholder="(Phone Number)" value={quote.phone} onChange={(e) => (e.target.value.length < 15 ? (validateIsNumber('phone_number'), createQuote('phone', e.target.value), validateIsPhoneNumber('phone_number', 'phone')) : null)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Phone Number)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null}></textarea>
               </div>
             </div>
             <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-field">
                 <label htmlFor="cell">Cell Number</label>
-                <textarea id="cell_number" rows="1" name="cell" placeholder="(Cell Number)" value={quote.cell} onChange={(e) => (validateIsNumber('cell_number'), createQuote('cell', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Cell Number)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} ></textarea>
+                <textarea id="cell_number" rows="1" name="cell" placeholder="(Cell Number)" value={quote.cell} onChange={(e) => ((e.target.value.length < 15 ? (validateIsNumber('cell_number'), createQuote('cell', e.target.value), validateIsPhoneNumber('cell_number', 'cell')) : null))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Cell Number)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} ></textarea>
               </div>
             </div>
             <div className="form-group-single-textarea">
@@ -729,10 +740,11 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                 <textarea id="notes" rows="4" name="notes" placeholder="(Notes)" value={quote.address_notes} onChange={(e) => (createQuote('address_notes', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Notes)'} ></textarea>
               </div>
             </div>
-            {!edit && <button type="submit" className="form-button w100">{loading !== 'address' && <span>Done</span>} {loading == 'address' && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-            {edit == 'color' && <button onClick={(e) => updateColor(e)} className="form-button w100">{loading == 'address' && <span>Update Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-            {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
           </form>
+          </div>
+          {!edit && <button type="submit" className="form-button w100">{loading !== 'address' && <span>Done</span>} {loading == 'address' && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+          {edit == 'color' && <button onClick={(e) => updateColor(e)} className="form-button w100">{loading == 'address' && <span>Update Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+          {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
         </div>
       </div>
       }

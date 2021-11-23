@@ -22,8 +22,8 @@ const initialState = {
   quote_notes: '',
   // REVISION
   quote_date: '',
-  quote_discount: 0,
-  quote_tax: 0,
+  quote_discount: '',
+  quote_tax: '',
   quote_deposit: '',
   // QUOTE LINES
   quote_lines: [],
