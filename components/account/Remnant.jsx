@@ -20,6 +20,39 @@ const Remnant = ({preloadMaterials, preloadColors, addRemnant, remnant, addRemna
   const [allColors, setAllColors] = useState(preloadColors ? preloadColors : [])
   const [color, setColor] = useState('')
 
+  const onPointerDown = () => {}
+  const onPointerUp = () => {}
+  const onPointerMove = () => {}
+  const [isDragging, setIsDragging] = useState(false)
+
+  const [translate, setTranslate] = useState({
+    x: 0,
+    y: 0
+  });
+
+  const handlePointerDown = (e) => {
+    setIsDragging(true)
+    onPointerDown(e)
+  }
+
+  const handlePointerUp = (e) => {
+    setIsDragging(false)
+    onPointerUp(e)
+  }
+
+  const handlePointerMove = (e) => {
+    if (isDragging) handleDragMove(e);
+
+    onPointerMove(e);
+  };
+
+  const handleDragMove = (e) => {
+    setTranslate({
+      x: translate.x + e.movementX,
+      y: translate.y + e.movementY
+    });
+  };
+
   const handleClickOutside = (event) => {
     if(myRefs.current){
       if(!myRefs.current.contains(event.target)){
@@ -430,8 +463,8 @@ const Remnant = ({preloadMaterials, preloadColors, addRemnant, remnant, addRemna
       </div>
     </div>
     { modal == 'add_material' &&
-      <div className="addFieldItems-modal">
-      <div className="addFieldItems-modal-box">
+      <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
+      <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
         <div className="addFieldItems-modal-box-header">
           <span className="addFieldItems-modal-form-title">{edit ? 'Edit Material' : 'New Material'}</span>
           <div onClick={() => (setModal(''), resetMaterial(), setError(''))}><SVGs svg={'close'}></SVGs></div>
@@ -457,8 +490,8 @@ const Remnant = ({preloadMaterials, preloadColors, addRemnant, remnant, addRemna
       </div>
     }
     { modal == 'add_color' &&
-        <div className="addFieldItems-modal">
-        <div className="addFieldItems-modal-box">
+        <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
+        <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
           <div className="addFieldItems-modal-box-header">
             <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'New Color'}</span>
             <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>

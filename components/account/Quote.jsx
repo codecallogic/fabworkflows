@@ -45,6 +45,39 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
   const [customerEmail, setCustomerEmail] = useState('')
   const [discount_total, setDiscountTotal] = useState(0)
 
+  const onPointerDown = () => {}
+  const onPointerUp = () => {}
+  const onPointerMove = () => {}
+  const [isDragging, setIsDragging] = useState(false)
+
+  const [translate, setTranslate] = useState({
+    x: 0,
+    y: 0
+  });
+
+  const handlePointerDown = (e) => {
+    setIsDragging(true)
+    onPointerDown(e)
+  }
+
+  const handlePointerUp = (e) => {
+    setIsDragging(false)
+    onPointerUp(e)
+  }
+
+  const handlePointerMove = (e) => {
+    if (isDragging) handleDragMove(e);
+
+    onPointerMove(e);
+  };
+
+  const handleDragMove = (e) => {
+    setTranslate({
+      x: translate.x + e.movementX,
+      y: translate.y + e.movementY
+    });
+  };
+
   const handleClickOutside = (event) => {
     if(myRefs.current){
       if(!myRefs.current.contains(event.target)){
@@ -654,8 +687,8 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
 
 
       { modal == 'add_address' &&
-        <div className="addFieldItems-modal">
-        <div className="addFieldItems-modal-box">
+        <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
+        <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
           <div className="addFieldItems-modal-box-header">
             <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'Address'}</span>
             <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
@@ -749,12 +782,13 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
       </div>
       }
       { modal == 'quote_detail' &&
-        <div className="addFieldItems-modal">
-        <div className="addFieldItems-modal-box">
+        <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
+        <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
           <div className="addFieldItems-modal-box-header">
             <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'Quote Detail'}</span>
             <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
           </div>
+          <div className="addFieldItems-modal-form-container">
           <form className="addFieldItems-modal-form" onSubmit={(e) => (e.preventDefault(), setModal(''))}>
             <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-field">
@@ -809,20 +843,22 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                 <textarea id="quote_notes" rows="4" name="quote_notes" placeholder="(Notes)" value={quote.quote_notes} onChange={(e) => (createQuote('quote_notes', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Notes)'} ></textarea>
               </div>
             </div>
-            {!edit && <button type="submit" className="form-button w100">{!loading && <span>Done</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-            {edit == 'color' && <button onClick={(e) => updateColor(e)} className="form-button w100">{!loading && <span>Update Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-            {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
           </form>
+          </div>
+          {!edit && <button type="submit" className="form-button w100">{!loading && <span>Done</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+          {edit == 'color' && <button onClick={(e) => updateColor(e)} className="form-button w100">{!loading && <span>Update Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+          {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
         </div>
       </div>
       }
       { modal == 'revision' &&
-      <div className="addFieldItems-modal">
-        <div className="addFieldItems-modal-box">
+      <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
+        <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
           <div className="addFieldItems-modal-box-header">
             <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'Revision'}</span>
             <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
           </div>
+          <div className="addFieldItems-modal-form-container">
           <form className="addFieldItems-modal-form" onSubmit={(e) => (e.preventDefault(), setModal(''))}>
             <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-dropdown">
@@ -862,15 +898,16 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                 </div>
               </div>
             </div>
-            {!edit && <button type="submit" className="form-button w100">{!loading && <span>Done</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-            {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
           </form>
+          </div>
+          {!edit && <button type="submit" className="form-button w100">{!loading && <span>Done</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+          {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
         </div>
       </div>
       }
       { modal == 'quote_line' &&
-      <div className="addFieldItems-modal">
-        <div className="addFieldItems-modal-box">
+      <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
+        <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
           <div className="addFieldItems-modal-box-header">
             <span className="addFieldItems-modal-form-title"><div>{edit ? 'Edit Color' : 'Add Quote Line'}</div> {update ? <span onClick={() => (removeQuoteLine(edit), setModal(''), setError(''), setEdit(''), resetQuoteLine())}><SVGs svg={'thrash-can'}></SVGs></span> : null}</span>
             {typeForm == '' && 
@@ -880,6 +917,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               <div onClick={() => (setTypeForm(''), resetQuoteLine())}><SVGs svg={'arrow-left-large'}></SVGs></div>
             }
           </div>
+          <div className="addFieldItems-modal-form-container">
           <form className="addFieldItems-modal-form">
             {typeForm == '' && <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-box-container"><span className="form-group-single-textarea-box" onClick={() => (createQuoteLine('typeForm', 'products'), setTypeForm('products'))}>Product</span></div>
@@ -937,12 +975,12 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                   <span>Allow discount</span>
                 </div>
               </div>
-              {update ? 
+              {/* {update ? 
                 <button onClick={(e) => (e.preventDefault(), updateQuoteLine(edit, quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100">{!loading && <span>Update</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
                 : 
                 <button onClick={(e) => (e.preventDefault(), addQuoteLine(quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100">{!loading && <span>Save</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
               }
-              {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+              {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>} */}
               </>
             }
             {
@@ -1012,12 +1050,12 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                   <span>Allow discount</span>
                 </div>
               </div> */}
-              {update ? 
+              {/* {update ? 
                 <button onClick={(e) => (e.preventDefault(), updateQuoteLine(edit, quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100">{!loading && <span>Update</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
                 : 
                 <button onClick={(e) => (e.preventDefault(), addQuoteLine(quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100"><span>Save</span></button>
               }
-              {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+              {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>} */}
               </>
             }
             {
@@ -1078,21 +1116,30 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                   <span>Allow discount</span>
                 </div>
               </div> */}
-              {update ? 
+              {/* {update ? 
                 <button onClick={(e) => (e.preventDefault(), updateQuoteLine(edit, quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100">{!loading && <span>Update</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
                 : 
                 <button onClick={(e) => (e.preventDefault(), addQuoteLine(quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100"><span>Save</span></button>
               }
-              {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+              {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>} */}
               </>
             }
           </form>
+          </div>
+          {typeForm !== '' ? update ? 
+          <button onClick={(e) => (e.preventDefault(), updateQuoteLine(edit, quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100">{!loading && <span>Update</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
+          : 
+          <button onClick={(e) => (e.preventDefault(), addQuoteLine(quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100"><span>Save</span></button>
+          : 
+          null
+          }
+          {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
         </div>
       </div>
       }
       { modal == 'print' &&
-      <div className="addFieldItems-modal">
-        <div className="addFieldItems-modal-box">
+      <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null} >
+        <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
           <div className="addFieldItems-modal-box-header">
             <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'Printing Options'}</span>
             {typeForm == '' && 
@@ -1137,8 +1184,8 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
       </div>
       }
       { modal == 'email_quote' &&
-      <div className="addFieldItems-modal">
-        <div className="addFieldItems-modal-box">
+      <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
+        <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
           <div className="addFieldItems-modal-box-header">
             <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'Send Quote to Client'}</span>
             {typeForm == '' && 
@@ -1159,8 +1206,8 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
       </div>
       }
       { modal == 'error' &&
-      <div className="addFieldItems-modal">
-        <div className="addFieldItems-modal-box">
+      <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
+        <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
           <div className="addFieldItems-modal-box-header">
             <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'Error'}</span>
             {typeForm == '' && 

@@ -29,6 +29,39 @@ const Product = ({id, hideSideNav, showSideNav, product, createProduct, addProdu
   const [allModels, setAllModels] = useState(models)
   const [model, setModel] = useState('')
 
+  const onPointerDown = () => {}
+  const onPointerUp = () => {}
+  const onPointerMove = () => {}
+  const [isDragging, setIsDragging] = useState(false)
+
+  const [translate, setTranslate] = useState({
+    x: 0,
+    y: 0
+  });
+
+  const handlePointerDown = (e) => {
+    setIsDragging(true)
+    onPointerDown(e)
+  }
+
+  const handlePointerUp = (e) => {
+    setIsDragging(false)
+    onPointerUp(e)
+  }
+
+  const handlePointerMove = (e) => {
+    if (isDragging) handleDragMove(e);
+
+    onPointerMove(e);
+  };
+
+  const handleDragMove = (e) => {
+    setTranslate({
+      x: translate.x + e.movementX,
+      y: translate.y + e.movementY
+    });
+  };
+
   const handleClickOutside = (event) => {
     if(myRefs.current){
       if(!myRefs.current.contains(event.target)){
@@ -507,8 +540,8 @@ const Product = ({id, hideSideNav, showSideNav, product, createProduct, addProdu
                 </div>
               </form>
               { modal == 'add_brand' &&
-                <div className="addFieldItems-modal">
-                <div className="addFieldItems-modal-box">
+                <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
+                <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
                   <div className="addFieldItems-modal-box-header">
                     <span className="addFieldItems-modal-form-title">{edit ? 'Edit Brand' : 'New Brand'}</span>
                     <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
@@ -528,8 +561,8 @@ const Product = ({id, hideSideNav, showSideNav, product, createProduct, addProdu
               </div>
               }
               { modal == 'add_model' &&
-                <div className="addFieldItems-modal">
-                <div className="addFieldItems-modal-box">
+                <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
+                <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
                   <div className="addFieldItems-modal-box-header">
                     <span className="addFieldItems-modal-form-title">{edit ? 'Edit Model' : 'New Model'}</span>
                     <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
@@ -549,8 +582,8 @@ const Product = ({id, hideSideNav, showSideNav, product, createProduct, addProdu
               </div>
               }
               { modal == 'add_category' &&
-                <div className="addFieldItems-modal">
-                <div className="addFieldItems-modal-box">
+                <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
+                <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
                   <div className="addFieldItems-modal-box-header">
                     <span className="addFieldItems-modal-form-title">{edit ? 'Edit Category' : 'New Category'}</span>
                     <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
@@ -570,8 +603,8 @@ const Product = ({id, hideSideNav, showSideNav, product, createProduct, addProdu
               </div>
               }
               { modal == 'add_location' &&
-              <div className="addFieldItems-modal">
-              <div className="addFieldItems-modal-box">
+              <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
+              <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
                 <div className="addFieldItems-modal-box-header">
                   <span className="addFieldItems-modal-form-title">{edit ? 'Edit Location' : 'New Location'}</span>
                   <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>

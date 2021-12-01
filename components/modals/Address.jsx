@@ -17,12 +17,44 @@ const searchOptionsCities = {
 }
 
 const Address = ({setmodal, quote, createQuote, resetQuote}) => {
-
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [edit, setEdit] = useState('')
   const [loading, setLoading] = useState(false)
   const [show, setShow] = useState('address')
+
+  const onPointerDown = () => {}
+  const onPointerUp = () => {}
+  const onPointerMove = () => {}
+  const [isDragging, setIsDragging] = useState(false)
+
+  const [translate, setTranslate] = useState({
+    x: 0,
+    y: 0
+  });
+
+  const handlePointerDown = (e) => {
+    setIsDragging(true)
+    onPointerDown(e)
+  }
+
+  const handlePointerUp = (e) => {
+    setIsDragging(false)
+    onPointerUp(e)
+  }
+
+  const handlePointerMove = (e) => {
+    if (isDragging) handleDragMove(e);
+
+    onPointerMove(e);
+  };
+
+  const handleDragMove = (e) => {
+    setTranslate({
+      x: translate.x + e.movementX,
+      y: translate.y + e.movementY
+    });
+  };
 
   const handleSelect = async (e, type, id) => {
     let geo
@@ -91,9 +123,9 @@ const Address = ({setmodal, quote, createQuote, resetQuote}) => {
   }
   
   return (
-    <div className="addFieldItems-modal">
-      <div className="addFieldItems-modal-box">
-        <div className="addFieldItems-modal-box-header">
+    <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
+      <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
+        <div className="addFieldItems-modal-box-header" >
           <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'Address'}</span>
           <div onClick={() => (setmodal(''), setError(''), setMessage(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
         </div>

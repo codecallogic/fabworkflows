@@ -1237,10 +1237,9 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 1rem 2rem;
-    height: 100%; }
+    padding: 1rem 2rem; }
     .addFieldItems-modal-form-container {
-      max-height: 70rem;
+      max-height: 60vh;
       overflow-y: scroll; }
       .addFieldItems-modal-form-container::-webkit-scrollbar {
         width: 0.3rem;
@@ -2228,10 +2227,14 @@ body {
             .clientDashboard-view-form-left-box-container-item-info {
               display: flex;
               width: calc(100% - 10rem);
+              max-height: 10rem;
               overflow-x: auto; }
+              .clientDashboard-view-form-left-box-container-item-info span {
+                min-width: 10rem;
+                max-width: 13rem; }
               .clientDashboard-view-form-left-box-container-item-info::-webkit-scrollbar {
                 width: 0.1rem;
-                height: 0.3rem; }
+                height: 0.2rem; }
               .clientDashboard-view-form-left-box-container-item-info::-webkit-scrollbar-thumb {
                 background-color: #fd7e3c; }
               .clientDashboard-view-form-left-box-container-item-info-headers {
@@ -2251,7 +2254,7 @@ body {
                   font-weight: 700;
                   font-size: 1.4rem;
                   padding: 0.5rem 1.5rem;
-                  min-width: 13rem;
+                  min-width: 10rem;
                   max-width: 13rem; }
                   .clientDashboard-view-form-left-box-container-item-info-headers span svg {
                     margin-left: 1rem;
