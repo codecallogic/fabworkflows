@@ -952,6 +952,8 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               <span className="addFieldItems-modal-form-container-searchList-categories-item">Price List</span>
             </div>
             <div className="addFieldItems-modal-form-container-searchList-container">
+              {enableProductSearch &&
+              <>
               <div className="addFieldItems-modal-form-container-searchList-header">
                 Products
               </div>
@@ -973,6 +975,8 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                 ) 
                 }
               </div>
+              </>
+              }
               <div className="addFieldItems-modal-form-container-searchList-header">
                 Price List
               </div>
