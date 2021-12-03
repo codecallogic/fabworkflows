@@ -44,6 +44,14 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
   const [disableSubmit, setDisableSubmit] = useState(true)
   const [customerEmail, setCustomerEmail] = useState('')
   const [discount_total, setDiscountTotal] = useState(0)
+  const [search, setSearch] = useState('')
+  const [searchItems, setSearchItems] = useState(false)
+  const [enableProductSearch, setEnableProductSearch] = useState(true)
+  const [enablePriceListSearch, setEnablePriceListSearch] = useState(true)
+
+  useEffect(() => {
+    if(search.length == 0) setSearchItems(false)
+  }, [search])
 
   const onPointerDown = () => {}
   const onPointerUp = () => {}
@@ -391,6 +399,18 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
       setLoading('')
       if(error) error.response ? setError(error.response.data) : setError('Error occurred could not send quote')
     }
+  }
+
+  const filterProductsSearch = (item) => {
+    if(item.brand.toLowerCase().includes(search.toLowerCase())) return true
+    if(item.category.toLowerCase().includes(search.toLowerCase())) return true
+    if(item.model.toLowerCase().includes(search.toLowerCase())) return true
+  }
+
+  const filterPriceListSearch = (item) => {
+    if(item.brand.toLowerCase().includes(search.toLowerCase())) return true
+    if(item.color.toLowerCase().includes(search.toLowerCase())) return true
+    if(item.model.toLowerCase().includes(search.toLowerCase())) return true
   }
 
   return (
@@ -909,7 +929,15 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
       <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
         <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
           <div className="addFieldItems-modal-box-header">
-            <span className="addFieldItems-modal-form-title"><div>{edit ? 'Edit Color' : 'Add Quote Line'}</div> {update ? <span onClick={() => (removeQuoteLine(edit), setModal(''), setError(''), setEdit(''), resetQuoteLine())}><SVGs svg={'thrash-can'}></SVGs></span> : null}</span>
+            <span className="addFieldItems-modal-form-title"><div>{edit ? 'Edit Color' : 'Add Quote Line'}</div> {update ? <span onClick={() => (removeQuoteLine(edit), setModal(''), setError(''), setEdit(''), resetQuoteLine())}><SVGs svg={'thrash-can'}></SVGs></span> : null}
+
+            <div className={`form-group-search-small`}>
+              <form autoComplete="off">
+                <input type="text" name="search" placeholder="Search" value={search} onChange={(e) => (setSearchItems(true), setSearch(e.target.value))} onFocus={(e) => (setSearchItems(true), e.target.placeholder = '', setError(''))} onBlur={(e) => (e.target.placeholder = 'Search', setError(''))} onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null}  required></input>
+              </form>
+            </div>
+            
+            </span>
             {typeForm == '' && 
               <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
             }
@@ -918,6 +946,55 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
             }
           </div>
           <div className="addFieldItems-modal-form-container">
+          {searchItems && <div className="addFieldItems-modal-form-container-searchList">
+            <div className="addFieldItems-modal-form-container-searchList-categories">
+              <span className="addFieldItems-modal-form-container-searchList-categories-item">Products</span>
+              <span className="addFieldItems-modal-form-container-searchList-categories-item">Price List</span>
+            </div>
+            <div className="addFieldItems-modal-form-container-searchList-container">
+              <div className="addFieldItems-modal-form-container-searchList-header">
+                Products
+              </div>
+              <div className="addFieldItems-modal-form-container-searchList-list">
+                { allProducts && allProducts.map((item, idx) => 
+                  search.length > 0 ? 
+                  filterProductsSearch(item) ? 
+                    <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item">
+                    {item.brand} / {item.category} / {item.model}
+                    </div>
+                  : 
+                    null
+
+                  :
+                  <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item">
+                    {item.brand} / {item.category} / {item.model}
+                  </div>
+
+                ) 
+                }
+              </div>
+              <div className="addFieldItems-modal-form-container-searchList-header">
+                Price List
+              </div>
+              <div className="addFieldItems-modal-form-container-searchList-list">
+                { allPriceLists && allPriceLists.map((item, idx) => 
+                  search.length > 0 ? 
+                  filterPriceListSearch(item) ? 
+                  <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item">
+                    {item.brand} / {item.color} / {item.model}
+                  </div>
+                  :
+                    null
+                  :
+                  <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item">
+                    {item.brand} / {item.color} / {item.model}
+                  </div>
+                ) 
+                }
+              </div>
+            </div>
+          </div>
+          }
           <form className="addFieldItems-modal-form">
             {typeForm == '' && <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-box-container"><span className="form-group-single-textarea-box" onClick={() => (createQuoteLine('typeForm', 'products'), setTypeForm('products'))}>Product</span></div>

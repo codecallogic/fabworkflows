@@ -53,6 +53,45 @@
     }
   }
 
+  &-group-search-small {
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+    border-radius: 1.2rem;
+    outline: none;
+    border: none;
+    width: auto;
+
+    form {
+      width: 23rem;
+
+      @media only screen and (max-width: $medium) {
+        width: 23rem;
+        flex-grow: 1;
+      }
+    }
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      text-indent: 1rem;
+      padding: 1rem;
+      resize: none;
+      outline: none;
+      border: none;
+      border-radius: 2rem;
+      font-family: inherit;
+    }
+
+    &-hideOnMobile {
+      @media only screen and (max-width: $small) {
+        width: 100%;
+        flex-grow: 1;
+        display: none;
+      }
+    }
+  }
+
   &-group-single {
     padding: 1.5rem 0 0 0;
     grid-column: 1/-1;
