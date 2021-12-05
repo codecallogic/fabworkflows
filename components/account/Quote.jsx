@@ -45,6 +45,8 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
   const [disableSubmit, setDisableSubmit] = useState(true)
   const [customerEmail, setCustomerEmail] = useState('')
   const [discount_total, setDiscountTotal] = useState(0)
+
+  //////////// QUOTE LINE SEARCH ////////////
   const [search, setSearch] = useState('')
   const [searchItems, setSearchItems] = useState(false)
   const [filterSearch, setFilterSearch] = useState('')
@@ -198,7 +200,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
   }
 
   const validateIsNumberToCentsCheck2 = (evt) => {
-    console.log(evt)
+    // console.log(evt)
     let newValue = Number(evt.replace(/\D/g, '')) / 100
     return newValue
   }

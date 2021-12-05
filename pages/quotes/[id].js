@@ -49,6 +49,48 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
   const [discount_total, setDiscountTotal] = useState(0)
   const [width, setWidth] = useState()
 
+  //////////// QUOTE LINE SEARCH ////////////
+  const [search, setSearch] = useState('')
+  const [searchItems, setSearchItems] = useState(false)
+  const [filterSearch, setFilterSearch] = useState('')
+
+  useEffect(() => {
+    if(search.length == 0) setSearchItems(false)
+  }, [search])
+
+  const onPointerDown = () => {}
+  const onPointerUp = () => {}
+  const onPointerMove = () => {}
+  const [isDragging, setIsDragging] = useState(false)
+
+  const [translate, setTranslate] = useState({
+    x: 0,
+    y: 0
+  });
+
+  const handlePointerDown = (e) => {
+    setIsDragging(true)
+    onPointerDown(e)
+  }
+
+  const handlePointerUp = (e) => {
+    setIsDragging(false)
+    onPointerUp(e)
+  }
+
+  const handlePointerMove = (e) => {
+    if (isDragging) handleDragMove(e);
+
+    onPointerMove(e);
+  };
+
+  const handleDragMove = (e) => {
+    setTranslate({
+      x: translate.x + e.movementX,
+      y: translate.y + e.movementY
+    });
+  };
+
   const handleClickOutside = (event) => {
     if(myRefs.current){
       if(!myRefs.current.contains(event.target)){
@@ -170,6 +212,13 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
     let newValue = Number(evt.target.value.replace(/\D/g, '')) / 100
     return newValue
   }
+
+  const validateIsNumberToCentsCheck2 = (evt) => {
+    // console.log(evt)
+    let newValue = Number(evt.replace(/\D/g, '')) / 100
+    return newValue
+  }
+
 
   const validateIsPriceNumber = (amount) => {
     let newValue = amount
@@ -673,12 +722,13 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
 
 
       { modal == 'add_address' &&
-        <div className="addFieldItems-modal">
-        <div className="addFieldItems-modal-box">
+        <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
+        <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
           <div className="addFieldItems-modal-box-header">
             <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'Address'}</span>
             <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
           </div>
+          <div className="addFieldItems-modal-form-container">
           <form className="addFieldItems-modal-form" onSubmit={(e) => (e.preventDefault(), setModal(''))}>
             <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-field">
@@ -758,20 +808,22 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
                 <textarea id="notes" rows="4" name="notes" placeholder="(Notes)" value={quote.address_notes} onChange={(e) => (createQuote('address_notes', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Notes)'} ></textarea>
               </div>
             </div>
-            {!edit && <button type="submit" className="form-button w100">{loading !== 'address' && <span>Done</span>} {loading == 'address' && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-            {edit == 'color' && <button onClick={(e) => updateColor(e)} className="form-button w100">{loading == 'address' && <span>Update Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-            {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
           </form>
+          </div>
+          {!edit && <button type="submit" className="form-button w100">{loading !== 'address' && <span>Done</span>} {loading == 'address' && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+          {edit == 'color' && <button onClick={(e) => updateColor(e)} className="form-button w100">{loading == 'address' && <span>Update Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+          {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
         </div>
       </div>
       }
       { modal == 'quote_detail' &&
-        <div className="addFieldItems-modal">
-        <div className="addFieldItems-modal-box">
+        <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
+        <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
           <div className="addFieldItems-modal-box-header">
             <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'Quote Detail'}</span>
             <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
           </div>
+          <div className="addFieldItems-modal-form-container">
           <form className="addFieldItems-modal-form" onSubmit={(e) => (e.preventDefault(), setModal(''))}>
             <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-field">
@@ -826,16 +878,17 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
                 <textarea id="quote_notes" rows="4" name="quote_notes" placeholder="(Notes)" value={quote.quote_notes} onChange={(e) => (createQuote('quote_notes', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Notes)'} ></textarea>
               </div>
             </div>
-            {!edit && <button type="submit" className="form-button w100">{!loading && <span>Done</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-            {edit == 'color' && <button onClick={(e) => updateColor(e)} className="form-button w100">{!loading && <span>Update Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-            {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
           </form>
+          </div>
+          {!edit && <button type="submit" className="form-button w100">{!loading && <span>Done</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+          {edit == 'color' && <button onClick={(e) => updateColor(e)} className="form-button w100">{!loading && <span>Update Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+          {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
         </div>
       </div>
       }
       { modal == 'revision' &&
-      <div className="addFieldItems-modal">
-        <div className="addFieldItems-modal-box">
+      <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
+        <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
           <div className="addFieldItems-modal-box-header">
             <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'Revision'}</span>
             <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
@@ -886,10 +939,19 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
       </div>
       }
       { modal == 'quote_line' &&
-      <div className="addFieldItems-modal">
-        <div className="addFieldItems-modal-box">
-          <div className="addFieldItems-modal-box-header">
-            <span className="addFieldItems-modal-form-title"><div>{edit ? 'Edit Color' : 'Add Quote Line'}</div> {update ? <span onClick={() => (removeQuoteLine(edit), setModal(''), setError(''), setEdit(''), resetQuoteLine())}><SVGs svg={'thrash-can'}></SVGs></span> : null}</span>
+      <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
+        <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
+          <div className="addFieldItems-modal-box-header" >
+            <span className="addFieldItems-modal-form-title"><div>{edit ? 'Edit Color' : 'Add Quote Line'}</div> {update ? <span onClick={() => (removeQuoteLine(edit), setModal(''), setError(''), setEdit(''), resetQuoteLine())}><SVGs svg={'thrash-can'}></SVGs></span> : null}
+            
+            <div className={`form-group-search-small`}>
+              <form autoComplete="off">
+                <input type="text" name="search" placeholder="Search" value={search} onChange={(e) => (setSearchItems(true), setSearch(e.target.value))} onFocus={(e) => (setSearchItems(true), e.target.placeholder = '', setError(''))} onBlur={(e) => (e.target.placeholder = 'Search', setError(''))} onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null}  required></input>
+              </form>
+            </div>
+            
+            </span>
+
             {typeForm == '' && 
               <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
             }
@@ -897,6 +959,66 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
               <div onClick={() => (setTypeForm(''), resetQuoteLine())}><SVGs svg={'arrow-left-large'}></SVGs></div>
             }
           </div>
+          <div className="addFieldItems-modal-form-container">
+          {searchItems && <div className="addFieldItems-modal-form-container-searchList">
+            <div className="addFieldItems-modal-form-container-searchList-categories-container">
+              <div className="addFieldItems-modal-form-container-searchList-categories">
+                <span className={`addFieldItems-modal-form-container-searchList-categories-item ` + (filterSearch == 'products' ? 'categoryClicked' : '')} onClick={() => filterSearch == 'products' ? setFilterSearch('') : setFilterSearch('products')}>Products</span>
+                <span className={`addFieldItems-modal-form-container-searchList-categories-item ` + (filterSearch == 'priceLists' ? ' categoryClicked' : '')} onClick={() => filterSearch == 'priceLists' ? setFilterSearch('') : setFilterSearch('priceLists')}>Price List</span>
+              </div>
+              <span onClick={() => setSearchItems(false)}><SVGs svg={'close'}></SVGs></span>
+            </div>
+            <div className="addFieldItems-modal-form-container-searchList-container">
+              {filterSearch !== 'priceLists' &&
+              <>
+              <div className="addFieldItems-modal-form-container-searchList-header">
+                Products
+              </div>
+              <div className="addFieldItems-modal-form-container-searchList-list">
+                { allProducts && allProducts.map((item, idx) => 
+                  search.length > 0 ? 
+                  filterProductsSearch(item) ? 
+                    <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item" onClick={() => (setSearchItems(false),createQuoteLine('typeForm', 'products'), setTypeForm('products'), createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.category), createQuoteLine('description', item.description), createQuoteLine('price', item.price), createQuoteLine('price_unformatted', validateIsNumberToCentsCheck2(item.price)), setInputDropdown(''))}>
+                    {item.brand} / {item.category} / {item.model}
+                    </div>
+                  : 
+                    null
+                  :
+                  <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item" onClick={() => (setSearchItems(false),createQuoteLine('typeForm', 'products'), setTypeForm('products'), createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.category), createQuoteLine('description', item.description), createQuoteLine('price', item.price), createQuoteLine('price_unformatted', validateIsNumberToCentsCheck2(item.price)),setInputDropdown(''))}>
+                    {item.brand} / {item.category} / {item.model}
+                  </div>
+
+                ) 
+                }
+              </div>
+              </>
+              }
+              { filterSearch !== 'products' &&
+                <>
+                <div className="addFieldItems-modal-form-container-searchList-header">
+                  Price List
+                </div>
+                <div className="addFieldItems-modal-form-container-searchList-list">
+                  { allPriceLists && allPriceLists.map((item, idx) => 
+                    search.length > 0 ? 
+                    filterPriceListSearch(item) ? 
+                    <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item" onClick={() => (setSearchItems(false),createQuoteLine('typeForm', 'priceList'), setTypeForm('priceList'), createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.color), createQuoteLine('price', `$${item.price}`), createQuoteLine('price_unformatted', validateIsNumberToCentsCheck2(validateIsPriceNumber(item.price))))}>
+                      {item.brand} / {item.color} / {item.model}
+                    </div>
+                    :
+                      null
+                    :
+                    <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item" onClick={() => (setSearchItems(false), createQuoteLine('typeForm', 'priceList'), setTypeForm('priceList'),createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.color), createQuoteLine('price', `$${item.price}`), createQuoteLine('price_unformatted', validateIsNumberToCentsCheck2(validateIsPriceNumber(item.price))))}>
+                      {item.brand} / {item.color} / {item.model}
+                    </div>
+                  ) 
+                  }
+                </div>
+                </>
+              }
+            </div>
+          </div>
+          }
           <form className="addFieldItems-modal-form">
             {typeForm == '' && <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-box-container"><span className="form-group-single-textarea-box" onClick={() => (createQuoteLine('typeForm', 'products'), setTypeForm('products'))}>Product</span></div>
@@ -954,12 +1076,12 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
                   <span>Allow discount</span>
                 </div>
               </div>
-              {update ? 
+              {/* {update ? 
                 <button onClick={(e) => (e.preventDefault(), updateQuoteLine(edit, quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100">{!loading && <span>Update</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
                 : 
                 <button onClick={(e) => (e.preventDefault(), addQuoteLine(quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100">{!loading && <span>Save</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
               }
-              {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+              {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>} */}
               </>
             }
             {
@@ -1029,12 +1151,12 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
                   <span>Allow discount</span>
                 </div>
               </div> */}
-              {update ? 
+              {/* {update ? 
                 <button onClick={(e) => (e.preventDefault(), updateQuoteLine(edit, quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100">{!loading && <span>Update</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
                 : 
                 <button onClick={(e) => (e.preventDefault(), addQuoteLine(quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100"><span>Save</span></button>
               }
-              {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+              {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>} */}
               </>
             }
             {
@@ -1095,21 +1217,30 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
                   <span>Allow discount</span>
                 </div>
               </div> */}
-              {update ? 
+              {/* {update ? 
                 <button onClick={(e) => (e.preventDefault(), updateQuoteLine(edit, quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100">{!loading && <span>Update</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
                 : 
                 <button onClick={(e) => (e.preventDefault(), addQuoteLine(quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100"><span>Save</span></button>
               }
-              {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+              {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>} */}
               </>
             }
           </form>
+          </div>
+          {typeForm !== '' ? update ? 
+            <button onClick={(e) => (e.preventDefault(), updateQuoteLine(edit, quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100">{!loading && <span>Update</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
+            : 
+            <button onClick={(e) => (e.preventDefault(), addQuoteLine(quoteLine), setModal(''), setTypeForm(''), resetQuoteLine())} className="form-button w100"><span>Save</span></button>
+            : 
+            null
+          }
+          {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
         </div>
       </div>
       }
       { modal == 'print' &&
-      <div className="addFieldItems-modal">
-        <div className="addFieldItems-modal-box">
+      <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
+        <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
           <div className="addFieldItems-modal-box-header">
             <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'Printing Options'}</span>
             {typeForm == '' && 
@@ -1154,8 +1285,8 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
       </div>
       }
       { modal == 'email_quote' &&
-      <div className="addFieldItems-modal">
-        <div className="addFieldItems-modal-box">
+      <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
+        <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
           <div className="addFieldItems-modal-box-header">
             <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'Send Quote to Client'}</span>
             {typeForm == '' && 
@@ -1177,8 +1308,8 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
       </div>
       }
       { modal == 'error' &&
-      <div className="addFieldItems-modal">
-        <div className="addFieldItems-modal-box">
+      <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
+        <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
           <div className="addFieldItems-modal-box-header">
             <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'Error'}</span>
             {typeForm == '' && 
