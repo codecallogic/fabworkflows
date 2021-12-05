@@ -960,6 +960,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               <div className="addFieldItems-modal-form-container-searchList-header">
                 Products
               </div>
+              {/* ///  */}
               <div className="addFieldItems-modal-form-container-searchList-list">
                 { allProducts && allProducts.map((item, idx) => 
                   search.length > 0 ? 
