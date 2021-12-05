@@ -165,12 +165,36 @@
         &-categories {
           display: flex;
 
+          &-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            svg {
+              width: 2rem;
+              height: 2rem;
+              fill: black;
+
+              &:hover {
+                cursor: pointer;
+                fill: $color-scheme-1;
+              }
+            }
+          }
+
           &-item {
             padding: 0.5rem 2rem;
             border-radius: 1.2rem;
             background-color: $color-light-shade-scheme-1;
             font-weight: 700;
             margin-right: 0.5rem;
+
+            &:hover {
+              background-color: $color-scheme-1;
+              color: white;
+              cursor: pointer;
+              font-weight: 700;
+            }
           }
         }
 
@@ -226,4 +250,10 @@
     text-align: center;
     padding: 1rem 0 0 0;
   }
+}
+
+.categoryClicked {
+  background-color: $color-scheme-1;
+  color: white;
+  font-weight: 700;
 }

@@ -24,6 +24,7 @@ const searchOptionsCities = {
 const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuoteLine, brands, models, categories, addQuoteLine, resetQuoteLine, updateQuoteLine, removeQuoteLine, products, productLine, createProduct, product_categories, resetQuote}) => {
   // console.log(priceList)
   // console.log(quote)
+  console.log(products)
   const myRefs = useRef(null)
   const [error, setError] = useState('')
   const [modal, setModal] = useState('')
@@ -46,8 +47,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
   const [discount_total, setDiscountTotal] = useState(0)
   const [search, setSearch] = useState('')
   const [searchItems, setSearchItems] = useState(false)
-  const [enableProductSearch, setEnableProductSearch] = useState(true)
-  const [enablePriceListSearch, setEnablePriceListSearch] = useState(true)
+  const [filterSearch, setFilterSearch] = useState('')
 
   useEffect(() => {
     if(search.length == 0) setSearchItems(false)
@@ -947,12 +947,15 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
           </div>
           <div className="addFieldItems-modal-form-container">
           {searchItems && <div className="addFieldItems-modal-form-container-searchList">
-            <div className="addFieldItems-modal-form-container-searchList-categories">
-              <span className="addFieldItems-modal-form-container-searchList-categories-item">Products</span>
-              <span className="addFieldItems-modal-form-container-searchList-categories-item">Price List</span>
+            <div className="addFieldItems-modal-form-container-searchList-categories-container">
+              <div className="addFieldItems-modal-form-container-searchList-categories">
+                <span className={`addFieldItems-modal-form-container-searchList-categories-item ` + (filterSearch == 'products' ? 'categoryClicked' : '')} onClick={() => filterSearch == 'products' ? setFilterSearch('') : setFilterSearch('products')}>Products</span>
+                <span className={`addFieldItems-modal-form-container-searchList-categories-item ` + (filterSearch == 'priceLists' ? ' categoryClicked' : '')} onClick={() => filterSearch == 'priceLists' ? setFilterSearch('') : setFilterSearch('priceLists')}>Price List</span>
+              </div>
+              <span onClick={() => setSearchItems(false)}><SVGs svg={'close'}></SVGs></span>
             </div>
             <div className="addFieldItems-modal-form-container-searchList-container">
-              {enableProductSearch &&
+              {filterSearch !== 'priceLists' &&
               <>
               <div className="addFieldItems-modal-form-container-searchList-header">
                 Products
@@ -961,14 +964,13 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                 { allProducts && allProducts.map((item, idx) => 
                   search.length > 0 ? 
                   filterProductsSearch(item) ? 
-                    <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item">
+                    <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item" onClick={() => (setSearchItems(false),createQuoteLine('typeForm', 'products'), setTypeForm('products'), createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.category), createQuoteLine('description', item.description), createQuoteLine('price', item.price),setInputDropdown(''))}>
                     {item.brand} / {item.category} / {item.model}
                     </div>
                   : 
                     null
-
                   :
-                  <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item">
+                  <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item" onClick={() => (setSearchItems(false),createQuoteLine('typeForm', 'products'), setTypeForm('products'), createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.category), createQuoteLine('description', item.description), createQuoteLine('price', item.price),setInputDropdown(''))}>
                     {item.brand} / {item.category} / {item.model}
                   </div>
 
@@ -977,25 +979,29 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               </div>
               </>
               }
-              <div className="addFieldItems-modal-form-container-searchList-header">
-                Price List
-              </div>
-              <div className="addFieldItems-modal-form-container-searchList-list">
-                { allPriceLists && allPriceLists.map((item, idx) => 
-                  search.length > 0 ? 
-                  filterPriceListSearch(item) ? 
-                  <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item">
-                    {item.brand} / {item.color} / {item.model}
-                  </div>
-                  :
-                    null
-                  :
-                  <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item">
-                    {item.brand} / {item.color} / {item.model}
-                  </div>
-                ) 
-                }
-              </div>
+              { filterSearch !== 'products' &&
+                <>
+                <div className="addFieldItems-modal-form-container-searchList-header">
+                  Price List
+                </div>
+                <div className="addFieldItems-modal-form-container-searchList-list">
+                  { allPriceLists && allPriceLists.map((item, idx) => 
+                    search.length > 0 ? 
+                    filterPriceListSearch(item) ? 
+                    <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item" onClick={() => (setSearchItems(false),createQuoteLine('typeForm', 'priceList'), setTypeForm('priceList'), createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.color), createQuoteLine('price', `$${item.price}`))}>
+                      {item.brand} / {item.color} / {item.model}
+                    </div>
+                    :
+                      null
+                    :
+                    <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item" onClick={() => (setSearchItems(false), createQuoteLine('typeForm', 'priceList'), setTypeForm('priceList'),createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.color), createQuoteLine('price', `$${item.price}`))}>
+                      {item.brand} / {item.color} / {item.model}
+                    </div>
+                  ) 
+                  }
+                </div>
+                </>
+              }
             </div>
           </div>
           }
@@ -1063,7 +1069,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               }
               {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>} */}
               </>
-            }
+            } 
             {
               typeForm == 'products' && 
               <>
@@ -1076,7 +1082,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                 {input_dropdown == 'products' && 
                 <div className="form-group-single-dropdown-list" ref={myRefs}>
                   {allProducts && allProducts.map((item, idx) => 
-                    <div key={idx} className="clientDashboard-view-form-left-box-container-2-item-content-list-item" onClick={() => (createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.category), createQuoteLine('description', item.description), setInputDropdown(''))}>
+                    <div key={idx} className="clientDashboard-view-form-left-box-container-2-item-content-list-item" onClick={() => (createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.category), createQuoteLine('description', item.description), createQuoteLine('price', item.price),setInputDropdown(''))}>
                     {item.brand} / {item.category} / {item.model}
                     </div>
                   )   
@@ -1151,7 +1157,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                 {input_dropdown == 'products' && 
                 <div className="form-group-single-dropdown-list" ref={myRefs}>
                   {allPriceLists && allPriceLists.map((item, idx) => 
-                    <div key={idx} className="clientDashboard-view-form-left-box-container-2-item-content-list-item" onClick={() => (createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.color), setInputDropdown(''))}>
+                    <div key={idx} className="clientDashboard-view-form-left-box-container-2-item-content-list-item" onClick={() => (createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.color), createQuoteLine('price', `$${item.price}`),setInputDropdown(''))}>
                     {item.brand} / {item.color} / {item.model}
                     </div>
                   )   
