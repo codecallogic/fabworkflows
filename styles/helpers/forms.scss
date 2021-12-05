@@ -63,10 +63,10 @@
     width: auto;
 
     form {
-      width: 23rem;
+      width: 19rem;
 
       @media only screen and (max-width: $medium) {
-        width: 23rem;
+        width: 19rem;
         flex-grow: 1;
       }
     }

@@ -77,10 +77,10 @@ body {
     border: none;
     width: auto; }
     .form-group-search-small form {
-      width: 23rem; }
+      width: 19rem; }
       @media only screen and (max-width: 768px) {
         .form-group-search-small form {
-          width: 23rem;
+          width: 19rem;
           flex-grow: 1; } }
     .form-group-search-small input {
       width: 100%;
@@ -1249,7 +1249,7 @@ body {
       justify-content: space-between;
       align-items: center;
       font-size: 2.2rem;
-      padding: 1rem 3rem;
+      padding: 1rem 2rem;
       background-color: #666;
       color: white;
       border-top-right-radius: 1.2rem;

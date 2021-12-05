@@ -22,7 +22,7 @@ const searchOptionsCities = {
 }
 
 const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuoteLine, brands, models, categories, addQuoteLine, resetQuoteLine, updateQuoteLine, removeQuoteLine, products, productLine, createProduct, product_categories, resetQuote}) => {
-  // console.log(priceList)
+  console.log(priceList)
   // console.log(quote)
   console.log(products)
   const myRefs = useRef(null)
@@ -194,6 +194,12 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
 
   const validateIsNumberToCents = (evt) => {
     let newValue = Number(evt.target.value.replace(/\D/g, '')) / 100
+    return newValue
+  }
+
+  const validateIsNumberToCentsCheck2 = (evt) => {
+    console.log(evt)
+    let newValue = Number(evt.replace(/\D/g, '')) / 100
     return newValue
   }
 
@@ -942,7 +948,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
             }
             {typeForm !== '' && 
-              <div onClick={() => (setTypeForm(''), resetQuoteLine())}><SVGs svg={'arrow-left-large'}></SVGs></div>
+              <div onClick={() => (setTypeForm(''), resetQuoteLine(), setUpdate(false))}><SVGs svg={'arrow-left-large'}></SVGs></div>
             }
           </div>
           <div className="addFieldItems-modal-form-container">
@@ -964,13 +970,13 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                 { allProducts && allProducts.map((item, idx) => 
                   search.length > 0 ? 
                   filterProductsSearch(item) ? 
-                    <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item" onClick={() => (setSearchItems(false),createQuoteLine('typeForm', 'products'), setTypeForm('products'), createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.category), createQuoteLine('description', item.description), createQuoteLine('price', item.price),setInputDropdown(''))}>
+                    <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item" onClick={() => (setSearchItems(false),createQuoteLine('typeForm', 'products'), setTypeForm('products'), createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.category), createQuoteLine('description', item.description), createQuoteLine('price', item.price), createQuoteLine('price_unformatted', validateIsNumberToCentsCheck2(item.price)), setInputDropdown(''))}>
                     {item.brand} / {item.category} / {item.model}
                     </div>
                   : 
                     null
                   :
-                  <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item" onClick={() => (setSearchItems(false),createQuoteLine('typeForm', 'products'), setTypeForm('products'), createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.category), createQuoteLine('description', item.description), createQuoteLine('price', item.price),setInputDropdown(''))}>
+                  <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item" onClick={() => (setSearchItems(false),createQuoteLine('typeForm', 'products'), setTypeForm('products'), createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.category), createQuoteLine('description', item.description), createQuoteLine('price', item.price), createQuoteLine('price_unformatted', validateIsNumberToCentsCheck2(item.price)),setInputDropdown(''))}>
                     {item.brand} / {item.category} / {item.model}
                   </div>
 
@@ -988,13 +994,13 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                   { allPriceLists && allPriceLists.map((item, idx) => 
                     search.length > 0 ? 
                     filterPriceListSearch(item) ? 
-                    <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item" onClick={() => (setSearchItems(false),createQuoteLine('typeForm', 'priceList'), setTypeForm('priceList'), createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.color), createQuoteLine('price', `$${item.price}`))}>
+                    <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item" onClick={() => (setSearchItems(false),createQuoteLine('typeForm', 'priceList'), setTypeForm('priceList'), createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.color), createQuoteLine('price', `$${item.price}`), createQuoteLine('price_unformatted', validateIsNumberToCentsCheck2(validateIsPriceNumber(item.price))))}>
                       {item.brand} / {item.color} / {item.model}
                     </div>
                     :
                       null
                     :
-                    <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item" onClick={() => (setSearchItems(false), createQuoteLine('typeForm', 'priceList'), setTypeForm('priceList'),createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.color), createQuoteLine('price', `$${item.price}`))}>
+                    <div key={idx} className="addFieldItems-modal-form-container-searchList-list-item" onClick={() => (setSearchItems(false), createQuoteLine('typeForm', 'priceList'), setTypeForm('priceList'),createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.color), createQuoteLine('price', `$${item.price}`), createQuoteLine('price_unformatted', validateIsNumberToCentsCheck2(validateIsPriceNumber(item.price))))}>
                       {item.brand} / {item.color} / {item.model}
                     </div>
                   ) 
