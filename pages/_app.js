@@ -10,6 +10,7 @@ function MyApp({ Component, pageProps }) {
   return <>
     <title>Fabworkflow</title>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIXLxwsNZqXveBVpiQzavFdvOrtY8tu5E&libraries=places"></script>
+    <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
     <Provider store={store}><Component {...pageProps} /></Provider>
   </>
 }

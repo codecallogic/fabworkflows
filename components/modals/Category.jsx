@@ -11,6 +11,8 @@ const Category = ({setmodal}) => {
   const [category, setCategory] = useState('')
   const [loading, setLoading] = useState('')
 
+  const [prevX, setPrevX] = useState(0)
+  const [prevY, setPrevY] = useState(0)
   const onPointerDown = () => {}
   const onPointerUp = () => {}
   const onPointerMove = () => {}
@@ -22,6 +24,8 @@ const Category = ({setmodal}) => {
   });
 
   const handlePointerDown = (e) => {
+    setPrevX(0)
+    setPrevY(0)
     setIsDragging(true)
     onPointerDown(e)
   }
@@ -38,11 +42,21 @@ const Category = ({setmodal}) => {
   };
 
   const handleDragMove = (e) => {
-    setTranslate({
-      x: translate.x + e.movementX,
-      y: translate.y + e.movementY
-    });
+    var movementX = (prevX ? e.screenX - prevX : 0)
+    var movementY = (prevY ? e.screenY - prevY : 0)
+    
+    setPrevX(e.screenX)
+    setPrevY(e.screenY)
+
+    handleModalMove(movementX, movementY)
   };
+
+  const handleModalMove = (X, Y) => {
+    setTranslate({
+      x: translate.x + X,
+      y: translate.y + Y
+    });
+  }
 
   const submitAddCategory = async (e) => {
     e.preventDefault()

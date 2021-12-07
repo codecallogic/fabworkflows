@@ -58,6 +58,9 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
     if(search.length == 0) setSearchItems(false)
   }, [search])
 
+
+  const [prevX, setPrevX] = useState(0)
+  const [prevY, setPrevY] = useState(0)
   const onPointerDown = () => {}
   const onPointerUp = () => {}
   const onPointerMove = () => {}
@@ -69,6 +72,8 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
   });
 
   const handlePointerDown = (e) => {
+    setPrevX(0)
+    setPrevY(0)
     setIsDragging(true)
     onPointerDown(e)
   }
@@ -85,12 +90,22 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
   };
 
   const handleDragMove = (e) => {
-    setTranslate({
-      x: translate.x + e.movementX,
-      y: translate.y + e.movementY
-    });
+    var movementX = (prevX ? e.screenX - prevX : 0)
+    var movementY = (prevY ? e.screenY - prevY : 0)
+    
+    setPrevX(e.screenX)
+    setPrevY(e.screenY)
+
+    handleModalMove(movementX, movementY)
   };
 
+  const handleModalMove = (X, Y) => {
+    setTranslate({
+      x: translate.x + X,
+      y: translate.y + Y
+    });
+  }
+ 
   const handleClickOutside = (event) => {
     if(myRefs.current){
       if(!myRefs.current.contains(event.target)){
@@ -723,7 +738,7 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
 
       { modal == 'add_address' &&
         <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
-        <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
+        <div className="addFieldItems-modal-box" touch-action="none" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{msTransform: `translateX(${translate.x}px) translateY(${translate.y}px)`, MozTransform: `translateX(${translate.x}px) translateY(${translate.y}px`, WebkitTransform: `translateX(${translate.x}px) translateY(${translate.y}px)`, transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
           <div className="addFieldItems-modal-box-header">
             <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'Address'}</span>
             <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>

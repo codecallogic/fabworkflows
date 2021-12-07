@@ -23,6 +23,8 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
   const [asc, setAsc] = useState(-1)
   const [desc, setDesc] = useState(1)
 
+  const [prevX, setPrevX] = useState(0)
+  const [prevY, setPrevY] = useState(0)
   const onPointerDown = () => {}
   const onPointerUp = () => {}
   const onPointerMove = () => {}
@@ -34,6 +36,8 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
   });
 
   const handlePointerDown = (e) => {
+    setPrevX(0)
+    setPrevY(0)
     setIsDragging(true)
     onPointerDown(e)
   }
@@ -50,12 +54,21 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
   };
 
   const handleDragMove = (e) => {
-    setTranslate({
-      x: translate.x + e.movementX,
-      y: translate.y + e.movementY
-    });
+    var movementX = (prevX ? e.screenX - prevX : 0)
+    var movementY = (prevY ? e.screenY - prevY : 0)
+    
+    setPrevX(e.screenX)
+    setPrevY(e.screenY)
+
+    handleModalMove(movementX, movementY)
   };
 
+  const handleModalMove = (X, Y) => {
+    setTranslate({
+      x: translate.x + X,
+      y: translate.y + Y
+    });
+  }
   
   // console.log(allMaterials)
   const validateIsNumber = (type) => {
