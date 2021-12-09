@@ -23,7 +23,7 @@ const CARD_ELEMENT_OPTIONS = {
   },
 };
 
-const CheckoutForm = ({email, name, address, city, state, zip_code, country, balance, quote, setmodal}) => {
+const CheckoutForm = ({email, name, address, city, state, zip_code, country, balance, quote, setmodal, deposit}) => {
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState('')
@@ -63,7 +63,7 @@ const CheckoutForm = ({email, name, address, city, state, zip_code, country, bal
         
         let orderNumber = Math.floor(100000000 + Math.random() * 900000000)
         // console.log(paymentMethod)
-        const responsePayment = await axios.post(`${API}/transaction/process-payment`, {'payment_method': paymentMethod.id, 'email': email, 'cardholder': name, 'address': address, 'city': city, 'state': state, 'zip_code': zip_code, 'country': country, 'order': orderNumber, 'quote': quote})
+        const responsePayment = await axios.post(`${API}/transaction/process-payment`, {'payment_method': paymentMethod.id, 'email': email, 'cardholder': name, 'address': address, 'city': city, 'state': state, 'zip_code': zip_code, 'country': country, 'order': orderNumber, 'quote': quote, 'deposit': deposit})
         // console.log(responsePayment.data)
         
         const {client_secret, status, payment_id, order} = responsePayment.data

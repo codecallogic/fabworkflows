@@ -668,6 +668,45 @@ body {
       display: block;
       font-size: 1.8rem;
       padding: 1rem; }
+    .form-group-single-textarea-field-label {
+      display: flex;
+      align-items: center; }
+      .form-group-single-textarea-field-label-option {
+        background-color: #fd7e3c;
+        border-radius: 1.2rem;
+        padding: 0.2rem 1rem;
+        color: white;
+        font-weight: 700;
+        font-size: 1.2rem;
+        margin-right: 1rem; }
+        .form-group-single-textarea-field-label-option:hover {
+          cursor: pointer; }
+      .form-group-single-textarea-field-label-input {
+        position: relative; }
+        .form-group-single-textarea-field-label-input input {
+          border-radius: 1.2rem;
+          padding: 0.5rem 1rem;
+          border: none;
+          outline: none; }
+          .form-group-single-textarea-field-label-input input::placeholder {
+            color: #c8c8cb; }
+        .form-group-single-textarea-field-label-input span {
+          position: absolute;
+          top: -10%;
+          right: -3%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #1bc9a2;
+          border-radius: 1.2rem;
+          width: 1.6rem;
+          height: 1.6rem; }
+          .form-group-single-textarea-field-label-input span svg {
+            width: 1rem;
+            height: 1rem;
+            fill: white; }
+          .form-group-single-textarea-field-label-input span:hover {
+            cursor: pointer; }
     .form-group-single-textarea-field textarea {
       width: 100%;
       border-radius: 1rem;

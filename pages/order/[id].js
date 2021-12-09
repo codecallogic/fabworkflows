@@ -25,6 +25,8 @@ const Checkout = ({quote, order, createOrder}) => {
   // console.log(quote)
   const [show, setShow] = useState('address')
   const [modal, setModal] = useState('')
+  const [newDeposit, setNewDeposit] = useState('')
+  const [otherDeposit, setOtherDeposit] = useState(false)
 
   const handleSelect = async (e, type, id) => {
     let geo
@@ -51,6 +53,15 @@ const Checkout = ({quote, order, createOrder}) => {
     
     createOrder('city', e.split(',')[1])
     createOrder('state', e.split(',')[2])
+  }
+
+  const validateIsNumber = (type) => {
+    const input = document.getElementById(type)
+    const regex = /^(\d+(\d{0,2})?|\.?\d{1,2})$/
+    if(regex.test(input.value)){
+      return input.value = input.value.split(regex).join('')
+    }
+    return input.value = ''
   }
 
   const validateIsPriceNumber = (amount) => {
@@ -124,11 +135,27 @@ const Checkout = ({quote, order, createOrder}) => {
             </div>
             <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-field">
-                <label htmlFor="zip_code">Debit or Credit Card</label>
+              <div className="form-group-single-textarea-field-label">
+                <label htmlFor="zip_code">Card</label>
+                { !otherDeposit &&
+                  <>
+                  <span className="form-group-single-textarea-field-label-option" onClick={() => setNewDeposit(50)}>50% Deposit</span>
+                  <span className="form-group-single-textarea-field-label-option" onClick={() => setOtherDeposit(true)}>Other</span>
+                  <span className="form-group-single-textarea-field-label-option" onClick={() => setNewDeposit('')}>0%</span>
+                  </>
+                }
+                {
+                  otherDeposit && 
+                  <div className="form-group-single-textarea-field-label-input">
+                    <input id="otherDeposit" value={newDeposit} onChange={(e) => (validateIsNumber('otherDeposit'), setNewDeposit(e.target.value < 1 ? '' : e.target.value > 100 ? '' : e.target.value))} placeHolder="Min 1% Max 100%"></input>
+                    <span onClick={() => (setNewDeposit(''), setOtherDeposit(false))}><SVGs svg={'close'}></SVGs></span>
+                  </div>
+                }
+              </div>
               </div>
             </div>
             <Elements stripe={stripePromise}>
-              <CheckoutForm name={order.name} address={order.address} city={order.city} state={order.state} zip_code={order.zip_code} country={order.country} email={quote.email} quote={quote} setmodal={setModal}></CheckoutForm>
+              <CheckoutForm name={order.name} address={order.address} city={order.city} state={order.state} zip_code={order.zip_code} country={order.country} email={quote.email} quote={quote} setmodal={setModal} deposit={newDeposit}></CheckoutForm>
             </Elements>
           </form>
         </div>
@@ -200,7 +227,7 @@ const Checkout = ({quote, order, createOrder}) => {
               <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-deposit">
                 <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
                   <label>Deposit</label>
-                  <span id="deposit" >{quote.quote_deposit ? validateIsPriceNumber(quote.quote_deposit) : 0}</span>
+                  <span id="deposit" >{quote.quote_deposit ? validateIsPriceNumber(quote.quote_deposit) : newDeposit ? validateIsPriceNumber(quote.quote_balance * newDeposit/100): 0}</span>
                 </div>
               </div>
               }
@@ -208,7 +235,7 @@ const Checkout = ({quote, order, createOrder}) => {
               <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-balance">
                 <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
                   <label>Balance Due</label>
-                  <span id="balance" >{validateIsPriceNumber(quote.quote_balance)}</span>
+                  <span id="balance" >{newDeposit ? validateIsPriceNumber(quote.quote_balance - (quote.quote_balance * newDeposit/100)) : validateIsPriceNumber(quote.quote_balance)}</span>
                 </div>
               </div>
               }
