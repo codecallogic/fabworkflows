@@ -4,7 +4,7 @@ import SVGs from '../../files/svgs'
 
 const SideNav = ({nav, width, toggleSideNav, newView, redirect}) => {
 
-  const [toggle, setDropdownToggle] = useState(false)
+  const [toggle, setDropdownToggle] = useState('')
   
   const toggleDropdown = () => {
     let el = document.getElementById('dropdown-toggle-inventory').checked
@@ -18,27 +18,64 @@ const SideNav = ({nav, width, toggleSideNav, newView, redirect}) => {
             <img src="/media/user_placeholder.png" alt="User avatar"/>
             <div>Free trial</div>
           </div>
-          <div className={`clientDashboard_sidenav-menu-item` + (!nav.sidenav ? ' hide-sidenav-items' : '')} onClick={ (e) => (document.getElementById('dropdown-toggle-inventory').checked = !document.getElementById('dropdown-toggle-inventory').checked, toggleDropdown())}>
+          {/* (document.getElementById('dropdown-toggle-inventory').checked = !document.getElementById('dropdown-toggle-inventory').checked, toggleDropdown() */}
+          <div 
+            className={`clientDashboard_sidenav-menu-item` + (!nav.sidenav ? ' hide-sidenav-items' : '')} 
+            onClick={ (e) => toggle == 'inventory' ? setDropdownToggle('') : setDropdownToggle('inventory')}>
             <div className="clientDashboard_sidenav-menu-item-tab">
               <SVGs svg={'inventory'} classprop={'clientDashboard_sidenav-menu-item-tabIcon' + (!nav.sidenav ? ' hide-sidenav-items' : '')}></SVGs>
               <div className={!nav.sidenav ? ' hide-sidenav-items' : ''}>Inventory</div>
             </div>
             <div className="clientDashboard_sidenav-menu-item-arrow">
-              <input type="checkbox" className='clientDashboard_sidenav-menu-item-arrow-input' id="dropdown-toggle-inventory"/>
+              {/* <input type="checkbox" className='clientDashboard_sidenav-menu-item-arrow-input' id="dropdown-toggle-inventory"/> */}
               <SVGs svg={'dropdown-arrow'} classprop={(!nav.sidenav ? ' hide-sidenav-items' : '')}></SVGs>
             </div>
           </div>
           <div className="clientDashboard_sidenav-menu-item-dropdown">
-            <div className={`clientDashboard_sidenav-menu-item-dropdown-fill` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}></div>
-            {/* newView('new'), */}
-            <div onClick={() => (window.location.href = `/account?change=new`, width < 992 ? toggleSideNav('toggle_nav_button') : null)} className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}><SVGs svg={'circle-thin'} classprop={`clientDashboard_sidenav-menu-item-arrow` + (!nav.sidenav ? ' hide-sidenav-items' : '')  + (toggle ? ' hide-sidenav-dropdown' : '')}></SVGs>New</div>
-            <div onClick={() => {window.location.href = `/slabs`}} className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}><SVGs svg={'circle-thin'} classprop={'clientDashboard_sidenav-menu-item-arrow' + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}></SVGs>Slabs</div>
-            <div onClick={() => {window.location.href = `/products`}} className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}><SVGs svg={'circle-thin'} classprop={'clientDashboard_sidenav-menu-item-arrow' + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}></SVGs>Products</div>
-            <div onClick={() => {window.location.href = `/remnants`}} className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}><SVGs svg={'circle-thin'} classprop={'clientDashboard_sidenav-menu-item-arrow' + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}></SVGs>Remnants</div>
-            <div onClick={() => {window.location.href = `/trackers`}} className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}><SVGs svg={'circle-thin'} classprop={'clientDashboard_sidenav-menu-item-arrow' + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}></SVGs>Trackers</div>
-            <div className={`clientDashboard_sidenav-menu-item-dropdown-fill` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}></div>
+            <div 
+              className={`clientDashboard_sidenav-menu-item-dropdown-fill` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'inventory' ? ' hide-sidenav-dropdown' : '')}
+            />
+            <div 
+              onClick={() => (window.location.href = `/account?change=new`, width < 992 ? toggleSideNav('toggle_nav_button') : null)} 
+              className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'inventory' ? ' hide-sidenav-dropdown' : '')}>
+                <SVGs svg={'circle-thin'} 
+                classprop={`clientDashboard_sidenav-menu-item-arrow` + (!nav.sidenav ? ' hide-sidenav-items' : '')  + (toggle == 'inventory' ? ' hide-sidenav-dropdown' : '')} />
+                New
+            </div>
+            <div 
+              onClick={() => {window.location.href = `/slabs`}} 
+              className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'inventory' ? ' hide-sidenav-dropdown' : '')}>
+                <SVGs svg={'circle-thin'} 
+                classprop={'clientDashboard_sidenav-menu-item-arrow' + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'inventory' ? ' hide-sidenav-dropdown' : '')}/>
+                Slabs
+            </div>
+            <div 
+              onClick={() => {window.location.href = `/products`}} 
+              className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'inventory' ? ' hide-sidenav-dropdown' : '')}>
+                <SVGs svg={'circle-thin'} 
+                classprop={'clientDashboard_sidenav-menu-item-arrow' + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'inventory' ? ' hide-sidenav-dropdown' : '')}/>
+                Products
+            </div>
+            <div 
+              onClick={() => {window.location.href = `/remnants`}} 
+              className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'inventory' ? ' hide-sidenav-dropdown' : '')}>
+                <SVGs svg={'circle-thin'} 
+                classprop={'clientDashboard_sidenav-menu-item-arrow' + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'inventory' ? ' hide-sidenav-dropdown' : '')}/>
+                Remnants
+            </div>
+            <div 
+              onClick={() => {window.location.href = `/trackers`}} 
+              className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'inventory' ? ' hide-sidenav-dropdown' : '')}>
+                <SVGs svg={'circle-thin'} classprop={'clientDashboard_sidenav-menu-item-arrow' + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'inventory' ? ' hide-sidenav-dropdown' : '')}/>
+                Trackers
+              </div>
+            <div 
+              className={`clientDashboard_sidenav-menu-item-dropdown-fill` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'inventory' ? ' hide-sidenav-dropdown' : '')}>
+            </div>
           </div>
-          <div className={`clientDashboard_sidenav-menu-item` + (!nav.sidenav ? ' hide-sidenav-items' : '')} onClick={ (e) => (document.getElementById('dropdown-toggle-transactions').checked = !document.getElementById('dropdown-toggle-transactions').checked, toggleDropdown())}>
+          <div 
+            className={`clientDashboard_sidenav-menu-item` + (!nav.sidenav ? ' hide-sidenav-items' : '')} 
+            onClick={ (e) => toggle == 'transactions' ? setDropdownToggle('') : setDropdownToggle('transactions')}>
             <div className="clientDashboard_sidenav-menu-item-tab">
               <SVGs svg={'payments'} classprop={'clientDashboard_sidenav-menu-item-tabIcon' + (!nav.sidenav ? ' hide-sidenav-items' : '')}></SVGs>
               <div className={!nav.sidenav ? ' hide-sidenav-items' : ''}>Transactions</div>
@@ -49,10 +86,21 @@ const SideNav = ({nav, width, toggleSideNav, newView, redirect}) => {
             </div>
           </div>
           <div className="clientDashboard_sidenav-menu-item-dropdown">
-            <div className={`clientDashboard_sidenav-menu-item-dropdown-fill` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}></div>
-            <div onClick={() => (window.location.href = `/account?change=transaction-new`, width < 992 ? toggleSideNav('toggle_nav_button') : null)} className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}><SVGs svg={'circle-thin'} classprop={`clientDashboard_sidenav-menu-item-arrow` + (!nav.sidenav ? ' hide-sidenav-items' : '')  + (toggle ? ' hide-sidenav-dropdown' : '')}></SVGs>New</div>
-            <div onClick={() => (window.location.href = `/quotes`, width < 992 ? toggleSideNav('toggle_nav_button') : null)} className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle ? ' hide-sidenav-dropdown' : '')}><SVGs svg={'circle-thin'} classprop={`clientDashboard_sidenav-menu-item-arrow` + (!nav.sidenav ? ' hide-sidenav-items' : '')  + (toggle ? ' hide-sidenav-dropdown' : '')}></SVGs>Quotes</div>
-            
+            <div 
+              className={`clientDashboard_sidenav-menu-item-dropdown-fill` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'transactions' ? ' hide-sidenav-dropdown' : '')}>
+            </div>
+            <div 
+              onClick={() => (window.location.href = `/account?change=transaction-new`, width < 992 ? toggleSideNav('toggle_nav_button') : null)} 
+              className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'transactions'  ? ' hide-sidenav-dropdown' : '')}>
+                <SVGs svg={'circle-thin'} classprop={`clientDashboard_sidenav-menu-item-arrow` + (!nav.sidenav ? ' hide-sidenav-items' : '')  + (toggle == 'transactions'  ? ' hide-sidenav-dropdown' : '')}/>
+                New
+            </div>
+            <div 
+              onClick={() => (window.location.href = `/quotes`, width < 992 ? toggleSideNav('toggle_nav_button') : null)} 
+              className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'transactions'  ? ' hide-sidenav-dropdown' : '')}>
+                <SVGs svg={'circle-thin'} classprop={`clientDashboard_sidenav-menu-item-arrow` + (!nav.sidenav ? ' hide-sidenav-items' : '')  + (toggle ? ' hide-sidenav-dropdown' : '')}/>
+                Quotes
+            </div>
           </div>
       </div>
     </div>
