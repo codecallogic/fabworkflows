@@ -16,7 +16,7 @@ const searchOptionsCities = {
   types: ['(cities)']
 }
 
-const Address = ({setmodal, quote, createQuote, resetQuote}) => {
+const Address = ({setmodal, update, quote, createQuote, resetQuote}) => {
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [edit, setEdit] = useState('')
@@ -135,6 +135,23 @@ const Address = ({setmodal, quote, createQuote, resetQuote}) => {
       if(error) error.response ? setError(error.response.data) : setError('Error creating address, please try again later')
     }
   }
+
+  const updateContact = async (e) => {
+    e.preventDefault()
+    if(!validateIsEmail('email')) return setError('Email is not valid')
+    setLoading(true)
+    setMessage('')
+    setError('')
+    try {
+      const responseUpdate = await axios.post(`${API}/transaction/update-address`, quote)
+      setLoading(false)
+      setmodal('')
+      window.location.reload()
+    } catch (error) {
+      setLoading(false)
+      if(error) error.response ? setError(error.response.data) : setError('Error updating contact, please try again later')
+    }
+  }
   
   return (
     <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
@@ -144,11 +161,11 @@ const Address = ({setmodal, quote, createQuote, resetQuote}) => {
           <div onClick={() => (setmodal(''), setError(''), setMessage(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
         </div>
         <div className="addFieldItems-modal-form-container">
-        <form className="addFieldItems-modal-form" onSubmit={(e) => addAddress(e)}>
+        <form className="addFieldItems-modal-form">
           <div className="form-group-single-textarea">
             <div className="form-group-single-textarea-field">
               <label htmlFor="name">Contact Name</label>
-              <textarea id="name" rows="1" name="name" placeholder="(Contact Name)" value={quote.name} onChange={(e) => createQuote('contact_name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Contact Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+              <textarea id="name" rows="1" name="name" placeholder="(Contact Name)" value={quote.contact_name} onChange={(e) => createQuote('contact_name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Contact Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
             </div>
           </div>
           <PlacesAutocomplete value={quote.address_one} onChange={(e) => createQuote('address_one', e)} onSelect={(e) => handleSelect(e, 'address_one', document.getElementById('address_place_id').value)} searchOptions={searchOptionsAddress}>
@@ -225,10 +242,10 @@ const Address = ({setmodal, quote, createQuote, resetQuote}) => {
           </div>
         </form>
         </div>
-        {!edit && <button type="submit" className="form-button w100">{!loading && <span>Save</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-        {edit == 'color' && <button onClick={(e) => updateColor(e)} className="form-button w100">{!loading && <span>Update Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
         {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
         {message && <span className="form-message-modal">{message}</span>}
+        {update == '' && <div className="form-button w100" onClick={(e) => addAddress(e)}>{!loading && <span>Save</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</div>}
+        {update == 'true' && <div onClick={(e) => updateContact(e)} className="form-button w100">{!loading && <span>Update Contact</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</div>}
       </div>
     </div>
   )

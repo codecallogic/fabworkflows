@@ -18,7 +18,7 @@ const SideNav = ({nav, width, toggleSideNav, newView, redirect}) => {
             <img src="/media/user_placeholder.png" alt="User avatar"/>
             <div>Free trial</div>
           </div>
-          {/* (document.getElementById('dropdown-toggle-inventory').checked = !document.getElementById('dropdown-toggle-inventory').checked, toggleDropdown() */}
+
           <div 
             className={`clientDashboard_sidenav-menu-item` + (!nav.sidenav ? ' hide-sidenav-items' : '')} 
             onClick={ (e) => toggle == 'inventory' ? setDropdownToggle('') : setDropdownToggle('inventory')}>
@@ -27,7 +27,6 @@ const SideNav = ({nav, width, toggleSideNav, newView, redirect}) => {
               <div className={!nav.sidenav ? ' hide-sidenav-items' : ''}>Inventory</div>
             </div>
             <div className="clientDashboard_sidenav-menu-item-arrow">
-              {/* <input type="checkbox" className='clientDashboard_sidenav-menu-item-arrow-input' id="dropdown-toggle-inventory"/> */}
               <SVGs svg={'dropdown-arrow'} classprop={(!nav.sidenav ? ' hide-sidenav-items' : '')}></SVGs>
             </div>
           </div>
@@ -100,6 +99,12 @@ const SideNav = ({nav, width, toggleSideNav, newView, redirect}) => {
               className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'transactions'  ? ' hide-sidenav-dropdown' : '')}>
                 <SVGs svg={'circle-thin'} classprop={`clientDashboard_sidenav-menu-item-arrow` + (!nav.sidenav ? ' hide-sidenav-items' : '')  + (toggle ? ' hide-sidenav-dropdown' : '')}/>
                 Quotes
+            </div>
+            <div 
+              onClick={() => (window.location.href = `/contacts`, width < 992 ? toggleSideNav('toggle_nav_button') : null)} 
+              className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'transactions'  ? ' hide-sidenav-dropdown' : '')}>
+                <SVGs svg={'circle-thin'} classprop={`clientDashboard_sidenav-menu-item-arrow` + (!nav.sidenav ? ' hide-sidenav-items' : '')  + (toggle ? ' hide-sidenav-dropdown' : '')}/>
+                Contacts
             </div>
           </div>
       </div>
