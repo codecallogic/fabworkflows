@@ -127,6 +127,36 @@
     &-quill {
       color: black !important;
     }
+
+    &-upload {
+      label {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $color-scheme-2;
+        margin: 2rem 0;
+        border-radius: 1.2rem;
+        padding: 1rem 2rem;
+        font-size: 1.8rem;
+        color: white;
+        font-weight: 500;
+
+        &:hover {
+          cursor: pointer;
+        }
+
+        svg {
+          width: 3rem;
+          height: 3rem;
+          margin-right: 1rem;
+          fill: white;
+        }
+      }
+
+      input {
+        display: none;
+      }
+    }
   }
 
   &-button {
@@ -371,7 +401,7 @@
         svg {
           width: 8rem;
           height: 8rem;
-          fill: $color-scheme-1;
+          fill: $color-scheme-2;
         }
 
         &:hover {
