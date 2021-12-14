@@ -93,9 +93,13 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
     setError('')
     try {
       const responseDelete = await axios.post(`${API}/transaction/delete-quote`, {id: idControls})
-      window.location.href = '/quotes'
+      // console.log(responseDelete.data)
+      setLoading(false)
+      setControls(false)
+      setAllQuotes([...responseDelete.data])
     } catch (error) {
       setLoading(false)
+      setControls(false)
       if(error) error.response ? setError(error.response.data) : setError('Error deleting quote from list')
     }
   }

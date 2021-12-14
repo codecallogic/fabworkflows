@@ -260,7 +260,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     createQuote: (name, data) => dispatch({type: 'CREATE_QUOTE', name: name, value: data}),
-    resetQuote: () => dispatch({type: 'RESET'})
+    resetQuote: () => dispatch({type: 'RESET_QUOTE'})
   }
 }
 

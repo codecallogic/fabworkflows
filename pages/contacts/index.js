@@ -97,11 +97,15 @@ const Contacts = ({hideSideNav, showSideNav, createQuote, resetQuote, list}) => 
 
   const handleDelete = async (e) => {
     setLoading(true)
-    // setError('')
+    setError('')
     try {
       const responseDelete = await axios.post(`${API}/transaction/delete-address`, {id: idControls})
-      window.location.reload()
+      setLoading(false)
+      setControls(false)
+      setError('')
+      setAllContacts([...responseDelete.data])
     } catch (error) {
+      setLoading(false)
       if(error) error.response ? setError(error.response.data) : setError('Error deleting contact')
     }
   }

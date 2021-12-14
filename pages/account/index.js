@@ -1036,7 +1036,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
                 <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
               </div>
               <div className="addFieldItems-modal-form-container">
-              <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddSupplier(e)}>
+              <form className="addFieldItems-modal-form">
                 <div className="form-group-single-textarea">
                   <div className="form-group-single-textarea-field">
                     <label htmlFor="name_supplier">Name</label>
@@ -1111,9 +1111,9 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
                 </div>
               </form>
               </div>
-              {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Supplier</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-              {edit == 'supplier' && <button onClick={(e) => updateSupplier(e)} className="form-button w100">{!loading && <span>Update Supplier</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
               {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+              {!edit && <button onClick={(e) => submitAddSupplier(e)} className="form-button w100">{!loading && <span>Add Supplier</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+              {edit == 'supplier' && <button onClick={(e) => updateSupplier(e)} className="form-button w100">{!loading && <span>Update Supplier</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
             </div>
           </div>
           }
@@ -1205,7 +1205,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
             <PriceListModal setmodal={(type) => setModal(type)}></PriceListModal>
           }
           { modal == 'location' &&
-            <AddressModal setmodal={(type) => setModal(type)} resetQuote={resetQuote}></AddressModal>
+            <AddressModal setmodal={(type) => setModal(type)} resetQuote={resetQuote} update={''}></AddressModal>
           }
           { modal == 'category' &&
             <CategoryModal setmodal={(type) => setModal(type)}></CategoryModal>

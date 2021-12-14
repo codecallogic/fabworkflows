@@ -83,7 +83,7 @@ const Category = ({setmodal}) => {
           <div onClick={() => (setmodal(''), setError(''), setMessage(''),setEdit(''))}><SVGs svg={'close'}></SVGs></div>
         </div>
         <div className="addFieldItems-modal-form-container">
-        <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddCategory(e)}>
+        <form className="addFieldItems-modal-form">
           <div className="form-group-single-textarea">
             <div className="form-group-single-textarea-field">
               <label htmlFor="category_name">Category Name</label>
@@ -95,9 +95,9 @@ const Category = ({setmodal}) => {
           {/* {edit == 'category' && <button onClick={(e) => updateCategory(e)} className="form-button w100">{!loading && <span>Update Category</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>} */}
         </form>
         </div>
-        {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Category</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
         {message && <div className="form-message">{message}</div>}
         {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+        {!edit && <button onClick={(e) => submitAddCategory(e)} className="form-button w100">{!loading && <span>Add Category</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
       </div>
     </div>
   )

@@ -448,7 +448,7 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
           <div onClick={() => (setModal(''), resetMaterial(), setError(''))}><SVGs svg={'close'}></SVGs></div>
         </div>
         <div className="addFieldItems-modal-form-container">
-        <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddMaterial(e)}>
+        <form className="addFieldItems-modal-form">
           <div className="form-group-single-textarea">
             <div className="form-group-single-textarea-field">
               <label htmlFor="name_material">Name</label>
@@ -463,9 +463,9 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
           </div>
         </form>
         </div>
-        {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Material</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-        {edit == 'material' && <button onClick={(e) => updateMaterial(e)} className="form-button w100">{!loading && <span>Update Material</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
         {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+        {!edit && <button className="form-button w100" onClick={(e) => submitAddMaterial(e)}lassName="form-button w100">{!loading && <span>Add Material</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+        {edit == 'material' && <button onClick={(e) => updateMaterial(e)} className="form-button w100">{!loading && <span>Update Material</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
       </div>
     </div>
     }
@@ -477,7 +477,7 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
           <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
         </div>
         <div className="addFieldItems-modal-form-container">
-        <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddColor(e)}>
+        <form className="addFieldItems-modal-form">
           <div className="form-group-single-textarea">
             <div className="form-group-single-textarea-field">
               <label htmlFor="name_color">Name</label>
@@ -486,9 +486,9 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
           </div>
         </form>
         </div>
-        {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-        {edit == 'color' && <button onClick={(e) => updateColor(e)} className="form-button w100">{!loading && <span>Update Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
         {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+        {!edit && <button onClick={(e) => submitAddColor(e)} className="form-button w100">{!loading && <span>Add Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+        {edit == 'color' && <button onClick={(e) => updateColor(e)} className="form-button w100">{!loading && <span>Update Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
       </div>
     </div>
     }
@@ -500,7 +500,7 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
           <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
         </div>
         <div className="addFieldItems-modal-form-container">
-        <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddSupplier(e)}>
+        <form className="addFieldItems-modal-form">
           <div className="form-group-single-textarea">
             <div className="form-group-single-textarea-field">
               <label htmlFor="name_supplier">Name</label>
@@ -575,9 +575,9 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
           </div>
         </form>
         </div>
-        {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Supplier</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-        {edit == 'supplier' && <button onClick={(e) => updateSupplier(e)} className="form-button w100">{!loading && <span>Update Supplier</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
         {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+        {!edit && <button onClick={(e) => submitAddSupplier(e)} className="form-button w100">{!loading && <span>Add Supplier</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+        {edit == 'supplier' && <button onClick={(e) => updateSupplier(e)} className="form-button w100">{!loading && <span>Update Supplier</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
       </div>
     </div>
     }
@@ -588,16 +588,16 @@ const SlabItems = ({material, addMaterial, resetMaterial, preloadMaterials, prel
           <span className="addFieldItems-modal-form-title">{edit ? 'Edit Location' : 'New Location'}</span>
           <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
         </div>
-        <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddLocation(e)}>
+        <form className="addFieldItems-modal-form">
           <div className="form-group-single-textarea">
             <div className="form-group-single-textarea-field">
               <label htmlFor="name_location">Location Name</label>
               <textarea id="name_location" rows="1" name="name_location" placeholder="(Location Name)" value={location} onChange={(e) => setLocation(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Location Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
             </div>
           </div>
-          {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Location</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-          {edit == 'location' && <button onClick={(e) => updateLocation(e)} className="form-button w100">{!loading && <span>Update Location</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
           {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+          {!edit && <button onClick={(e) => submitAddLocation(e)} className="form-button w100">{!loading && <span>Add Location</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+          {edit == 'location' && <button onClick={(e) => updateLocation(e)} className="form-button w100">{!loading && <span>Update Location</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
         </form>
       </div>
     </div>

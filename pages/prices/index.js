@@ -104,11 +104,16 @@ const Quotes = ({hideSideNav, showSideNav, list, priceList, createPrice, addPric
   const handleDelete = async (e) => {
     setLoading(true)
     setError('')
+    
     try {
-      const responseDelete = await axios.post(`${API}/transaction/delete-quote`, {id: idControls})
-      window.location.href = '/quotes'
+      const responseDelete = await axios.post(`${API}/transaction/delete-price-list`, {id: idControls})
+      setLoading(false)
+      setControls(false)
+      setAllPrices([...responseDelete.data])
+      
     } catch (error) {
       setLoading(false)
+      setControls(false)
       if(error) error.response ? setError(error.response.data) : setError('Error deleting quote from list')
     }
   }
