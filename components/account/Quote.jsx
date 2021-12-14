@@ -736,7 +736,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
             <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
           </div>
           <div className="addFieldItems-modal-form-container">
-          <form className="addFieldItems-modal-form" onSubmit={(e) => (e.preventDefault(), setModal(''))}>
+          <form className="addFieldItems-modal-form">
             <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-field">
                 <label htmlFor="name">Contact Name</label>
@@ -817,7 +817,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
             </div>
           </form>
           </div>
-          {!edit && <button type="submit" className="form-button w100">{loading !== 'address' && <span>Done</span>} {loading == 'address' && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+          {!edit && <button onClick={(e) =>  (e.preventDefault(), setModal(''))} className="form-button w100">{loading !== 'address' && <span>Done</span>} {loading == 'address' && <div className="loading"><span></span><span></span><span></span></div>}</button>}
           {edit == 'color' && <button onClick={(e) => updateColor(e)} className="form-button w100">{loading == 'address' && <span>Update Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
           {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
         </div>
@@ -831,7 +831,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
             <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
           </div>
           <div className="addFieldItems-modal-form-container">
-          <form className="addFieldItems-modal-form" onSubmit={(e) => (e.preventDefault(), setModal(''))}>
+          <form className="addFieldItems-modal-form">
             <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-field">
                 <label htmlFor="quote_name">Quote Name</label>
@@ -887,9 +887,9 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
             </div>
           </form>
           </div>
-          {!edit && <button type="submit" className="form-button w100">{!loading && <span>Done</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-          {edit == 'color' && <button onClick={(e) => updateColor(e)} className="form-button w100">{!loading && <span>Update Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
           {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+          {!edit && <button onClick={(e) => (e.preventDefault(), setModal(''))} className="form-button w100">{!loading && <span>Done</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+          {edit == 'color' && <button onClick={(e) => updateColor(e)} className="form-button w100">{!loading && <span>Update Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
         </div>
       </div>
       }
@@ -901,7 +901,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
             <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
           </div>
           <div className="addFieldItems-modal-form-container">
-          <form className="addFieldItems-modal-form" onSubmit={(e) => (e.preventDefault(), setModal(''))}>
+          <form className="addFieldItems-modal-form" >
             <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-dropdown">
                 <label htmlFor="quote_date">Date</label>
@@ -942,8 +942,8 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
             </div>
           </form>
           </div>
-          {!edit && <button type="submit" className="form-button w100">{!loading && <span>Done</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
           {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+          {!edit && <button onClick={(e) => (e.preventDefault(), setModal(''))} className="form-button w100">{!loading && <span>Done</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
         </div>
       </div>
       }

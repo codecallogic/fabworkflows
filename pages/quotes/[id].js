@@ -181,7 +181,7 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
 
   const validateIsNumber = (type) => {
     const input = document.getElementById(type)
-    const regex = /[^0-9|\n\r]/g
+    const regex = /^(\d+(\d{0,2})?|\.?\d{1,2})$/
     input.value = input.value.split(regex).join('')
   }
 
@@ -453,7 +453,7 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
       </PDFViewer> */}
       </div>
       <div className="clientDashboard-view-slab_form-heading">
-        <span>New Quote</span>
+        <span>Update Quote</span>
         <div className="form-error-container">
           {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
         </div>
@@ -744,7 +744,7 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
             <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
           </div>
           <div className="addFieldItems-modal-form-container">
-          <form className="addFieldItems-modal-form" onSubmit={(e) => (e.preventDefault(), setModal(''))}>
+          <form className="addFieldItems-modal-form">
             <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-field">
                 <label htmlFor="name">Contact Name</label>
@@ -825,9 +825,9 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
             </div>
           </form>
           </div>
-          {!edit && <button type="submit" className="form-button w100">{loading !== 'address' && <span>Done</span>} {loading == 'address' && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-          {edit == 'color' && <button onClick={(e) => updateColor(e)} className="form-button w100">{loading == 'address' && <span>Update Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
           {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+          {!edit && <button onClick={(e) => (e.preventDefault(), setModal(''))} className="form-button w100">{loading !== 'address' && <span>Done</span>} {loading == 'address' && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+          {edit == 'color' && <button onClick={(e) => updateColor(e)} className="form-button w100">{loading == 'address' && <span>Update Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
         </div>
       </div>
       }
@@ -895,9 +895,9 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
             </div>
           </form>
           </div>
-          {!edit && <button type="submit" className="form-button w100">{!loading && <span>Done</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-          {edit == 'color' && <button onClick={(e) => updateColor(e)} className="form-button w100">{!loading && <span>Update Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
           {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+          {!edit && <button onClick={(e) => (e.preventDefault(), setModal(''))} className="form-button w100">{!loading && <span>Done</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
+          {edit == 'color' && <button onClick={(e) => updateColor(e)} className="form-button w100">{!loading && <span>Update Color</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
         </div>
       </div>
       }
@@ -971,7 +971,7 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
               <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
             }
             {typeForm !== '' && 
-              <div onClick={() => (setTypeForm(''), resetQuoteLine())}><SVGs svg={'arrow-left-large'}></SVGs></div>
+              <div onClick={() => (setTypeForm(''), resetQuoteLine(), setUpdate(false))}><SVGs svg={'arrow-left-large'}></SVGs></div>
             }
           </div>
           <div className="addFieldItems-modal-form-container">
