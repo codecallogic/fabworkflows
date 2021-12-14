@@ -119,9 +119,9 @@ const Contacts = ({hideSideNav, showSideNav, createQuote, resetQuote, list}) => 
     }
   }
 
-  const setEditContact = () => {
+  const setEditContact = (id) => {
     allContacts.forEach((item) => {
-      if(item._id == idControls){
+      if(item._id == idControls || id){
         for(let key in item){
           createQuote(key, item[key])
         }
@@ -177,7 +177,7 @@ const Contacts = ({hideSideNav, showSideNav, createQuote, resetQuote, list}) => 
                   <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`contact ` + `${idx}`} onClick={(e) => e.target.checked == true ? (handleControls(e, item._id), window.scrollTo({top: 0})) : (setControls(false), setIDControls(''))} />
                   <label htmlFor={`contact ` + `${idx}`}><span>&nbsp;</span></label>
                 </div>
-                <div className="clientDashboard-view-slab_list-slabs-item-container"  onClick={() => window.location.href = `/inventory/contact/${item._id}`}>
+                <div className="clientDashboard-view-slab_list-slabs-item-container"  onClick={() => (setIDControls(item._id), setEditContact(item._id), setModal('contact'))}>
                   <div className="clientDashboard-view-slab_list-slabs-item w10">{item.address_one}</div>
                   <div className="clientDashboard-view-slab_list-slabs-item w10">{item.contact_name}</div>
                   <div className="clientDashboard-view-slab_list-slabs-item w10">{item.city}</div>

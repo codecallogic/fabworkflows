@@ -8,6 +8,7 @@ import {remnantReducer} from './remnantReducer'
 import {quoteReducer} from './quoteReducer'
 import {quoteLineReducer} from './quoteLineReducer'
 import {orderReducer} from './orderReducer'
+import {priceListReducer} from './priceListReducer'
 
 const rootReducer = combineReducers({
   nav: navReducer,
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
   remnant: remnantReducer,
   quote: quoteReducer,
   quoteLine: quoteLineReducer,
-  order: orderReducer
+  order: orderReducer,
+  priceList: priceListReducer
 })
 
 export default rootReducer

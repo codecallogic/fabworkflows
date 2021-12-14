@@ -9,21 +9,24 @@ import {API} from '../../config'
 import QuotePDF from '../../components/pdf/quote'
 import Agreement from '../../components/pdf/agreement'
 import withUser from '../withUser'
+import PriceListModal from '../../components/modals/PriceList'
 
-const Quotes = ({hideSideNav, showSideNav, list}) => {
+const Quotes = ({hideSideNav, showSideNav, list, priceList, createPrice, addPriceImage, resetPrice}) => {
   // console.log(list)
   const myRefs = useRef([])
   const [width, setWidth] = useState()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [allQuotes, setAllQuotes] = useState(list ? list: [])
-  const [filterProduct, setFilterProduct] = useState('')
-  const [ascProduct, setAscProduct] = useState(-1)
-  const [descProduct, setDescProduct] = useState(1)
+  const [allPrices, setAllPrices] = useState(list ? list: [])
+  const [filterPrice, setFilterPrice] = useState('')
+  const [ascPrice, setAscPrice] = useState(-1)
+  const [descPrice, setDescPrice] = useState(1)
   const [isLoaded, setIsLoaded] = useState(false)
   const [controls, setControls] = useState(false)
   const [idControls, setIDControls] = useState('')
-
+  const [modal, setModal] = useState('')
+  const [update, setUpdate] = useState('')
+  
   useEffect(() => {
     setIsLoaded(true)
   }, [])
@@ -33,8 +36,8 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
       myRefs.current.forEach((item) => {
         if(item){
           if(item.contains(event.target)) return
-          if(event.target == document.getElementById('delete-quote')) return
-          if(event.target == document.getElementById('edit-quote')) return
+          if(event.target == document.getElementById('delete-price')) return
+          if(event.target == document.getElementById('edit-price')) return
           item.childNodes[0].checked = false
           setControls(false)
           setIDControls('')
@@ -42,6 +45,15 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
       })
     }
   }
+
+  useEffect(() => {
+    // console.log(idControls)
+    document.addEventListener("click", handleClickOutside, true);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, [idControls])
   
   useEffect(() => {
     if(window.innerWidth < 992) hideSideNav()
@@ -66,6 +78,7 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
     }) 
     return formatter.format(newValue)
   }
+  
 
   const renderQuote = (url) => { 
     if(url) window.open(url, '_blank')
@@ -99,6 +112,17 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
       if(error) error.response ? setError(error.response.data) : setError('Error deleting quote from list')
     }
   }
+
+  const setEditPriceList = (id) => {
+    allPrices.forEach((item) => {
+      if(item._id == idControls || id){
+        for(let key in item){
+          if(key !== 'price') createPrice(key, item[key])
+          if(key == 'price') createPrice('price', validateIsPriceNumber(item['price']))
+        }
+      }
+    })
+  }
   
   return (
     <>
@@ -108,11 +132,11 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
         <div className="clientDashboard-view">
           <div className="clientDashboard-view-slab_list-container">
             <div className="clientDashboard-view-slab_list-heading">
-              <div className="clientDashboard-view-slab_list-heading-title">Quote List</div>
+              <div className="clientDashboard-view-slab_list-heading-title">Price List</div>
               {controls &&
               <div className="clientDashboard-view-slab_list-heading-controls">
-                <div id="edit-product" className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControls ? window.location.href = `quotes/${idControls}` : null}>Edit</div>
-                <div id="delete-product" className="clientDashboard-view-slab_list-heading-controls-item delete" onClick={() => handleDelete()}>Delete</div>
+                <div id="edit-price" className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControls ? (setEditPriceList(), setModal('price_list'), setUpdate('price_list')) : null}>Edit</div>
+                <div id="delete-price" className="clientDashboard-view-slab_list-heading-controls-item delete" onClick={() => handleDelete()}>Delete</div>
               </div>
               }
               {loading && <div className="loading"><span></span><span></span><span></span></div>}
@@ -124,56 +148,28 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
               <div className="clientDashboard-view-slab_list-headers-checkbox"></div>
               <div className="clientDashboard-view-slab_list-headers-item-container">
                 <div className="clientDashboard-view-slab_list-headers-item">File</div>
-                <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'quote_date' ? (setAscProduct(ascProduct == 1 ? -1 : 1 ), setDescProduct(descProduct == -1 ? 1 : -1)) : setFilterProduct('quote_date')}>Date <SVGs svg={'sort'}></SVGs></div>
-                <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'quote_balance' ? (setAscProduct(ascProduct == 1 ? -1 : 1 ), setDescProduct(descProduct == -1 ? 1 : -1)) : setFilterProduct('quote_balance')}>Balance <SVGs svg={'sort'}></SVGs></div>
-                <div className="clientDashboard-view-slab_list-headers-item" style={{width: '8rem'}} onClick={(e) => filterProduct == 'salesperson' ? (setAscProduct(ascProduct == 1 ? -1 : 1 ), setDescProduct(descProduct == -1 ? 1 : -1)) : setFilterProduct('salesperson')}>Salesperson <SVGs svg={'sort'}></SVGs></div>
-                <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'payment' ? (setAscProduct(ascProduct == 1 ? -1 : 1 ), setDescProduct(descProduct == -1 ? 1 : -1)) : setFilterProduct('payment')}>Payment <SVGs svg={'sort'}></SVGs></div>
-                <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'contact_name' ? (setAscProduct(ascProduct == 1 ? -1 : 1 ), setDescProduct(descProduct == -1 ? 1 : -1)) : setFilterProduct('contact_name')}>Customer <SVGs svg={'sort'}></SVGs></div>
-                <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'city' ? (setAscProduct(ascProduct == 1 ? -1 : 1 ), setDescProduct(descProduct == -1 ? 1 : -1)) : setFilterProduct('city')}>City <SVGs svg={'sort'}></SVGs></div>
-                <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'zip_code' ? (setAscProduct(ascProduct == 1 ? -1 : 1 ), setDescProduct(descProduct == -1 ? 1 : -1)) : setFilterProduct('zip_code')}>Zip Code <SVGs svg={'sort'}></SVGs></div>
-                <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'quote_number' ? (setAscProduct(ascProduct == 1 ? -1 : 1 ), setDescProduct(descProduct == -1 ? 1 : -1)) : setFilterProduct('quote_number')}>Quote # <SVGs svg={'sort'}></SVGs></div>
-                {/* <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterProduct == 'price' ? (setAscProduct(ascProduct == 1 ? -1 : 1 ), setDescProduct(descProduct == -1 ? 1 : -1)) : setFilterProduct('price')}>Price <SVGs svg={'sort'}></SVGs></div> */}
+                <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterPrice == 'brand' ? (setAscPrice(ascPrice == 1 ? -1 : 1 ), setDescPrice(descPrice == -1 ? 1 : -1)) : setFilterPrice('brand')}>Brand <SVGs svg={'sort'}></SVGs></div>
+                <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterPrice == 'model' ? (setAscPrice(ascPrice == 1 ? -1 : 1 ), setDescPrice(descPrice == -1 ? 1 : -1)) : setFilterPrice('model')}>Model <SVGs svg={'sort'}></SVGs></div>
+                <div className="clientDashboard-view-slab_list-headers-item"  onClick={(e) => filterPrice == 'color' ? (setAscPrice(ascPrice == 1 ? -1 : 1 ), setDescPrice(descPrice == -1 ? 1 : -1)) : setFilterPrice('color')}>Color <SVGs svg={'sort'}></SVGs></div>
+                <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterPrice == 'price' ? (setAscPrice(ascPrice == 1 ? -1 : 1 ), setDescPrice(descPrice == -1 ? 1 : -1)) : setFilterPrice('price')}>Price <SVGs svg={'sort'}></SVGs></div>
+                {/* <div className="clientDashboard-view-slab_list-headers-item" onClick={(e) => filterPrice == 'price' ? (setAscPrice(ascPrice == 1 ? -1 : 1 ), setDescPrice(descPrice == -1 ? 1 : -1)) : setFilterPrice('price')}>Price <SVGs svg={'sort'}></SVGs></div> */}
                 <div className="clientDashboard-view-slab_list-headers-item"></div>
                 <div className="clientDashboard-view-slab_list-headers-item"></div>
               </div>
             </div>
             <div className="clientDashboard-view-slab_list-slabs-container">
-            {allQuotes.length > 0 && allQuotes.sort((a, b) => a[filterProduct] > b[filterProduct] ? ascProduct : descProduct).map((item, idx) => (
+            {allPrices.length > 0 && allPrices.sort((a, b) => a[filterPrice] > b[filterPrice] ? ascPrice : descPrice).map((item, idx) => (
               <div key={idx} className="clientDashboard-view-slab_list-slabs">
                   <div className="clientDashboard-view-slab_list-slabs-checkbox" ref={(el) => (myRefs.current[idx] = el)}>
-                    <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`quote ` + `${idx}`} onClick={(e) => e.target.checked == true ? (handleControls(e, item._id), window.scrollTo({top: 0})) : (setControls(false), setIDControls(''))} />
-                    <label htmlFor={`quote ` + `${idx}`}><span>&nbsp;</span></label>
+                    <input className="clientDashboard-view-slab_list-slabs-checkbox-input" type="checkbox" id={`price ` + `${idx}`} onClick={(e) => e.target.checked == true ? (handleControls(e, item._id), window.scrollTo({top: 0})) : (setControls(false), setIDControls(''))} />
+                    <label htmlFor={`price ` + `${idx}`}><span>&nbsp;</span></label>
                   </div>
                   <div className="clientDashboard-view-slab_list-slabs-item-container" onClick={() => window.open(`/quotes/${item._id}`, '_blank')}>
-                    <div className="clientDashboard-view-slab_list-slabs-item">
-                      <div className="clientDashboard-view-slab_list-slabs-item-buttons">
-                        <button onClick={(e) => e.stopPropagation()}>
-                          {isLoaded && <BlobProvider document={<QuotePDF date={item.quote_date} lines={item.quote_lines} order={item.quote_number} contact_name={item.contact_name} address={item.address_one} city={item.city} state={item.state} zip_code={item.zip_code} phone={item.phone} subtotal={item.quote_subtotal} tax={item.quote_tax} total={item.quote_total} POnumber={item.po_number} salesperson={item.salesperson}/>}>
-                          {({ blob, url, loading, error }) =>
-                            <span onClick={() => renderQuote(url)}>View Quote</span>
-                          }
-                          </BlobProvider>}
-                        </button>
-                        <button onClick={(e) => e.stopPropagation()}>
-                          {isLoaded && <BlobProvider document={<Agreement date={item.quote_date} quote_name={item.quote_name} account_name={item.contact_name}/>}>
-                          {({ blob, url, loading, error }) => {
-                            return <span onClick={() => renderAgreement(url)}>View Agreement</span>
-                            } 
-                          }
-                          </BlobProvider>}
-                        </button>
-                      </div>
-                    </div>
-                    <div className="clientDashboard-view-slab_list-slabs-item">{item.quote_date}</div>
-                    <div className="clientDashboard-view-slab_list-slabs-item">{validateIsPriceNumber(item.quote_balance)}</div>
-                    <div style={{width: '8rem'}}className="clientDashboard-view-slab_list-slabs-item">{item.salesperson}</div>
-                    <div className="clientDashboard-view-slab_list-slabs-item">{item.payment ? 'Paid' : 'Pending'}</div>
-                    <div className="clientDashboard-view-slab_list-slabs-item">{item.contact_name}</div>
-                    <div className="clientDashboard-view-slab_list-slabs-item">{item.city}</div>
-                    <div className="clientDashboard-view-slab_list-slabs-item">{item.zip_code}</div>
-                    <div className="clientDashboard-view-slab_list-slabs-item">{item.quote_number}</div>
-                    <div className="clientDashboard-view-slab_list-slabs-item"></div>
-                    <div className="clientDashboard-view-slab_list-slabs-item"></div>
+                    <div className="clientDashboard-view-slab_list-slabs-item">{item.images.length > 0 ? <img src={item.images[0].location} alt="" /> : null}</div>
+                    <div className="clientDashboard-view-slab_list-slabs-item">{item.brand}</div>
+                    <div className="clientDashboard-view-slab_list-slabs-item">{item.model}</div>
+                    <div className="clientDashboard-view-slab_list-slabs-item">{item.color}</div>
+                    <div className="clientDashboard-view-slab_list-slabs-item">{validateIsPriceNumber(item.price)}</div>
                   </div>
               </div>
               ))}
@@ -181,13 +177,16 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
           </div>
         </div>
       </div>
+      { modal == 'price_list' &&
+        <PriceListModal setmodal={setModal} update={update}></PriceListModal>
+      }
     </>
   )
 }
 
 const mapStateToProps = state => {
   return {
-    quote: state.quote
+    priceList: state.priceList
   }
 }
 
@@ -195,6 +194,9 @@ const mapDispatchToProps = dispatch => {
   return {
     hideSideNav: () => dispatch({type: 'HIDE_SIDENAV'}),
     showSideNav: () => dispatch({type: 'SHOW_SIDENAV'}),
+    createPrice: (name, data) => dispatch({type: 'CREATE_PRICE_LIST', name: name, value: data}),
+    addPriceImage: (data) => dispatch({type: 'PRICE_LIST_IMAGE', value: data}),
+    resetPrice: () => dispatch({type: 'RESET_PRICE_LIST'})
   }
 }
 
@@ -202,8 +204,8 @@ Quotes.getInitialProps = async () => {
   let data
   let error
   try {
-    const responseQuotes = await axios.get(`${API}/transaction/quote-list`)
-    data = responseQuotes.data
+    const responsePriceList = await axios.get(`${API}/transaction/get-price-list`)
+    data = responsePriceList.data
   } catch (error) {
     console.log(error)
   }
