@@ -876,7 +876,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
                     { input_dropdown == 'product_category' &&
                     <div className="form-group-double-dropdown-input-list" ref={myRefs}>
                       <div className="form-group-double-dropdown-input-list-item border_bottom" onClick={() => (setInputDropdown(''), setModal('add_category'))}><SVGs svg={'plus'}></SVGs> Add new</div>
-                      {allCategories && allCategories.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                      {allProductCategories && allProductCategories.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
                       <div key={idx} className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('category', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
                       ))}
                     </div>

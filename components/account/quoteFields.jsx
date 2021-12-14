@@ -136,7 +136,7 @@ const QuoteFields = ({preloadCategories}) => {
         <div className="clientDashboard-view-form-left">
           <div className="clientDashboard-view-form-left-box">
             <div className="clientDashboard-view-form-left-box-heading">
-              <span>Add Miscellaenous Phase/Category</span>
+              <span>Add Miscellaneous Phase/Category</span>
               <span onClick={() => (setCategory(''), setModal('add_category'))}><SVGs svg={'plus'}></SVGs></span>
             </div>
             <div className="clientDashboard-view-form-left-box-container">
