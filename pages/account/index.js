@@ -11,6 +11,7 @@ import axios from 'axios'
 import {useRouter} from 'next/router'
 import SlabFields from '../../components/account/slabFields'
 import ProductFields from '../../components/account/productFields'
+import QuoteFields from '../../components/account/quoteFields'
 import Remnant from '../../components/account/Remnant'
 import Quote from '../../components/account/Quote'
 import PriceListModal from '../../components/modals/PriceList'
@@ -607,6 +608,10 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
                 <SVGs svg={'clipboard'}></SVGs>
                 <span>Phase/Category</span>
               </div>
+              <div className="clientDashboard-view-new-item" onClick={() => (window.location.href = 'account?change=quote-fields')}>
+                <SVGs svg={'clipboard'}></SVGs>
+                <span>Trasaction Fields</span>
+              </div>
             </div>
           }
           {
@@ -980,6 +985,12 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
           { nav.view == 'quote' &&
             <Quote priceList={priceList} addressList={addressList} categories={misc_categories} products={products} product_categories={allProductCategories} ></Quote>
           }
+          { nav.view == 'quote-fields' &&
+            <QuoteFields preloadCategories={allCategories}></QuoteFields>
+          }
+
+          {/* /////////////////// MODALS ///////////////////////////// */}
+          
           { modal == 'add_material' &&
             <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
             <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
