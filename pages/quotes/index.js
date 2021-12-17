@@ -23,7 +23,7 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [controls, setControls] = useState(false)
   const [idControls, setIDControls] = useState('')
-  const [modal, setModal] = useState('account')
+  const [modal, setModal] = useState('')
   const [account, setAccount] = useState('')
   const [job, setJob] = useState('')
   const [accountOnly, setAccountOnly] = useState('')
