@@ -195,6 +195,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
   const selectSavedAddress = (data) => {
     for(let key in data){
       createQuote(key, data[key])
+      if(key == '_id') createQuote('address_id', data['_id'])
     }
   }
 
@@ -214,7 +215,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
   }
 
   const validateIsNumberToCentsCheck2 = (evt) => {
-    // console.log(evt)
+    console.log(evt)
     let newValue = Number(evt.replace(/\D/g, '')) / 100
     return newValue
   }
@@ -935,8 +936,8 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               <div className="form-group-single-textarea-dropdown">
                 <label htmlFor="quote_deposit">Deposit</label>
                 <div className="form-group-single-textarea-dropdown-input">
-                  <textarea id="quote_deposit" rows="1" name="quote_deposit" placeholder="(Quote Deposit)" value={quote.quote_deposit} onChange={(e) => (validateIsNumber('quote_deposit'), createQuote('quote_deposit', show == 'address' ? `$${e.target.value}` : `${e.target.value}%`))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Quote Deposit)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null}></textarea>
-                  {show == 'address' ? <span onClick={() => (createQuote('quote_deposit', ''), setShow('percentage'))}><SVGs svg={'percentage'}></SVGs></span> : <span onClick={() => (createQuote('quote_deposit', ''),setShow('address'))}><SVGs svg={'dollar'}></SVGs></span>}
+                  <textarea id="quote_deposit" rows="1" name="quote_deposit" placeholder="(Quote Deposit)" value={quote.quote_deposit} onChange={(e) => (validateIsNumber('quote_deposit'), createQuote('quote_deposit', show == 'address' ? `$${e.target.value.includes('$') ? e.target.value.replace('$', '') : e.target.value}` : `${e.target.value.includes('%') ? e.target.value.replace('%', '') : e.target.value}%`))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Quote Deposit)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null}></textarea>
+                  {show == 'address' ? <span onClick={() => (createQuote('quote_deposit', ''), setShow('percentage'))}><SVGs svg={'percentage'}></SVGs></span> : <span onClick={() => (createQuote('quote_deposit', ''), setShow('address'))}><SVGs svg={'dollar'}></SVGs></span>}
                 </div>
               </div>
             </div>
@@ -971,7 +972,11 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
           {searchItems && <div className="addFieldItems-modal-form-container-searchList">
             <div className="addFieldItems-modal-form-container-searchList-categories-container">
               <div className="addFieldItems-modal-form-container-searchList-categories">
-                <span className={`addFieldItems-modal-form-container-searchList-categories-item ` + (filterSearch == 'products' ? 'categoryClicked' : '')} onClick={() => filterSearch == 'products' ? setFilterSearch('') : setFilterSearch('products')}>Products</span>
+                <span 
+                className={`addFieldItems-modal-form-container-searchList-categories-item ` + (filterSearch == 'products' ? 'categoryClicked' : '')} 
+                onClick={() => filterSearch == 'products' ? setFilterSearch('') : setFilterSearch('products')}>
+                  Products
+                </span>
                 <span className={`addFieldItems-modal-form-container-searchList-categories-item ` + (filterSearch == 'priceLists' ? ' categoryClicked' : '')} onClick={() => filterSearch == 'priceLists' ? setFilterSearch('') : setFilterSearch('priceLists')}>Price List</span>
               </div>
               <span onClick={() => setSearchItems(false)}><SVGs svg={'close'}></SVGs></span>
@@ -1104,7 +1109,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                 {input_dropdown == 'products' && 
                 <div className="form-group-single-dropdown-list" ref={myRefs}>
                   {allProducts && allProducts.map((item, idx) => 
-                    <div key={idx} className="clientDashboard-view-form-left-box-container-2-item-content-list-item" onClick={() => (createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.category), createQuoteLine('description', item.description), createQuoteLine('price', item.price),setInputDropdown(''))}>
+                    <div key={idx} className="clientDashboard-view-form-left-box-container-2-item-content-list-item" onClick={() => (createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.category), createQuoteLine('description', item.description), createQuoteLine('price', item.price), createQuoteLine('price_unformatted', validateIsNumberToCentsCheck2(item.price)), setInputDropdown(''))}>
                     {item.brand} / {item.category} / {item.model}
                     </div>
                   )   
@@ -1179,7 +1184,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                 {input_dropdown == 'products' && 
                 <div className="form-group-single-dropdown-list" ref={myRefs}>
                   {allPriceLists && allPriceLists.map((item, idx) => 
-                    <div key={idx} className="clientDashboard-view-form-left-box-container-2-item-content-list-item" onClick={() => (createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.color), createQuoteLine('price', `$${item.price}`),setInputDropdown(''))}>
+                    <div key={idx} className="clientDashboard-view-form-left-box-container-2-item-content-list-item" onClick={() => (createQuoteLine('brand', item.brand), createQuoteLine('model', item.model), createQuoteLine('category', item.color), createQuoteLine('price', `$${item.price}`), createQuoteLine('price_unformatted', item.price), setInputDropdown(''))}>
                     {item.brand} / {item.color} / {item.model}
                     </div>
                   )   

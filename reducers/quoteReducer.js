@@ -11,6 +11,7 @@ const initialState = {
   fax: '',
   email: '',
   address_notes: '',
+  address_id: '',
   // QUOTE DETAIL
   quote_name: '',
   price_list: '',

@@ -974,6 +974,34 @@ body {
           cursor: pointer;
           color: white;
           background-color: #fd7e3c; }
+  .form-group-checkbox {
+    display: flex;
+    align-items: center;
+    margin: 1rem 0 0 0;
+    font-size: 1.4rem;
+    margin-right: 2rem; }
+    .form-group-checkbox-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      border: 0.1rem solid #413838;
+      outline: none;
+      border-radius: 50%;
+      margin-right: 1rem;
+      transition: all 0.3s ease-in-out; }
+      .form-group-checkbox-box:hover {
+        cursor: pointer; }
+      .form-group-checkbox-box svg {
+        width: 2rem;
+        height: 2rem;
+        fill: #fd7e3c; }
+
+.checked {
+  background-color: #1bc9a2 !important; }
+  .checked svg {
+    fill: white !important; }
 
 .border_bottom {
   border-bottom: 0.1rem solid #dbdbdb;
@@ -1295,9 +1323,10 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
-  justify-content: center; }
+  justify-content: center;
+  z-index: 2000 !important; }
   .addFieldItems-modal-box {
-    z-index: 1000 !important;
+    z-index: 2000 !important;
     background-color: #dbdbdb;
     width: 40%;
     padding: 0 0 2rem 0;
@@ -1330,7 +1359,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 1rem 2rem; }
+    padding: 0rem 2rem; }
     .addFieldItems-modal-form-container {
       max-height: 60vh;
       overflow-y: scroll;
@@ -1408,6 +1437,11 @@ body {
         .addFieldItems-modal-form-title span svg {
           width: 3rem;
           height: 3rem; }
+    .addFieldItems-modal-form-options {
+      display: flex;
+      align-items: center;
+      margin: 0 2rem;
+      padding: 1rem; }
   .addFieldItems-modal-message {
     font-size: 2rem;
     text-align: center;
@@ -1636,7 +1670,7 @@ body {
       .clientDashboard-view-new-item {
         margin-bottom: 2rem;
         border-radius: 1.2rem;
-        background-color: white;
+        background-color: rgba(2, 64, 96, 0.05);
         padding: 2rem 3rem;
         width: 20rem;
         height: 20rem;
@@ -2176,9 +2210,17 @@ body {
           margin-left: 2rem;
           width: auto; }
           .clientDashboard-view-slab_list-heading-controls-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             margin-left: 1rem;
             padding: 0.5rem 2rem;
             border-radius: 1.2rem; }
+            .clientDashboard-view-slab_list-heading-controls-item svg {
+              margin-right: 0.5rem;
+              width: 2rem;
+              height: 2rem;
+              fill: white; }
             .clientDashboard-view-slab_list-heading-controls-item:hover {
               cursor: pointer; }
       .clientDashboard-view-slab_list-headers {

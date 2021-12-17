@@ -23,6 +23,57 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [controls, setControls] = useState(false)
   const [idControls, setIDControls] = useState('')
+  const [modal, setModal] = useState('account')
+  const [account, setAccount] = useState('')
+  const [job, setJob] = useState('')
+  const [accountOnly, setAccountOnly] = useState('')
+
+  const [prevX, setPrevX] = useState(0)
+  const [prevY, setPrevY] = useState(0)
+  const onPointerDown = () => {}
+  const onPointerUp = () => {}
+  const onPointerMove = () => {}
+  const [isDragging, setIsDragging] = useState(false)
+
+  const [translate, setTranslate] = useState({
+    x: 0,
+    y: 0
+  });
+
+  const handlePointerDown = (e) => {
+    setPrevX(0)
+    setPrevY(0)
+    setIsDragging(true)
+    onPointerDown(e)
+  }
+
+  const handlePointerUp = (e) => {
+    setIsDragging(false)
+    onPointerUp(e)
+  }
+
+  const handlePointerMove = (e) => {
+    if (isDragging) handleDragMove(e);
+
+    onPointerMove(e);
+  };
+
+  const handleDragMove = (e) => {
+    var movementX = (prevX ? e.screenX - prevX : 0)
+    var movementY = (prevY ? e.screenY - prevY : 0)
+    
+    setPrevX(e.screenX)
+    setPrevY(e.screenY)
+
+    handleModalMove(movementX, movementY)
+  };
+
+  const handleModalMove = (X, Y) => {
+    setTranslate({
+      x: translate.x + X,
+      y: translate.y + Y
+    });
+  }
 
   useEffect(() => {
     setIsLoaded(true)
@@ -103,6 +154,23 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
       if(error) error.response ? setError(error.response.data) : setError('Error deleting quote from list')
     }
   }
+
+  const createAccount = async (e) => {
+    e.preventDefault()
+    if(accountOnly) return setError('Creating an account only is not yet supported')
+    setLoading(true)
+    setError('')
+    try {
+      const responseAccount = await axios.post(`${API}/transaction/create-account`, {account: account, job: job, id: idControls})
+      setLoading(false)
+      setControls(false)
+
+    } catch (error) {
+      setLoading(false)
+      setControls(false)
+      if(error) error.response ? setError(error.response.data) : setError('Error creating an account list')
+    }
+  }
   
   return (
     <>
@@ -116,6 +184,7 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
               {controls &&
               <div className="clientDashboard-view-slab_list-heading-controls">
                 <div id="edit-product" className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControls ? window.location.href = `quotes/${idControls}` : null}>Edit</div>
+                <div id="create-account" className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => setModal('account')}><SVGs svg={'plus'}></SVGs> Account</div>
                 <div id="delete-product" className="clientDashboard-view-slab_list-heading-controls-item delete" onClick={() => handleDelete()}>Delete</div>
               </div>
               }
@@ -185,6 +254,44 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
           </div>
         </div>
       </div>
+      { modal == 'account' &&
+        <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
+        <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
+          <div className="addFieldItems-modal-box-header">
+            <span className="addFieldItems-modal-form-title">Create Account</span>
+            <div onClick={() => (setModal(''), setError(''))}><SVGs svg={'close'}></SVGs></div>
+          </div>
+          <div className="addFieldItems-modal-form-options">
+            <div className="form-group-checkbox" onClick={() => accountOnly ? setAccountOnly(false) : setAccountOnly(true)}>
+              <div className={`form-group-checkbox-box` + (accountOnly ? ' checked' : '')}></div> Account Only
+            </div>
+            <div className="form-group-checkbox" onClick={() => accountOnly ? setAccountOnly(false) : setAccountOnly(false)}>
+              <div className={`form-group-checkbox-box` + (!accountOnly ? ' checked' : '')}></div> Create Job
+            </div>
+          </div>
+          <form className="addFieldItems-modal-form" onSubmit={(e) => createAccount(e)}>
+            <div className="form-group-single-textarea">
+              <div className="form-group-single-textarea-field">
+                <label htmlFor="account">Account Name</label>
+                <textarea id="account" rows="1" name="account" placeholder="(Account Name)" value={account} onChange={(e) => setAccount(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Account Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+              </div>
+            </div>
+            {!accountOnly &&
+            <div className="form-group-single-textarea">
+              <div className="form-group-single-textarea-field">
+                <label htmlFor="account">Job Name</label>
+                <textarea id="job" rows="1" name="job" placeholder="(Job Name)" value={job} onChange={(e) => setJob(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Job Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
+              </div>
+            </div>
+            }
+            <br></br>
+            {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+            <button type="submit" className="form-button w100">{!loading && <span>Save</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
+            {/* {edit == 'brand' && <button onClick={(e) => updateBrand(e)} className="form-button w100">{!loading && <span>Update Brand</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>} */}
+          </form>
+        </div>
+      </div>
+      }
     </>
   )
 }
