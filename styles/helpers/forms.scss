@@ -928,6 +928,18 @@
     }
   }
 
+  &-message {
+    &-link {
+      font-size: 1.4rem;
+      margin-left: 1rem;
+
+      a {
+        color: $color-scheme-2;
+        text-decoration: none;
+      }
+    }
+  }
+
   &-group-single-textarea {
     padding: 1.5rem 0 0 0;
     width: 100%;
@@ -1512,13 +1524,17 @@
 
 .edit {
   font-weight: 700;
-  background-color: $color-scheme-1;
+  background-color: transparent;
+  border: 0.2rem solid white;
+  box-shadow: 1rem -2rem 2rem 0.5rem rgba(235, 227, 227, 0.2);
+
   animation: slideFromRight 0.8s ease-in-out;
 }
 
 .delete {
-  font-weight: 700;
-  background-color: red;
+  font-weight: 600 !important;
+  background-color: $color-light-shade-scheme-3;
+  color: $color-dark-shade-scheme-1;
   animation: slideFromRight 0.8s ease-in-out;
 }
 

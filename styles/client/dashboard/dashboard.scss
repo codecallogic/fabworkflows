@@ -725,7 +725,7 @@
         font-size: 1.4rem;
         height: 5rem;
         color: white;
-        background-color: $color-dark-shade-scheme-1;
+        background-color: $color-dark-shade-scheme-4;
         padding: 1rem 1rem;
         border-top-left-radius: 1.2rem;
         border-top-right-radius: 1.2rem;
@@ -733,6 +733,8 @@
 
         &-title {
           min-width: max-content;
+          font-weight: 700;
+          text-transform: uppercase;
         }
 
         &-controls {
@@ -748,7 +750,8 @@
             justify-content: center;
             margin-left: 1rem;
             padding: 0.5rem 2rem;
-            border-radius: 1.2rem;
+            border-radius: 2rem;
+            font-weight: 600;
 
             svg {
               margin-right: 0.5rem;
@@ -981,14 +984,17 @@
             z-index: 1000 !important;
 
             button {
+              display: flex;
+              justify-content: center;
+              align-items: center;
               width: 100%;
-              padding: 1rem 2rem;
-              background-color: $color-scheme-1;
+              padding: 1rem;
+              background-color: $color-scheme-2;
               color: white;
               outline: none;
               border: 0.1rem solid white;
               font-size: 1.2rem;
-              border-radius: 1.2rem;
+              border-radius: 2rem;
               z-index: 1000 !important;
 
               &:hover {

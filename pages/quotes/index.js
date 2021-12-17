@@ -27,6 +27,7 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
   const [account, setAccount] = useState('')
   const [job, setJob] = useState('')
   const [accountOnly, setAccountOnly] = useState('')
+  const [html, setHtml] = useState('')
 
   const [prevX, setPrevX] = useState(0)
   const [prevY, setPrevY] = useState(0)
@@ -78,14 +79,24 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
   useEffect(() => {
     setIsLoaded(true)
   }, [])
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, true);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, [])
   
   const handleClickOutside = (event) => {
     if(myRefs.current){
       myRefs.current.forEach((item) => {
         if(item){
           if(item.contains(event.target)) return
+          if(modal == 'account') return
           if(event.target == document.getElementById('delete-quote')) return
           if(event.target == document.getElementById('edit-quote')) return
+          if(event.target == document.getElementById('create-account')) return
           item.childNodes[0].checked = false
           setControls(false)
           setIDControls('')
@@ -139,6 +150,14 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
     return setIDControls(id)
   }
 
+  const unsetControls = (e, id) => {
+    const els = document.querySelectorAll('.clientDashboard-view-slab_list-slabs-checkbox-input')
+
+    els.forEach( (el) => {
+      el.checked = false
+    })
+  }
+
   const handleDelete = async (e) => {
     setLoading(true)
     setError('')
@@ -160,14 +179,16 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
     if(accountOnly) return setError('Creating an account only is not yet supported')
     setLoading(true)
     setError('')
+    setHtml('')
     try {
       const responseAccount = await axios.post(`${API}/transaction/create-account`, {account: account, job: job, id: idControls})
       setLoading(false)
       setControls(false)
-
+      setHtml(`View new job <a href="/jobs/${responseAccount.data._id}">${responseAccount.data.name}</a>`)
     } catch (error) {
       setLoading(false)
       setControls(false)
+      setHtml('')
       if(error) error.response ? setError(error.response.data) : setError('Error creating an account list')
     }
   }
@@ -183,9 +204,9 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
               <div className="clientDashboard-view-slab_list-heading-title">Quote List</div>
               {controls &&
               <div className="clientDashboard-view-slab_list-heading-controls">
-                <div id="edit-product" className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControls ? window.location.href = `quotes/${idControls}` : null}>Edit</div>
+                <div id="edit-quote" className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControls ? window.location.href = `quotes/${idControls}` : null}>Edit</div>
                 <div id="create-account" className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => setModal('account')}><SVGs svg={'plus'}></SVGs> Account</div>
-                <div id="delete-product" className="clientDashboard-view-slab_list-heading-controls-item delete" onClick={() => handleDelete()}>Delete</div>
+                <div id="delete-quote" className="clientDashboard-view-slab_list-heading-controls-item delete" onClick={() => handleDelete()}>Delete</div>
               </div>
               }
               {loading && <div className="loading"><span></span><span></span><span></span></div>}
@@ -259,7 +280,7 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
         <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
           <div className="addFieldItems-modal-box-header">
             <span className="addFieldItems-modal-form-title">Create Account</span>
-            <div onClick={() => (setModal(''), setError(''))}><SVGs svg={'close'}></SVGs></div>
+            <div onClick={() => (unsetControls(), setHtml(''), setAccount(''), setJob(''), setModal(''), setError(''))}><SVGs svg={'close'}></SVGs></div>
           </div>
           <div className="addFieldItems-modal-form-options">
             <div className="form-group-checkbox" onClick={() => accountOnly ? setAccountOnly(false) : setAccountOnly(true)}>
@@ -273,19 +294,22 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
             <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-field">
                 <label htmlFor="account">Account Name</label>
-                <textarea id="account" rows="1" name="account" placeholder="(Account Name)" value={account} onChange={(e) => setAccount(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Account Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
+                <textarea id="account" rows="1" name="account" placeholder="(Account Name)" value={account} onChange={(e) => (setError(''), setHtml(''), setAccount(e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Account Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
               </div>
             </div>
             {!accountOnly &&
             <div className="form-group-single-textarea">
               <div className="form-group-single-textarea-field">
                 <label htmlFor="account">Job Name</label>
-                <textarea id="job" rows="1" name="job" placeholder="(Job Name)" value={job} onChange={(e) => setJob(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Job Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
+                <textarea id="job" rows="1" name="job" placeholder="(Job Name)" value={job} onChange={(e) => (setError(''), setHtml(''), setJob(e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Job Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
               </div>
             </div>
             }
             <br></br>
             {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+
+            {html ? <div className="form-message-link" dangerouslySetInnerHTML={{ __html: html }}/> : null}
+            
             <button type="submit" className="form-button w100">{!loading && <span>Save</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
             {/* {edit == 'brand' && <button onClick={(e) => updateBrand(e)} className="form-button w100">{!loading && <span>Update Brand</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>} */}
           </form>
