@@ -247,6 +247,7 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
 
   // ADD QUOTE LINES
   useEffect(() => {
+    console.log(quote)
 
     // TOTAL AND NONTAXABLE SUBTOTAL
     
@@ -283,9 +284,18 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
       (total = total + (nontaxablesubtotal - (nontaxablesubtotal * (quote.quote_discount/100))))
 
     createQuote('quote_total', total)
+    console.log(total)
+    console.log(quote.quote_deposit)
+    console.log(typeof(quote.quote_deposit))
+    
+    let totalDeposit = quote.quote_deposit 
+    ? quote.quote_deposit.includes('$') 
+    ? quote.quote_deposit.replace('$', '') 
+    :quote.quote_deposit.includes('%')  
+    ? (+total * (+quote.quote_deposit.replace('%', '')/100)) : +quote.quote_deposit : 0
 
-    let totalDeposit = quote.quote_deposit ? quote.quote_deposit.includes('$') ? +quote.quote_deposit.replace('$', '') : (quote.quote_total * (quote.quote_deposit.replace('%', '')/100)): 0
-
+    console.log(totalDeposit)
+    
     let balance = total - totalDeposit
     createQuote('quote_balance', balance)
 
@@ -455,7 +465,7 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
       <div className="clientDashboard-view-slab_form-heading">
         <span>Update Quote</span>
         <div className="form-error-container">
-          {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+          {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error.substring(0, 150)}</span>}
         </div>
       </div>
       <div className="clientDashboard-view-slab_form">
@@ -715,7 +725,10 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
                 <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-deposit">
                   <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
                     <label>Deposit</label>
-                    <span id="deposit" >{quote.quote_deposit ? quote.quote_deposit.includes('$') ? quote.quote_deposit : validateIsPriceNumber((quote.quote_total * (quote.quote_deposit.replace('%', '')/100))): 0}</span>
+                    <span id="deposit" >{quote.quote_deposit 
+                    ? quote.quote_deposit.includes('$') 
+                    ? quote.quote_deposit 
+                    : quote.quote_deposit.includes('%') ?validateIsPriceNumber((quote.quote_total * (quote.quote_deposit.replace('%', '')/100))) :  `$${quote.quote_deposit}` : `$${quote.quote_deposit}`}</span>
                   </div>
                 </div>
                 }
@@ -942,7 +955,20 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
               <div className="form-group-single-textarea-dropdown">
                 <label htmlFor="quote_deposit">Deposit</label>
                 <div className="form-group-single-textarea-dropdown-input">
-                  <textarea id="quote_deposit" rows="1" name="quote_deposit" placeholder="(Quote Deposit)" value={quote.quote_deposit} onChange={(e) => (validateIsNumber('quote_deposit'), createQuote('quote_deposit', show == 'address' ? `$${e.target.value}` : `${e.target.value}%`))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Quote Deposit)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null}></textarea>
+                  <textarea 
+                  id="quote_deposit" 
+                  rows="1" 
+                  name="quote_deposit" 
+                  placeholder="(Quote Deposit)" 
+                  value={quote.quote_deposit} onChange={(e) => (validateIsNumber('quote_deposit'), createQuote('quote_deposit',  show == 'address' 
+                  ? `$${e.target.value.includes('$') 
+                  ? e.target.value.replace('$', '') 
+                  : e.target.value}` 
+                  : `${e.target.value.includes('%') 
+                  ? e.target.value.replace('%', '') 
+                  : e.target.value}%`))} 
+                  onFocus={(e) => e.target.placeholder = ''} 
+                  onBlur={(e) => e.target.placeholder = '(Quote Deposit)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null}></textarea>
                   {show == 'address' ? <span onClick={() => (createQuote('quote_deposit', ''), setShow('percentage'))}><SVGs svg={'percentage'}></SVGs></span> : <span onClick={() => (createQuote('quote_deposit', ''),setShow('address'))}><SVGs svg={'dollar'}></SVGs></span>}
                 </div>
               </div>
@@ -1332,7 +1358,7 @@ const Quote = ({showSideNav, hideSideNav, quoteData, quote, createQuote, priceLi
             }
           </div>
           <form className="addFieldItems-modal-form">
-            {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
+            {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error.substring(0, 500)}</span>}
           </form>
         </div>
       </div>

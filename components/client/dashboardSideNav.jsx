@@ -112,6 +112,12 @@ const SideNav = ({nav, width, toggleSideNav, newView, redirect}) => {
                 <SVGs svg={'circle-thin'} classprop={`clientDashboard_sidenav-menu-item-arrow` + (!nav.sidenav ? ' hide-sidenav-items' : '')  + (toggle ? ' hide-sidenav-dropdown' : '')}/>
                 Prices
             </div>
+            <div 
+              onClick={() => (window.location.href = `/jobs`, width < 992 ? toggleSideNav('toggle_nav_button') : null)} 
+              className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'transactions'  ? ' hide-sidenav-dropdown' : '')}>
+                <SVGs svg={'circle-thin'} classprop={`clientDashboard_sidenav-menu-item-arrow` + (!nav.sidenav ? ' hide-sidenav-items' : '')  + (toggle ? ' hide-sidenav-dropdown' : '')}/>
+                Jobs
+            </div>
           </div>
       </div>
     </div>

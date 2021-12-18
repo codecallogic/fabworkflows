@@ -269,7 +269,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
 
     createQuote('quote_total', total)
 
-    let totalDeposit = quote.quote_deposit ? quote.quote_deposit.includes('$') ? +quote.quote_deposit.replace('$', '') : (quote.quote_total * (quote.quote_deposit.replace('%', '')/100)): 0
+    let totalDeposit = quote.quote_deposit ? quote.quote_deposit.includes('$') ? +quote.quote_deposit.replace('$', '') : typeof(quote.quote_deposit) == 'string' ? (total * (quote.quote_deposit.replace('%', '')/100)) : 0 : 0
 
     let balance = total - totalDeposit
     createQuote('quote_balance', balance)
@@ -936,7 +936,21 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
               <div className="form-group-single-textarea-dropdown">
                 <label htmlFor="quote_deposit">Deposit</label>
                 <div className="form-group-single-textarea-dropdown-input">
-                  <textarea id="quote_deposit" rows="1" name="quote_deposit" placeholder="(Quote Deposit)" value={quote.quote_deposit} onChange={(e) => (validateIsNumber('quote_deposit'), createQuote('quote_deposit', show == 'address' ? `$${e.target.value.includes('$') ? e.target.value.replace('$', '') : e.target.value}` : `${e.target.value.includes('%') ? e.target.value.replace('%', '') : e.target.value}%`))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Quote Deposit)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null}></textarea>
+                  <textarea 
+                  id="quote_deposit" 
+                  rows="1" name="quote_deposit"
+                  placeholder="(Quote Deposit)" 
+                  value={quote.quote_deposit} 
+                  onChange={(e) => (validateIsNumber('quote_deposit'), createQuote('quote_deposit', show == 'address' 
+                  ? `$${e.target.value.includes('$') 
+                  ? e.target.value.replace('$', '') 
+                  : e.target.value}` 
+                  : `${e.target.value.includes('%') 
+                  ? e.target.value.replace('%', '') 
+                  : e.target.value}%`))} 
+                  onFocus={(e) => e.target.placeholder = ''} 
+                  onBlur={(e) => e.target.placeholder = '(Quote Deposit)'} wrap="off" 
+                  onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null}></textarea>
                   {show == 'address' ? <span onClick={() => (createQuote('quote_deposit', ''), setShow('percentage'))}><SVGs svg={'percentage'}></SVGs></span> : <span onClick={() => (createQuote('quote_deposit', ''), setShow('address'))}><SVGs svg={'dollar'}></SVGs></span>}
                 </div>
               </div>

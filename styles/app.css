@@ -663,12 +663,15 @@ body {
   .form-error {
     display: flex;
     align-items: center;
-    width: max-content;
+    width: 100%;
+    padding: 3rem;
     font-size: 1.4rem;
     color: red; }
-    @media only screen and (max-width: 600px) {
-      .form-error span {
-        display: none; } }
+    .form-error span {
+      display: block; }
+      @media only screen and (max-width: 600px) {
+        .form-error span {
+          display: none; } }
     .form-error-list {
       color: white; }
     .form-error svg {
@@ -3108,7 +3111,7 @@ body {
           display: flex;
           align-items: center;
           justify-content: center;
-          background-color: rgba(253, 126, 60, 0.9);
+          background-color: #1bc9a2;
           color: white;
           padding: 0.5rem;
           border-radius: 1.2rem; }

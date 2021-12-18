@@ -898,11 +898,14 @@
   &-error {
     display: flex;
     align-items: center;
-    width: max-content;
+    width: 100%;
+    padding: 3rem;
     font-size: 1.4rem;
     color: red;
 
     span {
+      display: block;
+
       @media only screen and (max-width: $small) {
         display: none;
       }

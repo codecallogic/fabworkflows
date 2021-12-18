@@ -22,7 +22,8 @@ const searchOptionsCities = {
 }
 
 const Checkout = ({quote, order, createOrder}) => {
-  // console.log(quote)
+  console.log(quote)
+
   const [show, setShow] = useState('address')
   const [modal, setModal] = useState('')
   const [newDeposit, setNewDeposit] = useState('')
@@ -180,7 +181,7 @@ const Checkout = ({quote, order, createOrder}) => {
               { quote.quote_lines.length > 0 &&
                 <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
                   <label>Subtotal</label>
-                  <span id="subtotal">{validateIsPriceNumber(quote.quote_subtotal)}</span>
+                  <span id="subtotal">{quote.quote_subtotal ? validateIsPriceNumber(quote.quote_subtotal) : 0}</span>
                 </div>
               }
               { quote.quote_lines.length > 0 &&
@@ -211,7 +212,7 @@ const Checkout = ({quote, order, createOrder}) => {
               <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-nontaxable-discount">
                 <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
                   <label>Non-Taxable Discount</label>
-                  <span id="discount">{quote.quote_nontaxable_subtotal ? validateIsPriceNumber(quote.quote_nontaxable_subtotal): 0}</span>
+                  <span id="discount">{quote.quote_nontaxable_discount ? validateIsPriceNumber(quote.quote_nontaxable_discount): 0}</span>
                 </div>
               </div>
               }
@@ -227,7 +228,24 @@ const Checkout = ({quote, order, createOrder}) => {
               <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-deposit">
                 <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
                   <label>Deposit</label>
-                  <span id="deposit" >{quote.quote_deposit ? validateIsPriceNumber(quote.quote_deposit) : newDeposit ? validateIsPriceNumber(quote.quote_balance * newDeposit/100): 0}</span>
+                  <span id="deposit" >{newDeposit 
+                  ? 
+                  (validateIsPriceNumber(
+                  quote.quote_balance * newDeposit/100 + (quote.quote_deposit.includes('$') ?  +quote.quote_deposit.replace('$', '') 
+                  : 
+                  quote.quote_deposit.includes('%') 
+                  ? (quote.quote_total * (+quote.quote_deposit.replace('%', '')/100)) : +quote.quote_deposit))) 
+                  : quote.quote_deposit 
+                  ? 
+                  validateIsPriceNumber(
+                  quote.quote_deposit.includes('$') 
+                  ? quote.quote_deposit.replace('$', '') 
+                  :  quote.quote_deposit.includes('%')
+                  ? (+quote.quote_total * (quote.quote_deposit.replace('%', '')/100)) 
+                  : 
+                  +quote.quote_deposit
+                  ) 
+                  : 0}</span>
                 </div>
               </div>
               }
