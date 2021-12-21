@@ -16,7 +16,7 @@ const searchOptionsCities = {
   types: ['(cities)']
 }
 
-const Address = ({setmodal, update, quote, createQuote, resetQuote}) => {
+const Address = ({setmodal, update, quote, createQuote, resetQuote, job, createJob, convertDate}) => {
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [edit, setEdit] = useState('')
@@ -121,16 +121,16 @@ const Address = ({setmodal, update, quote, createQuote, resetQuote}) => {
   
   const addAddress = async (e) => {
     e.preventDefault()
-    setLoading(true)
+    setLoading('create')
     if(!validateIsEmail('email')) return setError('Email is not valid')
     try {
       const responseAddress = await axios.post(`${API}/transaction/create-address`, quote)
-      setLoading(false)
+      setLoading('')
       resetQuote()
       setMessage(responseAddress.data)
     } catch (error) {
       console.log(error)
-      setLoading(false)
+      setLoading('')
       setmodal('')
       if(error) error.response ? setError(error.response.data) : setError('Error creating address, please try again later')
     }
@@ -139,17 +139,101 @@ const Address = ({setmodal, update, quote, createQuote, resetQuote}) => {
   const updateContact = async (e) => {
     e.preventDefault()
     if(!validateIsEmail('email')) return setError('Email is not valid')
-    setLoading(true)
+    setLoading('update')
     setMessage('')
     setError('')
     try {
       const responseUpdate = await axios.post(`${API}/transaction/update-address`, quote)
-      setLoading(false)
+      setLoading('')
       setmodal('')
       window.location.reload()
     } catch (error) {
-      setLoading(false)
+      setLoading('')
       if(error) error.response ? setError(error.response.data) : setError('Error updating contact, please try again later')
+    }
+  }
+
+  const createJobAddress = async (e) => {
+    e.preventDefault()
+    setLoading('createJobAddress')
+    if(!quote.contact_name) return setError('Contact name is required')
+    if(!quote.address_one) return setError('Address is required')
+    if(!quote.city) return setError('City is required')
+    if(!quote.state) return setError('State is required')
+    if(!quote.zip_code) return setError('Zip code is required')
+    if(!quote.email) return setError('Email is required')
+    if(!validateIsEmail('email')) return setError('Email is not valid')
+    try {
+      const responseAddress = await axios.post(`${API}/transaction/create-job-address`, {quote: quote, job: job})
+      setLoading('')
+      resetQuote()
+      
+      for(let key in responseAddress.data){
+        createJob(key, responseAddress.data[key])
+        if(key == 'createdAt') createJob('createdAt', convertDate(responseAddress.data['createdAt']))
+      }
+      setmodal('')
+      
+    } catch (error) {
+      console.log(error)
+      setLoading('')
+      if(error) error.response ? setError(error.response.data) : setError('Error creating address, please try again later')
+    }
+  }
+
+  const updateJobAddress = async (e) => {
+    e.preventDefault()
+    setLoading('updateJobAddress')
+    if(!quote.contact_name) return setError('Contact name is required')
+    if(!quote.address_one) return setError('Address is required')
+    if(!quote.city) return setError('City is required')
+    if(!quote.state) return setError('State is required')
+    if(!quote.zip_code) return setError('Zip code is required')
+    if(!quote.email) return setError('Email is required')
+    if(!validateIsEmail('email')) return setError('Email is not valid')
+    try {
+      const responseAddress = await axios.post(`${API}/transaction/update-job-address`, {quote: quote, job: job})
+      setLoading('')
+      resetQuote()
+      console.log(responseAddress.data)
+      for(let key in responseAddress.data){
+        createJob(key, responseAddress.data[key])
+        if(key == 'createdAt') createJob('createdAt', convertDate(responseAddress.data['createdAt']))
+      }
+      setmodal('')
+      
+    } catch (error) {
+      console.log(error)
+      setLoading('')
+      if(error) error.response ? setError(error.response.data) : setError('Error creating address, please try again later')
+    }
+  }
+
+  const createAccountAddress = async (e) => {
+    e.preventDefault()
+    setLoading('createJobAddress')
+    if(!quote.contact_name) return setError('Contact name is required')
+    if(!quote.address_one) return setError('Address is required')
+    if(!quote.city) return setError('City is required')
+    if(!quote.state) return setError('State is required')
+    if(!quote.zip_code) return setError('Zip code is required')
+    if(!quote.email) return setError('Email is required')
+    if(!validateIsEmail('email')) return setError('Email is not valid')
+    try {
+      const responseAddress = await axios.post(`${API}/transaction/create-account-address`, {quote: quote, job: job})
+      setLoading('')
+      resetQuote()
+      
+      for(let key in responseAddress.data){
+        createJob(key, responseAddress.data[key])
+        if(key == 'createdAt') createJob('createdAt', convertDate(responseAddress.data['createdAt']))
+      }
+      setmodal('')
+      
+    } catch (error) {
+      console.log(error)
+      setLoading('')
+      if(error) error.response ? setError(error.response.data) : setError('Error creating address, please try again later')
     }
   }
   
@@ -244,8 +328,32 @@ const Address = ({setmodal, update, quote, createQuote, resetQuote}) => {
         </div>
         {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
         {message && <span className="form-message-modal">{message}</span>}
-        {update == '' && <div className="form-button w100" onClick={(e) => addAddress(e)}>{!loading && <span>Save</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</div>}
-        {update == 'true' && <div onClick={(e) => updateContact(e)} className="form-button w100">{!loading && <span>Update Contact</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</div>}
+        {update == '' && <div className="form-button w100" onClick={(e) => addAddress(e)}>{!loading && <span>Save</span>} {loading == 'create' && <div className="loading"><span></span><span></span><span></span></div>}</div>}
+        {update == 'true' && <div onClick={(e) => updateContact(e)} className="form-button w100">{!loading && <span>Update</span>} {loading == 'update' && <div className="loading"><span></span><span></span><span></span></div>}</div>}
+        {update == 'double_job' && 
+        <div className="form-button-container">
+          <div onClick={(e) => createJobAddress(e)} className="form-button w100">{loading !== 'createJobAddress' && <span>Create New</span>} 
+            {loading == 'createJobAddress' && <div className="loading"><span></span><span></span><span></span></div>
+            }
+          </div>
+          <div onClick={(e) => updateJobAddress(e)} className={`form-button w100 ` + (quote.address_id ? '' : 'hide')}>{loading !== 'updateJobAddress' && <span>Update</span>} 
+            {loading == 'updateJobAddress' && <div className="loading"><span></span><span></span><span></span></div>
+            }
+          </div>
+        </div>
+        }
+        {update == 'double_account' && 
+        <div className="form-button-container">
+          <div onClick={(e) => createAccountAddress(e)} className="form-button w100">{loading !== 'createJobAddress' && <span>Create New</span>} 
+            {loading == 'createJobAddress' && <div className="loading"><span></span><span></span><span></span></div>
+            }
+          </div>
+          <div onClick={(e) => updateJobAddress(e)} className={`form-button w100 ` + (quote.address_id ? '' : 'hide')}>{loading !== 'updateJobAddress' && <span>Update</span>} 
+            {loading == 'updateJobAddress' && <div className="loading"><span></span><span></span><span></span></div>
+            }
+          </div>
+        </div>
+        }
       </div>
     </div>
   )
@@ -253,14 +361,16 @@ const Address = ({setmodal, update, quote, createQuote, resetQuote}) => {
 
 const mapStateToProps = (state) => {
   return {
-    quote: state.quote
+    quote: state.quote,
+    job: state.job
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     createQuote: (name, data) => dispatch({type: 'CREATE_QUOTE', name: name, value: data}),
-    resetQuote: () => dispatch({type: 'RESET_QUOTE'})
+    resetQuote: () => dispatch({type: 'RESET_QUOTE'}),
+    createJob: (name, data) => dispatch({type: 'CREATE_JOB', name: name, value: data}),
   }
 }
 

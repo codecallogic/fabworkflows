@@ -11,7 +11,7 @@ import Agreement from '../../components/pdf/agreement'
 import withUser from '../withUser'
 import PriceListModal from '../../components/modals/PriceList'
 
-const Quotes = ({hideSideNav, showSideNav, list, priceList, createPrice, addPriceImage, resetPrice}) => {
+const Prices = ({hideSideNav, showSideNav, list, priceList, createPrice, addPriceImage, resetPrice}) => {
   // console.log(list)
   const myRefs = useRef([])
   const [width, setWidth] = useState()
@@ -35,12 +35,15 @@ const Quotes = ({hideSideNav, showSideNav, list, priceList, createPrice, addPric
     if(myRefs.current){
       myRefs.current.forEach((item) => {
         if(item){
-          if(item.contains(event.target)) return
-          if(event.target == document.getElementById('delete-price')) return
-          if(event.target == document.getElementById('edit-price')) return
-          item.childNodes[0].checked = false
-          setControls(false)
-          setIDControls('')
+          if(modal == 'price_list') return null
+          if(modal !== 'price_list'){
+            if(item.contains(event.target)) return
+            if(event.target == document.getElementById('delete-price')) return
+            if(event.target == document.getElementById('edit-price')) return
+            item.childNodes[0].checked = false
+            setControls(false)
+            setIDControls('')
+          }
         }
       })
     }
@@ -53,7 +56,7 @@ const Quotes = ({hideSideNav, showSideNav, list, priceList, createPrice, addPric
     return () => {
       document.removeEventListener("click", handleClickOutside, true);
     };
-  }, [idControls])
+  }, [idControls, modal])
   
   useEffect(() => {
     if(window.innerWidth < 992) hideSideNav()
@@ -205,7 +208,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-Quotes.getInitialProps = async () => {
+Prices.getInitialProps = async () => {
   let data
   let error
   try {
@@ -220,4 +223,4 @@ Quotes.getInitialProps = async () => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withUser(Quotes))
+export default connect(mapStateToProps, mapDispatchToProps)(withUser(Prices))

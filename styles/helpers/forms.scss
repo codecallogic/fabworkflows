@@ -172,6 +172,16 @@
     &:hover {
       cursor: pointer;
     }
+
+    &-container {
+      display: flex;
+      padding: 0 2rem;
+      justify-content: space-between;
+
+      div {
+        margin-right: 0.5rem;
+      }
+    }
   }
 
   &-button-fit {
@@ -899,7 +909,7 @@
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 3rem;
+    padding: 1rem 2rem;
     font-size: 1.4rem;
     color: red;
 

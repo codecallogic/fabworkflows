@@ -154,6 +154,12 @@ body {
     border-radius: 0.4rem; }
     .form-button:hover {
       cursor: pointer; }
+    .form-button-container {
+      display: flex;
+      padding: 0 2rem;
+      justify-content: space-between; }
+      .form-button-container div {
+        margin-right: 0.5rem; }
   .form-button-fit {
     width: max-content;
     margin: 2.5rem 0;
@@ -664,7 +670,7 @@ body {
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 3rem;
+    padding: 1rem 2rem;
     font-size: 1.4rem;
     color: red; }
     .form-error span {
@@ -1256,6 +1262,26 @@ body {
     text-decoration: underline;
     color: rgba(253, 126, 60, 0.9); }
 
+.min-height {
+  height: min-content !important;
+  max-height: min-content !important;
+  min-height: min-content !important; }
+
+.mb4 {
+  margin-bottom: 4rem; }
+
+.hide {
+  display: none !important; }
+
+.modal-info-title {
+  font-size: 1.8rem !important;
+  font-weight: 200 !important;
+  margin-left: 1rem;
+  min-width: 8rem !important;
+  text-align: right; }
+  .modal-info-title-text {
+    font-size: 1.6rem !important; }
+
 .hide-sidenav {
   width: 0 !important;
   transform: translateX(-100%); }
@@ -1458,6 +1484,11 @@ body {
     font-size: 2rem;
     text-align: center;
     padding: 1rem 0 0 0; }
+  .addFieldItems-modal-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem 2rem 0 2rem; }
 
 .categoryClicked {
   background-color: rgba(253, 126, 60, 0.9);
@@ -1537,7 +1568,6 @@ body {
           top: 0.6rem; }
 
 .clientDashboard_sidenav {
-  width: 30rem;
   height: 100rem;
   transition: all 0.5s ease-in-out;
   background-color: #ededec;
@@ -2194,16 +2224,17 @@ body {
         .clientDashboard-view-slab_list {
           padding: 1rem 0.5rem; } }
       .clientDashboard-view-slab_list-container {
-        margin: 3rem 5rem;
+        margin: 3rem 3rem;
         background-color: white;
+        width: 100%;
         height: 100%;
         border-radius: 1.2rem;
         display: flex;
         flex-direction: column;
-        align-items: center;
         position: relative; }
         @media only screen and (max-width: 992px) {
           .clientDashboard-view-slab_list-container {
+            width: 100%;
             height: 100%;
             margin: 3rem 1rem; } }
       .clientDashboard-view-slab_list-heading {
@@ -2291,21 +2322,11 @@ body {
           .clientDashboard-view-slab_list-headers-item-container {
             display: flex;
             width: 100%; }
-            @media only screen and (max-width: 1250px) {
-              .clientDashboard-view-slab_list-headers-item-container {
-                width: 300rem; } }
       .clientDashboard-view-slab_list-slabs {
         width: 100%;
         height: min-content;
         display: flex;
-        align-items: center;
-        overflow-x: scroll;
-        overflow-y: scroll; }
-        .clientDashboard-view-slab_list-slabs::-webkit-scrollbar {
-          width: 0.1rem;
-          height: 0.2rem; }
-        .clientDashboard-view-slab_list-slabs::-webkit-scrollbar-thumb {
-          background-color: #404141; }
+        align-items: center; }
         .clientDashboard-view-slab_list-slabs-checkbox {
           display: flex;
           align-items: center;
@@ -2336,6 +2357,17 @@ body {
           @media only screen and (max-width: 1500px) {
             .clientDashboard-view-slab_list-slabs-container {
               height: 800px; } }
+          .clientDashboard-view-slab_list-slabs-container-job {
+            width: 100%;
+            height: max-content;
+            overflow-y: scroll;
+            overflow-x: scroll;
+            position: relative; }
+            .clientDashboard-view-slab_list-slabs-container-job::-webkit-scrollbar {
+              width: 0.1rem;
+              height: 0.1rem; }
+            .clientDashboard-view-slab_list-slabs-container-job::-webkit-scrollbar-thumb {
+              background-color: #404141; }
         .clientDashboard-view-slab_list-slabs-item {
           display: flex;
           align-items: center;
@@ -2361,13 +2393,14 @@ body {
             .clientDashboard-view-slab_list-slabs-item span::-webkit-scrollbar-thumb {
               background-color: rgba(253, 126, 60, 0.9); }
           .clientDashboard-view-slab_list-slabs-item:first-child {
-            width: 25rem; }
+            width: 25rem;
+            font-size: 1.2rem; }
             @media only screen and (max-width: 1500px) {
               .clientDashboard-view-slab_list-slabs-item:first-child {
                 width: 15rem !important; } }
           @media only screen and (max-width: 1500px) {
             .clientDashboard-view-slab_list-slabs-item {
-              font-size: 1.1rem;
+              font-size: 1.2rem;
               width: 6rem; } }
           .clientDashboard-view-slab_list-slabs-item-container {
             display: flex;
@@ -2375,10 +2408,6 @@ body {
             .clientDashboard-view-slab_list-slabs-item-container:hover {
               cursor: pointer;
               background-color: #ededec; }
-            @media only screen and (max-width: 1500px) {
-              .clientDashboard-view-slab_list-slabs-item-container {
-                width: 300rem;
-                display: flex; } }
           .clientDashboard-view-slab_list-slabs-item img {
             text-align: center;
             object-fit: cover;
@@ -2409,6 +2438,104 @@ body {
               z-index: 1000 !important; }
               .clientDashboard-view-slab_list-slabs-item-buttons button:hover {
                 cursor: pointer; }
+          .clientDashboard-view-slab_list-slabs-item-dropdown {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #1e1e1e;
+            border-top-left-radius: 0.8rem;
+            border-top-right-radius: 0.8rem;
+            padding: 0.5rem 1rem;
+            font-weight: 700;
+            color: white;
+            position: relative; }
+            .clientDashboard-view-slab_list-slabs-item-dropdown svg {
+              width: 1.5rem;
+              height: 1.5rem;
+              fill: white; }
+            .clientDashboard-view-slab_list-slabs-item-dropdown-container {
+              position: absolute;
+              top: 100%;
+              background-color: #c8c8cb;
+              width: 100%;
+              height: 100%;
+              z-index: 1000 !important; }
+            .clientDashboard-view-slab_list-slabs-item-dropdown-item {
+              display: flex;
+              justify-content: center;
+              padding: 0.5rem 0;
+              height: 100%;
+              z-index: 1000 !important;
+              background-color: #c8c8cb; }
+              .clientDashboard-view-slab_list-slabs-item-dropdown-item:hover {
+                background-color: rgba(253, 126, 60, 0.9); }
+    .clientDashboard-view-form-wide {
+      width: 95%; }
+      .clientDashboard-view-form-wide-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: #413838;
+        background-color: #ededec;
+        font-size: 1.4rem;
+        font-weight: 700;
+        padding: 1rem 2rem;
+        border-top-right-radius: 1.2rem;
+        border-top-left-radius: 1.2rem; }
+        .clientDashboard-view-form-wide-title svg {
+          width: 3rem;
+          height: 3rem;
+          fill: #404141 !important; }
+          .clientDashboard-view-form-wide-title svg:hover {
+            cursor: pointer; }
+      .clientDashboard-view-form-wide-headers {
+        width: 100%;
+        display: flex;
+        align-items: center; }
+        @media only screen and (max-width: 1250px) {
+          .clientDashboard-view-form-wide-headers {
+            overflow-x: scroll; }
+            .clientDashboard-view-form-wide-headers::-webkit-scrollbar {
+              width: 0.1rem;
+              height: 0.3rem; }
+            .clientDashboard-view-form-wide-headers::-webkit-scrollbar-thumb {
+              background-color: rgba(253, 126, 60, 0.9); } }
+        .clientDashboard-view-form-wide-headers-checkbox {
+          display: flex;
+          align-items: center;
+          width: max-content;
+          height: 100%;
+          padding: 1rem 1.5rem; }
+        .clientDashboard-view-form-wide-headers-item {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 1rem 0rem;
+          margin-left: 1rem;
+          font-size: 1.2rem;
+          font-weight: 700;
+          border-bottom: 0.05rem solid #ededec;
+          width: 8rem;
+          text-align: center; }
+          .clientDashboard-view-form-wide-headers-item:hover {
+            cursor: pointer; }
+          .clientDashboard-view-form-wide-headers-item svg {
+            width: 1.5rem;
+            height: 1.5rem;
+            fill: rgba(253, 126, 60, 0.9);
+            margin-left: 0.5rem; }
+          .clientDashboard-view-form-wide-headers-item:first-child {
+            width: 25rem; }
+            @media only screen and (max-width: 1500px) {
+              .clientDashboard-view-form-wide-headers-item:first-child {
+                width: 15rem !important; } }
+          @media only screen and (max-width: 1500px) {
+            .clientDashboard-view-form-wide-headers-item {
+              font-size: 1rem;
+              width: 6rem; } }
+          .clientDashboard-view-form-wide-headers-item-container {
+            display: flex;
+            width: 100%; }
     .clientDashboard-view-form-left {
       width: calc(50% - 1rem);
       margin-right: 2rem; }
@@ -2421,7 +2548,6 @@ body {
         border-top-right-radius: 1.2rem;
         border-top-left-radius: 1.2rem;
         margin-bottom: 1rem;
-        max-height: 50rem;
         overflow-y: scroll; }
         .clientDashboard-view-form-left-box::-webkit-scrollbar {
           width: 0.1rem;
@@ -2432,16 +2558,39 @@ body {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          color: white;
-          background-color: #413838;
+          color: #413838;
+          background-color: #ededec;
           font-size: 1.4rem;
+          font-weight: 700;
           padding: 1rem 2rem;
           border-top-right-radius: 1.2rem;
           border-top-left-radius: 1.2rem; }
+          .clientDashboard-view-form-left-box-heading-left {
+            display: flex;
+            align-items: center; }
+            .clientDashboard-view-form-left-box-heading-left-svg svg {
+              margin-left: 1rem;
+              width: 3rem !important;
+              height: 3rem !important; }
+          .clientDashboard-view-form-left-box-heading-svg {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            background-color: #1e1e1e;
+            transition: all 0.3s ease-in-out; }
+            .clientDashboard-view-form-left-box-heading-svg:hover {
+              background-color: rgba(253, 126, 60, 0.9); }
+              .clientDashboard-view-form-left-box-heading-svg:hover svg {
+                fill: white !important; }
+            .clientDashboard-view-form-left-box-heading-svg svg {
+              fill: #ededec !important; }
           .clientDashboard-view-form-left-box-heading svg {
-            width: 3rem;
-            height: 3rem;
-            fill: rgba(253, 126, 60, 0.9); }
+            width: 2rem;
+            height: 2rem;
+            fill: #404141; }
             .clientDashboard-view-form-left-box-heading svg:hover {
               cursor: pointer; }
         .clientDashboard-view-form-left-box-container {
@@ -2545,6 +2694,9 @@ body {
               width: 100%;
               font-size: 1.4rem;
               position: relative; }
+              .clientDashboard-view-form-left-box-container-2-item-content a {
+                font-weight: 500;
+                color: #1bc9a2; }
               .clientDashboard-view-form-left-box-container-2-item-content-toggle {
                 margin-left: 1rem;
                 width: 100%;
@@ -3004,6 +3156,15 @@ body {
     @media only screen and (max-width: 600px) {
       .remnant-left-w2::before {
         top: 108.5%; } }
+
+.lg-row-item {
+  width: 12rem; }
+
+.wide-row-item {
+  width: 25rem; }
+  @media only screen and (max-width: 1500px) {
+    .wide-row-item {
+      width: 15rem !important; } }
 
 .clientDashboard-view-slab_form-quoteLine {
   display: flex;

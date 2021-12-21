@@ -162,7 +162,7 @@ const Contacts = ({hideSideNav, showSideNav, createQuote, resetQuote, list}) => 
           <div className="clientDashboard-view-slab_list-headers">
             <div className="clientDashboard-view-slab_list-headers-checkbox"></div>
             <div className="clientDashboard-view-slab_list-headers-item-container">
-              <div className="clientDashboard-view-slab_list-headers-item w10" onClick={(e) => filterContact == 'address_one' ? (setAscContact(ascContact == 1 ? -1 : 1 ), setDescContact(descContact == -1 ? 1 : -1)) : setFilterContact('address_one')}>Address <SVGs svg={'sort'}></SVGs></div>
+              <div className="clientDashboard-view-slab_list-headers-item lg-row-item" onClick={(e) => filterContact == 'address_one' ? (setAscContact(ascContact == 1 ? -1 : 1 ), setDescContact(descContact == -1 ? 1 : -1)) : setFilterContact('address_one')}>Address <SVGs svg={'sort'}></SVGs></div>
               <div className="clientDashboard-view-slab_list-headers-item w10" onClick={(e) => filterContact == 'contact_name' ? (setAscContact(ascContact == 1 ? -1 : 1 ), setDescContact(descContact == -1 ? 1 : -1)) : setFilterContact('contact_name')}>Name <SVGs svg={'sort'}></SVGs></div>
               <div className="clientDashboard-view-slab_list-headers-item w10" onClick={(e) => filterContact == 'city' ? (setAscContact(ascContact == 1 ? -1 : 1 ), setDescContact(descContact == -1 ? 1 : -1)) : setFilterContact('city')}>City <SVGs svg={'sort'}></SVGs></div>
               <div className="clientDashboard-view-slab_list-headers-item w10" onClick={(e) => filterContact == 'state' ? (setAscContact(ascContact == 1 ? -1 : 1 ), setDescContact(descContact == -1 ? 1 : -1)) : setFilterContact('state')}>State <SVGs svg={'sort'}></SVGs></div>
@@ -182,7 +182,7 @@ const Contacts = ({hideSideNav, showSideNav, createQuote, resetQuote, list}) => 
                   <label htmlFor={`contact ` + `${idx}`}><span>&nbsp;</span></label>
                 </div>
                 <div className="clientDashboard-view-slab_list-slabs-item-container"  onClick={() => (setIDControls(item._id), setEditContact(item._id), setModal('contact'))}>
-                  <div className="clientDashboard-view-slab_list-slabs-item w10">{item.address_one}</div>
+                  <div className="clientDashboard-view-slab_list-slabs-item lg-row-item">{item.address_one}</div>
                   <div className="clientDashboard-view-slab_list-slabs-item w10">{item.contact_name}</div>
                   <div className="clientDashboard-view-slab_list-slabs-item w10">{item.city}</div>
                   <div className="clientDashboard-view-slab_list-slabs-item w10">{item.state}</div>

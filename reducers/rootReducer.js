@@ -9,6 +9,7 @@ import {quoteReducer} from './quoteReducer'
 import {quoteLineReducer} from './quoteLineReducer'
 import {orderReducer} from './orderReducer'
 import {priceListReducer} from './priceListReducer'
+import {jobReducer} from './jobReducer'
 
 const rootReducer = combineReducers({
   nav: navReducer,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   quote: quoteReducer,
   quoteLine: quoteLineReducer,
   order: orderReducer,
-  priceList: priceListReducer
+  priceList: priceListReducer,
+  job: jobReducer
 })
 
 export default rootReducer

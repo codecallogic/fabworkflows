@@ -25,3 +25,29 @@
     color: $color-scheme-1;
   }
 }
+
+.min-height {
+  height: min-content !important;
+  max-height: min-content !important;
+  min-height: min-content !important;
+}
+
+.mb4 {
+  margin-bottom: 4rem;
+}
+
+.hide {
+  display: none !important;
+}
+
+.modal-info-title {
+  font-size: 1.8rem !important;
+  font-weight: 200 !important;
+  margin-left: 1rem;
+  min-width: 8rem !important;
+  text-align: right;
+
+  &-text {
+    font-size: 1.6rem !important;
+  }
+}

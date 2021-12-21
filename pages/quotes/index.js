@@ -86,23 +86,30 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
     return () => {
       document.removeEventListener("click", handleClickOutside, true);
     };
-  }, [])
+  }, [modal])
   
   const handleClickOutside = (event) => {
     if(myRefs.current){
       myRefs.current.forEach((item) => {
         if(item){
-          if(item.contains(event.target)) return
           if(modal == 'account') return
+          if(item.contains(event.target)) return
           if(event.target == document.getElementById('delete-quote')) return
           if(event.target == document.getElementById('edit-quote')) return
           if(event.target == document.getElementById('create-account')) return
+
+          if(document.querySelector('.create-account-svg')){
+            if(event.target.tagName == 'svg' || event.target.tagName == 'path') return
+          }
+
+          if(event.target == document.getElementById('edit-quote')) return
           item.childNodes[0].checked = false
+        
           setControls(false)
           setIDControls('')
         }
       })
-    }
+    } 
   }
   
   useEffect(() => {
@@ -156,6 +163,7 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
     els.forEach( (el) => {
       el.checked = false
     })
+    setControls(false)
   }
 
   const handleDelete = async (e) => {
@@ -205,7 +213,7 @@ const Quotes = ({hideSideNav, showSideNav, list}) => {
               {controls &&
               <div className="clientDashboard-view-slab_list-heading-controls">
                 <div id="edit-quote" className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => idControls ? window.location.href = `quotes/${idControls}` : null}>Edit</div>
-                <div id="create-account" className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => setModal('account')}><SVGs svg={'plus'}></SVGs> Account</div>
+                <div id="create-account" className="clientDashboard-view-slab_list-heading-controls-item edit" onClick={() => setModal('account')}><SVGs svg={'plus'} classprop={'create-account-svg'}></SVGs> Account</div>
                 <div id="delete-quote" className="clientDashboard-view-slab_list-heading-controls-item delete" onClick={() => handleDelete()}>Delete</div>
               </div>
               }
