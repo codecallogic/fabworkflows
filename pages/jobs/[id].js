@@ -430,10 +430,10 @@ const Jobs = ({hideSideNav, showSideNav, job, updateJob, createJob, createQuote,
         <AddressModal setmodal={setModal} update={update} id={''} convertDate={convertDate}></AddressModal>
       }
       { modal == 'quote' && 
-        <QuoteModal setmodal={setModal} update={update} id={''} convertDate={convertDate}></QuoteModal>
+        <QuoteModal setmodal={setModal} update={''} id={''} convertDate={convertDate}></QuoteModal>
       }
       { modal == 'moveJob' && 
-        <MoveJob setmodal={setModal} update={update} id={''} convertDate={convertDate} accounts={accounts}></MoveJob>
+        <MoveJob setmodal={setModal} update={''} id={''} convertDate={convertDate} accounts={accounts}></MoveJob>
       }
     </>
   )
