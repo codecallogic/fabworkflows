@@ -3,6 +3,13 @@ const SVG = ({svg, classprop}) => {
 
   const selectSVG = (svg) => {
     switch(svg){
+      case 'notification':
+        return <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+          <title>Notification</title>
+          <path d="M16 3c-3.472 0-6.737 1.352-9.192 3.808s-3.808 5.72-3.808 9.192c0 3.472 1.352 6.737 3.808 9.192s5.72 3.808 9.192 3.808c3.472 0 6.737-1.352 9.192-3.808s3.808-5.72 3.808-9.192c0-3.472-1.352-6.737-3.808-9.192s-5.72-3.808-9.192-3.808zM16 0v0c8.837 0 16 7.163 16 16s-7.163 16-16 16c-8.837 0-16-7.163-16-16s7.163-16 16-16zM14 22h4v4h-4zM14 6h4v12h-4z"></path>
+        </svg>  
+        break;
+
       case 'move-file':
         return <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <title>Checkmark</title>

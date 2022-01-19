@@ -36,7 +36,11 @@ export const slabReducer = (state = initialState, action) => {
         images: [...action.value]
       }
       break;
-  
+    
+    case 'RESET_SLAB':
+      return initialState
+      break;
+
     default:
       return state
   }

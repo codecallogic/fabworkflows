@@ -36,6 +36,85 @@ body {
     .form {
       width: 100%;
       padding: 0 2rem; } }
+  .form-box {
+    width: 50%;
+    border-radius: 1.2rem;
+    border: 0.1rem solid #ededec; }
+    .form-box-heading {
+      background-color: #ededec;
+      height: 3rem;
+      border-top-left-radius: 1.2rem;
+      border-top-right-radius: 1.2rem; }
+  .form-group {
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center; }
+    .form-group input {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 2rem 1.5rem;
+      box-sizing: border-box;
+      outline: none;
+      font-weight: 300;
+      font-size: 1.4rem;
+      font-family: inherit;
+      border: none;
+      margin: 0.5rem 0;
+      text-transform: lowercase;
+      transition: all 0.5s ease-in-out; }
+      .form-group input:focus + .input-label {
+        top: 5%; }
+    .form-group label {
+      position: absolute;
+      padding: 0rem 1.5rem;
+      box-sizing: border-box;
+      outline: none;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: rgba(253, 126, 60, 0.9);
+      top: 40%;
+      transition: all 0.3s ease-in-out;
+      font-size: 1.2rem;
+      text-transform: lowercase; }
+    .form-group div > svg {
+      width: 3rem;
+      height: 3rem; }
+      .form-group div > svg:hover {
+        cursor: pointer; }
+    .form-group-list {
+      position: absolute;
+      top: 100%;
+      width: 100%;
+      font-size: 1.4rem;
+      border-top: 0.1rem solid #dbdbdb;
+      border: 0.1rem solid #dbdbdb;
+      border-bottom-right-radius: 1rem;
+      border-bottom-left-radius: 1rem;
+      box-shadow: 0rem 1rem 0.5rem 0.2rem rgba(0, 0, 0, 0.2);
+      z-index: 500; }
+      .form-group-list-item {
+        display: flex;
+        align-items: center;
+        padding: 0.8rem 2rem;
+        font-size: inherit;
+        background-color: white;
+        text-transform: capitalize; }
+        .form-group-list-item:last-child {
+          border-bottom-right-radius: 0.5rem;
+          border-bottom-left-radius: 0.5rem;
+          padding-bottom: 1.5rem; }
+        .form-group-list-item svg {
+          width: 2rem;
+          height: 2rem;
+          fill: #1bc9a2;
+          margin-right: 1rem; }
+        .form-group-list-item:hover {
+          cursor: pointer;
+          background-color: #dbdbdb; }
+  .form-100 {
+    position: relative; }
   .form-title {
     align-self: flex-start;
     font-size: 2.8rem; }
@@ -833,29 +912,6 @@ body {
             .form-group-single-textarea-dropdown-input-list-item:hover {
               cursor: pointer;
               background-color: #dbdbdb; }
-    .form-group-single-textarea-box {
-      min-width: max-content;
-      width: 30rem;
-      display: flex;
-      justify-content: center;
-      padding: 1rem 0;
-      margin: 0 0 1.5rem 0;
-      font-size: 2.4rem;
-      background-color: rgba(253, 126, 60, 0.9);
-      color: white;
-      font-weight: 400;
-      border-radius: 0.8rem;
-      border: 0.1rem solid white;
-      box-shadow: 0.3rem 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.2);
-      text-decoration: none; }
-      .form-group-single-textarea-box:hover {
-        cursor: pointer; }
-      .form-group-single-textarea-box-container {
-        display: flex;
-        justify-content: center;
-        width: 100%; }
-        .form-group-single-textarea-box-container a {
-          text-decoration: none; }
     .form-group-single-textarea-checkbox {
       display: flex;
       align-items: center;
@@ -1132,6 +1188,9 @@ body {
 .react-calendar {
   border-radius: 1.2rem; }
 
+.labelHover {
+  top: 5% !important; }
+
 .center {
   text-align: center;
   justify-self: center;
@@ -1199,11 +1258,11 @@ body {
       font-size: 1.4rem; }
 
 .loading span {
-  width: 0.5rem;
-  height: 0.5rem;
+  width: 0.7rem;
+  height: 0.7rem;
   margin: 0 0.5rem;
-  background-color: white;
   border-radius: 50%;
+  background-color: inherit;
   display: inline-block;
   animation-name: dots;
   animation-duration: 1.5s;
@@ -1495,6 +1554,178 @@ body {
   color: white;
   font-weight: 700; }
 
+.table {
+  flex-grow: 1;
+  width: 80% !important;
+  max-width: 100%;
+  margin: 2rem;
+  padding-bottom: 1rem;
+  border: 0.1rem solid #c8c8cb;
+  border-bottom-left-radius: 1.2rem;
+  border-bottom-right-radius: 1.2rem;
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  height: max-content; }
+  .table-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 1rem 2rem;
+    height: 5rem;
+    background-color: #666;
+    border-top-right-radius: 2rem;
+    border-top-left-radius: 2rem; }
+    .table-header-title {
+      font-size: 1.6rem;
+      color: white;
+      font-weight: 700;
+      text-transform: uppercase; }
+    .table-header-controls {
+      display: flex;
+      margin-left: 1rem; }
+      .table-header-controls-item {
+        width: max-content;
+        padding: 0.5rem 2rem;
+        border-radius: 2rem;
+        background-color: #ededec;
+        color: #1e1e1e;
+        font-weight: 400;
+        font-size: 1.4rem;
+        margin-right: 1rem;
+        transition: all 0.3s ease-in-out; }
+        .table-header-controls-item:hover {
+          cursor: pointer;
+          box-shadow: 0rem 0.3rem 0.5rem 0.5rem rgba(0, 0, 0, 0.2); }
+    .table-header-error {
+      display: flex;
+      align-items: center;
+      margin-left: 2rem;
+      font-size: 1.4rem;
+      color: white; }
+      .table-header-error svg {
+        width: 3rem;
+        height: 3rem;
+        fill: white; }
+      .table-header-error span {
+        margin-left: 1rem; }
+  .table-headers {
+    display: flex;
+    padding: 1rem 0;
+    overflow-x: auto;
+    overflow-y: hidden; }
+    .table-headers::-webkit-scrollbar {
+      height: 0.3rem;
+      width: 0.5rem;
+      background-color: #ededec; }
+    .table-headers::-webkit-scrollbar-thumb {
+      background-color: rgba(253, 126, 60, 0.9); }
+    .table-headers-item {
+      overflow: hidden;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+      padding: 0 1rem;
+      min-width: 11rem;
+      max-width: 11rem;
+      word-break: break-word;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      text-transform: capitalize; }
+      .table-headers-item:first-child {
+        width: 3rem;
+        min-width: 5rem;
+        max-width: 5rem; }
+  .table-rows {
+    display: flex; }
+    .table-rows-container {
+      width: 100%;
+      padding: 1rem 0;
+      overflow-x: auto; }
+      .table-rows-container::-webkit-scrollbar {
+        height: 0.3rem;
+        width: 0.5rem;
+        background-color: #ededec; }
+      .table-rows-container::-webkit-scrollbar-thumb {
+        background-color: rgba(253, 126, 60, 0.9); }
+    .table-rows-checkbox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 3rem;
+      min-width: 5rem;
+      max-width: 5rem; }
+      .table-rows-checkbox label {
+        display: grid;
+        font-size: 1.6rem;
+        position: relative;
+        border-radius: 0.5rem; }
+        .table-rows-checkbox label input[type='checkbox'] {
+          height: 2.5rem;
+          width: 2.5rem;
+          border-radius: 0.5rem;
+          border: 0.1rem solid rgba(253, 126, 60, 0.9);
+          cursor: pointer;
+          opacity: 0;
+          z-index: 100; }
+          .table-rows-checkbox label input[type='checkbox']:checked ~ div > svg {
+            display: block; }
+        .table-rows-checkbox label span {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 2.5rem;
+          width: 2.5rem;
+          border-radius: 1rem;
+          border: 0.2rem solid rgba(253, 126, 60, 0.9); }
+        .table-rows-checkbox label div {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 2.5rem;
+          width: 2.5rem;
+          display: flex;
+          justify-content: center;
+          align-items: center; }
+          .table-rows-checkbox label div svg {
+            height: 2rem;
+            width: 2rem;
+            fill: rgba(253, 126, 60, 0.9);
+            display: none; }
+    .table-rows-item {
+      overflow: hidden;
+      text-align: center;
+      font-size: 1.4rem;
+      font-weight: 300;
+      padding: 0 1rem;
+      min-width: 11rem;
+      max-width: 11rem;
+      word-break: break-word;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4; }
+      .table-rows-item img {
+        width: 10rem;
+        height: 10rem;
+        box-shadow: 0.2rem 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.2); }
+  .table-forms {
+    padding: 1rem 2rem;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap; }
+
+.row-odd {
+  width: 100%;
+  padding: 1rem 0; }
+  .row-odd > div {
+    background-color: #ededec;
+    padding-top: 1rem;
+    padding-bottom: 1rem; }
+
+.row-even {
+  background-color: white;
+  padding: 1rem 0; }
+
 .clientDashboard_topnav {
   display: flex;
   justify-content: space-between;
@@ -1568,111 +1799,110 @@ body {
           top: 0.6rem; }
 
 .clientDashboard_sidenav {
+  width: 15%;
   height: 100rem;
   transition: all 0.5s ease-in-out;
   background-color: #ededec;
   border-right: solid 0.1rem #dbdbdb;
   z-index: 2000 !important; }
-  .clientDashboard_sidenav-menu {
-    margin: 1rem 0 0 0; }
-    .clientDashboard_sidenav-menu-account {
-      display: none;
-      padding: 0 0 0 2rem;
-      font-size: 1.6rem;
-      margin: 3rem 0;
-      color: white;
-      animation: slideFromLeft 1s ease-in-out;
-      transition: all 0.6s ease-in-out; }
-      @media only screen and (max-width: 992px) {
-        .clientDashboard_sidenav-menu-account {
-          display: flex;
-          align-items: center;
-          color: #404141; } }
-      .clientDashboard_sidenav-menu-account img {
-        height: 4rem;
-        margin-right: 1rem;
-        background-color: white;
-        border-radius: 50%; }
-    .clientDashboard_sidenav-menu-item {
+  .clientDashboard_sidenav-menu-account {
+    display: none;
+    padding: 0 0 0 2rem;
+    font-size: 1.6rem;
+    margin: 3rem 0;
+    color: white;
+    animation: slideFromLeft 1s ease-in-out;
+    transition: all 0.6s ease-in-out; }
+    @media only screen and (max-width: 992px) {
+      .clientDashboard_sidenav-menu-account {
+        display: flex;
+        align-items: center;
+        color: #404141; } }
+    .clientDashboard_sidenav-menu-account img {
+      height: 4rem;
+      margin-right: 1rem;
+      background-color: white;
+      border-radius: 50%; }
+  .clientDashboard_sidenav-menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: inherit;
+    position: relative;
+    transition: all 0.5s ease-in-out; }
+    .clientDashboard_sidenav-menu-item:hover {
+      cursor: pointer; }
+    .clientDashboard_sidenav-menu-item-tab {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 2rem;
-      background-color: inherit;
-      position: relative;
+      transition: all 0.5s ease-in-out;
+      color: #404141; }
+      .clientDashboard_sidenav-menu-item-tab svg {
+        margin-right: 1rem;
+        fill: #1bc9a2; }
+    .clientDashboard_sidenav-menu-item-tabIcon {
+      display: flex;
+      align-items: center;
+      width: 3rem;
+      height: 3rem;
+      fill: #404141;
       transition: all 0.5s ease-in-out; }
-      .clientDashboard_sidenav-menu-item:hover {
-        cursor: pointer; }
-      .clientDashboard_sidenav-menu-item-tab {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        transition: all 0.5s ease-in-out;
-        color: #404141; }
-        .clientDashboard_sidenav-menu-item-tab svg {
-          margin-right: 1rem;
-          fill: #1bc9a2; }
-      .clientDashboard_sidenav-menu-item-tabIcon {
-        display: flex;
-        align-items: center;
-        width: 3rem;
-        height: 3rem;
-        fill: #404141;
-        transition: all 0.5s ease-in-out; }
-      .clientDashboard_sidenav-menu-item div {
-        font-size: 1.4rem;
-        font-weight: 700;
-        transition: all 0.5s ease-in-out; }
-      .clientDashboard_sidenav-menu-item-arrow {
-        position: relative;
-        display: flex;
-        align-items: center;
+    .clientDashboard_sidenav-menu-item div {
+      font-size: 1.4rem;
+      font-weight: 700;
+      transition: all 0.5s ease-in-out; }
+    .clientDashboard_sidenav-menu-item-arrow {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 3rem;
+      height: 3rem; }
+      .clientDashboard_sidenav-menu-item-arrow svg {
+        position: absolute;
+        bottom: 0;
+        left: 0;
         width: 3rem;
         height: 3rem; }
-        .clientDashboard_sidenav-menu-item-arrow svg {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 3rem;
-          height: 3rem; }
-        .clientDashboard_sidenav-menu-item-arrow-input {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          display: none; }
-      .clientDashboard_sidenav-menu-item-dropdown-fill {
-        display: flex;
-        align-items: center;
-        margin: 0 2rem;
-        padding: 1rem 0;
-        font-size: 1.4rem;
-        color: white;
-        border-left: 0.1rem solid #404141;
-        transition: all 0.5s ease-in-out; }
-      .clientDashboard_sidenav-menu-item-dropdown-item {
-        display: flex;
-        align-items: center;
-        margin: 0 2rem;
-        padding: 0.5rem 1.5rem;
-        font-size: 1.4rem;
-        font-weight: 400;
-        color: #404141;
-        border-left: 0.1rem solid #404141;
-        position: relative;
-        transition: all 0.5s ease-in-out; }
-        .clientDashboard_sidenav-menu-item-dropdown-item:hover {
-          cursor: pointer;
-          color: #666; }
-        .clientDashboard_sidenav-menu-item-dropdown-item svg {
-          position: absolute;
-          left: -0.5rem;
-          width: 1rem;
-          height: 1rem;
-          fill: #c8c8cb;
-          background-color: #413838;
-          border-radius: 50%; }
+      .clientDashboard_sidenav-menu-item-arrow-input {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none; }
+    .clientDashboard_sidenav-menu-item-dropdown-fill {
+      display: flex;
+      align-items: center;
+      margin: 0 2rem;
+      padding: 1rem 0;
+      font-size: 1.4rem;
+      color: white;
+      border-left: 0.1rem solid #404141;
+      transition: all 0.5s ease-in-out; }
+    .clientDashboard_sidenav-menu-item-dropdown-item {
+      display: flex;
+      align-items: center;
+      margin: 0 2rem;
+      padding: 0.5rem 1.5rem;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: #404141;
+      border-left: 0.1rem solid #404141;
+      position: relative;
+      transition: all 0.5s ease-in-out; }
+      .clientDashboard_sidenav-menu-item-dropdown-item:hover {
+        cursor: pointer;
+        color: #666; }
+      .clientDashboard_sidenav-menu-item-dropdown-item svg {
+        position: absolute;
+        left: -0.5rem;
+        width: 1rem;
+        height: 1rem;
+        fill: #c8c8cb;
+        background-color: #413838;
+        border-radius: 50%; }
   @media only screen and (max-width: 992px) {
     .clientDashboard_sidenav {
       position: absolute;
@@ -1680,10 +1910,9 @@ body {
 
 .clientDashboard {
   display: flex;
-  width: 100%;
-  background-color: white; }
+  width: 100%; }
   .clientDashboard-view {
-    width: 100%;
+    width: auto;
     height: 100%; }
     @media only screen and (max-width: 992px) {
       .clientDashboard-view {
@@ -2217,7 +2446,7 @@ body {
               color: rgba(253, 126, 60, 0.9); }
     .clientDashboard-view-slab_list {
       padding: 1rem 2rem;
-      width: 100%;
+      width: auto;
       display: flex;
       flex-wrap: wrap; }
       @media only screen and (max-width: 992px) {
@@ -2226,7 +2455,7 @@ body {
       .clientDashboard-view-slab_list-container {
         margin: 3rem 3rem;
         background-color: white;
-        width: 100%;
+        width: auto;
         height: 100%;
         border-radius: 1.2rem;
         display: flex;
@@ -2234,7 +2463,6 @@ body {
         position: relative; }
         @media only screen and (max-width: 992px) {
           .clientDashboard-view-slab_list-container {
-            width: 100%;
             height: 100%;
             margin: 3rem 1rem; } }
       .clientDashboard-view-slab_list-heading {

@@ -15,10 +15,10 @@ const withUser = Page => {
 
       const user = getUser(context.req)
       const token = getToken(context.req)
-      let newUser = null
+      let account = null
       let newToken = null
 
-      if(user){newUser = user.split('=')[1]}
+      if(user){account = user.split('=')[1]}
       if(token){newToken = token.split('=')[1]}
 
       if(newToken !== null){
@@ -29,9 +29,9 @@ const withUser = Page => {
                 contentType: `application/json`
             }
           })
-          newUser = responseUser.data
+          account = responseUser.data
         } catch (error) {
-          newUser = null
+          account = null
           console.log(error) 
         }
       }
@@ -124,7 +124,7 @@ const withUser = Page => {
         console.log(error)
       }
 
-      if(!newUser){
+      if(!account){
         context.res.writeHead(302, {
           Location: '/login'
         });
@@ -132,7 +132,7 @@ const withUser = Page => {
       }else{
         return {
             ...(Page.getInitialProps ? await Page.getInitialProps(context) : {}),
-            newUser,
+            account,
             materials,
             colors,
             suppliers,

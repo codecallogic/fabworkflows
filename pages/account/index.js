@@ -17,6 +17,20 @@ import Quote from '../../components/account/Quote'
 import PriceListModal from '../../components/modals/PriceList'
 import AddressModal from '../../components/modals/Address'
 import CategoryModal from '../../components/modals/Category'
+
+//// TABLE
+import { filterTable, tableData } from '../../helpers/tableData'
+import Table from '../../components/table'
+import {slabsSort} from '../../helpers/sorts'
+
+//// DATA
+import { getToken } from '../../helpers/auth'
+import _ from 'lodash'
+
+//// FORMS
+import SlabForm from '../../components/forms/slabForm'
+import {submitCreate} from '../../helpers/forms'
+
 axios.defaults.withCredentials = true
 
 const formatter = new Intl.NumberFormat('en-US', {
@@ -24,7 +38,44 @@ const formatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 2,
 });
 
-const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, createSlab, addSlabImages, product, createProduct, addProductImages, materials, colors, suppliers, locations, brands, models, categories, material, supplier, addMaterial, resetMaterial, addSupplier, resetSupplier, priceList, addressList, misc_categories, products, resetQuote}) => {
+const Dashboard = ({
+  nav,
+  account,
+  token,
+  data,
+  originalData,
+  params, 
+
+  //// REDUX
+  hideSideNav, 
+  showSideNav, 
+  changeView, 
+  slab, 
+  createSlab,
+  resetSlab,
+  addSlabImages, 
+  product, 
+  createProduct, 
+  addProductImages, 
+  materials, 
+  colors, 
+  suppliers, 
+  locations, 
+  brands, 
+  models, 
+  categories, 
+  material, 
+  supplier, 
+  addMaterial, 
+  resetMaterial, 
+  addSupplier, 
+  resetSupplier, 
+  priceList, 
+  addressList, 
+  misc_categories, 
+  products, 
+  resetQuote
+}) => {
   const myRefs = useRef(null)
   // console.log(product)
   const router = useRouter()
@@ -35,7 +86,6 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
   const [modal, setModal] = useState('')
   const [edit, setEdit] = useState('')
   const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
   const [color, setColor] = useState('')
   const [allMaterials, setAllMaterials] = useState(materials)
   const [allColors, setAllColors] = useState(colors)
@@ -48,7 +98,13 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
   const [allCategories, setAllCategories] = useState(misc_categories)
   const [category, setCategory] = useState('')
   const [allModels, setAllModels] = useState(models)
-  const [model, setModel] = useState('')
+  
+  const [message, setMessage] = useState('')
+  const [loading, setLoading] = useState('')
+  const [search, setSearch] = useState('')
+  const [selectID, setSelectID] = useState('')
+  const [controls, setControls] = useState(false)
+  const [allData, setAllData] = useState(originalData ? originalData : [])
 
   const [prevX, setPrevX] = useState(0)
   const [prevY, setPrevY] = useState(0)
@@ -106,6 +162,10 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
   }
 
   useEffect(() => {
+    setMessage('')
+  }, [nav.view])
+
+  useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
 
     return () => {
@@ -137,6 +197,11 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
     setImageCount(0), 
     addProductImages([])
   }, [nav.view])
+
+  const resetCheckboxes = () => {
+    const els = document.querySelectorAll('.table-rows-checkbox-input')
+    els.forEach( (el) => { el.checked = false })
+  }
 
   const validateIsNumber = (type) => {
     const input = document.getElementById(type)
@@ -317,7 +382,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
     }
   }
 
-  const handleAddSlab = async (e) => {
+  const submitCreateSlab = async (e) => {
     e.preventDefault()
     setError('')
     if(!slab.qr_code){setError('QR Code required'); window.scrollTo(0,document.body.scrollHeight); return}
@@ -557,6 +622,56 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
       <TopNav></TopNav>
       <div className="clientDashboard">
         <SideNav width={width}></SideNav>
+
+        {/* //// TABLES //// */}
+        
+        {nav.view == 'slabs' &&
+          <Table
+            title={'Slabs List'}
+            typeOfData={'slabs'}
+            componentData={data.slabs}
+            originalData={allData}
+            modal={modal}
+            setModal={modal}
+            sortOrder={slabsSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            searchEnable={true}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+          >
+          </Table>
+        }
+
+
+        {/* ///// FORMS //// */}
+        {nav.view == 'newSlab' &&
+          <SlabForm
+            token={token}
+            title={'New Slab'}
+            allData={allData}
+            setAllData={setAllData}
+            submitCreate={submitCreate}
+            modal={modal}
+            setModal={setModal}
+            stateData={slab}
+            stateMethod={createSlab}
+            originalData={originalData}
+            message={message}
+            setMessage={setMessage}
+            loading={loading}
+            setLoading={setLoading}
+            resetState={resetSlab}
+          >
+          </SlabForm>
+        }
+
+        
         <div className="clientDashboard-view">
           {nav.view == 'main' &&
           <div className="clientDashboard-view-main">
@@ -568,7 +683,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
           }
           { nav.view == 'new' &&
             <div className="clientDashboard-view-new">
-              <div className="clientDashboard-view-new-item" onClick={() => (window.location.href = 'account?change=slab')}>
+              <div className="clientDashboard-view-new-item" onClick={() => changeView('newSlab')}>
                 <SVGs svg={'slab'}></SVGs>
                 <span>New Slab</span>
               </div>
@@ -615,7 +730,7 @@ const Dashboard = ({nav, params, hideSideNav, showSideNav, changeView, slab, cre
             </div>
           }
           {
-            nav.view == 'slab' && 
+            nav.view == 'newSlab2' && 
             <div className="clientDashboard-view-slab_form-container">
               <div className="clientDashboard-view-slab_form-heading">
                 <span>New Slab </span>
@@ -1243,6 +1358,7 @@ const mapDispatchToProps = dispatch => {
     showSideNav: () => dispatch({type: 'SHOW_SIDENAV'}),
     changeView: (view) => dispatch({type: 'CHANGE_VIEW', value: view}),
     createSlab: (type, data) => dispatch({type: 'CREATE_SLAB', name: type, value: data}),
+    resetSlab: () => dispatch({type: 'RESET_SLAB'}),
     createProduct: (type, data) => dispatch({type: 'CREATE_PRODUCT', name: type, value: data}),
     addSlabImages: (data) => dispatch({type: 'ADD_SLAB_IMAGES', value: data}),
     addProductImages: (data) => dispatch({type: 'ADD_PRODUCT_IMAGES', value: data}),
@@ -1254,10 +1370,25 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-Dashboard.getInitialProps = ({query}) => {
+Dashboard.getInitialProps = async (context) => {
+
+  let data = new Object()
+  let deepClone
+
+  const token = getToken(context.req)
+  let accessToken
+  if(token){accessToken = token.split('=')[1]}
+  
+  data.slabs = await tableData(accessToken, 'slabs')
+  data.materials = await tableData(accessToken, 'materials')
+  data.colors = await tableData(accessToken, 'colors')
+  deepClone = _.cloneDeep(data)
   
   return {
-    params: query
+    token: accessToken,
+    data: Object.keys(data).length > 0 ? data : null,
+    originalData: Object.keys(deepClone).length > 0 ? deepClone : null,
+    // params: query
   }
 }
 

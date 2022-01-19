@@ -68,11 +68,11 @@
 
 .loading {
   span {
-    width: 0.5rem;
-    height: 0.5rem;
+    width: 0.7rem;
+    height: 0.7rem;
     margin: 0 0.5rem;
-    background-color: white;
     border-radius: 50%;
+    background-color: inherit;
     display: inline-block;
     animation-name: dots;
     animation-duration: 1.5s;

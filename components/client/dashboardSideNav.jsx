@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import SVGs from '../../files/svgs'
 
-const SideNav = ({nav, width, toggleSideNav, newView, redirect}) => {
+const SideNav = ({changeView, nav, width, toggleSideNav, newView, redirect}) => {
 
   const [toggle, setDropdownToggle] = useState('')
   
@@ -14,7 +14,8 @@ const SideNav = ({nav, width, toggleSideNav, newView, redirect}) => {
   return (
     <div className={`clientDashboard_sidenav` + (!nav.sidenav ? ' hide-sidenav' : '')}>
       <div className="clientDashboard_sidenav-menu">
-          <div className={`clientDashboard_sidenav-menu-account` + (!nav.sidenav ? ' hide-sidenav-items' : '')}>
+          <div 
+            className={`clientDashboard_sidenav-menu-account` + (!nav.sidenav ? ' hide-sidenav-items' : '')}>
             <img src="/media/user_placeholder.png" alt="User avatar"/>
             <div>Free trial</div>
           </div>
@@ -22,8 +23,12 @@ const SideNav = ({nav, width, toggleSideNav, newView, redirect}) => {
           <div 
             className={`clientDashboard_sidenav-menu-item` + (!nav.sidenav ? ' hide-sidenav-items' : '')} 
             onClick={ (e) => toggle == 'inventory' ? setDropdownToggle('') : setDropdownToggle('inventory')}>
-            <div className="clientDashboard_sidenav-menu-item-tab">
-              <SVGs svg={'inventory'} classprop={'clientDashboard_sidenav-menu-item-tabIcon' + (!nav.sidenav ? ' hide-sidenav-items' : '')}></SVGs>
+            <div 
+            className="clientDashboard_sidenav-menu-item-tab">
+              <SVGs 
+              svg={'inventory'} 
+              classprop={'clientDashboard_sidenav-menu-item-tabIcon' + (!nav.sidenav ? ' hide-sidenav-items' : '')}>
+              </SVGs>
               <div className={!nav.sidenav ? ' hide-sidenav-items' : ''}>Inventory</div>
             </div>
             <div className="clientDashboard_sidenav-menu-item-arrow">
@@ -35,14 +40,15 @@ const SideNav = ({nav, width, toggleSideNav, newView, redirect}) => {
               className={`clientDashboard_sidenav-menu-item-dropdown-fill` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'inventory' ? ' hide-sidenav-dropdown' : '')}
             />
             <div 
-              onClick={() => (window.location.href = `/account?change=new`, width < 992 ? toggleSideNav('toggle_nav_button') : null)} 
+              onClick={() => changeView('new')} 
+              // width < 992 ? toggleSideNav('toggle_nav_button') : null)
               className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'inventory' ? ' hide-sidenav-dropdown' : '')}>
                 <SVGs svg={'circle-thin'} 
                 classprop={`clientDashboard_sidenav-menu-item-arrow` + (!nav.sidenav ? ' hide-sidenav-items' : '')  + (toggle == 'inventory' ? ' hide-sidenav-dropdown' : '')} />
                 New
             </div>
             <div 
-              onClick={() => {window.location.href = `/slabs`}} 
+              onClick={() => changeView('slabs')} 
               className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'inventory' ? ' hide-sidenav-dropdown' : '')}>
                 <SVGs svg={'circle-thin'} 
                 classprop={'clientDashboard_sidenav-menu-item-arrow' + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'inventory' ? ' hide-sidenav-dropdown' : '')}/>
@@ -132,6 +138,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    changeView: (view) => dispatch({type: 'CHANGE_VIEW', value: view}),
     toggleSideNav: (toggle) => dispatch({type: 'TOGGLE_SIDENAV', toggle: toggle}),
     newView: (value) => dispatch({type: 'NEW_VIEW', value: value}),
   }

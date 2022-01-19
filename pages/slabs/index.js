@@ -6,6 +6,9 @@ import SVGs from '../../files/svgs'
 import {connect} from 'react-redux'
 import {API} from '../../config'
 import axios from 'axios'
+import { filterTable, tableData } from '../../helpers/tableData'
+import { getToken } from '../../helpers/auth'
+import _ from 'lodash'
 
 const Slabs = ({hideSideNav, showSideNav, list}) => {
   const myRefs = useRef([])
@@ -21,7 +24,11 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
   const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState('')
   const [searchLoading, setSearchLoading] = useState(false)
-  const [allSlabs, setAllSlabs] = useState(list ? list : [])
+  const [allSlabs, setAllSlabs] = useState(list ? list.slabs : [])
+
+  useEffect(() => {
+    setAllSlabs(list.slabs)
+  }, [])
 
   const handleClickOutside = (event) => {
     if(myRefs.current){
@@ -101,7 +108,7 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
     setError('')
     try {
       const responseDelete = await axios.post(`${API}/inventory/delete-slab`, {id: idControlsSlab, images: deleteImages[0].images})
-      console.log(responseDelete)
+      // console.log(responseDelete)
       window.location.href = '/slabs'
       setLoading(false)
     } catch (error) {
@@ -129,7 +136,62 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
     <TopNav></TopNav>
     <div className="clientDashboard">
       <SideNav width={width} redirect={sendRedirect}></SideNav>
-      <div className="clientDashboard-view">
+      <div className="table">
+        <div className="table-header">
+          <div className="table-header-title">Slab Items</div>
+          <div className={`form-group-search ` + (controlsSlab ? 'form-group-search-hideOnMobile' : '')}>
+            <form autoComplete="off">
+              <input 
+              type="text" 
+              name="search" 
+              placeholder="Search" 
+              value={search} 
+              onChange={(e) => (setSearch(e.target.value))} 
+              onFocus={(e) => (e.target.placeholder = '', setMessage(''))} onBlur={(e) => (e.target.placeholder = 'Search', setMessage(''))} 
+              onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null}  
+              required>
+              </input>
+            </form>
+          </div>
+          {controlsSlab &&
+          <div className="clientDashboard-view-slab_list-heading-controls">
+            <div 
+            id="edit-slab" className="clientDashboard-view-slab_list-heading-controls-item edit" 
+            onClick={() => idControlsSlab ? window.location.href = `inventory/slab/${idControlsSlab}` : null}>
+              Edit
+            </div>
+            <div 
+            id="delete-slab" className="clientDashboard-view-slab_list-heading-controls-item delete" 
+            onClick={() => handleDelete()}>
+              Delete
+            </div>
+          </div>
+          }
+          {loading && <div className="loading"><span></span><span></span><span></span></div>}
+          <div className="form-error-container">
+            {error && <span className="form-error form-error-list"><SVGs svg={'error'}></SVGs><span>{error}</span></span>}
+          </div>
+        </div>
+
+        <div className="table-headers">
+          <div className="table-headers-item">&nbsp;</div>
+          { 
+            filterTable(allSlabs).length > 0 && 
+            filterTable(allSlabs, ['_id', 'createdAt', 'updatedAt', '__v'], 1).map((item, idx, array) => 
+              Object.keys(array[0]).sort((a, b) => sortOrder.indexOf(b) - sortOrder.indexOf(a)).map((key, idx) => 
+                <div key={idx} className="table-headers-item">
+                  {(key.replace( /([a-z])([A-Z])/g, "$1 $2")).replace('_', ' ')}
+                </div>
+              )
+            )
+          }
+        </div>      
+      </div>
+    </div>
+
+
+
+    <div className="clientDashboard-view">
         <div className="clientDashboard-view-slab_list-container">
           {searchLoading ? <div className="search-loading"><div className="search-loading-box"><svg><circle cx="20" cy="20" r="20"></circle></svg><span>Loading slabs</span></div></div>: null}
           <div className="clientDashboard-view-slab_list-heading">
@@ -195,24 +257,8 @@ const Slabs = ({hideSideNav, showSideNav, list}) => {
           </div>
         </div>
       </div>
-    </div>
     </>
   )
-}
-
-Slabs.getInitialProps = async () => {
-  let data
-  let error
-  try {
-    const responseSlabs = await axios.get(`${API}/inventory/all-slabs`)
-    data = responseSlabs.data
-  } catch (error) {
-    console.log(error)
-  }
-
-  return {
-    list: data ? data : null
-  }
 }
 
 const mapStateToProps = state => {
@@ -228,6 +274,21 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withUser(Slabs))
+Slabs.getInitialProps = async (context) => {
+  let data = new Object()
+  let deepClone
 
-// e.target.checked == true ? (handleControls(e), setControls(true), setIDControls(item._id), window.scrollTo({top: 0})) : (setControls(false), setIDControls(''))
+  const token = getToken(context.req)
+  let accessToken
+  if(token){accessToken = token.split('=')[1]}
+  
+  data.slabs = await tableData(accessToken, 'slabs')
+  deepClone = _.cloneDeep(data)
+
+  return {
+    list: Object.keys(data).length > 0 ? data : null,
+    originalData: Object.keys(deepClone).length > 0 ? deepClone : null
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withUser(Slabs))

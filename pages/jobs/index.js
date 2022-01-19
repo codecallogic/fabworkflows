@@ -12,7 +12,7 @@ import withUser from '../withUser'
 import SVG from '../../files/svgs'
 
 const Jobs = ({hideSideNav, showSideNav, list, JobList, createJob, addJobImage, resetJob}) => {
-  console.log(list)
+  // console.log(list)
   const myRefs = useRef([])
   const [width, setWidth] = useState()
   const [loading, setLoading] = useState(false)
