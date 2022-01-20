@@ -10,15 +10,48 @@
   }
 
   &-box {
-    width: 50%;
-    border-radius: 1.2rem;
-    border: 0.1rem solid $color-light-shade-scheme-3;
+    &-container {
+      border-bottom-left-radius: 1.2rem;
+      border-bottom-right-radius: 1.2rem;
+      border: 0.1rem solid $color-light-shade-scheme-3;
+      box-shadow: 0.3rem 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+      padding: 0 1rem;
+
+      @media only screen and (max-width: $large) {
+        width: 100%;
+      }
+    }
 
     &-heading {
-      background-color: $color-light-shade-scheme-3;
-      height: 3rem;
+      background-color: $color-light-shade-scheme-2;
+      height: 4rem;
       border-top-left-radius: 1.2rem;
       border-top-right-radius: 1.2rem;
+      display: flex;
+      align-items: center;
+
+      &-item {
+        display: flex;
+        align-items: center;
+        background-color: $color-dark-shade-scheme-1;
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+        margin: 0 1rem;
+        color: white;
+        font-weight: 700;
+
+        svg {
+          width: 2.2rem;
+          height: 2.2rem;
+          fill: white;
+          margin-right: 0.5rem;
+        }
+
+        input {
+          display: none;
+        }
+      }
     }
   }
 
@@ -65,6 +98,7 @@
     div > svg {
       width: 3rem;
       height: 3rem;
+      fill: $color-scheme-2;
 
       &:hover {
         cursor: pointer;
@@ -108,6 +142,53 @@
           cursor: pointer;
           background-color: $color-light-shade-scheme-1;
         }
+      }
+    }
+
+    &-button {
+      width: 100%;
+      padding: 1rem 2rem;
+      margin: 1rem 0;
+      border-radius: 1.2rem;
+      border: none;
+      outline: none;
+      color: white;
+      background-color: $color-scheme-2;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    &-image {
+      width: 100%;
+    }
+
+    &-gallery {
+      width: 100%;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-wrap: wrap;
+
+      &-link {
+        display: flex;
+        align-items: center;
+        margin-right: 1rem;
+        box-shadow: 0.3rem 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.2);
+        border-radius: 1.2rem;
+        transition: all 0.5s ease-in-out;
+        margin-bottom: 1rem;
+
+        &:hover {
+          cursor: pointer;
+          box-shadow: 0.3rem 0.5rem 0.5rem 0.3rem rgba(0, 0, 0, 0.3);
+        }
+      }
+
+      &-image {
+        width: 100%;
+        object-fit: cover;
+        border-radius: 1.2rem;
       }
     }
   }
@@ -1610,11 +1691,6 @@
   }
 }
 
-// ERRORS
-.red {
-  border: 0.1rem solid red !important;
-}
-
 .error-svg {
   width: 2.5rem;
   height: 2.5rem;
@@ -1682,6 +1758,13 @@
   border-radius: 1.2rem;
 }
 
+////////////////////////////////////////////////////
+
 .labelHover {
   top: 5% !important;
+}
+
+// ERRORS
+.red {
+  color: red;
 }

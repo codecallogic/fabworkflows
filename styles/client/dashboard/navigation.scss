@@ -114,7 +114,8 @@
 
 .clientDashboard_sidenav {
   width: 15%;
-  height: 100rem;
+  min-height: 100rem;
+  max-height: 100%;
   transition: all 0.5s ease-in-out;
   background-color: $color-light-shade-scheme-3;
   border-right: solid 0.1rem $color-light-shade-scheme-1;

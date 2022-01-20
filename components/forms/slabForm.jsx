@@ -5,12 +5,21 @@ import {manageFormFields} from '../../helpers/forms'
 const Form = ({
   token,
   title,
+  dynamicSVG,
+  setDynamicSVG,
   modal,
   setModal,
   message, 
   setMessage,
   loading,
   setLoading,
+
+  //// VALIDATIONS
+  validateNumber,
+  validatePrice,
+  validateDate,
+  generateQR,
+  multipleImages,
 
   //// DATA
   allData,
@@ -21,21 +30,26 @@ const Form = ({
   stateData,
   stateMethod,
   resetState,
+  addImages,
 
   ///// CRUD
   submitCreate,
 }) => {
 
+  const createType = 'CREATE_SLAB'
+  const resetType = 'RESET_SLAB'
+  const imagesType = 'ADD_SLAB_IMAGES'
   const myRefs = useRef(null)
-  const loadingColor = 'black'
+  const [loadingColor, setLoadingColor] = useState('black')
   const [input_dropdown, setInputDropdown] = useState('')
   const [save, setSave] = useState(false)
 
   useEffect(() => {
-
-    const isEmpty = Object.values(stateData).every(x => x === '' || x.length === 0)
-    if(!isEmpty) setSave(true)
-    if(isEmpty) setSave(false)
+    console.log(stateData)
+    const isEmpty = Object.values(stateData).every( x => x === '' || x.length < 1)
+    
+    if(!isEmpty) return (setMessage(''), setSave(true))
+    if(isEmpty) return setSave(false)
 
   }, [stateData])
 
@@ -63,7 +77,7 @@ const Form = ({
             <div 
             id="save" 
             className="table-header-controls-item" 
-            onClick={(e) => submitCreate(e, stateData, 'slabs', setMessage, setLoading, token, 'slabs/create-slab', resetState, allData, setAllData)}
+            onClick={(e) => submitCreate(e, stateData, 'slabs', setMessage, setLoading, token, 'slabs/create-slab', resetType, resetState, allData, setAllData, setDynamicSVG)}
             >
               {loading == 'create_slab' ? 
               <div className="loading">
@@ -78,7 +92,7 @@ const Form = ({
             <div 
             id="reset" 
             className="table-header-controls-item" 
-            onClick={null}
+            onClick={() => (resetState(resetType), setMessage(''))}
             >
               Reset
             </div>
@@ -86,21 +100,25 @@ const Form = ({
         }
         { message && 
           <div className="table-header-error">
-            <SVG svg={'notification'}></SVG> 
+            <SVG svg={dynamicSVG}></SVG> 
             <span>{message.substr(0, 200)}</span>
           </div>
         }
       </div>
-      <form 
-        className="table-forms" onSubmit={null}
-      >
-        <div className="form-box">
+      <form className="table-forms" onSubmit={null}>
+
+
+
+
+
+        <div className="form-box" style={{width: '49%'}}>
           <div className="form-box-heading"></div>
+          <div className="form-box-container">
             <div className="form-group">
               <input
               onClick={() => setInputDropdown('slab_material')} 
               value={manageFormFields(stateData.material, 'name')} 
-              onChange={(e) => (setInputDropdown(''), stateMethod('material', e.target.value))}/>
+              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'material', e.target.value))}/>
               <label 
               className={`input-label ` + (
                 stateData.material.length > 0 || 
@@ -112,7 +130,7 @@ const Form = ({
                 Material
               </label>
               <div 
-              onClick={() => (input_dropdown !== 'slab_material' ? setInputDropdown('slab_material') : setInputDropdown(''))}><SVG svg={'dropdown-arrow'}></SVG>
+              onClick={() => setInputDropdown('slab_material')}><SVG svg={'dropdown-arrow'}></SVG>
               </div>
               { input_dropdown == 'slab_material' &&
                 <div 
@@ -128,7 +146,7 @@ const Form = ({
                   <div 
                   key={idx} 
                   className="form-group-list-item" 
-                  onClick={(e) => (stateMethod('material', item), setInputDropdown(''))}>
+                  onClick={(e) => (stateMethod(createType, 'material', item), setInputDropdown(''))}>
                     {item.name}
                   </div>
                   ))}
@@ -139,7 +157,7 @@ const Form = ({
                 <input 
                 onClick={() => setInputDropdown('slab_color')} 
                 value={manageFormFields(stateData.color, 'name')} 
-                onChange={(e) => (setInputDropdown(''), stateMethod('color', e.target.value))}/>
+                onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'color', e.target.value))}/>
                 <label 
                  className={`input-label ` + (
                   stateData.color.length > 0 || 
@@ -151,7 +169,7 @@ const Form = ({
                   Color
                 </label>
                 <div 
-                onClick={() => (input_dropdown !== 'slab_color' ? setInputDropdown('slab_color') : setInputDropdown(''))}>
+                onClick={() =>setInputDropdown('slab_color') }>
                 <SVG svg={'dropdown-arrow'}></SVG>
                 </div>
                 { input_dropdown == 'slab_color' &&
@@ -168,171 +186,412 @@ const Form = ({
                     <div 
                     key={idx} 
                     className="form-group-list-item" 
-                    onClick={(e) => (stateMethod('color', item), setInputDropdown(''))}>
+                    onClick={(e) => (stateMethod(createType, 'color', item), setInputDropdown(''))}>
                       {item.name}
                     </div>
                     ))}
                   </div>
                 }
             </div>
-        </div>
-        {/* <div className="form-group-triple">
-          <label htmlFor="quantity">Quantity</label>
-          <div className="form-group-triple-input">
-            <textarea id="quantity" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="quantity" placeholder="(Quantity)" value={slab.quantity} onChange={(e) => (validateIsNumber('quantity'), createSlab('quantity', e.target.value))} required></textarea>
-          </div>
-        </div>
-        <div className="form-group-triple">
-          <label htmlFor="size_1">Size</label>
-          <div className="form-group-triple-input units">
-            <span></span>
-            <textarea id="size_1" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="size_1" placeholder="# in" value={slab.size_1} onChange={(e) => (validateIsNumber('size_1'), createSlab('size_1', e.target.value))} required></textarea>
-            <textarea id="size_2" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="size_2" placeholder="# in" value={slab.size_2} onChange={(e) => (validateIsNumber('size_2'), createSlab('size_2', e.target.value))} required></textarea>
-          </div>
-        </div>
-        <div className="form-group-triple">
-          <label htmlFor="thickness">Thickness</label>
-          <div className="form-group-triple-input">
-            <textarea id="thickness" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="thickness" placeholder="(Thickness)" value={slab.thickness} onChange={(e) => (validateIsNumber('thickness'), createSlab('thickness', e.target.value))} required></textarea>
-          </div>
-        </div>
-        <div className="form-group-double-dropdown">
-          <label htmlFor="grade">Grade</label>
-          <div className="form-group-double-dropdown-input">
-            <textarea rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="grade" placeholder="(Select Grade)" onClick={() => (setInputDropdown(''), setInputDropdown('slab_grade'))} value={slab.grade} onChange={(e) => createSlab('grade', e.target.value)}></textarea>
-            <div onClick={() => (input_dropdown !== 'slab_grade' ? setInputDropdown('slab_grade') : setInputDropdown(''))}><SVG svg={'dropdown-arrow'}></SVG></div>
-            { input_dropdown == 'slab_grade' &&
-            <div className="form-group-double-dropdown-input-list" ref={myRefs}>
-              <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('grade', e.target.innerText), setInputDropdown(''))}>A</div>
-              <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('grade', e.target.innerText), setInputDropdown(''))}>B</div>
-              <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('grade', e.target.innerText), setInputDropdown(''))}>C</div>
+            <div className="form-group">
+              <input 
+                id="quantity" 
+                value={stateData.quantity} 
+                onChange={(e) => (validateNumber('quantity'), stateMethod(createType, 'quantity', e.target.value))}
+              />
+             <label 
+              className={`input-label ` + (
+                stateData.quantity.length > 0 || 
+                typeof stateData.quantity == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="quantity">
+                Quantity
+              </label>
             </div>
-            }
-          </div>
-        </div>
-        <div className="form-group-double-dropdown">
-          <label htmlFor="finish">Finish</label>
-          <div className="form-group-double-dropdown-input">
-            <textarea rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="finish" placeholder="(Select Finish)" onClick={() => setInputDropdown('slab_finish')} value={slab.finish} onChange={(e) => (setInputDropdown(''), createSlab('finish', e.target.value))}></textarea>
-            <div onClick={() => (input_dropdown !== 'slab_finish' ? setInputDropdown('slab_finish') : setInputDropdown(''))}><SVG svg={'dropdown-arrow'}></SVG></div>
-            { input_dropdown == 'slab_finish' &&
-            <div className="form-group-double-dropdown-input-list" ref={myRefs}>
-              <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('finish', e.target.innerText), setInputDropdown(''))}>Brushed</div>
-              <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('finish', e.target.innerText), setInputDropdown(''))}>Polished</div>
-              <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('finish', e.target.innerText), setInputDropdown(''))}>Honed</div>
-              <div className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('finish', e.target.innerText), setInputDropdown(''))}>Leather</div>
+            <div className="form-group">
+                <input 
+                id="size_1" 
+                value={stateData.size_1} 
+                onChange={(e) => (validateNumber('size_1'), stateMethod(createType, 'size_1', e.target.value))}/>
+               
+                <label 
+                className={`input-label ` + (
+                  stateData.size_1.length > 0 || 
+                  typeof stateData.size_1 == 'object' 
+                  ? ' labelHover' 
+                  : ''
+                )}
+                htmlFor="size_1">
+                  Size 1
+                </label>
             </div>
-            }
-          </div>
-        </div>
-        <div className="form-group-triple">
-          <label htmlFor="price_slab">Price per Slab</label>
-          <div className="form-group-double-dropdown-input">
-            <SVG svg={'dollar'} classprop="dollar"></SVG>
-            <textarea id="price_slab" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} placeholder="0.00" className="dollar-input" value={slab.price_slab == 'NaN' ? '' : slab.price_slab.replace("$", "")} onChange={(e) => createSlab('price_slab', validateIsPrice(e))} required></textarea>
-          </div>
-        </div>
-        <div className="form-group-triple">
-          <label htmlFor="price_sqft">Price per Sqft</label>
-          <div className="form-group-double-dropdown-input">
-            <SVG svg={'dollar'} classprop="dollar"></SVG>
-            <textarea id="price_sqft" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} placeholder="0.00" className="dollar-input" value={slab.price_sqft == 'NaN' ? '' : slab.price_sqft.replace("$", "")} onChange={(e) => createSlab('price_sqft', validateIsPrice(e))} required></textarea>
-          </div>
-        </div>
-        <div className="form-group-triple">
-          <label htmlFor="block">Block Number</label>
-          <div className="form-group-triple-input">
-            <textarea id="block" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} placeholder="(Block #)" value={slab.block} onChange={(e) => (validateIsNumber('block'), createSlab('block', e.target.value))} required></textarea>
-          </div>
-        </div>
-        <div className="form-group-double-dropdown">
-          <label htmlFor="supplier">Supplier</label>
-          <div className="form-group-double-dropdown-input">
-            <textarea rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="supplier" placeholder="(Select Supplier)" onClick={() => setInputDropdown('supplier')} value={slab.supplier} onChange={(e) => (setInputDropdown(''), createSlab('supplier', e.target.value))} required></textarea>
-            <div onClick={() => (input_dropdown !== 'supplier' ? setInputDropdown('supplier') : setInputDropdown(''))}><SVG svg={'dropdown-arrow'}></SVG></div>
-            { input_dropdown == 'supplier' &&
-            <div className="form-group-double-dropdown-input-list" ref={myRefs}>
-              <div className="form-group-double-dropdown-input-list-item border_bottom" onClick={() => (setInputDropdown(''), setModal('add_supplier'))}><SVG svg={'plus'}></SVG> Add new</div>
-              {allSuppliers && allSuppliers.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
-              <div key={idx} className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('supplier', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
-              ))}
+            <div className="form-group">
+                <input 
+                id="size_2" 
+                value={stateData.size_2} 
+                onChange={(e) => (validateNumber('size_2'), stateMethod(createType, 'size_2', e.target.value))}/>
+               
+                <label 
+                className={`input-label ` + (
+                  stateData.size_2.length > 0 || 
+                  typeof stateData.size_2 == 'object' 
+                  ? ' labelHover' 
+                  : ''
+                )}
+                htmlFor="size_2">
+                  Size 2
+                </label>
             </div>
-            }
-          </div>
-        </div>
-        <div className="form-group-double-dropdown">
-          <label htmlFor="location">Location</label>
-          <div className="form-group-double-dropdown-input">
-            <textarea rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="location" placeholder="(Select Location)" value={slab.location} onClick={() => setInputDropdown('location')} onChange={(e) => (setInputDropdown(''), createSlab('location', e.target.value))} required></textarea>
-            <div onClick={() => (input_dropdown !== 'location' ? setInputDropdown('location') : setInputDropdown(''))}><SVG svg={'dropdown-arrow'}></SVG></div>
-            { input_dropdown == 'location' &&
-            <div className="form-group-double-dropdown-input-list" ref={myRefs}>
-              <div className="form-group-double-dropdown-input-list-item border_bottom" onClick={() => (setInputDropdown(''), setModal('add_location'))}><SVG svg={'plus'}></SVG> Add new</div>
-              {allLocations && allLocations.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
-              <div key={idx} className="form-group-double-dropdown-input-list-item" onClick={(e) => (createSlab('location', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
-              ))}
+            <div className="form-group">
+              <input 
+              id="thickness" 
+              value={stateData.thickness} 
+              onChange={(e) => (validateNumber('thickness'), stateMethod(createType, 'thickness', e.target.value))}/>
+              
+              <label 
+              className={`input-label ` + (
+                stateData.thickness.length > 0 || 
+                typeof stateData.thickness == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="thickness">
+                Thickness
+              </label>
             </div>
-            }
-          </div>
+            </div>
         </div>
-        <div className="form-group-triple">
-          <label htmlFor="lot">Lot Number</label>
-          <div className="form-group-triple-input">
-            <textarea id="lot" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} placeholder="(Lot #)" value={slab.lot_number} onChange={(e) => (createSlab('lot_number', e.target.value))} required></textarea>
-          </div>
-        </div>
-        <div className="form-group-triple">
-          <label htmlFor="delivery_date">Delivery Date</label>
-          <div className="form-group-triple-input">
-            <textarea id="delivery_date" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} placeholder="(Delivery Date)" name="delivery_date" value={slab.delivery_date} onChange={(e) => handleDate(e)} required></textarea>
-          </div>
-        </div>
-        <div className="form-group-triple-dropdown"></div>
-        <div className="form-group-triple-qr">
-          <label htmlFor="qr_code">Generate QR Code</label>
-          <button onClick={(e) => generateQRSlab(e)}>Generate</button>
-          {!slab.qr_code && <img className="form-group-triple-qr-image-2" src='https://free-qr.com/images/placeholder.svg' alt="QR Code" />}
-          {slab.qr_code && <a download="qr-code.png" href={slab.qr_code} alt="QR Code" title="QR-code"><img src={slab.qr_code} alt="QR Code" className="form-group-triple-qr-image" /></a>}
-        </div>
-        <div className="form-group-triple form-group-triple-upload">
-          {selectedFiles.length < 1 && 
-          <>
-            <label htmlFor="files_upload" className="form-group-triple-upload-add">
-              <SVG svg={'upload'}></SVG> 
-              Browse Files
+
+
+
+
+        <div className="form-box" style={{width: '49%'}}>
+          <div className="form-box-heading"></div>
+          <div className="form-box-container">
+          <div className="form-group">
+            <input 
+            onClick={() => setInputDropdown('slab_supplier')} 
+            value={manageFormFields(stateData.supplier, 'name')} 
+            onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'supplier', e.target.value))}/>
+            <label 
+              className={`input-label ` + (
+              stateData.supplier.length > 0 || 
+              typeof stateData.supplier == 'object' 
+              ? ' labelHover' 
+              : ''
+            )}
+            htmlFor="supplier">
+              Supplier
             </label>
-            <input type="file" name="files_upload" accept="image/*" id="files_upload" multiple onChange={(e) => multipleFileChangeHandler(e, 'slab')}/>
-          </>
-          }
-          {selectedFiles.length > 0 && <>
-            <div className="form-group-triple-upload-item-container">
-            {selectedFiles.map((item, idx) => (
-              <a className="form-group-triple-upload-item" href={item.location} target="_blank" rel="noreferrer" key={idx}>
-                <div>{item.location ? <img src={item.location}></img> : <SVG svg={'file-image'}></SVG>} </div>
-              </a>
-            ))}
+            <div onClick={() => setInputDropdown('slab_supplier')}>
+            <SVG svg={'dropdown-arrow'}></SVG>
             </div>
-            {imageCount < 3 && 
-              <>
-              <label htmlFor="files_upload" className="form-group-triple-upload-more">
-                <SVG svg={'upload'}></SVG> 
-                Add more
-              </label>
-              <input type="file" name="files_upload" accept="image/*" id="files_upload" multiple onChange={(e) => multipleFileChangeHandler(e, 'slab')}/>
-              </>
+            { input_dropdown == 'slab_supplier' &&
+              <div 
+              className="form-group-list" 
+              ref={myRefs}>
+              <div 
+              className="form-group-list-item" 
+              onClick={() => (setInputDropdown(''), setModal('add_supplier'))}>
+                <SVG svg={'plus'}></SVG> 
+                Add new
+              </div>
+                {originalData && originalData.suppliers.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                <div 
+                key={idx} 
+                className="form-group-list-item" 
+                onClick={(e) => (stateMethod(createType, 'supplier', item), setInputDropdown(''))}>
+                  {item.name}
+                </div>
+                ))}
+              </div>
             }
-            {imageCount == 3 && 
-              <>
-              <label onClick={() => (setSelectedFiles([]), setImageCount(0), addSlabImages([]))} className="form-group-triple-upload-more">
-                <SVG svg={'reset'}></SVG> 
-                Reset
-              </label>
-              </>
+          </div>
+          <div className="form-group">
+            <input
+            onClick={() => setInputDropdown('slab_grade')} 
+            value={stateData.grade} 
+            onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'grade', e.target.value))}/>
+            <label 
+            className={`input-label ` + (
+              stateData.grade.length > 0 || 
+              typeof stateData.grade == 'object' 
+              ? ' labelHover' 
+              : ''
+            )}
+            htmlFor="grade">
+              Grade
+            </label>
+            <div 
+            onClick={() => setInputDropdown('slab_grade')}><SVG svg={'dropdown-arrow'}></SVG>
+            </div>
+            { input_dropdown == 'slab_grade' &&
+              <div 
+              className="form-group-list" 
+              ref={myRefs}>
+                <div 
+                className="form-group-list-item" 
+                onClick={(e) => (setInputDropdown(''), stateMethod(createType, 'grade', e.target.innerText))}>
+                  A
+                </div>
+                <div 
+                className="form-group-list-item" 
+                onClick={(e) => (setInputDropdown(''), stateMethod(createType, 'grade', e.target.innerText))}>
+                  B
+                </div>
+                <div 
+                className="form-group-list-item" 
+                onClick={(e) => (setInputDropdown(''), stateMethod(createType, 'grade', e.target.innerText))}>
+                  C
+                </div>
+              </div>
             }
-            </>
-          }
+          </div>
+          <div className="form-group">
+            <input
+            onClick={() => setInputDropdown('slab_finish')} 
+            value={stateData.finish} 
+            onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'finish', e.target.value))}/>
+            <label 
+            className={`input-label ` + (
+              stateData.finish.length > 0 || 
+              typeof stateData.finish == 'object' 
+              ? ' labelHover' 
+              : ''
+            )}
+            htmlFor="finish">
+              Finish
+            </label>
+            <div 
+            onClick={() => setInputDropdown('slab_finish')}><SVG svg={'dropdown-arrow'}></SVG>
+            </div>
+            { input_dropdown == 'slab_finish' &&
+              <div 
+              className="form-group-list" 
+              ref={myRefs}>
+                <div 
+                className="form-group-list-item" 
+                onClick={(e) => (setInputDropdown(''), stateMethod(createType, 'finish', e.target.innerText))}>
+                  Brushed
+                </div>
+                <div 
+                className="form-group-list-item" 
+                onClick={(e) => (setInputDropdown(''), stateMethod(createType, 'finish', e.target.innerText))}>
+                  Polished
+                </div>
+                <div 
+                className="form-group-list-item" 
+                onClick={(e) => (setInputDropdown(''), stateMethod(createType, 'finish', e.target.innerText))}>
+                  Honed
+                </div>
+                <div 
+                className="form-group-list-item" 
+                onClick={(e) => (setInputDropdown(''), stateMethod(createType, 'finish', e.target.innerText))}>
+                  Polished
+                </div>
+                <div 
+                className="form-group-list-item" 
+                onClick={(e) => (setInputDropdown(''), stateMethod(createType, 'finish', e.target.innerText))}>
+                  Leather
+                </div>
+              </div>
+            }
+          </div>
+          <div className="form-group">
+            <input 
+            id="price_slab" 
+            value={stateData.price_slab} 
+            onChange={(e) => (stateMethod(createType, 'price_slab', validatePrice(e)))}/>
+            <label 
+            className={`input-label ` + (
+              stateData.price_slab.length > 0 || 
+              typeof stateData.price_slab == 'object' 
+              ? ' labelHover' 
+              : ''
+            )}
+            htmlFor="price_slab">
+              Slab Price
+            </label>
+          </div>
+          <div className="form-group">
+            <input 
+            id="price_sqft" 
+            value={stateData.price_sqft} 
+            onChange={(e) => (stateMethod(createType, 'price_sqft', validatePrice(e)))}/>
+            <label 
+            className={`input-label ` + (
+              stateData.price_sqft.length > 0 || 
+              typeof stateData.price_sqft == 'object' 
+              ? ' labelHover' 
+              : ''
+            )}
+            htmlFor="price_sqft">
+              Price per sqft
+            </label>
+          </div>
+          <div className="form-group">
+            <input 
+            id="block" 
+            value={stateData.block} 
+            onChange={(e) => (validateNumber('block'), stateMethod(createType, 'block', e.target.value))}/>
+            <label 
+            className={`input-label ` + (
+              stateData.block.length > 0 || 
+              typeof stateData.block == 'object' 
+              ? ' labelHover' 
+              : ''
+            )}
+            htmlFor="block">
+              Block
+            </label>
+          </div>
+          </div>
         </div>
-        <div className="form-group-triple-button-list">
+
+
+
+
+
+
+        <div className="form-box" style={{width: '33%'}}>
+          <div className="form-box-heading"></div>
+          <div className="form-box-container">
+          <div className="form-group">
+            <input 
+            onClick={() => setInputDropdown('slab_location')} 
+            value={manageFormFields(stateData.location, 'name')} 
+            onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'location', e.target.value))}/>
+            <label 
+              className={`input-label ` + (
+              stateData.location.length > 0 || 
+              typeof stateData.location == 'object' 
+              ? ' labelHover' 
+              : ''
+            )}
+            htmlFor="location">
+              Location
+            </label>
+            <div onClick={() => setInputDropdown('slab_location')}>
+            <SVG svg={'dropdown-arrow'}></SVG>
+            </div>
+            { input_dropdown == 'slab_location' &&
+              <div 
+              className="form-group-list" 
+              ref={myRefs}>
+              <div 
+              className="form-group-list-item" 
+              onClick={() => (setInputDropdown(''), setModal('add_location'))}>
+                <SVG svg={'plus'}></SVG> 
+                Add new
+              </div>
+                {originalData && originalData.locations.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                <div 
+                key={idx} 
+                className="form-group-list-item" 
+                onClick={(e) => (stateMethod(createType, 'location', item), setInputDropdown(''))}>
+                  {item.name}
+                </div>
+                ))}
+              </div>
+            }
+          </div>
+          <div className="form-group">
+            <input 
+            id="lot_number" 
+            value={stateData.lot_number} 
+            onChange={(e) => stateMethod(createType, 'lot_number', e.target.value)}/>
+            <label 
+            className={`input-label ` + (
+              stateData.lot_number.length > 0 || 
+              typeof stateData.lot_number == 'object' 
+              ? ' labelHover' 
+              : ''
+            )}
+            htmlFor="lot_number">
+              Lot Number
+            </label>
+          </div>
+          <div className="form-group">
+            <input 
+            id="delivery_date" 
+            value={stateData.delivery_date} 
+            onChange={(e) => validateDate(e, 'delivery_date', createType, stateMethod)}/>
+            <label 
+            className={`input-label ` + (
+              stateData.delivery_date.length > 0 || 
+              typeof stateData.delivery_date == 'object' 
+              ? ' labelHover' 
+              : ''
+            )}
+            htmlFor="delivery_date">
+              Delivery Date
+            </label>
+          </div>
+          <button className="form-group-button" onClick={(e) => generateQR(e, 'slabQRCode', stateData, createType, stateMethod, setMessage, setDynamicSVG)}>Generate</button>
+          {!stateData.qr_code && 
+            <img 
+            className="form-group-image" 
+            src='https://free-qr.com/images/placeholder.svg' 
+            alt="QR Code"
+            />
+          }
+          {stateData.qr_code && 
+            <a
+            className="form-group-image"
+            download="qr-code.png" 
+            href={stateData.qr_code} 
+            alt="QR Code" 
+            title="QR-code"
+            >
+              <img 
+              src={stateData.qr_code} 
+              alt="QR Code" 
+              className="form-group-image"
+              />
+            </a>
+          }
+          </div>
+        </div>
+
+
+
+
+        <div className="form-box" style={{width: '66%'}}>
+          <div className="form-box-heading">
+            <label htmlFor="imageFiles" className="form-box-heading-item">
+              <SVG svg={'upload'}></SVG> Upload Images
+              <input 
+              id="imageFiles" 
+              type="file" 
+              accept="image/*" 
+              multiple
+              onChange={(e) => multipleImages(e, stateData, setMessage, imagesType, addImages)}
+              />
+            </label>
+          </div>
+          <div className="form-box-container">
+            <div className="form-group-gallery">
+              {stateData.images.length > 0 && stateData.images.map((item, idx) => (
+                <a 
+                key={idx} 
+                href={item.location} 
+                className="form-group-gallery-link"
+                target="_blank" 
+                rel="noreferrer"
+                style={{width: '48%'}}
+                >
+                  <img 
+                  className="form-group-gallery-image"
+                  src={item.location}
+                  />
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+         {/* <div className="form-group-triple-button-list">
           <label htmlFor="material">Order Status</label>
           <div className="form-group-triple-button-list">
             <div className={`form-group-triple-button-list-item ` + (slab.ordered_status ? slab.ordered_status.split(',')[0] == 'Ordered' ? ` selected` : null : null)} onClick={(e) => (slab.ordered_status ? createSlab('ordered_status', '') : createSlab('ordered_status', `Ordered, ${dateNow()}`), setInputDropdown(''))}>{slab.ordered_status ? slab.ordered_status.split(',')[0] == 'Ordered' ? slab.ordered_status : 'Ordered' : 'Ordered'}</div>

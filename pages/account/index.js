@@ -21,7 +21,7 @@ import CategoryModal from '../../components/modals/Category'
 //// TABLE
 import { filterTable, tableData } from '../../helpers/tableData'
 import Table from '../../components/table'
-import {slabsSort} from '../../helpers/sorts'
+import { slabsSort } from '../../helpers/sorts'
 
 //// DATA
 import { getToken } from '../../helpers/auth'
@@ -29,7 +29,13 @@ import _ from 'lodash'
 
 //// FORMS
 import SlabForm from '../../components/forms/slabForm'
-import {submitCreate} from '../../helpers/forms'
+import { submitCreate } from '../../helpers/forms'
+
+//// VALIDATIONS
+import { validateNumber, validatePrice, validateDate, generateQR, multipleImages} from '../../helpers/validations'
+
+//// MODALS
+import MaterialModal from '../../components/modals/Material'
 
 axios.defaults.withCredentials = true
 
@@ -51,9 +57,9 @@ const Dashboard = ({
   showSideNav, 
   changeView, 
   slab, 
-  createSlab,
-  resetSlab,
-  addSlabImages, 
+  createType,
+  resetType,
+  addImages, 
   product, 
   createProduct, 
   addProductImages, 
@@ -77,13 +83,14 @@ const Dashboard = ({
   resetQuote
 }) => {
   const myRefs = useRef(null)
-  // console.log(product)
+  
+  // console.log(originalData)
+  
   const router = useRouter()
   const [input_dropdown, setInputDropdown] = useState('')
   const [width, setWidth] = useState()
   const [selectedFiles, setSelectedFiles] = useState([])
   const [imageCount, setImageCount] = useState(0)
-  const [modal, setModal] = useState('')
   const [edit, setEdit] = useState('')
   const [error, setError] = useState('')
   const [color, setColor] = useState('')
@@ -98,60 +105,16 @@ const Dashboard = ({
   const [allCategories, setAllCategories] = useState(misc_categories)
   const [category, setCategory] = useState('')
   const [allModels, setAllModels] = useState(models)
-  
+
+  ///// STATE MANAGEMENT
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState('')
   const [search, setSearch] = useState('')
   const [selectID, setSelectID] = useState('')
   const [controls, setControls] = useState(false)
+  const [modal, setModal] = useState('')
+  const [dynamicSVG, setDynamicSVG] = useState('notification')
   const [allData, setAllData] = useState(originalData ? originalData : [])
-
-  const [prevX, setPrevX] = useState(0)
-  const [prevY, setPrevY] = useState(0)
-  const onPointerDown = () => {}
-  const onPointerUp = () => {}
-  const onPointerMove = () => {}
-  const [isDragging, setIsDragging] = useState(false)
-
-  const [translate, setTranslate] = useState({
-    x: 0,
-    y: 0
-  });
-
-  const handlePointerDown = (e) => {
-    setPrevX(0)
-    setPrevY(0)
-    setIsDragging(true)
-    onPointerDown(e)
-  }
-
-  const handlePointerUp = (e) => {
-    setIsDragging(false)
-    onPointerUp(e)
-  }
-
-  const handlePointerMove = (e) => {
-    if (isDragging) handleDragMove(e);
-
-    onPointerMove(e);
-  };
-
-  const handleDragMove = (e) => {
-    var movementX = (prevX ? e.screenX - prevX : 0)
-    var movementY = (prevY ? e.screenY - prevY : 0)
-    
-    setPrevX(e.screenX)
-    setPrevY(e.screenY)
-
-    handleModalMove(movementX, movementY)
-  };
-
-  const handleModalMove = (X, Y) => {
-    setTranslate({
-      x: translate.x + X,
-      y: translate.y + Y
-    });
-  }
 
   const handleClickOutside = (event) => {
     if(myRefs.current){
@@ -161,9 +124,7 @@ const Dashboard = ({
     }
   }
 
-  useEffect(() => {
-    setMessage('')
-  }, [nav.view])
+  useEffect(() => {setMessage('')}, [nav.view])
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
@@ -203,19 +164,6 @@ const Dashboard = ({
     els.forEach( (el) => { el.checked = false })
   }
 
-  const validateIsNumber = (type) => {
-    const input = document.getElementById(type)
-    
-    const regex = /[^0-9|\n\r]/g
-
-    if(type == 'quantity' || type == 'block' || type == 'lot') input.value = input.value.split(regex).join('')
-    if(type == 'size_1' || type == 'size_2') input.value = input.value.split(regex).join('') + ' in'
-    if(type == 'thickness') input.value = input.value.split(regex).join('') + ' cm'
-
-    if(input.value == ' in') input.value = ''
-    if(input.value == ' cm') input.value = ''
-  }
-
   const validateIsPrice = (evt) => {
     let newValue = Number(evt.target.value.replace(/\D/g, '')) / 100
     let formatter = new Intl.NumberFormat('en-US', {
@@ -224,41 +172,6 @@ const Dashboard = ({
     })
     
     return formatter.format(newValue)
-  }
-
-  function checkValue(str, max){
-    if (str.charAt(0) !== '0' || str == '00') {
-      var num = parseInt(str);
-      if (isNaN(num) || num <= 0 || num > max) num = 1;
-      str = num > parseInt(max.toString().charAt(0)) && num.toString().length == 1 ? '0' + num : num.toString();
-    };
-    return str;
-  }
-
-  const handleDate = (e) => {
-    let name = document.getElementById(e.target.name)
-    name.classList.remove("red")
-    let input = e.target.value
-    if (/\D\/$/.test(input)) input = input.substr(0, input.length - 3);
-    var values = input.split('/').map(function(v) {
-      return v.replace(/\D/g, '')
-    });
-    if (values[0]) values[0] = checkValue(values[0], 12);
-    if (values[1]) values[1] = checkValue(values[1], 31);
-    var output = values.map(function(v, i) {
-      return v.length == 2 && i < 2 ? v + '/' : v;
-    });
-    input = output.join('').substr(0, 10);
-
-    createSlab('delivery_date', input)
-
-    let date_regex = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/
-
-    if(!date_regex.test(input)){
-      name.classList.add('red');
-      if(input == '') name.classList.remove("red")
-      return
-    }
   }
 
   const dateNow = () => {
@@ -284,42 +197,6 @@ const Dashboard = ({
     var year = date.getUTCFullYear()
 
     return `${month} ${day}, ${year}, ${hr}:${min} ${ampm}`
-  }
-
-  const generateQRSlab = async (e) => {
-    let options = {
-      type: 'image/png',
-      width: 288,
-      quality: 1,
-      margin: 1,
-    }
-    
-    e.preventDefault()
-    e.stopPropagation()
-
-    if(slab.size_1 && slab.size_2 && slab.lot_number && slab.material){
-      try {
-
-        let qrData = new Object()
-
-        qrData.name = slab.material
-        qrData.size_width = slab.size_1
-        qrData.size_height = slab.size_2
-        qrData.lot = slab.lot_number
-        
-        const image = await QRCode.toDataURL('https://www.slabware.com/', options)
-        createSlab('qr_code', image)
-        setError('')
-      } catch (err) {
-        console.log(err)
-        if(err) setError('Error generating QR code')
-      }
-    }else {
-      if(!slab.size_1){setError('Slab size is empty, please fill out.'); window.scrollTo(0,document.body.scrollHeight); return}
-      if(!slab.size_2){setError('Slab size is empty, please fill out.'); window.scrollTo(0,document.body.scrollHeight); return}
-      if(!slab.lot_number){setError('Slab lot is empty, please fill out.'); window.scrollTo(0,document.body.scrollHeight); return}
-      if(!slab.material){setError('Slab material is empty, please fill out.'); window.scrollTo(0,document.body.scrollHeight); return}
-    }
   }
 
   const generateQRProduct = async (e) => {
@@ -358,29 +235,7 @@ const Dashboard = ({
     }
   }
 
-  const multipleFileChangeHandler = (e, type) => {
-    let imageMax = imageCount + e.target.files.length
-    if(imageMax > 3){ setError('Max number of images is 3'); window.scrollTo(0,document.body.scrollHeight); return}
-
-    if(e.target.files.length > 0){
-      let array = Array.from(e.target.files)
-      array.forEach( (item) => {
-        let url = URL.createObjectURL(item);
-        item.location = url
-      })
-    }
-    if(type == 'slab'){
-      setSelectedFiles( prevState => [...selectedFiles, ...e.target.files])
-      addSlabImages([...selectedFiles, ...e.target.files])
-      setImageCount(imageMax)
-    }
-
-    if(type == 'product'){
-      setSelectedFiles( prevState => [...selectedFiles, ...e.target.files])
-      addProductImages([...selectedFiles, ...e.target.files])
-      setImageCount(imageMax)
-    }
-  }
+  
 
   const submitCreateSlab = async (e) => {
     e.preventDefault()
@@ -656,17 +511,25 @@ const Dashboard = ({
             title={'New Slab'}
             allData={allData}
             setAllData={setAllData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
             submitCreate={submitCreate}
             modal={modal}
             setModal={setModal}
             stateData={slab}
-            stateMethod={createSlab}
+            stateMethod={createType}
             originalData={originalData}
             message={message}
             setMessage={setMessage}
             loading={loading}
             setLoading={setLoading}
-            resetState={resetSlab}
+            validateNumber={validateNumber}
+            validatePrice={validatePrice}
+            validateDate={validateDate}
+            generateQR={generateQR}
+            resetState={resetType}
+            addImages={addImages}
+            multipleImages={multipleImages}
           >
           </SlabForm>
         }
@@ -1107,31 +970,14 @@ const Dashboard = ({
           {/* /////////////////// MODALS ///////////////////////////// */}
           
           { modal == 'add_material' &&
-            <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
-            <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
-              <div className="addFieldItems-modal-box-header">
-                <span className="addFieldItems-modal-form-title">{edit ? 'Edit Material' : 'New Material'}</span>
-                <div onClick={() => (setModal(''), resetMaterial(), setError(''))}><SVGs svg={'close'}></SVGs></div>
-              </div>
-              <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddMaterial(e)}>
-                <div className="form-group-single-textarea">
-                  <div className="form-group-single-textarea-field">
-                    <label htmlFor="name_material">Name</label>
-                    <textarea id="name_material" rows="1" name="name_material" placeholder="(Material Name)" value={material.name} onChange={(e) => addMaterial('name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Material Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
-                  </div>
-                </div>
-                <div className="form-group-single-textarea">
-                  <label htmlFor="material_description">Description</label>
-                  <div className="form-group-single-textarea-field">
-                    <textarea rows="5" wrap="wrap" name="description" placeholder="(Material Description)" value={material.description} onChange={(e) => addMaterial('description', e.target.value)}></textarea>
-                  </div>
-                </div>
-                {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Material</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-                {edit == 'material' && <button onClick={(e) => updateMaterial(e)} className="form-button w100">{!loading && <span>Update Material</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-                {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
-              </form>
-            </div>
-            </div>
+            <MaterialModal
+              message={message}
+              setMessage={setMessage}
+              modal={modal}
+              setModal={setModal}
+              resetState={resetMaterial}
+            >
+            </MaterialModal>
           }
           { modal == 'add_color' &&
             <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
@@ -1357,10 +1203,15 @@ const mapDispatchToProps = dispatch => {
     hideSideNav: () => dispatch({type: 'HIDE_SIDENAV'}),
     showSideNav: () => dispatch({type: 'SHOW_SIDENAV'}),
     changeView: (view) => dispatch({type: 'CHANGE_VIEW', value: view}),
-    createSlab: (type, data) => dispatch({type: 'CREATE_SLAB', name: type, value: data}),
-    resetSlab: () => dispatch({type: 'RESET_SLAB'}),
+    createType: (caseType, type, data) => dispatch({type: caseType, name: type, value: data}),
+    resetType: (caseType) => dispatch({type: caseType}),
+    addImages: (caseType, data) => dispatch({type: caseType, value: data}),
+
+
+
+
+
     createProduct: (type, data) => dispatch({type: 'CREATE_PRODUCT', name: type, value: data}),
-    addSlabImages: (data) => dispatch({type: 'ADD_SLAB_IMAGES', value: data}),
     addProductImages: (data) => dispatch({type: 'ADD_PRODUCT_IMAGES', value: data}),
     addMaterial: (name, data) => dispatch({type: 'ADD', name: name, value: data}),
     resetMaterial: () => dispatch({type: 'RESET'}),
@@ -1382,6 +1233,8 @@ Dashboard.getInitialProps = async (context) => {
   data.slabs = await tableData(accessToken, 'slabs')
   data.materials = await tableData(accessToken, 'materials')
   data.colors = await tableData(accessToken, 'colors')
+  data.suppliers = await tableData(accessToken, 'suppliers')
+  data.locations = await tableData(accessToken, 'locations')
   deepClone = _.cloneDeep(data)
   
   return {

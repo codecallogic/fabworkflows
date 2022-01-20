@@ -12,13 +12,13 @@ const formFields = {
   slabs: ['material']
 }
 
-const submitCreate = async (e, stateData, type, setMessage, setLoading, token, path, resetState, allData, setAllData) => {
+const submitCreate = async (e, stateData, type, setMessage, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG) => {
   e.preventDefault()
   setMessage('')
   console.log(allData)
 
   for(let i = 0; i < formFields[type].length; i++){
-    if(!stateData[formFields[type][i]]) return setMessage(`${formFields[type][i].replace('_', ' ')} is required`)
+    if(!stateData[formFields[type][i]]) return (setDynamicSVG('notification'), setMessage(`${formFields[type][i].replace('_', ' ')} is required`))
   }
 
   setLoading('create_slab')
@@ -47,8 +47,9 @@ const submitCreate = async (e, stateData, type, setMessage, setLoading, token, p
     setLoading('')
     allData[type]= responseCreate.data
     setAllData(allData)
+    setDynamicSVG('checkmark-2')
     setMessage('Slab was created')
-    resetState()
+    resetState(resetType)
     
   } catch (error) {
     console.log(error)

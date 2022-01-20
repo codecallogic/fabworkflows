@@ -77,7 +77,7 @@ const Table = ({
             placeholder="Search" 
             value={search} 
             onChange={(e) => (setSearch(e.target.value))} 
-            onFocus={(e) => (e.target.placeholder = '', setError(''))} onBlur={(e) => (e.target.placeholder = 'Search', setError(''))} 
+            onFocus={(e) => (e.target.placeholder = '', setMessage(''))} onBlur={(e) => (e.target.placeholder = 'Search', setMessage(''))} 
             onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null}  
             required>
             </input>

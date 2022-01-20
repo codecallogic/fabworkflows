@@ -36,15 +36,39 @@ body {
     .form {
       width: 100%;
       padding: 0 2rem; } }
-  .form-box {
-    width: 50%;
-    border-radius: 1.2rem;
-    border: 0.1rem solid #ededec; }
-    .form-box-heading {
-      background-color: #ededec;
-      height: 3rem;
-      border-top-left-radius: 1.2rem;
-      border-top-right-radius: 1.2rem; }
+  .form-box-container {
+    border-bottom-left-radius: 1.2rem;
+    border-bottom-right-radius: 1.2rem;
+    border: 0.1rem solid #ededec;
+    box-shadow: 0.3rem 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    padding: 0 1rem; }
+    @media only screen and (max-width: 992px) {
+      .form-box-container {
+        width: 100%; } }
+  .form-box-heading {
+    background-color: #c8c8cb;
+    height: 4rem;
+    border-top-left-radius: 1.2rem;
+    border-top-right-radius: 1.2rem;
+    display: flex;
+    align-items: center; }
+    .form-box-heading-item {
+      display: flex;
+      align-items: center;
+      background-color: #413838;
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      margin: 0 1rem;
+      color: white;
+      font-weight: 700; }
+      .form-box-heading-item svg {
+        width: 2.2rem;
+        height: 2.2rem;
+        fill: white;
+        margin-right: 0.5rem; }
+      .form-box-heading-item input {
+        display: none; }
   .form-group {
     width: 100%;
     position: relative;
@@ -80,7 +104,8 @@ body {
       text-transform: lowercase; }
     .form-group div > svg {
       width: 3rem;
-      height: 3rem; }
+      height: 3rem;
+      fill: #1bc9a2; }
       .form-group div > svg:hover {
         cursor: pointer; }
     .form-group-list {
@@ -113,6 +138,39 @@ body {
         .form-group-list-item:hover {
           cursor: pointer;
           background-color: #dbdbdb; }
+    .form-group-button {
+      width: 100%;
+      padding: 1rem 2rem;
+      margin: 1rem 0;
+      border-radius: 1.2rem;
+      border: none;
+      outline: none;
+      color: white;
+      background-color: #1bc9a2; }
+      .form-group-button:hover {
+        cursor: pointer; }
+    .form-group-image {
+      width: 100%; }
+    .form-group-gallery {
+      width: 100%;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-wrap: wrap; }
+      .form-group-gallery-link {
+        display: flex;
+        align-items: center;
+        margin-right: 1rem;
+        box-shadow: 0.3rem 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.2);
+        border-radius: 1.2rem;
+        transition: all 0.5s ease-in-out;
+        margin-bottom: 1rem; }
+        .form-group-gallery-link:hover {
+          cursor: pointer;
+          box-shadow: 0.3rem 0.5rem 0.5rem 0.3rem rgba(0, 0, 0, 0.3); }
+      .form-group-gallery-image {
+        width: 100%;
+        object-fit: cover;
+        border-radius: 1.2rem; }
   .form-100 {
     position: relative; }
   .form-title {
@@ -1135,9 +1193,6 @@ body {
   .dollar-input {
     padding: 1.2rem 2rem 0 1rem !important; }
 
-.red {
-  border: 0.1rem solid red !important; }
-
 .error-svg {
   width: 2.5rem;
   height: 2.5rem;
@@ -1190,6 +1245,9 @@ body {
 
 .labelHover {
   top: 5% !important; }
+
+.red {
+  color: red; }
 
 .center {
   text-align: center;
@@ -1712,7 +1770,8 @@ body {
     padding: 1rem 2rem;
     width: 100%;
     display: flex;
-    flex-wrap: wrap; }
+    flex-wrap: wrap;
+    justify-content: space-between; }
 
 .row-odd {
   width: 100%;
@@ -1800,7 +1859,8 @@ body {
 
 .clientDashboard_sidenav {
   width: 15%;
-  height: 100rem;
+  min-height: 100rem;
+  max-height: 100%;
   transition: all 0.5s ease-in-out;
   background-color: #ededec;
   border-right: solid 0.1rem #dbdbdb;
