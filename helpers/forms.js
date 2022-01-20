@@ -9,7 +9,9 @@ export {
 
 //// VALIDATIONS
 const formFields = {
-  slabs: ['material']
+  slabs: ['material'],
+  materials: ['name', 'description'],
+  colors: ['name']
 }
 
 const submitCreate = async (e, stateData, type, setMessage, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG) => {
@@ -48,13 +50,13 @@ const submitCreate = async (e, stateData, type, setMessage, setLoading, token, p
     allData[type]= responseCreate.data
     setAllData(allData)
     setDynamicSVG('checkmark-2')
-    setMessage('Slab was created')
+    setMessage('Item was created')
     resetState(resetType)
     
   } catch (error) {
     console.log(error)
     setLoading('')
-    if(error) error.response ? setMessage(error.response.data) : setMessage('Error ocurred with creating a slab')
+    if(error) error.response ? setMessage(error.response.data) : setMessage('Error ocurred with creating item')
   }
 }
 

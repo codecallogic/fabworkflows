@@ -1,18 +1,17 @@
 const initialState = {
   name: '',
-  description: ''
 }
 
-export const materialReducer = (state = initialState, action) => {
+export const colorReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'CREATE_MATERIAL':
+    case 'CREATE_COLOR':
       return {
         ...state,
         [action.name]: action.value
       }
       break;
     
-    case 'RESET_MATERIAL':
+    case 'RESET_COLOR':
       return initialState
       break;
   

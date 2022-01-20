@@ -24,9 +24,8 @@ const MaterialModal = ({
   //// CRUD
   submitCreate
 }) => {
-  
-  const createType = 'CREATE_MATERIAL'
-  const resetType = 'RESET_MATERIAL'
+  const createType = 'CREATE_COLOR'
+  const resetType = 'RESET_COLOR'
   const [loadingColor, setLoadingColor] = useState('white')
   const [prevX, setPrevX] = useState(0)
   const [prevY, setPrevY] = useState(0)
@@ -75,6 +74,7 @@ const MaterialModal = ({
   }
   
   return (
+    
     <div 
       className="addFieldItems-modal" 
       data-value="parent" 
@@ -90,9 +90,9 @@ const MaterialModal = ({
         <span 
           className="addFieldItems-modal-form-title">
             {edit ? 
-            'Edit Material' 
+            'Edit Color' 
             : 
-            'New Material'
+            'New Color'
             }
         </span>
         <div onClick={() => (setModal(''), resetState(resetType), setMessage(''))}>
@@ -118,21 +118,6 @@ const MaterialModal = ({
             Name
           </label>
         </div>
-        <div className="form-group-textarea">
-            <label 
-            className={stateData.description.length > 0 ? ' labelHover' : ''}>
-              Description
-            </label>
-            <textarea 
-              id="description" 
-              rows="5" 
-              wrap="hard" 
-              maxLength="400"
-              name="description" 
-              value={stateData.description} 
-              onChange={(e) => stateMethod(createType, 'description', e.target.value)} 
-            />
-        </div>
         {message && 
         <span className="form-group-message">
           <SVG svg={dynamicSVG} color={'#fd7e3c'}></SVG>
@@ -142,7 +127,7 @@ const MaterialModal = ({
         {!edit && 
         <button 
         className="form-group-button" 
-        onClick={(e) => submitCreate(e, stateData, 'materials', setMessage, setLoading, token, 'materials/create-material', resetType, resetState, allData, setAllData, setDynamicSVG)}
+        onClick={(e) => submitCreate(e, stateData, 'colors', setMessage, setLoading, token, 'colors/create-color', resetType, resetState, allData, setAllData, setDynamicSVG)}
         >
            {loading == 'create_material' ? 
             <div className="loading">

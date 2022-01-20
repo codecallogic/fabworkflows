@@ -192,6 +192,7 @@
       padding: 0 1rem;
       min-width: 11rem;
       max-width: 11rem;
+      min-height: 10rem;
       word-break: break-word;
       display: -webkit-box;
       -webkit-box-orient: vertical;
@@ -201,6 +202,7 @@
         width: 10rem;
         height: 10rem;
         box-shadow: 0.2rem 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.2);
+        object-fit: cover;
       }
     }
   }

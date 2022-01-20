@@ -15,14 +15,14 @@ const initialState = {
 
 export const supplierReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'ADD':
+    case 'CREATE_SUPPLIER':
       return {
         ...state,
         [action.name]: action.value
       }
       break;
 
-    case 'RESET':
+    case 'RESET_SUPPLIER':
       return initialState
       break;
   

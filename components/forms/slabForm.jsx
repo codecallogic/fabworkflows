@@ -20,6 +20,7 @@ const Form = ({
   validateDate,
   generateQR,
   multipleImages,
+  dateNow,
 
   //// DATA
   allData,
@@ -45,7 +46,7 @@ const Form = ({
   const [save, setSave] = useState(false)
 
   useEffect(() => {
-    console.log(stateData)
+    
     const isEmpty = Object.values(stateData).every( x => x === '' || x.length < 1)
     
     if(!isEmpty) return (setMessage(''), setSave(true))
@@ -458,6 +459,76 @@ const Form = ({
         <div className="form-box" style={{width: '33%'}}>
           <div className="form-box-heading"></div>
           <div className="form-box-container">
+
+          <button 
+          className={`form-group-button ` + 
+          (stateData.ordered_status 
+            ? stateData.ordered_status.split(',')[0] == 'Ordered' 
+            ? ` selected` 
+            : '' 
+            : ''
+          )}
+          onClick={(e) => (e.preventDefault(), stateData.ordered_status 
+            ? 
+            stateMethod(createType, 'ordered_status', '') 
+            : 
+            stateMethod(createType, 'ordered_status', `Ordered, ${dateNow()}`
+          ))}
+          >
+             {stateData.ordered_status ? 
+             stateData.ordered_status.split(',')[0] == 'Ordered' 
+             ? stateData.ordered_status 
+             : 'Timestamp Order' 
+             : 'Timestamp Order'
+             }
+          </button>
+
+          <button 
+          className={`form-group-button ` + 
+          (stateData.received_status 
+            ? stateData.received_status.split(',')[0] == 'Received' 
+            ? ` selected` 
+            : '' 
+            : ''
+          )}
+          onClick={(e) => (e.preventDefault(), stateData.received_status 
+            ? 
+            stateMethod(createType, 'received_status', '') 
+            : 
+            stateMethod(createType, 'received_status', `Received, ${dateNow()}`
+          ))}
+          >
+             {stateData.received_status ? 
+             stateData.received_status.split(',')[0] == 'Received' 
+             ? stateData.received_status 
+             : 'Timestamp Processing' 
+             : 'Timestamp Processing'
+             }
+          </button>
+
+          <button 
+          className={`form-group-button ` + 
+          (stateData.delivered_status 
+            ? stateData.delivered_status.split(',')[0] == 'Delivered' 
+            ? ` selected` 
+            : '' 
+            : ''
+          )}
+          onClick={(e) => (e.preventDefault(), stateData.delivered_status 
+            ? 
+            stateMethod(createType, 'delivered_status', '') 
+            : 
+            stateMethod(createType, 'delivered_status', `Delivered, ${dateNow()}`
+          ))}
+          >
+             {stateData.delivered_status ? 
+             stateData.delivered_status.split(',')[0] == 'Delivered' 
+             ? stateData.delivered_status 
+             : 'Timestamp Delivery' 
+             : 'Timestamp Delivery'
+             }
+          </button>
+
           <div className="form-group">
             <input 
             onClick={() => setInputDropdown('slab_location')} 
@@ -573,6 +644,19 @@ const Form = ({
           </div>
           <div className="form-box-container">
             <div className="form-group-gallery">
+              { stateData.images.length == 0 &&
+                 <a 
+                 className="form-group-gallery-link"
+                 target="_blank" 
+                 rel="noreferrer"
+                 style={{width: '48%'}}
+                 >
+                   <img 
+                   className="form-group-gallery-image"
+                   src='https://via.placeholder.com/300'
+                   />
+                 </a>
+              }
               {stateData.images.length > 0 && stateData.images.map((item, idx) => (
                 <a 
                 key={idx} 
@@ -591,20 +675,7 @@ const Form = ({
             </div>
           </div>
         </div>
-         {/* <div className="form-group-triple-button-list">
-          <label htmlFor="material">Order Status</label>
-          <div className="form-group-triple-button-list">
-            <div className={`form-group-triple-button-list-item ` + (slab.ordered_status ? slab.ordered_status.split(',')[0] == 'Ordered' ? ` selected` : null : null)} onClick={(e) => (slab.ordered_status ? createSlab('ordered_status', '') : createSlab('ordered_status', `Ordered, ${dateNow()}`), setInputDropdown(''))}>{slab.ordered_status ? slab.ordered_status.split(',')[0] == 'Ordered' ? slab.ordered_status : 'Ordered' : 'Ordered'}</div>
-            <div className={`form-group-triple-button-list-item ` + (slab.received_status ? slab.received_status.split(',')[0] == 'Received' ? ` selected` : null : null)} onClick={(e) => (slab.delivered_status ? createSlab('received_status', '') : createSlab('received_status', `Received, ${dateNow()}`), setInputDropdown(''))}>{slab.received_status ? slab.received_status.split(',')[0] == 'Received' ? slab.received_status : 'Received' : 'Received'}</div>
-            <div className={`form-group-triple-button-list-item ` + (slab.delivered_status ? slab.delivered_status.split(',')[0] == 'Delivered' ? ` selected` : null : null)} onClick={(e) => (slab.delivered_status ? createSlab('delivered_status', '') : createSlab('delivered_status', `Delivered, ${dateNow()}`), setInputDropdown(''))}>{slab.delivered_status ? slab.delivered_status.split(',')[0] == 'Delivered' ? slab.delivered_status : 'Delivered' : 'Delivered'}</div>
-          </div>
-        </div>
-        <div className="form-button-container">
-          <button type="submit" className="form-button" onClick={() => setError('Please complete entire form')}>{!loading && <span>Add Slab</span>}{loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
-          <div className="form-error-container">
-          {error && <span className="form-error" id="error-message"><SVG svg={'error'}></SVG> {error}</span>}
-          </div>
-        </div> */}
+
       </form>
     </div>
   )

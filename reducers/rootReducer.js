@@ -3,6 +3,7 @@ import {navReducer} from './navReducer'
 import {slabReducer} from './slabReducer'
 import {productReducer} from './productReducer'
 import {materialReducer} from './materialReducer'
+import {colorReducer} from './colorReducer'
 import {supplierReducer} from './supplierReducer'
 import {remnantReducer} from './remnantReducer'
 import {quoteReducer} from './quoteReducer'
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   slab: slabReducer,
   product: productReducer,
   material: materialReducer,
+  color: colorReducer,
   supplier: supplierReducer,
   remnant: remnantReducer,
   quote: quoteReducer,

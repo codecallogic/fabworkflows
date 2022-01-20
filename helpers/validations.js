@@ -5,7 +5,8 @@ export {
   validatePrice,
   validateDate,
   generateQR,
-  multipleImages
+  multipleImages,
+  dateNow
 }
 
 ///// VALIDATIONS
@@ -148,16 +149,29 @@ const multipleImages = (e, stateData, setMessage, caseType, reduxMethod) => {
   }
 
   reduxMethod(caseType, [...stateData.images, ...e.target.files])
+}
 
-  // if(type == 'slab'){
-  //   setSelectedFiles( prevState => [...selectedFiles, ...e.target.files])
-  //   addSlabImages([...selectedFiles, ...e.target.files])
-  //   setImageCount(imageMax)
-  // }
+const dateNow = () => {
+  let date = new Date(Date.now())
+  let hr = date.getHours()
+  let min = date.getMinutes();
 
-  // if(type == 'product'){
-  //   setSelectedFiles( prevState => [...selectedFiles, ...e.target.files])
-  //   addProductImages([...selectedFiles, ...e.target.files])
-  //   setImageCount(imageMax)
-  // }
+  if (min < 10) {
+    min = "0" + min;
+  }
+
+  let ampm = "am";
+  if( hr > 12 ) {
+      hr -= 12;
+      ampm = "pm";
+  }
+
+
+  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+  var month = monthNames[date.getUTCMonth()]
+  var day = date.getUTCDate()
+  var year = date.getUTCFullYear()
+
+  return `${month} ${day}, ${year}, ${hr}:${min} ${ampm}`
 }

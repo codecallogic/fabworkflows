@@ -10,6 +10,10 @@
   }
 
   &-box {
+    @media only screen and (max-width: $medium) {
+      width: 100% !important;
+    }
+
     &-container {
       border-bottom-left-radius: 1.2rem;
       border-bottom-right-radius: 1.2rem;
@@ -17,10 +21,6 @@
       box-shadow: 0.3rem 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.1);
       margin-bottom: 2rem;
       padding: 0 1rem;
-
-      @media only screen and (max-width: $large) {
-        width: 100%;
-      }
     }
 
     &-heading {
@@ -40,6 +40,10 @@
         margin: 0 1rem;
         color: white;
         font-weight: 700;
+
+        &:hover {
+          cursor: pointer;
+        }
 
         svg {
           width: 2.2rem;
@@ -74,6 +78,7 @@
       border: none;
       margin: 0.5rem 0;
       text-transform: lowercase;
+      background-color: transparent;
       transition: all 0.5s ease-in-out;
 
       &:focus + .input-label {
@@ -123,7 +128,7 @@
         padding: 0.8rem 2rem;
         font-size: inherit;
         background-color: white;
-        text-transform: capitalize;
+        text-transform: lowercase;
 
         &:last-child {
           border-bottom-right-radius: 0.5rem;
@@ -148,12 +153,13 @@
     &-button {
       width: 100%;
       padding: 1rem 2rem;
-      margin: 1rem 0;
+      margin: 0.5rem 0;
       border-radius: 1.2rem;
       border: none;
       outline: none;
       color: white;
       background-color: $color-scheme-2;
+      transition: all 0.5s ease-in-out;
 
       &:hover {
         cursor: pointer;
@@ -189,6 +195,64 @@
         width: 100%;
         object-fit: cover;
         border-radius: 1.2rem;
+      }
+    }
+
+    &-textarea {
+      text-transform: lowercase;
+      padding: 0.5rem 1.5rem;
+      position: relative;
+
+      textarea {
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: auto;
+        resize: none;
+        padding: 2rem 1.5rem;
+        outline: none;
+        box-sizing: border-box;
+        font-size: 1.4rem;
+        font-family: inherit;
+        border: none;
+        border-radius: 1.2rem;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+          width: 0.2rem;
+          background-color: $color-scheme-1;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: $color-scheme-1;
+        }
+      }
+
+      label {
+        position: absolute;
+        display: flex;
+        top: 15%;
+        transition: all 0.3s ease-in-out;
+        padding: 0 1rem;
+        color: $color-scheme-1;
+        font-size: 1.2rem;
+      }
+    }
+
+    &-message {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      font-size: 1.4rem;
+      color: $color-scheme-1;
+      padding: 0.5rem 0;
+
+      svg {
+        width: 2rem;
+        height: 2rem;
+        margin-right: 1rem;
       }
     }
   }
@@ -1713,11 +1777,6 @@
   }
 }
 
-.selected {
-  background-color: $color-scheme-2;
-  transform: scale(1.05);
-}
-
 .edit {
   font-weight: 700;
   background-color: transparent;
@@ -1760,11 +1819,18 @@
 
 ////////////////////////////////////////////////////
 
+///// FIELDS
 .labelHover {
   top: 5% !important;
 }
 
-// ERRORS
+//// ERRORS
 .red {
   color: red;
+}
+
+//// BUTTONS
+.selected {
+  background-color: $color-scheme-1;
+  box-shadow: 0.2rem 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.2);
 }
