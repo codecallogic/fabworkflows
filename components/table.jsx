@@ -5,16 +5,10 @@ import {useEffect, useState, useRef} from 'react'
 const Table = ({
   title,
   typeOfData,
-  modalType,
-  modalDataType,
-  componentData,
-  originalData,
   selectID,
   setSelectID,
   controls,
   setControls,
-  deleteRow,
-  setModalData,
   setModal,
   searchEnable,
   search,
@@ -22,8 +16,27 @@ const Table = ({
   message,
   setMessage,
   sortOrder,
-  resetCheckboxes
+  resetCheckboxes,
+
+  ///// EDIT
+  viewType,
+  modalType,
+  editDataType,
+
+  //// DATA
+  componentData,
+  originalData,
+  editData,
+
+  //// REDUX
+  changeView,
+
+  //// CRUD
+  deleteRow,
+
 }) => {
+
+  const matchPattern = /https?:\/\/(www\.)?/gi;
   const myRefs = useRef([])
   
   const handleClickOutside = (event) => {
@@ -89,7 +102,7 @@ const Table = ({
             <div 
             id="edit" 
             className="table-header-controls-item" 
-            onClick={() => (setModal(modalType), setModalData(modalDataType.key, modalDataType.method), setControls(false), resetCheckboxes())}
+            onClick={() => (setModal(modalType), changeView(viewType), editData(editDataType.key, editDataType.method, editDataType.caseType), setControls(false), resetCheckboxes())}
             >
               Edit
             </div>
@@ -142,7 +155,7 @@ const Table = ({
               key !== '_id' && 
               <div key={idx} className="table-rows-item">
                 { 
-                  Array.isArray(item[key]) && item[key].length > 0 && key == 'images' 
+                  Array.isArray(item[key]) && item[key].length > 0 && matchPattern.test(item[key][0].location)
                   ? 
                   <img src={`${item[key][0].location}`}></img> 
                   : null
@@ -154,8 +167,9 @@ const Table = ({
                   : null
                 }
                 {
-                  !Array.isArray(item[key]) && item[key].length > 0 && key == 'qr_code'
+                  !Array.isArray(item[key]) && item[key].length > 0 && (item[key].match(/^data:image\/(png|jpg|jpeg);base64,/gmi) !== null)
                   ? 
+                 
                   <img src={item[key]}></img> 
                   : null
                 }

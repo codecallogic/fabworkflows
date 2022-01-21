@@ -19,9 +19,10 @@ import AddressModal from '../../components/modals/Address'
 import CategoryModal from '../../components/modals/Category'
 
 //// TABLE
-import { filterTable, tableData } from '../../helpers/tableData'
 import Table from '../../components/table'
+import { tableData } from '../../helpers/tableData'
 import { slabsSort } from '../../helpers/sorts'
+import { populateEditData } from '../../helpers/modals'
 
 //// DATA
 import { getToken } from '../../helpers/auth'
@@ -172,6 +173,12 @@ const Dashboard = ({
   const resetCheckboxes = () => {
     const els = document.querySelectorAll('.table-rows-checkbox-input')
     els.forEach( (el) => { el.checked = false })
+  }
+
+  const editData = (keyType, reduxMethodType, caseType) => {
+    let stateMethods = new Object()
+    stateMethods.createType = createType
+    populateEditData(originalData, keyType, caseType, reduxMethodType, stateMethods, selectID)
   }
 
   const validateIsPrice = (evt) => {
@@ -454,7 +461,7 @@ const Dashboard = ({
             componentData={data.slabs}
             originalData={allData}
             modal={modal}
-            setModal={modal}
+            setModal={setModal}
             sortOrder={slabsSort}
             selectID={selectID}
             setSelectID={setSelectID}
@@ -466,13 +473,19 @@ const Dashboard = ({
             message={message}
             setMessage={setMessage}
             resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'slab'}
+            modalType={''}
+            editDataType={{key: 'slabs', method: 'createSlab', caseType: 'CREATE_SLAB'}}
           >
           </Table>
         }
 
 
         {/* ///// FORMS //// */}
-        {nav.view == 'newSlab' &&
+        {nav.view == 'slab' &&
           <SlabForm
             token={token}
             title={'New Slab'}
@@ -498,6 +511,7 @@ const Dashboard = ({
             addImages={addImages}
             multipleImages={multipleImages}
             dateNow={dateNow}
+            edit={edit}
           >
           </SlabForm>
         }
@@ -514,7 +528,7 @@ const Dashboard = ({
           }
           { nav.view == 'new' &&
             <div className="clientDashboard-view-new">
-              <div className="clientDashboard-view-new-item" onClick={() => changeView('newSlab')}>
+              <div className="clientDashboard-view-new-item" onClick={() => changeView('slab')}>
                 <SVGs svg={'slab'}></SVGs>
                 <span>New Slab</span>
               </div>
@@ -832,27 +846,6 @@ const Dashboard = ({
             >
             </LocationModal>
           }
-          {/* { modal == 'add_location' &&
-            <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
-            <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
-              <div className="addFieldItems-modal-box-header">
-                <span className="addFieldItems-modal-form-title">{edit ? 'Edit Location' : 'New Location'}</span>
-                <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
-              </div>
-              <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddLocation(e)}>
-                <div className="form-group-single-textarea">
-                  <div className="form-group-single-textarea-field">
-                    <label htmlFor="name_location">Location Name</label>
-                    <textarea id="name_location" rows="1" name="name_location" placeholder="(Location Name)" value={location} onChange={(e) => setLocation(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Location Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
-                  </div>
-                </div>
-                {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Location</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-                {edit == 'location' && <button onClick={(e) => updateLocation(e)} className="form-button w100">{!loading && <span>Update Location</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-                {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
-              </form>
-            </div>
-          </div>
-          } */}
           { modal == 'add_brand' &&
           <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
             <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>

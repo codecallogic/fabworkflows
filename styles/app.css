@@ -1824,7 +1824,8 @@ body {
       .table-rows-item img {
         width: 10rem;
         height: 10rem;
-        box-shadow: 0.2rem 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.2);
+        box-shadow: 0.3rem 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.2);
+        border-radius: 1.2rem;
         object-fit: cover; }
   .table-forms {
     padding: 1rem 2rem;
