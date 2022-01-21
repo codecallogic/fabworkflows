@@ -1529,6 +1529,7 @@ body {
   justify-content: center;
   z-index: 2000 !important; }
   .addFieldItems-modal-box {
+    margin: 0 auto;
     z-index: 2000 !important;
     background-color: #ededec;
     width: 40%;
@@ -1558,12 +1559,21 @@ body {
         .addFieldItems-modal-box-header svg:hover {
           cursor: pointer;
           fill: rgba(253, 126, 60, 0.9); }
+    .addFieldItems-modal-box-footer {
+      width: 100%;
+      padding: 0 3rem; }
   .addFieldItems-modal-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0rem 2rem; }
+    padding: 2rem;
+    max-height: 60vh;
+    overflow-y: scroll;
+    position: relative; }
+    .addFieldItems-modal-form::-webkit-scrollbar {
+      width: 0.3rem;
+      height: 0.3rem; }
+    .addFieldItems-modal-form::-webkit-scrollbar-thumb {
+      background-color: rgba(253, 126, 60, 0.9); }
     .addFieldItems-modal-form-container {
+      padding: 2rem;
       max-height: 60vh;
       overflow-y: scroll;
       position: relative; }

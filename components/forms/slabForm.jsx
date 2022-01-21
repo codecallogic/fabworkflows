@@ -78,7 +78,7 @@ const Form = ({
             <div 
             id="save" 
             className="table-header-controls-item" 
-            onClick={(e) => submitCreate(e, stateData, 'slabs', setMessage, setLoading, token, 'slabs/create-slab', resetType, resetState, allData, setAllData, setDynamicSVG)}
+            onClick={(e) => submitCreate(e, stateData, 'slabs', setMessage, 'create_slab', setLoading, token, 'slabs/create-slab', resetType, resetState, allData, setAllData, setDynamicSVG)}
             >
               {loading == 'create_slab' ? 
               <div className="loading">

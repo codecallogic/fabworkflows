@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
 import SVG from '../../files/svgs'
 
-const MaterialModal = ({
+const LocationModal = ({
   token,
   message,
   setMessage,
@@ -24,9 +24,12 @@ const MaterialModal = ({
   //// CRUD
   submitCreate
 }) => {
-  const createType = 'CREATE_COLOR'
-  const resetType = 'RESET_COLOR'
+  
+  const createType = 'CREATE_LOCATION'
+  const resetType = 'RESET_LOCATION'
   const [loadingColor, setLoadingColor] = useState('white')
+
+  //// HANDLE MODAL DRAG
   const [prevX, setPrevX] = useState(0)
   const [prevY, setPrevY] = useState(0)
   const onPointerDown = () => {}
@@ -74,7 +77,6 @@ const MaterialModal = ({
   }
   
   return (
-    
     <div 
       className="addFieldItems-modal" 
       data-value="parent" 
@@ -90,9 +92,9 @@ const MaterialModal = ({
         <span 
           className="addFieldItems-modal-form-title">
             {edit ? 
-            'Edit Color' 
+            'Edit Location' 
             : 
-            'New Color'
+            'New Location'
             }
         </span>
         <div onClick={() => (setModal(''), resetState(resetType), setMessage(''))}>
@@ -118,6 +120,7 @@ const MaterialModal = ({
             Name
           </label>
         </div>
+
         {message && 
         <span className="form-group-message">
           <SVG svg={dynamicSVG} color={'#fd7e3c'}></SVG>
@@ -127,9 +130,9 @@ const MaterialModal = ({
         {!edit && 
         <button 
         className="form-group-button" 
-        onClick={(e) => submitCreate(e, stateData, 'colors', setMessage, 'create_color', setLoading, token, 'colors/create-color', resetType, resetState, allData, setAllData, setDynamicSVG)}
+        onClick={(e) => submitCreate(e, stateData, 'locations', setMessage, 'create_location', setLoading, token, 'locations/create-location', resetType, resetState, allData, setAllData, setDynamicSVG)}
         >
-           {loading == 'create_color' ? 
+           {loading == 'create_location' ? 
             <div className="loading">
               <span style={{backgroundColor: loadingColor}}></span>
               <span style={{backgroundColor: loadingColor}}></span>
@@ -147,4 +150,4 @@ const MaterialModal = ({
   )
 }
 
-export default MaterialModal
+export default LocationModal

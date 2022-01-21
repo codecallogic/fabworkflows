@@ -1,12 +1,16 @@
 import QRCode from 'qrcode'
+import {geocodeByPlaceId} from 'react-places-autocomplete'
 
 export {
   validateNumber,
+  validateEmail,
   validatePrice,
   validateDate,
   generateQR,
   multipleImages,
-  dateNow
+  dateNow,
+  phoneNumber,
+  addressSelect
 }
 
 ///// VALIDATIONS
@@ -15,25 +19,41 @@ const formFields = {
   slabQRCode: ['material', 'size_1', 'size_2', 'lot_number']
 }
 
+
+
+
+
 const validateNumber = (type) => {
   const input = document.getElementById(type)
   
   const regex = /[^0-9|\n\r]/g
 
-  if(type == 'quantity' || type == 'block' || type == 'lot'){
-    input.value = input.value.split(regex).join('')
-  }
-
   if(type == 'size_1' || type == 'size_2') {
-    input.value = input.value.split(regex).join('') + ' in'
+    return input.value = input.value.split(regex).join('') + ' in'
   }
 
   if(type == 'thickness') {
-    input.value = input.value.split(regex).join('') + ' cm'
+    return input.value = input.value.split(regex).join('') + ' cm'
   }
 
-  if(input.value == ' in') input.value = ''
-  if(input.value == ' cm') input.value = ''
+  if(input.value == ' in') return input.value = ''
+  if(input.value == ' cm') return input.value = ''
+
+  // type == 'quantity' || type == 'block' || type == 'lot'
+  input.value = input.value.split(regex).join('')
+}
+
+const validateEmail = (type) => {
+  console.log(type)
+  const input = document.getElementById(type)
+  const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/g
+  
+  if(regex.test(input.value)){
+    return true
+  }else{
+    return false
+  }
+  // return !regex.test(input.value) ? 'true' : 'false'
 }
 
 const validatePrice = (e) => {
@@ -45,6 +65,10 @@ const validatePrice = (e) => {
   
   return formatter.format(newValue)
 }
+
+
+
+
 
 function checkValue(str, max){
   if (str.charAt(0) !== '0' || str == '00') {
@@ -93,6 +117,9 @@ const validateDate = (e, key, caseType, reduxMethod) => {
   }
 }
 
+
+
+
 const generateQR = async (e, type, stateData, caseType, reduxMethod, setMessage, setDynamicSVG) => {
   let options = {
     type: 'image/png',
@@ -130,6 +157,10 @@ const generateQR = async (e, type, stateData, caseType, reduxMethod, setMessage,
   }
 }
 
+
+
+
+
 const multipleImages = (e, stateData, setMessage, caseType, reduxMethod) => {
   
   let imageMax = stateData.images.length + e.target.files.length
@@ -150,6 +181,10 @@ const multipleImages = (e, stateData, setMessage, caseType, reduxMethod) => {
 
   reduxMethod(caseType, [...stateData.images, ...e.target.files])
 }
+
+
+
+
 
 const dateNow = () => {
   let date = new Date(Date.now())
@@ -174,4 +209,64 @@ const dateNow = () => {
   var year = date.getUTCFullYear()
 
   return `${month} ${day}, ${year}, ${hr}:${min} ${ampm}`
+}
+
+
+
+
+
+const phoneNumber = (type, createType, reduxMethod) => {
+  const input = document.getElementById(type)
+  let phoneNumber = input.value.replace(/\D/g, '');
+
+  const phoneNumberLength = phoneNumber.length
+
+  if(phoneNumberLength < 4) return phoneNumber
+
+  if( phoneNumberLength < 7){
+    return reduxMethod(createType, type, `(${phoneNumber.slice(0,3)}) ${phoneNumber.slice(3,7)}`)
+  }
+
+  return reduxMethod(createType, type, `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
+    3,
+    6
+  )}-${phoneNumber.slice(6, 10)}`)
+}
+
+
+
+
+
+const addressSelect = async (e, key, createType, reduxMethod, id, keyTwo, keyThree, keyFour, keyFive) => {
+
+  let geo = null
+  let geoId = null 
+  
+  if(id){ geoId = document.getElementById(id).value }
+
+  if(geoId){ geo = await geocodeByPlaceId(id) }
+
+  if(geo){
+    geo[0].address_components.forEach((item) => {
+      
+      if(item.types.includes('postal_code')){
+        //// ZIP CODE
+        reduxMethod(createType, keyFour, item.long_name)
+      }
+
+      if(item.types.includes('country')){
+        //// COUNTRY
+        reduxMethod(createType, keyFive, item.long_name)
+      }
+    })
+  }
+
+  //// ADDRESS
+  if(key){ reduxMethod(createType, key, e.split(',')[0])}
+
+  //// CITY
+  if(keyTwo){ reduxMethod(createType, keyTwo, e.split(',')[1])}
+
+  //// STATE
+  if(keyThree){ reduxMethod(createType, keyThree, e.split(',')[2])}
 }

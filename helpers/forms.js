@@ -1,6 +1,7 @@
-import {API} from '../config'
+import { API } from '../config'
 import axios from 'axios'
-import {nanoid} from 'nanoid'
+import { nanoid } from 'nanoid'
+import { validateEmail } from '../helpers/validations'
 
 export {
   submitCreate,
@@ -11,19 +12,25 @@ export {
 const formFields = {
   slabs: ['material'],
   materials: ['name', 'description'],
-  colors: ['name']
+  colors: ['name'],
+  suppliers: ['name', 'contact_email'],
+  locations: ['name']
 }
 
-const submitCreate = async (e, stateData, type, setMessage, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG) => {
+const submitCreate = async (e, stateData, type, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG) => {
   e.preventDefault()
-  setMessage('')
-  console.log(allData)
 
   for(let i = 0; i < formFields[type].length; i++){
+    
+    if(formFields[type][i].includes('email') && !validateEmail(formFields[type][i])) return (setDynamicSVG('notification'), setMessage('Invalid email address'))
+
     if(!stateData[formFields[type][i]]) return (setDynamicSVG('notification'), setMessage(`${formFields[type][i].replace('_', ' ')} is required`))
+
   }
 
-  setLoading('create_slab')
+  setMessage('')
+  console.log(loadingType)
+  setLoading(loadingType)
   let data = new FormData()
   
   if(stateData.images && stateData.images.length > 0){

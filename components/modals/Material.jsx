@@ -28,6 +28,8 @@ const MaterialModal = ({
   const createType = 'CREATE_MATERIAL'
   const resetType = 'RESET_MATERIAL'
   const [loadingColor, setLoadingColor] = useState('white')
+
+  //// HANDLE MODAL DRAG
   const [prevX, setPrevX] = useState(0)
   const [prevY, setPrevY] = useState(0)
   const onPointerDown = () => {}
@@ -142,7 +144,7 @@ const MaterialModal = ({
         {!edit && 
         <button 
         className="form-group-button" 
-        onClick={(e) => submitCreate(e, stateData, 'materials', setMessage, setLoading, token, 'materials/create-material', resetType, resetState, allData, setAllData, setDynamicSVG)}
+        onClick={(e) => submitCreate(e, stateData, 'materials', setMessage, 'create_material', setLoading, token, 'materials/create-material', resetType, resetState, allData, setAllData, setDynamicSVG)}
         >
            {loading == 'create_material' ? 
             <div className="loading">
