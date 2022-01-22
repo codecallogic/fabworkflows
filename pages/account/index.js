@@ -30,11 +30,11 @@ import _ from 'lodash'
 
 //// FORMS
 import SlabForm from '../../components/forms/slabForm'
-import { submitCreate } from '../../helpers/forms'
+import { submitCreate, submitUpdate, submitDeleteImage, submitDeleteRow } from '../../helpers/forms'
 
 //// VALIDATIONS
 import { 
-  validateNumber, validateEmail, validatePrice, validateDate, generateQR, multipleImages, dateNow, phoneNumber, addressSelect
+  validateNumber, validatePrice, validateDate, generateQR, multipleImages, dateNow, phoneNumber, addressSelect
 } from '../../helpers/validations'
 
 //// MODALS
@@ -175,10 +175,11 @@ const Dashboard = ({
     els.forEach( (el) => { el.checked = false })
   }
 
-  const editData = (keyType, reduxMethodType, caseType) => {
+  const editData = (keyType, objectKey, caseType) => {
     let stateMethods = new Object()
     stateMethods.createType = createType
-    populateEditData(originalData, keyType, caseType, reduxMethodType, stateMethods, selectID)
+
+    return populateEditData(allData, keyType, caseType, objectKey, stateMethods, selectID)
   }
 
   const validateIsPrice = (evt) => {
@@ -456,10 +457,12 @@ const Dashboard = ({
         
         {nav.view == 'slabs' &&
           <Table
+            token={token}
             title={'Slabs List'}
             typeOfData={'slabs'}
             componentData={data.slabs}
-            originalData={allData}
+            allData={allData}
+            setAllData={setAllData}
             modal={modal}
             setModal={setModal}
             sortOrder={slabsSort}
@@ -479,6 +482,12 @@ const Dashboard = ({
             viewType={'slab'}
             modalType={''}
             editDataType={{key: 'slabs', method: 'createSlab', caseType: 'CREATE_SLAB'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="slabs/delete-slab"
           >
           </Table>
         }
@@ -489,6 +498,7 @@ const Dashboard = ({
           <SlabForm
             token={token}
             title={'New Slab'}
+            typeOfData={'slabs'}
             allData={allData}
             setAllData={setAllData}
             dynamicSVG={dynamicSVG}
@@ -512,6 +522,11 @@ const Dashboard = ({
             multipleImages={multipleImages}
             dateNow={dateNow}
             edit={edit}
+            setEdit={setEdit}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            submitDeleteImage={submitDeleteImage}
+            editData={editData}
           >
           </SlabForm>
         }

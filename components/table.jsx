@@ -3,6 +3,7 @@ import SVG from '../files/svgs'
 import {useEffect, useState, useRef} from 'react'
 
 const Table = ({
+  token,
   title,
   typeOfData,
   selectID,
@@ -17,6 +18,12 @@ const Table = ({
   setMessage,
   sortOrder,
   resetCheckboxes,
+  setEdit,
+  loading,
+  setLoading,
+  dynamicSVG,
+  setDynamicSVG,
+  setAllData,
 
   ///// EDIT
   viewType,
@@ -25,19 +32,21 @@ const Table = ({
 
   //// DATA
   componentData,
-  originalData,
+  allData,
   editData,
 
   //// REDUX
   changeView,
 
   //// CRUD
-  deleteRow,
+  submitDeleteRow,
+  deleteType
 
 }) => {
 
   const matchPattern = /https?:\/\/(www\.)?/gi;
   const myRefs = useRef([])
+  const [loadingColor, setLoadingColor] = useState('black')
   
   const handleClickOutside = (event) => {
     if(myRefs.current){
@@ -102,22 +111,30 @@ const Table = ({
             <div 
             id="edit" 
             className="table-header-controls-item" 
-            onClick={() => (setModal(modalType), changeView(viewType), editData(editDataType.key, editDataType.method, editDataType.caseType), setControls(false), resetCheckboxes())}
+            onClick={() => (setModal(modalType), changeView(viewType), setEdit(typeOfData), editData(editDataType.key, editDataType.objectKey, editDataType.caseType), setControls(false), resetCheckboxes())}
             >
               Edit
             </div>
             <div 
             id="delete" 
             className="table-header-controls-item" 
-            onClick={deleteRow}
+            onClick={(e) => submitDeleteRow(e, 'slabs', setMessage, 'delete_row', setLoading, token, deleteType, selectID, allData, setAllData, setDynamicSVG, resetCheckboxes)}
             >
-              Delete
+              {loading == 'delete_row' ? 
+              <div className="loading">
+                <span style={{backgroundColor: loadingColor}}></span>
+                <span style={{backgroundColor: loadingColor}}></span>
+                <span style={{backgroundColor: loadingColor}}></span>
+              </div>
+              : 
+               'Delete'
+              }
             </div>
           </div>
         }
         { message && 
           <div className="table-header-error">
-            <SVG svg={'notification'}></SVG> 
+            <SVG svg={dynamicSVG}></SVG> 
             <span>{message.substr(0, 200)}</span>
           </div>
         }
@@ -137,14 +154,21 @@ const Table = ({
       </div>
       <div className="table-rows-container">
       { 
-        filterTable(originalData[typeOfData]).length > 0 && 
-        filterTable(originalData[typeOfData], ['createdAt', 'updatedAt', '__v']).map((item, idx) => 
-          <div key={idx} className={`table-rows ` + (idx % 2 == 1 ? ' row-odd' : ' row-even')}>
+        filterTable(allData[typeOfData]).length > 0 && 
+        filterTable(allData[typeOfData], ['createdAt', 'updatedAt', '__v']).map((item, idx) => 
+          <div 
+          key={idx} 
+          className={`table-rows ` + (idx % 2 == 1 ? ' row-odd' : ' row-even')}
+          >
             <div className="table-rows-checkbox" 
               ref={(el) => (myRefs.current[idx] = el)}
             >
               <label htmlFor={`checkbox`}>
-                <input id={`checkbox`} className="table-rows-checkbox-input" type="checkbox" onClick={(e) => e.target.checked == true ?  handleSelect(e, item._id) : (setControls(false), setSelectID(''))}/>
+                <input 
+                id={`checkbox`} 
+                className="table-rows-checkbox-input" 
+                type="checkbox" 
+                onClick={(e) => e.target.checked == true ?  (setMessage(''), handleSelect(e, item._id)) : (setControls(false), setSelectID(''), setMessage(''))}/>
                 <span></span>
                 <div>
                   <SVG svg={'checkmark'}></SVG>

@@ -4,8 +4,11 @@ import { nanoid } from 'nanoid'
 import { validateEmail } from '../helpers/validations'
 
 export {
+  manageFormFields,
   submitCreate,
-  manageFormFields
+  submitUpdate,
+  submitDeleteImage,
+  submitDeleteRow
 }
 
 //// VALIDATIONS
@@ -15,6 +18,14 @@ const formFields = {
   colors: ['name'],
   suppliers: ['name', 'contact_email'],
   locations: ['name']
+}
+
+
+const manageFormFields = (data, key) => {
+
+  if(typeof data == 'object'){ return data[key] }
+  if(typeof data == 'string'){ return data }
+  
 }
 
 const submitCreate = async (e, stateData, type, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG) => {
@@ -29,7 +40,6 @@ const submitCreate = async (e, stateData, type, setMessage, loadingType, setLoad
   }
 
   setMessage('')
-  console.log(loadingType)
   setLoading(loadingType)
   let data = new FormData()
   
@@ -63,13 +73,108 @@ const submitCreate = async (e, stateData, type, setMessage, loadingType, setLoad
   } catch (error) {
     console.log(error)
     setLoading('')
-    if(error) error.response ? setMessage(error.response.data) : setMessage('Error ocurred with creating item')
+    if(error) error.response ? (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred with creating item'))
   }
 }
 
-const manageFormFields = (data, key) => {
+const submitUpdate = async (e, stateData, type, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType) => {
+  for(let i = 0; i < formFields[type].length; i++){
+    
+    if(formFields[type][i].includes('email') && !validateEmail(formFields[type][i])) return (setDynamicSVG('notification'), setMessage('Invalid email address'))
 
-  if(typeof data == 'object'){ return data[key] }
-  if(typeof data == 'string'){ return data }
+    if(!stateData[formFields[type][i]]) return (setDynamicSVG('notification'), setMessage(`${formFields[type][i].replace('_', ' ')} is required`))
+
+  }
+
+  setMessage('')
+  setLoading(loadingType)
+  let data = new FormData()
+  
+  if(stateData.images && stateData.images.length > 0){
+    stateData.images.forEach((item) => {
+      let fileID = nanoid()
+      if(!item.key) return data.append('file', item, `${type}-${fileID}.${item.name.split('.')[1]}`)
+    })
+  }
+
+  if(stateData){
+    for(let key in stateData){
+      data.append(key, JSON.stringify(stateData[key]))
+    }
+  }
+  
+  try {
+    const responseUpdate = await axios.post(`${API}/${path}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        contentType: 'multipart/form-data'
+      }
+    })
+    setLoading('')
+    allData[type]= responseUpdate.data
+    setAllData(allData)
+    resetState(resetType)
+    changeView(viewType)
+    
+  } catch (error) {
+    console.log(error)
+    setLoading('')
+    if(error) error.response ? (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred with updating item'))
+  }
+}
+
+const submitDeleteImage = async (e, imageItem, key, caseType, stateMethod, stateData, type, setMessage, loadingType, setLoading, token, path, allData, setAllData, setDynamicSVG, editData) => {
+ 
+
+  if(!imageItem.key){
+    let filtered = stateData.images.filter((item) => item.location !== imageItem.location)
+    return stateMethod(caseType, key, filtered)
+  }
+
+  setLoading('delete_image')
+
+  try {
+    const responseDelete = await axios.post(`${API}/${path}`, {key: imageItem.key, stateData: stateData}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        contentType: 'multipart/form-data'
+      }
+    })
+    setLoading('')
+    allData[type]= responseDelete.data
+    setAllData(allData)
+    editData('slabs', 'createSlab', 'CREATE_SLAB')
+    
+  } catch (error) {
+    console.log(error)
+    setLoading('')
+    if(error) error.response ? (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred with updating item'))
+  }
+  
+}
+
+const submitDeleteRow = async (e, type, setMessage, loadingType, setLoading, token, path, selectID, allData, setAllData, setDynamicSVG, resetCheckboxes) => {
+
+  setLoading(loadingType)
+  
+  try {
+    const responseDelete = await axios.post(`${API}/${path}`, {id: selectID}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        contentType: 'multipart/form-data'
+      }
+    })
+    setLoading('')
+    allData[type]= responseDelete.data
+    setAllData(allData)
+    setDynamicSVG('checkmark-2')
+    setMessage('Item was deleted')
+    resetCheckboxes()
+    
+  } catch (error) {
+    console.log(error)
+    setLoading('')
+    if(error) error.response ? (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred with deleting item'))
+  }
   
 }

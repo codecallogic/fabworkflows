@@ -7,12 +7,13 @@ const Form = ({
   title,
   dynamicSVG,
   setDynamicSVG,
-  modal,
   setModal,
   message, 
   setMessage,
   loading,
   setLoading,
+  edit,
+  setEdit,
 
   //// VALIDATIONS
   validateNumber,
@@ -23,18 +24,23 @@ const Form = ({
   dateNow,
 
   //// DATA
+  typeOfData,
   allData,
   setAllData,
   originalData,
+  editData,
   
   //// REDUX
   stateData,
   stateMethod,
   resetState,
   addImages,
+  changeView,
 
   ///// CRUD
   submitCreate,
+  submitUpdate,
+  submitDeleteImage
 }) => {
 
   const createType = 'CREATE_SLAB'
@@ -72,13 +78,17 @@ const Form = ({
   return (
     <div className="table">
       <div className="table-header">
-        <div className="table-header-title">{title}</div>
+        <div className="table-header-title">{edit == typeOfData ? 'Edit Slab' : title}</div>
         {save &&
           <div className="table-header-controls">
             <div 
             id="save" 
             className="table-header-controls-item" 
-            onClick={(e) => submitCreate(e, stateData, 'slabs', setMessage, 'create_slab', setLoading, token, 'slabs/create-slab', resetType, resetState, allData, setAllData, setDynamicSVG)}
+            onClick={(e) => edit == typeOfData ? 
+              submitUpdate(e, stateData, 'slabs', setMessage, 'create_slab', setLoading, token, 'slabs/update-slab', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'slabs')
+              : 
+              submitCreate(e, stateData, 'slabs', setMessage, 'create_slab', setLoading, token, 'slabs/create-slab', resetType, resetState, allData, setAllData, setDynamicSVG) 
+            }
             >
               {loading == 'create_slab' ? 
               <div className="loading">
@@ -87,13 +97,13 @@ const Form = ({
                 <span style={{backgroundColor: loadingColor}}></span>
               </div>
               : 
-              'Save'
+                edit == typeOfData ? 'Update' : 'Save'
               }
             </div>
             <div 
             id="reset" 
             className="table-header-controls-item" 
-            onClick={() => (resetState(resetType), setMessage(''))}
+            onClick={() => (setLoading(''), resetState(resetType), setMessage(''), setEdit(''))}
             >
               Reset
             </div>
@@ -660,7 +670,7 @@ const Form = ({
               {stateData.images.length > 0 && stateData.images.map((item, idx) => (
                 <a 
                 key={idx} 
-                href={item.location} 
+                onClick={() => window.open(item.location, '_blank')}
                 className="form-group-gallery-link"
                 target="_blank" 
                 rel="noreferrer"
@@ -670,6 +680,16 @@ const Form = ({
                   className="form-group-gallery-image"
                   src={item.location}
                   />
+                  <span onClick={(e) => (e.stopPropagation(), loading !== 'delete_image' ? 
+                    submitDeleteImage(e, item, 'images', createType, stateMethod, stateData, 'slabs', setMessage, 'delete_image', setLoading, token, 'slabs/delete-image', allData, setAllData, setDynamicSVG, editData) 
+                    : null)
+                  }>
+                    { loading == 'delete_image' ? 
+                      <div className="loading-spinner"></div>
+                      :
+                      <SVG svg={'close'}></SVG>
+                    }
+                  </span>
                 </a>
               ))}
             </div>

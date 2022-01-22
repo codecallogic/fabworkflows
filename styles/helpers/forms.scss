@@ -184,6 +184,7 @@
         border-radius: 1.2rem;
         transition: all 0.5s ease-in-out;
         margin-bottom: 1rem;
+        position: relative;
 
         &:hover {
           cursor: pointer;
@@ -195,6 +196,32 @@
         width: 100%;
         object-fit: cover;
         border-radius: 1.2rem;
+      }
+
+      span {
+        position: absolute;
+        top: 2%;
+        right: 2%;
+        width: 3rem;
+        height: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $color-scheme-2;
+        border-radius: 50%;
+        box-shadow: 0.3rem 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.2);
+        transition: all 0.5s ease-in-out;
+
+        &:hover {
+          cursor: pointer;
+          background-color: $color-scheme-3;
+        }
+      }
+
+      svg {
+        width: 2rem;
+        height: 2rem;
+        fill: white;
       }
     }
 
