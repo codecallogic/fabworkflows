@@ -98,7 +98,7 @@ const Table = ({
             name="search" 
             placeholder="Search" 
             value={search} 
-            onChange={(e) => (setSearch(e.target.value))} 
+            onChange={(e) => (setSearch(e.target.value), document.getElementById('tableContainer').scrollLeft = 0)} 
             onFocus={(e) => (e.target.placeholder = '', setMessage(''))} 
             onBlur={(e) => (e.target.placeholder = 'Search', setMessage(''))} 
             />
@@ -151,7 +151,7 @@ const Table = ({
           )
         }
       </div>
-      <div className="table-rows-container" style={{ overflowX: loading == 'searching' ? 'hidden' : ''}}>
+      <div id="tableContainer" className="table-rows-container" style={{ overflowX: loading == 'searching' ? 'hidden' : ''}}>
       {loading == 'searching' ? 
         <div className="search-loading">
           <div className="search-loading-box">

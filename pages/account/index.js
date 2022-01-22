@@ -172,7 +172,7 @@ const Dashboard = ({
       }, 2000)
     }
     
-    if(search.length == 0){
+    if(search.length == 0){ 
       if(nav.view == 'slabs'){
         resetDataType('searching', setLoading, setMessage, 'slabs/all-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView)
       }
