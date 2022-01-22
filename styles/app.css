@@ -1346,12 +1346,12 @@ body {
 
 .search-loading {
   position: absolute;
-  top: 10rem;
   left: 0;
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 95%;
   z-index: 1000; }
   .search-loading-box {
     display: flex;
@@ -1797,7 +1797,9 @@ body {
     .table-rows-container {
       width: 100%;
       padding: 1rem 0;
-      overflow-x: auto; }
+      max-height: 100rem;
+      overflow-x: auto;
+      position: relative; }
       .table-rows-container::-webkit-scrollbar {
         height: 0.3rem;
         width: 0.5rem;

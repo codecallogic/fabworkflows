@@ -8,7 +8,9 @@ export {
   submitCreate,
   submitUpdate,
   submitDeleteImage,
-  submitDeleteRow
+  submitDeleteRow,
+  submitSearch,
+  resetDataType
 }
 
 //// VALIDATIONS
@@ -177,4 +179,48 @@ const submitDeleteRow = async (e, type, setMessage, loadingType, setLoading, tok
     if(error) error.response ? (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred with deleting item'))
   }
   
+}
+
+const submitSearch = async (search, setLoading, setMessage, path, type, allData, setAllData, token, setDynamicSVG, changeView) => {
+
+  try {
+    const responseSearch = await axios.post(`${API}/${path}`, {query: search}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        contentType: 'multipart/form-data'
+      }
+    })
+    setLoading('')
+    allData[type]= responseSearch.data
+    setAllData(allData)
+    changeView('slabs')
+    
+  } catch (error) {
+    console.log(error)
+    setLoading('')
+    if(error) error.response ? (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred searching items'))
+  }
+  
+}
+
+const resetDataType = async (loadingType, setLoading, setMessage, path, type, allData, setAllData, token, setDynamicSVG, changeView) => {
+  setLoading(loadingType)
+  
+  try {
+    const responseGet = await axios.get(`${API}/${path}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        contentType: 'multipart/form-data'
+      }
+    })
+    setLoading('')
+    allData[type]= responseGet.data
+    setAllData(allData)
+    changeView('slabs')
+    
+  } catch (error) {
+    console.log(error)
+    setLoading('')
+    if(error) error.response ? (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred searching items'))
+  }
 }

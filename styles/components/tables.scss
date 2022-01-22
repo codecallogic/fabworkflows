@@ -113,7 +113,9 @@
     &-container {
       width: 100%;
       padding: 1rem 0;
+      max-height: 100rem;
       overflow-x: auto;
+      position: relative;
 
       &::-webkit-scrollbar {
         height: 0.3rem;

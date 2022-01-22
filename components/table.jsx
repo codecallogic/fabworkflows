@@ -99,10 +99,9 @@ const Table = ({
             placeholder="Search" 
             value={search} 
             onChange={(e) => (setSearch(e.target.value))} 
-            onFocus={(e) => (e.target.placeholder = '', setMessage(''))} onBlur={(e) => (e.target.placeholder = 'Search', setMessage(''))} 
-            onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null}  
-            required>
-            </input>
+            onFocus={(e) => (e.target.placeholder = '', setMessage(''))} 
+            onBlur={(e) => (e.target.placeholder = 'Search', setMessage(''))} 
+            />
           </form>
         </div>
         }
@@ -152,7 +151,15 @@ const Table = ({
           )
         }
       </div>
-      <div className="table-rows-container">
+      <div className="table-rows-container" style={{ overflowX: loading == 'searching' ? 'hidden' : ''}}>
+      {loading == 'searching' ? 
+        <div className="search-loading">
+          <div className="search-loading-box">
+            <svg><circle cx="20" cy="20" r="20"></circle></svg><span>Loading slabs</span>
+          </div>
+        </div>
+        : null
+      }
       { 
         filterTable(allData[typeOfData]).length > 0 && 
         filterTable(allData[typeOfData], ['createdAt', 'updatedAt', '__v']).map((item, idx) => 

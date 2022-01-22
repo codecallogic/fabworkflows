@@ -30,7 +30,7 @@ import _ from 'lodash'
 
 //// FORMS
 import SlabForm from '../../components/forms/slabForm'
-import { submitCreate, submitUpdate, submitDeleteImage, submitDeleteRow } from '../../helpers/forms'
+import { submitCreate, submitUpdate, submitDeleteImage, submitDeleteRow, submitSearch, resetDataType } from '../../helpers/forms'
 
 //// VALIDATIONS
 import { 
@@ -135,7 +135,7 @@ const Dashboard = ({
     }
   }
 
-  useEffect(() => {setMessage('')}, [nav.view])
+  useEffect(() => {setMessage(''), setLoading('')}, [nav.view])
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
@@ -158,17 +158,31 @@ const Dashboard = ({
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
 
-  }, [width, selectedFiles])
+  }, [width])
 
   useEffect(() => {
-    if(params) params.change ? changeView(params.change) : null
-  }, [router.query.change])
+    let timeOutSearch
+    
+    if(search.length > 0){
+      setLoading('searching')
+      timeOutSearch = setTimeout(() => {
+        if(nav.view == 'slabs'){
+          submitSearch(search, setLoading, setMessage, 'slabs/search-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView)
+        }
+      }, 2000)
+    }
+    
+    if(search.length == 0){
+      if(nav.view == 'slabs'){
+        resetDataType('searching', setLoading, setMessage, 'slabs/all-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView)
+      }
+    }
 
-  useEffect(() => {
-    setSelectedFiles([]), 
-    setImageCount(0), 
-    addProductImages([])
-  }, [nav.view])
+    return () => clearTimeout(timeOutSearch)
+
+  }, [search])
+
+
 
   const resetCheckboxes = () => {
     const els = document.querySelectorAll('.table-rows-checkbox-input')
@@ -181,6 +195,21 @@ const Dashboard = ({
 
     return populateEditData(allData, keyType, caseType, objectKey, stateMethods, selectID)
   }
+  
+
+  ///////////////////////////////////////////////////////////////////////////////
+
+  useEffect(() => {
+    if(params) params.change ? changeView(params.change) : null
+  }, [router.query.change])
+
+  useEffect(() => {
+    setSelectedFiles([]), 
+    setImageCount(0), 
+    addProductImages([])
+  }, [nav.view])
+
+
 
   const validateIsPrice = (evt) => {
     let newValue = Number(evt.target.value.replace(/\D/g, '')) / 100
