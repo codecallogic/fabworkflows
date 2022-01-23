@@ -7,6 +7,9 @@ import {colorReducer} from './colorReducer'
 import {supplierReducer} from './supplierReducer'
 import {locationReducer} from './locationReducer'
 import {remnantReducer} from './remnantReducer'
+import {brandReducer} from './brandReducer'
+import {modelReducer} from './modelReducer'
+import {categoryReducer} from './categoryReducer'
 import {quoteReducer} from './quoteReducer'
 import {quoteLineReducer} from './quoteLineReducer'
 import {orderReducer} from './orderReducer'
@@ -22,6 +25,9 @@ const rootReducer = combineReducers({
   supplier: supplierReducer,
   location: locationReducer,
   remnant: remnantReducer,
+  brand: brandReducer,
+  model: modelReducer,
+  category: categoryReducer,
   quote: quoteReducer,
   quoteLine: quoteLineReducer,
   order: orderReducer,

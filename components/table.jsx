@@ -10,6 +10,7 @@ const Table = ({
   setSelectID,
   controls,
   setControls,
+  controlsType,
   setModal,
   searchEnable,
   search,
@@ -47,7 +48,26 @@ const Table = ({
   const matchPattern = /https?:\/\/(www\.)?/gi;
   const myRefs = useRef([])
   const [loadingColor, setLoadingColor] = useState('black')
+  const [up, setUp] = useState(1)
+  const [down, setDown] = useState(-1)
+  const [filter, setFilter] = useState('')
+
+  //// TODO: SORT DEEP NESTED OBJECTS
+  const getMembers = (members) => {
+    let material = [];
+    const flattenMembers = members.map(m => {
+      if (m.material && m.material.length) {
+        material = [...material, ...m.material];
+      }
+      return m;
+    });
   
+    return flattenMembers.concat(material.length ? getMembers(material) : material);
+  };
+  
+
+  // console.log(getMembers(filterTable(componentData, ['_id', 'createdAt', 'updatedAt', '__v'])))
+
   const handleClickOutside = (event) => {
     if(myRefs.current){
       myRefs.current.forEach((item) => {
@@ -59,7 +79,7 @@ const Table = ({
           if(event.target == document.getElementById('edit')) return
           
           resetCheckboxes()
-          setControls(false)
+          setControls('')
           setSelectID('')
         }
       })
@@ -81,7 +101,7 @@ const Table = ({
 
     e.target.checked = true
    
-    setControls(true)
+    setControls(controlsType)
     setSelectID(id)
   }
   
@@ -105,19 +125,19 @@ const Table = ({
           </form>
         </div>
         }
-        {controls &&
+        {controls == controlsType &&
           <div className="table-header-controls">
             <div 
             id="edit" 
             className="table-header-controls-item" 
-            onClick={() => (setModal(modalType), changeView(viewType), setEdit(typeOfData), editData(editDataType.key, editDataType.objectKey, editDataType.caseType), setControls(false), resetCheckboxes())}
+            onClick={() => (setModal(modalType), changeView(viewType), setEdit(typeOfData), editData(editDataType.key, editDataType.caseType), setControls(''), resetCheckboxes())}
             >
               Edit
             </div>
             <div 
             id="delete" 
             className="table-header-controls-item" 
-            onClick={(e) => submitDeleteRow(e, 'slabs', setMessage, 'delete_row', setLoading, token, deleteType, selectID, allData, setAllData, setDynamicSVG, resetCheckboxes)}
+            onClick={(e) => submitDeleteRow(e, typeOfData, setMessage, 'delete_row', setLoading, token, deleteType, selectID, allData, setAllData, setDynamicSVG, resetCheckboxes, setControls)}
             >
               {loading == 'delete_row' ? 
               <div className="loading">
@@ -145,7 +165,15 @@ const Table = ({
           filterTable(componentData, ['_id', 'createdAt', 'updatedAt', '__v'], 1).map((item, idx, array) => 
             Object.keys(array[0]).sort((a, b) => sortOrder.indexOf(b) - sortOrder.indexOf(a)).map((key, idx) => 
               <div key={idx} className="table-headers-item">
-                {(key.replace( /([a-z])([A-Z])/g, "$1 $2")).replace('_', ' ')}
+                <span onClick={() => filter == key 
+                  ? 
+                  (setUp(up == 1 ? -1 : 1), setDown(down == -1 ? 1 : -1))
+                  : 
+                  setFilter(key)}
+                >
+                  {(key.replace( /([a-z])([A-Z])/g, "$1 $2")).replace('_', ' ')}
+                  <SVG svg={'sort'}></SVG>
+                </span>
               </div>
             )
           )
@@ -155,14 +183,14 @@ const Table = ({
       {loading == 'searching' ? 
         <div className="search-loading">
           <div className="search-loading-box">
-            <svg><circle cx="20" cy="20" r="20"></circle></svg><span>Loading slabs</span>
+            <svg><circle cx="20" cy="20" r="20"></circle></svg><span>Loading items</span>
           </div>
         </div>
         : null
       }
       { 
         filterTable(allData[typeOfData]).length > 0 && 
-        filterTable(allData[typeOfData], ['createdAt', 'updatedAt', '__v']).map((item, idx) => 
+        filterTable(allData[typeOfData], ['createdAt', 'updatedAt', '__v']).sort((a, b) => a[filter] > b[filter] ? up : down).map((item, idx) => 
           <div 
           key={idx} 
           className={`table-rows ` + (idx % 2 == 1 ? ' row-odd' : ' row-even')}
@@ -175,7 +203,7 @@ const Table = ({
                 id={`checkbox`} 
                 className="table-rows-checkbox-input" 
                 type="checkbox" 
-                onClick={(e) => e.target.checked == true ?  (setMessage(''), handleSelect(e, item._id)) : (setControls(false), setSelectID(''), setMessage(''))}/>
+                onClick={(e) => e.target.checked == true ?  (setMessage(''), handleSelect(e, item._id)) : (setControls(''), setSelectID(''), setMessage(''))}/>
                 <span></span>
                 <div>
                   <SVG svg={'checkmark'}></SVG>

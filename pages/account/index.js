@@ -16,12 +16,11 @@ import Remnant from '../../components/account/Remnant'
 import Quote from '../../components/account/Quote'
 import PriceListModal from '../../components/modals/PriceList'
 import AddressModal from '../../components/modals/Address'
-import CategoryModal from '../../components/modals/Category'
 
 //// TABLE
 import Table from '../../components/table'
 import { tableData } from '../../helpers/tableData'
-import { slabsSort } from '../../helpers/sorts'
+import { slabSort, productSort, remnantSort } from '../../helpers/sorts'
 import { populateEditData } from '../../helpers/modals'
 
 //// DATA
@@ -30,6 +29,7 @@ import _ from 'lodash'
 
 //// FORMS
 import SlabForm from '../../components/forms/slabForm'
+import ProductForm from '../../components/forms/productForm'
 import { submitCreate, submitUpdate, submitDeleteImage, submitDeleteRow, submitSearch, resetDataType } from '../../helpers/forms'
 
 //// VALIDATIONS
@@ -42,6 +42,9 @@ import MaterialModal from '../../components/modals/Material'
 import ColorModal from '../../components/modals/Color'
 import SupplierModal from '../../components/modals/Supplier'
 import LocationModal from '../../components/modals/Location'
+import BrandModal from '../../components/modals/Brand'
+import ModelModal from '../../components/modals/Model'
+import CategoryModal from '../../components/modals/Category'
 
 axios.defaults.withCredentials = true
 
@@ -67,15 +70,15 @@ const Dashboard = ({
   color,
   supplier,
   location,
+  product,
+  brand,
+  model,
+  category,
   createType,
   resetType,
   addImages, 
 
-
-
-
-
-  product, 
+  
   createProduct, 
   addProductImages, 
   materials, 
@@ -101,7 +104,6 @@ const Dashboard = ({
   
   const router = useRouter()
   const [input_dropdown, setInputDropdown] = useState('')
-  const [width, setWidth] = useState()
   const [selectedFiles, setSelectedFiles] = useState([])
   const [imageCount, setImageCount] = useState(0)
   const [error, setError] = useState('')
@@ -110,18 +112,17 @@ const Dashboard = ({
   const [allSuppliers, setAllSuppliers] = useState(suppliers)
   const [allLocations, setAllLocations] = useState(locations)
   const [allBrands, setAllBrands] = useState(brands)
-  const [brand, setBrand] = useState('')
   const [allProductCategories, setAllProductCategories] = useState(categories)
   const [allCategories, setAllCategories] = useState(misc_categories)
-  const [category, setCategory] = useState('')
   const [allModels, setAllModels] = useState(models)
 
   ///// STATE MANAGEMENT
+  const [width, setWidth] = useState()
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState('')
   const [search, setSearch] = useState('')
   const [selectID, setSelectID] = useState('')
-  const [controls, setControls] = useState(false)
+  const [controls, setControls] = useState('')
   const [modal, setModal] = useState('')
   const [dynamicSVG, setDynamicSVG] = useState('notification')
   const [edit, setEdit] = useState('')
@@ -169,12 +170,18 @@ const Dashboard = ({
         if(nav.view == 'slabs'){
           submitSearch(search, setLoading, setMessage, 'slabs/search-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView)
         }
+        if(nav.view == 'products'){
+          submitSearch(search, setLoading, setMessage, 'products/search-products', 'products', allData, setAllData, token, setDynamicSVG, changeView)
+        }
       }, 2000)
     }
     
     if(search.length == 0){ 
       if(nav.view == 'slabs'){
         resetDataType('searching', setLoading, setMessage, 'slabs/all-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView)
+      }
+      if(nav.view == 'products'){
+        resetDataType('searching', setLoading, setMessage, 'products/all-products', 'products', allData, setAllData, token, setDynamicSVG, changeView)
       }
     }
 
@@ -189,11 +196,11 @@ const Dashboard = ({
     els.forEach( (el) => { el.checked = false })
   }
 
-  const editData = (keyType, objectKey, caseType) => {
+  const editData = (keyType, caseType) => {
     let stateMethods = new Object()
     stateMethods.createType = createType
 
-    return populateEditData(allData, keyType, caseType, objectKey, stateMethods, selectID)
+    return populateEditData(allData, keyType, caseType, stateMethods, selectID)
   }
   
 
@@ -203,11 +210,11 @@ const Dashboard = ({
     if(params) params.change ? changeView(params.change) : null
   }, [router.query.change])
 
-  useEffect(() => {
-    setSelectedFiles([]), 
-    setImageCount(0), 
-    addProductImages([])
-  }, [nav.view])
+  // useEffect(() => {
+  //   setSelectedFiles([]), 
+  //   setImageCount(0), 
+  //   addProductImages([])
+  // }, [nav.view])
 
 
 
@@ -483,22 +490,22 @@ const Dashboard = ({
         <SideNav width={width}></SideNav>
 
         {/* //// TABLES //// */}
-        
         {nav.view == 'slabs' &&
           <Table
             token={token}
-            title={'Slabs List'}
+            title={'Slab List'}
             typeOfData={'slabs'}
             componentData={data.slabs}
             allData={allData}
             setAllData={setAllData}
             modal={modal}
             setModal={setModal}
-            sortOrder={slabsSort}
+            sortOrder={slabSort}
             selectID={selectID}
             setSelectID={setSelectID}
             controls={controls}
             setControls={setControls}
+            controlsType={'slabControls'}
             searchEnable={true}
             search={search}
             setSearch={setSearch}
@@ -510,7 +517,7 @@ const Dashboard = ({
             setEdit={setEdit}
             viewType={'slab'}
             modalType={''}
-            editDataType={{key: 'slabs', method: 'createSlab', caseType: 'CREATE_SLAB'}}
+            editDataType={{key: 'slabs', caseType: 'CREATE_SLAB'}}
             submitDeleteRow={submitDeleteRow}
             loading={loading}
             setLoading={setLoading}
@@ -519,6 +526,154 @@ const Dashboard = ({
             deleteType="slabs/delete-slab"
           >
           </Table>
+        }
+        {nav.view == 'products' &&
+          <Table
+            token={token}
+            title={'Product List'}
+            typeOfData={'products'}
+            componentData={data.products}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={productSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'productControls'}
+            searchEnable={true}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'product'}
+            modalType={''}
+            editDataType={{key: 'products', caseType: 'CREATE_PRODUCT'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="products/delete-product"
+          >
+          </Table>
+        }
+        {nav.view == 'remnants' &&
+          <Table
+            token={token}
+            title={'Remnant List'}
+            typeOfData={'remnants'}
+            componentData={data.remnants}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={remnantSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'remnantControls'}
+            searchEnable={true}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'remnant'}
+            modalType={''}
+            editDataType={{key: 'remnants', caseType: 'CREATE_REMNANT'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="remnants/delete-remnant"
+          >
+          </Table>
+        }
+        {nav.view == 'trackers' &&
+          <span className="table-stack">
+          <Table
+            token={token}
+            title={'Slab List'}
+            typeOfData={'slabs'}
+            componentData={data.slabs}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={slabSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'slabControls'}
+            searchEnable={true}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'slab'}
+            modalType={''}
+            editDataType={{key: 'slabs', caseType: 'CREATE_SLAB'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="slabs/delete-slab"
+          >
+          </Table>
+          <Table
+            token={token}
+            title={'Product List'}
+            typeOfData={'products'}
+            componentData={data.products}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={productSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'productControls'}
+            searchEnable={true}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'product'}
+            modalType={''}
+            editDataType={{key: 'products', caseType: 'CREATE_PRODUCT'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="products/delete-product"
+          >
+          </Table>
+          </span>
         }
 
 
@@ -559,6 +714,42 @@ const Dashboard = ({
           >
           </SlabForm>
         }
+        {nav.view == 'product' &&
+          <ProductForm
+            token={token}
+            title={'New Product'}
+            typeOfData={'products'}
+            allData={allData}
+            setAllData={setAllData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            submitCreate={submitCreate}
+            modal={modal}
+            setModal={setModal}
+            stateData={product}
+            stateMethod={createType}
+            originalData={originalData}
+            message={message}
+            setMessage={setMessage}
+            loading={loading}
+            setLoading={setLoading}
+            validateNumber={validateNumber}
+            validatePrice={validatePrice}
+            validateDate={validateDate}
+            generateQR={generateQR}
+            resetState={resetType}
+            addImages={addImages}
+            multipleImages={multipleImages}
+            dateNow={dateNow}
+            edit={edit}
+            setEdit={setEdit}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            submitDeleteImage={submitDeleteImage}
+            editData={editData}
+          >
+          </ProductForm>
+        }
 
         
         <div className="clientDashboard-view">
@@ -572,11 +763,11 @@ const Dashboard = ({
           }
           { nav.view == 'new' &&
             <div className="clientDashboard-view-new">
-              <div className="clientDashboard-view-new-item" onClick={() => changeView('slab')}>
+              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('slab'), resetType('RESET_SLAB'))}>
                 <SVGs svg={'slab'}></SVGs>
                 <span>New Slab</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (window.location.href = 'account?change=product')}>
+              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('product'), resetType('RESET_PRODUCT'))}>
                 <SVGs svg={'box'}></SVGs>
                 <span>New Product</span>
               </div>
@@ -619,175 +810,15 @@ const Dashboard = ({
             </div>
           }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          {
-            nav.view == 'product' && 
-            <div className="clientDashboard-view-slab_form-container">
-              <div className="clientDashboard-view-slab_form-heading">
-                <span>New Product</span>
-                <div className="form-error-container">
-                  {error && <span className="form-error"><SVGs svg={'error'}></SVGs></span>}
-                </div>
-              </div>
-              <form className="clientDashboard-view-slab_form" onSubmit={handleAddProduct}>
-                <div className="form-group-double-dropdown">
-                  <label htmlFor="brand">Brand</label>
-                  <div className="form-group-double-dropdown-input">
-                    <textarea rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="brand" placeholder="(Select Brand)" onClick={() => setInputDropdown('product_brand')} value={product.brand} onChange={(e) => (setInputDropdown(''), createProduct('brand', e.target.value))}></textarea>
-                    <div onClick={() => (input_dropdown !== 'product_brand' ? setInputDropdown('product_brand') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
-                    { input_dropdown == 'product_brand' &&
-                    <div className="form-group-double-dropdown-input-list" ref={myRefs}>
-                      <div className="form-group-double-dropdown-input-list-item border_bottom" onClick={() => (setInputDropdown(''), setModal('add_brand'))}><SVGs svg={'plus'}></SVGs> Add new</div>
-                      {allBrands && allBrands.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
-                      <div key={idx} className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('brand', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
-                      ))}
-                    </div>
-                    }
-                  </div>
-                </div>
-                <div className="form-group-double-dropdown">
-                  <label htmlFor="model">Model</label>
-                  <div className="form-group-double-dropdown-input">
-                    <textarea rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="model" placeholder="(Select Model)" onClick={() => setInputDropdown('product_model')} value={product.model} onChange={(e) => (setInputDropdown(''), createProduct('model', e.target.value))}></textarea>
-                    <div onClick={() => (input_dropdown !== 'product_model' ? setInputDropdown('product_model') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
-                    { input_dropdown == 'product_model' &&
-                    <div className="form-group-double-dropdown-input-list" ref={myRefs}>
-                      <div className="form-group-double-dropdown-input-list-item border_bottom" onClick={() => (setInputDropdown(''), setModal('add_model'))}><SVGs svg={'plus'}></SVGs> Add new</div>
-                      {allModels && allModels.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
-                      <div key={idx} className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('model', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
-                      ))}
-                    </div>
-                    }
-                  </div>
-                </div>
-                <div className="form-group-double-dropdown">
-                  <label htmlFor="categories">Category</label>
-                  <div className="form-group-double-dropdown-input">
-                    <textarea rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="category" placeholder="(Select Category)" onClick={() => setInputDropdown('product_category')} value={product.category} onChange={(e) => (setInputDropdown(''), createProduct('category', e.target.value))}></textarea>
-                    <div onClick={() => (input_dropdown !== 'product_category' ? setInputDropdown('product_category') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
-                    { input_dropdown == 'product_category' &&
-                    <div className="form-group-double-dropdown-input-list" ref={myRefs}>
-                      <div className="form-group-double-dropdown-input-list-item border_bottom" onClick={() => (setInputDropdown(''), setModal('add_category'))}><SVGs svg={'plus'}></SVGs> Add new</div>
-                      {allProductCategories && allProductCategories.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
-                      <div key={idx} className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('category', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
-                      ))}
-                    </div>
-                    }
-                  </div>
-                </div>
-                <div className="form-group-double-dropdown">
-                  <label htmlFor="location">Location</label>
-                  <div className="form-group-double-dropdown-input">
-                    <textarea rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="location" placeholder="(Select Location)" onClick={() => setInputDropdown('product_location')} value={product.location} onChange={(e) => (setInputDropdown(''), createProduct('location', e.target.value))}></textarea>
-                    <div onClick={() => (input_dropdown !== 'product_location' ? setInputDropdown('product_location') : setInputDropdown(''))}><SVGs svg={'dropdown-arrow'}></SVGs></div>
-                    { input_dropdown == 'product_location' &&
-                    <div className="form-group-double-dropdown-input-list" ref={myRefs}>
-                      <div className="form-group-double-dropdown-input-list-item border_bottom" onClick={() => (setInputDropdown(''), setModal('add_location'))}><SVGs svg={'plus'}></SVGs> Add new</div>
-                      {allLocations && allLocations.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
-                      <div key={idx} className="form-group-double-dropdown-input-list-item" onClick={(e) => (createProduct('location', e.target.innerText), setInputDropdown(''))}>{item.name}</div>
-                      ))}
-                    </div>
-                    }
-                  </div>
-                </div>
-                <div className="form-group-double-dropdown">
-                  <label htmlFor="description">Description</label>
-                  <div className="form-group-triple-input">
-                    <textarea id="description" rows="5" name="description" placeholder="(Description)" value={product.description} onChange={(e) => (createProduct('description', e.target.value))} required></textarea>
-                  </div>
-                </div>
-                <div className="form-group-double-dropdown">
-                  <label htmlFor="quantity">Quantity</label>
-                  <div className="form-group-triple-input">
-                    <textarea id="quantity" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="quantity" placeholder="(Quantity)" value={product.quantity} onChange={(e) => (validateIsNumber('quantity'), createProduct('quantity', e.target.value))} required></textarea>
-                  </div>
-                </div>
-                <div className="form-group-double-dropdown">
-                  <label htmlFor="price">Price</label>
-                  <div className="form-group-double-dropdown-input">
-                    <SVGs svg={'dollar'} classprop="dollar"></SVGs>
-                    <textarea id="price" rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} placeholder="0.00" className="dollar-input" value={product.price == 'NaN' ? '' : product.price.replace("$", "")} onChange={(e) => createProduct('price', validateIsPrice(e))} required></textarea>
-                  </div>
-                </div>
-                <div className="form-group-triple-dropdown"></div>
-                <div className="form-group-triple-qr">
-                  <label htmlFor="qr_code">Generate QR Code</label>
-                  <button onClick={(e) => generateQRProduct(e)}>Generate</button>
-                  {!product.qr_code && <img className="form-group-triple-qr-image-2" src='https://free-qr.com/images/placeholder.svg' alt="QR Code" />}
-                  {product.qr_code && <a download="qr-code.png" href={product.qr_code} alt="QR Code" title="QR-code"><img src={product.qr_code} alt="QR Code" className="form-group-triple-qr-image" /></a>}
-                </div>
-                <div className="form-group-triple form-group-triple-upload">
-                  {/* <div className="form-group-triple-title">Add Images</div> */}
-                  {selectedFiles.length < 1 && 
-                  <>
-                    <label htmlFor="files_upload" className="form-group-triple-upload-add">
-                      <SVGs svg={'upload'}></SVGs> 
-                      Browse Files
-                    </label>
-                    <input type="file" name="files_upload" accept="image/*" id="files_upload" multiple onChange={(e) => multipleFileChangeHandler(e, 'product')}/>
-                  </>
-                  }
-                  {selectedFiles.length > 0 && <>
-                    <div className="form-group-triple-upload-item-container">
-                    {selectedFiles.map((item, idx) => (
-                      <a className="form-group-triple-upload-item" href={item.location} target="_blank" rel="noreferrer" key={idx}>
-                        <div>{item.location ? <img src={item.location}></img> : <SVGs svg={'file-image'}></SVGs>} </div>
-                      </a>
-                    ))}
-                    </div>
-                    {imageCount < 3 && 
-                      <>
-                      <label htmlFor="files_upload" className="form-group-triple-upload-more">
-                        <SVGs svg={'upload'}></SVGs> 
-                        Add more
-                      </label>
-                      <input type="file" name="files_upload" accept="image/*" id="files_upload" multiple onChange={(e) => multipleFileChangeHandler(e, 'product')}/>
-                      </>
-                    }
-                    {imageCount == 3 && 
-                      <>
-                      <label onClick={() => (setSelectedFiles([]), setImageCount(0), addProductImages([]))} className="form-group-triple-upload-more">
-                        <SVGs svg={'reset'}></SVGs> 
-                        Reset
-                      </label>
-                      </>
-                    }
-                    </>
-                  }
-                </div>
-                <div className="form-button-container">
-                  <button type="submit" className="form-button" onClick={() => setError('Please complete entire form')}>{!loading && <span>Add Product</span>}{loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
-                  <div className="form-error-container">
-                  {error && <span className="form-error" id="error-message"><SVGs svg={'error'}></SVGs> {error}</span>}
-                  </div>
-                </div>
-              </form>
-            </div>
-          }
           {
             nav.view == 'remnant' &&
             <Remnant preloadMaterials={materials} preloadColors={colors}></Remnant>
           }
+
+
+
+
+
           { nav.view == 'slab-fields' &&
             <SlabFields preloadMaterials={materials} preloadColors={colors} preloadSuppliers={suppliers} preloadLocations={locations}></SlabFields>
           }
@@ -891,76 +922,73 @@ const Dashboard = ({
             </LocationModal>
           }
           { modal == 'add_brand' &&
-          <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
-            <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
-              <div className="addFieldItems-modal-box-header">
-                <span className="addFieldItems-modal-form-title">{edit ? 'Edit Brand' : 'New Brand'}</span>
-                <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
-              </div>
-              <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddBrand(e)}>
-                <div className="form-group-single-textarea">
-                  <div className="form-group-single-textarea-field">
-                    <label htmlFor="name_brand">Brand Name</label>
-                    <textarea id="name_brand" rows="1" name="name_brand" placeholder="(Brand Name)" value={brand} onChange={(e) => setBrand(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Brand Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
-                  </div>
-                </div>
-                {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Brand</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-                {edit == 'brand' && <button onClick={(e) => updateBrand(e)} className="form-button w100">{!loading && <span>Update Brand</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-                {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
-              </form>
-            </div>
-          </div>
+            <BrandModal
+              token={token}
+              message={message}
+              setMessage={setMessage}
+              setModal={setModal}
+              loading={loading}
+              setLoading={setLoading}
+              edit={edit}
+              setEdit={setEdit}
+              stateData={brand}
+              stateMethod={createType}
+              dynamicSVG={dynamicSVG}
+              setDynamicSVG={setDynamicSVG}
+              resetState={resetType}
+              submitCreate={submitCreate}
+              allData={allData}
+              setAllData={setAllData}
+            >
+            </BrandModal>
           }
           { modal == 'add_model' &&
-            <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
-            <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
-              <div className="addFieldItems-modal-box-header">
-                <span className="addFieldItems-modal-form-title">{edit ? 'Edit Model' : 'New Model'}</span>
-                <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
-              </div>
-              <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddModel(e)}>
-                <div className="form-group-single-textarea">
-                  <div className="form-group-single-textarea-field">
-                    <label htmlFor="name_model">Model Name</label>
-                    <textarea id="name_model" rows="1" name="name_model" placeholder="(Model Name)" value={model} onChange={(e) => setModel(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Model Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
-                  </div>
-                </div>
-                {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Model</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-                {edit == 'model' && <button onClick={(e) => updateModel(e)} className="form-button w100">{!loading && <span>Update Model</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-                {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
-              </form>
-            </div>
-          </div>
+            <ModelModal
+              token={token}
+              message={message}
+              setMessage={setMessage}
+              setModal={setModal}
+              loading={loading}
+              setLoading={setLoading}
+              edit={edit}
+              setEdit={setEdit}
+              stateData={model}
+              stateMethod={createType}
+              dynamicSVG={dynamicSVG}
+              setDynamicSVG={setDynamicSVG}
+              resetState={resetType}
+              submitCreate={submitCreate}
+              allData={allData}
+              setAllData={setAllData}
+            >
+            </ModelModal>
           }
           { modal == 'add_category' &&
-            <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
-            <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
-              <div className="addFieldItems-modal-box-header">
-                <span className="addFieldItems-modal-form-title">{edit ? 'Edit Category' : 'New Category'}</span>
-                <div onClick={() => (setModal(''), setError(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
-              </div>
-              <form className="addFieldItems-modal-form" onSubmit={(e) => submitAddCategory(e)}>
-                <div className="form-group-single-textarea">
-                  <div className="form-group-single-textarea-field">
-                    <label htmlFor="name_category">Category Name</label>
-                    <textarea id="name_category" rows="1" name="name_category" placeholder="(Category Name)" value={category} onChange={(e) => setCategory(e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Category Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
-                  </div>
-                </div>
-                {!edit && <button type="submit" className="form-button w100">{!loading && <span>Add Category</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-                {edit == 'category' && <button onClick={(e) => updateCategory(e)} className="form-button w100">{!loading && <span>Update Category</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
-                {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
-              </form>
-            </div>
-          </div>
+            <CategoryModal
+              token={token}
+              message={message}
+              setMessage={setMessage}
+              setModal={setModal}
+              loading={loading}
+              setLoading={setLoading}
+              edit={edit}
+              setEdit={setEdit}
+              stateData={category}
+              stateMethod={createType}
+              dynamicSVG={dynamicSVG}
+              setDynamicSVG={setDynamicSVG}
+              resetState={resetType}
+              submitCreate={submitCreate}
+              allData={allData}
+              setAllData={setAllData}
+            >
+            </CategoryModal>
           }
           { modal == 'new_price_list' &&
             <PriceListModal setmodal={(type) => setModal(type)}></PriceListModal>
           }
           { modal == 'location' &&
             <AddressModal setmodal={(type) => setModal(type)} resetQuote={resetQuote} update={''}></AddressModal>
-          }
-          { modal == 'category' &&
-            <CategoryModal setmodal={(type) => setModal(type)}></CategoryModal>
           }
         </div>
       </div>
@@ -976,7 +1004,11 @@ const mapStateToProps = (state) => {
     material: state.material,
     color: state.color,
     supplier: state.supplier,
-    location: state.location
+    location: state.location,
+    product: state.product,
+    brand: state.brand,
+    model: state.model,
+    category: state.category,
   }
 }
 
@@ -990,11 +1022,6 @@ const mapDispatchToProps = dispatch => {
     addImages: (caseType, data) => dispatch({type: caseType, value: data}),
 
 
-
-
-
-    createProduct: (type, data) => dispatch({type: 'CREATE_PRODUCT', name: type, value: data}),
-    addProductImages: (data) => dispatch({type: 'ADD_PRODUCT_IMAGES', value: data}),
     addMaterial: (name, data) => dispatch({type: 'ADD', name: name, value: data}),
     resetMaterial: () => dispatch({type: 'RESET'}),
     addSupplier: (name, data) => dispatch({type: 'ADD', name: name, value: data}),
@@ -1012,12 +1039,17 @@ Dashboard.getInitialProps = async (context) => {
   let accessToken
   if(token){accessToken = token.split('=')[1]}
   
-  data.slabs = await tableData(accessToken, 'slabs')
-  data.materials = await tableData(accessToken, 'materials')
-  data.colors = await tableData(accessToken, 'colors')
-  data.suppliers = await tableData(accessToken, 'suppliers')
-  data.locations = await tableData(accessToken, 'locations')
-  deepClone = _.cloneDeep(data)
+  data.slabs            = await tableData(accessToken, 'slabs/all-slabs')
+  data.materials        = await tableData(accessToken, 'materials/all-materials')
+  data.colors           = await tableData(accessToken, 'colors/all-colors')
+  data.suppliers        = await tableData(accessToken, 'suppliers/all-suppliers')
+  data.locations        = await tableData(accessToken, 'locations/all-locations')
+  data.products         = await tableData(accessToken, 'products/all-products')
+  data.remnants         = await tableData(accessToken, 'remnants/all-remnants')
+  data.brands           = await tableData(accessToken, 'brands/all-brands')
+  data.models           = await tableData(accessToken, 'models/all-models')
+  data.categories       = await tableData(accessToken, 'categories/all-categories')
+  deepClone             = _.cloneDeep(data)
   
   return {
     token: accessToken,

@@ -16,7 +16,8 @@ export {
 ///// VALIDATIONS
 const formFields = {
   slabs: ['material'],
-  slabQRCode: ['material', 'size_1', 'size_2', 'lot_number']
+  slabQRCode: ['material', 'size_1', 'size_2', 'lot_number'],
+  productQRCode: ['brand', 'model', 'category', 'price']
 }
 
 
@@ -123,9 +124,13 @@ const validateDate = (e, key, caseType, reduxMethod) => {
 const generateQR = async (e, type, stateData, caseType, reduxMethod, setMessage, setDynamicSVG) => {
   let options = {
     type: 'image/png',
-    width: 288,
-    quality: 1,
+    width: 500,
+    scale: 10,
     margin: 1,
+    color: {
+      dark:"#413838",
+      light:"#ededec"
+    }
   }
   setMessage('')
   setDynamicSVG('notification')
@@ -142,10 +147,11 @@ const generateQR = async (e, type, stateData, caseType, reduxMethod, setMessage,
   try {
 
     let qrData = new Object()
-    qrData.name         = stateData.material
-    qrData.size_width   = stateData.size_1
-    qrData.size_height  = stateData.size_2
-    qrData.lot          = stateData.lot_number
+    for(let i = 0; i < formFields[type].length; i++){
+      if(stateData[formFields[type][i]]){
+        qrData[formFields[type][i]] = stateData[formFields[type][i]]
+      }
+    }
     
     const image = await QRCode.toDataURL(JSON.stringify(qrData), options)
     reduxMethod(caseType, 'qr_code', image)

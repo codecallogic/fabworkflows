@@ -7,7 +7,7 @@ let initialState = {
   qr_code: '',
   description: '',
   price: '',
-  images: '',
+  images: [],
 }
 
 export const productReducer = (state = initialState, action) => {
@@ -24,11 +24,12 @@ export const productReducer = (state = initialState, action) => {
         images: [...action.value]
       }
       break;
+
+    case 'RESET_PRODUCT':
+      return initialState
+      break;
     
-    default: {
-      return {
-        ...state
-      }
-    }
+    default: 
+      return state
   }
 }

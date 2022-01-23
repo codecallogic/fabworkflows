@@ -25,8 +25,8 @@ const MaterialModal = ({
   submitCreate
 }) => {
   
-  const createType = 'CREATE_MATERIAL'
-  const resetType = 'RESET_MATERIAL'
+  const createType = 'CREATE_MODEL'
+  const resetType = 'RESET_MODEL'
   const [loadingColor, setLoadingColor] = useState('white')
 
   //// HANDLE MODAL DRAG
@@ -91,10 +91,10 @@ const MaterialModal = ({
         <div className="addFieldItems-modal-box-header">
         <span 
           className="addFieldItems-modal-form-title">
-            {edit == 'material' ? 
-            'Edit Material' 
+            {edit == 'model' ? 
+            'Edit Model' 
             : 
-            'New Material'
+            'New Model'
             }
         </span>
         <div onClick={() => (setModal(''), resetState(resetType), setMessage(''))}>
@@ -120,21 +120,6 @@ const MaterialModal = ({
             Name
           </label>
         </div>
-        <div className="form-group-textarea">
-            <label 
-            className={stateData.description.length > 0 ? ' labelHover' : ''}>
-              Description
-            </label>
-            <textarea 
-              id="description" 
-              rows="5" 
-              wrap="hard" 
-              maxLength="400"
-              name="description" 
-              value={stateData.description} 
-              onChange={(e) => stateMethod(createType, 'description', e.target.value)} 
-            />
-        </div>
         {message && 
         <span className="form-group-message">
           <SVG svg={dynamicSVG} color={'#fd7e3c'}></SVG>
@@ -144,9 +129,9 @@ const MaterialModal = ({
         {!edit && 
         <button 
         className="form-group-button" 
-        onClick={(e) => submitCreate(e, stateData, 'materials', setMessage, 'create_material', setLoading, token, 'materials/create-material', resetType, resetState, allData, setAllData, setDynamicSVG)}
+        onClick={(e) => submitCreate(e, stateData, 'models', setMessage, 'create_model', setLoading, token, 'models/create-model', resetType, resetState, allData, setAllData, setDynamicSVG)}
         >
-           {loading == 'create_material' ? 
+           {loading == 'create_model' ? 
             <div className="loading">
               <span style={{backgroundColor: loadingColor}}></span>
               <span style={{backgroundColor: loadingColor}}></span>

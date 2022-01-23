@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import SVGs from '../../files/svgs'
 
-const SideNav = ({changeView, nav, width, toggleSideNav, newView, redirect}) => {
+const SideNav = ({changeView, nav, width, toggleSideNav}) => {
 
   const [toggle, setDropdownToggle] = useState('')
   
@@ -55,21 +55,21 @@ const SideNav = ({changeView, nav, width, toggleSideNav, newView, redirect}) => 
                 Slabs
             </div>
             <div 
-              onClick={() => {window.location.href = `/products`}} 
+              onClick={() => changeView('products')} 
               className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'inventory' ? ' hide-sidenav-dropdown' : '')}>
                 <SVGs svg={'circle-thin'} 
                 classprop={'clientDashboard_sidenav-menu-item-arrow' + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'inventory' ? ' hide-sidenav-dropdown' : '')}/>
                 Products
             </div>
             <div 
-              onClick={() => {window.location.href = `/remnants`}} 
+              onClick={() => changeView('remnants')} 
               className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'inventory' ? ' hide-sidenav-dropdown' : '')}>
                 <SVGs svg={'circle-thin'} 
                 classprop={'clientDashboard_sidenav-menu-item-arrow' + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'inventory' ? ' hide-sidenav-dropdown' : '')}/>
                 Remnants
             </div>
             <div 
-              onClick={() => {window.location.href = `/trackers`}} 
+              onClick={() => changeView('trackers')} 
               className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'inventory' ? ' hide-sidenav-dropdown' : '')}>
                 <SVGs svg={'circle-thin'} classprop={'clientDashboard_sidenav-menu-item-arrow' + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'inventory' ? ' hide-sidenav-dropdown' : '')}/>
                 Trackers

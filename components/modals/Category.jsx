@@ -1,23 +1,41 @@
 import {useState, useEffect} from 'react'
-import SVGs from '../../files/svgs'
-import axios from 'axios'
-import {API} from '../../config'
+import SVG from '../../files/svgs'
 
-const Category = ({setmodal}) => {
+const MaterialModal = ({
+  token,
+  message,
+  setMessage,
+  setModal,
+  loading,
+  setLoading,
+  edit,
+  dynamicSVG,
+  setDynamicSVG,
+
+  //// DATA
+  allData,
+  setAllData,
+
+  //// REDUX
+  stateData,
+  stateMethod,
+  resetState,
+
+  //// CRUD
+  submitCreate
+}) => {
   
-  const [edit, setEdit] = useState('')
-  const [error, setError] = useState('')
-  const [message, setMessage] = useState('')
-  const [category, setCategory] = useState('')
-  const [loading, setLoading] = useState('')
+  const createType = 'CREATE_CATEGORY'
+  const resetType = 'RESET_CATEGORY'
+  const [loadingColor, setLoadingColor] = useState('white')
 
+  //// HANDLE MODAL DRAG
   const [prevX, setPrevX] = useState(0)
   const [prevY, setPrevY] = useState(0)
   const onPointerDown = () => {}
   const onPointerUp = () => {}
   const onPointerMove = () => {}
   const [isDragging, setIsDragging] = useState(false)
-
   const [translate, setTranslate] = useState({
     x: 0,
     y: 0
@@ -57,50 +75,78 @@ const Category = ({setmodal}) => {
       y: translate.y + Y
     });
   }
-
-  const submitAddCategory = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    try {
-      const responseCategory = await axios.post(`${API}/transaction/create-category`, {name: category})
-      setLoading(false)
-      setCategory('')
-      setError('')
-      setMessage(responseCategory.data)
-    } catch (error) {
-      setLoading(false)
-      setMessage('')
-      console.log(error)
-      if(error) error.response ? setError(error.response.data) : setError('Error occured creating the category.')
-    }
-  }
   
   return (
-    <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
-      <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
+    <div 
+      className="addFieldItems-modal" 
+      data-value="parent" 
+      onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}
+    >
+      <div 
+      className="addFieldItems-modal-box" 
+      onPointerDown={handlePointerDown} 
+      onPointerUp={handlePointerUp} 
+      onPointerMove={handlePointerMove} 
+      style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
         <div className="addFieldItems-modal-box-header">
-          <span className="addFieldItems-modal-form-title">{edit ? 'Edit Price List' : 'New Category'}</span>
-          <div onClick={() => (setmodal(''), setError(''), setMessage(''),setEdit(''))}><SVGs svg={'close'}></SVGs></div>
+        <span 
+          className="addFieldItems-modal-form-title">
+            {edit == 'category' ? 
+            'Edit Category' 
+            : 
+            'New Category'
+            }
+        </span>
+        <div onClick={() => (setModal(''), resetState(resetType), setMessage(''))}>
+          <SVG svg={'close'}></SVG>
         </div>
-        <div className="addFieldItems-modal-form-container">
-        <form className="addFieldItems-modal-form">
-          <div className="form-group-single-textarea">
-            <div className="form-group-single-textarea-field">
-              <label htmlFor="category_name">Category Name</label>
-              <textarea id="category_name" rows="1" name="category_name" placeholder="(Category Name)" value={category} onChange={(e) => (setError(''), setMessage(''), setCategory(e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Category Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
-            </div>
-          </div>
-          {/* {error && <div className="form-error">{error}</div>} */}
-
-          {/* {edit == 'category' && <button onClick={(e) => updateCategory(e)} className="form-button w100">{!loading && <span>Update Category</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>} */}
-        </form>
-        </div>
-        {message && <div className="form-message">{message}</div>}
-        {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
-        {!edit && <button onClick={(e) => submitAddCategory(e)} className="form-button w100">{!loading && <span>Add Category</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>}
       </div>
+      <form 
+      className="addFieldItems-modal-form" 
+      >
+        <div className="form-group">
+          <input 
+          id="name" 
+          value={stateData.name} 
+          onChange={(e) => stateMethod(createType, 'name', e.target.value)}/>
+          <label 
+          className={`input-label ` + (
+            stateData.name.length > 0 || 
+            typeof stateData.name == 'object' 
+            ? ' labelHover' 
+            : ''
+          )}
+          htmlFor="name">
+            Name
+          </label>
+        </div>
+        {message && 
+        <span className="form-group-message">
+          <SVG svg={dynamicSVG} color={'#fd7e3c'}></SVG>
+          {message}
+        </span>
+        }
+        {!edit && 
+        <button 
+        className="form-group-button" 
+        onClick={(e) => submitCreate(e, stateData, 'categories', setMessage, 'create_category', setLoading, token, 'categories/create-category', resetType, resetState, allData, setAllData, setDynamicSVG)}
+        >
+           {loading == 'create_category' ? 
+            <div className="loading">
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+            </div>
+            : 
+            'Save'
+            }
+        </button>
+        }
+        {/* {edit == 'material' && <button onClick={(e) => updateMaterial(e)} className="form-button w100">{!loading && <span>Update Material</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>} */}
+      </form>
+    </div>
     </div>
   )
 }
 
-export default Category
+export default MaterialModal

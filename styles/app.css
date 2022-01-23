@@ -1722,6 +1722,11 @@ body {
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
   height: max-content; }
+  .table-stack {
+    width: 100%; }
+    @media only screen and (max-width: 992px) {
+      .table-stack {
+        width: 115% !important; } }
   .table-header {
     display: flex;
     align-items: center;
@@ -1792,6 +1797,19 @@ body {
         width: 3rem;
         min-width: 5rem;
         max-width: 5rem; }
+      .table-headers-item span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%; }
+      .table-headers-item svg {
+        width: 1.2rem;
+        height: 1.2rem;
+        fill: #1bc9a2;
+        margin-left: 0.5rem;
+        margin-bottom: 0.2rem; }
+        .table-headers-item svg:hover {
+          cursor: pointer; }
   .table-rows {
     display: flex; }
     .table-rows-container {

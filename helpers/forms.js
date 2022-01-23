@@ -19,7 +19,11 @@ const formFields = {
   materials: ['name', 'description'],
   colors: ['name'],
   suppliers: ['name', 'contact_email'],
-  locations: ['name']
+  locations: ['name'],
+  products: ['brand'],
+  brands: ['name'],
+  models: ['name'],
+  categories: ['name']
 }
 
 
@@ -145,7 +149,7 @@ const submitDeleteImage = async (e, imageItem, key, caseType, stateMethod, state
     setLoading('')
     allData[type]= responseDelete.data
     setAllData(allData)
-    editData('slabs', 'createSlab', 'CREATE_SLAB')
+    editData(type, caseType)
     
   } catch (error) {
     console.log(error)
@@ -155,7 +159,7 @@ const submitDeleteImage = async (e, imageItem, key, caseType, stateMethod, state
   
 }
 
-const submitDeleteRow = async (e, type, setMessage, loadingType, setLoading, token, path, selectID, allData, setAllData, setDynamicSVG, resetCheckboxes) => {
+const submitDeleteRow = async (e, type, setMessage, loadingType, setLoading, token, path, selectID, allData, setAllData, setDynamicSVG, resetCheckboxes, setControls) => {
 
   setLoading(loadingType)
   
@@ -171,6 +175,7 @@ const submitDeleteRow = async (e, type, setMessage, loadingType, setLoading, tok
     setAllData(allData)
     setDynamicSVG('checkmark-2')
     setMessage('Item was deleted')
+    setControls('')
     resetCheckboxes()
     
   } catch (error) {
@@ -193,7 +198,7 @@ const submitSearch = async (search, setLoading, setMessage, path, type, allData,
     setLoading('')
     allData[type]= responseSearch.data
     setAllData(allData)
-    changeView('slabs')
+    changeView(type)
     
   } catch (error) {
     console.log(error)
@@ -216,11 +221,11 @@ const resetDataType = async (loadingType, setLoading, setMessage, path, type, al
     setLoading('')
     allData[type]= responseGet.data
     setAllData(allData)
-    changeView('slabs')
+    changeView(type)
     
   } catch (error) {
     console.log(error)
     setLoading('')
-    if(error) error.response ? (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred searching items'))
+    if(error) error.response ? error.response.statusText == 'Unauthorized' ? (setDynamicSVG('notification'), setMessage(error.response.statusText), window.location.href = '/login') : (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred searching items'))
   }
 }
