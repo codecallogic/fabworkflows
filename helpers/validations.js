@@ -3,6 +3,7 @@ import {geocodeByPlaceId} from 'react-places-autocomplete'
 
 export {
   validateNumber,
+  validateSize,
   validateEmail,
   validatePrice,
   validateDate,
@@ -17,12 +18,9 @@ export {
 const formFields = {
   slabs: ['material'],
   slabQRCode: ['material', 'size_1', 'size_2', 'lot_number'],
-  productQRCode: ['brand', 'model', 'category', 'price']
+  productQRCode: ['brand', 'model', 'category', 'price'],
+  remnantQRCode: ['name', 'material', 'l1', 'w1', 'l2', 'w2'],
 }
-
-
-
-
 
 const validateNumber = (type) => {
   const input = document.getElementById(type)
@@ -44,8 +42,20 @@ const validateNumber = (type) => {
   input.value = input.value.split(regex).join('')
 }
 
+const validateSize = (e, type, createType, reduxMethod) => {
+  const input = document.getElementById(type)
+  const regex = /[^0-9|\n\r]/g
+  
+  input.onkeydown = function(event){
+    if(event.keyCode == 8){
+      return reduxMethod(createType, type, '')
+    }
+  }
+  
+  return input.value = input.value.split(regex).join('') + ' in'
+}
+
 const validateEmail = (type) => {
-  console.log(type)
   const input = document.getElementById(type)
   const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/g
   

@@ -23,7 +23,8 @@ const formFields = {
   products: ['brand'],
   brands: ['name'],
   models: ['name'],
-  categories: ['name']
+  categories: ['name'],
+  remnants: ['name']
 }
 
 
@@ -186,7 +187,7 @@ const submitDeleteRow = async (e, type, setMessage, loadingType, setLoading, tok
   
 }
 
-const submitSearch = async (search, setLoading, setMessage, path, type, allData, setAllData, token, setDynamicSVG, changeView) => {
+const submitSearch = async (search, setLoading, setMessage, path, type, allData, setAllData, token, setDynamicSVG, changeView, viewType) => {
 
   try {
     const responseSearch = await axios.post(`${API}/${path}`, {query: search}, {
@@ -198,7 +199,7 @@ const submitSearch = async (search, setLoading, setMessage, path, type, allData,
     setLoading('')
     allData[type]= responseSearch.data
     setAllData(allData)
-    changeView(type)
+    changeView(viewType)
     
   } catch (error) {
     console.log(error)
@@ -208,7 +209,7 @@ const submitSearch = async (search, setLoading, setMessage, path, type, allData,
   
 }
 
-const resetDataType = async (loadingType, setLoading, setMessage, path, type, allData, setAllData, token, setDynamicSVG, changeView) => {
+const resetDataType = async (loadingType, setLoading, setMessage, path, type, allData, setAllData, token, setDynamicSVG, changeView, viewType) => {
   setLoading(loadingType)
   
   try {
@@ -221,7 +222,7 @@ const resetDataType = async (loadingType, setLoading, setMessage, path, type, al
     setLoading('')
     allData[type]= responseGet.data
     setAllData(allData)
-    changeView(type)
+    changeView(viewType)
     
   } catch (error) {
     console.log(error)

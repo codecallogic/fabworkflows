@@ -12,10 +12,15 @@
   height: max-content;
 
   &-stack {
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    width: 80%;
+    padding: 0;
 
-    @media only screen and (max-width: $large) {
-      width: 115% !important;
+    & > .table {
+      width: 120% !important;
     }
   }
 
@@ -250,6 +255,7 @@
 .row-odd {
   width: 100%;
   padding: 1rem 0;
+  background-color: $color-light-shade-scheme-3;
 
   & > div {
     background-color: $color-light-shade-scheme-3;

@@ -31,6 +31,10 @@ export const remnantReducer = (state = initialState, action) => {
         images: [...action.value]
       }
       break;
+    
+    case 'RESET_REMNANT':
+      return initialState
+      break;
 
     default:
       return state

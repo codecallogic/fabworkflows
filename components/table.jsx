@@ -25,6 +25,8 @@ const Table = ({
   dynamicSVG,
   setDynamicSVG,
   setAllData,
+  searchType,
+  searchPlaceholder,
 
   ///// EDIT
   viewType,
@@ -116,9 +118,9 @@ const Table = ({
             <input 
             type="text" 
             name="search" 
-            placeholder="Search" 
+            placeholder={searchPlaceholder} 
             value={search} 
-            onChange={(e) => (setSearch(e.target.value), document.getElementById('tableContainer').scrollLeft = 0)} 
+            onChange={(e) => (setLoading(searchType), setSearch(e.target.value), document.getElementById('tableContainer').scrollLeft = 0)} 
             onFocus={(e) => (e.target.placeholder = '', setMessage(''))} 
             onBlur={(e) => (e.target.placeholder = 'Search', setMessage(''))} 
             />
@@ -180,7 +182,7 @@ const Table = ({
         }
       </div>
       <div id="tableContainer" className="table-rows-container" style={{ overflowX: loading == 'searching' ? 'hidden' : ''}}>
-      {loading == 'searching' ? 
+      {loading == searchType ? 
         <div className="search-loading">
           <div className="search-loading-box">
             <svg><circle cx="20" cy="20" r="20"></circle></svg><span>Loading items</span>

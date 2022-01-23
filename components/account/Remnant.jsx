@@ -234,7 +234,7 @@ const Remnant = ({preloadMaterials, preloadColors, addRemnant, remnant, addRemna
       </div>
     </div>
     <form className="clientDashboard-view-slab_form" onSubmit={submitAddRemnant}>
-      <div className="form-group-double-dropdown">
+      {/* <div className="form-group-double-dropdown">
         <label htmlFor="name_remnant">Name</label>
         <div className="form-group-double-dropdown-input">
           <textarea id="name_remnant" rows="1" name="name_remnant" placeholder="(Remnant Name)" value={remnant.name} onChange={(e) => addRemnant('name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Remnant Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} readOnly={edit == 'readOnly' ? true : false} required></textarea>
@@ -254,8 +254,8 @@ const Remnant = ({preloadMaterials, preloadColors, addRemnant, remnant, addRemna
           </div>
           }
         </div>
-      </div>
-      <div className="form-group-double-dropdown">
+      </div> */}
+      {/* <div className="form-group-double-dropdown">
         <label htmlFor="color">Color Name</label>
         <div className="form-group-double-dropdown-input">
           <textarea rows="1" wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} name="color" placeholder="(Select Color)" onClick={() => setInputDropdown('remnant_color')} value={remnant.color} onChange={(e) => (setInputDropdown(''), addRemnant('color', e.target.value))}></textarea>
@@ -275,7 +275,7 @@ const Remnant = ({preloadMaterials, preloadColors, addRemnant, remnant, addRemna
         <div className="form-group-double-dropdown-input">
           <textarea id="lot" rows="1" name="lot" placeholder="(Lot/Block)" value={remnant.lot} onChange={(e) => (validateIsNumber('lot'), addRemnant('lot', e.target.value))} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Lot / Block)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} readOnly={edit == 'readOnly' ? true : false} required></textarea>
         </div>
-      </div>
+      </div> */}
       <div className="form-group-double-dropdown">
         <label htmlFor="bundle">Bundle</label>
         <div className="form-group-double-dropdown-input">

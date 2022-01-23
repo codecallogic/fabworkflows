@@ -1723,10 +1723,14 @@ body {
   border-top-right-radius: 2rem;
   height: max-content; }
   .table-stack {
-    width: 100%; }
-    @media only screen and (max-width: 992px) {
-      .table-stack {
-        width: 115% !important; } }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    width: 80%;
+    padding: 0; }
+    .table-stack > .table {
+      width: 120% !important; }
   .table-header {
     display: flex;
     align-items: center;
@@ -1897,7 +1901,8 @@ body {
 
 .row-odd {
   width: 100%;
-  padding: 1rem 0; }
+  padding: 1rem 0;
+  background-color: #ededec; }
   .row-odd > div {
     background-color: #ededec;
     padding-top: 1rem;

@@ -30,11 +30,12 @@ import _ from 'lodash'
 //// FORMS
 import SlabForm from '../../components/forms/slabForm'
 import ProductForm from '../../components/forms/productForm'
+import RemnantForm from '../../components/forms/remnantForm'
 import { submitCreate, submitUpdate, submitDeleteImage, submitDeleteRow, submitSearch, resetDataType } from '../../helpers/forms'
 
 //// VALIDATIONS
 import { 
-  validateNumber, validatePrice, validateDate, generateQR, multipleImages, dateNow, phoneNumber, addressSelect
+  validateNumber, validateSize, validatePrice, validateDate, generateQR, multipleImages, dateNow, phoneNumber, addressSelect
 } from '../../helpers/validations'
 
 //// MODALS
@@ -74,6 +75,7 @@ const Dashboard = ({
   brand,
   model,
   category,
+  remnant,
   createType,
   resetType,
   addImages, 
@@ -165,23 +167,40 @@ const Dashboard = ({
     let timeOutSearch
     
     if(search.length > 0){
-      setLoading('searching')
       timeOutSearch = setTimeout(() => {
         if(nav.view == 'slabs'){
-          submitSearch(search, setLoading, setMessage, 'slabs/search-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView)
+          submitSearch(search, setLoading, setMessage, 'slabs/search-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView, 'slabs')
         }
         if(nav.view == 'products'){
-          submitSearch(search, setLoading, setMessage, 'products/search-products', 'products', allData, setAllData, token, setDynamicSVG, changeView)
+          submitSearch(search, setLoading, setMessage, 'products/search-products', 'products', allData, setAllData, token, setDynamicSVG, changeView, 'products')
+        }
+        if(nav.view == 'remnants'){
+          submitSearch(search, setLoading, setMessage, 'remnants/search-remnants', 'remnants', allData, setAllData, token, setDynamicSVG, changeView, 'remnants')
+        }
+        if(nav.view == 'trackers' && loading == 'slabs'){
+          submitSearch(search, setLoading, setMessage, 'slabs/search-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView, 'trackers')
+        }
+        if(nav.view == 'trackers' && loading == 'products'){
+          submitSearch(search, setLoading, setMessage, 'products/search-products', 'products', allData, setAllData, token, setDynamicSVG, changeView, 'trackers')
         }
       }, 2000)
     }
     
     if(search.length == 0){ 
       if(nav.view == 'slabs'){
-        resetDataType('searching', setLoading, setMessage, 'slabs/all-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView)
+        resetDataType(loading, setLoading, setMessage, 'slabs/all-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView, 'slabs')
       }
       if(nav.view == 'products'){
-        resetDataType('searching', setLoading, setMessage, 'products/all-products', 'products', allData, setAllData, token, setDynamicSVG, changeView)
+        resetDataType(loading, setLoading, setMessage, 'products/all-products', 'products', allData, setAllData, token, setDynamicSVG, changeView, 'products')
+      }
+      if(nav.view == 'remnants'){
+        resetDataType(loading, setLoading, setMessage, 'remnants/all-remnants', 'remnants', allData, setAllData, token, setDynamicSVG, changeView, 'remnants')
+      }
+      if(nav.view == 'trackers' && loading == 'slabs'){
+        resetDataType(loading, setLoading, setMessage, 'slabs/all-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView, 'trackers')
+      }
+      if(nav.view == 'trackers' && loading == 'products'){
+        resetDataType(loading, setLoading, setMessage, 'products/all-products', 'products', allData, setAllData, token, setDynamicSVG, changeView, 'trackers')
       }
     }
 
@@ -209,13 +228,6 @@ const Dashboard = ({
   useEffect(() => {
     if(params) params.change ? changeView(params.change) : null
   }, [router.query.change])
-
-  // useEffect(() => {
-  //   setSelectedFiles([]), 
-  //   setImageCount(0), 
-  //   addProductImages([])
-  // }, [nav.view])
-
 
 
   const validateIsPrice = (evt) => {
@@ -524,6 +536,8 @@ const Dashboard = ({
             dynamicSVG={dynamicSVG}
             setDynamicSVG={setDynamicSVG}
             deleteType="slabs/delete-slab"
+            searchType={'slabs'}
+            searchPlaceholder={'Search by material or color'}
           >
           </Table>
         }
@@ -561,6 +575,8 @@ const Dashboard = ({
             dynamicSVG={dynamicSVG}
             setDynamicSVG={setDynamicSVG}
             deleteType="products/delete-product"
+            searchType={'products'}
+            searchPlaceholder={'Search by brand, model, or category'}
           >
           </Table>
         }
@@ -598,11 +614,13 @@ const Dashboard = ({
             dynamicSVG={dynamicSVG}
             setDynamicSVG={setDynamicSVG}
             deleteType="remnants/delete-remnant"
+            searchType={'remnants'}
+            searchPlaceholder={'Search by name, material, or color'}
           >
           </Table>
         }
         {nav.view == 'trackers' &&
-          <span className="table-stack">
+          <div className="table-stack">
           <Table
             token={token}
             title={'Slab List'}
@@ -636,6 +654,7 @@ const Dashboard = ({
             dynamicSVG={dynamicSVG}
             setDynamicSVG={setDynamicSVG}
             deleteType="slabs/delete-slab"
+            searchType={'slabs'}
           >
           </Table>
           <Table
@@ -671,9 +690,10 @@ const Dashboard = ({
             dynamicSVG={dynamicSVG}
             setDynamicSVG={setDynamicSVG}
             deleteType="products/delete-product"
+            searchType={'products'}
           >
           </Table>
-          </span>
+          </div>
         }
 
 
@@ -750,6 +770,43 @@ const Dashboard = ({
           >
           </ProductForm>
         }
+        {nav.view == 'remnant' &&
+          <RemnantForm
+            token={token}
+            title={'New Remnant'}
+            typeOfData={'remnants'}
+            allData={allData}
+            setAllData={setAllData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            submitCreate={submitCreate}
+            modal={modal}
+            setModal={setModal}
+            stateData={remnant}
+            stateMethod={createType}
+            originalData={originalData}
+            message={message}
+            setMessage={setMessage}
+            loading={loading}
+            setLoading={setLoading}
+            validateNumber={validateNumber}
+            validateSize={validateSize}
+            validatePrice={validatePrice}
+            validateDate={validateDate}
+            generateQR={generateQR}
+            resetState={resetType}
+            addImages={addImages}
+            multipleImages={multipleImages}
+            dateNow={dateNow}
+            edit={edit}
+            setEdit={setEdit}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            submitDeleteImage={submitDeleteImage}
+            editData={editData}
+          >
+          </RemnantForm>
+        }
 
         
         <div className="clientDashboard-view">
@@ -771,7 +828,7 @@ const Dashboard = ({
                 <SVGs svg={'box'}></SVGs>
                 <span>New Product</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (window.location.href = 'account?change=remnant')}>
+              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('remnant'), resetType('RESET_REMNANT'))}>
                 <SVGs svg={'remnant'}></SVGs>
                 <span>New Remnant</span>
               </div>
@@ -810,10 +867,10 @@ const Dashboard = ({
             </div>
           }
 
-          {
+          {/* {
             nav.view == 'remnant' &&
             <Remnant preloadMaterials={materials} preloadColors={colors}></Remnant>
-          }
+          } */}
 
 
 
@@ -1009,6 +1066,7 @@ const mapStateToProps = (state) => {
     brand: state.brand,
     model: state.model,
     category: state.category,
+    remnant: state.remnant
   }
 }
 
@@ -1049,6 +1107,7 @@ Dashboard.getInitialProps = async (context) => {
   data.brands           = await tableData(accessToken, 'brands/all-brands')
   data.models           = await tableData(accessToken, 'models/all-models')
   data.categories       = await tableData(accessToken, 'categories/all-categories')
+  data.remnants         = await tableData(accessToken, 'remnants/all-remnants')
   deepClone             = _.cloneDeep(data)
   
   return {
