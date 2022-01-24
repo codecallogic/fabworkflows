@@ -56,17 +56,17 @@ const Table = ({
   const [filter, setFilter] = useState('')
 
   //// TODO: SORT DEEP NESTED OBJECTS
-  const getMembers = (members) => {
-    let material = [];
-    const flattenMembers = members.map(m => {
-      if (m.material && m.material.length) {
-        material = [...material, ...m.material];
-      }
-      return m;
-    });
+  // const getMembers = (members) => {
+  //   let material = [];
+  //   const flattenMembers = members.map(m => {
+  //     if (m.material && m.material.length) {
+  //       material = [...material, ...m.material];
+  //     }
+  //     return m;
+  //   });
   
-    return flattenMembers.concat(material.length ? getMembers(material) : material);
-  };
+  //   return flattenMembers.concat(material.length ? getMembers(material) : material);
+  // };
   
 
   // console.log(getMembers(filterTable(componentData, ['_id', 'createdAt', 'updatedAt', '__v'])))
@@ -204,7 +204,8 @@ const Table = ({
       }
       { 
         filterTable(allData[typeOfData]).length > 0 && 
-        filterTable(allData[typeOfData], ['createdAt', 'updatedAt', '__v']).sort((a, b) => a[filter] > b[filter] ? up : down).map((item, idx) => 
+        filterTable(allData[typeOfData], ['createdAt', 'updatedAt', '__v']).map((item, idx) => 
+        // .sort((a, b) => a[filter] > b[filter] ? up : down)
           <div 
           key={idx} 
           className={`table-rows ` + (idx % 2 == 1 ? ' row-odd' : ' row-even')}
