@@ -3,11 +3,11 @@ import {createStore} from 'redux'
 import {Provider} from 'react-redux'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import rootReducer from './../reducers/rootReducer'
-import {GOOGLE_API2} from '../config'
+import {GOOGLE_API} from '../config'
 
 const store = createStore(rootReducer, composeWithDevTools())
 
-const googleMaps = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_API2}&libraries=places`
+const googleMaps = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_API}&libraries=places`
 
 function MyApp({ Component, pageProps }) {
   return <>
