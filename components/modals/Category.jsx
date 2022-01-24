@@ -20,9 +20,11 @@ const MaterialModal = ({
   stateData,
   stateMethod,
   resetState,
+  changeView,
 
   //// CRUD
-  submitCreate
+  submitCreate,
+  submitUpdate
 }) => {
   
   const createType = 'CREATE_CATEGORY'
@@ -142,7 +144,22 @@ const MaterialModal = ({
             }
         </button>
         }
-        {/* {edit == 'material' && <button onClick={(e) => updateMaterial(e)} className="form-button w100">{!loading && <span>Update Material</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>} */}
+        {edit == 'category' && 
+        <button 
+        className="form-group-button" 
+        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'categories', setMessage, 'update_category', setLoading, token, 'categories/update-category', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'categories', setModal))}
+        >
+           {loading == 'update_category' ? 
+            <div className="loading">
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+            </div>
+            : 
+            'Update'
+            }
+        </button>
+        }
       </form>
     </div>
     </div>

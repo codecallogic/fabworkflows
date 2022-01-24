@@ -20,9 +20,11 @@ const MaterialModal = ({
   stateData,
   stateMethod,
   resetState,
+  changeView,
 
   //// CRUD
-  submitCreate
+  submitCreate,
+  submitUpdate
 }) => {
   
   const createType = 'CREATE_MATERIAL'
@@ -157,7 +159,22 @@ const MaterialModal = ({
             }
         </button>
         }
-        {/* {edit == 'material' && <button onClick={(e) => updateMaterial(e)} className="form-button w100">{!loading && <span>Update Material</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>} */}
+        {edit == 'material' && 
+        <button 
+        className="form-group-button" 
+        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'materials', setMessage, 'update_material', setLoading, token, 'materials/update-material', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'materials', setModal))}
+        >
+           {loading == 'update_material' ? 
+            <div className="loading">
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+            </div>
+            : 
+            'Update'
+            }
+        </button>
+        }
       </form>
     </div>
     </div>

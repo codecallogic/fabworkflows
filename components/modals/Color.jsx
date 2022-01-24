@@ -20,9 +20,11 @@ const MaterialModal = ({
   stateData,
   stateMethod,
   resetState,
+  changeView,
 
   //// CRUD
-  submitCreate
+  submitCreate,
+  submitUpdate
 }) => {
   const createType = 'CREATE_COLOR'
   const resetType = 'RESET_COLOR'
@@ -89,7 +91,7 @@ const MaterialModal = ({
         <div className="addFieldItems-modal-box-header">
         <span 
           className="addFieldItems-modal-form-title">
-            {edit ? 
+            {edit == 'color'? 
             'Edit Color' 
             : 
             'New Color'
@@ -140,7 +142,22 @@ const MaterialModal = ({
             }
         </button>
         }
-        {/* {edit == 'material' && <button onClick={(e) => updateMaterial(e)} className="form-button w100">{!loading && <span>Update Material</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>} */}
+        {edit == 'color' && 
+        <button 
+        className="form-group-button" 
+        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'colors', setMessage, 'update_color', setLoading, token, 'colors/update-color', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'colors', setModal))}
+        >
+           {loading == 'update_color' ? 
+            <div className="loading">
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+            </div>
+            : 
+            'Update'
+            }
+        </button>
+        }
       </form>
     </div>
     </div>

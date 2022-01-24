@@ -36,9 +36,11 @@ const MaterialModal = ({
   stateData,
   stateMethod,
   resetState,
+  changeView,
 
   //// CRUD
-  submitCreate
+  submitCreate,
+  submitUpdate
 }) => {
   
   const createType = 'CREATE_SUPPLIER'
@@ -126,7 +128,7 @@ const MaterialModal = ({
         <div className="addFieldItems-modal-box-header">
         <span 
           className="addFieldItems-modal-form-title">
-            {edit ? 
+            {edit == 'supplier' ? 
             'Edit Supplier' 
             : 
             'New Supplier'
@@ -396,7 +398,22 @@ const MaterialModal = ({
             }
         </button>
         }
-        {/* {edit == 'material' && <button onClick={(e) => updateMaterial(e)} className="form-button w100">{!loading && <span>Update Material</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>} */}
+        {edit == 'supplier' && 
+        <button 
+        className="form-group-button" 
+        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'suppliers', setMessage, 'update_supplier', setLoading, token, 'suppliers/update-supplier', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'suppliers', setModal))}
+        >
+           {loading == 'update_supplier' ? 
+            <div className="loading">
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+            </div>
+            : 
+            'Update'
+            }
+        </button>
+        }
       </div>
       
     </div>

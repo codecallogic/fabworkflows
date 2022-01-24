@@ -3,6 +3,56 @@ const SVG = ({svg, classprop, color}) => {
 
   const selectSVG = (svg) => {
     switch(svg){
+      case 'model':
+        return <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <title>Model</title>
+          <path d="M15.516 13.5q0 0.75-0.375 1.406t-0.891 1.266-0.891 1.195-0.375 1.148h-1.969q0-0.563-0.375-1.148t-0.891-1.195-0.891-1.266-0.375-1.406q0-0.984 0.492-1.758t1.266-1.266 1.758-0.492v0q0.984 0 1.758 0.492t1.266 1.266 0.492 1.758zM12.984 19.5h-1.969v1.5h1.969v-1.5zM18.984 12.984q0 1.266-0.422 2.391t-1.125 2.063l1.406 1.406q0.984-1.172 1.57-2.672t0.586-3.188q0-2.063-0.867-3.82t-2.273-3.023l-1.453 1.453q1.172 0.938 1.875 2.344t0.703 3.047zM15.984 5.016l-3.984-4.031v3q-1.875 0-3.492 0.703t-2.859 1.945-1.945 2.883-0.703 3.469q0 1.688 0.586 3.188t1.57 2.672l1.406-1.406q-0.703-0.938-1.125-2.063t-0.422-2.391q0-1.453 0.539-2.719t1.5-2.227 2.227-1.5 2.719-0.539v0 0 3z"></path>
+
+        </svg>  
+        break;
+
+      case 'category':
+        return <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+          <title>Category</title>
+          <path d="M26 30l6-16h-26l-6 16zM4 12l-4 18v-26h9l4 4h13v4z"></path>
+        </svg>  
+        break;
+
+      case 'brand':
+        return <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <title>Brand</title>
+          <path d="M21 18.984v-6h-9v6h9zM21 3q0.797 0 1.406 0.609t0.609 1.406v13.969q0 0.797-0.609 1.406t-1.406 0.609h-18q-0.797 0-1.406-0.609t-0.609-1.406v-13.969q0-0.797 0.609-1.406t1.406-0.609h18z"></path>
+        </svg>  
+        break;
+
+      case 'location':
+        return <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+          <title>Location</title>
+          <path d="M16 0c-5.523 0-10 4.477-10 10 0 10 10 22 10 22s10-12 10-22c0-5.523-4.477-10-10-10zM16 16c-3.314 0-6-2.686-6-6s2.686-6 6-6 6 2.686 6 6-2.686 6-6 6z"></path>
+        </svg>  
+        break;
+
+      case 'supplier':
+        return <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+          <title>Supplier</title>
+          <path d="M32 18l-4-8h-6v-4c0-1.1-0.9-2-2-2h-18c-1.1 0-2 0.9-2 2v16l2 2h2.536c-0.341 0.588-0.536 1.271-0.536 2 0 2.209 1.791 4 4 4s4-1.791 4-4c0-0.729-0.196-1.412-0.536-2h11.073c-0.341 0.588-0.537 1.271-0.537 2 0 2.209 1.791 4 4 4s4-1.791 4-4c0-0.729-0.196-1.412-0.537-2h2.537v-6zM22 18v-6h4.146l3 6h-7.146z"></path>
+        </svg>  
+        break;
+
+      case 'colors':
+        return <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <title>Colors</title>
+          <path d="M12 19.594v-14.484l-4.219 4.219q-1.781 1.781-1.781 4.266 0 2.438 1.781 4.219t4.219 1.781zM17.672 7.922q2.344 2.344 2.344 5.648t-2.344 5.648-5.672 2.344q-1.359 0-3.023-0.68t-2.648-1.664q-2.344-2.344-2.344-5.648t2.344-5.648l5.672-5.672z"></path>
+        </svg>  
+        break;
+
+      case 'materials':
+        return <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+          <title>Materials</title>
+          <path d="M29 3h-11.3l-14.9 14.8 11.3 11.3 14.9-14.8v-11.3zM20 12v-4h4v4h-4z"></path>
+        </svg>  
+        break;
+
       case 'notification':
         return <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
           <title>Notification</title>

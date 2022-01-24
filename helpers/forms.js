@@ -80,11 +80,11 @@ const submitCreate = async (e, stateData, type, setMessage, loadingType, setLoad
   } catch (error) {
     console.log(error)
     setLoading('')
-    if(error) error.response ? (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred with creating item'))
+    if(error)  error.response ? error.response.statusText == 'Unauthorized' ? (setDynamicSVG('notification'), setMessage(error.response.statusText), window.location.href = '/login') : (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred with creating item'))
   }
 }
 
-const submitUpdate = async (e, stateData, type, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType) => {
+const submitUpdate = async (e, stateData, type, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType, setModal) => {
   for(let i = 0; i < formFields[type].length; i++){
     
     if(formFields[type][i].includes('email') && !validateEmail(formFields[type][i])) return (setDynamicSVG('notification'), setMessage('Invalid email address'))
@@ -122,11 +122,12 @@ const submitUpdate = async (e, stateData, type, setMessage, loadingType, setLoad
     setAllData(allData)
     resetState(resetType)
     changeView(viewType)
+    if(setModal) setModal('')
     
   } catch (error) {
     console.log(error)
     setLoading('')
-    if(error) error.response ? (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred with updating item'))
+    if(error) error.response ? error.response.statusText == 'Unauthorized' ? (setDynamicSVG('notification'), setMessage(error.response.statusText), window.location.href = '/login') : (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred with updating item'))
   }
 }
 
@@ -155,7 +156,7 @@ const submitDeleteImage = async (e, imageItem, key, caseType, stateMethod, state
   } catch (error) {
     console.log(error)
     setLoading('')
-    if(error) error.response ? (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred with updating item'))
+    if(error)  error.response ? error.response.statusText == 'Unauthorized' ? (setDynamicSVG('notification'), setMessage(error.response.statusText), window.location.href = '/login') : (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred with updating item'))
   }
   
 }
@@ -182,7 +183,7 @@ const submitDeleteRow = async (e, type, setMessage, loadingType, setLoading, tok
   } catch (error) {
     console.log(error)
     setLoading('')
-    if(error) error.response ? (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred with deleting item'))
+    if(error)  error.response ? error.response.statusText == 'Unauthorized' ? (setDynamicSVG('notification'), setMessage(error.response.statusText), window.location.href = '/login') : (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred with deleting item'))
   }
   
 }
@@ -204,7 +205,7 @@ const submitSearch = async (search, setLoading, setMessage, path, type, allData,
   } catch (error) {
     console.log(error)
     setLoading('')
-    if(error) error.response ? (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred searching items'))
+    if(error)  error.response ? error.response.statusText == 'Unauthorized' ? (setDynamicSVG('notification'), setMessage(error.response.statusText), window.location.href = '/login') : (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred searching items'))
   }
   
 }

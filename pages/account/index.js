@@ -19,8 +19,9 @@ import AddressModal from '../../components/modals/Address'
 
 //// TABLE
 import Table from '../../components/table'
+import TableAlt from '../../components/tableAlt'
 import { tableData } from '../../helpers/tableData'
-import { slabSort, productSort, remnantSort } from '../../helpers/sorts'
+import { slabSort, productSort, remnantSort, materialSort } from '../../helpers/sorts'
 import { populateEditData } from '../../helpers/modals'
 
 //// DATA
@@ -695,6 +696,286 @@ const Dashboard = ({
           </Table>
           </div>
         }
+        {nav.view == 'materials' &&
+          <TableAlt
+            token={token}
+            title={'Material List'}
+            typeOfData={'materials'}
+            componentData={data.materials}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={materialSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'materialControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'materials'}
+            modalType={'add_material'}
+            editModalType={'material'}
+            editDataType={{key: 'materials', caseType: 'CREATE_MATERIAL'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="materials/delete-material"
+            searchType={'materials'}
+            searchPlaceholder={'Search by name'}
+          >
+          </TableAlt>
+        }
+        {nav.view == 'colors' &&
+          <TableAlt
+            token={token}
+            title={'Color List'}
+            typeOfData={'colors'}
+            componentData={data.colors}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={materialSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'colorControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'colors'}
+            modalType={'add_color'}
+            editModalType={'color'}
+            editDataType={{key: 'colors', caseType: 'CREATE_COLOR'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="colors/delete-color"
+            searchType={'colors'}
+            searchPlaceholder={'Search by name'}
+          >
+          </TableAlt>
+        }
+        {nav.view == 'suppliers' &&
+          <TableAlt
+            token={token}
+            title={'Supplier List'}
+            typeOfData={'suppliers'}
+            componentData={data.suppliers}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={materialSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'supplierControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'suppliers'}
+            modalType={'add_supplier'}
+            editModalType={'supplier'}
+            editDataType={{key: 'suppliers', caseType: 'CREATE_SUPPLIER'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="suppliers/delete-supplier"
+            searchType={'suppliers'}
+            searchPlaceholder={'Search by name'}
+          >
+          </TableAlt>
+        }
+        {nav.view == 'locations' &&
+          <TableAlt
+            token={token}
+            title={'Location List'}
+            typeOfData={'locations'}
+            componentData={data.locations}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={materialSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'locationControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'locations'}
+            modalType={'add_location'}
+            editModalType={'location'}
+            editDataType={{key: 'locations', caseType: 'CREATE_LOCATION'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="locations/delete-location"
+            searchType={'locations'}
+            searchPlaceholder={'Search by name'}
+          >
+          </TableAlt>
+        }
+        {nav.view == 'brands' &&
+          <TableAlt
+            token={token}
+            title={'Brand List'}
+            typeOfData={'brands'}
+            componentData={data.brands}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={materialSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'brandControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'brands'}
+            modalType={'add_brand'}
+            editModalType={'brand'}
+            editDataType={{key: 'brands', caseType: 'CREATE_BRAND'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="brands/delete-brand"
+            searchType={'brands'}
+            searchPlaceholder={'Search by name'}
+          >
+          </TableAlt>
+        }
+        {nav.view == 'categories' &&
+          <TableAlt
+            token={token}
+            title={'Category List'}
+            typeOfData={'categories'}
+            componentData={data.categories}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={materialSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'categoryControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'categories'}
+            modalType={'add_category'}
+            editModalType={'category'}
+            editDataType={{key: 'categories', caseType: 'CREATE_CATEGORY'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="categories/delete-category"
+            searchType={'categories'}
+            searchPlaceholder={'Search by name'}
+          >
+          </TableAlt>
+        }
+        {nav.view == 'models' &&
+          <TableAlt
+            token={token}
+            title={'Model List'}
+            typeOfData={'models'}
+            componentData={data.models}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={materialSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'modelControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'models'}
+            modalType={'add_model'}
+            editModalType={'model'}
+            editDataType={{key: 'models', caseType: 'CREATE_MODEL'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="models/delete-model"
+            searchType={'models'}
+            searchPlaceholder={'Search by name'}
+          >
+          </TableAlt>
+        }
 
 
         {/* ///// FORMS //// */}
@@ -832,13 +1113,33 @@ const Dashboard = ({
                 <SVGs svg={'remnant'}></SVGs>
                 <span>New Remnant</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (window.location.href = 'account?change=slab-fields')}>
-                <SVGs svg={'slab'}></SVGs>
-                <span>Slab Fields</span>
+              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('materials'), resetType('RESET_MATERIAL'))}>
+                <SVGs svg={'materials'}></SVGs>
+                <span>Materials</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (window.location.href = 'account?change=product-fields')}>
-                <SVGs svg={'box'}></SVGs>
-                <span>Product Fields</span>
+              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('colors'), resetType('RESET_COLOR'))}>
+                <SVGs svg={'colors'}></SVGs>
+                <span>Colors</span>
+              </div>
+              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('suppliers'), resetType('RESET_SUPPLIER'))}>
+                <SVGs svg={'supplier'}></SVGs>
+                <span>Suppliers</span>
+              </div>
+              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('locations'), resetType('RESET_LOCATION'))}>
+                <SVGs svg={'location'}></SVGs>
+                <span>Locations</span>
+              </div>
+              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('brands'), resetType('RESET_BRAND'))}>
+                <SVGs svg={'brand'}></SVGs>
+                <span>Brands</span>
+              </div>
+              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('categories'), resetType('RESET_CATEGORY'))}>
+                <SVGs svg={'category'}></SVGs>
+                <span>Categories</span>
+              </div>
+              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('models'), resetType('RESET_MODEL'))}>
+                <SVGs svg={'model'}></SVGs>
+                <span>Model</span>
               </div>
             </div>
           }
@@ -865,22 +1166,6 @@ const Dashboard = ({
                 <span>Trasaction Fields</span>
               </div>
             </div>
-          }
-
-          {/* {
-            nav.view == 'remnant' &&
-            <Remnant preloadMaterials={materials} preloadColors={colors}></Remnant>
-          } */}
-
-
-
-
-
-          { nav.view == 'slab-fields' &&
-            <SlabFields preloadMaterials={materials} preloadColors={colors} preloadSuppliers={suppliers} preloadLocations={locations}></SlabFields>
-          }
-          { nav.view == 'product-fields' &&
-            <ProductFields preloadBrands={brands} preloadModels={models} preloadCategories={categories} preloadLocations={locations}></ProductFields>
           }
           { nav.view == 'quote' &&
             <Quote priceList={priceList} addressList={addressList} categories={misc_categories} products={products} product_categories={allProductCategories} ></Quote>
@@ -909,6 +1194,8 @@ const Dashboard = ({
               submitCreate={submitCreate}
               allData={allData}
               setAllData={setAllData}
+              submitUpdate={submitUpdate}
+              changeView={changeView}
             >
             </MaterialModal>
           }
@@ -930,6 +1217,8 @@ const Dashboard = ({
               submitCreate={submitCreate}
               allData={allData}
               setAllData={setAllData}
+              submitUpdate={submitUpdate}
+              changeView={changeView}
             >
             </ColorModal>
           }
@@ -954,6 +1243,8 @@ const Dashboard = ({
               validateNumber={validateNumber}
               phoneNumber={phoneNumber}
               addressSelect={addressSelect}
+              submitUpdate={submitUpdate}
+              changeView={changeView}
             >
             </SupplierModal>
           }
@@ -975,6 +1266,8 @@ const Dashboard = ({
               submitCreate={submitCreate}
               allData={allData}
               setAllData={setAllData}
+              submitUpdate={submitUpdate}
+              changeView={changeView}
             >
             </LocationModal>
           }
@@ -996,6 +1289,8 @@ const Dashboard = ({
               submitCreate={submitCreate}
               allData={allData}
               setAllData={setAllData}
+              submitUpdate={submitUpdate}
+              changeView={changeView}
             >
             </BrandModal>
           }
@@ -1017,6 +1312,8 @@ const Dashboard = ({
               submitCreate={submitCreate}
               allData={allData}
               setAllData={setAllData}
+              submitUpdate={submitUpdate}
+              changeView={changeView}
             >
             </ModelModal>
           }
@@ -1038,6 +1335,8 @@ const Dashboard = ({
               submitCreate={submitCreate}
               allData={allData}
               setAllData={setAllData}
+              submitUpdate={submitUpdate}
+              changeView={changeView}
             >
             </CategoryModal>
           }

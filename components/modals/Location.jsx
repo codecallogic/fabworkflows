@@ -20,9 +20,11 @@ const LocationModal = ({
   stateData,
   stateMethod,
   resetState,
+  changeView,
 
   //// CRUD
-  submitCreate
+  submitCreate,
+  submitUpdate
 }) => {
   
   const createType = 'CREATE_LOCATION'
@@ -91,7 +93,7 @@ const LocationModal = ({
         <div className="addFieldItems-modal-box-header">
         <span 
           className="addFieldItems-modal-form-title">
-            {edit ? 
+            {edit == 'location' ? 
             'Edit Location' 
             : 
             'New Location'
@@ -143,7 +145,22 @@ const LocationModal = ({
             }
         </button>
         }
-        {/* {edit == 'material' && <button onClick={(e) => updateMaterial(e)} className="form-button w100">{!loading && <span>Update Material</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>} */}
+        {edit == 'location' && 
+        <button 
+        className="form-group-button" 
+        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'locations', setMessage, 'update_location', setLoading, token, 'locations/update-location', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'locations', setModal))}
+        >
+           {loading == 'update_location' ? 
+            <div className="loading">
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+            </div>
+            : 
+            'Update'
+            }
+        </button>
+        }
       </form>
     </div>
     </div>

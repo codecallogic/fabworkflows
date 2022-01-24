@@ -77,6 +77,7 @@ const Form = ({
   }, [])
   
   return (
+    <div className="table-stack">
     <div className="table">
       <div className="table-header">
         <div className="table-header-title">{edit == typeOfData ? 'Edit Remnant' : title}</div>
@@ -517,6 +518,100 @@ const Form = ({
         </div>
 
       </form>
+    </div>
+    <div className="clientDashboard-view-slab_form-shapes">
+      <div className="clientDashboard-view-slab_form-shapes-container">
+        <div className="clientDashboard-view-slab_form-shapes-item">
+          <div className="clientDashboard-view-slab_form-shapes-item-box">
+            <div className="clientDashboard-view-slab_form-shapes-item-box-title">Remnant Slab - Right L</div>
+            <div className="clientDashboard-view-slab_form-shapes-item-box-container">
+              <div className="clientDashboard-view-slab_form-shapes-item-box-remnant">
+                <div className="clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse">
+                  <SVG svg={'arrow-left'} classprop={'clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse-svg_1'}></SVG>
+                  <SVG svg={'arrow-right'} classprop={'clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse-svg_2'}></SVG>
+
+                  <SVG svg={'arrow-bottom'} classprop={'clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse-svg_3'}></SVG>
+                  <SVG svg={'arrow-top'} classprop={'clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-reverse-svg_4'}></SVG>
+
+                  <div className="clientDashboard-view-slab_form-shapes-item-block-section_top remnant-right-reverse-top remnant-right-reverse-l2">
+                    <SVG svg={'arrow-left'} classprop={'remnant-right-reverse-l2-svg_1'}></SVG>
+                    <SVG svg={'arrow-right'} classprop={'remnant-right-reverse-l2-svg_2'}></SVG>
+                  </div>
+                  <div className="clientDashboard-view-slab_form-shapes-item-block-section_bottom remnant-right-reverse-bottom remnant-right-reverse-w2">
+                    <SVG svg={'arrow-top'} classprop={'remnant-right-reverse-w2-svg_1'}></SVG>
+                    <SVG svg={'arrow-bottom'} classprop={'remnant-right-reverse-w2-svg_2'}></SVG>
+                  </div>
+                </div>
+                <div className="clientDashboard-view-slab_form-shapes-item-box-remnant-image-right">
+                  <SVG svg={'arrow-left'} classprop={'clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-svg_1'}></SVG>
+                  <SVG svg={'arrow-right'} classprop={'clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-svg_2'}></SVG>
+
+                  <SVG svg={'arrow-bottom'} classprop={'clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-svg_3'}></SVG>
+                  <SVG svg={'arrow-top'} classprop={'clientDashboard-view-slab_form-shapes-item-box-remnant-image-right-svg_4'}></SVG>
+                  <div className="clientDashboard-view-slab_form-shapes-item-block-section_top remnant-right-top remnant-right-l2">
+                    <SVG svg={'arrow-top'} classprop={'remnant-right-l2-svg_1'}></SVG>
+                    <SVG svg={'arrow-bottom'} classprop={'remnant-right-l2-svg_2'}></SVG>
+                  </div>
+                  <div className="clientDashboard-view-slab_form-shapes-item-block-section_bottom remnant-right-bottom remnant-right-w2">
+                    <SVG svg={'arrow-left'} classprop={'remnant-right-w2-svg_1'}></SVG>
+                    <SVG svg={'arrow-right'} classprop={'remnant-right-w2-svg_2'}></SVG>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="clientDashboard-view-slab_form-shapes-item-box">
+            <div className="clientDashboard-view-slab_form-shapes-item-box-title">Remnant Slab - Left L</div>
+            <div className="clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse">
+                  <SVG svg={'arrow-left'} classprop={'clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse-svg_1'}></SVG>
+                  <SVG svg={'arrow-right'} classprop={'clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse-svg_2'}></SVG>
+                  <SVG svg={'arrow-bottom'} classprop={'clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse-svg_3'}></SVG>
+                  <SVG svg={'arrow-top'} classprop={'clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-reverse-svg_4'}></SVG>
+
+                  <div className="clientDashboard-view-slab_form-shapes-item-block-section_top remnant-left-reverse-top remnant-left-reverse-l2">
+                    <SVG svg={'arrow-left'} classprop={'remnant-left-reverse-l2-svg_1'}></SVG>
+                    <SVG svg={'arrow-right'} classprop={'remnant-left-reverse-l2-svg_2'}></SVG>
+                  </div>
+                  <div className="clientDashboard-view-slab_form-shapes-item-block-section_bottom remnant-left-reverse-bottom remnant-left-reverse-w2">
+                    <SVG svg={'arrow-top'} classprop={'remnant-left-reverse-w2-svg_1'}></SVG>
+                    <SVG svg={'arrow-bottom'} classprop={'remnant-left-reverse-w2-svg_2'}></SVG>
+                  </div>
+                </div>
+                <div className="clientDashboard-view-slab_form-shapes-item-box-remnant-image-left">
+                  <SVG svg={'arrow-left'} classprop={'clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-svg_1'}></SVG>
+                  <SVG svg={'arrow-right'} classprop={'clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-svg_2'}></SVG>
+                  <SVG svg={'arrow-bottom'} classprop={'clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-svg_3'}></SVG>
+                  <SVG svg={'arrow-top'} classprop={'clientDashboard-view-slab_form-shapes-item-box-remnant-image-left-svg_4'}></SVG>
+                  <div className="clientDashboard-view-slab_form-shapes-item-block-section_top remnant-left-top remnant-left-l2">
+                    <SVG svg={'arrow-top'} classprop={'remnant-left-l2-svg_1'}></SVG>
+                    <SVG svg={'arrow-bottom'} classprop={'remnant-left-l2-svg_2'}></SVG>
+                  </div>
+                  <div className="clientDashboard-view-slab_form-shapes-item-block-section_bottom remnant-left-bottom remnant-left-w2">
+                    <SVG svg={'arrow-left'} classprop={'remnant-left-w2-svg_1'}></SVG>
+                    <SVG svg={'arrow-right'} classprop={'remnant-left-w2-svg_2'}></SVG>
+                  </div>
+                </div>
+          </div>
+          <div className="clientDashboard-view-slab_form-shapes-item-box">
+            <div className="clientDashboard-view-slab_form-shapes-item-box-container">
+              <div className="clientDashboard-view-slab_form-shapes-item-box-remnant-box">
+                <div className="clientDashboard-view-slab_form-shapes-item-box-title">Remnant Slab - Rectangular </div>
+                <div className="clientDashboard-view-slab_form-shapes-item-box-remnant-image-box">
+                  <div className="clientDashboard-view-slab_form-shapes-item-block-section_top remnant-rectangle-top">
+                    <SVG svg={'arrow-left'} classprop={'remnant-rectangle-top-svg_1'}></SVG>
+                    <SVG svg={'arrow-right'} classprop={'remnant-rectangle-top-svg_2'}></SVG>
+                  </div>
+                  <div className="clientDashboard-view-slab_form-shapes-item-block-section_bottom remnant-rectangle-bottom">
+                    <SVG svg={'arrow-top'} classprop={'remnant-rectangle-bottom-svg_1'}></SVG>
+                    <SVG svg={'arrow-bottom'} classprop={'remnant-rectangle-bottom-svg_2'}></SVG>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     </div>
   )
 }
