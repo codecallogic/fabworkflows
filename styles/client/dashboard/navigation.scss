@@ -121,6 +121,18 @@
   border-right: solid 0.1rem $color-light-shade-scheme-1;
   z-index: 2000 !important;
 
+  @media only screen and (max-width: $extra-large) {
+    width: 17%;
+  }
+
+  @media only screen and (max-width: $large) {
+    width: 30%;
+  }
+
+  @media only screen and (max-width: $small) {
+    width: 40%;
+  }
+
   &-menu {
     // margin: 1rem 0 0 0;
 
