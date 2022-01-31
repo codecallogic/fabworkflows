@@ -1,5 +1,5 @@
 import QRCode from 'qrcode'
-import {geocodeByPlaceId} from 'react-places-autocomplete'
+import { geocodeByPlaceId } from 'react-places-autocomplete'
 
 export {
   validateNumber,
@@ -11,7 +11,8 @@ export {
   multipleImages,
   dateNow,
   phoneNumber,
-  addressSelect
+  addressSelect,
+  formatDate
 }
 
 ///// VALIDATIONS
@@ -260,8 +261,10 @@ const addressSelect = async (e, key, createType, reduxMethod, id, keyTwo, keyThr
   
   if(id){ geoId = document.getElementById(id).value }
 
-  if(geoId){ geo = await geocodeByPlaceId(id) }
-
+  if(geoId){ 
+    geo = await geocodeByPlaceId(geoId)
+  }
+  
   if(geo){
     geo[0].address_components.forEach((item) => {
       
@@ -285,4 +288,14 @@ const addressSelect = async (e, key, createType, reduxMethod, id, keyTwo, keyThr
 
   //// STATE
   if(keyThree){ reduxMethod(createType, keyThree, e.split(',')[2])}
+}
+
+const formatDate = (e) => {
+
+  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  
+  var month = monthNames[e.getUTCMonth()]
+  var day = e.getUTCDate()
+  var year = e.getUTCFullYear()
+  return `${month} ${day}, ${year}`
 }

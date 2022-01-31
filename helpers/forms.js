@@ -13,7 +13,7 @@ export {
   resetDataType
 }
 
-//// VALIDATIONS
+//// FORM FIELDS
 const formFields = {
   slabs: ['material'],
   materials: ['name', 'description'],

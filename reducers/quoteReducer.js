@@ -1,7 +1,7 @@
 const initialState = {
   // ADDRESS
   contact_name: '',
-  address_one: '',
+  address: '',
   city: '',
   state: '',
   zip_code: '',
@@ -10,7 +10,7 @@ const initialState = {
   cell: '',
   fax: '',
   email: '',
-  address_notes: '',
+  contact_notes: '',
   address_id: '',
   // QUOTE DETAIL
   quote_name: '',

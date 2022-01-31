@@ -121,8 +121,6 @@ const Table = ({
             placeholder={searchPlaceholder} 
             value={search} 
             onChange={(e) => (setLoading(searchType), setSearch(e.target.value), document.getElementById('tableContainer').scrollLeft = 0)} 
-            onFocus={(e) => (e.target.placeholder = '', setMessage(''))} 
-            onBlur={(e) => (e.target.placeholder = 'Search', setMessage(''))} 
             />
           </form>
         </div>

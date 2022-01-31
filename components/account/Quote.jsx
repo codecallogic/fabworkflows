@@ -460,7 +460,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
             <span onClick={() => (setModal('add_address'), setShow('address'))}><SVGs svg={'edit'}></SVGs></span>
           </div>
           <div className="clientDashboard-view-form-left-box-container-2">
-              <div className="clientDashboard-view-form-left-box-container-2-item">
+              {/* <div className="clientDashboard-view-form-left-box-container-2-item">
                 <div className="clientDashboard-view-form-left-box-container-2-item-heading">Contact Name: </div>
                 <div className="clientDashboard-view-form-left-box-container-2-item-content">
                   {quote.contact_name ? <span className="clientDashboard-view-form-left-box-container-2-item-content-toggle">{quote.contact_name} <span className="button-toggle" onClick={() => (createQuote('contact_name', ''), setInputDropdown(''))}>List</span></span>: 
@@ -482,7 +482,7 @@ const Quote = ({quote, createQuote, priceList, addressList, quoteLine, createQuo
                     </>
                   }
                 </div>
-              </div>
+              </div> */}
               <div className="clientDashboard-view-form-left-box-container-2-item">
                 <div className="clientDashboard-view-form-left-box-container-2-item-heading">Address: </div>
                 <div className="clientDashboard-view-form-left-box-container-2-item-content">

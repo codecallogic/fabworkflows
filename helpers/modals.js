@@ -1,5 +1,6 @@
 export {
-  populateEditData
+  populateEditData,
+  populateAddress
 }
 
 const populateEditData = (originalData, keyType, caseType, stateMethods, selectID) => {
@@ -25,5 +26,12 @@ const populateEditData = (originalData, keyType, caseType, stateMethods, selectI
       }
 
     }
+  }
+}
+
+const populateAddress = (keyID, data, stateMethod, stateType) => {
+  for(let key in data){
+    stateMethod(stateType, key, data[key])
+    if(key == '_id') stateMethod(stateType, keyID, data['_id'])
   }
 }

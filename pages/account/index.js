@@ -9,10 +9,7 @@ import withUser from '../withUser'
 import {API} from '../../config'
 import axios from 'axios'
 import {useRouter} from 'next/router'
-import SlabFields from '../../components/account/slabFields'
-import ProductFields from '../../components/account/productFields'
 import QuoteFields from '../../components/account/quoteFields'
-import Remnant from '../../components/account/Remnant'
 import Quote from '../../components/account/Quote'
 import PriceListModal from '../../components/modals/PriceList'
 import AddressModal from '../../components/modals/Address'
@@ -32,6 +29,7 @@ import _ from 'lodash'
 import SlabForm from '../../components/forms/slabForm'
 import ProductForm from '../../components/forms/productForm'
 import RemnantForm from '../../components/forms/remnantForm'
+import QuoteForm from '../../components/forms/quoteForm'
 import { submitCreate, submitUpdate, submitDeleteImage, submitDeleteRow, submitSearch, resetDataType } from '../../helpers/forms'
 
 //// VALIDATIONS
@@ -77,24 +75,16 @@ const Dashboard = ({
   model,
   category,
   remnant,
+  quote,
   createType,
   resetType,
   addImages, 
 
   
   createProduct, 
-  addProductImages, 
-  materials, 
-  colors, 
-  suppliers, 
-  locations, 
-  brands, 
-  models, 
   categories, 
-  addMaterial, 
   resetMaterial, 
-  addSupplier, 
-  resetSupplier, 
+
   priceList, 
   addressList, 
   misc_categories, 
@@ -103,21 +93,11 @@ const Dashboard = ({
 }) => {
   const myRefs = useRef(null)
   
-  // console.log(originalData)
+  console.log(originalData)
   
   const router = useRouter()
-  const [input_dropdown, setInputDropdown] = useState('')
-  const [selectedFiles, setSelectedFiles] = useState([])
-  const [imageCount, setImageCount] = useState(0)
-  const [error, setError] = useState('')
-  const [allMaterials, setAllMaterials] = useState(materials)
-  const [allColors, setAllColors] = useState(colors)
-  const [allSuppliers, setAllSuppliers] = useState(suppliers)
-  const [allLocations, setAllLocations] = useState(locations)
-  const [allBrands, setAllBrands] = useState(brands)
   const [allProductCategories, setAllProductCategories] = useState(categories)
   const [allCategories, setAllCategories] = useState(misc_categories)
-  const [allModels, setAllModels] = useState(models)
 
   ///// STATE MANAGEMENT
   const [width, setWidth] = useState()
@@ -1088,6 +1068,35 @@ const Dashboard = ({
           >
           </RemnantForm>
         }
+        {nav.view == 'quote' &&
+          <QuoteForm
+            token={token}
+            title={'New Quote'}
+            typeOfData={'quotes'}
+            allData={allData}
+            setAllData={setAllData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            submitCreate={submitCreate}
+            modal={modal}
+            setModal={setModal}
+            stateData={quote}
+            stateMethod={createType}
+            originalData={originalData}
+            message={message}
+            setMessage={setMessage}
+            loading={loading}
+            setLoading={setLoading}
+            resetState={resetType}
+            edit={edit}
+            setEdit={setEdit}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            submitDeleteImage={submitDeleteImage}
+            editData={editData}
+          >
+          </QuoteForm>
+        }
 
         
         <div className="clientDashboard-view">
@@ -1145,9 +1154,13 @@ const Dashboard = ({
           }
           { nav.view == 'transaction-new' &&
             <div className="clientDashboard-view-new">
-              <div className="clientDashboard-view-new-item" onClick={() => (window.location.href = 'account?change=quote')}>
+              <div className="clientDashboard-view-new-item" onClick={() => changeView('quote')}>
                 <SVGs svg={'document'}></SVGs>
                 <span>New Quote</span>
+              </div>
+              <div className="clientDashboard-view-new-item" onClick={() => changeView('quote1')}>
+                <SVGs svg={'document'}></SVGs>
+                <span>Old Quote</span>
               </div>
               <div className="clientDashboard-view-new-item" onClick={() => (setModal('new_price_list'))}>
                 <SVGs svg={'price-list'}></SVGs>
@@ -1167,7 +1180,7 @@ const Dashboard = ({
               </div>
             </div>
           }
-          { nav.view == 'quote' &&
+          { nav.view == 'quote1' &&
             <Quote priceList={priceList} addressList={addressList} categories={misc_categories} products={products} product_categories={allProductCategories} ></Quote>
           }
           { nav.view == 'quote-fields' &&
@@ -1365,7 +1378,8 @@ const mapStateToProps = (state) => {
     brand: state.brand,
     model: state.model,
     category: state.category,
-    remnant: state.remnant
+    remnant: state.remnant,
+    quote: state.quote
   }
 }
 
@@ -1377,13 +1391,6 @@ const mapDispatchToProps = dispatch => {
     createType: (caseType, type, data) => dispatch({type: caseType, name: type, value: data}),
     resetType: (caseType) => dispatch({type: caseType}),
     addImages: (caseType, data) => dispatch({type: caseType, value: data}),
-
-
-    addMaterial: (name, data) => dispatch({type: 'ADD', name: name, value: data}),
-    resetMaterial: () => dispatch({type: 'RESET'}),
-    addSupplier: (name, data) => dispatch({type: 'ADD', name: name, value: data}),
-    resetSupplier: () => dispatch({type: 'RESET'}),
-    resetQuote: () => dispatch({type: 'RESET_QUOTE'})
   }
 }
 
@@ -1407,6 +1414,8 @@ Dashboard.getInitialProps = async (context) => {
   data.models           = await tableData(accessToken, 'models/all-models')
   data.categories       = await tableData(accessToken, 'categories/all-categories')
   data.remnants         = await tableData(accessToken, 'remnants/all-remnants')
+  data.quotes           = await tableData(accessToken, 'quotes/all-quotes')
+  data.addresses          = await tableData(accessToken, 'address/all-addresses')
   deepClone             = _.cloneDeep(data)
   
   return {

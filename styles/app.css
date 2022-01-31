@@ -45,14 +45,18 @@ body {
     border: 0.1rem solid #ededec;
     box-shadow: 0.3rem 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.1);
     margin-bottom: 2rem;
-    padding: 0 1rem; }
+    padding: 1rem 1rem; }
   .form-box-heading {
     background-color: #c8c8cb;
     height: 4rem;
     border-top-left-radius: 1.2rem;
     border-top-right-radius: 1.2rem;
     display: flex;
-    align-items: center; }
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #1e1e1e;
+    padding: 0 1rem; }
     .form-box-heading-item {
       display: flex;
       align-items: center;
@@ -99,7 +103,7 @@ body {
       box-sizing: border-box;
       outline: none;
       font-size: 1.4rem;
-      font-weight: 400;
+      font-weight: 700;
       color: rgba(253, 126, 60, 0.9);
       top: 40%;
       transition: all 0.3s ease-in-out;
@@ -144,15 +148,17 @@ body {
     .form-group-button {
       width: 100%;
       padding: 1rem 2rem;
-      margin: 0.5rem 0;
-      border-radius: 1.2rem;
+      margin: 2rem 0 0 0;
+      border-radius: 3rem;
+      font-size: 1.4rem;
       border: none;
       outline: none;
       color: white;
       background-color: #1bc9a2;
       transition: all 0.5s ease-in-out; }
       .form-group-button:hover {
-        cursor: pointer; }
+        cursor: pointer;
+        box-shadow: 0.3rem 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.2); }
     .form-group-image {
       width: 100%; }
     .form-group-gallery {
@@ -207,13 +213,15 @@ body {
         width: 100%;
         height: auto;
         resize: none;
-        padding: 2rem 1.5rem;
+        padding: 2rem 1rem;
         outline: none;
         box-sizing: border-box;
         font-size: 1.4rem;
         font-family: inherit;
         border: none;
         border-radius: 1.2rem;
+        background-color: #f1f1ee;
+        box-shadow: 0.1rem 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.2);
         overflow-y: auto; }
         .form-group-textarea textarea::-webkit-scrollbar {
           width: 0.2rem;
@@ -225,7 +233,7 @@ body {
         display: flex;
         top: 15%;
         transition: all 0.3s ease-in-out;
-        padding: 0 1rem;
+        padding: 0 0.5rem;
         color: rgba(253, 126, 60, 0.9);
         font-size: 1.2rem; }
     .form-group-message {
@@ -1305,9 +1313,6 @@ body {
 .readOnly:hover {
   cursor: pointer; }
 
-.react-calendar {
-  border-radius: 1.2rem; }
-
 .labelHover {
   top: 5% !important; }
 
@@ -1317,6 +1322,10 @@ body {
 .selected {
   background-color: rgba(253, 126, 60, 0.9);
   box-shadow: 0.2rem 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.2); }
+
+.react-calendar {
+  width: 100% !important;
+  border-radius: 1.2rem; }
 
 .center {
   text-align: center;

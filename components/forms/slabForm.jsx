@@ -78,7 +78,9 @@ const Form = ({
   return (
     <div className="table">
       <div className="table-header">
-        <div className="table-header-title">{edit == typeOfData ? 'Edit Slab' : title}</div>
+        <div className="table-header-title">
+          {edit == typeOfData ? 'Edit Slab' : title}
+        </div>
         {save &&
           <div className="table-header-controls">
             <div 
