@@ -12,6 +12,7 @@ const initialState = {
   email: '',
   contact_notes: '',
   address_id: '',
+
   // QUOTE DETAIL
   quote_name: '',
   price_list: '',
@@ -21,11 +22,13 @@ const initialState = {
   quote_number: '',
   po_number: '',
   quote_notes: '',
+
   // REVISION
   quote_date: '',
   quote_discount: '',
   quote_tax: '',
   quote_deposit: '',
+
   // QUOTE LINES
   quote_lines: [],
   quote_subtotal: 0,
@@ -34,6 +37,7 @@ const initialState = {
   quote_nontaxable_discount: '',
   quote_total: '',
   quote_balance: '',
+  
   // VARIABLES
   quote_count: 0
 }

@@ -12,13 +12,13 @@ import {useRouter} from 'next/router'
 import QuoteFields from '../../components/account/quoteFields'
 import Quote from '../../components/account/Quote'
 import PriceListModal from '../../components/modals/PriceList'
-import AddressModal from '../../components/modals/Address'
+import ContactModal from '../../components/modals/Contact'
 
 //// TABLE
 import Table from '../../components/table'
 import TableAlt from '../../components/tableAlt'
 import { tableData } from '../../helpers/tableData'
-import { slabSort, productSort, remnantSort, materialSort } from '../../helpers/sorts'
+import { slabSort, productSort, remnantSort, materialSort, priceSort } from '../../helpers/sorts'
 import { populateEditData } from '../../helpers/modals'
 
 //// DATA
@@ -45,6 +45,7 @@ import LocationModal from '../../components/modals/Location'
 import BrandModal from '../../components/modals/Brand'
 import ModelModal from '../../components/modals/Model'
 import CategoryModal from '../../components/modals/Category'
+import QuoteLineModal from '../../components/modals/QuoteLine'
 
 axios.defaults.withCredentials = true
 
@@ -75,6 +76,8 @@ const Dashboard = ({
   model,
   category,
   remnant,
+  priceList,
+  contact,
   quote,
   createType,
   resetType,
@@ -85,7 +88,7 @@ const Dashboard = ({
   categories, 
   resetMaterial, 
 
-  priceList, 
+ 
   addressList, 
   misc_categories, 
   products, 
@@ -202,279 +205,11 @@ const Dashboard = ({
 
     return populateEditData(allData, keyType, caseType, stateMethods, selectID)
   }
-  
-
-  ///////////////////////////////////////////////////////////////////////////////
 
   useEffect(() => {
     if(params) params.change ? changeView(params.change) : null
   }, [router.query.change])
 
-
-  const validateIsPrice = (evt) => {
-    let newValue = Number(evt.target.value.replace(/\D/g, '')) / 100
-    let formatter = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    })
-    
-    return formatter.format(newValue)
-  }
-
-  const generateQRProduct = async (e) => {
-    let options = {
-      type: 'image/png',
-      width: 288,
-      quality: 1,
-      margin: 1,
-    }
-    
-    e.preventDefault()
-    e.stopPropagation()
-
-    if(product.brand && product.model && product.category && product.description){
-      try {
-
-        let qrData = new Object()
-
-        qrData.brand = product.brand
-        qrData.model = product.model
-        qrData.category = product.category
-        qrData.description = product.description
-        
-        const image = await QRCode.toDataURL('https://www.slabware.com/', options)
-        createProduct('qr_code', image)
-        setError('')
-      } catch (err) {
-        console.log(err)
-        if(err) setError('Error generating QR code')
-      }
-    }else {
-      if(!product.brand){setError('Product brand is empty, please fill out.'); window.scrollTo(0,document.body.scrollHeight); return}
-      if(!product.model){setError('Product model is empty, please fill out.'); window.scrollTo(0,document.body.scrollHeight); return}
-      if(!product.category){setError('Product category is empty, please fill out.'); window.scrollTo(0,document.body.scrollHeight); return}
-      if(!product.description){setError('Product description is empty, please fill out.'); window.scrollTo(0,document.body.scrollHeight); return}
-    }
-  }
-
-  
-
-  const submitCreateSlab = async (e) => {
-    e.preventDefault()
-    setError('')
-    if(!slab.qr_code){setError('QR Code required'); window.scrollTo(0,document.body.scrollHeight); return}
-    if(!slab.material){setError('Material required'); window.scrollTo(0,document.body.scrollHeight); return}
-    if(!slab.color){setError('Color required'); window.scrollTo(0,document.body.scrollHeight); return}
-    if(!slab.grade){setError('Grade required'); window.scrollTo(0,document.body.scrollHeight); return}
-    if(!slab.finish){setError('Finish required'); window.scrollTo(0,document.body.scrollHeight); return}
-    if(!slab.supplier){setError('Supplier required'); window.scrollTo(0,document.body.scrollHeight); return}
-    if(!slab.location){setError('Location required'); window.scrollTo(0,document.body.scrollHeight); return}
-    setLoading(true)
-    
-    let data = new FormData()
-    
-    if(slab.images.length > 0){
-      slab.images.forEach((item) => {
-        let fileID = nanoid()
-        data.append('file', item, `slab-${fileID}.${item.name.split('.')[1]}`)
-      })
-    }
-
-    if(slab){
-      for(const key in slab){
-        if(key !== 'images') data.append(key, slab[key])
-      }
-    }
-
-    try {
-      const responseSlab = await axios.post(`${API}/inventory/create-slab`, data, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-      setLoading(false)
-      console.log(responseSlab)
-      let id = responseSlab.data
-      window.location.href = `/slabs`
-    } catch (error) {
-      console.log(error)
-      setLoading(false)
-      if(error) error.response ? setError(error.response.data) : setError('Error adding slab to inventory')
-    }
-  }
-
-  const handleAddProduct = async (e) => {
-    e.preventDefault()
-    setError('')
-    if(!product.qr_code){setError('QR Code required'); window.scrollTo(0,document.body.scrollHeight); return}
-    if(!product.brand){setError('Brand required'); window.scrollTo(0,document.body.scrollHeight); return}
-    if(!product.model){setError('Model required'); window.scrollTo(0,document.body.scrollHeight); return}
-    if(!product.category){setError('Category required'); window.scrollTo(0,document.body.scrollHeight); return}
-    if(!product.location){setError('Location required'); window.scrollTo(0,document.body.scrollHeight); return}
-    if(!product.description){setError('Description required'); window.scrollTo(0,document.body.scrollHeight); return}
-    if(!product.quantity){setError('Quantity required'); window.scrollTo(0,document.body.scrollHeight); return}
-    if(!product.price){setError('Price required'); window.scrollTo(0,document.body.scrollHeight); return}
-    setLoading(true)
-    
-    let data = new FormData()
-    
-    if(product.images.length > 0){
-      product.images.forEach((item) => {
-        let fileID = nanoid()
-        data.append('file', item, `product-${fileID}.${item.name.split('.')[1]}`)
-      })
-    }
-
-    if(product){
-      for(const key in product){
-        if(key !== 'images') data.append(key, product[key])
-      }
-    }
-
-    try {
-      const responseProduct = await axios.post(`${API}/inventory/create-product`, data, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-      setLoading(false)
-      console.log(responseProduct)
-      window.location.href = `/products`
-    } catch (error) {
-      console.log(error)
-      setLoading(false)
-      if(error) error.response ? setError(error.response.data) : setError('Error adding product to inventory')
-    }
-  }
-
-  const submitAddMaterial = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    try {
-      const responseMaterial = await axios.post(`${API}/inventory/add-material`, material)
-      resetMaterial()
-      setInputDropdown('')
-      setModal('')
-      setLoading(false)
-      setError('')
-      setAllMaterials(responseMaterial.data)
-    } catch (error) {
-      console.log(error.response)
-      setLoading(false)
-      if(error) error.response ? setError(error.response.data) : setError('Error adding material to inventory')
-    }
-  }
-
-  const submitAddColor = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    try {
-      const responseColor = await axios.post(`${API}/inventory/add-color`, {name: color})
-      setColor('')
-      setInputDropdown('')
-      setModal('')
-      setLoading(false)
-      setError('')
-      setAllColors(responseColor.data)
-    } catch (error) {
-      console.log(error.response)
-      setLoading(false)
-      if(error) error.response ? setError(error.response.data) : setError('Error adding color to inventory')
-    }
-  }
-
-  const submitAddSupplier = async (e) => {
-    e.preventDefault()
-    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-    if(supplier.contact_email){
-      if(!re.test(supplier.contact_email)) return setError('email address is not valid')
-    }
-
-    setLoading(true)
-    try {
-      const responseColor = await axios.post(`${API}/inventory/add-supplier`, supplier)
-      setColor('')
-      setInputDropdown('')
-      setModal('')
-      setLoading(false)
-      setError('')
-      setAllSuppliers(responseColor.data)
-    } catch (error) {
-      console.log(error.response)
-      setLoading(false)
-      if(error) error.response ? setError(error.response.data) : setError('Error adding supplier to inventory')
-    }
-  }
-
-  const submitAddLocation = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    try {
-      const responseColor = await axios.post(`${API}/inventory/add-location`, {name: location})
-      setLocation('')
-      setInputDropdown('')
-      setModal('')
-      setLoading(false)
-      setError('')
-      setAllLocations(responseColor.data)
-    } catch (error) {
-      console.log(error.response)
-      setLoading(false)
-      if(error) error.response ? setError(error.response.data) : setError('Error adding location to inventory')
-    } 
-  }
-
-  const submitAddBrand = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    try {
-      const responseBrand = await axios.post(`${API}/inventory/add-brand`, {name: brand})
-      setBrand('')
-      setModal('')
-      setLoading(false)
-      setError('')
-      setAllBrands(responseBrand.data)
-    } catch (error) {
-      console.log(error.response)
-      setLoading(false)
-      if(error) error.response ? setError(error.response.data) : setError('Error adding brand to inventory')
-    }
-  }
-
-  const submitAddModel = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    try {
-      const responseModel = await axios.post(`${API}/inventory/add-model`, {name: model})
-      setModel('')
-      setModal('')
-      setLoading(false)
-      setError('')
-      setAllModels(responseModel.data)
-    } catch (error) {
-      console.log(error.response)
-      setLoading(false)
-      if(error) error.response ? setError(error.response.data) : setError('Error adding model to inventory')
-    }
-  }
-
-  const submitAddCategory = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    try {
-      const responseCategory = await axios.post(`${API}/inventory/add-category`, {name: category})
-      setCategory('')
-      setModal('')
-      setLoading(false)
-      setError('')
-      setAllCategories(responseCategory.data)
-    } catch (error) {
-      console.log(error.response)
-      setLoading(false)
-      if(error) error.response ? setError(error.response.data) : setError('Error adding category to inventory')
-    }
-  }
   
   return (
     <>
@@ -956,6 +691,86 @@ const Dashboard = ({
           >
           </TableAlt>
         }
+        {nav.view == 'prices' &&
+          <TableAlt
+            token={token}
+            title={'Price List'}
+            typeOfData={'prices'}
+            componentData={data.prices}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={priceSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'modelControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'prices'}
+            modalType={'new_price_list'}
+            editModalType={'price_list'}
+            editDataType={{key: 'prices', caseType: 'CREATE_PRICE_LIST'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="price/delete-price"
+            searchType={'prices'}
+            searchPlaceholder={'Search by name'}
+          >
+          </TableAlt>
+        }
+        {nav.view == 'contacts' &&
+          <TableAlt
+            token={token}
+            title={'Contact List'}
+            typeOfData={'contacts'}
+            componentData={data.contacts}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={materialSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'modelControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'contacts'}
+            modalType={'new_contact'}
+            editModalType={'contact'}
+            editDataType={{key: 'contacts', caseType: 'CREATE_CONTACT'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="contact/delete-contact"
+            searchType={'contacts'}
+            searchPlaceholder={'Search by contact name'}
+          >
+          </TableAlt>
+        }
 
 
         {/* ///// FORMS //// */}
@@ -1162,13 +977,13 @@ const Dashboard = ({
                 <SVGs svg={'document'}></SVGs>
                 <span>Old Quote</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (setModal('new_price_list'))}>
+              <div className="clientDashboard-view-new-item" onClick={() => changeView('prices')}>
                 <SVGs svg={'price-list'}></SVGs>
-                <span>New Price List</span>
+                <span>Price List</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (setModal('location'))}>
+              <div className="clientDashboard-view-new-item" onClick={() => (changeView('contacts'))}>
                 <SVGs svg={'location'}></SVGs>
-                <span>Address</span>
+                <span>Contacts</span>
               </div>
               <div className="clientDashboard-view-new-item" onClick={() => (setModal('category'))}>
                 <SVGs svg={'clipboard'}></SVGs>
@@ -1353,11 +1168,80 @@ const Dashboard = ({
             >
             </CategoryModal>
           }
-          { modal == 'new_price_list' &&
-            <PriceListModal setmodal={(type) => setModal(type)}></PriceListModal>
+          { modal == 'add_quote_line' &&
+            <QuoteLineModal
+              token={token}
+              message={message}
+              setMessage={setMessage}
+              setModal={setModal}
+              loading={loading}
+              setLoading={setLoading}
+              edit={edit}
+              setEdit={setEdit}
+              stateData={quote}
+              stateMethod={createType}
+              dynamicSVG={dynamicSVG}
+              setDynamicSVG={setDynamicSVG}
+              resetState={resetType}
+              submitCreate={submitCreate}
+              allData={allData}
+              setAllData={setAllData}
+              submitUpdate={submitUpdate}
+              changeView={changeView}
+            >
+            </QuoteLineModal>
           }
-          { modal == 'location' &&
-            <AddressModal setmodal={(type) => setModal(type)} resetQuote={resetQuote} update={''}></AddressModal>
+          { modal == 'new_price_list' &&
+            <PriceListModal
+              token={token}
+              message={message}
+              setMessage={setMessage}
+              setModal={setModal}
+              loading={loading}
+              setLoading={setLoading}
+              edit={edit}
+              setEdit={setEdit}
+              stateData={priceList}
+              stateMethod={createType}
+              dynamicSVG={dynamicSVG}
+              setDynamicSVG={setDynamicSVG}
+              resetState={resetType}
+              submitCreate={submitCreate}
+              addImages={addImages}
+              allData={allData}
+              setAllData={setAllData}
+              submitUpdate={submitUpdate}
+              changeView={changeView}
+              submitDeleteImage={submitDeleteImage}
+              editData={editData}
+            >
+            </PriceListModal>
+          }
+          { modal == 'new_contact' &&
+            <ContactModal
+              token={token}
+              message={message}
+              setMessage={setMessage}
+              setModal={setModal}
+              loading={loading}
+              setLoading={setLoading}
+              edit={edit}
+              setEdit={setEdit}
+              stateData={contact}
+              stateMethod={createType}
+              dynamicSVG={dynamicSVG}
+              setDynamicSVG={setDynamicSVG}
+              resetState={resetType}
+              submitCreate={submitCreate}
+              addImages={addImages}
+              allData={allData}
+              setAllData={setAllData}
+              submitUpdate={submitUpdate}
+              changeView={changeView}
+              submitDeleteImage={submitDeleteImage}
+              editData={editData}
+            >
+            </ContactModal>
           }
         </div>
       </div>
@@ -1379,6 +1263,8 @@ const mapStateToProps = (state) => {
     model: state.model,
     category: state.category,
     remnant: state.remnant,
+    priceList: state.priceList,
+    contact: state.contact,
     quote: state.quote
   }
 }
@@ -1390,7 +1276,7 @@ const mapDispatchToProps = dispatch => {
     changeView: (view) => dispatch({type: 'CHANGE_VIEW', value: view}),
     createType: (caseType, type, data) => dispatch({type: caseType, name: type, value: data}),
     resetType: (caseType) => dispatch({type: caseType}),
-    addImages: (caseType, data) => dispatch({type: caseType, value: data}),
+    addImages: (caseType, type, data) => dispatch({type: caseType, name: type, value: data}),
   }
 }
 
@@ -1415,7 +1301,8 @@ Dashboard.getInitialProps = async (context) => {
   data.categories       = await tableData(accessToken, 'categories/all-categories')
   data.remnants         = await tableData(accessToken, 'remnants/all-remnants')
   data.quotes           = await tableData(accessToken, 'quotes/all-quotes')
-  data.addresses          = await tableData(accessToken, 'address/all-addresses')
+  data.contacts         = await tableData(accessToken, 'contact/all-contacts')
+  data.prices           = await tableData(accessToken, 'price/all-prices')
   deepClone             = _.cloneDeep(data)
   
   return {

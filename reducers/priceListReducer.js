@@ -3,8 +3,7 @@ const initialState = {
   model: '',
   color: '',
   price: '',
-  images: [],
-  deleteImages: []
+  images: []
 }
 
 export const priceListReducer = (state = initialState, action) => {
@@ -21,13 +20,6 @@ export const priceListReducer = (state = initialState, action) => {
       return {
         ...state,
         images: [...action.value]
-      }
-      break;
-
-    case 'DELETE_LIST_IMAGE':
-      return {
-        ...state,
-        deleteImages: [...action.value]
       }
       break;
 

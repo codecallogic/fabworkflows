@@ -12,7 +12,7 @@ const searchOptionsCities = {
   types: ['(cities)']
 }
 
-const MaterialModal = ({
+const SupplierModal = ({
   token,
   message,
   setMessage,
@@ -422,4 +422,4 @@ const MaterialModal = ({
   )
 }
 
-export default MaterialModal
+export default SupplierModal

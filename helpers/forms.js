@@ -24,7 +24,9 @@ const formFields = {
   brands: ['name'],
   models: ['name'],
   categories: ['name'],
-  remnants: ['name']
+  remnants: ['name'],
+  prices: ['brand', 'price', 'model'],
+  contacts: ['contact_name', 'phone', 'email']
 }
 
 
@@ -131,7 +133,7 @@ const submitUpdate = async (e, stateData, type, setMessage, loadingType, setLoad
   }
 }
 
-const submitDeleteImage = async (e, imageItem, key, caseType, stateMethod, stateData, type, setMessage, loadingType, setLoading, token, path, allData, setAllData, setDynamicSVG, editData) => {
+const submitDeleteImage = async (e, imageItem, key, caseType, stateMethod, stateData, type, setMessage, loadingType, setLoading, token, path, allData, setAllData, setDynamicSVG, editData, setModal) => {
  
 
   if(!imageItem.key){
@@ -152,6 +154,7 @@ const submitDeleteImage = async (e, imageItem, key, caseType, stateMethod, state
     allData[type]= responseDelete.data
     setAllData(allData)
     editData(type, caseType)
+    if(setModal) setModal('')
     
   } catch (error) {
     console.log(error)

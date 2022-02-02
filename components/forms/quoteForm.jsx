@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import SVG from '../../files/svgs'
 import { manageFormFields } from '../../helpers/forms'
 import { populateAddress } from '../../helpers/modals'
-import { validateNumber, phoneNumber, validateDate, addressSelect, formatDate } from '../../helpers/validations'
+import { validateNumber, phoneNumber, validateDate, addressSelect, formatDate, numberType } from '../../helpers/validations'
 import PlacesAutocomplete from 'react-places-autocomplete'
 import Calendar from 'react-calendar'
 
@@ -49,6 +49,7 @@ const Quote = ({
   const [loadingColor, setLoadingColor] = useState('black')
   const [input_dropdown, setInputDropdown] = useState('')
   const [save, setSave] = useState(false)
+  const [depositType, setDepositType] = useState('percentage')
 
   useEffect(() => {
     
@@ -148,7 +149,7 @@ const Quote = ({
               <div 
               className="form-group-list" 
               ref={myRefs}>
-                {originalData && originalData.addresses.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                {originalData && originalData.contacts.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
                 <div 
                 key={idx} 
                 className="form-group-list-item" 
@@ -269,7 +270,8 @@ const Quote = ({
             <input 
             id="zip_code" 
             value={stateData.zip_code} 
-            onChange={(e) => (validateNumber('zip_code'), stateMethod(createType, 'zip_code', e.target.value))}/>
+            onChange={(e) => (validateNumber('zip_code'), stateMethod(createType, 'zip_code', e.target.value))}
+            />
             
             <label 
             className={`input-label ` + (
@@ -521,6 +523,111 @@ const Quote = ({
               </div>
             }
           </div>
+          <div className="form-group">
+            <input 
+            id="quote_discount" 
+            value={stateData.quote_discount} 
+            onChange={(e) => (validateNumber('quote_discount'), stateMethod(createType, 'quote_discount', e.target.value))}/>
+            
+            <label 
+            className={`input-label ` + (
+              stateData.quote_discount.length > 0 || 
+              typeof stateData.quote_discount == 'object' 
+              ? ' labelHover' 
+              : ''
+            )}
+            htmlFor="quote_discount">
+              Discount %
+            </label>
+          </div>
+          <div className="form-group">
+            <input 
+            id="quote_tax" 
+            value={stateData.quote_tax} 
+            onChange={(e) => (validateNumber('quote_tax'), stateMethod(createType, 'quote_tax', e.target.value))}/>
+            
+            <label 
+            className={`input-label ` + (
+              stateData.quote_tax.length > 0 || 
+              typeof stateData.quote_tax == 'object' 
+              ? ' labelHover' 
+              : ''
+            )}
+            htmlFor="quote_tax">
+              Tax Rate %
+            </label>
+          </div>
+          <div className="form-group">
+            <input 
+            id="quote_deposit" 
+            value={stateData.quote_deposit} 
+            onChange={(e) => (validateNumber('quote_deposit'), stateMethod(createType, 'quote_deposit', numberType('quote_deposit', depositType)))}/>
+            
+            <label 
+            className={`input-label ` + (
+              stateData.quote_deposit.length > 0 || 
+              typeof stateData.quote_deposit == 'object' 
+              ? ' labelHover' 
+              : ''
+            )}
+            htmlFor="quote_deposit">
+              Deposit
+            </label>
+            <div onClick={() => depositType == 'percentage' ? 
+              (
+                setDepositType('dollar'),
+                stateMethod(createType, 'quote_deposit', '')
+              )
+              : 
+              (
+                setDepositType('percentage'),
+                stateMethod(createType, 'quote_deposit', '')
+              )
+              }>
+              { depositType == 'percentage' 
+                ? 
+                <SVG svg={'dollar'}></SVG> 
+                : 
+                <SVG svg={'percentage'}></SVG>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div className="form-box" style={{width: '100%'}}>
+        <div className="form-box-heading">Quote Estimate
+              <div 
+                className="form-box-heading-item" 
+                onClick={() => setModal('add_quote_line')}
+              >
+                <SVG svg={'plus'}></SVG>
+              </div>
+              <div className="form-box-heading-item">
+                <SVG svg={'print'}></SVG>
+              </div>
+              <div 
+                id="save" 
+                className="form-box-heading-item" 
+                onClick={(e) => edit == typeOfData ? 
+                  submitUpdate(e, stateData, 'slabs', setMessage, 'create_slab', setLoading, token, 'slabs/update-slab', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'slabs')
+                  : 
+                  submitCreate(e, stateData, 'slabs', setMessage, 'create_slab', setLoading, token, 'slabs/create-slab', resetType, resetState, allData, setAllData, setDynamicSVG) 
+                }
+                >
+                {loading == 'create_quote' ? 
+                <div className="loading">
+                  <span style={{backgroundColor: loadingColor}}></span>
+                  <span style={{backgroundColor: loadingColor}}></span>
+                  <span style={{backgroundColor: loadingColor}}></span>
+                </div>
+                : 
+                  edit == typeOfData ? 'Update' : 'Save'
+                }
+              </div>
+        </div>
+        <div className="form-box-container">
+
         </div>
       </div>
         

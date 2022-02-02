@@ -38,15 +38,22 @@
       &-item {
         display: flex;
         align-items: center;
-        background-color: $color-dark-shade-scheme-1;
-        padding: 0.5rem 1rem;
-        border-radius: 2rem;
-        margin: 0 1rem;
+        justify-content: center;
+        min-height: 3rem;
+        min-width: 5rem;
+        max-height: 100%;
+        max-width: 100%;
+        background-color: $color-scheme-2;
+        padding: 0.3rem 1rem;
+        border-radius: 3rem;
+        margin: 0 0.5rem;
         color: white;
         font-weight: 700;
+        transition: all 0.3s ease-in-out;
 
         &:hover {
           cursor: pointer;
+          background-color: $color-scheme-1;
         }
 
         svg {
@@ -155,6 +162,9 @@
     }
 
     &-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 100%;
       padding: 1rem 2rem;
       margin: 2rem 0 0 0;
@@ -168,7 +178,15 @@
 
       &:hover {
         cursor: pointer;
+        background-color: $color-scheme-1;
         box-shadow: 0.3rem 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.2);
+      }
+
+      svg {
+        width: 3rem;
+        height: 3rem;
+        fill: white;
+        margin-right: 1rem;
       }
     }
 
@@ -288,6 +306,74 @@
         width: 2rem;
         height: 2rem;
         margin-right: 1rem;
+      }
+    }
+
+    &-file {
+      position: relative;
+
+      input {
+        display: none;
+      }
+
+      label {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 1rem 2rem;
+        box-sizing: border-box;
+        outline: none;
+        font-weight: 300;
+        font-size: 1.4rem;
+        font-family: inherit;
+        border-radius: 1.2rem;
+        margin: 0.5rem 0;
+        position: relative;
+
+        img {
+          width: 8rem;
+          height: 8rem;
+          border-radius: 50%;
+          object-fit: cover;
+          margin-right: 2rem;
+        }
+
+        svg {
+          width: 3rem;
+          height: 3rem;
+          fill: $color-scheme-1;
+          margin-right: 1.5rem;
+        }
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      &-close {
+        position: absolute;
+        top: 10%;
+        left: 3%;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $color-scheme-1;
+        font-size: 1.8rem;
+        font-weight: 500;
+        color: white;
+
+        svg {
+          width: 1.5rem;
+          height: 1.5rem;
+          fill: white;
+        }
+
+        &:hover {
+          cursor: pointer;
+        }
       }
     }
   }
@@ -1869,4 +1955,9 @@
 .react-calendar {
   width: 100% !important;
   border-radius: 1.2rem;
+}
+
+.modal-search {
+  margin-left: 0.5rem !important;
+  width: 50% !important;
 }

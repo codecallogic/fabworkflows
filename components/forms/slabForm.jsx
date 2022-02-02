@@ -650,7 +650,7 @@ const Form = ({
               type="file" 
               accept="image/*" 
               multiple
-              onChange={(e) => multipleImages(e, stateData, setMessage, imagesType, addImages)}
+              onChange={(e) => multipleImages(e, stateData, setMessage, imagesType, null, addImages)}
               />
             </label>
           </div>
@@ -686,11 +686,11 @@ const Form = ({
                     submitDeleteImage(e, item, 'images', createType, stateMethod, stateData, 'slabs', setMessage, 'delete_image', setLoading, token, 'slabs/delete-image', allData, setAllData, setDynamicSVG, editData) 
                     : null)
                   }>
-                    { loading == 'delete_image' ? 
-                      <div className="loading-spinner"></div>
-                      :
-                      <SVG svg={'close'}></SVG>
-                    }
+                  { loading == 'delete_image' ? 
+                    <div className="loading-spinner"></div>
+                    :
+                    <SVG svg={'close'}></SVG>
+                  }
                   </span>
                 </a>
               ))}

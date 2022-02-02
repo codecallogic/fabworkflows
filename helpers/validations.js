@@ -9,10 +9,12 @@ export {
   validateDate,
   generateQR,
   multipleImages,
+  singleImage,
   dateNow,
   phoneNumber,
   addressSelect,
-  formatDate
+  formatDate,
+  numberType
 }
 
 ///// VALIDATIONS
@@ -69,6 +71,14 @@ const validateEmail = (type) => {
 }
 
 const validatePrice = (e) => {
+  if(e.keyCode){
+    if( e.keyCode == 8 ){
+      return e.target.value.substring(0, e.target.value - 1)
+    }
+  }
+  
+  if(e.target.value == ''){ return '' }
+  
   let newValue = Number(e.target.value.replace(/\D/g, '')) / 100
   let formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -94,7 +104,7 @@ function checkValue(str, max){
 const validateDate = (e, key, caseType, reduxMethod) => {
   let name = document.getElementById(key)
   let input = e.target.value
-
+  
   name.onkeydown = function(event){
     if(event.keyCode == 8){
       if(input.length == 1) return (reduxMethod(key, ''), name.classList.remove("field-red"))
@@ -178,7 +188,7 @@ const generateQR = async (e, type, stateData, caseType, reduxMethod, setMessage,
 
 
 
-const multipleImages = (e, stateData, setMessage, caseType, reduxMethod) => {
+const multipleImages = (e, stateData, setMessage, caseType, key, reduxMethod) => {
   
   let imageMax = stateData.images.length + e.target.files.length
 
@@ -196,7 +206,21 @@ const multipleImages = (e, stateData, setMessage, caseType, reduxMethod) => {
     })
   }
 
-  reduxMethod(caseType, [...stateData.images, ...e.target.files])
+  reduxMethod(caseType, key, [...stateData.images, ...e.target.files])
+}
+
+const singleImage = (e, stateData, setMessage, caseType, key, reduxMethod) => {
+
+  if(e.target.files.length > 0){
+    let array = Array.from(e.target.files)
+    
+    array.forEach( (item) => {
+      let url = URL.createObjectURL(item);
+      item.location = url
+    })
+  }
+
+  reduxMethod(caseType, key, [...e.target.files])
 }
 
 
@@ -298,4 +322,19 @@ const formatDate = (e) => {
   var day = e.getUTCDate()
   var year = e.getUTCFullYear()
   return `${month} ${day}, ${year}`
+}
+
+const numberType = (id, type) => {
+  const el = document.getElementById(id)
+  
+  if(type == 'percentage'){ 
+    if(el.value == '') return ''
+    if(el.value !== '') return el.value + '%'
+  }
+
+  if(type == 'dollar'){ 
+    if(el.value == '') return ''
+    if(el.value !== '') return '$' + el.value
+  }
+  
 }

@@ -12,7 +12,7 @@ const populateEditData = (originalData, keyType, caseType, stateMethods, selectI
       let object = originalData[keyType][key]
 
       for(let keyOfObject in object){
-        // console.log(keyOfObject)
+        // console.log(object[keyOfObject])
         stateMethods.createType(caseType, keyOfObject, object[keyOfObject])
 
         if(Array.isArray(object[keyOfObject]) && object[keyOfObject].length > 0){
