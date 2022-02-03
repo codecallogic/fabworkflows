@@ -1,6 +1,7 @@
 let initialState = {
   sidenav: true,
   view: 'new',
+  form: ''
 }
 
 export const navReducer = (state = initialState, action) => {
@@ -40,6 +41,12 @@ export const navReducer = (state = initialState, action) => {
       return {
         ...state,
         view: action.value
+      }
+
+    case "CHANGE_FORMTYPE":
+      return {
+        ...state,
+        form: action.value
       }
 
     default: {

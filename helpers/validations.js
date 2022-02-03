@@ -1,5 +1,6 @@
 import QRCode from 'qrcode'
 import { geocodeByPlaceId } from 'react-places-autocomplete'
+import { manageFormFields } from './forms'
 
 export {
   validateNumber,
@@ -14,7 +15,9 @@ export {
   phoneNumber,
   addressSelect,
   formatDate,
-  numberType
+  numberType,
+  filterProductSearch,
+  filterPriceListSearch
 }
 
 ///// VALIDATIONS
@@ -71,13 +74,14 @@ const validateEmail = (type) => {
 }
 
 const validatePrice = (e) => {
+
+  if(e.target.value == ''){ return '' }
+  
   if(e.keyCode){
     if( e.keyCode == 8 ){
       return e.target.value.substring(0, e.target.value - 1)
     }
   }
-  
-  if(e.target.value == ''){ return '' }
   
   let newValue = Number(e.target.value.replace(/\D/g, '')) / 100
   let formatter = new Intl.NumberFormat('en-US', {
@@ -86,6 +90,7 @@ const validatePrice = (e) => {
   })
   
   return formatter.format(newValue)
+
 }
 
 
@@ -324,17 +329,42 @@ const formatDate = (e) => {
   return `${month} ${day}, ${year}`
 }
 
-const numberType = (id, type) => {
-  const el = document.getElementById(id)
-  
+const numberType = (e, type) => {
+
   if(type == 'percentage'){ 
-    if(el.value == '') return ''
-    if(el.value !== '') return el.value + '%'
+    if(e.target.value == '') return ''
+    if(e.target.value !== '') return e.target.value + '%'
   }
 
   if(type == 'dollar'){ 
-    if(el.value == '') return ''
-    if(el.value !== '') return '$' + el.value
+    if(e.target.value == '') return ''
+    if(e.target.value !== '') return validatePrice(e)
   }
   
+}
+
+const filterProductSearch = (item, search) => {
+  
+  if( manageFormFields(item.brand[0], 'name') && manageFormFields(item.brand[0], 'name').toLowerCase().includes(search.toLowerCase())) 
+    return true
+
+  if( manageFormFields(item.category[0], 'name') && manageFormFields(item.category[0], 'name').toLowerCase().includes(search.toLowerCase())) 
+    return true
+
+  if( manageFormFields(item.model[0], 'name') && manageFormFields(item.model[0], 'name').toLowerCase().includes(search.toLowerCase())) 
+    return true
+
+}
+
+const filterPriceListSearch = (item) => {
+
+  if( manageFormFields(item.brand[0], 'name') && manageFormFields(item.brand[0], 'name').toLowerCase().includes(search.toLowerCase())) 
+    return true
+
+  if( manageFormFields(item.color[0], 'name') && manageFormFields(item.color[0], 'name').toLowerCase().includes(search.toLowerCase())) 
+    return true
+
+  if( manageFormFields(item.model[0], 'name') && manageFormFields(item.model[0], 'name').toLowerCase().includes(search.toLowerCase())) 
+    return true
+
 }

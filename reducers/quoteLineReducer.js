@@ -1,11 +1,12 @@
 const initialState = {
+  category: '',
   quantity: '',
   description: '',
-  category: '',
-  price: 0,
+  price: '',
   price_unformatted: 0,
   taxable: false,
   discount: false,
+
   // PRODUCT
   model: '',
   brand: '',

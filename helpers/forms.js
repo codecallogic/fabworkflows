@@ -30,10 +30,14 @@ const formFields = {
 }
 
 
-const manageFormFields = (data, key) => {
-
-  if(typeof data == 'object'){ return data[key] }
-  if(typeof data == 'string'){ return data }
+const manageFormFields = (data, key) => {  
+  
+  if(data){
+    if(typeof data == 'object'){ return data[key] }
+    if(typeof data == 'string'){ return data }
+  }else{
+    return ''
+  }
   
 }
 

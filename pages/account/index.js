@@ -79,6 +79,7 @@ const Dashboard = ({
   priceList,
   contact,
   quote,
+  quoteLine,
   createType,
   resetType,
   addImages, 
@@ -96,7 +97,7 @@ const Dashboard = ({
 }) => {
   const myRefs = useRef(null)
   
-  console.log(originalData)
+  // console.log(originalData)
   
   const router = useRouter()
   const [allProductCategories, setAllProductCategories] = useState(categories)
@@ -1178,7 +1179,7 @@ const Dashboard = ({
               setLoading={setLoading}
               edit={edit}
               setEdit={setEdit}
-              stateData={quote}
+              stateData={quoteLine}
               stateMethod={createType}
               dynamicSVG={dynamicSVG}
               setDynamicSVG={setDynamicSVG}
@@ -1188,6 +1189,7 @@ const Dashboard = ({
               setAllData={setAllData}
               submitUpdate={submitUpdate}
               changeView={changeView}
+              typeForm={nav.form}
             >
             </QuoteLineModal>
           }
@@ -1265,7 +1267,8 @@ const mapStateToProps = (state) => {
     remnant: state.remnant,
     priceList: state.priceList,
     contact: state.contact,
-    quote: state.quote
+    quote: state.quote,
+    quoteLine: state.quoteLine
   }
 }
 

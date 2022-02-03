@@ -1,10 +1,13 @@
 import { useState, useEffect, useRef } from 'react'
 import SVG from '../../files/svgs'
+import PlacesAutocomplete from 'react-places-autocomplete'
+import Calendar from 'react-calendar'
+
+//// HELPERS
 import { manageFormFields } from '../../helpers/forms'
 import { populateAddress } from '../../helpers/modals'
 import { validateNumber, phoneNumber, validateDate, addressSelect, formatDate, numberType } from '../../helpers/validations'
-import PlacesAutocomplete from 'react-places-autocomplete'
-import Calendar from 'react-calendar'
+import { manageEstimates } from '../../helpers/estimates'
 
 const searchOptionsAddress = {
   componentRestrictions: {country: 'us'},
@@ -35,7 +38,6 @@ const Quote = ({
   stateData,
   stateMethod,
   resetState,
-  addImages,
   changeView,
 
   ///// CRUD
@@ -43,8 +45,9 @@ const Quote = ({
   submitUpdate
 }) => {
 
-  const createType = 'CREATE_QUOTE'
-  const resetType = 'RESET_QUOTE'
+  const createType            = 'CREATE_QUOTE'
+  const resetType             = 'RESET_QUOTE'
+  const changeFormType        = 'CHANGE_FORMTYPE'
   const myRefs = useRef(null)
   const [loadingColor, setLoadingColor] = useState('black')
   const [input_dropdown, setInputDropdown] = useState('')
@@ -561,7 +564,7 @@ const Quote = ({
             <input 
             id="quote_deposit" 
             value={stateData.quote_deposit} 
-            onChange={(e) => (validateNumber('quote_deposit'), stateMethod(createType, 'quote_deposit', numberType('quote_deposit', depositType)))}/>
+            onChange={(e) => (validateNumber('quote_deposit'), stateMethod(createType, 'quote_deposit', numberType(e, depositType)))}/>
             
             <label 
             className={`input-label ` + (
@@ -599,7 +602,10 @@ const Quote = ({
         <div className="form-box-heading">Quote Estimate
               <div 
                 className="form-box-heading-item" 
-                onClick={() => setModal('add_quote_line')}
+                onClick={() => (
+                  setModal('add_quote_line'),
+                  setEdit('')
+                )}
               >
                 <SVG svg={'plus'}></SVG>
               </div>
@@ -627,7 +633,54 @@ const Quote = ({
               </div>
         </div>
         <div className="form-box-container">
-
+          <div className="form-estimate">
+          { stateData.quote_lines.length > 0 && stateData.quote_lines.map((item, idx) => 
+              <>
+              <span 
+              onClick={() => (
+                setModal('add_quote_line'),
+                stateMethod(changeFormType, null, item.typeForm)
+              )}>
+              <div 
+                className="form-estimate-line"
+              >
+                 <SVG svg={'adjust'}></SVG>
+                 <div>{item.quantity ? item.quantity : '0'}</div>
+                 <div className="form-estimate-line-description">
+                  { item.brand 
+                    ? 
+                    `${manageFormFields(item.brand, 'name')} / ${manageFormFields(item.model, 'name')}` 
+                    : 
+                    item.category
+                    ?
+                    `${manageFormFields(item.category, 'name')}` 
+                    :
+                    item.description
+                  }
+                </div>
+                <div>
+                {item.price && item.quantity
+                  ? 
+                  manageEstimates('lineTotal', item.quantity, item.price) 
+                  : 
+                  `(No subtotal)`
+                }
+                </div>
+              </div>
+              <div className="form-estimate-line-label">
+                [Category: {item.category 
+                  ? 
+                  manageFormFields(item.category, 'name') : 'none'}][{item.price 
+                  ? 
+                  `${item.price}/each` 
+                  : 
+                  'No Price'}
+                ]
+              </div>
+              </span>
+              </>
+          )}
+        </div>
         </div>
       </div>
         

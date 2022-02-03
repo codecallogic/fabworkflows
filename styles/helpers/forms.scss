@@ -87,9 +87,11 @@
       font-size: 1.4rem;
       font-family: inherit;
       border: none;
-      margin: 0.5rem 0;
+      margin: 0.5rem 0.5rem 0.5rem 0;
       text-transform: lowercase;
-      background-color: transparent;
+      // background-color: transparent;
+      background-color: $color-light-shade-scheme-4;
+      border-radius: 1.2rem;
       transition: all 0.5s ease-in-out;
 
       &:focus + .input-label {
@@ -374,6 +376,53 @@
         &:hover {
           cursor: pointer;
         }
+      }
+    }
+  }
+
+  &-estimate {
+    padding: 1rem 3rem;
+
+    &-line {
+      display: flex;
+      align-items: center;
+      font-size: 1.4rem;
+      width: 100%;
+      padding: 0.5rem 0.5rem;
+      transition: all 0.3s ease-in-out;
+
+      &:hover {
+        cursor: pointer;
+        background-color: $color-light-shade-scheme-3;
+      }
+
+      svg {
+        width: 3rem;
+        height: 3rem;
+        fill: $color-scheme-1;
+      }
+
+      div {
+        margin-left: 3rem;
+      }
+
+      // pre {
+      //   margin-left: 3rem;
+      //   font-family: inherit;
+      // }
+
+      &-description {
+        flex-grow: 1;
+      }
+
+      &-label {
+        margin: 0.5rem 0 0 1rem;
+        font-size: 1.2rem;
+        color: $color-dark-shade-scheme-3;
+      }
+
+      &-total {
+        justify-self: right;
       }
     }
   }
