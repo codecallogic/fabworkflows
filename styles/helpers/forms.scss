@@ -378,6 +378,41 @@
         }
       }
     }
+
+    &-checkbox {
+      display: flex;
+      align-items: center;
+      width: max-content;
+      height: 100%;
+      padding: 1rem 1rem;
+
+      label {
+        width: 2.5rem;
+        height: 2.5rem;
+        border: 0.1rem solid $color-light-shade-scheme-1;
+        background-color: white;
+        box-shadow: 0.1rem 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.1);
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      span {
+        font-size: 1.4rem;
+        margin-left: 1rem;
+        font-weight: 400;
+        color: $color-scheme-1;
+      }
+
+      input {
+        display: none;
+
+        &:checked + label {
+          background-color: $color-scheme-2;
+        }
+      }
+    }
   }
 
   &-estimate {
@@ -406,11 +441,6 @@
         margin-left: 3rem;
       }
 
-      // pre {
-      //   margin-left: 3rem;
-      //   font-family: inherit;
-      // }
-
       &-description {
         flex-grow: 1;
       }
@@ -422,7 +452,22 @@
       }
 
       &-total {
-        justify-self: right;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        font-size: 1.4rem;
+        margin-top: 0.5rem;
+        padding: 0.5rem 0rem;
+
+        span {
+          text-align: right;
+          min-width: 10rem;
+          padding: 0 1rem;
+          margin-left: 1rem;
+          border-radius: 1.2rem;
+          background-color: $color-light-shade-scheme-3;
+        }
       }
     }
   }

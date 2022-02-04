@@ -3,14 +3,14 @@ const initialState = {
   quantity: '',
   description: '',
   price: '',
-  price_unformatted: 0,
   taxable: false,
   discount: false,
 
   // PRODUCT
   model: '',
   brand: '',
-  typeForm: ''
+  typeForm: '',
+  idx: ''
 }
 
 export const quoteLineReducer = (state = initialState, action) => {

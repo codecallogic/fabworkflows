@@ -35,7 +35,7 @@ const QuoteLineModal = ({
   const resetType             = 'RESET_QUOTE_LINE'
   const addQuoteLineType      = 'ADD_QUOTE_LINE'
   const updateQuoteLineType   = 'UPDATE_QUOTE_LINE'
-  const deleteQuoteLine       = 'DELETE_QUOTE_LINE'
+  const deleteQuoteLineType   = 'DELETE_QUOTE_LINE'
   const changeFormType        = 'CHANGE_FORMTYPE'
   const [loadingColor, setLoadingColor] = useState('white')
 
@@ -168,7 +168,8 @@ const QuoteLineModal = ({
         {typeForm !== '' && 
         <div onClick={() => (
             stateMethod(changeFormType, null, ''), 
-            resetState(resetType)
+            resetState(resetType),
+            setEdit('')
           )}>
           <SVG svg={'arrow-left-large'}></SVG>
         </div>
@@ -721,6 +722,50 @@ const QuoteLineModal = ({
                 onChange={(e) => stateMethod(createType, 'description', e.target.value)} 
               />
             </div>
+            <div className="form-group-checkbox">
+              <input 
+                type="checkbox" 
+                name="taxable" 
+                id="taxable" 
+                hidden={true} 
+                checked={stateData.taxable ? true : false} 
+                readOnly
+              />
+              <label 
+                htmlFor="taxable" 
+                onClick={() => (
+                  stateData.taxable
+                  ? 
+                  stateMethod(createType, 'taxable', false) 
+                  : 
+                  stateMethod(createType, 'taxable', true)
+                )}
+              >
+              </label>
+              <span>Taxable</span>
+            </div>
+            <div className="form-group-checkbox">
+              <input 
+                type="checkbox" 
+                name="discount" 
+                id="discount" 
+                hidden={true} 
+                checked={stateData.discount ? true : false} 
+                readOnly
+              />
+              <label 
+                htmlFor="discount" 
+                onClick={() => (
+                  stateData.discount
+                  ? 
+                  stateMethod(createType, 'discount', false) 
+                  : 
+                  stateMethod(createType, 'discount', true)
+                )}
+              >
+              </label>
+              <span>Allow discount</span>
+            </div>
             </>
           }
           
@@ -764,10 +809,15 @@ const QuoteLineModal = ({
               }
           </button>
         }
-        {edit == 'location' && 
+        {edit == 'quote_line' && 
           <button 
           className="form-group-button" 
-          onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'locations', setMessage, 'update_location', setLoading, token, 'locations/update-location', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'locations', setModal))}
+          onClick={(e) => (
+            stateMethod(updateQuoteLineType, stateData.idx, stateData),
+            setModal(''),
+            resetState(resetType),
+            stateMethod(changeFormType, null, '')
+          )}
           >
               {loading == 'update_location' ? 
               <div className="loading">

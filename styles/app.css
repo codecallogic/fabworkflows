@@ -315,6 +315,29 @@ body {
           fill: white; }
         .form-group-file-close:hover {
           cursor: pointer; }
+    .form-group-checkbox {
+      display: flex;
+      align-items: center;
+      width: max-content;
+      height: 100%;
+      padding: 1rem 1rem; }
+      .form-group-checkbox label {
+        width: 2.5rem;
+        height: 2.5rem;
+        border: 0.1rem solid #dbdbdb;
+        background-color: white;
+        box-shadow: 0.1rem 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.1); }
+        .form-group-checkbox label:hover {
+          cursor: pointer; }
+      .form-group-checkbox span {
+        font-size: 1.4rem;
+        margin-left: 1rem;
+        font-weight: 400;
+        color: rgba(253, 126, 60, 0.9); }
+      .form-group-checkbox input {
+        display: none; }
+        .form-group-checkbox input:checked + label {
+          background-color: #1bc9a2; }
   .form-estimate {
     padding: 1rem 3rem; }
     .form-estimate-line {
@@ -340,7 +363,20 @@ body {
         font-size: 1.2rem;
         color: #666; }
       .form-estimate-line-total {
-        justify-self: right; }
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        font-size: 1.4rem;
+        margin-top: 0.5rem;
+        padding: 0.5rem 0rem; }
+        .form-estimate-line-total span {
+          text-align: right;
+          min-width: 10rem;
+          padding: 0 1rem;
+          margin-left: 1rem;
+          border-radius: 1.2rem;
+          background-color: #ededec; }
   .form-100 {
     position: relative; }
   .form-title {

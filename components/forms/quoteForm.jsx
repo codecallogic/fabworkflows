@@ -6,8 +6,8 @@ import Calendar from 'react-calendar'
 //// HELPERS
 import { manageFormFields } from '../../helpers/forms'
 import { populateAddress } from '../../helpers/modals'
-import { validateNumber, phoneNumber, validateDate, addressSelect, formatDate, numberType } from '../../helpers/validations'
-import { manageEstimates } from '../../helpers/estimates'
+import { validateNumber, phoneNumber, validateDate, addressSelect, formatDate, numberType, validatePrice } from '../../helpers/validations'
+import { manageEstimates, updateQuoteLine, calculateEstimate } from '../../helpers/estimates'
 
 const searchOptionsAddress = {
   componentRestrictions: {country: 'us'},
@@ -48,6 +48,7 @@ const Quote = ({
   const createType            = 'CREATE_QUOTE'
   const resetType             = 'RESET_QUOTE'
   const changeFormType        = 'CHANGE_FORMTYPE'
+  const createQuoteLineType   = 'CREATE_QUOTE_LINE'
   const myRefs = useRef(null)
   const [loadingColor, setLoadingColor] = useState('black')
   const [input_dropdown, setInputDropdown] = useState('')
@@ -77,6 +78,28 @@ const Quote = ({
       document.removeEventListener("click", handleClickOutside, true);
     };
   }, [])
+
+  //// QUOTE CALCULATIONS
+
+  useEffect(() => {
+
+    stateMethod(createType, 'quote_subtotal', calculateEstimate('subtotal', stateData).replace('$', ''))
+
+    stateMethod(createType, 'quote_taxable_discount', calculateEstimate('taxableDiscount', stateData).replace('$', ''))
+
+    stateMethod(createType, 'quote_taxable_total', calculateEstimate('taxableTotal', stateData).replace('$', ''))
+
+    stateMethod(createType, 'quote_nontaxable_subtotal', calculateEstimate('nonTaxableSubtotal', stateData).replace('$', ''))
+    
+    stateMethod(createType, 'quote_nontaxable_discount', calculateEstimate('nonTaxableDiscount', stateData).replace('$', ''))  
+
+    stateMethod(createType, 'quote_total', calculateEstimate('total', stateData).replace('$', ''))
+    
+    stateMethod(createType, 'quote_deposit_total', calculateEstimate('deposit', stateData, depositType).replace('$', ''))
+
+    stateMethod(createType, 'quote_balance', calculateEstimate('balance', stateData).replace('$', ''))
+    
+  }, [stateData.quote_lines, stateData.quote_discount, stateData.quote_tax, stateData.quote_deposit])
   
   return (
     <div className="table">
@@ -639,6 +662,8 @@ const Quote = ({
               <span 
               onClick={() => (
                 setModal('add_quote_line'),
+                setEdit('quote_line'),
+                updateQuoteLine(item, stateMethod, createQuoteLineType, idx),
                 stateMethod(changeFormType, null, item.typeForm)
               )}>
               <div 
@@ -680,7 +705,86 @@ const Quote = ({
               </span>
               </>
           )}
-        </div>
+
+
+          { stateData.quote_lines.length > 0 &&
+            <div className="form-estimate-line-total">
+              <label>Subtotal</label>
+              <span id="subtotal">{
+                calculateEstimate('subtotal', stateData)
+              }</span>
+            </div>
+          }
+
+          { stateData.quote_lines.length > 0 &&
+            <div className="form-estimate-line-total">
+              <label>Taxable Discount</label>
+              <span id="taxableDiscount">{
+                calculateEstimate('taxableDiscount', stateData)
+              }</span>
+            </div>
+          }
+
+
+          { stateData.quote_lines.length > 0 &&
+            <div className="form-estimate-line-total">
+              <label>Taxable Total</label>
+              <span id="taxableTotal">{
+                calculateEstimate('taxableTotal', stateData)
+              }</span>
+            </div>
+          }
+
+
+          { stateData.quote_lines.length > 0 &&
+            <div className="form-estimate-line-total">
+              <label>Non-Taxable Subtotal</label>
+              <span id="nonTaxableSubtotal">{
+                calculateEstimate('nonTaxableSubtotal', stateData)
+              }</span>
+            </div>
+          }
+
+
+          { stateData.quote_lines.length > 0 &&
+            <div className="form-estimate-line-total">
+              <label>Non-Taxable Discount</label>
+              <span id="nonTaxableSubtotal">{
+                calculateEstimate('nonTaxableDiscount', stateData)
+              }</span>
+            </div>
+          }
+
+
+          { stateData.quote_lines.length > 0 &&
+            <div className="form-estimate-line-total">
+              <label>Total</label>
+              <span id="total">{
+                calculateEstimate('total', stateData)
+              }</span>
+            </div>
+          }
+
+          { stateData.quote_lines.length > 0 &&
+            <div className="form-estimate-line-total">
+              <label>Deposit</label>
+              <span id="deposit">{
+                calculateEstimate('deposit', stateData, depositType)
+              }</span>
+            </div>
+          }
+
+          { stateData.quote_lines.length > 0 &&
+            <div className="form-estimate-line-total">
+              <label>Balance Due</label>
+              <span id="balance">{
+                calculateEstimate('balance', stateData)
+              }</span>
+            </div>
+          }
+
+
+          </div>
         </div>
       </div>
         
