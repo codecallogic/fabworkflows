@@ -26,12 +26,13 @@ const formFields = {
   categories: ['name'],
   remnants: ['name'],
   prices: ['brand', 'price', 'model'],
-  contacts: ['contact_name', 'phone', 'email']
+  contacts: ['contact_name', 'phone', 'email'],
+  quotes: ['contact_name', 'phone', 'email', 'quote_lines', 'quote_subtotal', 'quote_total', 'quote_balance', 'quote_date', 'quote_name', 'quote_number']
 }
 
 
 const manageFormFields = (data, key) => {  
-  
+
   if(data){
     if(typeof data == 'object'){ return data[key] }
     if(typeof data == 'string'){ return data }
@@ -48,7 +49,7 @@ const submitCreate = async (e, stateData, type, setMessage, loadingType, setLoad
     
     if(formFields[type][i].includes('email') && !validateEmail(formFields[type][i])) return (setDynamicSVG('notification'), setMessage('Invalid email address'))
 
-    if(!stateData[formFields[type][i]]) return (setDynamicSVG('notification'), setMessage(`${formFields[type][i].replace('_', ' ')} is required`))
+    if(!stateData[formFields[type][i]] || stateData[formFields[type][i]].length < 1) return (setDynamicSVG('notification'), setMessage(`${formFields[type][i].replace('_', ' ')} is required`))
 
   }
 

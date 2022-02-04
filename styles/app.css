@@ -82,6 +82,18 @@ body {
         margin-right: 0.5rem; }
       .form-box-heading-item input {
         display: none; }
+    .form-box-heading-message {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1e1e1e;
+      font-weight: 700;
+      margin-left: 1rem; }
+      .form-box-heading-message svg {
+        width: 2.2rem;
+        height: 2.2rem;
+        fill: #1e1e1e;
+        margin-right: 0.5rem; }
   .form-group {
     width: 100%;
     position: relative;

@@ -22,7 +22,7 @@ const updateQuoteLine = (data, stateMethod, caseType, idx) => {
   
 }
 
-const calculateEstimate = (type, stateData, depositType) => {
+const calculateEstimate = (stateData, stateMethod, caseType, depositType) => {
   let subtotal              = 0
   let taxableDiscount       = 0
   let taxableTotal          = 0
@@ -33,178 +33,165 @@ const calculateEstimate = (type, stateData, depositType) => {
   let balance               = 0
   
 
-  if(type == 'subtotal'){
-    stateData.quote_lines.forEach((item) => {
-      
-      if(item.taxable){ 
-        subtotal += (
-          (+item.quantity * +item.price.replace('$', '').replace(',', ''))
-        )
-      }
-     
-    })
-
-    return `$${subtotal.toFixed(2)}`
+  
+  stateData.quote_lines.forEach((item) => {
     
-  }
+    if(item.taxable){ 
+      subtotal += (
+        (+item.quantity * +item.price.replace('$', '').replace(',', ''))
+      )
+    }
+   
+    
+  })
+  stateMethod(caseType, 'quote_subtotal', subtotal.toFixed(2))
 
  
-  if(type == 'taxableDiscount'){
-    stateData.quote_lines.forEach((item) => {
-      
-      if(item.discount && item.taxable){ 
-
-        taxableDiscount += (
-          (+item.quantity * +item.price.replace('$', '').replace(',', ''))
-          * 
-          ( +stateData.quote_discount.replace('$', '').replace(',', '') / 100 )
-        )
-      }
-      
-    })
-
-    return `$${taxableDiscount.toFixed(2)}`
-  }
 
 
-  if(type == 'taxableTotal'){
-    stateData.quote_lines.forEach((item) => {
-      
-      if(item.taxable){ 
-
-        taxableTotal += (
-          (stateData.quote_tax) *
-          (+item.quantity * +item.price.replace('$', '').replace(',', ''))
-          / 100
-        )
-      }
-      
-    })
-
-    return `$${taxableTotal.toFixed(2)}`
-  }
-
-
-  if(type == 'nonTaxableSubtotal'){
-    stateData.quote_lines.forEach((item) => {
-      
-      if(!item.taxable){ 
-        nonTaxableSubtotal += (
-          (+item.quantity * +item.price.replace('$', '').replace(',', ''))
-        )
-      }
-      
-    })
-
-    return `$${nonTaxableSubtotal.toFixed(2)}`
-  }
-
-
-  if(type == 'nonTaxableDiscount'){
-    stateData.quote_lines.forEach((item) => {
-
-      if(!item.taxable && item.discount){ 
-        nonTaxableDiscount += (
-          (+item.quantity * +item.price.replace('$', '').replace(',', ''))
-          *
-          (+stateData.quote_discount / 100)
-        )
-      }
-
-    })
-
-    return `$${nonTaxableDiscount.toFixed(2)}`
-  }
-
-  if(type == 'total'){
-
-    total += (
-      
-      ( +stateData.quote_subtotal + +stateData.quote_nontaxable_subtotal + +stateData.quote_taxable_total ) 
-      - 
-      ( +stateData.quote_taxable_discount + +stateData.quote_nontaxable_discount )
-
-    )
+  stateData.quote_lines.forEach((item) => {
     
-    return `$${total.toFixed(2)}`
-  }
+    if(item.discount && item.taxable){ 
 
-  if(type == 'deposit'){
+      taxableDiscount += (
+        (+item.quantity * +item.price.replace('$', '').replace(',', ''))
+        * 
+        ( +stateData.quote_discount.replace('$', '').replace(',', '') / 100 )
+      )
+    }
+    
+  })
+  stateMethod(caseType, 'quote_taxable_discount', taxableDiscount.toFixed(2))
 
-    if(depositType == 'percentage'){
-      
-      deposit += (
-        ( +stateData.quote_total )
+
+
+
+  stateData.quote_lines.forEach((item) => {
+    
+    if(item.taxable){ 
+
+      taxableTotal += (
+        (stateData.quote_tax) *
+        (+item.quantity * +item.price.replace('$', '').replace(',', ''))
+        / 100
+      )
+    }
+    
+  })
+  stateMethod(caseType, 'quote_taxable_total', taxableTotal.toFixed(2))
+
+
+
+
+  stateData.quote_lines.forEach((item) => {
+    
+    if(!item.taxable){ 
+      nonTaxableSubtotal += (
+        (+item.quantity * +item.price.replace('$', '').replace(',', ''))
+      )
+    }
+    
+  })
+  stateMethod(caseType, 'quote_nontaxable_subtotal', nonTaxableSubtotal.toFixed(2))
+
+
+
+
+  stateData.quote_lines.forEach((item) => {
+
+    if(!item.taxable && item.discount){ 
+      nonTaxableDiscount += (
+        (+item.quantity * +item.price.replace('$', '').replace(',', ''))
         *
-        ( +stateData.quote_deposit.replace('%', '') / 100)
+        (+stateData.quote_discount / 100)
       )
-
-      return `$${deposit.toFixed(2)}`
     }
-    
-   
-    if(depositType == 'dollar'){
-      
-      deposit += (
-        ( +stateData.quote_deposit.replace('$', ''))
-      )
 
-      return `$${deposit.toFixed(2)}`
-    }
-  }
+  })
+  stateMethod(caseType, 'quote_nontaxable_discount', nonTaxableDiscount.toFixed(2))
 
-  if(type == 'balance'){
 
-    balance += (
-      ( +stateData.quote_total - +stateData.quote_deposit_total)
-    )
 
-    return `$${balance.toFixed(2)}`
-  }
-
-  //   return `$${nonTaxableSubtotal.toFixed(2)}`
-  // }
-
-  // quote.quote_lines.forEach((item) => {
-  //   if(item.taxable) subtotal += (item.quantity * item.price_unformatted)
-  //   if(!item.taxable) nontaxablesubtotal += (item.quantity * item.price_unformatted)
-  // })
-
-  // createQuote('quote_subtotal', subtotal)
-  // createQuote('quote_nontaxable_subtotal', nontaxablesubtotal)
-
-  // let total = 0
-  // quote.quote_lines.forEach((item) => {
-  //   if(item.discount){
-  //     if(item.taxable){
-  //       total += ((((item.quantity * item.price_unformatted) - ((item.quantity * item.price_unformatted) * (quote.quote_discount / 100)))))
-  //     }
-  //   }else{
-  //     if(item.taxable){
-  //       total += (item.quantity * item.price_unformatted)
-  //     }        
-  //   }
-  // })
   
-  // total += (total * quote.quote_tax/100)
+  stateData.quote_lines.forEach((item) => {
 
-  // !nontaxablesubtotal
-  // ? 
-  //   (total = total - (nontaxablesubtotal - (nontaxablesubtotal * (quote.quote_discount/100))))
-  // :
-  //   (total = total + (nontaxablesubtotal - (nontaxablesubtotal * (quote.quote_discount/100))))
+    //// SUBTOTAL
+    if(item.taxable){ 
+      total += (
+        (+item.quantity * +item.price.replace('$', '').replace(',', ''))
+      )
+    }
 
-  // createQuote('quote_total', total)
+    //// TAXABLE DISCOUNT
+    if(item.discount && item.taxable){ 
 
-  // let totalDeposit = quote.quote_deposit ? quote.quote_deposit.includes('$') ? +quote.quote_deposit.replace('$', '') : typeof(quote.quote_deposit) == 'string' ? (total * (quote.quote_deposit.replace('%', '')/100)) : 0 : 0
+      total -= (
+        (+item.quantity * +item.price.replace('$', '').replace(',', ''))
+        * 
+        ( +stateData.quote_discount.replace('$', '').replace(',', '') / 100 )
+      )
+    }
 
-  // let balance = total - totalDeposit
-  // createQuote('quote_balance', balance)
+    ///// TAX
+    if(item.taxable){ 
 
-  // // DISCOUNT TOTAL
-  // let discountTotal = 0
-  // quote.quote_lines.forEach((item) => { 
-  //   if(item.discount) discountTotal += +quote.quote_subtotal * (+quote.quote_discount / 100)
-  // })
-  // setDiscountTotal(discountTotal)
+      total += (
+        (stateData.quote_tax) *
+        (+item.quantity * +item.price.replace('$', '').replace(',', ''))
+        / 100
+      )
+    }
+
+    ///// NONTAXABLE SUBTOTAL
+    if(!item.taxable){ 
+      total += (
+        (+item.quantity * +item.price.replace('$', '').replace(',', ''))
+      )
+    }
+
+    ///// NONTAXABLE DISCOUNT
+    if(!item.taxable && item.discount){ 
+      total -= (
+        (+item.quantity * +item.price.replace('$', '').replace(',', ''))
+        *
+        (+stateData.quote_discount / 100)
+      )
+    }
+
+  })
+  stateMethod(caseType, 'quote_total', total.toFixed(2))
+
+
+
+
+  if(depositType == 'percentage'){
+      
+    deposit += (
+      +total.toFixed(2)
+      *
+      ( +stateData.quote_deposit.replace('%', '') / 100)
+    )
+  } 
+  
+
+  if(depositType == 'percentage') stateMethod(caseType, 'quote_deposit_total', deposit.toFixed(2))
+
+
+  if(depositType == 'dollar'){
+      
+    deposit += (
+      ( +stateData.quote_deposit.replace('$', ''))
+    )
+  }
+  
+  if(depositType == 'dollar') stateMethod(caseType, 'quote_deposit_total', deposit.toFixed(2))
+ 
+
+
+
+  balance += (
+    +total.toFixed(2) - +deposit.toFixed(2)
+  )
+  stateMethod(caseType, 'quote_balance', balance.toFixed(2))
+
 }

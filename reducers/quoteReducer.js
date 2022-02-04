@@ -14,8 +14,6 @@ const initialState = {
 
   // QUOTE DETAIL
   quote_name: '',
-  price_list: '',
-  price_list_id: '',
   salesperson: '',
   lead: '',
   quote_number: '',
@@ -71,7 +69,7 @@ export const quoteReducer = (state = initialState, action) => {
 
     case 'DELETE_QUOTE_LINE':
       let oldArray = [...state.quote_lines]
-      let newArrayWithRemovedQuoteLine = oldArray.filter((item, index) => index !== action.index)
+      let newArrayWithRemovedQuoteLine = oldArray.filter((item, index) => index !== action.value)
 
       return {
         ...state,

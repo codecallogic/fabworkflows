@@ -57,7 +57,7 @@ const Quote = ({
 
   useEffect(() => {
     
-    const isEmpty = Object.values(stateData).every( x => x === '' || x.length < 1)
+    const isEmpty = Object.values(stateData).every( x => x === '' || x.length < 1 || x === '0.00')
     
     if(!isEmpty) return (setMessage(''), setSave(true))
     if(isEmpty) return setSave(false)
@@ -83,23 +83,14 @@ const Quote = ({
 
   useEffect(() => {
 
-    stateMethod(createType, 'quote_subtotal', calculateEstimate('subtotal', stateData).replace('$', ''))
-
-    stateMethod(createType, 'quote_taxable_discount', calculateEstimate('taxableDiscount', stateData).replace('$', ''))
-
-    stateMethod(createType, 'quote_taxable_total', calculateEstimate('taxableTotal', stateData).replace('$', ''))
-
-    stateMethod(createType, 'quote_nontaxable_subtotal', calculateEstimate('nonTaxableSubtotal', stateData).replace('$', ''))
+    calculateEstimate(stateData, stateMethod, createType, depositType)
     
-    stateMethod(createType, 'quote_nontaxable_discount', calculateEstimate('nonTaxableDiscount', stateData).replace('$', ''))  
-
-    stateMethod(createType, 'quote_total', calculateEstimate('total', stateData).replace('$', ''))
-    
-    stateMethod(createType, 'quote_deposit_total', calculateEstimate('deposit', stateData, depositType).replace('$', ''))
-
-    stateMethod(createType, 'quote_balance', calculateEstimate('balance', stateData).replace('$', ''))
-    
-  }, [stateData.quote_lines, stateData.quote_discount, stateData.quote_tax, stateData.quote_deposit])
+  }, [
+    stateData.quote_lines, 
+    stateData.quote_discount, 
+    stateData.quote_tax, 
+    stateData.quote_deposit
+  ])
   
   return (
     <div className="table">
@@ -115,7 +106,7 @@ const Quote = ({
             onClick={(e) => edit == typeOfData ? 
               submitUpdate(e, stateData, 'slabs', setMessage, 'create_slab', setLoading, token, 'slabs/update-slab', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'slabs')
               : 
-              submitCreate(e, stateData, 'slabs', setMessage, 'create_slab', setLoading, token, 'slabs/create-slab', resetType, resetState, allData, setAllData, setDynamicSVG) 
+              submitCreate(e, stateData, 'quotes', setMessage, 'create_quote', setLoading, token, 'quotes/create-quote', resetType, resetState, allData, setAllData, setDynamicSVG)  
             }
             >
               {loading == 'create_slab' ? 
@@ -621,6 +612,10 @@ const Quote = ({
         </div>
       </div>
       
+
+
+
+
       <div className="form-box" style={{width: '100%'}}>
         <div className="form-box-heading">Quote Estimate
               <div 
@@ -635,25 +630,33 @@ const Quote = ({
               <div className="form-box-heading-item">
                 <SVG svg={'print'}></SVG>
               </div>
-              <div 
-                id="save" 
-                className="form-box-heading-item" 
-                onClick={(e) => edit == typeOfData ? 
-                  submitUpdate(e, stateData, 'slabs', setMessage, 'create_slab', setLoading, token, 'slabs/update-slab', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'slabs')
+              {save &&
+                <div 
+                  id="save" 
+                  className="form-box-heading-item" 
+                  onClick={(e) => edit == typeOfData ? 
+                    submitUpdate(e, stateData, 'slabs', setMessage, 'create_slab', setLoading, token, 'slabs/update-slab', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'slabs')
+                    : 
+                    submitCreate(e, stateData, 'quotes', setMessage, 'create_quote', setLoading, token, 'quotes/create-quote', resetType, resetState, allData, setAllData, setDynamicSVG) 
+                  }
+                  >
+                  {loading == 'create_quote' ? 
+                  <div className="loading">
+                    <span style={{backgroundColor: loadingColor}}></span>
+                    <span style={{backgroundColor: loadingColor}}></span>
+                    <span style={{backgroundColor: loadingColor}}></span>
+                  </div>
                   : 
-                  submitCreate(e, stateData, 'slabs', setMessage, 'create_slab', setLoading, token, 'slabs/create-slab', resetType, resetState, allData, setAllData, setDynamicSVG) 
-                }
-                >
-                {loading == 'create_quote' ? 
-                <div className="loading">
-                  <span style={{backgroundColor: loadingColor}}></span>
-                  <span style={{backgroundColor: loadingColor}}></span>
-                  <span style={{backgroundColor: loadingColor}}></span>
+                    edit == typeOfData ? 'Update' : 'Save'
+                  }
                 </div>
-                : 
-                  edit == typeOfData ? 'Update' : 'Save'
-                }
-              </div>
+              }
+              { message && 
+                <div className="form-box-heading-message">
+                  <SVG svg={dynamicSVG}></SVG> 
+                  <span>{message.substr(0, 200)}</span>
+                </div>
+              }
         </div>
         <div className="form-box-container">
           <div className="form-estimate">
@@ -710,8 +713,8 @@ const Quote = ({
           { stateData.quote_lines.length > 0 &&
             <div className="form-estimate-line-total">
               <label>Subtotal</label>
-              <span id="subtotal">{
-                calculateEstimate('subtotal', stateData)
+              <span id="subtotal">${
+                stateData.quote_subtotal
               }</span>
             </div>
           }
@@ -719,8 +722,8 @@ const Quote = ({
           { stateData.quote_lines.length > 0 &&
             <div className="form-estimate-line-total">
               <label>Taxable Discount</label>
-              <span id="taxableDiscount">{
-                calculateEstimate('taxableDiscount', stateData)
+              <span id="taxableDiscount">${
+                stateData.quote_taxable_discount
               }</span>
             </div>
           }
@@ -729,8 +732,8 @@ const Quote = ({
           { stateData.quote_lines.length > 0 &&
             <div className="form-estimate-line-total">
               <label>Taxable Total</label>
-              <span id="taxableTotal">{
-                calculateEstimate('taxableTotal', stateData)
+              <span id="taxableTotal">${
+                stateData.quote_taxable_total
               }</span>
             </div>
           }
@@ -739,8 +742,8 @@ const Quote = ({
           { stateData.quote_lines.length > 0 &&
             <div className="form-estimate-line-total">
               <label>Non-Taxable Subtotal</label>
-              <span id="nonTaxableSubtotal">{
-                calculateEstimate('nonTaxableSubtotal', stateData)
+              <span id="nonTaxableSubtotal">${
+                stateData.quote_nontaxable_subtotal
               }</span>
             </div>
           }
@@ -749,8 +752,8 @@ const Quote = ({
           { stateData.quote_lines.length > 0 &&
             <div className="form-estimate-line-total">
               <label>Non-Taxable Discount</label>
-              <span id="nonTaxableSubtotal">{
-                calculateEstimate('nonTaxableDiscount', stateData)
+              <span id="nonTaxableSubtotal">${
+                stateData.quote_nontaxable_discount
               }</span>
             </div>
           }
@@ -759,8 +762,8 @@ const Quote = ({
           { stateData.quote_lines.length > 0 &&
             <div className="form-estimate-line-total">
               <label>Total</label>
-              <span id="total">{
-                calculateEstimate('total', stateData)
+              <span id="total">${
+                stateData.quote_total
               }</span>
             </div>
           }
@@ -768,8 +771,8 @@ const Quote = ({
           { stateData.quote_lines.length > 0 &&
             <div className="form-estimate-line-total">
               <label>Deposit</label>
-              <span id="deposit">{
-                calculateEstimate('deposit', stateData, depositType)
+              <span id="deposit">${
+                stateData.quote_deposit_total
               }</span>
             </div>
           }
@@ -777,8 +780,8 @@ const Quote = ({
           { stateData.quote_lines.length > 0 &&
             <div className="form-estimate-line-total">
               <label>Balance Due</label>
-              <span id="balance">{
-                calculateEstimate('balance', stateData)
+              <span id="balance">${
+                stateData.quote_balance
               }</span>
             </div>
           }
@@ -788,6 +791,9 @@ const Quote = ({
         </div>
       </div>
         
+
+
+
       </form>
     </div>
   )

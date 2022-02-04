@@ -134,6 +134,7 @@ const QuoteLineModal = ({
         </span>
 
 
+        {/* {edit == '' &&  */}
         <div className="form-group-search modal-search">
           <form autoComplete="off">
             <input 
@@ -153,7 +154,20 @@ const QuoteLineModal = ({
             />
           </form>
         </div>
+        {/* } */}
 
+        {edit == 'quote_line' && typeForm !== '' &&
+        <div onClick={() => (
+            setEdit(''),
+            setModal(''), 
+            setMessage(''),
+            resetState(resetType), 
+            stateMethod(deleteQuoteLineType, null, stateData.idx),
+            stateMethod(changeFormType, null, '')
+          )}>
+          <SVG svg={'thrash-can'}></SVG>
+        </div>
+        }
 
         {typeForm == '' && 
         <div onClick={() => (
@@ -165,6 +179,7 @@ const QuoteLineModal = ({
           <SVG svg={'close'}></SVG>
         </div>
         }
+
         {typeForm !== '' && 
         <div onClick={() => (
             stateMethod(changeFormType, null, ''), 
@@ -252,7 +267,6 @@ const QuoteLineModal = ({
                       stateMethod(createType, 'model', item.model[0]), 
                       stateMethod(createType, 'category', item.category[0]), stateMethod(createType, 'description', item.description), 
                       stateMethod(createType, 'price', item.price),
-                      // stateMethod(createType, 'price_unformatted', validatePrice(item.price)), 
                       stateMethod(changeFormType, null, 'product')
                     )}>
                     {` 
@@ -309,8 +323,6 @@ const QuoteLineModal = ({
                           stateMethod(createType, 'brand', item.brand[0]), 
                           stateMethod(createType, 'model', item.model[0]), 
                           stateMethod(createType, 'color', item.color[0]), stateMethod(createType, 'price', item.price),
-                          // stateMethod(createType, 'price_unformatted',                 validateIsNumberToCentsCheck2(validateIsPriceNumber(item.price))
-                          // )
                           stateMethod(changeFormType, null, 'priceList')
                         )}>
                         {` 
@@ -330,7 +342,6 @@ const QuoteLineModal = ({
                           stateMethod(createType, 'brand', item.brand[0]), 
                           stateMethod(createType, 'model', item.model[0]), 
                           stateMethod(createType, 'color', item.color[0]), stateMethod(createType, 'price', item.price),
-                          // stateMethod(createType, 'price_unformatted', validateIsNumberToCentsCheck2(validateIsPriceNumber(item.price)))
                           stateMethod(changeFormType, null, 'priceList')
                         )
                       }>
