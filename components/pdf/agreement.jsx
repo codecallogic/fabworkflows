@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   }
 })
 
-const Agreement = ({date, quote_name, account_name}) => {
+const Agreement = ({stateData, account_name}) => {
 
   return (
     <Document>
@@ -106,21 +106,21 @@ const Agreement = ({date, quote_name, account_name}) => {
           </View>
         </View>
         <View style={styles.sectionTwo}>
-          <View style={styles.sectionTwoItem}>
+          {/* <View style={styles.sectionTwoItem}>
             <Text style={styles.heading}>Account Name:</Text>
             <Text style={styles.subheadingGray}>{account_name ? account_name : 'unknown'}</Text>
+          </View> */}
+          <View style={styles.sectionTwoItem}>
+            <Text style={styles.heading}>Quote Name</Text>
+            <Text style={styles.subheadingGray}>{stateData.quote_name ? stateData.quote_name : 'unknown'}</Text>
           </View>
           <View style={styles.sectionTwoItem}>
-            <Text style={styles.heading}>Quote Name:</Text>
-            <Text style={styles.subheadingGray}>{quote_name ? quote_name : 'unknown'}</Text>
-          </View>
-          <View style={styles.sectionTwoItem}>
-            <Text style={styles.heading}>Quote Date:</Text>
-            <Text style={styles.subheadingGray}>{date ? date : 'unknown'}</Text>
+            <Text style={styles.heading}>Quote Date</Text>
+            <Text style={styles.subheadingGray}>{stateData.quote_date ? stateData.quote_date : 'unknown'}</Text>
           </View>
         </View>
         <View style={styles.sectionThree}>
-          <Text style={styles.headingTwo}>AGREEMENT:</Text>
+          <Text style={styles.headingTwo}>AGREEMENT</Text>
           <Text style={styles.subheading}>Customer Information: NATURAL STONE & QUARTZ STONE</Text>
           <Text style={styles.subheadingTwo}>Thank you for your stone order. We at Innovate Stones appreciate your business. In order to serve you better and prevent any misunderstanding about your order, we would like to review the following information.</Text>
           <Text style={styles.subheadingTwo}>1 Year Warranty: Please note this warranty does not cover staining, chipping scratching or etching due to improper maintenance, neglect misuse or for circumstances beyond the range of our limit warranty. (Please visit our website for detailed warranty information) Warranty is only valid if customer registers the warranty online. Customer has 5 days to register for warranty.</Text>

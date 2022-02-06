@@ -23,7 +23,13 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignContent: 'flex-end',
-    width: 150,
+    width: 200,
+    backgroundColor: '#f1f1ee',
+    borderRadius: 12,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 10,
+    paddingBottom: 10
   },
   sectionContainerTwo: {
     display: 'flex',
@@ -38,7 +44,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 18,
     fontWeight: 700,
-    paddingBottom: 3
+    paddingBottom: 3,
   },
   headingTwo: {
     fontSize: 16,
@@ -83,7 +89,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     padding: 0,
-    margin: 0
+    margin: 0,
   },
   sectionContainerFour: {
     display: 'flex',
@@ -95,7 +101,7 @@ const styles = StyleSheet.create({
   headingTable: {
     fontSize: 12,
     fontWeight: 700,
-    padding: 10,
+    padding: 5,
     width: 200,
     color: 'white',
     backgroundColor: '#fd7e3c',
@@ -103,7 +109,7 @@ const styles = StyleSheet.create({
   headingTableTwo: {
     fontSize: 12,
     fontWeight: 700,
-    padding: 10,
+    padding: 5,
     color: 'white',
     backgroundColor: '#fd7e3c',
     textAlign: 'center',
@@ -113,16 +119,17 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: 300,
     textAlign: 'center',
-    padding: 10,
+    padding: 5,
     width: 200,
+    backgroundColor: '#f1f1ee'
   },
   tableRowTwo: {
     fontSize: 12,
     fontWeight: 300,
     textAlign: 'center',
-    padding: 10,
+    padding: 5,
     width: '100%',
-    borderBottom: '1px solid #fd7e3c'
+    backgroundColor: '#f1f1ee'
   },
   tableColumn: {
     fontSize: 12,
@@ -130,7 +137,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    borderBottom: '1px solid #fd7e3c',
+    borderBottom: '1px solid #dbdbdb',
     padding: 10,
     color: '#fd7e3c',
     width: 100,
@@ -140,7 +147,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: 200,
     padding: 2,
-    textTransform: 'uppercase'
+    textTransform: 'capitalize'
   },
   fontStyleTwo: {
     fontSize: 9,
@@ -170,7 +177,8 @@ const styles = StyleSheet.create({
   }
 })
 
-const Quote = ({date, order, contact_name, address, city, state, zip_code, phone, lines, subtotal, tax, total, po_number, salesperson}) => { 
+const Quote = ({stateData}) => { 
+
   return (
     <Document>
       <Page style={styles.page}>
@@ -188,15 +196,19 @@ const Quote = ({date, order, contact_name, address, city, state, zip_code, phone
         <View style={styles.section}>
           <View style={styles.sectionContainerTwo}>
             <Text style={styles.headingTwo}>Quotation For:</Text>
-            <Text style={styles.subheading}>{contact_name}</Text>
-            <Text style={styles.subheading}>{address}</Text>
-            <Text style={styles.subheading}>{city}, {state}, {zip_code}</Text>
-            <Text style={styles.subheading}>{phone}</Text>
+            <Text style={styles.subheading}>{stateData.contact_name}</Text>
+            <Text style={styles.subheading}>{stateData.address}</Text>
+            <Text style={styles.subheading}>
+              {stateData.city}, 
+              {stateData.state}, 
+              {stateData.zip_code}
+            </Text>
+            <Text style={styles.subheading}>{stateData.phone}</Text>
           </View>
           <View style={styles.sectionContainer}>
             <Text style={styles.heading}>Quote</Text>
-            <Text style={styles.subheading}>{date}</Text>
-            <Text style={styles.subheading}>Order: {order}</Text>
+            <Text style={styles.subheading}>{stateData.quote_date}</Text>
+            <Text style={styles.subheading}>Order: {stateData.quote_number}</Text>
           </View>
         </View>
         <View style={styles.sectionContainerThree}>
@@ -205,8 +217,12 @@ const Quote = ({date, order, contact_name, address, city, state, zip_code, phone
             <Text style={styles.headingTable}>P.O Number</Text>
           </View>
           <View style={styles.sectionRow}>
-            <Text style={styles.tableRow}>{salesperson ? salesperson : 'unprovided'}</Text>
-            <Text style={styles.tableRow}>{po_number ? po_number : 'unprovided'}</Text>
+            <Text style={styles.tableRow}>
+              {stateData.salesperson ? stateData.salesperson : 'Not provided'}
+            </Text>
+            <Text style={styles.tableRow}>
+              {stateData.po_number ? stateData.po_number : 'Not provided'}
+            </Text>
           </View>
         </View>
         <View style={styles.sectionContainerThree}>
@@ -217,13 +233,19 @@ const Quote = ({date, order, contact_name, address, city, state, zip_code, phone
             <Text style={styles.headingTableTwo}>Taxable</Text>
             <Text style={styles.headingTableTwo}>Amount</Text>
           </View>
-          {lines.length > 0 && lines.map((item) =>
+          {stateData.quote_lines.length > 0 && stateData.quote_lines.map((item) =>
             <View style={styles.sectionRow}>
               <Text style={styles.tableRowTwo}>{item.quantity}</Text>
               <Text style={styles.tableRowTwo}>{item.description}</Text>
-              <Text style={styles.tableRowTwo}>{item.price ? item.price : 'No Price'}</Text>
-              <Text style={styles.tableRowTwo}>{item.taxable ? 'yes' : 'no'}</Text>
-              <Text style={styles.tableRowTwo}>{item.price ? `$${+item.price.replace('$', "") * +item.quantity}` : 'No Price'}</Text>
+              <Text style={styles.tableRowTwo}>
+                {item.price ? item.price : 'No Subtotal'}
+              </Text>
+              <Text style={styles.tableRowTwo}>
+                {item.taxable ? 'yes' : 'no'}
+              </Text>
+              <Text style={styles.tableRowTwo}>
+                {item.price ? `$${+item.price.replace('$', "") * +item.quantity}` : 'No Subtotal'}
+              </Text>
             </View>
           )}
         </View>
@@ -232,21 +254,21 @@ const Quote = ({date, order, contact_name, address, city, state, zip_code, phone
             <Text style={styles.fontStyleOne}>Subtotal</Text>
             <View style={styles.tableColumn}>
               <Text>$</Text>
-              <Text>{subtotal}</Text>
+              <Text>{stateData.quote_subtotal}</Text>
             </View>
           </View>
           <View style={styles.sectionRowTwo}>
             <Text style={styles.fontStyleOne}>Tax Rate</Text>
             <View style={styles.tableColumn}>
               <Text></Text>
-              <Text>{tax} %</Text>
+              <Text>{stateData.quote_tax} %</Text>
             </View>
           </View>
           <View style={styles.sectionRowTwo}>
             <Text style={styles.fontStyleOne}>Total</Text>
             <View style={styles.tableColumn}>
               <Text>$</Text>
-              <Text>{total}</Text>
+              <Text>{stateData.quote_total}</Text>
             </View>
           </View>
         </View>

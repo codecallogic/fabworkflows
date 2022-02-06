@@ -627,9 +627,17 @@ const Quote = ({
               >
                 <SVG svg={'plus'}></SVG>
               </div>
-              <div className="form-box-heading-item">
+              <div 
+                className="form-box-heading-item" 
+                onClick={() => (
+                  setModal('new_pdf'),
+                  setEdit(''),
+                  stateMethod(changeFormType, null, '')
+                )}
+              >
                 <SVG svg={'print'}></SVG>
               </div>
+
               {save &&
                 <div 
                   id="save" 

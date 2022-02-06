@@ -17,7 +17,8 @@ export {
   formatDate,
   numberType,
   filterProductSearch,
-  filterPriceListSearch
+  filterPriceListSearch,
+  validatePDFContent
 }
 
 ///// VALIDATIONS
@@ -26,6 +27,8 @@ const formFields = {
   slabQRCode: ['material', 'size_1', 'size_2', 'lot_number'],
   productQRCode: ['brand', 'model', 'category', 'price'],
   remnantQRCode: ['name', 'material', 'l1', 'w1', 'l2', 'w2'],
+  pdfQuote: ['contact_name', 'address', 'city', 'state', 'zip_code', 'phone', 'quote_date', 'quote_number', 'quote_name', 'salesperson', 'quote_subtotal', 'quote_tax', 'quote_total', 'quote_balance'],
+  pdfAgreement: ['contact_name', 'quote_name', 'quote_date']
 }
 
 const validateNumber = (type) => {
@@ -366,5 +369,37 @@ const filterPriceListSearch = (item) => {
 
   if( manageFormFields(item.model[0], 'name') && manageFormFields(item.model[0], 'name').toLowerCase().includes(search.toLowerCase())) 
     return true
+
+}
+
+const validatePDFContent = (functionType, type, stateData, url, setDynamicSVG, setMessage) => {
+
+  for(let i = 0; i < formFields[type].length; i++){
+  
+    if(!stateData[formFields[type][i]] || stateData[formFields[type][i]].length < 1) return (setDynamicSVG('notification'), setMessage(`${formFields[type][i].replace('_', ' ')} is required`))
+
+  }
+  
+  if( functionType == 'viewQuote' ){
+    window.open(url, '_blank')
+  }
+  
+  if( functionType == 'downloadQuote' ){
+    let link = document.createElement('a');
+    link.href = url;
+    link.download = 'quote.pdf';
+    link.dispatchEvent(new MouseEvent('click'));
+  }
+
+  if( functionType == 'viewAgreement' ){
+    window.open(url, '_blank')
+  }
+  
+  if( functionType == 'downloadAgreement' ){
+    let link = document.createElement('a');
+    link.href = url;
+    link.download = 'agreement.pdf';
+    link.dispatchEvent(new MouseEvent('click'));
+  }
 
 }

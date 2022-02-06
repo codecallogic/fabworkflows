@@ -46,6 +46,7 @@ import BrandModal from '../../components/modals/Brand'
 import ModelModal from '../../components/modals/Model'
 import CategoryModal from '../../components/modals/Category'
 import QuoteLineModal from '../../components/modals/QuoteLine'
+import PrintModal from '../../components/modals/Print'
 
 axios.defaults.withCredentials = true
 
@@ -1244,6 +1245,33 @@ const Dashboard = ({
               editData={editData}
             >
             </ContactModal>
+          }
+          { modal == 'new_pdf' &&
+            <PrintModal
+              token={token}
+              message={message}
+              setMessage={setMessage}
+              setModal={setModal}
+              loading={loading}
+              setLoading={setLoading}
+              edit={edit}
+              setEdit={setEdit}
+              stateData={quote}
+              typeForm={nav.form}
+              stateMethod={createType}
+              dynamicSVG={dynamicSVG}
+              setDynamicSVG={setDynamicSVG}
+              resetState={resetType}
+              submitCreate={submitCreate}
+              addImages={addImages}
+              allData={allData}
+              setAllData={setAllData}
+              submitUpdate={submitUpdate}
+              changeView={changeView}
+              submitDeleteImage={submitDeleteImage}
+              editData={editData}
+            >
+            </PrintModal>
           }
         </div>
       </div>
