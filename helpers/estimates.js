@@ -164,7 +164,7 @@ const calculateEstimate = (stateData, stateMethod, caseType, depositType) => {
 
 
 
-  if(depositType == 'percentage'){
+  if(stateData.quote_deposit.includes('%')){
       
     deposit += (
       +total.toFixed(2)
@@ -174,20 +174,18 @@ const calculateEstimate = (stateData, stateMethod, caseType, depositType) => {
   } 
   
 
-  if(depositType == 'percentage') stateMethod(caseType, 'quote_deposit_total', deposit.toFixed(2))
+  if(stateData.quote_deposit.includes('%')) stateMethod(caseType, 'quote_deposit_total', deposit.toFixed(2))
 
 
-  if(depositType == 'dollar'){
+  if(stateData.quote_deposit.includes('$')){
       
     deposit += (
       ( +stateData.quote_deposit.replace('$', ''))
     )
   }
   
-  if(depositType == 'dollar') stateMethod(caseType, 'quote_deposit_total', deposit.toFixed(2))
+  if(stateData.quote_deposit.includes('$')) stateMethod(caseType, 'quote_deposit_total', deposit.toFixed(2))
  
-
-
 
   balance += (
     +total.toFixed(2) - +deposit.toFixed(2)

@@ -476,6 +476,11 @@
         margin-top: 0.5rem;
         padding: 0.5rem 0rem;
 
+        &:last-child {
+          font-weight: 700;
+          text-transform: uppercase;
+        }
+
         span {
           text-align: right;
           min-width: 10rem;
@@ -483,6 +488,7 @@
           margin-left: 1rem;
           border-radius: 1.2rem;
           background-color: $color-light-shade-scheme-3;
+          font-weight: 300;
         }
       }
     }
@@ -2070,4 +2076,12 @@
 .modal-search {
   margin-left: 0.5rem !important;
   width: 50% !important;
+}
+
+.inputFieldWhite {
+  margin-bottom: 1rem;
+
+  input {
+    background-color: white !important;
+  }
 }

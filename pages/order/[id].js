@@ -1,78 +1,56 @@
 import axios from 'axios'
-import {API} from '../../config'
-import {useState, useEffect, useRef} from 'react'
-import {connect} from 'react-redux'
 import PlacesAutocomplete from 'react-places-autocomplete'
-import {geocodeByPlaceId} from 'react-places-autocomplete'
-import SVGs from '../../files/svgs'
-import {useStripe, useElements, CardElement, Elements} from '@stripe/react-stripe-js';
+import SVG from '../../files/svgs'
 import CheckoutForm from '../../components/payments/checkoutForm'
-import {loadStripe} from '@stripe/stripe-js';
+import { API, STRIPE_TEST } from '../../config'
+import { useState, useEffect, useRef } from 'react'
+import { connect } from 'react-redux'
+import { useStripe, useElements, CardElement, Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 
-const stripePromise = loadStripe("pk_test_51JiswpEVACWjVaO4kNqvAf9WUu1hp2s56IRBxxusJkxwMhe6ef3dxAB7TiR0g4LRM6UskPGIwQnd4ng7Q4VZrV4q00uEM1QnSO")
+//// VALIDATIONS
+import { addressSelect, validateNumber, validatePrice } from '../../helpers/validations'
+import { manageFormFields } from '../../helpers/forms'
+import { manageEstimates } from '../../helpers/estimates'
+
+const stripePromise = loadStripe(STRIPE_TEST)
 
 const searchOptionsAddress = {
   componentRestrictions: {country: 'us'},
   types: ['address']
 }
 
-const searchOptionsCities = {
-  componentRestrictions: {country: 'us'},
-  types: ['(cities)']
-}
-
-const Checkout = ({quote, order, createOrder}) => {
-  console.log(quote)
-
+const Checkout = ({
+  quote, 
+  createMethod, 
+  resetMethod, 
+  order
+}) => {
+  // console.log(quote)
+  const createType        = 'CREATE_ORDER'
+  const resetType         = 'RESET_ORDER'
+  
+  const myRefs = useRef(null)
   const [show, setShow] = useState('address')
   const [modal, setModal] = useState('')
   const [newDeposit, setNewDeposit] = useState('')
+  const [input_dropdown, setInputDropdown] = useState('')
   const [otherDeposit, setOtherDeposit] = useState(false)
 
-  const handleSelect = async (e, type, id) => {
-    let geo
-    
-    if(id){
-     geo = await geocodeByPlaceId(id)
+  const handleClickOutside = (event) => {
+    if(myRefs.current){
+      if(!myRefs.current.contains(event.target)){
+        setInputDropdown('')
+      }
     }
-
-    if(geo){
-      geo[0].address_components.forEach((item) => {
-        // console.log(item)
-        if(item.types.includes('postal_code')){
-          createOrder('zip_code', item.long_name)
-        }
-        if(item.types.includes('country')){
-          createOrder('country', item.long_name)
-        }
-      })
-    }
-
-    if(type == 'address'){
-      createOrder('address', e.split(',')[0])
-    }
-    
-    createOrder('city', e.split(',')[1])
-    createOrder('state', e.split(',')[2])
   }
 
-  const validateIsNumber = (type) => {
-    const input = document.getElementById(type)
-    const regex = /^(\d+(\d{0,2})?|\.?\d{1,2})$/
-    if(regex.test(input.value)){
-      return input.value = input.value.split(regex).join('')
-    }
-    return input.value = ''
-  }
-
-  const validateIsPriceNumber = (amount) => {
-    let newValue = amount
-    let formatter = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    }) 
-    return formatter.format(newValue)
-  }
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, [])
   
   return (
     <>
@@ -86,180 +64,374 @@ const Checkout = ({quote, order, createOrder}) => {
         <div className="checkout-box-billing">
           <div className="checkout-box-billing-title">Billing Information</div>
           <form className="checkout-box-billing-form">
-            <div className="form-group-single-textarea">
-              <div className="form-group-single-textarea-field">
-                <label htmlFor="name">Cardholder Name</label>
-                <textarea id="name" rows="1" name="name" placeholder="Cardholder Name" value={order.name} onChange={(e) => createOrder('name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = 'Cardholder Name'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} autoFocus={true} required></textarea>
-              </div>
-            </div>
-            <PlacesAutocomplete value={order.address} onChange={(e) => createOrder('address', e)} onSelect={(e) => handleSelect(e, 'address', document.getElementById('address_place_id').value)} searchOptions={searchOptionsAddress}>
-              {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                <div className="form-group-single-textarea-autocomplete">
-                  <label htmlFor="address">Address</label>
-                  <div className="form-group-single-textarea-autocomplete-textarea"><textarea {...getInputProps({rows: 2, placeholder: 'Address'})} required/>
-                  {show == 'address' ? <span onClick={() => setShow('hide')}>Hide</span> : <span onClick={() => setShow('address')}>Show</span>}
-                  </div>
-                  <div  className="form-group-single-textarea-autocomplete-box">
-                  {show == 'address' && loading ? <div>...loading</div> : null}
-                  {show == 'address' && suggestions.map((suggestion, idx) => {
-                    const className = suggestion.active
-                    ? 'form-group-single-textarea-autocomplete-suggestion-active'
-                    : 'form-group-single-textarea-autocomplete-suggestion';
-                    const style = suggestion.active ? {cursor: 'pointer'} : {cursor: 'pointer'}
-                    return (
-                    <div key={idx} {...getSuggestionItemProps(suggestion, {className, style})}>{suggestion.description}
-                    <input id="address_place_id" value={suggestion.placeId} readOnly/>
-                    </div>
-                    )
-                  })}
-                  </div>
-                </div>
+            <div className="form-group inputFieldWhite">
+              <input 
+              id="name" 
+              value={order.name} 
+              onChange={(e) => (createMethod(createType, 'name', e.target.value))}/>
+              
+              <label 
+              className={`input-label ` + (
+                order.name.length > 0 || 
+                typeof order.name == 'object' 
+                ? ' labelHover' 
+                : ''
               )}
+              htmlFor="name">
+                Cardholder Name
+              </label>
+            </div>
+            <PlacesAutocomplete 
+            value={order.address} 
+            onChange={(e) => createMethod(createType, 'address', e)} 
+
+            /////  KEYS RESPECTIVELY: ADDRESS, CITY, STATE, ZIP, COUNTRY
+            onSelect={(e) => (
+              setInputDropdown(''), 
+              addressSelect(e, 'address', createType, createMethod, 'addressGeoId', 'city', 'state', 'zip_code', 'country'))
+            } 
+            searchOptions={searchOptionsAddress}
+            >
+            { ({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
+            <div className="form-group inputFieldWhite">
+              <input 
+              onClick={() => setInputDropdown('billing_address')} 
+              {...getInputProps()}/>
+              <label 
+                className={`input-label ` + (
+                order.address.length > 0 || 
+                typeof order.address == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="address">
+                Address
+              </label>
+              <div onClick={() => setInputDropdown('') }>
+                <SVG svg={'arrow-left'}></SVG>
+              </div>
+              { input_dropdown == 'billing_address' &&
+                <div 
+                className="form-group-list" 
+                ref={myRefs}
+                >
+                  {loading ? <div>...loading</div> : null}
+                  {suggestions.map( (item, idx) => (
+                    <div 
+                    key={idx} 
+                    className="form-group-list-item" 
+                    {...getSuggestionItemProps(item)}
+                    >
+                      {item.description}
+                      <input 
+                      id="addressGeoId" 
+                      value={item.placeId} 
+                      style={{display: 'none'}}
+                      readOnly
+                      />
+                    </div>
+                  ))}
+                </div>
+              }
+            </div>
+            )}
             </PlacesAutocomplete>
-            <div className="form-group-single-textarea">
-              <div className="form-group-single-textarea-field">
-                <label htmlFor="city">City</label>
-                <textarea id="city" rows="1" name="city" placeholder="City" value={order.city} onChange={(e) => createOrder('city', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = 'City'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
-              </div>
+            <div className="form-group inputFieldWhite">
+              <input 
+              id="city" 
+              value={order.city} 
+              onChange={(e) => (createMethod(createType, 'city', e.target.value))}/>
+              
+              <label 
+              className={`input-label ` + (
+                order.city.length > 0 || 
+                typeof order.city == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="city">
+                City
+              </label>
             </div>
-            <div className="form-group-single-textarea">
-              <div className="form-group-single-textarea-field">
-                <label htmlFor="state">State</label>
-                <textarea id="state" rows="1" name="state" placeholder="State" value={order.state} onChange={(e) => createOrder('state', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = 'State'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
-              </div>
+            <div className="form-group inputFieldWhite">
+              <input 
+              id="state" 
+              value={order.state} 
+              onChange={(e) => (createMethod(createType, 'state', e.target.value))}/>
+              
+              <label 
+              className={`input-label ` + (
+                order.state.length > 0 || 
+                typeof order.state == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="state">
+                State
+              </label>
             </div>
-            <div className="form-group-single-textarea">
-              <div className="form-group-single-textarea-field">
-                <label htmlFor="zip_code">Zip Code</label>
-                <textarea id="zip_code" rows="1" name="zip_code" placeholder="Zip Code" value={order.zip_code} onChange={(e) => createOrder('zip_code', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = 'Zip Code'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
-              </div>
+            <div className="form-group inputFieldWhite">
+              <input 
+              id="zip_code" 
+              value={order.zip_code} 
+              onChange={(e) => (validateNumber('zip_code'), createMethod(createType, 'zip_code', e.target.value))}/>
+              
+              <label 
+              className={`input-label ` + (
+                order.zip_code.length > 0 || 
+                typeof order.zip_code == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="zip_code">
+                Zip Code
+              </label>
             </div>
-            <div className="form-group-single-textarea">
-              <div className="form-group-single-textarea-field">
-              <div className="form-group-single-textarea-field-label">
-                <label htmlFor="zip_code">Card</label>
-                { !otherDeposit &&
-                  <>
-                  <span className="form-group-single-textarea-field-label-option" onClick={() => setNewDeposit(50)}>50% Deposit</span>
-                  <span className="form-group-single-textarea-field-label-option" onClick={() => setOtherDeposit(true)}>Other</span>
-                  <span className="form-group-single-textarea-field-label-option" onClick={() => setNewDeposit('')}>0%</span>
-                  </>
+            <div className="checkout-box-newDeposit">
+                { !otherDeposit && 
+                <>
+                  <span 
+                  className="checkout-box-newDeposit-option"
+                  onClick={() => setNewDeposit(50)}
+                  >
+                    50% Deposit
+                  </span>
+                  <span 
+                  className="checkout-box-newDeposit-option"
+                  onClick={() => setOtherDeposit(true)}
+                  >
+                    Other
+                  </span>
+                  <span 
+                    className="checkout-box-newDeposit-option"
+                    onClick={() => setNewDeposit('')}
+                  >
+                    0%
+                  </span>
+                </>
                 }
-                {
-                  otherDeposit && 
-                  <div className="form-group-single-textarea-field-label-input">
-                    <input id="otherDeposit" value={newDeposit} onChange={(e) => (validateIsNumber('otherDeposit'), setNewDeposit(e.target.value < 1 ? '' : e.target.value > 100 ? '' : e.target.value))} placeHolder="Min 1% Max 100%"></input>
-                    <span onClick={() => (setNewDeposit(''), setOtherDeposit(false))}><SVGs svg={'close'}></SVGs></span>
+                { otherDeposit && 
+                  <div className="form-group inputFieldWhite">
+                    <input 
+                    id="newDeposit" 
+                    value={newDeposit} 
+                    onFocus={ (e) => 
+                      e.target.placeholder = 'Min 1% Max 100%'
+                    }
+                    onBlur={ (e) => 
+                      e.target.placeholder = ''
+                    }
+                    onChange={(e) => (
+                      validateNumber('newDeposit'),
+                      setNewDeposit(
+                        e.target.value < 1 
+                        ? 
+                          '' 
+                        : 
+                          e.target.value > 100 ? '' 
+                        : 
+                          e.target.value
+                        )
+                    )}/>
+                    <label 
+                    className={`input-label ` + (
+                      newDeposit !== '' || 
+                      typeof newDeposit == 'object' 
+                      ? ' labelHover' 
+                      : ''
+                    )}
+                    htmlFor="newDeposit">
+                      Deposit %
+                    </label>
+                    <div onClick={() => (
+                      setNewDeposit(''), 
+                      setOtherDeposit(false))
+                    }>
+                      <SVG svg={'arrow-left'}></SVG>
+                    </div>
                   </div>
                 }
-              </div>
-              </div>
             </div>
             <Elements stripe={stripePromise}>
-              <CheckoutForm name={order.name} address={order.address} city={order.city} state={order.state} zip_code={order.zip_code} country={order.country} email={quote.email} quote={quote} setmodal={setModal} deposit={newDeposit}></CheckoutForm>
+              <CheckoutForm 
+                type={'payment'}
+                billing={order}
+                quote={quote}
+                deposit={newDeposit}
+              >
+              </CheckoutForm>
             </Elements>
           </form>
         </div>
+
+
+
+
+
         <div className="checkout-box-summary">
-          <div className="checkout-box-summary-title">Quote {quote.quote_name} for {quote.contact_name} created on {quote.quote_date}</div>
+          <div className="checkout-box-summary-title">
+            Quote {quote.quote_name} for {quote.contact_name} created on {quote.quote_date}
+          </div>
           <div className="checkout-box-summary-quote">
             { quote.quote_lines.length > 0 && quote.quote_lines.map((item, idx) => 
-            <div key={idx} id={`quote_line_${idx}`}className="clientDashboard-view-slab_form-quoteLine-right-box-line">
-              <div className="clientDashboard-view-slab_form-quoteLine-right-box-line-container">
-                <SVGs svg={'checkmark-2'}></SVGs>
-                <div className="clientDashboard-view-slab_form-quoteLine-right-box-line-quantity">{item.quantity}</div>
-                <pre className="clientDashboard-view-slab_form-quoteLine-right-box-line-description">{item.brand ? `${item.brand}/${item.model}` : item.description}</pre>
-                <div className="clientDashboard-view-slab_form-quoteLine-right-box-line-total">{item.price_unformatted ? validateIsPriceNumber(item.quantity * item.price_unformatted) : `(No price)`}</div>
+              <div className="form-estimate">
+                  <div 
+                  className="form-estimate-line"
+                  >
+                  <SVG svg={'checkmark-2'}></SVG>
+                  <div>{item.quantity ? item.quantity : '0'}</div>
+                  <div className="form-estimate-line-description">
+                    { item.brand 
+                      ? 
+                      `${manageFormFields(item.brand, 'name')} / ${manageFormFields(item.model, 'name')}` 
+                      : 
+                      item.category
+                      ?
+                      `${manageFormFields(item.category, 'name')}` 
+                      :
+                      item.description
+                    }
+                  </div>
+                  <div>
+                  {item.price && item.quantity
+                    ? 
+                    manageEstimates('lineTotal', item.quantity, item.price) 
+                    : 
+                    `(No subtotal)`
+                  }
+                  </div>
+                </div>
+                <div className="form-estimate-line-label">
+                  [Category: {item.category 
+                    ? 
+                    manageFormFields(item.category, 'name') : 'none'}][{item.price 
+                    ? 
+                    `${item.price}/each` 
+                    : 
+                    'No Price'}
+                  ]
+                  [{item.taxable == true ? `Taxed: yes` : 'Taxed: no'}]
+                </div>
               </div>
-              <div className="clientDashboard-view-slab_form-quoteLine-right-box-line-label">
-                [Category: {item.category ? item.category : 'none'}][{item.price ? `${item.price}/each` : 'No Price'}]
-              </div>
-            </div>
             )
             }
-            <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate">
-              { quote.quote_lines.length > 0 &&
-                <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
-                  <label>Subtotal</label>
-                  <span id="subtotal">{quote.quote_subtotal ? validateIsPriceNumber(quote.quote_subtotal) : 0}</span>
-                </div>
-              }
-              { quote.quote_lines.length > 0 &&
-              <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-discount">
-                <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
-                  <label>Discount</label>
-                  <span id="discount">{quote.quote_discount ? validateIsPriceNumber(quote.quote_discount) : 0}</span>
-                </div>
-              </div>
-              }
-              { quote.quote_lines.length > 0 &&
-              <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-tax">
-                <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
-                  <label>Tax</label>
-                  <span id="tax">{quote.quote_tax ? `${quote.quote_tax}%` : 0}</span>
-                </div>
-              </div>
-              }
-              { quote.quote_lines.length > 0 &&
-              <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-nontaxable-subtotal">
-                <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
-                  <label>Non-Taxable Subtotal</label>
-                  <span id="nontaxable_subtotal">{quote.quote_nontaxable_subtotal ? validateIsPriceNumber(quote.quote_nontaxable_subtotal) : 0}</span>
-                </div>
-              </div>
-              }
-              { quote.quote_lines.length > 0 &&
-              <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-nontaxable-discount">
-                <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
-                  <label>Non-Taxable Discount</label>
-                  <span id="discount">{quote.quote_nontaxable_discount ? validateIsPriceNumber(quote.quote_nontaxable_discount): 0}</span>
-                </div>
-              </div>
-              }
-              { quote.quote_lines.length > 0 &&
-              <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-total">
-                <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
-                  <label>Total</label>
-                  <span>{quote.quote_total ? validateIsPriceNumber(quote.quote_total) : 0}</span>
-                </div>
-              </div>
-              }
-              { quote.quote_lines.length > 0 &&
-              <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-deposit">
-                <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
-                  <label>Deposit</label>
-                  <span id="deposit" >{newDeposit 
-                  ? 
-                  (validateIsPriceNumber(
-                  quote.quote_balance * newDeposit/100 + (quote.quote_deposit.includes('$') ?  +quote.quote_deposit.replace('$', '') 
-                  : 
-                  quote.quote_deposit.includes('%') 
-                  ? (quote.quote_total * (+quote.quote_deposit.replace('%', '')/100)) : +quote.quote_deposit))) 
-                  : quote.quote_deposit 
-                  ? 
-                  validateIsPriceNumber(
-                  quote.quote_deposit.includes('$') 
-                  ? quote.quote_deposit.replace('$', '') 
-                  :  quote.quote_deposit.includes('%')
-                  ? (+quote.quote_total * (quote.quote_deposit.replace('%', '')/100)) 
-                  : 
-                  +quote.quote_deposit
-                  ) 
-                  : 0}</span>
-                </div>
-              </div>
-              }
-              { quote.quote_lines.length > 0 &&
-              <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-balance">
-                <div className="clientDashboard-view-slab_form-quoteLine-right-box-estimate-subtotal">
-                  <label>Balance Due</label>
-                  <span id="balance" >{newDeposit ? validateIsPriceNumber(quote.quote_balance - (quote.quote_balance * newDeposit/100)) : validateIsPriceNumber(quote.quote_balance)}</span>
-                </div>
-              </div>
-              }
+            
+            { quote.quote_lines.length > 0 &&
+            <div className="form-estimate-line-total">
+              <label>Subtotal</label>
+              <span id="subtotal">${
+                quote.quote_subtotal
+              }</span>
             </div>
+            }
+
+
+            { quote.quote_lines.length > 0 &&
+              <div className="form-estimate-line-total">
+                <label>Taxable Discount</label>
+                <span id="taxableDiscount">${
+                  quote.quote_taxable_discount
+                }</span>
+              </div>
+            }
+
+            { quote.quote_lines.length > 0 &&
+              <div className="form-estimate-line-total">
+                <label>Taxable Total</label>
+                <span id="taxableTotal">${
+                  quote.quote_taxable_total
+                }</span>
+              </div>
+            }
+
+            { quote.quote_lines.length > 0 &&
+              <div className="form-estimate-line-total">
+                <label>Non-Taxable Subtotal</label>
+                <span id="nonTaxableSubtotal">${
+                  quote.quote_nontaxable_subtotal
+                }</span>
+              </div>
+            }
+
+            { quote.quote_lines.length > 0 &&
+              <div className="form-estimate-line-total">
+                <label>Non-Taxable Discount</label>
+                <span id="nonTaxableSubtotal">${
+                  quote.quote_nontaxable_discount
+                }</span>
+              </div>
+            }
+
+            { quote.quote_lines.length > 0 &&
+              <div className="form-estimate-line-total">
+                <label>Total</label>
+                <span id="total">${
+                  quote.quote_total
+                }</span>
+              </div>
+            }
+
+            { quote.quote_lines.length > 0 &&
+              <div className="form-estimate-line-total">
+                <label>Deposit</label>
+                <span id="deposit">${
+                  newDeposit 
+                  ? 
+                    (quote.quote_balance * (newDeposit / 100)).toFixed(2)
+                  : 
+                    quote.quote_deposit_total
+                }</span>
+              </div>
+            }
+
+            { quote.quote_lines.length > 0 &&
+              <div className="form-estimate-line-total">
+                <label>Balance Due</label>
+                <span id="balance">${
+                  ( 
+                    quote.quote_balance 
+                    - 
+                    (quote.quote_balance * (newDeposit / 100))
+                  ).toFixed(2)
+                }</span>
+              </div>
+            }
+
+            
+
           </div>
+
+          { quote.quote_lines.length > 0 && newDeposit &&
+            <>
+              <div 
+                className="depositMessage" 
+                style={{ color: '#fd7e3c'}}
+              >
+                Deposits are calculated from current balance due.
+              </div>
+              <div 
+                className="form-estimate-line-total depositMessage" 
+                style={{ color: '#fd7e3c'}}
+              >
+                Any new deposit will added to previous deposits made.
+              </div>
+            </>
+          }
+
+          { quote.quote_lines.length > 0 && quote.payment == 'complete' &&
+            <div 
+              className="depositMessage" 
+              style={{ color: '#fd7e3c'}}
+            >
+              Your balance is paid off
+            </div>
+          }
+
         </div>
+
+
+
+
       </div>
     </div>
     : 
@@ -272,7 +444,7 @@ const Checkout = ({quote, order, createOrder}) => {
       <div className="addFieldItems-modal-box">
         <div className="addFieldItems-modal-box-header">
           <span className="addFieldItems-modal-form-title">Payment</span>
-          <div onClick={() => window.location.href = '/'}><SVGs svg={'close'}></SVGs></div>
+          <div onClick={() => window.location.href = '/'}><SVG svg={'close'}></SVG></div>
         </div>
         <div className="addFieldItems-modal-message">
           Payment was made, we will contact you soon
@@ -292,15 +464,17 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createOrder: (name, data) => dispatch({type: 'CREATE_ORDER', name: name, value: data})
+    createMethod: (caseType, name, data) => dispatch({type: caseType, name: name, value: data}),
+    resetMethod: (caseType) => dispatch({type: caseType}),
   }
 }
 
 Checkout.getInitialProps = async ({query}) => {
-  // console.log(query)
+
   let quote
+
   try {
-    const responseQuote = await axios.post(`${API}/transaction/get-quote`, {id: query.id})
+    const responseQuote = await axios.post(`${API}/quotes/get-quote`, {id: query.id})
     quote = responseQuote.data
   } catch (error) {
     if(error) console.log(error)

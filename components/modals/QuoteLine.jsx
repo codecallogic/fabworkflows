@@ -14,6 +14,8 @@ const QuoteLineModal = ({
   setEdit,
   dynamicSVG,
   setDynamicSVG,
+  modalEdit,
+  setModalEdit,
 
   //// DATA
   allData,
@@ -126,7 +128,7 @@ const QuoteLineModal = ({
         <div className="addFieldItems-modal-box-header">
         <span 
           className="addFieldItems-modal-form-title">
-            {edit == 'quote_line' ? 
+            {modalEdit == 'quote_line' ? 
             'Edit Quote Line' 
             : 
             'New Quote Line'
@@ -156,9 +158,8 @@ const QuoteLineModal = ({
         </div>
         {/* } */}
 
-        {edit == 'quote_line' && typeForm !== '' &&
+        {modalEdit == 'quote_line' && typeForm !== '' &&
         <div onClick={() => (
-            setEdit(''),
             setModal(''), 
             setMessage(''),
             resetState(resetType), 
@@ -173,8 +174,7 @@ const QuoteLineModal = ({
         <div onClick={() => (
             setModal(''), 
             resetState(resetType), 
-            setMessage(''),
-            setEdit('')
+            setMessage('')
           )}>
           <SVG svg={'close'}></SVG>
         </div>
@@ -184,7 +184,7 @@ const QuoteLineModal = ({
         <div onClick={() => (
             stateMethod(changeFormType, null, ''), 
             resetState(resetType),
-            setEdit('')
+            setModalEdit('')
           )}>
           <SVG svg={'arrow-left-large'}></SVG>
         </div>
@@ -267,7 +267,8 @@ const QuoteLineModal = ({
                       stateMethod(createType, 'model', item.model[0]), 
                       stateMethod(createType, 'category', item.category[0]), stateMethod(createType, 'description', item.description), 
                       stateMethod(createType, 'price', item.price),
-                      stateMethod(changeFormType, null, 'product')
+                      stateMethod(changeFormType, null, 'product'),
+                      setModalEdit('')
                     )}>
                     {` 
                       ${manageFormFields(item.brand[0], 'name')} /
@@ -291,7 +292,8 @@ const QuoteLineModal = ({
                       stateMethod(createType, 'price', item.price), 
                       // stateMethod(createType, 'price_unformatted',
                       // validatePrice(item.price)),
-                      stateMethod(changeFormType, null, 'product')
+                      stateMethod(changeFormType, null, 'product'),
+                      setModalEdit('')
                     )
                   }>
                     {` 
@@ -323,7 +325,8 @@ const QuoteLineModal = ({
                           stateMethod(createType, 'brand', item.brand[0]), 
                           stateMethod(createType, 'model', item.model[0]), 
                           stateMethod(createType, 'color', item.color[0]), stateMethod(createType, 'price', item.price),
-                          stateMethod(changeFormType, null, 'priceList')
+                          stateMethod(changeFormType, null, 'priceList'),
+                          setModalEdit('')
                         )}>
                         {` 
                           ${manageFormFields(item.brand[0], 'name')} /
@@ -342,7 +345,8 @@ const QuoteLineModal = ({
                           stateMethod(createType, 'brand', item.brand[0]), 
                           stateMethod(createType, 'model', item.model[0]), 
                           stateMethod(createType, 'color', item.color[0]), stateMethod(createType, 'price', item.price),
-                          stateMethod(changeFormType, null, 'priceList')
+                          stateMethod(changeFormType, null, 'priceList'),
+                          setModalEdit('')
                         )
                       }>
                       {` 
@@ -799,7 +803,7 @@ const QuoteLineModal = ({
 
 
       <div className="addFieldItems-modal-box-footer">
-        {typeForm !== '' && edit == '' && 
+        {typeForm !== '' && modalEdit == '' && 
           <button 
           className="form-group-button" 
           onClick={(e) => (
@@ -820,17 +824,18 @@ const QuoteLineModal = ({
               }
           </button>
         }
-        {edit == 'quote_line' && 
+        {modalEdit == 'quote_line' && 
           <button 
           className="form-group-button" 
           onClick={(e) => (
             stateMethod(updateQuoteLineType, stateData.idx, stateData),
             setModal(''),
+            setModalEdit(''),
             resetState(resetType),
             stateMethod(changeFormType, null, '')
           )}
           >
-              {loading == 'update_location' ? 
+              {loading == 'update_quote_line' ? 
               <div className="loading">
                 <span style={{backgroundColor: loadingColor}}></span>
                 <span style={{backgroundColor: loadingColor}}></span>

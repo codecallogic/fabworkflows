@@ -16,10 +16,14 @@ const populateEditData = (originalData, keyType, caseType, stateMethods, selectI
         stateMethods.createType(caseType, keyOfObject, object[keyOfObject])
 
         if(Array.isArray(object[keyOfObject]) && object[keyOfObject].length > 0){
-          // console.log(object[keyOfObject])
-          if(!object[keyOfObject][0]['location']) stateMethods.createType(caseType, keyOfObject, object[keyOfObject][0])
+
+          if(!object[keyOfObject][0]['location'] ) stateMethods.createType(caseType, keyOfObject, object[keyOfObject][0])
 
           if(object[keyOfObject][0]['location']) return stateMethods.createType(caseType, keyOfObject, object[keyOfObject])
+
+          if(keyType == 'quotes'){
+            stateMethods.createType(caseType, keyOfObject, object[keyOfObject])
+          }
 
         }
 

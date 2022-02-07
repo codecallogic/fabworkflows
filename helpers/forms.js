@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid'
 import { validateEmail } from '../helpers/validations'
 
 export {
+  formFields,
   manageFormFields,
   submitCreate,
   submitUpdate,
@@ -27,7 +28,8 @@ const formFields = {
   remnants: ['name'],
   prices: ['brand', 'price', 'model'],
   contacts: ['contact_name', 'phone', 'email'],
-  quotes: ['contact_name', 'phone', 'email', 'quote_lines', 'quote_subtotal', 'quote_total', 'quote_balance', 'quote_date', 'quote_name', 'quote_number']
+  quotes: ['contact_name', 'phone', 'email', 'quote_lines', 'quote_subtotal', 'quote_total', 'quote_balance', 'quote_date', 'quote_name', 'quote_number'],
+  payment: ['name', 'address', 'city', 'state', 'zip_code']
 }
 
 
@@ -83,6 +85,8 @@ const submitCreate = async (e, stateData, type, setMessage, loadingType, setLoad
     setDynamicSVG('checkmark-2')
     setMessage('Item was created')
     resetState(resetType)
+
+    if(loadingType == 'create_email') setMessage(responseCreate.data)
     
   } catch (error) {
     console.log(error)

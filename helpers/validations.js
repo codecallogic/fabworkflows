@@ -18,7 +18,8 @@ export {
   numberType,
   filterProductSearch,
   filterPriceListSearch,
-  validatePDFContent
+  validatePDFContent,
+  validateZipCode
 }
 
 ///// VALIDATIONS
@@ -30,6 +31,9 @@ const formFields = {
   pdfQuote: ['contact_name', 'address', 'city', 'state', 'zip_code', 'phone', 'quote_date', 'quote_number', 'quote_name', 'salesperson', 'quote_subtotal', 'quote_tax', 'quote_total', 'quote_balance'],
   pdfAgreement: ['contact_name', 'quote_name', 'quote_date']
 }
+
+
+
 
 const validateNumber = (type) => {
   const input = document.getElementById(type)
@@ -51,6 +55,10 @@ const validateNumber = (type) => {
   input.value = input.value.split(regex).join('')
 }
 
+
+
+
+
 const validateSize = (e, type, createType, reduxMethod) => {
   const input = document.getElementById(type)
   const regex = /[^0-9|\n\r]/g
@@ -64,6 +72,10 @@ const validateSize = (e, type, createType, reduxMethod) => {
   return input.value = input.value.split(regex).join('') + ' in'
 }
 
+
+
+
+
 const validateEmail = (type) => {
   const input = document.getElementById(type)
   const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/g
@@ -75,6 +87,9 @@ const validateEmail = (type) => {
   }
   // return !regex.test(input.value) ? 'true' : 'false'
 }
+
+
+
 
 const validatePrice = (e) => {
 
@@ -402,4 +417,10 @@ const validatePDFContent = (functionType, type, stateData, url, setDynamicSVG, s
     link.dispatchEvent(new MouseEvent('click'));
   }
 
+}
+
+const validateZipCode = (zip) => {
+  
+  return !/^\d{5}(-\d{4})?$/.test(zip)
+  
 }

@@ -36,6 +36,7 @@ const initialState = {
   quote_total: '',
   quote_deposit_total: '',
   quote_balance: '',
+  payment: ''
 }
 
 export const quoteReducer = (state = initialState, action) => {

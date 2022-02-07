@@ -38,7 +38,7 @@
     &-billing {
       width: 40%;
       padding: 1rem 2rem;
-      background-color: $color-light-shade-scheme-3;
+      background-color: $color-light-shade-scheme-4;
       border-radius: 1.2rem;
 
       &-title {
@@ -57,12 +57,46 @@
       }
     }
 
+    &-newDeposit {
+      display: flex;
+      align-items: center;
+
+      &-option {
+        padding: 1rem 2rem;
+        margin-right: 1rem;
+        margin-bottom: 1rem;
+        background-color: $color-scheme-2;
+        border-radius: 1.2rem;
+        font-size: 1.2rem;
+        color: white;
+        font-weight: 500;
+        transition: all 0.5s ease-in-out;
+
+        &:hover {
+          cursor: pointer;
+          background-color: $color-scheme-1;
+        }
+      }
+    }
+
     &-summary {
       width: 60%;
       margin-left: 2rem;
       border: 0.2rem solid $color-light-shade-scheme-3;
       border-radius: 1.2rem;
+      padding: 1rem 0;
       color: $color-dark-shade-scheme-3;
+      max-height: 100rem;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        width: 0.3rem;
+        background-color: $color-light-shade-scheme-4;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: $color-scheme-1;
+      }
 
       &-title {
         padding: 2rem;
@@ -94,4 +128,13 @@
   padding: 1rem !important;
   background-color: white;
   border-radius: 1.2rem !important;
+}
+
+.depositMessage {
+  font-size: 1.2rem !important;
+  text-align: right;
+  padding: 0 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-top: 1rem;
 }

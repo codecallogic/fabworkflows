@@ -18,7 +18,7 @@ import ContactModal from '../../components/modals/Contact'
 import Table from '../../components/table'
 import TableAlt from '../../components/tableAlt'
 import { tableData } from '../../helpers/tableData'
-import { slabSort, productSort, remnantSort, materialSort, priceSort } from '../../helpers/sorts'
+import { slabSort, productSort, remnantSort, materialSort, priceSort, quoteSort } from '../../helpers/sorts'
 import { populateEditData } from '../../helpers/modals'
 
 //// DATA
@@ -47,6 +47,7 @@ import ModelModal from '../../components/modals/Model'
 import CategoryModal from '../../components/modals/Category'
 import QuoteLineModal from '../../components/modals/QuoteLine'
 import PrintModal from '../../components/modals/Print'
+import EmailModal from '../../components/modals/Email'
 
 axios.defaults.withCredentials = true
 
@@ -114,6 +115,7 @@ const Dashboard = ({
   const [modal, setModal] = useState('')
   const [dynamicSVG, setDynamicSVG] = useState('notification')
   const [edit, setEdit] = useState('')
+  const [modalEdit, setModalEdit] = useState('')
   const [allData, setAllData] = useState(originalData ? originalData : [])
 
   const handleClickOutside = (event) => {
@@ -773,6 +775,45 @@ const Dashboard = ({
           >
           </TableAlt>
         }
+        {nav.view == 'quotes' &&
+          <Table
+            token={token}
+            title={'Quote List'}
+            typeOfData={'quotes'}
+            componentData={data.quotes}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={quoteSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'quoteControls'}
+            searchEnable={true}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'quote'}
+            modalType={''}
+            editDataType={{key: 'quotes', caseType: 'CREATE_QUOTE'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="quotes/delete-quote"
+            searchType={'quotes'}
+            searchPlaceholder={'Search by quote number or quote name'}
+          >
+          </Table>
+        }
 
 
         {/* ///// FORMS //// */}
@@ -897,6 +938,7 @@ const Dashboard = ({
             submitCreate={submitCreate}
             modal={modal}
             setModal={setModal}
+            setModalEdit={setModalEdit}
             stateData={quote}
             stateMethod={createType}
             originalData={originalData}
@@ -975,10 +1017,6 @@ const Dashboard = ({
                 <SVGs svg={'document'}></SVGs>
                 <span>New Quote</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => changeView('quote1')}>
-                <SVGs svg={'document'}></SVGs>
-                <span>Old Quote</span>
-              </div>
               <div className="clientDashboard-view-new-item" onClick={() => changeView('prices')}>
                 <SVGs svg={'price-list'}></SVGs>
                 <span>Price List</span>
@@ -996,9 +1034,6 @@ const Dashboard = ({
                 <span>Trasaction Fields</span>
               </div>
             </div>
-          }
-          { nav.view == 'quote1' &&
-            <Quote priceList={priceList} addressList={addressList} categories={misc_categories} products={products} product_categories={allProductCategories} ></Quote>
           }
           { nav.view == 'quote-fields' &&
             <QuoteFields preloadCategories={allCategories}></QuoteFields>
@@ -1180,6 +1215,8 @@ const Dashboard = ({
               setLoading={setLoading}
               edit={edit}
               setEdit={setEdit}
+              modalEdit={modalEdit}
+              setModalEdit={setModalEdit}
               stateData={quoteLine}
               stateMethod={createType}
               dynamicSVG={dynamicSVG}
@@ -1272,6 +1309,31 @@ const Dashboard = ({
               editData={editData}
             >
             </PrintModal>
+          }
+          { modal == 'email' &&
+            <EmailModal
+              token={token}
+              message={message}
+              setMessage={setMessage}
+              setModal={setModal}
+              loading={loading}
+              setLoading={setLoading}
+              edit={edit}
+              setEdit={setEdit}
+              stateData={quote}
+              stateMethod={createType}
+              dynamicSVG={dynamicSVG}
+              setDynamicSVG={setDynamicSVG}
+              resetState={resetType}
+              submitCreate={submitCreate}
+              addImages={addImages}
+              allData={allData}
+              setAllData={setAllData}
+              submitUpdate={submitUpdate}
+              changeView={changeView}
+              editData={editData}
+            >
+            </EmailModal>
           }
         </div>
       </div>

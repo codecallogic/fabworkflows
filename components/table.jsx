@@ -54,6 +54,8 @@ const Table = ({
   const [down, setDown] = useState(-1)
   const [filter, setFilter] = useState('')
 
+  // console.log(componentData)
+  
   //// TODO: SORT DEEP NESTED OBJECTS
   // const getMembers = (members) => {
   //   let material = [];
@@ -171,7 +173,7 @@ const Table = ({
                   : 
                   setFilter(key)}
                 >
-                  {(key.replace( /([a-z])([A-Z])/g, "$1 $2")).replace('_', ' ')}
+                  {(key.replace( /([a-z])([A-Z])/g, "$1 $2 $3")).replace('_', ' ')}
                   <SVG svg={'sort'}></SVG>
                 </span>
               </div>
@@ -236,8 +238,9 @@ const Table = ({
                 {
                   !Array.isArray(item[key]) && key !== 'qr_code'
                   ? 
-                  item[key]
-                  : null
+                    item[key]
+                  : 
+                    null
                 }
               </div>
             )}

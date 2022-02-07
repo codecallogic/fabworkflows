@@ -14,7 +14,7 @@ const searchOptionsAddress = {
   types: ['address']
 }
 
-const Quote = ({
+const QuoteForm = ({
   token,
   title,
   dynamicSVG,
@@ -26,6 +26,7 @@ const Quote = ({
   setLoading,
   edit,
   setEdit,
+  setModalEdit,
 
   //// DATA
   typeOfData,
@@ -100,16 +101,29 @@ const Quote = ({
         </div>
         {save &&
           <div className="table-header-controls">
+            { edit == typeOfData ? 
+              <div
+              className="table-header-controls-item-svg"
+              >
+                <SVG svg={'send'}></SVG>
+              </div>
+              :
+              null
+            }
             <div 
             id="save" 
             className="table-header-controls-item" 
             onClick={(e) => edit == typeOfData ? 
-              submitUpdate(e, stateData, 'slabs', setMessage, 'create_slab', setLoading, token, 'slabs/update-slab', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'slabs')
+              stateData.payment == 'deposit' || stateData.payment == 'complete'
+              ?
+              setMessage('Cannot update quotes with payments processed')
+              :
+              submitUpdate(e, stateData, 'quotes', setMessage, 'update_quote', setLoading, token, 'quotes/update-quote', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'quotes')
               : 
               submitCreate(e, stateData, 'quotes', setMessage, 'create_quote', setLoading, token, 'quotes/create-quote', resetType, resetState, allData, setAllData, setDynamicSVG)  
             }
             >
-              {loading == 'create_slab' ? 
+              {loading == 'create_quote' ? 
               <div className="loading">
                 <span style={{backgroundColor: loadingColor}}></span>
                 <span style={{backgroundColor: loadingColor}}></span>
@@ -622,7 +636,7 @@ const Quote = ({
                 className="form-box-heading-item" 
                 onClick={() => (
                   setModal('add_quote_line'),
-                  setEdit('')
+                  setModalEdit('')
                 )}
               >
                 <SVG svg={'plus'}></SVG>
@@ -631,7 +645,6 @@ const Quote = ({
                 className="form-box-heading-item" 
                 onClick={() => (
                   setModal('new_pdf'),
-                  setEdit(''),
                   stateMethod(changeFormType, null, '')
                 )}
               >
@@ -639,11 +652,20 @@ const Quote = ({
               </div>
 
               {save &&
+                <>
+                <div 
+                className="form-box-heading-item"
+                onClick={() => 
+                  setModal('email')
+                }
+                > 
+                  <SVG svg={'send'}></SVG>
+                </div>
                 <div 
                   id="save" 
                   className="form-box-heading-item" 
                   onClick={(e) => edit == typeOfData ? 
-                    submitUpdate(e, stateData, 'slabs', setMessage, 'create_slab', setLoading, token, 'slabs/update-slab', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'slabs')
+                    submitUpdate(e, stateData, 'quotes', setMessage, 'update_quote', setLoading, token, 'quotes/update-quote', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'quotes')
                     : 
                     submitCreate(e, stateData, 'quotes', setMessage, 'create_quote', setLoading, token, 'quotes/create-quote', resetType, resetState, allData, setAllData, setDynamicSVG) 
                   }
@@ -658,6 +680,7 @@ const Quote = ({
                     edit == typeOfData ? 'Update' : 'Save'
                   }
                 </div>
+                </>
               }
               { message && 
                 <div className="form-box-heading-message">
@@ -673,7 +696,7 @@ const Quote = ({
               <span 
               onClick={() => (
                 setModal('add_quote_line'),
-                setEdit('quote_line'),
+                setModalEdit('quote_line'),
                 updateQuoteLine(item, stateMethod, createQuoteLineType, idx),
                 stateMethod(changeFormType, null, item.typeForm)
               )}>
@@ -807,4 +830,4 @@ const Quote = ({
   )
 }
 
-export default Quote
+export default QuoteForm

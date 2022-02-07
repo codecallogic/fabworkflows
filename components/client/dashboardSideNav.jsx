@@ -101,7 +101,7 @@ const SideNav = ({changeView, nav, width, toggleSideNav}) => {
                 New
             </div>
             <div 
-              onClick={() => (window.location.href = `/quotes`, width < 992 ? toggleSideNav('toggle_nav_button') : null)} 
+              onClick={() => changeView('quotes')} 
               className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'transactions'  ? ' hide-sidenav-dropdown' : '')}>
                 <SVGs svg={'circle-thin'} classprop={`clientDashboard_sidenav-menu-item-arrow` + (!nav.sidenav ? ' hide-sidenav-items' : '')  + (toggle ? ' hide-sidenav-dropdown' : '')}/>
                 Quotes

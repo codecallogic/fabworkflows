@@ -382,13 +382,17 @@ body {
         font-size: 1.4rem;
         margin-top: 0.5rem;
         padding: 0.5rem 0rem; }
+        .form-estimate-line-total:last-child {
+          font-weight: 700;
+          text-transform: uppercase; }
         .form-estimate-line-total span {
           text-align: right;
           min-width: 10rem;
           padding: 0 1rem;
           margin-left: 1rem;
           border-radius: 1.2rem;
-          background-color: #ededec; }
+          background-color: #ededec;
+          font-weight: 300; }
   .form-100 {
     position: relative; }
   .form-title {
@@ -1472,6 +1476,11 @@ body {
   margin-left: 0.5rem !important;
   width: 50% !important; }
 
+.inputFieldWhite {
+  margin-bottom: 1rem; }
+  .inputFieldWhite input {
+    background-color: white !important; }
+
 .center {
   text-align: center;
   justify-self: center;
@@ -1483,6 +1492,10 @@ body {
   width: 10rem;
   min-width: 10rem;
   max-width: 10rem; }
+
+.mr-2 {
+  padding-right: 3rem !important;
+  margin-right: 2rem !important; }
 
 .giphy-loading {
   margin: 1rem 0 !important; }
@@ -1912,7 +1925,7 @@ body {
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 3.5rem;
+          width: 4.5rem;
           height: 3.5rem;
           margin-right: 1rem;
           border-radius: 1.2rem;
@@ -1922,8 +1935,8 @@ body {
             cursor: pointer;
             box-shadow: 0rem 0.3rem 0.5rem 0.5rem rgba(0, 0, 0, 0.2); }
           .table-header-controls-item-svg svg {
-            width: 2.5rem;
-            height: 2.5rem;
+            width: 2rem;
+            height: 2rem;
             fill: rgba(253, 126, 60, 0.9); }
     .table-header-error {
       display: flex;
@@ -1967,7 +1980,6 @@ body {
         max-width: 5rem; }
       .table-headers-item span {
         display: flex;
-        align-items: center;
         justify-content: center;
         width: 100%; }
       .table-headers-item svg {
@@ -3754,193 +3766,6 @@ body {
     .wide-row-item {
       width: 15rem !important; } }
 
-.clientDashboard-view-slab_form-quoteLine {
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%; }
-  .clientDashboard-view-slab_form-quoteLine-left {
-    width: calc(30% - 1rem);
-    margin-right: 2rem;
-    padding: 0 2rem; }
-    @media only screen and (max-width: 1250px) {
-      .clientDashboard-view-slab_form-quoteLine-left {
-        min-width: 100% !important;
-        margin-bottom: 1rem; } }
-    .clientDashboard-view-slab_form-quoteLine-left-box {
-      margin-bottom: 1rem;
-      max-height: 50rem;
-      overflow-y: scroll; }
-      .clientDashboard-view-slab_form-quoteLine-left-box::-webkit-scrollbar {
-        width: 0.1rem;
-        height: 0.3rem; }
-      .clientDashboard-view-slab_form-quoteLine-left-box::-webkit-scrollbar-thumb {
-        background-color: rgba(253, 126, 60, 0.9); }
-      .clientDashboard-view-slab_form-quoteLine-left-box-heading {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        color: black;
-        font-size: 1.8rem;
-        font-weight: 700;
-        padding: 1rem;
-        border-bottom: 0.1rem solid rgba(253, 126, 60, 0.9);
-        margin-bottom: 1rem; }
-        .clientDashboard-view-slab_form-quoteLine-left-box-heading svg {
-          width: 3rem;
-          height: 3rem;
-          fill: rgba(253, 126, 60, 0.9); }
-          .clientDashboard-view-slab_form-quoteLine-left-box-heading svg:hover {
-            cursor: pointer; }
-      .clientDashboard-view-slab_form-quoteLine-left-box-item {
-        display: flex;
-        align-items: center;
-        margin-bottom: 1rem; }
-        .clientDashboard-view-slab_form-quoteLine-left-box-item-heading {
-          align-self: flex-start;
-          font-size: 1.4rem;
-          min-width: max-content;
-          max-width: max-content;
-          font-weight: 700; }
-        .clientDashboard-view-slab_form-quoteLine-left-box-item-content {
-          margin-left: 2rem;
-          width: 100%;
-          position: relative;
-          font-size: 1.4rem; }
-  .clientDashboard-view-slab_form-quoteLine-right {
-    width: calc(65% - 1rem);
-    margin-right: 2rem;
-    padding: 0 2rem; }
-    @media only screen and (max-width: 1250px) {
-      .clientDashboard-view-slab_form-quoteLine-right {
-        min-width: 100% !important;
-        margin-bottom: 1rem; } }
-    .clientDashboard-view-slab_form-quoteLine-right-box {
-      margin-bottom: 1rem;
-      max-height: 50rem;
-      overflow-y: scroll; }
-      .clientDashboard-view-slab_form-quoteLine-right-box::-webkit-scrollbar {
-        width: 0.1rem;
-        height: 0.3rem; }
-      .clientDashboard-view-slab_form-quoteLine-right-box::-webkit-scrollbar-thumb {
-        background-color: rgba(253, 126, 60, 0.9); }
-      .clientDashboard-view-slab_form-quoteLine-right-box-heading {
-        display: flex;
-        align-items: center;
-        color: black;
-        font-size: 1.8rem;
-        font-weight: 700;
-        padding: 1rem;
-        border-bottom: 0.1rem solid rgba(253, 126, 60, 0.9);
-        margin-bottom: 1rem;
-        width: 100%;
-        justify-content: space-between; }
-        .clientDashboard-view-slab_form-quoteLine-right-box-heading-left {
-          display: flex;
-          align-items: center; }
-        .clientDashboard-view-slab_form-quoteLine-right-box-heading-right {
-          display: flex;
-          align-items: center; }
-          .clientDashboard-view-slab_form-quoteLine-right-box-heading-right button {
-            margin: 0;
-            margin-left: 1rem; }
-            @media only screen and (max-width: 768px) {
-              .clientDashboard-view-slab_form-quoteLine-right-box-heading-right button span {
-                font-size: 1.2rem; } }
-            .clientDashboard-view-slab_form-quoteLine-right-box-heading-right button span svg {
-              width: 1.5rem;
-              height: 1.5rem;
-              margin-right: 1rem;
-              fill: white; }
-            .clientDashboard-view-slab_form-quoteLine-right-box-heading-right button:disabled {
-              cursor: not-allowed;
-              background-color: #dbdbdb; }
-        .clientDashboard-view-slab_form-quoteLine-right-box-heading-icon {
-          font-weight: 400;
-          margin-left: 2rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: #1bc9a2;
-          color: white;
-          padding: 0.5rem;
-          border-radius: 1.2rem; }
-          @media only screen and (max-width: 768px) {
-            .clientDashboard-view-slab_form-quoteLine-right-box-heading-icon {
-              margin-left: 1rem; } }
-          .clientDashboard-view-slab_form-quoteLine-right-box-heading-icon svg {
-            width: 3rem;
-            height: 3rem;
-            fill: white; }
-            @media only screen and (max-width: 768px) {
-              .clientDashboard-view-slab_form-quoteLine-right-box-heading-icon svg {
-                width: 2rem;
-                height: 2rem; } }
-            .clientDashboard-view-slab_form-quoteLine-right-box-heading-icon svg:hover {
-              cursor: pointer; }
-        .clientDashboard-view-slab_form-quoteLine-right-box-heading-send {
-          justify-self: flex-end; }
-      .clientDashboard-view-slab_form-quoteLine-right-box-line {
-        margin-bottom: 2rem; }
-        .clientDashboard-view-slab_form-quoteLine-right-box-line-container {
-          display: flex;
-          align-items: center;
-          font-size: 1.4rem;
-          width: 100%;
-          padding: 0.5rem 0.5rem; }
-          .clientDashboard-view-slab_form-quoteLine-right-box-line-container:hover {
-            cursor: pointer;
-            background-color: #ededec; }
-          .clientDashboard-view-slab_form-quoteLine-right-box-line-container svg {
-            width: 3rem;
-            height: 3rem;
-            fill: rgba(253, 126, 60, 0.9); }
-          .clientDashboard-view-slab_form-quoteLine-right-box-line-container div {
-            margin-left: 3rem; }
-          .clientDashboard-view-slab_form-quoteLine-right-box-line-container pre {
-            margin-left: 3rem;
-            font-family: inherit; }
-        .clientDashboard-view-slab_form-quoteLine-right-box-line-description {
-          flex-grow: 1; }
-        .clientDashboard-view-slab_form-quoteLine-right-box-line-total {
-          justify-self: right; }
-        .clientDashboard-view-slab_form-quoteLine-right-box-line-label {
-          font-size: 1.2rem;
-          color: #666; }
-      .clientDashboard-view-slab_form-quoteLine-right-box-estimate {
-        width: 100%;
-        display: flex;
-        justify-content: flex-end;
-        align-items: flex-end;
-        flex-direction: column;
-        font-size: 1.4rem;
-        padding: 0.5rem 0.5rem; }
-        .clientDashboard-view-slab_form-quoteLine-right-box-estimate div {
-          display: flex;
-          align-items: center; }
-          .clientDashboard-view-slab_form-quoteLine-right-box-estimate div label {
-            max-width: 15rem;
-            text-align: right; }
-          .clientDashboard-view-slab_form-quoteLine-right-box-estimate div span {
-            text-align: right;
-            min-width: 12rem;
-            max-width: 12rem; }
-        .clientDashboard-view-slab_form-quoteLine-right-box-estimate-total {
-          font-size: 1.6rem;
-          padding: 1rem 0;
-          margin: 0.5rem 0 0 0;
-          border-top: 0.1rem solid rgba(253, 126, 60, 0.9); }
-        .clientDashboard-view-slab_form-quoteLine-right-box-estimate-balance {
-          font-size: 1.8rem;
-          color: #1bc9a2;
-          padding: 1rem 0;
-          margin: 0.5rem 0 0 0;
-          border-top: 0.1rem solid rgba(253, 126, 60, 0.9);
-          font-weight: 500; }
-
-.flex-span > span {
-  display: flex;
-  align-items: center; }
-
 .home {
   display: flex;
   justify-content: center;
@@ -4072,7 +3897,7 @@ body {
     .checkout-box-billing {
       width: 40%;
       padding: 1rem 2rem;
-      background-color: #ededec;
+      background-color: #f1f1ee;
       border-radius: 1.2rem; }
       .checkout-box-billing-title {
         font-size: 2rem;
@@ -4084,12 +3909,36 @@ body {
       @media only screen and (max-width: 992px) {
         .checkout-box-billing {
           width: 100%; } }
+    .checkout-box-newDeposit {
+      display: flex;
+      align-items: center; }
+      .checkout-box-newDeposit-option {
+        padding: 1rem 2rem;
+        margin-right: 1rem;
+        margin-bottom: 1rem;
+        background-color: #1bc9a2;
+        border-radius: 1.2rem;
+        font-size: 1.2rem;
+        color: white;
+        font-weight: 500;
+        transition: all 0.5s ease-in-out; }
+        .checkout-box-newDeposit-option:hover {
+          cursor: pointer;
+          background-color: rgba(253, 126, 60, 0.9); }
     .checkout-box-summary {
       width: 60%;
       margin-left: 2rem;
       border: 0.2rem solid #ededec;
       border-radius: 1.2rem;
-      color: #666; }
+      padding: 1rem 0;
+      color: #666;
+      max-height: 100rem;
+      overflow-y: auto; }
+      .checkout-box-summary::-webkit-scrollbar {
+        width: 0.3rem;
+        background-color: #f1f1ee; }
+      .checkout-box-summary::-webkit-scrollbar-thumb {
+        background-color: rgba(253, 126, 60, 0.9); }
       .checkout-box-summary-title {
         padding: 2rem;
         font-size: 1.8rem;
@@ -4111,3 +3960,11 @@ body {
   padding: 1rem !important;
   background-color: white;
   border-radius: 1.2rem !important; }
+
+.depositMessage {
+  font-size: 1.2rem !important;
+  text-align: right;
+  padding: 0 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-top: 1rem; }
