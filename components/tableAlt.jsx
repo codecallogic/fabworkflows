@@ -215,7 +215,9 @@ const Table = ({
                 { 
                   Array.isArray(item[key]) && item[key].length > 0 && matchPattern.test(item[key][0].location)
                   ? 
-                  <img src={`${item[key][0].location}`}></img> 
+                  <a href={`${item[key][0].location}`} target="_blank">
+                    <img src={`${item[key][0].location}`}></img>
+                  </a>
                   : null
                 }
                 {

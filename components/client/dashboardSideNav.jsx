@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import SVGs from '../../files/svgs'
 
-const SideNav = ({changeView, nav, width, toggleSideNav}) => {
+const SideNav = ({account, changeView, nav, width, toggleSideNav}) => {
 
   const [toggle, setDropdownToggle] = useState('')
   
@@ -17,7 +17,7 @@ const SideNav = ({changeView, nav, width, toggleSideNav}) => {
           <div 
             className={`clientDashboard_sidenav-menu-account` + (!nav.sidenav ? ' hide-sidenav-items' : '')}>
             <img src="/media/user_placeholder.png" alt="User avatar"/>
-            <div>Free trial</div>
+            <div>Welcome, {account.first_name}</div>
           </div>
 
           <div 

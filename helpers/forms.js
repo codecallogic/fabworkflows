@@ -212,6 +212,7 @@ const submitSearch = async (search, setLoading, setMessage, path, type, allData,
       }
     })
     setLoading('')
+    setMessage('')
     allData[type]= responseSearch.data
     setAllData(allData)
     changeView(viewType)

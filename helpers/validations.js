@@ -20,7 +20,7 @@ export {
   filterPriceListSearch,
   validatePDFContent,
   validateZipCode,
-  generateInvoiceNumber,
+  generateRandomNumber,
   returnIfTrue,
   checkObjectValues
 }
@@ -428,7 +428,7 @@ const validateZipCode = (zip) => {
   
 }
 
-const generateInvoiceNumber = () => {
+const generateRandomNumber = () => {
   let orderNumber = Math.floor(100000000 + Math.random() * 900000000)
 
   return orderNumber

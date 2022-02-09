@@ -19,9 +19,13 @@
   }
 
   &-form {
-    width: 30rem;
+    min-width: 30rem;
     padding: 2rem 1rem;
     border-radius: 1.2rem;
     background-color: $color-light-shade-scheme-4;
+
+    @media only screen and (max-width: $medium) {
+      width: 100%;
+    }
   }
 }

@@ -3,16 +3,9 @@ import SideNav from '../../components/client/dashboardSideNav'
 import {connect} from 'react-redux'
 import SVGs from '../../files/svgs'
 import React, { useState, useEffect, useRef } from 'react'
-import QRCode from 'qrcode'
-import {nanoid} from 'nanoid'
 import withUser from '../withUser'
-import {API} from '../../config'
 import axios from 'axios'
 import {useRouter} from 'next/router'
-import QuoteFields from '../../components/account/quoteFields'
-import Quote from '../../components/account/Quote'
-import PriceListModal from '../../components/modals/PriceList'
-import ContactModal from '../../components/modals/Contact'
 
 //// TABLE
 import Table from '../../components/table'
@@ -74,6 +67,8 @@ import PrintModal from '../../components/modals/Print'
 import EmailModal from '../../components/modals/Email'
 import PhaseModal from '../../components/modals/Phase'
 import QuoteModal from '../../components/modals/Quote'
+import PriceListModal from '../../components/modals/PriceList'
+import ContactModal from '../../components/modals/Contact'
 
 axios.defaults.withCredentials = true
 
@@ -193,6 +188,12 @@ const Dashboard = ({
         if(nav.view == 'trackers' && loading == 'products'){
           submitSearch(search, setLoading, setMessage, 'products/search-products', 'products', allData, setAllData, token, setDynamicSVG, changeView, 'trackers')
         }
+        if(nav.view == 'quotes'){
+          submitSearch(search, setLoading, setMessage, 'quotes/search-quotes', 'quotes', allData, setAllData, token, setDynamicSVG, changeView, 'quotes')
+        }
+        if(nav.view == 'jobs'){
+          submitSearch(search, setLoading, setMessage, 'jobs/search-jobs', 'jobs', allData, setAllData, token, setDynamicSVG, changeView, 'jobs')
+        }
       }, 2000)
     }
     
@@ -211,6 +212,12 @@ const Dashboard = ({
       }
       if(nav.view == 'trackers' && loading == 'products'){
         resetDataType(loading, setLoading, setMessage, 'products/all-products', 'products', allData, setAllData, token, setDynamicSVG, changeView, 'trackers')
+      }
+      if(nav.view == 'quotes'){
+        resetDataType(loading, setLoading, setMessage, 'quotes/all-quotes', 'quotes', allData, setAllData, token, setDynamicSVG, changeView, 'quotes')
+      }
+      if(nav.view == 'jobs'){
+        resetDataType(loading, setLoading, setMessage, 'jobs/all-jobs', 'jobs', allData, setAllData, token, setDynamicSVG, changeView, 'jobs')
       }
     }
 
@@ -243,9 +250,9 @@ const Dashboard = ({
   
   return (
     <>
-      <TopNav></TopNav>
+      <TopNav account={account}></TopNav>
       <div className="clientDashboard">
-        <SideNav width={width}></SideNav>
+        <SideNav account={account} width={width}></SideNav>
 
         {/* //// TABLES //// */}
         {nav.view == 'slabs' &&
@@ -1178,9 +1185,6 @@ const Dashboard = ({
                 <span>Phase/Category</span>
               </div>
             </div>
-          }
-          { nav.view == 'quote-fields' &&
-            <QuoteFields preloadCategories={allCategories}></QuoteFields>
           }
 
           {/* /////////////////// MODALS ///////////////////////////// */}

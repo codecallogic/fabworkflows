@@ -10,7 +10,7 @@ import { quoteSort } from '../../helpers/sorts'
 import { 
   validateDate, 
   formatDate, 
-  generateInvoiceNumber, 
+  generateRandomNumber, 
   returnIfTrue, 
   checkObjectValues, 
   validateNumber
@@ -84,7 +84,7 @@ const QuoteForm = ({
   }
 
   useEffect(() => {
-    stateMethod(createType, 'invoice', generateInvoiceNumber())
+    stateMethod(createType, 'invoice', generateRandomNumber())
     
     document.addEventListener("click", handleClickOutside, true);
     return () => {

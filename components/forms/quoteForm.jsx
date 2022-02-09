@@ -6,7 +6,16 @@ import Calendar from 'react-calendar'
 //// HELPERS
 import { manageFormFields } from '../../helpers/forms'
 import { populateAddress } from '../../helpers/modals'
-import { validateNumber, phoneNumber, validateDate, addressSelect, formatDate, numberType, validatePrice } from '../../helpers/validations'
+import { 
+  validateNumber, 
+  phoneNumber, 
+  validateDate, 
+  addressSelect, 
+  formatDate, 
+  numberType, 
+  validatePrice,
+  generateRandomNumber 
+} from '../../helpers/validations'
 import { manageEstimates, updateQuoteLine, calculateEstimate } from '../../helpers/estimates'
 
 const searchOptionsAddress = {
@@ -74,6 +83,8 @@ const QuoteForm = ({
   }
 
   useEffect(() => {
+    stateMethod(createType, 'quote_number', generateRandomNumber())
+    
     document.addEventListener("click", handleClickOutside, true);
     return () => {
       document.removeEventListener("click", handleClickOutside, true);
@@ -476,7 +487,7 @@ const QuoteForm = ({
             
             <label 
             className={`input-label ` + (
-              stateData.quote_number.length > 0 || 
+              quote_number !== '' || 
               typeof stateData.quote_number == 'object' 
               ? ' labelHover' 
               : ''

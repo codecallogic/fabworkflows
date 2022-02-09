@@ -46,7 +46,7 @@ const Table = ({
   deleteType
 
 }) => {
-
+  
   //// TABLES WITH DROPDOWNS
   const tableDropdowns = ['jobs']
   
@@ -205,7 +205,9 @@ const Table = ({
                 { 
                   Array.isArray(item[key]) && item[key].length > 0 && matchPattern.test(item[key][0].location)
                   ? 
-                  <img src={`${item[key][0].location}`}></img> 
+                  <a href={`${item[key][0].location}`} target="_blank">
+                    <img src={`${item[key][0].location}`}></img>
+                  </a> 
                   : null
                 }
                 {
@@ -231,7 +233,12 @@ const Table = ({
                             key={idxDropdown}
                             className="table-rows-item-dropdown-items-item"
                             >
-                              {data.name ? data.name : data.contact_name}
+                              {data.name ? 
+                              data.name : 
+                              data.quote_name ?
+                              data.quote_name : 
+                              data.contact_name
+                              }
                             </div>
                           )}
                         </div>
@@ -246,8 +253,12 @@ const Table = ({
                 {
                   !Array.isArray(item[key]) && item[key].length > 0 && (item[key].match(/^data:image\/(png|jpg|jpeg);base64,/gmi) !== null)
                   ? 
-                 
-                  <img src={item[key]}></img> 
+                  <a 
+                    download="qr-code.png" 
+                    href={`${item[key]}`} target="_blank"
+                  >
+                    <img src={item[key]}></img>
+                  </a>
                   : null
                 }
                 {

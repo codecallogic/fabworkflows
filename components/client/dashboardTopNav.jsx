@@ -1,7 +1,6 @@
 import {connect} from 'react-redux'
 
-const TopNav = ({toggleSideNav}) => {
-  
+const TopNav = ({account, toggleSideNav}) => {
   return (
     <div className="clientDashboard_topnav">
       <div className="clientDashboard_topnav-logo">
@@ -9,6 +8,7 @@ const TopNav = ({toggleSideNav}) => {
       </div>
       <div className="clientDashboard_topnav-menu">
         <div className="clientDashboard_topnav-menu-mobile">
+          <div className="clientDashboard_topnav-menu-mobile-user">Welcome, {account.first_name}</div>
           <input type="checkbox" className="clientDashboard_topnav-menu-mobile-checkbox" id="nav-toggle"/>
           <label className="clientDashboard_topnav-menu-mobile-button" htmlFor="nav-toggle" onClick={toggleSideNav}>
               <span className="clientDashboard_topnav-menu-mobile-icon">&nbsp;</span>
@@ -16,7 +16,7 @@ const TopNav = ({toggleSideNav}) => {
         </div>
         <div className="clientDashboard_topnav-menu-account">
           <img src="/media/user_placeholder.png" alt="User avatar"/>
-          <div>Free trial</div>
+          <div>Welcome, {account.first_name}</div>
         </div>
       </div>
     </div>
