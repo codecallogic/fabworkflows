@@ -14,6 +14,7 @@ import { quoteReducer } from './quoteReducer'
 import { quoteLineReducer } from './quoteLineReducer'
 import { orderReducer } from './orderReducer'
 import { priceListReducer } from './priceListReducer'
+import { phaseReducer } from './phaseReducer'
 import { jobReducer } from './jobReducer'
 
 const rootReducer = combineReducers({
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   quoteLine: quoteLineReducer,
   order: orderReducer,
   priceList: priceListReducer,
+  phase: phaseReducer,
   job: jobReducer
 })
 

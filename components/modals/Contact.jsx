@@ -1,6 +1,8 @@
 import {useState, useEffect, useRef} from 'react'
 import SVG from '../../files/svgs'
 import { validateNumber, phoneNumber, addressSelect } from '../../helpers/validations'
+import { manageFormFields } from '../../helpers/forms'
+import { populateAddress } from '../../helpers/modals'
 import PlacesAutocomplete from 'react-places-autocomplete'
 
 const searchOptionsAddress = {
@@ -29,6 +31,8 @@ const PriceListModal = ({
   stateMethod,
   resetState,
   changeView,
+  dynamicType,
+  extractingStateData,
 
   //// CRUD
   submitCreate,
@@ -134,24 +138,62 @@ const PriceListModal = ({
 
 
         <form className="addFieldItems-modal-form">
-
-        <div className="form-group">
-          <input 
-          id="contact_name" 
-          value={stateData.contact_name} 
-          onChange={(e) => (stateMethod(createType, 'contact_name', e.target.value))}/>
           
-          <label 
-          className={`input-label ` + (
-            stateData.contact_name.length > 0 || 
-            typeof stateData.contact_name == 'object' 
-            ? ' labelHover' 
-            : ''
-          )}
-          htmlFor="contact_name">
-            Contact Name
-          </label>
-        </div>
+        {dynamicType 
+          ? 
+          <div className="form-group">
+            <input
+            onClick={() => setInputDropdown('quote_contact')} 
+            value={manageFormFields(stateData.contact_name, 'contact_name')} 
+            onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'contact_name', e.target.value))}/>
+            <label 
+            className={`input-label ` + (
+              stateData.contact_name.length > 0 || 
+              typeof stateData.contact_name == 'object' 
+              ? ' labelHover' 
+              : ''
+            )}
+            htmlFor="contact_name">
+              Contact
+            </label>
+            <div 
+            onClick={() => setInputDropdown('quote_contact')}><SVG svg={'dropdown-arrow'}></SVG>
+            </div>
+            { input_dropdown == 'quote_contact' &&
+              <div 
+              className="form-group-list" 
+              ref={myRefs}>
+                {allData && allData.contacts.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                <div 
+                key={idx} 
+                className="form-group-list-item" 
+                onClick={(e) => (populateAddress('address_id', item, stateMethod, createType), setInputDropdown(''))}>
+                  {item.contact_name}
+                </div>
+                ))}
+              </div>
+            }
+          </div>
+          :
+          <div className="form-group">
+            <input 
+            id="contact_name" 
+            value={stateData.contact_name} 
+            onChange={(e) => (stateMethod(createType, 'contact_name', e.target.value))}/>
+            
+            <label 
+            className={`input-label ` + (
+              stateData.contact_name.length > 0 || 
+              typeof stateData.contact_name == 'object' 
+              ? ' labelHover' 
+              : ''
+            )}
+            htmlFor="contact_name">
+              Contact Name
+            </label>
+          </div>
+        }
+        
         <PlacesAutocomplete 
           value={stateData.address} 
           onChange={(e) => stateMethod(createType, 'address', e)} 
@@ -382,7 +424,15 @@ const PriceListModal = ({
         {!edit && 
         <button 
         className="form-group-button" 
-        onClick={(e) => submitCreate(e, stateData, 'contacts', setMessage, 'create_contact', setLoading, token, 'contact/create-contact', resetType, resetState, allData, setAllData, setDynamicSVG)}
+        onClick={(e) => dynamicType 
+          ?
+          (
+            extractingStateData(stateData),
+            setModal('')
+          )
+          :
+          submitCreate(e, stateData, 'contacts', setMessage, 'create_contact', setLoading, token, 'contact/create-contact', resetType, resetState, allData, setAllData, setDynamicSVG)
+        }
         >
             {loading == 'create_contact' ? 
             <div className="loading">

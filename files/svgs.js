@@ -3,6 +3,22 @@ const SVG = ({svg, classprop, color}) => {
 
   const selectSVG = (svg) => {
     switch(svg){
+      case 'job':
+        return <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+          <title>Job</title>
+          <path d="M31.562 25.905l-9.423-9.423c-0.583-0.583-1.538-0.583-2.121 0l-0.707 0.707-5.75-5.75 9.439-9.439h-10l-4.439 4.439-0.439-0.439h-2.121v2.121l0.439 0.439-6.439 6.439 5 5 6.439-6.439 5.75 5.75-0.707 0.707c-0.583 0.583-0.583 1.538 0 2.121l9.423 9.423c0.583 0.583 1.538 0.583 2.121 0l3.535-3.535c0.583-0.583 0.583-1.538 0-2.121z"></path>
+
+        </svg>  
+        break;
+
+      case 'phase':
+        return <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+          <title>Phase</title>
+          <path d="M27.314 16l-11.314 11.314-11.314-11.314 11.314-11.314 11.314 11.314z"></path>
+
+        </svg>  
+        break;
+
       case 'model':
         return <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <title>Model</title>

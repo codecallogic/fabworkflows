@@ -6,8 +6,6 @@ import {connect} from 'react-redux'
 import SVGs from '../../files/svgs'
 import axios from 'axios'
 import {API} from '../../config'
-import QuotePDF from '../../components/pdf/quote'
-import Agreement from '../../components/pdf/agreement'
 import withUser from '../withUser'
 import SVG from '../../files/svgs'
 

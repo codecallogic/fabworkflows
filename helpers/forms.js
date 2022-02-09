@@ -29,7 +29,9 @@ const formFields = {
   prices: ['brand', 'price', 'model'],
   contacts: ['contact_name', 'phone', 'email'],
   quotes: ['contact_name', 'phone', 'email', 'quote_lines', 'quote_subtotal', 'quote_total', 'quote_balance', 'quote_date', 'quote_name', 'quote_number'],
-  payment: ['name', 'address', 'city', 'state', 'zip_code']
+  payment: ['name', 'address', 'city', 'state', 'zip_code'],
+  phases: ['name'],
+  jobs: ['name', 'account', 'date', 'invoice']
 }
 
 

@@ -1,6 +1,6 @@
-import {filterTable} from '../helpers/tableData'
+import { filterTable } from '../helpers/tableData'
 import SVG from '../files/svgs'
-import {useEffect, useState, useRef} from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 const Table = ({
   token,
@@ -12,9 +12,6 @@ const Table = ({
   setControls,
   controlsType,
   setModal,
-  searchEnable,
-  search,
-  setSearch,
   message,
   setMessage,
   sortOrder,
@@ -26,12 +23,12 @@ const Table = ({
   setDynamicSVG,
   setAllData,
   searchType,
-  searchPlaceholder,
 
   ///// EDIT
   viewType,
   modalType,
   editDataType,
+  editModalType,
 
   //// DATA
   componentData,
@@ -40,15 +37,15 @@ const Table = ({
 
   //// REDUX
   changeView,
+  setDynamicType,
+  setDynamicKey,
+  extractingStateData,
 
   //// CRUD
   submitDeleteRow,
   deleteType
 
 }) => {
-
-  //// TABLES WITH DROPDOWNS
-  const tableDropdowns = ['jobs']
   
   const matchPattern = /https?:\/\/(www\.)?/gi;
   const myRefs = useRef([])
@@ -56,7 +53,7 @@ const Table = ({
   const [up, setUp] = useState(1)
   const [down, setDown] = useState(-1)
   const [filter, setFilter] = useState('')
-  const [dropdown, setDropdown] = useState('')
+  const [currentItem, setCurrentItem] = useState('')
 
   const handleClickOutside = (event) => {
     if(myRefs.current){
@@ -65,11 +62,11 @@ const Table = ({
           
           if(event.target.id == 'checkbox') return
           if(item.contains(event.target)) return
+          if(event.target == document.getElementById('plus')) return
           if(event.target == document.getElementById('delete')) return
           if(event.target == document.getElementById('edit')) return
           
           resetCheckboxes()
-          setControls('')
           setSelectID('')
         }
       })
@@ -91,6 +88,8 @@ const Table = ({
 
     e.target.checked = true
    
+    setDynamicType('REMOVE_QUOTE_ITEM')
+    setDynamicKey('quotes')
     setControls(controlsType)
     setSelectID(id)
   }
@@ -99,46 +98,33 @@ const Table = ({
   return (
     <div className="table">
       <div className="table-header">
-        <div className="table-header-title">{title}</div>
-        {searchEnable &&
-        <div className={`form-group-search ` + (controls ? 'form-group-search-hideOnMobile' : '')}>
-          <form autoComplete="off">
-            <input 
-            type="text" 
-            name="search" 
-            placeholder={searchPlaceholder} 
-            value={search} 
-            onChange={(e) => (setLoading(searchType), setSearch(e.target.value), document.getElementById('tableContainer').scrollLeft = 0)} 
-            />
-          </form>
-        </div>
-        }
-        {controls == controlsType &&
+        <div className="table-header-title">{title}</div> 
           <div className="table-header-controls">
             <div 
-            id="edit" 
-            className="table-header-controls-item" 
-            onClick={() => (setModal(modalType), changeView(viewType), setEdit(typeOfData), editData(editDataType.key, editDataType.caseType), setControls(''), resetCheckboxes())}
+            id="plus" 
+            className="table-header-controls-item-svg" 
+            onClick={() => (
+                setModal(modalType),
+                setDynamicType('CREATE_JOB_ARRAY_ITEM'),
+                setDynamicKey('quotes'),
+                setControls(''), 
+                setMessage(''), 
+                resetCheckboxes()
+              )}
             >
-              Edit
+              <SVG svg={'plus'}></SVG>
             </div>
+            {controls == controlsType && 
             <div 
             id="delete" 
-            className="table-header-controls-item" 
-            onClick={(e) => submitDeleteRow(e, typeOfData, setMessage, 'delete_row', setLoading, token, deleteType, selectID, allData, setAllData, setDynamicSVG, resetCheckboxes, setControls)}
-            >
-              {loading == 'delete_row' ? 
-              <div className="loading">
-                <span style={{backgroundColor: loadingColor}}></span>
-                <span style={{backgroundColor: loadingColor}}></span>
-                <span style={{backgroundColor: loadingColor}}></span>
-              </div>
-              : 
-               'Delete'
-              }
+            className="table-header-controls-item-svg" 
+            onClick={(e) => 
+              extractingStateData(currentItem.quote_name)
+            }>
+               <SVG svg={'thrash-can'}></SVG>
             </div>
+            }
           </div>
-        }
         { message && 
           <div className="table-header-error">
             <SVG svg={dynamicSVG}></SVG> 
@@ -177,9 +163,8 @@ const Table = ({
         : null
       }
       { 
-        filterTable(allData[typeOfData]).length > 0 && 
-        filterTable(allData[typeOfData], ['createdAt', 'updatedAt', '__v']).map((item, idx) => 
-        // .sort((a, b) => a[filter] > b[filter] ? up : down)
+        filterTable(allData).length > 0 && 
+        filterTable(allData, ['createdAt', 'updatedAt', '__v']).map((item, idx) => 
           <div 
           key={idx} 
           className={`table-rows ` + (idx % 2 == 1 ? ' row-odd' : ' row-even')}
@@ -192,16 +177,26 @@ const Table = ({
                 id={`checkbox`} 
                 className="table-rows-checkbox-input" 
                 type="checkbox" 
-                onClick={(e) => e.target.checked == true ?  (setMessage(''), handleSelect(e, item._id)) : (setControls(''), setSelectID(''), setMessage(''))}/>
+                onClick={(e) => e.target.checked == true ?  
+                  (
+                  setMessage(''), 
+                  handleSelect(e, item._id), 
+                  setCurrentItem(item)
+                  ) 
+                  : (
+                    setControls(''), 
+                    setSelectID(''), 
+                    setMessage(''))
+                }/>
                 <span></span>
                 <div>
                   <SVG svg={'checkmark'}></SVG>
                 </div>
               </label>
             </div>
-            {Object.keys(item).sort((a, b) => sortOrder.indexOf(b) - sortOrder.indexOf(a)).map((key, idxKey, array) => 
+            {Object.keys(item).sort((a, b) => sortOrder.indexOf(b) - sortOrder.indexOf(a)).map((key, idx, array) => 
               key !== '_id' && 
-              <div key={idxKey} className="table-rows-item">
+              <div key={idx} className="table-rows-item">
                 { 
                   Array.isArray(item[key]) && item[key].length > 0 && matchPattern.test(item[key][0].location)
                   ? 
@@ -211,35 +206,6 @@ const Table = ({
                 {
                   Array.isArray(item[key]) && item[key].length > 0 
                   ? 
-                  tableDropdowns.includes(typeOfData) ?
-                  <>
-                    <div className="table-rows-item-dropdown">
-                      <span onClick={() => 
-                        dropdown == '' 
-                        ? 
-                        setDropdown(`${key}-${idx}`)
-                        : 
-                        setDropdown('')
-                      }>
-                      list
-                      <SVG svg={'dropdown-arrow'}></SVG>
-                      </span>
-                      { dropdown == `${key}-${idx}` && 
-                        <div className="table-rows-item-dropdown-items">
-                          {item[key].map(( data, idxDropdown ) => 
-                            <div 
-                            key={idxDropdown}
-                            className="table-rows-item-dropdown-items-item"
-                            >
-                              {data.name ? data.name : data.contact_name}
-                            </div>
-                          )}
-                        </div>
-                      }
-                      
-                    </div>
-                    </>
-                  :
                   item[key][0].name
                   : null
                 }
@@ -253,9 +219,8 @@ const Table = ({
                 {
                   !Array.isArray(item[key]) && key !== 'qr_code'
                   ? 
-                    item[key]
-                  : 
-                    null
+                  item[key]
+                  : null
                 }
               </div>
             )}

@@ -18,7 +18,15 @@ import ContactModal from '../../components/modals/Contact'
 import Table from '../../components/table'
 import TableAlt from '../../components/tableAlt'
 import { tableData } from '../../helpers/tableData'
-import { slabSort, productSort, remnantSort, materialSort, priceSort, quoteSort } from '../../helpers/sorts'
+import { 
+  slabSort, 
+  productSort, 
+  remnantSort, 
+  materialSort, 
+  priceSort, 
+  quoteSort,
+  jobSort
+} from '../../helpers/sorts'
 import { populateEditData } from '../../helpers/modals'
 
 //// DATA
@@ -30,11 +38,27 @@ import SlabForm from '../../components/forms/slabForm'
 import ProductForm from '../../components/forms/productForm'
 import RemnantForm from '../../components/forms/remnantForm'
 import QuoteForm from '../../components/forms/quoteForm'
-import { submitCreate, submitUpdate, submitDeleteImage, submitDeleteRow, submitSearch, resetDataType } from '../../helpers/forms'
+import JobForm from '../../components/forms/jobForm'
+import { 
+  submitCreate, 
+  submitUpdate, 
+  submitDeleteImage, 
+  submitDeleteRow, 
+  submitSearch, 
+  resetDataType 
+} from '../../helpers/forms'
 
 //// VALIDATIONS
 import { 
-  validateNumber, validateSize, validatePrice, validateDate, generateQR, multipleImages, dateNow, phoneNumber, addressSelect
+  validateNumber, 
+  validateSize, 
+  validatePrice, 
+  validateDate, 
+  generateQR, 
+  multipleImages, 
+  dateNow, 
+  phoneNumber, 
+  addressSelect
 } from '../../helpers/validations'
 
 //// MODALS
@@ -48,6 +72,8 @@ import CategoryModal from '../../components/modals/Category'
 import QuoteLineModal from '../../components/modals/QuoteLine'
 import PrintModal from '../../components/modals/Print'
 import EmailModal from '../../components/modals/Email'
+import PhaseModal from '../../components/modals/Phase'
+import QuoteModal from '../../components/modals/Quote'
 
 axios.defaults.withCredentials = true
 
@@ -82,28 +108,18 @@ const Dashboard = ({
   contact,
   quote,
   quoteLine,
+  phase,
+  job,
   createType,
   resetType,
   addImages, 
 
-  
-  createProduct, 
-  categories, 
-  resetMaterial, 
-
- 
-  addressList, 
-  misc_categories, 
-  products, 
-  resetQuote
 }) => {
   const myRefs = useRef(null)
   
   // console.log(originalData)
   
   const router = useRouter()
-  const [allProductCategories, setAllProductCategories] = useState(categories)
-  const [allCategories, setAllCategories] = useState(misc_categories)
 
   ///// STATE MANAGEMENT
   const [width, setWidth] = useState()
@@ -115,8 +131,14 @@ const Dashboard = ({
   const [modal, setModal] = useState('')
   const [dynamicSVG, setDynamicSVG] = useState('notification')
   const [edit, setEdit] = useState('')
-  const [modalEdit, setModalEdit] = useState('')
   const [allData, setAllData] = useState(originalData ? originalData : [])
+
+  //// EDIT QUOTE LINE
+  const [modalEdit, setModalEdit] = useState('')
+
+  //// EXTRACTING STATE DATA
+  const [dynamicType, setDynamicType] = useState('')
+  const [dynamicKey, setDynamicKey] = useState('')
 
   const handleClickOutside = (event) => {
     if(myRefs.current){
@@ -214,6 +236,10 @@ const Dashboard = ({
     if(params) params.change ? changeView(params.change) : null
   }, [router.query.change])
 
+  const extractingStateData = (stateData) => {
+    createType(dynamicType, dynamicKey, stateData)
+    setControls('')
+  }
   
   return (
     <>
@@ -814,6 +840,87 @@ const Dashboard = ({
           >
           </Table>
         }
+        {nav.view == 'phases' &&
+          <TableAlt
+            token={token}
+            title={'Phase List'}
+            typeOfData={'phases'}
+            componentData={data.phases}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={materialSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'phaseControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'phases'}
+            modalType={'phase'}
+            editModalType={'phase'}
+            editDataType={{key: 'phases', caseType: 'CREATE_PHASE'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="phases/delete-phase"
+            searchType={'phases'}
+            searchPlaceholder={'Search by phase name'}
+          >
+          </TableAlt>
+        }
+
+
+        {nav.view == 'jobs' &&
+          <Table
+            token={token}
+            title={'Job List'}
+            typeOfData={'jobs'}
+            componentData={data.jobs}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={jobSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'jobControls'}
+            searchEnable={true}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'job'}
+            modalType={''}
+            editDataType={{key: 'jobs', caseType: 'CREATE_JOB'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="jobs/delete-job"
+            searchType={'jobs'}
+            searchPlaceholder={'Search by job name or quote number'}
+          >
+          </Table>
+        }
 
 
         {/* ///// FORMS //// */}
@@ -951,10 +1058,47 @@ const Dashboard = ({
             setEdit={setEdit}
             submitUpdate={submitUpdate}
             changeView={changeView}
-            submitDeleteImage={submitDeleteImage}
             editData={editData}
           >
           </QuoteForm>
+        }
+        {nav.view == 'job' &&
+          <JobForm
+            token={token}
+            title={'New Job'}
+            typeOfData={'jobs'}
+            componentData={data.quotes}
+            allData={allData}
+            setAllData={setAllData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            submitCreate={submitCreate}
+            modal={modal}
+            setModal={setModal}
+            setModalEdit={setModalEdit}
+            stateData={job}
+            stateMethod={createType}
+            originalData={originalData}
+            message={message}
+            setMessage={setMessage}
+            loading={loading}
+            setLoading={setLoading}
+            resetState={resetType}
+            edit={edit}
+            setEdit={setEdit}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            setDynamicType={setDynamicType}
+            setDynamicKey={setDynamicKey}
+            controls={controls}
+            setControls={setControls} 
+            resetCheckboxes={resetCheckboxes}
+            extractingStateData={extractingStateData}
+          >
+          </JobForm>
         }
 
         
@@ -1017,6 +1161,10 @@ const Dashboard = ({
                 <SVGs svg={'document'}></SVGs>
                 <span>New Quote</span>
               </div>
+              <div className="clientDashboard-view-new-item" onClick={() => changeView('job')}>
+                <SVGs svg={'job'}></SVGs>
+                <span>New Job</span>
+              </div>
               <div className="clientDashboard-view-new-item" onClick={() => changeView('prices')}>
                 <SVGs svg={'price-list'}></SVGs>
                 <span>Price List</span>
@@ -1025,13 +1173,9 @@ const Dashboard = ({
                 <SVGs svg={'location'}></SVGs>
                 <span>Contacts</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (setModal('category'))}>
+              <div className="clientDashboard-view-new-item" onClick={() => changeView('phases')}>
                 <SVGs svg={'clipboard'}></SVGs>
                 <span>Phase/Category</span>
-              </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (window.location.href = 'account?change=quote-fields')}>
-                <SVGs svg={'clipboard'}></SVGs>
-                <span>Trasaction Fields</span>
               </div>
             </div>
           }
@@ -1269,6 +1413,8 @@ const Dashboard = ({
               setEdit={setEdit}
               stateData={contact}
               stateMethod={createType}
+              dynamicType={dynamicType}
+              extractingStateData={extractingStateData}
               dynamicSVG={dynamicSVG}
               setDynamicSVG={setDynamicSVG}
               resetState={resetType}
@@ -1335,6 +1481,57 @@ const Dashboard = ({
             >
             </EmailModal>
           }
+          { modal == 'phase' &&
+            <PhaseModal
+              token={token}
+              message={message}
+              setMessage={setMessage}
+              setModal={setModal}
+              loading={loading}
+              setLoading={setLoading}
+              edit={edit}
+              setEdit={setEdit}
+              stateData={phase}
+              stateMethod={createType}
+              dynamicSVG={dynamicSVG}
+              setDynamicSVG={setDynamicSVG}
+              resetState={resetType}
+              submitCreate={submitCreate}
+              addImages={addImages}
+              allData={allData}
+              setAllData={setAllData}
+              submitUpdate={submitUpdate}
+              changeView={changeView}
+              editData={editData}
+            >
+            </PhaseModal>
+          }
+          { modal == 'quote' &&
+            <QuoteModal
+              token={token}
+              message={message}
+              setMessage={setMessage}
+              setModal={setModal}
+              loading={loading}
+              setLoading={setLoading}
+              edit={edit}
+              setEdit={setEdit}
+              stateData={job}
+              stateMethod={createType}
+              dynamicType={dynamicType}
+              extractingStateData={extractingStateData}
+              dynamicSVG={dynamicSVG}
+              setDynamicSVG={setDynamicSVG}
+              resetState={resetType}
+              submitCreate={submitCreate}
+              allData={allData}
+              setAllData={setAllData}
+              submitUpdate={submitUpdate}
+              changeView={changeView}
+              editData={editData}
+            >
+            </QuoteModal>
+          }
         </div>
       </div>
     </>
@@ -1358,7 +1555,9 @@ const mapStateToProps = (state) => {
     priceList: state.priceList,
     contact: state.contact,
     quote: state.quote,
-    quoteLine: state.quoteLine
+    quoteLine: state.quoteLine,
+    phase: state.phase,
+    job: state.job
   }
 }
 
@@ -1396,6 +1595,9 @@ Dashboard.getInitialProps = async (context) => {
   data.quotes           = await tableData(accessToken, 'quotes/all-quotes')
   data.contacts         = await tableData(accessToken, 'contact/all-contacts')
   data.prices           = await tableData(accessToken, 'price/all-prices')
+  data.phases           = await tableData(accessToken, 'phases/all-phases')
+  data.jobs             = await tableData(accessToken, 'jobs/all-jobs')
+  data.accounts         = await tableData(accessToken, 'accounts/all-accounts')
   deepClone             = _.cloneDeep(data)
   
   return {

@@ -55,22 +55,6 @@ const Table = ({
   const [down, setDown] = useState(-1)
   const [filter, setFilter] = useState('')
 
-  //// TODO: SORT DEEP NESTED OBJECTS
-  // const getMembers = (members) => {
-  //   let material = [];
-  //   const flattenMembers = members.map(m => {
-  //     if (m.material && m.material.length) {
-  //       material = [...material, ...m.material];
-  //     }
-  //     return m;
-  //   });
-  
-  //   return flattenMembers.concat(material.length ? getMembers(material) : material);
-  // };
-  
-
-  // console.log(getMembers(filterTable(componentData, ['_id', 'createdAt', 'updatedAt', '__v'])))
-
   const handleClickOutside = (event) => {
     if(myRefs.current){
       myRefs.current.forEach((item) => {

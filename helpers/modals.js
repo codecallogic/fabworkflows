@@ -3,6 +3,9 @@ export {
   populateAddress
 }
 
+const allowArrays = ['quotes', 'jobs']
+const allowObjects = ['account', 'accountAddress']
+
 const populateEditData = (originalData, keyType, caseType, stateMethods, selectID) => {
   stateMethods.createType(caseType, '_id', selectID)
   
@@ -17,14 +20,18 @@ const populateEditData = (originalData, keyType, caseType, stateMethods, selectI
 
         if(Array.isArray(object[keyOfObject]) && object[keyOfObject].length > 0){
 
+
           if(!object[keyOfObject][0]['location'] ) stateMethods.createType(caseType, keyOfObject, object[keyOfObject][0])
 
           if(object[keyOfObject][0]['location']) return stateMethods.createType(caseType, keyOfObject, object[keyOfObject])
 
-          if(keyType == 'quotes'){
+          if(allowArrays.includes(keyType)){
             stateMethods.createType(caseType, keyOfObject, object[keyOfObject])
           }
 
+          if(allowObjects.includes(keyOfObject)){
+            stateMethods.createType(caseType, keyOfObject, object[keyOfObject][0])
+          }
         }
 
       }

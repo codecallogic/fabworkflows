@@ -136,7 +136,7 @@ const CheckoutForm = ({ type, billing, quote, deposit }) => {
       onClick={(e) => handleCardPayment(e)}
       >
         {loading !== 'payment' && 
-          <span>Confirm Order</span>
+          <span>Confirm Payment</span>
         } 
         {loading == 'payment' && 
         <div className="loading">

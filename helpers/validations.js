@@ -19,7 +19,10 @@ export {
   filterProductSearch,
   filterPriceListSearch,
   validatePDFContent,
-  validateZipCode
+  validateZipCode,
+  generateInvoiceNumber,
+  returnIfTrue,
+  checkObjectValues
 }
 
 ///// VALIDATIONS
@@ -423,4 +426,28 @@ const validateZipCode = (zip) => {
   
   return !/^\d{5}(-\d{4})?$/.test(zip)
   
+}
+
+const generateInvoiceNumber = () => {
+  let orderNumber = Math.floor(100000000 + Math.random() * 900000000)
+
+  return orderNumber
+}
+
+const returnIfTrue = (data) => {
+  
+  return data ? data : ''
+  
+}
+
+const checkObjectValues = (data) => {
+  let array = []
+
+  for(let key in data){
+    if(data[key]) array.push(true)
+  }
+  
+  if(array.length == 0) return false
+
+  return true
 }

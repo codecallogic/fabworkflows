@@ -1,22 +1,55 @@
 import {useState, useEffect, useRef} from 'react'
-import { connect } from 'react-redux'
-import SVGs from '../../files/svgs'
-import {API} from '../../config'
-import axios from 'axios'
+import SVG from '../../files/svgs'
+import { manageFormFields } from '../../helpers/forms'
 
-const Address = ({setmodal, update, quote, createQuote, resetQuote, convertDate, updateJob, createJob}) => {
-  const [error, setError] = useState('')
-  const [message, setMessage] = useState('')
-  const [edit, setEdit] = useState('')
-  const [loading, setLoading] = useState(false)
+const searchOptionsAddress = {
+  componentRestrictions: {country: 'us'},
+  types: ['address']
+}
 
+const PriceListModal = ({
+  token,
+  message,
+  setMessage,
+  setModal,
+  loading,
+  setLoading,
+  edit,
+  dynamicSVG,
+  setDynamicSVG,
+
+  //// DATA
+  allData,
+  setAllData,
+  editData,
+
+  //// REDUX
+  stateData,
+  stateMethod,
+  resetState,
+  changeView,
+  dynamicType,
+  extractingStateData,
+
+  //// CRUD
+  submitCreate,
+  submitUpdate,
+}) => {
+  
+  const createType = 'CREATE_QUOTE'
+  const resetType = 'RESET_QUOTE'
+  const myRefs = useRef(null)
+  const [loadingColor, setLoadingColor] = useState('white')
+  const [input_dropdown, setInputDropdown] = useState('')
+  const [currentItem, setCurrentItem] = useState('')
+
+  //// HANDLE MODAL DRAG
   const [prevX, setPrevX] = useState(0)
   const [prevY, setPrevY] = useState(0)
   const onPointerDown = () => {}
   const onPointerUp = () => {}
   const onPointerMove = () => {}
   const [isDragging, setIsDragging] = useState(false)
-
   const [translate, setTranslate] = useState({
     x: 0,
     y: 0
@@ -57,111 +90,149 @@ const Address = ({setmodal, update, quote, createQuote, resetQuote, convertDate,
     });
   }
 
-  const validateIsNumber = (type) => {
-    const input = document.getElementById(type)
-    const regex = /[^0-9|\n\r]/g
-    input.value = input.value.split(regex).join('')
-  }
 
-  const validateIsEmail = (type) => {
-    const input = document.getElementById(type)
-    const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/g
-    return regex.test(input.value)
-  }
-
-  const validateIsPhoneNumber = (type, property) => {
-    const input = document.getElementById(type)
-    const cleanNum = input.value.toString().replace(/\D/g, '');
-    const match = cleanNum.match(/^(\d{3})(\d{0,3})(\d{0,4})$/);
-    if (match) {
-      return  createQuote(property, '(' + match[1] + ') ' + (match[2] ? match[2] + "-" : "") + match[3]);
+  // HANDLE DROPDOWNS
+  const handleClickOutside = (event) => {
+    if(myRefs.current){
+      if(!myRefs.current.contains(event.target)){
+        setInputDropdown('')
+      }
     }
-    return null;
   }
 
   useEffect(() => {
-    let orderNumber = Math.floor(100000000 + Math.random() * 900000000)
-    createQuote('quote_number', orderNumber)
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
   }, [])
-
-  const createNewQuote = async () => {
-    if(!quote.contact_name) return setError('Quote name is required')
-    setLoading('create')
-    setError('')
-    
-    try {
-      const responseQuote = await axios.post(`${API}/transaction/create-quote-to-job`, {quote: quote, job: updateJob})
-      setLoading('')
-      resetQuote()
-      
-      for(let key in responseQuote.data){
-        createJob(key, responseQuote.data[key])
-        if(key == 'createdAt') createJob('createdAt', convertDate(responseQuote.data['createdAt']))
-      }
-      setmodal('')
-      
-    } catch (error) {
-      console.log(error)
-      setLoading('')
-      if(error) error.response ? setError(error.response.data) : setError('Error creating address, please try again later')
-    }
-  }
   
   return (
-    <div className="addFieldItems-modal" data-value="parent" onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}>
-      <div className="addFieldItems-modal-box" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
-        <div className="addFieldItems-modal-box-header" >
-          <span className="addFieldItems-modal-form-title">{edit ? 'Edit Color' : 'Create New Quote'}</span>
-          <div onClick={() => (setmodal(''), setError(''), setMessage(''), setEdit(''))}><SVGs svg={'close'}></SVGs></div>
+    <div 
+      className="addFieldItems-modal" 
+      data-value="parent" 
+      onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}
+    >
+      <div 
+      className="addFieldItems-modal-box" 
+      onPointerDown={handlePointerDown} 
+      onPointerUp={handlePointerUp} 
+      onPointerMove={handlePointerMove} 
+      style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
+        <div className="addFieldItems-modal-box-header">
+        <span 
+          className="addFieldItems-modal-form-title">
+            {edit == 'quote_item' ? 
+            'Edit Quote' 
+            : 
+            'Add Quote'
+            }
+        </span>
+        <div onClick={() => (setModal(''), resetState(resetType), setMessage(''))}>
+          <SVG svg={'close'}></SVG>
         </div>
-        <div className="addFieldItems-modal-form-container">
-        <div className="addFieldItems-modal-info">
-          <div className="clientDashboard-view-form-left-box-container-2-item">
-            <div className="clientDashboard-view-form-left-box-container-2-item-heading modal-info-title">Account: </div>
-            <div className="clientDashboard-view-form-left-box-container-2-item-content modal-info-title-text">
-              {updateJob.accounts && updateJob.accounts.length > 0 && 
-                <span>{updateJob.accounts[0].name}</span>
-              }
-            </div>
-          </div>
-          <div className="clientDashboard-view-form-left-box-container-2-item">
-            <div className="clientDashboard-view-form-left-box-container-2-item-heading modal-info-title">Job: </div>
-            <div className="clientDashboard-view-form-left-box-container-2-item-content modal-info-title-text">
-              {updateJob.name}
-            </div>
-          </div>
         </div>
+
+
+
         <form className="addFieldItems-modal-form">
-          <div className="form-group-single-textarea">
-            <div className="form-group-single-textarea-field">
-              <label htmlFor="name">Quote Name</label>
-              <textarea id="name" rows="1" name="name" placeholder="(Contact Name)" value={quote.contact_name} onChange={(e) => createQuote('contact_name', e.target.value)} onFocus={(e) => e.target.placeholder = ''} onBlur={(e) => e.target.placeholder = '(Contact Name)'} wrap="off" onKeyDown={(e) => e.keyCode == 13 ? e.preventDefault() : null} required></textarea>
+          <div className="form-group mbType1">
+            <input
+            onClick={() => setInputDropdown('job_quote')} 
+            value={manageFormFields(currentItem, 'quote_name')} 
+            readOnly
+            />
+            <label 
+            className={`input-label ` + (
+              currentItem !== ''
+              ? ' labelHover' 
+              : ''
+            )}
+            htmlFor="quotes">
+              Quote
+            </label>
+            <div 
+            onClick={() => setInputDropdown('job_quote')}><SVG svg={'dropdown-arrow'}></SVG>
             </div>
+            { input_dropdown == 'job_quote' &&
+              <div 
+              className="form-group-list" 
+              ref={myRefs}>
+                {allData && allData.quotes.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                <div 
+                  key={idx} 
+                  className="form-group-list-item" 
+                  onClick={(e) => (
+                    dynamicType 
+                    ?
+                    setCurrentItem(item)
+                    :
+                    stateMethod(createType, 'account', item), setInputDropdown('')
+                  )}
+                >
+                  {item.quote_name}
+                </div>
+                ))}
+              </div>
+            }
           </div>
-        </form>
-        </div>
-        {error && <span className="form-error"><SVGs svg={'error'}></SVGs>{error}</span>}
-        {message && <span className="form-message-modal">{message}</span>}
-        {update == '' && <div className="form-button w100" onClick={(e) => createNewQuote(e)}>{!loading && <span>Save</span>} {loading == 'create' && <div className="loading"><span></span><span></span><span></span></div>}</div>}
-        {update == 'true' && <div onClick={(e) => updateContact(e)} className="form-button w100">{!loading && <span>Update</span>} {loading == 'update' && <div className="loading"><span></span><span></span><span></span></div>}</div>}
+
+          {message && 
+          <span className="form-group-message">
+            <SVG svg={dynamicSVG} color={'#fd7e3c'}></SVG>
+            {message}
+          </span>
+          }
+      </form>
+
+
+      <div className="addFieldItems-modal-box-footer">
+        {!edit && 
+        <button 
+        className="form-group-button" 
+        onClick={(e) => dynamicType 
+          ?
+          (
+            extractingStateData(currentItem),
+            setModal('')
+          )
+          :
+          null
+        }
+        >
+            {loading == 'create_contact' ? 
+            <div className="loading">
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+            </div>
+            : 
+            'Save'
+            }
+        </button>
+        }
+        {edit == 'contact' && 
+        <button 
+        className="form-group-button" 
+        onClick={(e) => (e.preventDefault(), null)}
+        >
+           {loading == 'update_contact' ? 
+            <div className="loading">
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+            </div>
+            : 
+            'Update'
+            }
+        </button>
+        }
       </div>
+      
     </div>
+    </div>
+    
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    quote: state.quote,
-    updateJob: state.job
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    createQuote: (name, data) => dispatch({type: 'CREATE_QUOTE', name: name, value: data}),
-    resetQuote: () => dispatch({type: 'RESET_QUOTE'}),
-    createJob: (name, data) => dispatch({type: 'CREATE_JOB', name: name, value: data}),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Address)
+export default PriceListModal
