@@ -7,7 +7,7 @@ axios.defaults.withCredentials = true
 
 const Login = ({redirectLoginURL}) => {
   const router = useRouter()
-
+  const loadingColor = 'white'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [forgot_password, setForgotPassword] = useState('')
@@ -45,14 +45,56 @@ const Login = ({redirectLoginURL}) => {
       <img src="/media/logo_2.png" alt="" className="login-logo" />
       <div className="login-title">Login</div>
       <form className="form" onSubmit={(e) => login(e)}>
-        <div className="form-group-single">
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="email"/>
+        <div className="login-form">
+
+          <div className="form-group inputFieldWhite">
+            <input 
+            id="email" 
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)}/>
+            <label 
+            className={`input-label ` + (
+              email !== '' || 
+              typeof email == 'object' 
+              ? ' labelHover' 
+              : ''
+            )}
+            htmlFor="email">
+              Email
+            </label>
+          </div>
+
+          <div className="form-group inputFieldWhite">
+            <input 
+            id="password" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)}/>
+            <label 
+            className={`input-label ` + (
+              password !== '' || 
+              typeof password == 'object' 
+              ? ' labelHover' 
+              : ''
+            )}
+            htmlFor="password">
+              Password
+            </label>
+          </div>
         </div>
-        <div className="form-group-single">
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="password"/>
-        </div>
-        <button type="submit" className="form-button">{!loading && <span>sign in</span>} {loading && <div className="loading"><span></span><span></span><span></span></div>}</button>
-        {message &&  <div className="form-message">{message}</div>}
+
+        {message &&  <div className="form-group-message">{message}</div>}
+
+        <button type="submit" className="form-group-button">
+          {!loading && <span>sign in</span>} 
+          {loading && 
+            <div className="loading">
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+          </div>
+          }
+        </button>
+
       </form>
       <span className="link-text">Don't have an account? <a className="link" onClick={() => window.location.href = `/signup`}>Sign up</a></span>
       <span className="link-forgotPassword">Forgot Password</span>

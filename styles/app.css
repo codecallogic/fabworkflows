@@ -2798,7 +2798,13 @@ body {
     margin: 3rem 0;
     font-style: italic; }
   .login-title {
-    font-size: 1.8rem; }
+    font-size: 1.8rem;
+    margin: 1rem 0; }
+  .login-form {
+    width: 30rem;
+    padding: 2rem 1rem;
+    border-radius: 1.2rem;
+    background-color: #f1f1ee; }
 
 .signup {
   display: grid;
