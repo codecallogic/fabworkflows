@@ -49,7 +49,7 @@
 
 # About The Project
 
-![inventory dashboard!](/public/media/readme/inventory_dashboard.png 'Inventory dashboard')
+<img src="/public/media/readme/inventory_dashboard.png" alt="Logo" width="300" height="300">
 
 Fabworkflow is a management software for a countertop fabricator. Fabworkflow allows the business to create quotes, record and manage inventory, process purchases, and track warehouse jobs and activities. Fabworkflow aims to be a fully integrated warehouse management system including drawing professional countertop layouts.
 
@@ -71,7 +71,7 @@ Fabworkflow is a management software for a countertop fabricator. Fabworkflow al
 
 # Getting Started
 
-To set up the project locally follow these steps.
+To set up the project locally follow these steps. Please note that these steps are for the client side of the project. For server side guide and set up please visit <a href="https://github.com/codecallogic/fabworkflows-api.git">Fabworkflow API</a>. Server installation is required to run the software.
 
 ## Prerequisites
 
@@ -82,3 +82,30 @@ Environment intallations required to use the softeware.
 ```sh
 npm install npm@latest -g
 ```
+
+### Installation
+
+1. Clone the repo
+   ```sh
+   git clone https://github.com/codecallogic/fabworkflows.git
+   ```
+2. Install NPM packages
+   ```sh
+   npm install
+   ```
+3. Enter your KEYS in `next.config.js`
+   ```js
+   GOOGLE = 'ENTER YOUR API';
+   STRIPE = 'ENTER KEY';
+   ```
+
+# Roadmap
+
+- [x] Implement payment gateway
+- [ ] Feature 2
+- [ ] Feature 3
+  - [ ] Nested Feature
+
+See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
+
+<p align="right">(<a href="#top">back to top</a>)</p>
