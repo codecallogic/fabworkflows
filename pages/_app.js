@@ -7,7 +7,7 @@ import {GOOGLE_API} from '../config'
 
 const store = createStore(rootReducer, composeWithDevTools())
 
-const googleMaps = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_API2}&libraries=places`
+const googleMaps = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_API}&libraries=places`
 
 function MyApp({ Component, pageProps }) {
   return <>
