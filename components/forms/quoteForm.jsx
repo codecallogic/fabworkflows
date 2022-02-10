@@ -487,7 +487,7 @@ const QuoteForm = ({
             
             <label 
             className={`input-label ` + (
-              quote_number !== '' || 
+              stateData.quote_number !== '' || 
               typeof stateData.quote_number == 'object' 
               ? ' labelHover' 
               : ''
