@@ -1,3 +1,5 @@
+<div id="top"></div>
+
 <div align="center">
   <a href="https://github.com/codecallogic/fabworkflows">
     <img src="public/media/logo_2.png" alt="Logo">
@@ -49,9 +51,11 @@
 
 # About The Project
 
-<img src="/public/media/readme/inventory_dashboard.png" alt="Logo" width="300" height="300">
+<img src="/public/media/readme/inventory_dashboard.png" alt="Logo" width="90%" height="500">
 
 Fabworkflow is a management software for a countertop fabricator. Fabworkflow allows the business to create quotes, record and manage inventory, process purchases, and track warehouse jobs and activities. Fabworkflow aims to be a fully integrated warehouse management system including drawing professional countertop layouts.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Features
 
@@ -59,6 +63,8 @@ Fabworkflow is a management software for a countertop fabricator. Fabworkflow al
 - Stripe integration to process orders
 - Aggregate pipeline search
 - Simple UI optimzed for productivity
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Built with
 
@@ -69,9 +75,13 @@ Fabworkflow is a management software for a countertop fabricator. Fabworkflow al
 
 ![quote!](/public/media/readme/quote.png 'Quote')
 
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 # Getting Started
 
-To set up the project locally follow these steps. Please note that these steps are for the client side of the project. For server side guide and set up please visit <a href="https://github.com/codecallogic/fabworkflows-api.git">Fabworkflow API</a>. Server installation is required to run the software.
+To set up the project locally follow these steps. Please note that these steps are for the client side of the project. For server side guide and set up contact us. Server installation is required to run the software.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Prerequisites
 
@@ -82,6 +92,8 @@ Environment intallations required to use the softeware.
 ```sh
 npm install npm@latest -g
 ```
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Installation
 
@@ -99,12 +111,14 @@ npm install npm@latest -g
    STRIPE = 'ENTER KEY';
    ```
 
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 # Roadmap
 
 - [x] Implement payment gateway
-- [ ] Feature 2
-- [ ] Feature 3
-  - [ ] Nested Feature
+- [ ] Integrate a DFX drawing CAD system
+  - [ ] Add documentation
+- [ ] Develop client side design
 
 See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
 
