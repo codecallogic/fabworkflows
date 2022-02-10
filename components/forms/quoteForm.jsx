@@ -115,6 +115,7 @@ const QuoteForm = ({
             { edit == typeOfData ? 
               <div
               className="table-header-controls-item-svg"
+              onClick={() => setModal('email')}
               >
                 <SVG svg={'send'}></SVG>
               </div>
