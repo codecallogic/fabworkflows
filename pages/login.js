@@ -67,6 +67,7 @@ const Login = ({redirectLoginURL}) => {
           <div className="form-group inputFieldWhite">
             <input 
             id="password" 
+            type="password"
             value={password} 
             onChange={(e) => setPassword(e.target.value)}/>
             <label 
