@@ -25,6 +25,7 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
+        <li><a href="#features">Features</a></li>
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
@@ -59,7 +60,7 @@ Fabworkflow is a management software for a countertop fabricator. Fabworkflow al
 - Aggregate pipeline search
 - Simple UI optimzed for productivity
 
-# Buit with
+### Built with
 
 - Next.js [Next.js](https://nextjs.org/)
 - React.js [React.js](https://reactjs.org/)
@@ -67,3 +68,17 @@ Fabworkflow is a management software for a countertop fabricator. Fabworkflow al
 - Redux [Redux](https://redux.js.org/)
 
 ![quote!](/public/media/readme/quote.png 'Quote')
+
+# Getting Started
+
+To set up the project locally follow these steps.
+
+## Prerequisites
+
+Environment intallations required to use the softeware.
+
+- npm
+
+```sh
+npm install npm@latest -g
+```
