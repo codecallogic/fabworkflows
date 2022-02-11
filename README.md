@@ -5,7 +5,7 @@
     <img src="public/media/logo_2.png" alt="Logo">
   </a>
 
-<h3 align="center">Fabworkflow</h3>
+  <h3 align="center">Fabworkflow</h3>
 
   <p align="center">
     Countertop management software
@@ -120,6 +120,20 @@ npm install npm@latest -g
   - [ ] Add documentation
 - [ ] Develop client side design
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
-
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+# Contact
+
+Fabricio Guardia - contact@fabricioguardia.com
+<br>
+LinkedIn - <a href="https://www.linkedin.com/in/fabricio-guardia/">Visit</a>
+
+# Acknowledgements
+
+Helpful resources used in this project
+
+- <a href="https://icomoon.io/">Icomoon</a>
+- <a href="https://stripe.com/docs/payments/quickstart">Stripe</a>
+- <a href="https://www.npmjs.com/package/react-places-autocomplete">React Places Autocomplete</a>
+- <a href="https://lodash.com/">Lodash</a>
+- <a href="https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en">Redux DevTools</a>
