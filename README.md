@@ -38,10 +38,7 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
@@ -49,9 +46,9 @@
 
 <br>
 
-# About The Project
+![quote!](/public/media/readme/inventory_dashboard.png 'Quote')
 
-<img src="/public/media/readme/inventory_dashboard.png" alt="Logo" width="90%" height="500">
+# About The Project
 
 Fabworkflow is a management software for a countertop fabricator. Fabworkflow allows the business to create quotes, record and manage inventory, process purchases, and track warehouse jobs and activities. Fabworkflow aims to be a fully integrated warehouse management system including drawing professional countertop layouts.
 
@@ -79,7 +76,7 @@ Fabworkflow is a management software for a countertop fabricator. Fabworkflow al
 
 # Getting Started
 
-To set up the project locally follow these steps. Please note that these steps are for the client side of the project. For server side guide and set up contact us. Server installation is required to run the software.
+To set up the project locally follow these steps. Please note that these steps are for the client side of the project. For server side guide and set up clone server side code. Server installation is required to run the software.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -128,7 +125,7 @@ Fabricio Guardia - contact@fabricioguardia.com
 <br>
 LinkedIn - <a href="https://www.linkedin.com/in/fabricio-guardia/">Visit</a>
 
-# Acknowledgements
+# Acknowledgments
 
 Helpful resources used in this project
 
