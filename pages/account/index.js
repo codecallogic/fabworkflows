@@ -18,7 +18,8 @@ import {
   materialSort, 
   priceSort, 
   quoteSort,
-  jobSort
+  jobSort,
+  assigneeSort
 } from '../../helpers/sorts'
 import { populateEditData } from '../../helpers/modals'
 
@@ -69,6 +70,7 @@ import PhaseModal from '../../components/modals/Phase'
 import QuoteModal from '../../components/modals/Quote'
 import PriceListModal from '../../components/modals/PriceList'
 import ContactModal from '../../components/modals/Contact'
+import AssigneeModal from '../../components/modals/Assignee'
 
 axios.defaults.withCredentials = true
 
@@ -105,6 +107,7 @@ const Dashboard = ({
   quoteLine,
   phase,
   job,
+  assignee,
   createType,
   resetType,
   addImages, 
@@ -928,6 +931,49 @@ const Dashboard = ({
           >
           </Table>
         }
+        {nav.view == 'assignees' &&
+          <TableAlt
+            token={token}
+            title={'Assignee List'}
+            typeOfData={'assignees'}
+            componentData={data.assignees}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={assigneeSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'assigneeControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'assignees'}
+            modalType={'assignee'}
+            editModalType={'assignees'}
+            editDataType={{key: 'assignees', caseType: 'CREATE_ASSIGNEE'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="assignee/delete-assignee"
+            searchType={'assignees'}
+            searchPlaceholder={'Search by assignee name'}
+          >
+          </TableAlt>
+        }
+
+
+
 
 
         {/* ///// FORMS //// */}
@@ -1184,12 +1230,21 @@ const Dashboard = ({
                 <SVGs svg={'clipboard'}></SVGs>
                 <span>Phase/Category</span>
               </div>
+              <div className="clientDashboard-view-new-item" onClick={() => changeView('assignees')}>
+                <SVGs svg={'user'}></SVGs>
+                <span>Assignee</span>
+              </div>
             </div>
           }
+        </div>
 
-          {/* /////////////////// MODALS ///////////////////////////// */}
+
+
+
+
+         {/* /////////////////// MODALS ///////////////////////////// */}
           
-          { modal == 'add_material' &&
+         { modal == 'add_material' &&
             <MaterialModal
               token={token}
               message={message}
@@ -1536,7 +1591,32 @@ const Dashboard = ({
             >
             </QuoteModal>
           }
-        </div>
+          { modal == 'assignee' &&
+            <AssigneeModal
+              token={token}
+              message={message}
+              setMessage={setMessage}
+              setModal={setModal}
+              loading={loading}
+              setLoading={setLoading}
+              edit={edit}
+              setEdit={setEdit}
+              stateData={assignee}
+              stateMethod={createType}
+              dynamicType={dynamicType}
+              extractingStateData={extractingStateData}
+              dynamicSVG={dynamicSVG}
+              setDynamicSVG={setDynamicSVG}
+              resetState={resetType}
+              submitCreate={submitCreate}
+              allData={allData}
+              setAllData={setAllData}
+              submitUpdate={submitUpdate}
+              changeView={changeView}
+              editData={editData}
+            >
+            </AssigneeModal>
+          }
       </div>
     </>
   )
@@ -1561,7 +1641,8 @@ const mapStateToProps = (state) => {
     quote: state.quote,
     quoteLine: state.quoteLine,
     phase: state.phase,
-    job: state.job
+    job: state.job,
+    assignee: state.assignee
   }
 }
 
@@ -1601,6 +1682,7 @@ Dashboard.getInitialProps = async (context) => {
   data.prices           = await tableData(accessToken, 'price/all-prices')
   data.phases           = await tableData(accessToken, 'phases/all-phases')
   data.jobs             = await tableData(accessToken, 'jobs/all-jobs')
+  data.assignees        = await tableData(accessToken, 'assignee/all-assignees')
   data.accounts         = await tableData(accessToken, 'accounts/all-accounts')
   deepClone             = _.cloneDeep(data)
   

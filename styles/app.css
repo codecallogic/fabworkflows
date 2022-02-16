@@ -437,6 +437,9 @@ body {
   width: 100% !important;
   border-radius: 1.2rem; }
 
+.react-colorful {
+  width: 100% !important; }
+
 .modal-search {
   margin-left: 0.5rem !important;
   width: 50% !important; }

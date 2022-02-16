@@ -31,7 +31,8 @@ const formFields = {
   quotes: ['contact_name', 'phone', 'email', 'quote_lines', 'quote_subtotal', 'quote_total', 'quote_balance', 'quote_date', 'quote_name', 'quote_number'],
   payment: ['name', 'address', 'city', 'state', 'zip_code'],
   phases: ['name'],
-  jobs: ['name', 'account', 'date', 'invoice']
+  jobs: ['name', 'account', 'date', 'invoice'],
+  assignees: ['name', 'color']
 }
 
 

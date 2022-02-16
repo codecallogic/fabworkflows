@@ -16,6 +16,7 @@ import { orderReducer } from './orderReducer'
 import { priceListReducer } from './priceListReducer'
 import { phaseReducer } from './phaseReducer'
 import { jobReducer } from './jobReducer'
+import { assigneeReducer } from './assigneeReducer'
 
 const rootReducer = combineReducers({
   nav: navReducer,
@@ -34,7 +35,8 @@ const rootReducer = combineReducers({
   order: orderReducer,
   priceList: priceListReducer,
   phase: phaseReducer,
-  job: jobReducer
+  job: jobReducer,
+  assignee: assigneeReducer
 })
 
 export default rootReducer
