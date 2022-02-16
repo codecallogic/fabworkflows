@@ -10,6 +10,7 @@ import 'react-calendar/dist/Calendar.css';
 import QuotePDF from '../../components/pdf/quote'
 import Agreement from '../../components/pdf/agreement'
 import {PDFViewer, PDFDownloadLink, BlobProvider} from '@react-pdf/renderer'
+import 'react-calendar/dist/Calendar.css';
 
 const searchOptionsAddress = {
   componentRestrictions: {country: 'us'},

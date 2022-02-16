@@ -102,11 +102,13 @@ npm install npm@latest -g
    ```sh
    npm install
    ```
-3. Enter your KEYS in `next.config.js`
+3. Create `next.config.js` and `config.js` files
+4. Enter your KEYS in `next.config.js`
    ```js
    GOOGLE = 'ENTER YOUR API';
    STRIPE = 'ENTER KEY';
    ```
+5. Set up enviroment variables with publicRuntimeConfig in `config.js`
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

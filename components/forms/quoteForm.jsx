@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import SVG from '../../files/svgs'
 import PlacesAutocomplete from 'react-places-autocomplete'
 import Calendar from 'react-calendar'
+import 'react-calendar/dist/Calendar.css';
+
 
 //// HELPERS
 import { manageFormFields } from '../../helpers/forms'

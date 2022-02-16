@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import SVG from '../../files/svgs'
 import Calendar from 'react-calendar'
 import Table from '../tableAltForm'
+import 'react-calendar/dist/Calendar.css';
 
 
 //// HELPERS
