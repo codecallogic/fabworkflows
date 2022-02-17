@@ -116,7 +116,7 @@ const ActivityModal = ({
         <div className="addFieldItems-modal-box-header">
         <span 
           className="addFieldItems-modal-form-title">
-            {edit == 'assignees' ? 
+            {edit == 'activities' ? 
             'Edit Activity' 
             : 
             'New Activity'
@@ -346,12 +346,12 @@ const ActivityModal = ({
               }
           </button>
           }
-          {edit == 'assignees' && 
+          {edit == 'activities' && 
           <button 
           className="form-group-button" 
-          onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'assignees', setMessage, 'update_assignee', setLoading, token, 'assignee/update-assignee', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'assignees', setModal))}
+          onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'activities', setMessage, 'update_activity', setLoading, token, 'activities/update-activity', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'activities', setModal))}
           >
-              {loading == 'update_assignee' ? 
+              {loading == 'update_activity' ? 
               <div className="loading">
                 <span style={{backgroundColor: loadingColor}}></span>
                 <span style={{backgroundColor: loadingColor}}></span>

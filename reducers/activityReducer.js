@@ -1,6 +1,6 @@
 const initialState = {
   name: '',
-  color: '',
+  color: '#026dab',
   status: '',
   duration: '00:00',
   assignee: [],

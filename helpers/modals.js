@@ -3,7 +3,7 @@ export {
   populateAddress
 }
 
-const allowArrays = ['quotes', 'jobs']
+const allowArrays = ['quotes', 'jobs', 'activities']
 const allowObjects = ['account', 'accountAddress']
 
 const populateEditData = (originalData, keyType, caseType, stateMethods, selectID) => {
