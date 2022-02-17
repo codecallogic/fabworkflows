@@ -19,7 +19,8 @@ import {
   priceSort, 
   quoteSort,
   jobSort,
-  assigneeSort
+  assigneeSort,
+  activitySort
 } from '../../helpers/sorts'
 import { populateEditData } from '../../helpers/modals'
 
@@ -71,6 +72,7 @@ import QuoteModal from '../../components/modals/Quote'
 import PriceListModal from '../../components/modals/PriceList'
 import ContactModal from '../../components/modals/Contact'
 import AssigneeModal from '../../components/modals/Assignee'
+import ActivityModal from '../../components/modals/Activity'
 
 axios.defaults.withCredentials = true
 
@@ -108,6 +110,7 @@ const Dashboard = ({
   phase,
   job,
   assignee,
+  activity,
   createType,
   resetType,
   addImages, 
@@ -115,7 +118,7 @@ const Dashboard = ({
 }) => {
   const myRefs = useRef(null)
   
-  // console.log(originalData)
+  console.log(originalData)
   
   const router = useRouter()
 
@@ -971,6 +974,47 @@ const Dashboard = ({
           >
           </TableAlt>
         }
+        {nav.view == 'activities' &&
+          <Table
+            token={token}
+            title={'Activity List'}
+            typeOfData={'activities'}
+            componentData={data.activities}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={activitySort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'activityControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'activities'}
+            modalType={'activities'}
+            editModalType={'activities'}
+            editDataType={{key: 'activities', caseType: 'CREATE_ACTIVITY'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="activities/delete-activity"
+            searchType={'activities'}
+            searchPlaceholder={'Search by activity name'}
+            createItem={'activities'}
+          >
+          </Table>
+        }
 
 
 
@@ -1233,6 +1277,10 @@ const Dashboard = ({
               <div className="clientDashboard-view-new-item" onClick={() => changeView('assignees')}>
                 <SVGs svg={'user'}></SVGs>
                 <span>Assignee</span>
+              </div>
+              <div className="clientDashboard-view-new-item" onClick={() => changeView('activities')}>
+                <SVGs svg={'activity'}></SVGs>
+                <span>Activities</span>
               </div>
             </div>
           }
@@ -1617,6 +1665,32 @@ const Dashboard = ({
             >
             </AssigneeModal>
           }
+          { modal == 'activities' &&
+            <ActivityModal
+              token={token}
+              message={message}
+              setMessage={setMessage}
+              setModal={setModal}
+              loading={loading}
+              setLoading={setLoading}
+              edit={edit}
+              setEdit={setEdit}
+              stateData={activity}
+              stateMethod={createType}
+              dynamicType={dynamicType}
+              extractingStateData={extractingStateData}
+              dynamicSVG={dynamicSVG}
+              setDynamicSVG={setDynamicSVG}
+              resetState={resetType}
+              submitCreate={submitCreate}
+              allData={allData}
+              setAllData={setAllData}
+              submitUpdate={submitUpdate}
+              changeView={changeView}
+              editData={editData}
+            >
+            </ActivityModal>
+          }
       </div>
     </>
   )
@@ -1642,7 +1716,8 @@ const mapStateToProps = (state) => {
     quoteLine: state.quoteLine,
     phase: state.phase,
     job: state.job,
-    assignee: state.assignee
+    assignee: state.assignee,
+    activity: state.activity
   }
 }
 
@@ -1683,6 +1758,7 @@ Dashboard.getInitialProps = async (context) => {
   data.phases           = await tableData(accessToken, 'phases/all-phases')
   data.jobs             = await tableData(accessToken, 'jobs/all-jobs')
   data.assignees        = await tableData(accessToken, 'assignee/all-assignees')
+  data.activities       = await tableData(accessToken, 'activities/all-activities')
   data.accounts         = await tableData(accessToken, 'accounts/all-accounts')
   deepClone             = _.cloneDeep(data)
   

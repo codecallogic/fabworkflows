@@ -54,7 +54,7 @@ const Table = ({
   const [up, setUp] = useState(1)
   const [down, setDown] = useState(-1)
   const [filter, setFilter] = useState('')
-
+  
   const handleClickOutside = (event) => {
     if(myRefs.current){
       myRefs.current.forEach((item) => {
@@ -236,7 +236,7 @@ const Table = ({
                 {
                   !Array.isArray(item[key]) && key !== 'qr_code'
                   ? 
-                  item[key]
+                  (key == 'color' ? (<div><span className="table-rows-item-color" style={{backgroundColor: item[key]}}></span>{item[key]}</div>) : item[key])
                   : null
                 }
               </div>

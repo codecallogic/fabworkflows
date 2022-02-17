@@ -269,6 +269,15 @@
         object-fit: cover;
       }
 
+      &-color {
+        display: block;
+        float: left;
+        width: 2rem;
+        height: 2rem;
+        // border-radius: 50%;
+        margin-right: 0.5rem;
+      }
+
       &-dropdown {
         position: relative;
 

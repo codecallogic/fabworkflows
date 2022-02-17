@@ -22,7 +22,8 @@ export {
   validateZipCode,
   generateRandomNumber,
   returnIfTrue,
-  checkObjectValues
+  checkObjectValues,
+  validateTime,
 }
 
 ///// VALIDATIONS
@@ -450,4 +451,27 @@ const checkObjectValues = (data) => {
   if(array.length == 0) return false
 
   return true
+}
+
+
+
+
+const validateTime = (e, type, createType, reduxMethod) => {
+  let input = document.getElementById(type)
+  let time = e.target.value.replace(/\D/g, '');
+  time = time.replace(/^0+/, '')
+
+  input.onkeydown = function(event){
+    if(event.keyCode == 8){
+      if(input.length == 1) return stateMethod(createType, type, '')
+      return reduxMethod(createType, type, time.substr(0, time.length - 0))
+    }
+  }
+  
+  if(time.length > 4) return 
+
+  if(time.length < 3 && +time < 60) return reduxMethod(createType, type, `00:${time}`)
+  if(time.length < 4) return reduxMethod(createType, type, `${time.slice(0,1)}:${time.slice(1,3)}`)
+  if(time.length < 5) return reduxMethod(createType, type, `${time.slice(0,2)}:${time.slice(2,4)}`)
+  
 }

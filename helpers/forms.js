@@ -32,7 +32,8 @@ const formFields = {
   payment: ['name', 'address', 'city', 'state', 'zip_code'],
   phases: ['name'],
   jobs: ['name', 'account', 'date', 'invoice'],
-  assignees: ['name', 'color']
+  assignees: ['name', 'color'],
+  activities: ['name']
 }
 
 

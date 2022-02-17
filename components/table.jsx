@@ -32,6 +32,7 @@ const Table = ({
   viewType,
   modalType,
   editDataType,
+  createItem,
 
   //// DATA
   componentData,
@@ -48,7 +49,7 @@ const Table = ({
 }) => {
   
   //// TABLES WITH DROPDOWNS
-  const tableDropdowns = ['jobs']
+  const tableDropdowns = ['jobs', 'activities']
   
   const matchPattern = /https?:\/\/(www\.)?/gi;
   const myRefs = useRef([])
@@ -113,32 +114,46 @@ const Table = ({
           </form>
         </div>
         }
-        {controls == controlsType &&
-          <div className="table-header-controls">
+        <div className="table-header-controls">
+          { createItem == typeOfData
+            ?
             <div 
-            id="edit" 
-            className="table-header-controls-item" 
-            onClick={() => (setModal(modalType), changeView(viewType), setEdit(typeOfData), editData(editDataType.key, editDataType.caseType), setControls(''), resetCheckboxes())}
+            id="plus" 
+            className="table-header-controls-item-svg" 
+            onClick={() => (setModal(modalType), setEdit(''), setControls(''), setMessage(''), resetCheckboxes())}
             >
-              Edit
+              <SVG svg={'plus'}></SVG>
             </div>
-            <div 
-            id="delete" 
-            className="table-header-controls-item" 
-            onClick={(e) => submitDeleteRow(e, typeOfData, setMessage, 'delete_row', setLoading, token, deleteType, selectID, allData, setAllData, setDynamicSVG, resetCheckboxes, setControls)}
-            >
-              {loading == 'delete_row' ? 
-              <div className="loading">
-                <span style={{backgroundColor: loadingColor}}></span>
-                <span style={{backgroundColor: loadingColor}}></span>
-                <span style={{backgroundColor: loadingColor}}></span>
-              </div>
-              : 
-               'Delete'
-              }
-            </div>
+            :
+            null
+          }
+          {controls == controlsType && 
+          <div 
+          id="edit" 
+          className="table-header-controls-item" 
+          onClick={() => (setModal(modalType), changeView(viewType), setEdit(typeOfData), editData(editDataType.key, editDataType.caseType), setControls(''), resetCheckboxes())}
+          >
+            Edit
           </div>
-        }
+          }
+          {controls == controlsType && 
+          <div 
+          id="delete" 
+          className="table-header-controls-item" 
+          onClick={(e) => submitDeleteRow(e, typeOfData, setMessage, 'delete_row', setLoading, token, deleteType, selectID, allData, setAllData, setDynamicSVG, resetCheckboxes, setControls)}
+          >
+            {loading == 'delete_row' ? 
+            <div className="loading">
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+            </div>
+            : 
+              'Delete'
+            }
+          </div>
+          }
+        </div>
         { message && 
           <div className="table-header-error">
             <SVG svg={dynamicSVG}></SVG> 
@@ -264,9 +279,9 @@ const Table = ({
                 {
                   !Array.isArray(item[key]) && key !== 'qr_code'
                   ? 
-                    item[key]
+                  (key == 'color' ? (<div><span className="table-rows-item-color" style={{backgroundColor: item[key]}}></span>{item[key]}</div>) : item[key])
                   : 
-                    null
+                  null
                 }
               </div>
             )}

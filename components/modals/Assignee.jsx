@@ -189,6 +189,9 @@ const AssigneeModal = ({
           </label>
           <span>Inactive</span>
         </div>
+      </form>
+
+      <div className="addFieldItems-modal-box-footer">
         {message && 
         <span className="form-group-message">
           <SVG svg={dynamicSVG} color={'#fd7e3c'}></SVG>
@@ -200,7 +203,7 @@ const AssigneeModal = ({
         className="form-group-button" 
         onClick={(e) => submitCreate(e, stateData, 'assignees', setMessage, 'create_assignee', setLoading, token, 'assignee/create-assignee', resetType, resetState, allData, setAllData, setDynamicSVG)}
         >
-           {loading == 'create_assignee' ? 
+          {loading == 'create_assignee' ? 
             <div className="loading">
               <span style={{backgroundColor: loadingColor}}></span>
               <span style={{backgroundColor: loadingColor}}></span>
@@ -216,7 +219,7 @@ const AssigneeModal = ({
         className="form-group-button" 
         onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'assignees', setMessage, 'update_assignee', setLoading, token, 'assignee/update-assignee', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'assignees', setModal))}
         >
-           {loading == 'update_assignee' ? 
+          {loading == 'update_assignee' ? 
             <div className="loading">
               <span style={{backgroundColor: loadingColor}}></span>
               <span style={{backgroundColor: loadingColor}}></span>
@@ -227,7 +230,7 @@ const AssigneeModal = ({
             }
         </button>
         }
-      </form>
+      </div>
     </div>
     </div>
   )
