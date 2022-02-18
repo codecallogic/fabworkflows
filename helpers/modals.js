@@ -48,11 +48,12 @@ const populateAddress = (keyID, data, stateMethod, stateType) => {
   }
 }
 
-const populateDependency = (data, stateType, stateMethod, selectID) => {
+const populateDependency = (data, stateType, stateMethod, selectID, setEdit) => {
 
   data.forEach((item) => {
     if(item._id == selectID){
       for(let key in item.dependency){
+        setEdit('dependency')
         stateMethod(stateType, key, item.dependency[key])
       }
     }else{

@@ -123,6 +123,13 @@ const DependencyModal = ({
             'New Dependency'
             }
         </span>
+        {edit == 'dependency' && 
+          <div onClick={(e) => (
+            submitUpdate(e, stateData, 'activities', setMessage, 'update_dependency', setLoading, token, 'activities/delete-activity-dependency', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'activities', setModal)
+          )}>
+            <SVG svg={'thrash-can'}></SVG>
+          </div>
+        }
         <div onClick={() => (setModal(''), resetState(resetType), setMessage(''))}>
           <SVG svg={'close'}></SVG>
         </div>
@@ -301,10 +308,10 @@ const DependencyModal = ({
         className="form-group-button" 
         onClick={(e) => (
           e.preventDefault(),
-          submitUpdate(e, stateData, 'activities', setMessage, 'create_activity', setLoading, token, 'activities/update-activity-dependency', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'activities', setModal)
+          submitUpdate(e, stateData, 'activities', setMessage, 'create_dependency', setLoading, token, 'activities/update-activity-dependency', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'activities', setModal)
         )}
         >
-            {loading == 'create_activity' ? 
+            {loading == 'create_dependency' ? 
             <div className="loading">
               <span style={{backgroundColor: loadingColor}}></span>
               <span style={{backgroundColor: loadingColor}}></span>
@@ -315,12 +322,15 @@ const DependencyModal = ({
             }
         </button>
         }
-        {edit == 'brand' && 
+        {edit == 'dependency' && 
         <button 
         className="form-group-button" 
-        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'brands', setMessage, 'update_brand', setLoading, token, 'brands/update-brand', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'brands', setModal))}
+        onClick={(e) => (
+          e.preventDefault(), 
+          submitUpdate(e, stateData, 'activities', setMessage, 'update_dependency', setLoading, token, 'activities/update-activity-dependency', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'activities', setModal)
+        )}
         >
-            {loading == 'update_brand' ? 
+            {loading == 'update_dependency' ? 
             <div className="loading">
               <span style={{backgroundColor: loadingColor}}></span>
               <span style={{backgroundColor: loadingColor}}></span>

@@ -734,8 +734,8 @@ body {
       border-top-right-radius: 1.2rem;
       border-top-left-radius: 1.2rem; }
       .addFieldItems-modal-box-header svg {
-        width: 2rem;
-        height: 2rem;
+        width: 2.5rem;
+        height: 2.5rem;
         fill: white;
         transition: all 0.2s ease-in-out; }
         .addFieldItems-modal-box-header svg:hover {

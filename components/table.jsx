@@ -150,9 +150,9 @@ const Table = ({
               className="table-header-controls-item-svg" 
               onClick={(e) => (
                 e.stopPropagation(),
-                populateDependency(allData[typeOfData], 'CREATE_DEPENDENCY', stateMethod, selectID),
-                setModal('dependency'), 
                 setEdit(''), 
+                populateDependency(allData[typeOfData], 'CREATE_DEPENDENCY', stateMethod, selectID, setEdit),
+                setModal('dependency'), 
                 setControls(''), 
                 setMessage(''), 
                 resetCheckboxes()
@@ -324,7 +324,7 @@ const Table = ({
                   ? 
                   (
                     key == 'color' ? (<div><span className="table-rows-item-color" style={{backgroundColor: item[key]}}></span>{item[key]}</div>) : item[key],
-                    key == 'dependency' ? <span style={{ fontWeight: '600'}}>{item[key].days} days {item[key].schedule} {item[key].activity}</span> : item[key]
+                    key == 'dependency' && typeof item[key] == 'object' ? <span style={{ fontWeight: '600'}}>{item[key].days} days {item[key].schedule} {item[key].activity}</span> : item[key]
                   )
                   : 
                   null
