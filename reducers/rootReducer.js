@@ -18,6 +18,7 @@ import { phaseReducer } from './phaseReducer'
 import { jobReducer } from './jobReducer'
 import { assigneeReducer } from './assigneeReducer'
 import { activityReducer } from './activityReducer'
+import { dependencyReducer } from './dependencyReducer'
 
 const rootReducer = combineReducers({
   nav: navReducer,
@@ -38,7 +39,8 @@ const rootReducer = combineReducers({
   phase: phaseReducer,
   job: jobReducer,
   assignee: assigneeReducer,
-  activity: activityReducer
+  activity: activityReducer,
+  dependency: dependencyReducer
 })
 
 export default rootReducer

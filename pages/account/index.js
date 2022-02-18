@@ -73,6 +73,7 @@ import PriceListModal from '../../components/modals/PriceList'
 import ContactModal from '../../components/modals/Contact'
 import AssigneeModal from '../../components/modals/Assignee'
 import ActivityModal from '../../components/modals/Activity'
+import DependencyModal from '../../components/modals/Dependency'
 
 axios.defaults.withCredentials = true
 
@@ -111,6 +112,7 @@ const Dashboard = ({
   job,
   assignee,
   activity,
+  dependency,
   createType,
   resetType,
   addImages, 
@@ -1012,6 +1014,8 @@ const Dashboard = ({
             searchType={'activities'}
             searchPlaceholder={'Search by activity name'}
             createItem={'activities'}
+            createDependency={'activities'}
+            stateMethod={createType}
           >
           </Table>
         }
@@ -1691,6 +1695,33 @@ const Dashboard = ({
             >
             </ActivityModal>
           }
+          { modal == 'dependency' &&
+            <DependencyModal
+              token={token}
+              message={message}
+              setMessage={setMessage}
+              setModal={setModal}
+              loading={loading}
+              setLoading={setLoading}
+              edit={edit}
+              setEdit={setEdit}
+              stateData={dependency}
+              stateMethod={createType}
+              dynamicType={dynamicType}
+              extractingStateData={extractingStateData}
+              dynamicSVG={dynamicSVG}
+              setDynamicSVG={setDynamicSVG}
+              resetState={resetType}
+              submitCreate={submitCreate}
+              allData={allData}
+              setAllData={setAllData}
+              submitUpdate={submitUpdate}
+              changeView={changeView}
+              editData={editData}
+              selectID={selectID}
+            >
+            </DependencyModal>
+          }
       </div>
     </>
   )
@@ -1717,7 +1748,8 @@ const mapStateToProps = (state) => {
     phase: state.phase,
     job: state.job,
     assignee: state.assignee,
-    activity: state.activity
+    activity: state.activity,
+    dependency: state.dependency
   }
 }
 

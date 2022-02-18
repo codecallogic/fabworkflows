@@ -5,6 +5,7 @@ const initialState = {
   duration: '00:00',
   assignee: [],
   cost: '',
+  dependency: '',
   description: '',
   active: ''
 }

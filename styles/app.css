@@ -453,6 +453,9 @@ body {
 .mbType1 {
   margin-bottom: 8rem !important; }
 
+.mtType1 {
+  margin-top: 2rem !important; }
+
 .center {
   text-align: center;
   justify-self: center;
@@ -742,6 +745,7 @@ body {
       width: 100%;
       padding: 0 3rem; }
   .addFieldItems-modal-form {
+    width: 100%;
     padding: 2rem;
     max-height: 60vh;
     overflow-y: scroll;

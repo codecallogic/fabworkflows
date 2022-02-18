@@ -1,6 +1,7 @@
 export {
   populateEditData,
-  populateAddress
+  populateAddress,
+  populateDependency
 }
 
 const allowArrays = ['quotes', 'jobs', 'activities']
@@ -45,4 +46,18 @@ const populateAddress = (keyID, data, stateMethod, stateType) => {
     stateMethod(stateType, key, data[key])
     if(key == '_id') stateMethod(stateType, keyID, data['_id'])
   }
+}
+
+const populateDependency = (data, stateType, stateMethod, selectID) => {
+
+  data.forEach((item) => {
+    if(item._id == selectID){
+      for(let key in item.dependency){
+        stateMethod(stateType, key, item.dependency[key])
+      }
+    }else{
+      return
+    }
+  })
+  
 }

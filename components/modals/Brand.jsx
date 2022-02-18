@@ -122,6 +122,9 @@ const MaterialModal = ({
             Name
           </label>
         </div>
+      </form>
+
+      <div className="addFieldItems-modal-box-footer">
         {message && 
         <span className="form-group-message">
           <SVG svg={dynamicSVG} color={'#fd7e3c'}></SVG>
@@ -133,7 +136,7 @@ const MaterialModal = ({
         className="form-group-button" 
         onClick={(e) => submitCreate(e, stateData, 'brands', setMessage, 'create_brand', setLoading, token, 'brands/create-brand', resetType, resetState, allData, setAllData, setDynamicSVG)}
         >
-           {loading == 'create_brand' ? 
+          {loading == 'create_brand' ? 
             <div className="loading">
               <span style={{backgroundColor: loadingColor}}></span>
               <span style={{backgroundColor: loadingColor}}></span>
@@ -149,7 +152,7 @@ const MaterialModal = ({
         className="form-group-button" 
         onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'brands', setMessage, 'update_brand', setLoading, token, 'brands/update-brand', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'brands', setModal))}
         >
-           {loading == 'update_brand' ? 
+          {loading == 'update_brand' ? 
             <div className="loading">
               <span style={{backgroundColor: loadingColor}}></span>
               <span style={{backgroundColor: loadingColor}}></span>
@@ -160,7 +163,7 @@ const MaterialModal = ({
             }
         </button>
         }
-      </form>
+      </div>
     </div>
     </div>
   )

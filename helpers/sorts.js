@@ -26,4 +26,4 @@ const jobSort = ['priceLists', 'contacts', 'jobAddress', 'account', 'quotes', 'a
 
 const assigneeSort = ['description', 'color', 'status', 'name']
 
-const activitySort = ['description', 'assignee', 'status', 'color', 'duration', 'cost', 'active', 'name']
+const activitySort = ['description', 'assignee', 'dependency', 'status', 'color', 'duration', 'cost', 'active', 'name']

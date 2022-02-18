@@ -1,6 +1,7 @@
 import {filterTable} from '../helpers/tableData'
 import SVG from '../files/svgs'
 import {useEffect, useState, useRef} from 'react'
+import { populateDependency } from '../helpers/modals'
 
 const Table = ({
   token,
@@ -32,7 +33,11 @@ const Table = ({
   viewType,
   modalType,
   editDataType,
+
+
+  //// OTHER CONTROLS
   createItem,
+  createDependency,
 
   //// DATA
   componentData,
@@ -41,6 +46,7 @@ const Table = ({
 
   //// REDUX
   changeView,
+  stateMethod,
 
   //// CRUD
   submitDeleteRow,
@@ -63,9 +69,9 @@ const Table = ({
     if(myRefs.current){
       myRefs.current.forEach((item) => {
         if(item){
-          
           if(event.target.id == 'checkbox') return
           if(item.contains(event.target)) return
+          if(event.target.getAttribute('id') == 'dependency') return
           if(event.target == document.getElementById('delete')) return
           if(event.target == document.getElementById('edit')) return
           
@@ -109,7 +115,11 @@ const Table = ({
             name="search" 
             placeholder={searchPlaceholder} 
             value={search} 
-            onChange={(e) => (setLoading(searchType), setSearch(e.target.value), document.getElementById('tableContainer').scrollLeft = 0)} 
+            onChange={(e) => (
+              setLoading(searchType), 
+              setSearch(e.target.value), 
+              document.getElementById('tableContainer').scrollLeft = 0
+            )} 
             />
           </form>
         </div>
@@ -120,18 +130,51 @@ const Table = ({
             <div 
             id="plus" 
             className="table-header-controls-item-svg" 
-            onClick={() => (setModal(modalType), setEdit(''), setControls(''), setMessage(''), resetCheckboxes())}
+            onClick={() => (
+              setModal(modalType), 
+              setEdit(''), 
+              setControls(''), 
+              setMessage(''), 
+              resetCheckboxes()
+            )}
             >
               <SVG svg={'plus'}></SVG>
             </div>
             :
             null
           }
+          { createDependency == typeOfData && controls == controlsType
+            ?
+            <div 
+              id="dependency" 
+              className="table-header-controls-item-svg" 
+              onClick={(e) => (
+                e.stopPropagation(),
+                populateDependency(allData[typeOfData], 'CREATE_DEPENDENCY', stateMethod, selectID),
+                setModal('dependency'), 
+                setEdit(''), 
+                setControls(''), 
+                setMessage(''), 
+                resetCheckboxes()
+            )}
+            >
+              <SVG svg={'dependency'} id={'dependency'}></SVG>
+            </div>
+            :
+            null
+          }
           {controls == controlsType && 
           <div 
-          id="edit" 
-          className="table-header-controls-item" 
-          onClick={() => (setModal(modalType), changeView(viewType), setEdit(typeOfData), editData(editDataType.key, editDataType.caseType), setControls(''), resetCheckboxes())}
+            id="edit" 
+            className="table-header-controls-item" 
+            onClick={() => (
+              setModal(modalType), 
+              changeView(viewType), 
+              setEdit(typeOfData), 
+              editData(editDataType.key, editDataType.caseType), 
+              setControls(''), 
+              resetCheckboxes()
+            )}
           >
             Edit
           </div>
@@ -279,7 +322,10 @@ const Table = ({
                 {
                   !Array.isArray(item[key]) && key !== 'qr_code'
                   ? 
-                  (key == 'color' ? (<div><span className="table-rows-item-color" style={{backgroundColor: item[key]}}></span>{item[key]}</div>) : item[key])
+                  (
+                    key == 'color' ? (<div><span className="table-rows-item-color" style={{backgroundColor: item[key]}}></span>{item[key]}</div>) : item[key],
+                    key == 'dependency' ? <span style={{ fontWeight: '600'}}>{item[key].days} days {item[key].schedule} {item[key].activity}</span> : item[key]
+                  )
                   : 
                   null
                 }
