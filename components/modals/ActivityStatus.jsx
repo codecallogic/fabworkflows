@@ -5,7 +5,7 @@ import { activityStatus } from '../../helpers/lists'
 import { validateTime, validateNumber, validatePrice } from '../../helpers/validations';
 import { manageFormFields } from '../../helpers/forms';
 
-const ActivityModal = ({
+const ActivityStatusModal = ({
   token,
   message,
   setMessage,
@@ -31,9 +31,8 @@ const ActivityModal = ({
   submitUpdate
 }) => {
   
-  const createType = 'CREATE_ACTIVITY'
-  const resetType = 'RESET_ACTIVITY'
-  const createArrayItem = 'CREATE_ACTIVITY_ARRAY_ITEM'
+  const createType = 'CREATE_ACTIVITY_STATUS'
+  const resetType = 'RESET_ACTIVITY_STATUS'
   const myRefs = useRef(null)
   const [loadingColor, setLoadingColor] = useState('white')
   const [input_dropdown, setInputDropdown] = useState('')
@@ -117,9 +116,9 @@ const ActivityModal = ({
         <span 
           className="addFieldItems-modal-form-title">
             {edit == 'activities' ? 
-            'Edit Activity' 
+            'Edit Activity Status' 
             : 
-            'New Activity'
+            'New Activity Status'
             }
         </span>
         <div onClick={() => (setModal(''), resetState(resetType), setMessage(''))}>
@@ -131,18 +130,18 @@ const ActivityModal = ({
       >
         <div className="form-group">
           <input 
-          id="name" 
-          value={stateData.name} 
-          onChange={(e) => stateMethod(createType, 'name', e.target.value)}/>
+          id="status" 
+          value={stateData.status} 
+          onChange={(e) => stateMethod(createType, 'status', e.target.value)}/>
           <label 
           className={`input-label ` + (
-            stateData.name.length > 0 || 
-            typeof stateData.name == 'object' 
+            stateData.status.length > 0 || 
+            typeof stateData.status == 'object' 
             ? ' labelHover' 
             : ''
           )}
-          htmlFor="name">
-            Name
+          htmlFor="status">
+            Activity Status
           </label>
         </div>
         <div className="form-group">
@@ -176,127 +175,64 @@ const ActivityModal = ({
           }
         </div>
         <div className="form-group">
-          <input
-          onClick={() => setInputDropdown('activity_status')} 
-          value={stateData.status.replaceAll('-', ' ')} 
-          onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'status', e.target.value))}/>
-          <label 
-          className={`input-label ` + (
-            stateData.status.length > 0 || 
-            typeof stateData.status == 'object' 
-            ? ' labelHover' 
-            : ''
-          )}
-          htmlFor="status">
-            Status
-          </label>
-          <div 
-          onClick={() => setInputDropdown('activity_status')}><SVG svg={'dropdown-arrow'}></SVG>
-          </div>
-          { input_dropdown == 'activity_status' &&
-            <div 
-            className="form-group-list" 
-            ref={myRefs}>
-              {activityStatus.length > 0 && activityStatus.map((item, idx) => 
-                <div 
-                  key={idx} 
-                  className="form-group-list-item" 
-                  onClick={(e) => (stateMethod(createType, 'status', item.status), setInputDropdown(''))}>
-                    {item.status.replaceAll('-', ' ')}
-                </div>
-              )}
-            </div>
-          }
-        </div>
-        <div className="form-group">
           <input 
-          id="duration" 
-          value={stateData.duration} 
-          onChange={(e) => (validateTime(e, 'duration', createType, stateMethod))}
-          onFocus={() => stateMethod(createType, 'duration', '')}
-          />
+          id="abbreviation" 
+          value={stateData.abbreviation} 
+          onChange={(e) => stateMethod(createType, 'abbreviation', e.target.value)}/>
           <label 
           className={`input-label ` + (
-            stateData.duration.length > 0 || 
-            typeof stateData.duration == 'object' 
+            stateData.abbreviation.length > 0 || 
+            typeof stateData.abbreviation == 'object' 
             ? ' labelHover' 
             : ''
           )}
-          htmlFor="duration">
-            Duration (hh:mm)
+          htmlFor="abbreviation">
+            Abbreviation
           </label>
         </div>
-        <div className="form-group">
-          <input
-          onClick={() => setInputDropdown('activity_assignee')} 
-          value={manageFormFields(stateData.assignee[0], 'name')} 
-          onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'assignee', e.target.value))}/>
-          <label 
-          className={`input-label ` + (
-            stateData.assignee.length > 0 || 
-            typeof stateData.assignee == 'object' 
-            ? ' labelHover' 
-            : ''
-          )}
-          htmlFor="assignee">
-            Assignee
-          </label>
-          <div 
-          onClick={() => setInputDropdown('activity_assignee')}><SVG svg={'dropdown-arrow'}></SVG>
-          </div>
-          { input_dropdown == 'activity_assignee' &&
-            <div 
-            className="form-group-list" 
-            ref={myRefs}>
-              {allData && allData.assignees.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
-              <div 
-              key={idx} 
-              className="form-group-list-item" 
-              onClick={(e) => (stateMethod(createArrayItem, 'assignee', item), setInputDropdown(''))}>
-                {item.name}
-                { stateData.assignee.findIndex((found) => found._id == item._id) !== -1
-                    ? 
-                    <SVG svg={'checkmark'}></SVG>
-                    :
-                    ''
-                }
-              </div>
-              ))}
-            </div>
-          }
-        </div>
-        <div className="form-group">
+        <div className="form-group-checkbox">
           <input 
-          id="cost" 
-          value={stateData.cost} 
-          onChange={(e) => (validateNumber('cost'), stateMethod(createType, 'cost', validatePrice(e)))}
-          onKeyDown={(e) => (validateNumber('cost'), stateMethod(createType, 'cost', validatePrice(e)))}
+            type="checkbox" 
+            name="confirmTimeChange" 
+            id="confirmTimeChange" 
+            hidden={true} 
+            checked={stateData.confirmTimeChange == 'yes' ? true : false} 
+            readOnly
           />
           <label 
-          className={`input-label ` + (
-            stateData.cost.length > 0 || 
-            typeof stateData.cost == 'object' 
-            ? ' labelHover' 
-            : ''
-          )}
-          htmlFor="cost">
-            Cost
+            htmlFor="active" 
+            onClick={() => (
+              stateData.confirmTimeChange == 'no'
+              ? 
+              stateMethod(createType, 'confirmTimeChange', 'yes') 
+              : 
+              stateMethod(createType, 'confirmTimeChange', 'no')
+            )}
+          >
           </label>
+          <span>Confirm Time Changes</span>
         </div>
-        <div className="form-group-textarea">
-          <label 
-          className={stateData.description.length > 0 ? ' labelHover' : ''}>
-            Description
-          </label>
-          <textarea 
-            id="descripton" 
-            rows="5" 
-            wrap="hard" 
-            maxLength="400"
-            name="description" 
-            value={stateData.description} 
-            onChange={(e) => stateMethod(createType, 'description', e.target.value)} 
+        <div className="form-group-checkbox">
+          <input 
+            type="checkbox" 
+            name="appointments" 
+            id="appointments" 
+            hidden={true} 
+            checked={stateData.appointments == 'yes' ? true : false} 
+            readOnly
           />
+          <label 
+            htmlFor="active" 
+            onClick={() => (
+              stateData.appointments == 'no'
+              ? 
+              stateMethod(createType, 'appointments', 'yes') 
+              : 
+              stateMethod(createType, 'appointments', 'no')
+            )}
+          >
+          </label>
+          <span>Use for Appointments</span>
         </div>
         <div className="form-group-checkbox">
           <input 
@@ -332,9 +268,9 @@ const ActivityModal = ({
           {!edit && 
           <button 
           className="form-group-button" 
-          onClick={(e) => submitCreate(e, stateData, 'activities', setMessage, 'create_activity', setLoading, token, 'activities/create-activity', resetType, resetState, allData, setAllData, setDynamicSVG)}
+          onClick={(e) => submitCreate(e, stateData, 'activityStatus', setMessage, 'create_activity_status', setLoading, token, 'activities/create-activity-status', resetType, resetState, allData, setAllData, setDynamicSVG)}
           >
-              {loading == 'create_activity' ? 
+              {loading == 'create_activity_status' ? 
               <div className="loading">
                 <span style={{backgroundColor: loadingColor}}></span>
                 <span style={{backgroundColor: loadingColor}}></span>
@@ -345,12 +281,12 @@ const ActivityModal = ({
               }
           </button>
           }
-          {edit == 'activities' && 
+          {edit == 'activityStatus' && 
           <button 
           className="form-group-button" 
-          onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'activities', setMessage, 'update_activity', setLoading, token, 'activities/update-activity', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'activities', setModal))}
+          onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'activityStatus', setMessage, 'update_activity_status', setLoading, token, 'activities/update-activity-status', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'activityStatus', setModal))}
           >
-              {loading == 'update_activity' ? 
+              {loading == 'update_activity_status' ? 
               <div className="loading">
                 <span style={{backgroundColor: loadingColor}}></span>
                 <span style={{backgroundColor: loadingColor}}></span>
@@ -367,4 +303,4 @@ const ActivityModal = ({
   )
 }
 
-export default ActivityModal
+export default ActivityStatusModal

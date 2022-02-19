@@ -33,7 +33,9 @@ const formFields = {
   phases: ['name'],
   jobs: ['name', 'account', 'date', 'invoice'],
   assignees: ['name', 'color'],
-  activities: ['name']
+  activities: ['name'],
+  activityStatus: ['status'],
+  activitySets: ['name', 'set']
 }
 
 

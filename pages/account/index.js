@@ -20,7 +20,9 @@ import {
   quoteSort,
   jobSort,
   assigneeSort,
-  activitySort
+  activitySort,
+  activityStatusSort,
+  activitySetSort
 } from '../../helpers/sorts'
 import { populateEditData } from '../../helpers/modals'
 
@@ -74,6 +76,8 @@ import ContactModal from '../../components/modals/Contact'
 import AssigneeModal from '../../components/modals/Assignee'
 import ActivityModal from '../../components/modals/Activity'
 import DependencyModal from '../../components/modals/Dependency'
+import ActivityStatusModal from '../../components/modals/ActivityStatus'
+import ActivitySetModal from '../../components/modals/ActivitySet'
 
 axios.defaults.withCredentials = true
 
@@ -113,6 +117,8 @@ const Dashboard = ({
   assignee,
   activity,
   dependency,
+  activityStatus,
+  activitySet,
   createType,
   resetType,
   addImages, 
@@ -120,7 +126,7 @@ const Dashboard = ({
 }) => {
   const myRefs = useRef(null)
   
-  // console.log(originalData)
+  console.log(originalData)
   
   const router = useRouter()
 
@@ -979,7 +985,7 @@ const Dashboard = ({
         {nav.view == 'activities' &&
           <Table
             token={token}
-            title={'Activity List'}
+            title={'Activity Type List'}
             typeOfData={'activities'}
             componentData={data.activities}
             allData={allData}
@@ -1015,6 +1021,88 @@ const Dashboard = ({
             searchPlaceholder={'Search by activity name'}
             createItem={'activities'}
             createDependency={'activities'}
+            stateMethod={createType}
+          >
+          </Table>
+        }
+        {nav.view == 'activityStatus' &&
+          <TableAlt
+            token={token}
+            title={'Activity Status List'}
+            typeOfData={'activityStatus'}
+            componentData={data.activityStatus}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={activityStatusSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'activityStatusControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'activityStatus'}
+            modalType={'activityStatus'}
+            editModalType={'activityStatus'}
+            editDataType={{key: 'activityStatus', caseType: 'CREATE_ACTIVITY_STATUS'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="activities/delete-activity-status"
+            searchType={'activityStatus'}
+            searchPlaceholder={'Search by activity status'}
+          >
+          </TableAlt>
+        }
+        {nav.view == 'activitySets' &&
+          <Table
+            token={token}
+            title={'Activity Set List'}
+            typeOfData={'activitySets'}
+            componentData={data.activitySets}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={activitySetSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'activitySetControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'activitySets'}
+            modalType={'activitySet'}
+            editModalType={'activitySet'}
+            editDataType={{key: 'activitySets', caseType: 'CREATE_ACTIVITY_SET'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="activities/delete-activity-set"
+            searchType={'activitySets'}
+            searchPlaceholder={'Search by activity set name'}
+            createItem={'activitySets'}
             stateMethod={createType}
           >
           </Table>
@@ -1284,7 +1372,15 @@ const Dashboard = ({
               </div>
               <div className="clientDashboard-view-new-item" onClick={() => changeView('activities')}>
                 <SVGs svg={'activity'}></SVGs>
-                <span>Activities</span>
+                <span>Activity Types</span>
+              </div>
+              <div className="clientDashboard-view-new-item" onClick={() => changeView('activityStatus')}>
+                <SVGs svg={'hour-glass'}></SVGs>
+                <span>Activity Status</span>
+              </div>
+              <div className="clientDashboard-view-new-item" onClick={() => changeView('activitySets')}>
+                <SVGs svg={'stack'}></SVGs>
+                <span>Activity Sets</span>
               </div>
             </div>
           }
@@ -1722,6 +1818,60 @@ const Dashboard = ({
             >
             </DependencyModal>
           }
+          { modal == 'activityStatus' &&
+            <ActivityStatusModal
+              token={token}
+              message={message}
+              setMessage={setMessage}
+              setModal={setModal}
+              loading={loading}
+              setLoading={setLoading}
+              edit={edit}
+              setEdit={setEdit}
+              stateData={activityStatus}
+              stateMethod={createType}
+              dynamicType={dynamicType}
+              extractingStateData={extractingStateData}
+              dynamicSVG={dynamicSVG}
+              setDynamicSVG={setDynamicSVG}
+              resetState={resetType}
+              submitCreate={submitCreate}
+              allData={allData}
+              setAllData={setAllData}
+              submitUpdate={submitUpdate}
+              changeView={changeView}
+              editData={editData}
+              selectID={selectID}
+            >
+            </ActivityStatusModal>
+          }
+          { modal == 'activitySet' &&
+            <ActivitySetModal
+              token={token}
+              message={message}
+              setMessage={setMessage}
+              setModal={setModal}
+              loading={loading}
+              setLoading={setLoading}
+              edit={edit}
+              setEdit={setEdit}
+              stateData={activitySet}
+              stateMethod={createType}
+              dynamicType={dynamicType}
+              extractingStateData={extractingStateData}
+              dynamicSVG={dynamicSVG}
+              setDynamicSVG={setDynamicSVG}
+              resetState={resetType}
+              submitCreate={submitCreate}
+              allData={allData}
+              setAllData={setAllData}
+              submitUpdate={submitUpdate}
+              changeView={changeView}
+              editData={editData}
+              selectID={selectID}
+            >
+            </ActivitySetModal>
+          }
       </div>
     </>
   )
@@ -1749,7 +1899,9 @@ const mapStateToProps = (state) => {
     job: state.job,
     assignee: state.assignee,
     activity: state.activity,
-    dependency: state.dependency
+    dependency: state.dependency,
+    activityStatus: state.activityStatus,
+    activitySet: state.activitySet
   }
 }
 
@@ -1791,6 +1943,8 @@ Dashboard.getInitialProps = async (context) => {
   data.jobs             = await tableData(accessToken, 'jobs/all-jobs')
   data.assignees        = await tableData(accessToken, 'assignee/all-assignees')
   data.activities       = await tableData(accessToken, 'activities/all-activities')
+  data.activityStatus   = await tableData(accessToken, 'activities/all-activity-status')
+  data.activitySets     = await tableData(accessToken, 'activities/all-activity-sets')
   data.accounts         = await tableData(accessToken, 'accounts/all-accounts')
   deepClone             = _.cloneDeep(data)
   

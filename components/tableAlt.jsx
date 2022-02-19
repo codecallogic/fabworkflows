@@ -236,7 +236,12 @@ const Table = ({
                 {
                   !Array.isArray(item[key]) && key !== 'qr_code'
                   ? 
-                  (key == 'color' ? (<div><span className="table-rows-item-color" style={{backgroundColor: item[key]}}></span>{item[key]}</div>) : item[key])
+                  (key == 'color' 
+                    ? 
+                    (<div><span className="table-rows-item-color" style={{backgroundColor: item[key]}}></span>{item[key]}</div>) 
+                    : 
+                    <span style={{color: item['color'] ? item['color'] : '', fontWeight: '500'}}>{item[key]}</span>
+                  )
                   : null
                 }
               </div>

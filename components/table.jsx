@@ -55,7 +55,7 @@ const Table = ({
 }) => {
   
   //// TABLES WITH DROPDOWNS
-  const tableDropdowns = ['jobs', 'activities']
+  const tableDropdowns = ['jobs', 'activities', 'activitySets']
   
   const matchPattern = /https?:\/\/(www\.)?/gi;
   const myRefs = useRef([])
@@ -135,7 +135,8 @@ const Table = ({
               setEdit(''), 
               setControls(''), 
               setMessage(''), 
-              resetCheckboxes()
+              resetCheckboxes(),
+              setDropdown('')
             )}
             >
               <SVG svg={'plus'}></SVG>

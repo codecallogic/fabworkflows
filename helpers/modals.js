@@ -4,7 +4,7 @@ export {
   populateDependency
 }
 
-const allowArrays = ['quotes', 'jobs', 'activities']
+const allowArrays = ['quotes', 'jobs', 'activities', 'activitySets']
 const allowObjects = ['account', 'accountAddress']
 
 const populateEditData = (originalData, keyType, caseType, stateMethods, selectID) => {

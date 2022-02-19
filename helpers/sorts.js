@@ -8,6 +8,8 @@ export {
   jobSort,
   assigneeSort,
   activitySort,
+  activityStatusSort,
+  activitySetSort
 }
 
 const slabSort = ['lot_number','location','supplier','block','price_sqft','price_slab','thickness','size_2','size_1','finish','color','grade', 'delivered_status', 'received_status','ordered_status', 'delivery_date','quantity', 'material', 'qr_code', 'images']
@@ -27,3 +29,7 @@ const jobSort = ['priceLists', 'contacts', 'jobAddress', 'account', 'quotes', 'a
 const assigneeSort = ['description', 'color', 'status', 'name']
 
 const activitySort = ['description', 'assignee', 'dependency', 'status', 'color', 'duration', 'cost', 'active', 'name']
+
+const activityStatusSort = ['active', 'appointments', 'confirmTimeChange', 'color', 'abbreviation', 'status']
+
+const activitySetSort = ['set', 'name']

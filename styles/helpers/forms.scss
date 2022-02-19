@@ -430,6 +430,47 @@
         }
       }
     }
+
+    &-tags {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      width: 100%;
+      padding: 0.5rem 2rem;
+      height: auto;
+
+      div {
+        background-color: $color-scheme-2;
+        border-radius: 1.2rem;
+        color: white;
+        font-size: 1.2rem;
+        padding: 0.5rem 1rem;
+        margin-right: 1.5rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
+        position: relative;
+
+        span {
+          position: absolute;
+          top: -0.8rem;
+          right: -1rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 2rem;
+          height: 2rem;
+          background-color: $color-dark-shade-scheme-1;
+          border-radius: 50%;
+          font-size: 1rem;
+          transition: all 0.3s ease-in-out;
+
+          &:hover {
+            cursor: pointer;
+            background-color: $color-dark-shade-scheme-2;
+          }
+        }
+      }
+    }
   }
 
   &-estimate {
@@ -2063,7 +2104,7 @@
   color: red;
 }
 
-////
+//// OTHERS
 
 .selected {
   background-color: $color-scheme-1;
@@ -2095,6 +2136,14 @@
 //// MARGINS
 .mbType1 {
   margin-bottom: 8rem !important;
+}
+
+.mbType2 {
+  margin-bottom: 16rem !important;
+}
+
+.mbType3 {
+  margin-bottom: 24rem !important;
 }
 
 .mtType1 {

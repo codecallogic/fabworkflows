@@ -80,6 +80,22 @@ const AssigneeModal = ({
       y: translate.y + Y
     });
   }
+
+  // HANDLE DROPDOWNS
+  const handleClickOutside = (event) => {
+    if(myRefs.current){
+      if(!myRefs.current.contains(event.target)){
+        setInputDropdown('')
+      }
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, [])
   
   return (
     <div 
@@ -148,7 +164,10 @@ const AssigneeModal = ({
             className="form-group-list" 
             ref={myRefs}
             >
-              <HexColorPicker onChange={(e) => (setIsDragging(false), stateMethod(createType, 'color', e))}/>
+              <HexColorPicker 
+                color={stateData.color}
+                onChange={(e) => (setIsDragging(false), stateMethod(createType, 'color', e))}
+              />
             </div>
           }
         </div>
