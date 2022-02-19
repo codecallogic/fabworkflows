@@ -317,10 +317,19 @@ const QuoteForm = ({
               setModal('new_contact'),
               setDynamicType('CREATE_JOB'),
               setDynamicKey('jobAddress'),
-              resetState(resetTypeContact)
+              resetState(resetTypeContact),
+              edit !== 'contact' ? setEdit('') : null
             )}
           >
             <SVG svg={'location'}></SVG>
+          </div>
+          <div 
+            className="form-box-heading-item" 
+            onClick={() => (
+              stateMethod(createType, 'jobAddress', '')
+            )}
+          >
+            <SVG svg={'thrash-can'}></SVG>
           </div>
         </div>
         <div className="form-box-container">
@@ -363,10 +372,19 @@ ${returnIfTrue(stateData.jobAddress.contact_notes)}
               setModal('new_contact'),
               setDynamicType('CREATE_JOB'),
               setDynamicKey('accountAddress'),
-              resetState(resetTypeContact)
+              resetState(resetTypeContact),
+              edit !== 'contact' ? setEdit('') : null
             )}
           >
             <SVG svg={'location'}></SVG>
+          </div>
+          <div 
+            className="form-box-heading-item" 
+            onClick={() => (
+              stateMethod(createType, 'accountAddress', '')
+            )}
+          >
+            <SVG svg={'thrash-can'}></SVG>
           </div>
         </div>
         <div className="form-box-container">
