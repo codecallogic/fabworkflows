@@ -1,7 +1,8 @@
 export {
   populateEditData,
   populateAddress,
-  populateDependency
+  populateDependency,
+  handleTableDropdowns
 }
 
 const allowArrays = ['quotes', 'jobs', 'activities', 'activitySets']
@@ -60,5 +61,61 @@ const populateDependency = (data, stateType, stateMethod, selectID, setEdit) => 
       return
     }
   })
+  
+}
+
+const handleTableDropdowns = (allData, keyType, item, stateMethod, setEdit, setModal, changeView) => {
+
+  let listType
+  let editType
+  let modalType
+  let viewType
+  let createType
+
+  if( keyType == 'accountAddress'){
+    listType      = 'contacts'
+    editType      = 'contact'
+    modalType     = 'new_contact'
+    viewType      = 'contacts'
+    createType    = 'CREATE_CONTACT'
+  }
+
+  if( keyType == 'quotes'){
+    listType      = 'quotes'
+    editType      = 'quotes'
+    modalType     = ''
+    viewType      = 'quote'
+    createType    = 'CREATE_QUOTE'
+  }
+
+  if( keyType == 'assignee'){
+    listType      = 'assignees'
+    editType      = 'assignees'
+    modalType     = 'assignee'
+    viewType      = 'assignees'
+    createType    = 'CREATE_ASSIGNEE'
+  }
+
+  if( keyType == 'set'){
+    listType      = 'activities'
+    editType      = 'activities'
+    modalType     = 'activities'
+    viewType      = 'activities'
+    createType    = 'CREATE_ACTIVITY'
+  }
+
+  for(let keyItem in allData[listType]){
+    if( allData[listType][keyItem]._id == item._id ){
+
+      for(let key in allData[listType][keyItem]){
+        stateMethod(createType, key, allData[listType][keyItem][key])
+      }
+      
+      setEdit(editType)
+      changeView(viewType)
+      setModal(modalType)
+
+    }
+  }
   
 }

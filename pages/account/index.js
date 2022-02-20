@@ -911,6 +911,7 @@ const Dashboard = ({
             componentData={data.jobs}
             allData={allData}
             setAllData={setAllData}
+            stateMethod={createType}
             modal={modal}
             setModal={setModal}
             sortOrder={jobSort}

@@ -124,7 +124,7 @@ const PriceListModal = ({
         <div className="addFieldItems-modal-box-header">
         <span 
           className="addFieldItems-modal-form-title">
-            {edit == 'price_list' ? 
+            {edit == 'contact' ? 
             'Edit Contact' 
             : 
             'New Contact'

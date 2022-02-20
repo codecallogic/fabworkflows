@@ -1,7 +1,7 @@
 import {filterTable} from '../helpers/tableData'
 import SVG from '../files/svgs'
 import {useEffect, useState, useRef} from 'react'
-import { populateDependency } from '../helpers/modals'
+import { populateDependency, handleTableDropdowns } from '../helpers/modals'
 
 const Table = ({
   token,
@@ -251,7 +251,15 @@ const Table = ({
                 id={`checkbox`} 
                 className="table-rows-checkbox-input" 
                 type="checkbox" 
-                onClick={(e) => e.target.checked == true ?  (setMessage(''), handleSelect(e, item._id)) : (setControls(''), setSelectID(''), setMessage(''))}/>
+                onClick={(e) => e.target.checked == true ?  (
+                    setMessage(''), 
+                    handleSelect(e, item._id)
+                  ) : 
+                  (
+                    setControls(''), 
+                    setSelectID(''), 
+                    setMessage('')
+                  )}/>
                 <span></span>
                 <div>
                   <SVG svg={'checkmark'}></SVG>
@@ -289,8 +297,9 @@ const Table = ({
                         <div className="table-rows-item-dropdown-items">
                           {item[key].map(( data, idxDropdown ) => 
                             <div 
-                            key={idxDropdown}
-                            className="table-rows-item-dropdown-items-item"
+                              key={idxDropdown}
+                              className="table-rows-item-dropdown-items-item"
+                              onClick={() => handleTableDropdowns(allData, key, data, stateMethod, setEdit, setModal, changeView)}
                             >
                               {data.name ? 
                               data.name : 
@@ -324,10 +333,26 @@ const Table = ({
                   !Array.isArray(item[key]) && key !== 'qr_code'
                   ? 
                   (
-                    key == 'color' ? (<div><span className="table-rows-item-color" style={{backgroundColor: item[key]}}></span>{item[key]}</div>) : item[key],
-                    key == 'dependency' && typeof item[key] == 'object' ? <span style={{ fontWeight: '600'}}>{item[key].days} days {item[key].schedule} {item[key].activity}</span> : item[key]
+                   
+                    key == 'dependency' && typeof item[key] == 'object' 
+                    ? 
+                    <span style={{ fontWeight: '600'}}>{item[key].days} days {item[key].schedule} {item[key].activity}</span> 
+                    : 
+
+                    key == 'color' 
+                    
+                    ?
+                    
+                    (
+                    <div><span className="table-rows-item-color" style={{backgroundColor: item[key]}}></span>{item[key]}</div>
+                    )
+                    
+                    :
+                    
+                    item[key]
                   )
-                  : 
+                  :
+                   
                   null
                 }
               </div>

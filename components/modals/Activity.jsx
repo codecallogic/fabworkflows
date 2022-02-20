@@ -197,7 +197,7 @@ const ActivityModal = ({
             <div 
             className="form-group-list" 
             ref={myRefs}>
-              {activityStatus.length > 0 && activityStatus.map((item, idx) => 
+              {allData.activityStatus.length > 0 && allData.activityStatus.map((item, idx) => 
                 <div 
                   key={idx} 
                   className="form-group-list-item" 
