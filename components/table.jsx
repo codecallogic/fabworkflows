@@ -302,10 +302,10 @@ const Table = ({
                               onClick={() => handleTableDropdowns(allData, key, data, stateMethod, setEdit, setModal, changeView)}
                             >
                               {data.name ? 
-                              data.name : 
-                              data.quote_name ?
-                              data.quote_name : 
-                              data.contact_name
+                              data.name.substring(0, 10) : 
+                              data.quote_name.substring(0, 10) ?
+                              data.quote_name.substring(0, 10) : 
+                              data.contact_name.substring(0, 10)
                               }
                             </div>
                           )}

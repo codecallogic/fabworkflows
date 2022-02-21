@@ -7,7 +7,7 @@ import 'react-calendar/dist/Calendar.css';
 
 //// HELPERS
 import { manageFormFields } from '../../helpers/forms'
-import { quoteSort } from '../../helpers/sorts'
+import { quoteSort, activitySort } from '../../helpers/sorts'
 import { 
   validateDate, 
   formatDate, 
@@ -66,7 +66,8 @@ const QuoteForm = ({
   const [loadingColor, setLoadingColor] = useState('black')
   const [input_dropdown, setInputDropdown] = useState('')
   const [save, setSave] = useState(false)
-
+  const [activityHeaders, setActivityHeaders] = useState([])
+  
   useEffect(() => {
     
     const isEmpty = Object.values(stateData).every( x => x === '' || x.length < 1 || x === '0.00')
@@ -85,7 +86,16 @@ const QuoteForm = ({
   }
 
   useEffect(() => {
-    stateMethod(createType, 'invoice', generateRandomNumber())
+
+    let object = new Object()
+
+    Object.values(activitySort).forEach( (item) => {
+      object[item] = item
+    })
+
+    setActivityHeaders((oldArray) => [...oldArray, object])
+    
+    !stateData.invoice ? stateMethod(createType, 'invoice', generateRandomNumber()) : null
     
     document.addEventListener("click", handleClickOutside, true);
     return () => {
@@ -97,7 +107,7 @@ const QuoteForm = ({
     <div className="table">
       <div className="table-header">
         <div className="table-header-title">
-          {edit == typeOfData ? 'Edit Quote' : title}
+          {edit == typeOfData ? 'Edit Job' : title}
         </div>
         {save &&
           <div className="table-header-controls">
@@ -118,12 +128,12 @@ const QuoteForm = ({
               ?
               setMessage('Cannot update quotes with payments processed')
               :
-              submitUpdate(e, stateData, 'jobs', setMessage, 'update_quote', setLoading, token, 'jobs/update-job', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'jobs')
+              submitUpdate(e, stateData, 'jobs', setMessage, 'update_job', setLoading, token, 'jobs/update-job', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'jobs')
               : 
               submitCreate(e, stateData, 'jobs', setMessage, 'create_job', setLoading, token, 'jobs/create-job', resetType, resetState, allData, setAllData, setDynamicSVG)  
             }
             >
-              { loading == 'create_job' ? 
+              { loading == 'create_job' || loading == 'update_job' ? 
               <div className="loading">
                 <span style={{backgroundColor: loadingColor}}></span>
                 <span style={{backgroundColor: loadingColor}}></span>
@@ -442,12 +452,48 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           setLoading={setLoading}
           dynamicSVG={dynamicSVG}
           setDynamicSVG={setDynamicSVG}
-          deleteType="REMOVE_JOB_QUOTE"
           setDynamicType={setDynamicType}
           setDynamicKey={setDynamicKey}
           selectID={selectID}
           setSelectID={setSelectID}
           extractingStateData={extractingStateData}
+          dynamicType={'CREATE_JOB_ARRAY_ITEM'}
+          dynamicKey={'quotes'}
+        >
+      </Table> 
+
+      <Table
+          token={token}
+          title={'Activities'}
+          typeOfData={'activities'}
+          componentData={activityHeaders}
+          allData={stateData.activities}
+          setAllData={setAllData}
+          modal={modal}
+          setModal={setModal}
+          sortOrder={activitySort}
+          controls={controls}
+          setControls={setControls}
+          controlsType={'activityControls'}
+          message={message}
+          setMessage={setMessage}
+          resetCheckboxes={resetCheckboxes}
+          editData={editData}
+          changeView={changeView}
+          setEdit={setEdit}
+          viewType={'activities'}
+          modalType={'activityList'}
+          loading={loading}
+          setLoading={setLoading}
+          dynamicSVG={dynamicSVG}
+          setDynamicSVG={setDynamicSVG}
+          setDynamicType={setDynamicType}
+          setDynamicKey={setDynamicKey}
+          selectID={selectID}
+          setSelectID={setSelectID}
+          extractingStateData={extractingStateData}
+          dynamicType={'CREATE_JOB_ARRAY_ITEM'}
+          dynamicKey={'activities'}
         >
       </Table>  
       

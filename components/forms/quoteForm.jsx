@@ -85,7 +85,7 @@ const QuoteForm = ({
   }
 
   useEffect(() => {
-    stateMethod(createType, 'quote_number', generateRandomNumber())
+    !stateData.quote_number ? stateMethod(createType, 'quote_number', generateRandomNumber()) : null
     
     document.addEventListener("click", handleClickOutside, true);
     return () => {

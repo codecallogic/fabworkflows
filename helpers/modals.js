@@ -104,6 +104,14 @@ const handleTableDropdowns = (allData, keyType, item, stateMethod, setEdit, setM
     createType    = 'CREATE_ACTIVITY'
   }
 
+  if( keyType == 'activities'){
+    listType      = 'activities'
+    editType      = 'activities'
+    modalType     = 'activities'
+    viewType      = 'activities'
+    createType    = 'CREATE_ACTIVITY'
+  }
+
   for(let keyItem in allData[listType]){
     if( allData[listType][keyItem]._id == item._id ){
 

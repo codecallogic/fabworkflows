@@ -36,8 +36,8 @@ const PriceListModal = ({
   submitUpdate,
 }) => {
   
-  const createType = 'CREATE_QUOTE'
-  const resetType = 'RESET_QUOTE'
+  const createType = 'CREATE_ACTIVITY'
+  const resetType = 'RESET_ACTIVITY'
   const myRefs = useRef(null)
   const [loadingColor, setLoadingColor] = useState('white')
   const [input_dropdown, setInputDropdown] = useState('')
@@ -122,10 +122,10 @@ const PriceListModal = ({
         <div className="addFieldItems-modal-box-header">
         <span 
           className="addFieldItems-modal-form-title">
-            {edit == 'quote_item' ? 
-            'Edit Quote' 
+            {edit == 'job_activity_item' ? 
+            'Edit Activity' 
             : 
-            'Add Quote'
+            'Add Activity'
             }
         </span>
         <div onClick={() => (setModal(''), resetState(resetType), setMessage(''))}>
@@ -138,8 +138,8 @@ const PriceListModal = ({
         <form className="addFieldItems-modal-form">
           <div className="form-group mbType1">
             <input
-            onClick={() => setInputDropdown('job_quote')} 
-            value={manageFormFields(currentItem, 'quote_name')} 
+            onClick={() => setInputDropdown('job_activity')} 
+            value={manageFormFields(currentItem, 'name')} 
             readOnly
             />
             <label 
@@ -149,16 +149,16 @@ const PriceListModal = ({
               : ''
             )}
             htmlFor="quotes">
-              Quote
+              Activity
             </label>
             <div 
-            onClick={() => setInputDropdown('job_quote')}><SVG svg={'dropdown-arrow'}></SVG>
+            onClick={() => setInputDropdown('job_activity')}><SVG svg={'dropdown-arrow'}></SVG>
             </div>
-            { input_dropdown == 'job_quote' &&
+            { input_dropdown == 'job_activity' &&
               <div 
               className="form-group-list" 
               ref={myRefs}>
-                {allData && allData.quotes.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                {allData && allData.activities.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
                 <div 
                   key={idx} 
                   className="form-group-list-item" 
@@ -170,7 +170,7 @@ const PriceListModal = ({
                     stateMethod(createType, 'account', item), setInputDropdown('')
                   )}
                 >
-                  {item.quote_name}
+                  {item.name}
                 </div>
                 ))}
               </div>

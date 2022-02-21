@@ -78,6 +78,7 @@ import ActivityModal from '../../components/modals/Activity'
 import DependencyModal from '../../components/modals/Dependency'
 import ActivityStatusModal from '../../components/modals/ActivityStatus'
 import ActivitySetModal from '../../components/modals/ActivitySet'
+import ActivityListModal from '../../components/modals/ActivityList'
 
 axios.defaults.withCredentials = true
 
@@ -1872,6 +1873,32 @@ const Dashboard = ({
               selectID={selectID}
             >
             </ActivitySetModal>
+          }
+          { modal == 'activityList' &&
+            <ActivityListModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={job}
+            stateMethod={createType}
+            dynamicType={dynamicType}
+            extractingStateData={extractingStateData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+            >
+            </ActivityListModal>
           }
       </div>
     </>

@@ -7,7 +7,8 @@ const initialState = {
   notes: '',
   jobAddress: '',
   accountAddress: '',
-  quotes: []
+  quotes: [],
+  activities: [],
 }
 
 export const jobReducer = (state = initialState, action) => {
@@ -25,20 +26,20 @@ export const jobReducer = (state = initialState, action) => {
       break;
 
     case 'CREATE_JOB_ARRAY_ITEM':
-      return {
-        ...state,
-        [action.name]: [...state[action.name], action.value]
+      let oldArray = [...state[action.name]]
+      let newArray = []
+      
+      if(oldArray.findIndex((item) => item._id == action.value._id) == -1){
+        oldArray.push(action.value)
+        newArray = [...oldArray]
+      }else{
+        newArray = oldArray.filter((item) => item._id !== action.value._id)
       }
-      break;
 
-    case 'REMOVE_QUOTE_ITEM':
-      let oldArray = [...state.quotes]
-
-      let newArray = oldArray.filter((item, index) => item.quote_name !== action.value)
 
       return {
         ...state,
-        quotes: newArray
+        [action.name]: newArray
       }
       break;
     

@@ -29,6 +29,8 @@ const Table = ({
   modalType,
   editDataType,
   editModalType,
+  dynamicType,
+  dynamicKey,
 
   //// DATA
   componentData,
@@ -43,9 +45,9 @@ const Table = ({
 
   //// CRUD
   submitDeleteRow,
-  deleteType
 
 }) => {
+  
   
   const matchPattern = /https?:\/\/(www\.)?/gi;
   const myRefs = useRef([])
@@ -73,7 +75,10 @@ const Table = ({
     }
   }
 
-  useEffect(() => {    
+  useEffect(() => {   
+    setDynamicType(dynamicType)
+    setDynamicKey(dynamicKey)
+     
     document.addEventListener("click", handleClickOutside, true);
 
     return () => {
@@ -88,8 +93,6 @@ const Table = ({
 
     e.target.checked = true
    
-    setDynamicType('REMOVE_QUOTE_ITEM')
-    setDynamicKey('quotes')
     setControls(controlsType)
     setSelectID(id)
   }
@@ -105,10 +108,8 @@ const Table = ({
             className="table-header-controls-item-svg" 
             onClick={() => (
                 setModal(modalType),
-                setDynamicType('CREATE_JOB_ARRAY_ITEM'),
-                setDynamicKey('quotes'),
                 setControls(''), 
-                setMessage(''), 
+                setMessage(''),
                 resetCheckboxes()
               )}
             >
@@ -116,11 +117,11 @@ const Table = ({
             </div>
             {controls == controlsType && 
             <div 
-            id="delete" 
-            className="table-header-controls-item-svg" 
-            onClick={(e) => 
-              extractingStateData(currentItem.quote_name)
-            }>
+              id="delete" 
+              className="table-header-controls-item-svg" 
+              onClick={(e) => 
+              extractingStateData(currentItem)
+              }>
                <SVG svg={'thrash-can'}></SVG>
             </div>
             }
@@ -219,8 +220,28 @@ const Table = ({
                 {
                   !Array.isArray(item[key]) && key !== 'qr_code'
                   ? 
-                  item[key]
-                  : null
+                  (
+                   
+                    key == 'dependency' && typeof item[key] == 'object' 
+                    ? 
+                    <span style={{ fontWeight: '600'}}>{item[key].days} days {item[key].schedule} {item[key].activity}</span> 
+                    : 
+
+                    key == 'color' 
+                    
+                    ?
+                    
+                    (
+                    <div><span className="table-rows-item-color" style={{backgroundColor: item[key]}}></span>{item[key]}</div>
+                    )
+                    
+                    :
+                    
+                    item[key]
+                  )
+                  :
+                   
+                  null
                 }
               </div>
             )}
