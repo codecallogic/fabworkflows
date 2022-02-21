@@ -97,6 +97,8 @@ const QuoteForm = ({
 
   useEffect(() => {
 
+    if(stateData.payment == 'deposit' || stateData.payment == 'complete') return
+    
     calculateEstimate(stateData, stateMethod, createType, depositType)
     
   }, [
@@ -130,7 +132,7 @@ const QuoteForm = ({
             onClick={(e) => edit == typeOfData ? 
               stateData.payment == 'deposit' || stateData.payment == 'complete'
               ?
-              setMessage('Cannot update quotes with payments processed')
+              setMessage('Cannot update quotes after a payment was processed')
               :
               submitUpdate(e, stateData, 'quotes', setMessage, 'update_quote', setLoading, token, 'quotes/update-quote', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'quotes')
               : 
@@ -649,7 +651,7 @@ const QuoteForm = ({
               <div 
                 className="form-box-heading-item" 
                 onClick={() => (
-                  setModal('add_quote_line'),
+                  stateData.payment == 'deposit' || stateData.payment == 'complete' ? setMessage('Cannot update quote lines after a payment processed') : setModal('add_quote_line'),
                   setModalEdit('')
                 )}
               >
@@ -678,8 +680,13 @@ const QuoteForm = ({
                 <div 
                   id="save" 
                   className="form-box-heading-item" 
-                  onClick={(e) => edit == typeOfData ? 
-                    submitUpdate(e, stateData, 'quotes', setMessage, 'update_quote', setLoading, token, 'quotes/update-quote', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'quotes')
+                  onClick={(e) => edit == typeOfData 
+                    ? 
+                      stateData.payment == 'deposit' || stateData.payment == 'complete'
+                      ?
+                      setMessage('Cannot update quotes after a payment was processed')
+                      :
+                      submitUpdate(e, stateData, 'quotes', setMessage, 'update_quote', setLoading, token, 'quotes/update-quote', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'quotes')
                     : 
                     submitCreate(e, stateData, 'quotes', setMessage, 'create_quote', setLoading, token, 'quotes/create-quote', resetType, resetState, allData, setAllData, setDynamicSVG) 
                   }
