@@ -385,7 +385,7 @@ const SupplierModal = ({
         {!edit && 
         <button 
         className="form-group-button" 
-        onClick={(e) => submitCreate(e, stateData, 'suppliers', setMessage, 'create_supplier', setLoading, token, 'suppliers/create-supplier', resetType, resetState, allData, setAllData, setDynamicSVG)}
+        onClick={(e) => submitCreate(e, stateData, 'suppliers', null, setMessage, 'create_supplier', setLoading, token, 'suppliers/create-supplier', resetType, resetState, allData, setAllData, setDynamicSVG)}
         >
             {loading == 'create_supplier' ? 
             <div className="loading">
@@ -401,7 +401,7 @@ const SupplierModal = ({
         {edit == 'supplier' && 
         <button 
         className="form-group-button" 
-        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'suppliers', setMessage, 'update_supplier', setLoading, token, 'suppliers/update-supplier', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'suppliers', setModal))}
+        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'suppliers', null, setMessage, 'update_supplier', setLoading, token, 'suppliers/update-supplier', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'suppliers', setModal))}
         >
            {loading == 'update_supplier' ? 
             <div className="loading">

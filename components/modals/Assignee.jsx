@@ -220,7 +220,7 @@ const AssigneeModal = ({
         {!edit && 
         <button 
         className="form-group-button" 
-        onClick={(e) => submitCreate(e, stateData, 'assignees', setMessage, 'create_assignee', setLoading, token, 'assignee/create-assignee', resetType, resetState, allData, setAllData, setDynamicSVG)}
+        onClick={(e) => submitCreate(e, stateData, 'assignees', null, setMessage, 'create_assignee', setLoading, token, 'assignee/create-assignee', resetType, resetState, allData, setAllData, setDynamicSVG)}
         >
           {loading == 'create_assignee' ? 
             <div className="loading">
@@ -236,7 +236,7 @@ const AssigneeModal = ({
         {edit == 'assignees' && 
         <button 
         className="form-group-button" 
-        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'assignees', setMessage, 'update_assignee', setLoading, token, 'assignee/update-assignee', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'assignees', setModal))}
+        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'assignees', null, setMessage, 'update_assignee', setLoading, token, 'assignee/update-assignee', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'assignees', setModal))}
         >
           {loading == 'update_assignee' ? 
             <div className="loading">

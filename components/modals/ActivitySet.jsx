@@ -208,7 +208,7 @@ const ActivitySetModal = ({
           {!edit && 
           <button 
           className="form-group-button" 
-          onClick={(e) => submitCreate(e, stateData, 'activitySets', setMessage, 'create_activity_set', setLoading, token, 'activities/create-activity-set', resetType, resetState, allData, setAllData, setDynamicSVG)}
+          onClick={(e) => submitCreate(e, stateData, 'activitySets', null, setMessage, 'create_activity_set', setLoading, token, 'activities/create-activity-set', resetType, resetState, allData, setAllData, setDynamicSVG)}
           >
               {loading == 'create_activity_set' ? 
               <div className="loading">
@@ -224,7 +224,7 @@ const ActivitySetModal = ({
           {edit == 'activitySets' && 
           <button 
           className="form-group-button" 
-          onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'activitySets', setMessage, 'update_activity_set', setLoading, token, 'activities/update-activity-set', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'activitySets', setModal))}
+          onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'activitySets', null, setMessage, 'update_activity_set', setLoading, token, 'activities/update-activity-set', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'activitySets', setModal))}
           >
               {loading == 'update_activity_set' ? 
               <div className="loading">

@@ -654,7 +654,7 @@ const Form = ({
               type="file" 
               accept="image/*" 
               multiple
-              onChange={(e) => multipleFiles(e, stateData, 'images', setMessage, imagesType, null, addImages)}
+              onChange={(e) => multipleFiles(e, stateData, 'images', setMessage, imagesType, 'images', addImages)}
               />
             </label>
           </div>

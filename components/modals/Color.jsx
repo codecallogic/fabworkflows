@@ -129,7 +129,7 @@ const MaterialModal = ({
         {!edit && 
         <button 
         className="form-group-button" 
-        onClick={(e) => submitCreate(e, stateData, 'colors', setMessage, 'create_color', setLoading, token, 'colors/create-color', resetType, resetState, allData, setAllData, setDynamicSVG)}
+        onClick={(e) => submitCreate(e, stateData, 'colors', null, setMessage, 'create_color', setLoading, token, 'colors/create-color', resetType, resetState, allData, setAllData, setDynamicSVG)}
         >
            {loading == 'create_color' ? 
             <div className="loading">
@@ -145,7 +145,7 @@ const MaterialModal = ({
         {edit == 'color' && 
         <button 
         className="form-group-button" 
-        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'colors', setMessage, 'update_color', setLoading, token, 'colors/update-color', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'colors', setModal))}
+        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'colors', null, setMessage, 'update_color', setLoading, token, 'colors/update-color', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'colors', setModal))}
         >
            {loading == 'update_color' ? 
             <div className="loading">

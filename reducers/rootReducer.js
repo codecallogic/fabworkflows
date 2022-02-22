@@ -5,6 +5,7 @@ import { productReducer } from './productReducer'
 import { materialReducer } from './materialReducer'
 import { colorReducer } from './colorReducer'
 import { supplierReducer } from './supplierReducer'
+import { locationReducer } from './locationReducer'
 import { contactReducer } from './contactReducer'
 import { remnantReducer } from './remnantReducer'
 import { brandReducer } from './brandReducer'
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   material: materialReducer,
   color: colorReducer,
   supplier: supplierReducer,
+  location: locationReducer,
   contact: contactReducer,
   remnant: remnantReducer,
   brand: brandReducer,

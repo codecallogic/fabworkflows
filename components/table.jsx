@@ -69,6 +69,7 @@ const Table = ({
     if(myRefs.current){
       myRefs.current.forEach((item) => {
         if(item){
+          
           if(event.target.id == 'checkbox') return
           if(item.contains(event.target)) return
           if(event.target.getAttribute('id') == 'dependency') return
@@ -157,9 +158,23 @@ const Table = ({
                 setControls(''), 
                 setMessage(''), 
                 resetCheckboxes()
-            )}
+              )}
             >
-              <SVG svg={'dependency'} id={'dependency'}></SVG>
+              <SVG 
+                svg={'dependency'} 
+                id={'dependency'}
+                onClick={(e) => (
+                  e.stopPropagation(),
+                  setEdit(''), 
+                  populateDependency(allData[typeOfData], 'CREATE_DEPENDENCY', stateMethod, selectID, setEdit),
+                  setModal('dependency'), 
+                  setControls(''), 
+                  setMessage(''), 
+                  resetCheckboxes()
+                )}
+              >
+
+              </SVG>
             </div>
             :
             null

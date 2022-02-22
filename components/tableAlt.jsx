@@ -27,6 +27,8 @@ const Table = ({
   setAllData,
   searchType,
   searchPlaceholder,
+  setDynamicType,
+  setDynamicKey,
 
   ///// EDIT
   viewType,
@@ -118,7 +120,16 @@ const Table = ({
             <div 
             id="plus" 
             className="table-header-controls-item-svg" 
-            onClick={() => (setModal(modalType), setEdit(''), setControls(''), setMessage(''), resetCheckboxes())}
+            onClick={() => (
+              setModal(modalType), 
+              setEdit(''), 
+              setControls(''), 
+              setMessage(''), 
+              resetCheckboxes(),
+              setDynamicKey(''),
+              setDynamicType('')
+            )
+            }
             >
               <SVG svg={'plus'}></SVG>
             </div>
@@ -240,7 +251,7 @@ const Table = ({
                     ? 
                     (<div><span className="table-rows-item-color" style={{backgroundColor: item[key]}}></span>{item[key]}</div>) 
                     : 
-                    <span style={{color: item['color'] ? item['color'] : '', fontWeight: '500'}}>{item[key]}</span>
+                    <span style={{color: item['color'] ? item['color'] : '', fontWeight: '500'}}>{item[key].substring(0, 70)}</span>
                   )
                   : null
                 }

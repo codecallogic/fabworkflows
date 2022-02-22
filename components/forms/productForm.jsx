@@ -20,7 +20,7 @@ const Form = ({
   validatePrice,
   validateDate,
   generateQR,
-  multipleImages,
+  multipleFiles,
   dateNow,
 
   //// DATA
@@ -390,7 +390,7 @@ const Form = ({
               type="file" 
               accept="image/*" 
               multiple
-              onChange={(e) => multipleImages(e, stateData, setMessage, imagesType, null, addImages)}
+              onChange={(e) => multipleFiles(e, stateData, 'images', setMessage, imagesType, 'images', addImages)}
               />
             </label>
           </div>

@@ -29,7 +29,7 @@ const PriceListModal = ({
   //// CRUD
   submitCreate,
   submitUpdate,
-  submitDeleteImage
+  submitDeleteFile
 }) => {
   
   const createType = 'CREATE_PRICE_LIST'
@@ -149,7 +149,7 @@ const PriceListModal = ({
             <span key={idx} className="form-group-file-close" onClick={(e) => (
                   e.stopPropagation(),
                   loading !== 'delete_image' ? 
-                  submitDeleteImage(e, item, 'images', createType, stateMethod, stateData, 'prices', setMessage, 'delete_image', setLoading, token, 'price/delete-image', allData, setAllData, setDynamicSVG, editData, setModal)
+                  submitDeleteFile(e, item, 'images', createType, stateMethod, stateData, 'prices', setMessage, 'delete_image', setLoading, token, 'price/delete-image', allData, setAllData, setDynamicSVG, editData, setModal)
                   :
                   null
               )}>
@@ -305,7 +305,7 @@ const PriceListModal = ({
         {!edit && 
         <button 
         className="form-group-button" 
-        onClick={(e) => submitCreate(e, stateData, 'prices', setMessage, 'create_price', setLoading, token, 'price/create-price', resetType, resetState, allData, setAllData, setDynamicSVG)}
+        onClick={(e) => submitCreate(e, stateData, 'prices', 'images', setMessage, 'create_price', setLoading, token, 'price/create-price', resetType, resetState, allData, setAllData, setDynamicSVG)}
         >
             {loading == 'create_price' ? 
             <div className="loading">
@@ -321,7 +321,7 @@ const PriceListModal = ({
         {edit == 'price_list' && 
         <button 
         className="form-group-button" 
-        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'prices', setMessage, 'update_price', setLoading, token, 'price/update-price', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'prices', setModal))}
+        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'prices', 'images', setMessage, 'update_price', setLoading, token, 'price/update-price', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'prices', setModal))}
         >
            {loading == 'update_price' ? 
             <div className="loading">

@@ -332,7 +332,7 @@ const ActivityModal = ({
           {!edit && 
           <button 
           className="form-group-button" 
-          onClick={(e) => submitCreate(e, stateData, 'activities', setMessage, 'create_activity', setLoading, token, 'activities/create-activity', resetType, resetState, allData, setAllData, setDynamicSVG)}
+          onClick={(e) => submitCreate(e, stateData, 'activities', null, setMessage, 'create_activity', setLoading, token, 'activities/create-activity', resetType, resetState, allData, setAllData, setDynamicSVG)}
           >
               {loading == 'create_activity' ? 
               <div className="loading">
@@ -348,7 +348,7 @@ const ActivityModal = ({
           {edit == 'activities' && 
           <button 
           className="form-group-button" 
-          onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'activities', setMessage, 'update_activity', setLoading, token, 'activities/update-activity', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'activities', setModal))}
+          onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'activities', null, setMessage, 'update_activity', setLoading, token, 'activities/update-activity', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'activities', setModal))}
           >
               {loading == 'update_activity' ? 
               <div className="loading">

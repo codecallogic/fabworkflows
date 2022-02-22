@@ -38,7 +38,7 @@ const PriceListModal = ({
   submitCreate,
   submitUpdate,
 }) => {
-  
+
   const createType = 'CREATE_CONTACT'
   const resetType = 'RESET_CONTACT'
   const myRefs = useRef(null)
@@ -421,7 +421,7 @@ const PriceListModal = ({
 
 
       <div className="addFieldItems-modal-box-footer">
-        {edit == '' || edit == 'jobs' && 
+        {edit == '' | edit == 'jobs' && 
         <button 
         className="form-group-button" 
         onClick={(e) => dynamicType 
@@ -431,7 +431,7 @@ const PriceListModal = ({
             setModal('')
           )
           :
-          submitCreate(e, stateData, 'contacts', setMessage, 'create_contact', setLoading, token, 'contact/create-contact', resetType, resetState, allData, setAllData, setDynamicSVG)
+          submitCreate(e, stateData, 'contacts', null, setMessage, 'create_contact', setLoading, token, 'contact/create-contact', resetType, resetState, allData, setAllData, setDynamicSVG)
         }
         >
             {loading == 'create_contact' ? 
@@ -448,7 +448,7 @@ const PriceListModal = ({
         {edit == 'contact' && 
         <button 
         className="form-group-button" 
-        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'contacts', setMessage, 'update_contact', setLoading, token, 'contact/update-contact', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'contacts', setModal))}
+        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'contacts', null, setMessage, 'update_contact', setLoading, token, 'contact/update-contact', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'contacts', setModal))}
         >
            {loading == 'update_contact' ? 
             <div className="loading">

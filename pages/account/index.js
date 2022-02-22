@@ -52,7 +52,7 @@ import {
   validatePrice, 
   validateDate, 
   generateQR, 
-  multipleImages, 
+  multipleFiles, 
   dateNow, 
   phoneNumber, 
   addressSelect
@@ -248,7 +248,7 @@ const Dashboard = ({
   }
 
   const editData = (keyType, caseType, id) => {
-    console.log(id)
+    // console.log(id)
     let stateMethods = new Object()
     stateMethods.createType = createType
 
@@ -260,8 +260,8 @@ const Dashboard = ({
   }, [router.query.change])
 
   const extractingStateData = (stateData) => {
-    console.log(dynamicType)
-    console.log(dynamicKey)
+    // console.log(dynamicType)
+    // console.log(dynamicKey)
     createType(dynamicType, dynamicKey, stateData)
     setControls('')
   }
@@ -503,6 +503,8 @@ const Dashboard = ({
             deleteType="materials/delete-material"
             searchType={'materials'}
             searchPlaceholder={'Search by name'}
+            setDynamicType={setDynamicType}
+            setDynamicKey={setDynamicKey}
           >
           </TableAlt>
         }
@@ -543,6 +545,8 @@ const Dashboard = ({
             deleteType="colors/delete-color"
             searchType={'colors'}
             searchPlaceholder={'Search by name'}
+            setDynamicType={setDynamicType}
+            setDynamicKey={setDynamicKey}
           >
           </TableAlt>
         }
@@ -583,6 +587,8 @@ const Dashboard = ({
             deleteType="suppliers/delete-supplier"
             searchType={'suppliers'}
             searchPlaceholder={'Search by name'}
+            setDynamicType={setDynamicType}
+            setDynamicKey={setDynamicKey}
           >
           </TableAlt>
         }
@@ -623,6 +629,8 @@ const Dashboard = ({
             deleteType="locations/delete-location"
             searchType={'locations'}
             searchPlaceholder={'Search by name'}
+            setDynamicType={setDynamicType}
+            setDynamicKey={setDynamicKey}
           >
           </TableAlt>
         }
@@ -663,6 +671,8 @@ const Dashboard = ({
             deleteType="brands/delete-brand"
             searchType={'brands'}
             searchPlaceholder={'Search by name'}
+            setDynamicType={setDynamicType}
+            setDynamicKey={setDynamicKey}
           >
           </TableAlt>
         }
@@ -703,6 +713,8 @@ const Dashboard = ({
             deleteType="categories/delete-category"
             searchType={'categories'}
             searchPlaceholder={'Search by name'}
+            setDynamicType={setDynamicType}
+            setDynamicKey={setDynamicKey}
           >
           </TableAlt>
         }
@@ -743,6 +755,8 @@ const Dashboard = ({
             deleteType="models/delete-model"
             searchType={'models'}
             searchPlaceholder={'Search by name'}
+            setDynamicType={setDynamicType}
+            setDynamicKey={setDynamicKey}
           >
           </TableAlt>
         }
@@ -783,6 +797,8 @@ const Dashboard = ({
             deleteType="price/delete-price"
             searchType={'prices'}
             searchPlaceholder={'Search by name'}
+            setDynamicType={setDynamicType}
+            setDynamicKey={setDynamicKey}
           >
           </TableAlt>
         }
@@ -823,6 +839,10 @@ const Dashboard = ({
             deleteType="contact/delete-contact"
             searchType={'contacts'}
             searchPlaceholder={'Search by contact name'}
+            setDynamicType={setDynamicType}
+            setDynamicKey={setDynamicKey}
+            setDynamicType={setDynamicType}
+            setDynamicKey={setDynamicKey}
           >
           </TableAlt>
         }
@@ -902,6 +922,8 @@ const Dashboard = ({
             deleteType="phases/delete-phase"
             searchType={'phases'}
             searchPlaceholder={'Search by phase name'}
+            setDynamicType={setDynamicType}
+            setDynamicKey={setDynamicKey}
           >
           </TableAlt>
         }
@@ -984,6 +1006,8 @@ const Dashboard = ({
             deleteType="assignee/delete-assignee"
             searchType={'assignees'}
             searchPlaceholder={'Search by assignee name'}
+            setDynamicType={setDynamicType}
+            setDynamicKey={setDynamicKey}
           >
           </TableAlt>
         }
@@ -1067,6 +1091,8 @@ const Dashboard = ({
             deleteType="activities/delete-activity-status"
             searchType={'activityStatus'}
             searchPlaceholder={'Search by activity status'}
+            setDynamicType={setDynamicType}
+            setDynamicKey={setDynamicKey}
           >
           </TableAlt>
         }
@@ -1178,7 +1204,7 @@ const Dashboard = ({
             generateQR={generateQR}
             resetState={resetType}
             addImages={addImages}
-            multipleImages={multipleImages}
+            multipleFiles={multipleFiles}
             dateNow={dateNow}
             edit={edit}
             setEdit={setEdit}
@@ -1215,7 +1241,7 @@ const Dashboard = ({
             generateQR={generateQR}
             resetState={resetType}
             addImages={addImages}
-            multipleImages={multipleImages}
+            multipleFiles={multipleFiles}
             dateNow={dateNow}
             edit={edit}
             setEdit={setEdit}

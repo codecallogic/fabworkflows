@@ -949,14 +949,16 @@ body {
           margin-right: 1rem;
           border-radius: 1.2rem;
           background-color: #ededec;
-          transition: all 0.5s ease-in-out; }
+          transition: all 0.5s ease-in-out;
+          z-index: 2000; }
           .table-header-controls-item-svg:hover {
             cursor: pointer;
             box-shadow: 0rem 0.3rem 0.5rem 0.5rem rgba(0, 0, 0, 0.2); }
           .table-header-controls-item-svg svg {
             width: 2rem;
             height: 2rem;
-            fill: rgba(253, 126, 60, 0.9); }
+            fill: rgba(253, 126, 60, 0.9);
+            z-index: 1; }
     .table-header-error {
       display: flex;
       align-items: center;

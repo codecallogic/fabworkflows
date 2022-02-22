@@ -132,7 +132,7 @@ const LocationModal = ({
         {!edit && 
         <button 
         className="form-group-button" 
-        onClick={(e) => submitCreate(e, stateData, 'locations', setMessage, 'create_location', setLoading, token, 'locations/create-location', resetType, resetState, allData, setAllData, setDynamicSVG)}
+        onClick={(e) => submitCreate(e, stateData, 'locations', null, setMessage, 'create_location', setLoading, token, 'locations/create-location', resetType, resetState, allData, setAllData, setDynamicSVG)}
         >
            {loading == 'create_location' ? 
             <div className="loading">
@@ -148,7 +148,7 @@ const LocationModal = ({
         {edit == 'location' && 
         <button 
         className="form-group-button" 
-        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'locations', setMessage, 'update_location', setLoading, token, 'locations/update-location', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'locations', setModal))}
+        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'locations', null, setMessage, 'update_location', setLoading, token, 'locations/update-location', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'locations', setModal))}
         >
            {loading == 'update_location' ? 
             <div className="loading">

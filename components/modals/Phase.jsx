@@ -131,7 +131,7 @@ const MaterialModal = ({
         {!edit && 
         <button 
         className="form-group-button" 
-        onClick={(e) => submitCreate(e, stateData, 'phases', setMessage, 'create_phase', setLoading, token, 'phases/create-phase', resetType, resetState, allData, setAllData, setDynamicSVG)}
+        onClick={(e) => submitCreate(e, stateData, 'phases', null, setMessage, 'create_phase', setLoading, token, 'phases/create-phase', resetType, resetState, allData, setAllData, setDynamicSVG)}
         >
            {loading == 'create_phase' ? 
             <div className="loading">
@@ -147,7 +147,7 @@ const MaterialModal = ({
         {edit == 'phase' && 
         <button 
         className="form-group-button" 
-        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'phases', setMessage, 'update_phase', setLoading, token, 'phases/update-phase', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'phases', setModal))}
+        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'phases', null, setMessage, 'update_phase', setLoading, token, 'phases/update-phase', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'phases', setModal))}
         >
            {loading == 'update_phase' ? 
             <div className="loading">

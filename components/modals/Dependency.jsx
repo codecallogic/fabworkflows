@@ -125,7 +125,7 @@ const DependencyModal = ({
         </span>
         {edit == 'dependency' && 
           <div onClick={(e) => (
-            submitUpdate(e, stateData, 'activities', setMessage, 'update_dependency', setLoading, token, 'activities/delete-activity-dependency', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'activities', setModal)
+            submitUpdate(e, stateData, 'activities', null, setMessage, 'update_dependency', setLoading, token, 'activities/delete-activity-dependency', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'activities', setModal)
           )}>
             <SVG svg={'thrash-can'}></SVG>
           </div>
@@ -308,7 +308,7 @@ const DependencyModal = ({
         className="form-group-button" 
         onClick={(e) => (
           e.preventDefault(),
-          submitUpdate(e, stateData, 'activities', setMessage, 'create_dependency', setLoading, token, 'activities/update-activity-dependency', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'activities', setModal)
+          submitUpdate(e, stateData, 'activities', null, setMessage, 'create_dependency', setLoading, token, 'activities/update-activity-dependency', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'activities', setModal)
         )}
         >
             {loading == 'create_dependency' ? 
@@ -327,7 +327,7 @@ const DependencyModal = ({
         className="form-group-button" 
         onClick={(e) => (
           e.preventDefault(), 
-          submitUpdate(e, stateData, 'activities', setMessage, 'update_dependency', setLoading, token, 'activities/update-activity-dependency', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'activities', setModal)
+          submitUpdate(e, stateData, 'activities', null, setMessage, 'update_dependency', setLoading, token, 'activities/update-activity-dependency', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'activities', setModal)
         )}
         >
             {loading == 'update_dependency' ? 

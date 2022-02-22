@@ -268,7 +268,7 @@ const ActivityStatusModal = ({
           {!edit && 
           <button 
           className="form-group-button" 
-          onClick={(e) => submitCreate(e, stateData, 'activityStatus', setMessage, 'create_activity_status', setLoading, token, 'activities/create-activity-status', resetType, resetState, allData, setAllData, setDynamicSVG)}
+          onClick={(e) => submitCreate(e, stateData, 'activityStatus', null, setMessage, 'create_activity_status', setLoading, token, 'activities/create-activity-status', resetType, resetState, allData, setAllData, setDynamicSVG)}
           >
               {loading == 'create_activity_status' ? 
               <div className="loading">
@@ -284,7 +284,7 @@ const ActivityStatusModal = ({
           {edit == 'activityStatus' && 
           <button 
           className="form-group-button" 
-          onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'activityStatus', setMessage, 'update_activity_status', setLoading, token, 'activities/update-activity-status', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'activityStatus', setModal))}
+          onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'activityStatus', null, setMessage, 'update_activity_status', setLoading, token, 'activities/update-activity-status', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'activityStatus', setModal))}
           >
               {loading == 'update_activity_status' ? 
               <div className="loading">
