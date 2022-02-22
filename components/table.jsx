@@ -273,14 +273,19 @@ const Table = ({
                   Array.isArray(item[key]) && item[key].length > 0 && matchPattern.test(item[key][0].location)
                   ? 
                   <a href={`${item[key][0].location}`} target="_blank">
-                    <img src={`${item[key][0].location}`}></img>
+                    { key == 'files' 
+                      ?
+                      <img src="https://static.thenounproject.com/png/47347-200.png"></img>
+                      :
+                      <img src={`${item[key][0].location}`}></img>
+                    }
                   </a> 
                   : null
                 }
                 {
                   Array.isArray(item[key]) && item[key].length > 0 
                   ? 
-                  tableDropdowns.includes(typeOfData) ?
+                  tableDropdowns.includes(typeOfData) && key !== 'files' ?
                   <>
                     <div className="table-rows-item-dropdown">
                       <span onClick={() => 
@@ -303,7 +308,7 @@ const Table = ({
                             >
                               {data.name ? 
                               data.name.substring(0, 10) : 
-                              data.quote_name.substring(0, 10) ?
+                              data.quote_name ?
                               data.quote_name.substring(0, 10) : 
                               data.contact_name.substring(0, 10)
                               }
