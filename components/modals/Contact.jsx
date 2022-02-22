@@ -421,7 +421,7 @@ const PriceListModal = ({
 
 
       <div className="addFieldItems-modal-box-footer">
-        {!edit && 
+        {edit == '' || edit == 'jobs' && 
         <button 
         className="form-group-button" 
         onClick={(e) => dynamicType 

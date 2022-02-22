@@ -1,6 +1,7 @@
-import {useState, useEffect, useRef} from 'react'
+import { useState, useEffect, useRef } from 'react'
 import SVG from '../../files/svgs'
-import {manageFormFields} from '../../helpers/forms'
+import { manageFormFields } from '../../helpers/forms'
+import { multipleFiles } from '../../helpers/validations'
 
 const Form = ({
   token,
@@ -20,7 +21,6 @@ const Form = ({
   validatePrice,
   validateDate,
   generateQR,
-  multipleImages,
   dateNow,
 
   //// DATA
@@ -40,7 +40,7 @@ const Form = ({
   ///// CRUD
   submitCreate,
   submitUpdate,
-  submitDeleteImage
+  submitDeleteFile
 }) => {
 
   const createType = 'CREATE_SLAB'
@@ -87,9 +87,9 @@ const Form = ({
             id="save" 
             className="table-header-controls-item" 
             onClick={(e) => edit == typeOfData ? 
-              submitUpdate(e, stateData, 'slabs', setMessage, 'create_slab', setLoading, token, 'slabs/update-slab', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'slabs')
+              submitUpdate(e, stateData, 'slabs', 'images', setMessage, 'create_slab', setLoading, token, 'slabs/update-slab', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'slabs')
               : 
-              submitCreate(e, stateData, 'slabs', setMessage, 'create_slab', setLoading, token, 'slabs/create-slab', resetType, resetState, allData, setAllData, setDynamicSVG) 
+              submitCreate(e, stateData, 'slabs', 'images', setMessage, 'create_slab', setLoading, token, 'slabs/create-slab', resetType, resetState, allData, setAllData, setDynamicSVG) 
             }
             >
               {loading == 'create_slab' ? 
@@ -131,7 +131,9 @@ const Form = ({
               <input
               onClick={() => setInputDropdown('slab_material')} 
               value={manageFormFields(stateData.material, 'name')} 
-              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'material', e.target.value))}/>
+              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'material', e.target.value))}
+              readOnly
+              />
               <label 
               className={`input-label ` + (
                 stateData.material.length > 0 || 
@@ -170,7 +172,9 @@ const Form = ({
                 <input 
                 onClick={() => setInputDropdown('slab_color')} 
                 value={manageFormFields(stateData.color, 'name')} 
-                onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'color', e.target.value))}/>
+                onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'color', e.target.value))}
+                readOnly
+                />
                 <label 
                  className={`input-label ` + (
                   stateData.color.length > 0 || 
@@ -650,7 +654,7 @@ const Form = ({
               type="file" 
               accept="image/*" 
               multiple
-              onChange={(e) => multipleImages(e, stateData, setMessage, imagesType, null, addImages)}
+              onChange={(e) => multipleFiles(e, stateData, 'images', setMessage, imagesType, null, addImages)}
               />
             </label>
           </div>
@@ -683,7 +687,7 @@ const Form = ({
                   src={item.location}
                   />
                   <span onClick={(e) => (e.stopPropagation(), loading !== 'delete_image' ? 
-                    submitDeleteImage(e, item, 'images', createType, stateMethod, stateData, 'slabs', setMessage, 'delete_image', setLoading, token, 'slabs/delete-image', allData, setAllData, setDynamicSVG, editData) 
+                    submitDeleteFile(e, item, 'images', createType, stateMethod, stateData, 'slabs', setMessage, 'delete_image', setLoading, token, 'slabs/delete-image', allData, setAllData, setDynamicSVG, editData) 
                     : null)
                   }>
                   { loading == 'delete_image' ? 

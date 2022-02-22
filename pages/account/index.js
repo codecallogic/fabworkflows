@@ -39,7 +39,7 @@ import JobForm from '../../components/forms/jobForm'
 import { 
   submitCreate, 
   submitUpdate, 
-  submitDeleteImage, 
+  submitDeleteFile, 
   submitDeleteRow, 
   submitSearch, 
   resetDataType 
@@ -247,11 +247,12 @@ const Dashboard = ({
     els.forEach( (el) => { el.checked = false })
   }
 
-  const editData = (keyType, caseType) => {
+  const editData = (keyType, caseType, id) => {
+    console.log(id)
     let stateMethods = new Object()
     stateMethods.createType = createType
 
-    return populateEditData(allData, keyType, caseType, stateMethods, selectID)
+    return populateEditData(allData, keyType, caseType, stateMethods, id ? id : selectID)
   }
 
   useEffect(() => {
@@ -259,6 +260,8 @@ const Dashboard = ({
   }, [router.query.change])
 
   const extractingStateData = (stateData) => {
+    console.log(dynamicType)
+    console.log(dynamicKey)
     createType(dynamicType, dynamicKey, stateData)
     setControls('')
   }
@@ -1140,13 +1143,12 @@ const Dashboard = ({
             generateQR={generateQR}
             resetState={resetType}
             addImages={addImages}
-            multipleImages={multipleImages}
             dateNow={dateNow}
             edit={edit}
             setEdit={setEdit}
             submitUpdate={submitUpdate}
             changeView={changeView}
-            submitDeleteImage={submitDeleteImage}
+            submitDeleteFile={submitDeleteFile}
             editData={editData}
           >
           </SlabForm>
@@ -1182,7 +1184,7 @@ const Dashboard = ({
             setEdit={setEdit}
             submitUpdate={submitUpdate}
             changeView={changeView}
-            submitDeleteImage={submitDeleteImage}
+            submitDeleteFile={submitDeleteFile}
             editData={editData}
           >
           </ProductForm>
@@ -1219,7 +1221,7 @@ const Dashboard = ({
             setEdit={setEdit}
             submitUpdate={submitUpdate}
             changeView={changeView}
-            submitDeleteImage={submitDeleteImage}
+            submitDeleteFile={submitDeleteFile}
             editData={editData}
           >
           </RemnantForm>
@@ -1288,6 +1290,8 @@ const Dashboard = ({
             setControls={setControls} 
             resetCheckboxes={resetCheckboxes}
             extractingStateData={extractingStateData}
+            addImages={addImages}
+            submitDeleteFile={submitDeleteFile}
           >
           </JobForm>
         }
@@ -1605,7 +1609,7 @@ const Dashboard = ({
               setAllData={setAllData}
               submitUpdate={submitUpdate}
               changeView={changeView}
-              submitDeleteImage={submitDeleteImage}
+              submitDeleteFile={submitDeleteFile}
               editData={editData}
             >
             </PriceListModal>
@@ -1633,7 +1637,7 @@ const Dashboard = ({
               setAllData={setAllData}
               submitUpdate={submitUpdate}
               changeView={changeView}
-              submitDeleteImage={submitDeleteImage}
+              submitDeleteFile={submitDeleteFile}
               editData={editData}
             >
             </ContactModal>
@@ -1660,7 +1664,7 @@ const Dashboard = ({
               setAllData={setAllData}
               submitUpdate={submitUpdate}
               changeView={changeView}
-              submitDeleteImage={submitDeleteImage}
+              submitDeleteFile={submitDeleteFile}
               editData={editData}
             >
             </PrintModal>

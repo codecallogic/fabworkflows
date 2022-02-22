@@ -9,6 +9,7 @@ const initialState = {
   accountAddress: '',
   quotes: [],
   activities: [],
+  files: []
 }
 
 export const jobReducer = (state = initialState, action) => {
@@ -40,6 +41,45 @@ export const jobReducer = (state = initialState, action) => {
       return {
         ...state,
         [action.name]: newArray
+      }
+      break;
+
+    case 'COMPLETE_ACTIVITY_STATUS':
+      let activitiesComplete = [...state[action.name]]
+
+      activitiesComplete.forEach( (item) => {
+        if(item._id == action.value._id){
+          item.status = 'complete'
+        }
+      })
+      
+      return {
+        ...state,
+        [action.name]: activitiesComplete
+      }
+      
+      break;
+
+    case 'CANCEL_ACTIVITY_STATUS':
+      let activitiesCancelled = [...state[action.name]]
+
+      activitiesCancelled.forEach( (item) => {
+        if(item._id == action.value._id){
+          item.status = 'cancelled'
+        }
+      })
+      
+      return {
+        ...state,
+        [action.name]: activitiesCancelled
+      }
+      
+      break;
+
+    case 'ADD_ARRAY_WITH_ITEMS':
+      return {
+        ...state,
+        [action.name]: [...action.value]
       }
       break;
     

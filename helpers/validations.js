@@ -9,7 +9,7 @@ export {
   validatePrice,
   validateDate,
   generateQR,
-  multipleImages,
+  multipleFiles,
   singleImage,
   dateNow,
   phoneNumber,
@@ -215,14 +215,15 @@ const generateQR = async (e, type, stateData, caseType, reduxMethod, setMessage,
 
 
 
-const multipleImages = (e, stateData, setMessage, caseType, key, reduxMethod) => {
+const multipleFiles = (e, stateData, dataType, setMessage, caseType, key, reduxMethod) => {
   
-  let imageMax = stateData.images.length + e.target.files.length
+  let filesMax = stateData[dataType].length + e.target.files.length
 
-  if(imageMax > 3) return (
-    setMessage('Max number of images is 3'), 
+  if(filesMax > 3) return (
+    setMessage('Max number of items is 3'), 
     window.scrollTo(0,0)
   )
+
 
   if(e.target.files.length > 0){
     let array = Array.from(e.target.files)
@@ -233,7 +234,7 @@ const multipleImages = (e, stateData, setMessage, caseType, key, reduxMethod) =>
     })
   }
 
-  reduxMethod(caseType, key, [...stateData.images, ...e.target.files])
+  reduxMethod(caseType, key, [...stateData[dataType], ...e.target.files])
 }
 
 const singleImage = (e, stateData, setMessage, caseType, key, reduxMethod) => {

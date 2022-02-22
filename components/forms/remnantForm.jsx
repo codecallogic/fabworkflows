@@ -41,7 +41,7 @@ const Form = ({
   ///// CRUD
   submitCreate,
   submitUpdate,
-  submitDeleteImage
+  submitDeleteFile
 }) => {
 
   const createType = 'CREATE_REMNANT'
@@ -502,7 +502,7 @@ const Form = ({
                   src={item.location}
                   />
                   <span onClick={(e) => (e.stopPropagation(), loading !== 'delete_image' ? 
-                    submitDeleteImage(e, item, 'images', createType, stateMethod, stateData, 'remnants', setMessage, 'delete_image', setLoading, token, 'remnants/delete-image', allData, setAllData, setDynamicSVG, editData) 
+                    submitDeleteFile(e, item, 'images', createType, stateMethod, stateData, 'remnants', setMessage, 'delete_image', setLoading, token, 'remnants/delete-image', allData, setAllData, setDynamicSVG, editData) 
                     : null)
                   }>
                     { loading == 'delete_image' ? 

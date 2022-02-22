@@ -40,7 +40,7 @@ const Form = ({
   ///// CRUD
   submitCreate,
   submitUpdate,
-  submitDeleteImage
+  submitDeleteFile
 }) => {
 
   const createType = 'CREATE_PRODUCT'
@@ -423,7 +423,7 @@ const Form = ({
                   src={item.location}
                   />
                   <span onClick={(e) => (e.stopPropagation(), loading !== 'delete_image' ? 
-                    submitDeleteImage(e, item, 'images', createType, stateMethod, stateData, 'products', setMessage, 'delete_image', setLoading, token, 'products/delete-image', allData, setAllData, setDynamicSVG, editData) 
+                    submitDeleteFile(e, item, 'images', createType, stateMethod, stateData, 'products', setMessage, 'delete_image', setLoading, token, 'products/delete-image', allData, setAllData, setDynamicSVG, editData) 
                     : null)
                   }>
                     { loading == 'delete_image' ? 

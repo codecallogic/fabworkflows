@@ -198,11 +198,15 @@ body {
       flex-wrap: wrap; }
       .form-group-gallery-link {
         display: flex;
+        flex-direction: column;
         align-items: center;
         margin-right: 1rem;
         box-shadow: 0.3rem 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.2);
         border-radius: 1.2rem;
         transition: all 0.5s ease-in-out;
+        font-size: 1.2rem;
+        font-weight: 400;
+        height: min-content;
         margin-bottom: 1rem;
         position: relative; }
         .form-group-gallery-link:hover {

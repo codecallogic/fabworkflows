@@ -8,7 +8,7 @@ export {
   manageFormFields,
   submitCreate,
   submitUpdate,
-  submitDeleteImage,
+  submitDeleteFile,
   submitDeleteRow,
   submitSearch,
   resetDataType
@@ -50,7 +50,7 @@ const manageFormFields = (data, key) => {
   
 }
 
-const submitCreate = async (e, stateData, type, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG) => {
+const submitCreate = async (e, stateData, type, fileType, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG) => {
   e.preventDefault()
 
   for(let i = 0; i < formFields[type].length; i++){
@@ -65,8 +65,8 @@ const submitCreate = async (e, stateData, type, setMessage, loadingType, setLoad
   setLoading(loadingType)
   let data = new FormData()
   
-  if(stateData.images && stateData.images.length > 0){
-    stateData.images.forEach((item) => {
+  if(stateData[fileType] && stateData[fileType].length > 0){
+    stateData[fileType].forEach((item) => {
       let fileID = nanoid()
       data.append('file', item, `${type}-${fileID}.${item.name.split('.')[1]}`)
     })
@@ -74,7 +74,7 @@ const submitCreate = async (e, stateData, type, setMessage, loadingType, setLoad
 
   if(stateData){
     for(let key in stateData){
-      if(key !== 'images') data.append(key, JSON.stringify(stateData[key]))
+      if(key !== fileType) data.append(key, JSON.stringify(stateData[key]))
     }
   }
 
@@ -101,7 +101,7 @@ const submitCreate = async (e, stateData, type, setMessage, loadingType, setLoad
   }
 }
 
-const submitUpdate = async (e, stateData, type, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType, setModal) => {
+const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType, setModal) => {
   
   for(let i = 0; i < formFields[type].length; i++){
     
@@ -110,13 +110,13 @@ const submitUpdate = async (e, stateData, type, setMessage, loadingType, setLoad
     if(!stateData[formFields[type][i]]) return (setDynamicSVG('notification'), setMessage(`${formFields[type][i].replace('_', ' ')} is required`))
 
   }
-
+  
   setMessage('')
   setLoading(loadingType)
   let data = new FormData()
   
-  if(stateData.images && stateData.images.length > 0){
-    stateData.images.forEach((item) => {
+  if(stateData[filesType] && stateData[filesType].length > 0){
+    stateData[filesType].forEach((item) => {
       let fileID = nanoid()
       if(!item.key) return data.append('file', item, `${type}-${fileID}.${item.name.split('.')[1]}`)
     })
@@ -149,18 +149,18 @@ const submitUpdate = async (e, stateData, type, setMessage, loadingType, setLoad
   }
 }
 
-const submitDeleteImage = async (e, imageItem, key, caseType, stateMethod, stateData, type, setMessage, loadingType, setLoading, token, path, allData, setAllData, setDynamicSVG, editData, setModal) => {
+const submitDeleteFile = async (e, fileItem, key, caseType, stateMethod, stateData, type, setMessage, loadingType, setLoading, token, path, allData, setAllData, setDynamicSVG, editData, setModal, selectID) => {
  
 
-  if(!imageItem.key){
-    let filtered = stateData.images.filter((item) => item.location !== imageItem.location)
+  if(!fileItem.key){
+    let filtered = stateData[key].filter((item) => item.location !== fileItem.location)
     return stateMethod(caseType, key, filtered)
   }
 
-  setLoading('delete_image')
+  setLoading(loadingType)
 
   try {
-    const responseDelete = await axios.post(`${API}/${path}`, {key: imageItem.key, stateData: stateData}, {
+    const responseDelete = await axios.post(`${API}/${path}`, {key: fileItem.key, stateData: stateData}, {
       headers: {
         Authorization: `Bearer ${token}`,
         contentType: 'multipart/form-data'
@@ -169,13 +169,13 @@ const submitDeleteImage = async (e, imageItem, key, caseType, stateMethod, state
     setLoading('')
     allData[type]= responseDelete.data
     setAllData(allData)
-    editData(type, caseType)
+    editData(type, caseType, selectID)
     if(setModal) setModal('')
     
   } catch (error) {
     console.log(error)
     setLoading('')
-    if(error)  error.response ? error.response.statusText == 'Unauthorized' ? (setDynamicSVG('notification'), setMessage(error.response.statusText), window.location.href = '/login') : (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred with updating item'))
+    if(error)  error.response ? error.response.statusText == 'Unauthorized' ? (setDynamicSVG('notification'), setMessage(error.response.statusText), window.location.href = '/login') : (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred with deleting item'))
   }
   
 }

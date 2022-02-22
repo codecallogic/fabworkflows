@@ -14,7 +14,8 @@ import {
   generateRandomNumber, 
   returnIfTrue, 
   checkObjectValues, 
-  validateNumber
+  validateNumber,
+  multipleFiles
 } from '../../helpers/validations'
 
 const QuoteForm = ({
@@ -53,15 +54,18 @@ const QuoteForm = ({
   changeView,
   setDynamicType,
   setDynamicKey,
+  addImages,
 
   ///// CRUD
   submitCreate,
-  submitUpdate
+  submitUpdate,
+  submitDeleteFile
 }) => {
 
   const createType                  = 'CREATE_JOB'
   const resetType                   = 'RESET_JOB'
   const resetTypeContact            = 'RESET_CONTACT'
+  const filesType                   = 'ADD_ARRAY_WITH_ITEMS'
   const myRefs = useRef(null)
   const [loadingColor, setLoadingColor] = useState('black')
   const [input_dropdown, setInputDropdown] = useState('')
@@ -128,9 +132,9 @@ const QuoteForm = ({
               ?
               setMessage('Cannot update quotes with payments processed')
               :
-              submitUpdate(e, stateData, 'jobs', setMessage, 'update_job', setLoading, token, 'jobs/update-job', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'jobs')
+              submitUpdate(e, stateData, 'jobs', 'files', setMessage, 'update_job', setLoading, token, 'jobs/update-job', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'jobs')
               : 
-              submitCreate(e, stateData, 'jobs', setMessage, 'create_job', setLoading, token, 'jobs/create-job', resetType, resetState, allData, setAllData, setDynamicSVG)  
+              submitCreate(e, stateData, 'jobs', 'files', setMessage, 'create_job', setLoading, token, 'jobs/create-job', resetType, resetState, allData, setAllData, setDynamicSVG)  
             }
             >
               { loading == 'create_job' || loading == 'update_job' ? 
@@ -327,8 +331,7 @@ const QuoteForm = ({
               setModal('new_contact'),
               setDynamicType('CREATE_JOB'),
               setDynamicKey('jobAddress'),
-              resetState(resetTypeContact),
-              edit !== 'contact' ? setEdit('') : null
+              resetState(resetTypeContact)
             )}
           >
             <SVG svg={'location'}></SVG>
@@ -382,8 +385,7 @@ ${returnIfTrue(stateData.jobAddress.contact_notes)}
               setModal('new_contact'),
               setDynamicType('CREATE_JOB'),
               setDynamicKey('accountAddress'),
-              resetState(resetTypeContact),
-              edit !== 'contact' ? setEdit('') : null
+              resetState(resetTypeContact)
             )}
           >
             <SVG svg={'location'}></SVG>
@@ -494,8 +496,69 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           extractingStateData={extractingStateData}
           dynamicType={'CREATE_JOB_ARRAY_ITEM'}
           dynamicKey={'activities'}
+          completeControl={true}
+          cancelControl={true}
+          stateMethod={stateMethod}
         >
-      </Table>  
+      </Table>
+
+      <div className="form-box" style={{width: '100%', padding: '0 2rem'}}>
+          <div className="form-box-heading">
+            <label htmlFor="imageFiles" className="form-box-heading-item">
+              <SVG svg={'upload'}></SVG> Upload Files
+              <input 
+              id="imageFiles" 
+              type="file" 
+              accept="*" 
+              multiple
+              onChange={(e) => multipleFiles(e, stateData, 'files', setMessage, filesType, 'files', addImages)}
+              />
+            </label>
+          </div>
+          <div className="form-box-container">
+            <div className="form-group-gallery">
+              { stateData.files.length == 0 &&
+                 <a 
+                 className="form-group-gallery-link"
+                 target="_blank" 
+                 rel="noreferrer"
+                 style={{width: '25%'}}
+                 >
+                   <img 
+                   className="form-group-gallery-image"
+                   src='https://via.placeholder.com/300'
+                   />
+                 </a>
+              }
+              {stateData.files.length > 0 && stateData.files.map((item, idx) => (
+                <a 
+                  key={idx} 
+                  onClick={() => window.open(item.location, '_blank')}
+                  className="form-group-gallery-link"
+                  target="_blank" 
+                  rel="noreferrer"
+                  style={{width: '25%'}}
+                >
+                  <img 
+                    className="form-group-gallery-image"
+                    src="https://static.thenounproject.com/png/47347-200.png"
+                  />
+                  <span onClick={(e) => (e.stopPropagation(), loading !== 'delete_file' ? 
+                    submitDeleteFile(e, item, 'files', createType, stateMethod, stateData, 'jobs', setMessage, 'delete_file', setLoading, token, 'jobs/delete-file', allData, setAllData, setDynamicSVG, editData, null, stateData._id) 
+                    : null)
+                  }>
+                  { loading == 'delete_file' ? 
+                    <div className="loading-spinner"></div>
+                    :
+                    <SVG svg={'close'}></SVG>
+                  }
+                  </span>
+                  {item.name ? item.name : item.location.substring(50, 70)}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div> 
       
       </form>
     </div>

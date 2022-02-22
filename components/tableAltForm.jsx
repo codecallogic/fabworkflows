@@ -31,6 +31,9 @@ const Table = ({
   editModalType,
   dynamicType,
   dynamicKey,
+  completeControl,
+  cancelControl,
+  stateMethod,
 
   //// DATA
   componentData,
@@ -64,21 +67,22 @@ const Table = ({
           
           if(event.target.id == 'checkbox') return
           if(item.contains(event.target)) return
+          if(event.target.getAttribute('id') == 'delete') return resetCheckboxes()
           if(event.target == document.getElementById('plus')) return
-          if(event.target == document.getElementById('delete')) return
+          if(event.target == document.getElementById('delete')) return resetCheckboxes()
           if(event.target == document.getElementById('edit')) return
+          if(event.target == document.getElementById('complete')) return
+          if(event.target == document.getElementById('cancel')) return
           
           resetCheckboxes()
           setSelectID('')
+          setControls('')
         }
       })
     }
   }
 
-  useEffect(() => {   
-    setDynamicType(dynamicType)
-    setDynamicKey(dynamicKey)
-     
+  useEffect(() => {    
     document.addEventListener("click", handleClickOutside, true);
 
     return () => {
@@ -108,6 +112,8 @@ const Table = ({
             className="table-header-controls-item-svg" 
             onClick={() => (
                 setModal(modalType),
+                setDynamicType(dynamicType),
+                setDynamicKey(dynamicKey),
                 setControls(''), 
                 setMessage(''),
                 resetCheckboxes()
@@ -116,14 +122,43 @@ const Table = ({
               <SVG svg={'plus'}></SVG>
             </div>
             {controls == controlsType && 
-            <div 
-              id="delete" 
-              className="table-header-controls-item-svg" 
-              onClick={(e) => 
-              extractingStateData(currentItem)
-              }>
-               <SVG svg={'thrash-can'}></SVG>
-            </div>
+              <>
+              <div 
+                id="delete" 
+                className="table-header-controls-item-svg" 
+                onClick={(e) => 
+                  extractingStateData(currentItem)
+                }>
+                <SVG onClick={() => {extractingStateData(currentItem)}} svg={'thrash-can'} id={'delete'}></SVG>
+              </div>
+              {completeControl &&
+                <div 
+                  id="complete" 
+                  className="table-header-controls-item" 
+                  onClick={() => (
+                    stateMethod('COMPLETE_ACTIVITY_STATUS', 'activities', currentItem),
+                    setControls(''), 
+                    resetCheckboxes()
+                  )}
+                >
+                  Complete
+                </div>
+              }
+              {cancelControl &&
+                <div 
+                  id="cancel" 
+                  className="table-header-controls-item" 
+                  onClick={() => (
+                    stateMethod('CANCEL_ACTIVITY_STATUS', 'activities', currentItem),
+                    setControls(''), 
+                    resetCheckboxes()
+                  )}
+                >
+                  Cancel
+                </div>
+              }
+              
+              </>
             }
           </div>
         { message && 
@@ -180,7 +215,9 @@ const Table = ({
                 type="checkbox" 
                 onClick={(e) => e.target.checked == true ?  
                   (
-                  setMessage(''), 
+                  setMessage(''),
+                  setDynamicType(dynamicType),
+                  setDynamicKey(dynamicKey),
                   handleSelect(e, item._id), 
                   setCurrentItem(item)
                   ) 
