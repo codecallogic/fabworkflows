@@ -85,6 +85,7 @@ const QuoteForm = ({
   }
 
   useEffect(() => {
+    !stateData.quote_date ? stateMethod(createType, 'quote_date', formatDate(new Date())) : null
     !stateData.quote_number ? stateMethod(createType, 'quote_number', generateRandomNumber()) : null
     
     document.addEventListener("click", handleClickOutside, true);
@@ -535,7 +536,7 @@ const QuoteForm = ({
           </div>
         </div>
 
-        <div className="form-box-heading">Quote Detail</div>
+        <div className="form-box-heading">Quote Revision</div>
         <div className="form-box-container">
           <div className="form-group">
             <input 
@@ -550,7 +551,7 @@ const QuoteForm = ({
               : ''
             )}
             htmlFor="quote_date">
-              Delivery Date
+              Quote Date
             </label>
             <div onClick={() => input_dropdown == 'calendar' ? setInputDropdown('') : setInputDropdown('calendar')}>
               <SVG svg={'calendar'}></SVG>

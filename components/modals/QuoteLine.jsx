@@ -198,10 +198,36 @@ const QuoteLineModal = ({
           { typeForm == '' && 
             <>
             <div className="form-group-button" onClick={() => (
+              null
+            )}>
+              Materials
+            </div>
+            <div className="form-group-button" onClick={() => (
               stateMethod(changeFormType, null, 'product'),
               stateMethod(createType, 'typeForm', 'product')
             )}>
-              Product
+              Products
+            </div>
+            <div className="form-group-button" onClick={() => (
+              null
+            )}>
+              Cutouts
+            </div>
+            <div className="form-group-button" onClick={() => (
+              null
+            )}>
+              Edges
+            </div>
+            <div className="form-group-button" onClick={() => (
+              null
+            )}>
+              Services
+            </div>
+            <div className="form-group-button" onClick={() => (
+              stateMethod(changeFormType, null, 'miscellaneous'),
+              stateMethod(createType, 'typeForm', 'miscellaneous')
+            )}>
+              Miscellaneous Item
             </div>
             <div className="form-group-button" onClick={() => (
               stateMethod(changeFormType, null, 'priceList'),
@@ -210,10 +236,9 @@ const QuoteLineModal = ({
               Price List
             </div>
             <div className="form-group-button" onClick={() => (
-              stateMethod(changeFormType, null, 'miscellaneous'),
-              stateMethod(createType, 'typeForm', 'miscellaneous')
+              null
             )}>
-              Miscellaneous Item
+              Text
             </div>
             </>
           }

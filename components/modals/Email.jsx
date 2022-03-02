@@ -95,7 +95,7 @@ const EmailModal = ({
             {edit == 'material' ? 
             '' 
             : 
-            'Send Email'
+            'Email'
             }
         </span>
         <div onClick={() => (setModal(''), resetState(resetType), setMessage(''))}>

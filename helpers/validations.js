@@ -343,13 +343,15 @@ const addressSelect = async (e, key, createType, reduxMethod, id, keyTwo, keyThr
 }
 
 const formatDate = (e) => {
-
+  console.log(e)
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  
-  var month = monthNames[e.getUTCMonth()]
+  // console.log(e.getUTCMonth() + 1)
+  var month = e.getUTCMonth() + 1
+  // var month = monthNames[e.getUTCMonth()]
   var day = e.getUTCDate()
   var year = e.getUTCFullYear()
-  return `${month} ${day}, ${year}`
+  
+  return `${+month}/${day}/${year}`
 }
 
 const numberType = (e, type) => {
