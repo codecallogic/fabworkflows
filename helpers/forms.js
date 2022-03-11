@@ -26,7 +26,7 @@ const formFields = {
   models: ['name'],
   categories: ['name'],
   remnants: ['name'],
-  prices: ['brand', 'price', 'model'],
+  prices: ['supplier', 'price'],
   contacts: ['contact_name', 'phone', 'email'],
   quotes: ['contact_name', 'phone', 'email', 'quote_lines', 'quote_subtotal', 'quote_total', 'quote_balance', 'quote_date', 'quote_name', 'quote_number'],
   payment: ['name', 'address', 'city', 'state', 'zip_code'],
@@ -110,6 +110,8 @@ const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingTy
     if(!stateData[formFields[type][i]]) return (setDynamicSVG('notification'), setMessage(`${formFields[type][i].replace('_', ' ')} is required`))
 
   }
+  
+  console.log(type, filesType, setMessage, loadingType)
   
   setMessage('')
   setLoading(loadingType)

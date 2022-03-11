@@ -18,6 +18,8 @@ export {
   numberType,
   filterProductSearch,
   filterPriceListSearch,
+  filterSlabSearch,
+  filterRemnantSearch,
   validatePDFContent,
   validateZipCode,
   generateRandomNumber,
@@ -381,15 +383,41 @@ const filterProductSearch = (item, search) => {
 
 }
 
-const filterPriceListSearch = (item) => {
+const filterPriceListSearch = (item, search) => {
 
-  if( manageFormFields(item.brand[0], 'name') && manageFormFields(item.brand[0], 'name').toLowerCase().includes(search.toLowerCase())) 
+  if( manageFormFields(item.supplier[0], 'name') && manageFormFields(item.supplier[0], 'name').toLowerCase().includes(search.toLowerCase())) 
     return true
 
   if( manageFormFields(item.color[0], 'name') && manageFormFields(item.color[0], 'name').toLowerCase().includes(search.toLowerCase())) 
     return true
 
   if( manageFormFields(item.model[0], 'name') && manageFormFields(item.model[0], 'name').toLowerCase().includes(search.toLowerCase())) 
+    return true
+
+}
+
+const filterSlabSearch = (item, search) => {
+
+  if( manageFormFields(item.material[0], 'name') && manageFormFields(item.material[0], 'name').toLowerCase().includes(search.toLowerCase())) 
+    return true
+
+  if( manageFormFields(item.color[0], 'name') && manageFormFields(item.color[0], 'name').toLowerCase().includes(search.toLowerCase())) 
+    return true
+
+  if( manageFormFields(item.supplier[0], 'name') && manageFormFields(item.supplier[0], 'name').toLowerCase().includes(search.toLowerCase())) 
+    return true
+
+}
+
+const filterRemnantSearch = (item, search) => {
+
+  if( manageFormFields(item.material[0], 'name') && manageFormFields(item.material[0], 'name').toLowerCase().includes(search.toLowerCase())) 
+    return true
+
+  if( manageFormFields(item.color[0], 'name') && manageFormFields(item.color[0], 'name').toLowerCase().includes(search.toLowerCase())) 
+    return true
+
+  if( item.shape && item.shape.toLowerCase().includes(search.toLowerCase())) 
     return true
 
 }

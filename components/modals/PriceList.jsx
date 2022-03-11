@@ -169,34 +169,36 @@ const PriceListModal = ({
               )}
             />
           </div>
-          
+
           <div className="form-group">
             <input
-            onClick={() => setInputDropdown('price_brand')} 
-            value={manageFormFields(stateData.brand, 'name')} 
-            onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'brand', e.target.value))}/>
+            onClick={() => setInputDropdown('price_supplier')} 
+            value={manageFormFields(stateData.supplier, 'name')} 
+            onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'supplier', e.target.value))}
+            readOnly
+            />
             <label 
             className={`input-label ` + (
-              stateData.brand.length > 0 || 
-              typeof stateData.brand == 'object' 
+              stateData.supplier.length > 0 || 
+              typeof stateData.supplier == 'object' 
               ? ' labelHover' 
               : ''
             )}
-            htmlFor="brand">
-              Brand
+            htmlFor="supplier">
+              Supplier
             </label>
             <div 
-            onClick={() => setInputDropdown('price_brand')}><SVG svg={'dropdown-arrow'}></SVG>
+            onClick={() => setInputDropdown('price_supplier')}><SVG svg={'dropdown-arrow'}></SVG>
             </div>
-            { input_dropdown == 'price_brand' &&
+            { input_dropdown == 'price_supplier' &&
               <div 
               className="form-group-list" 
               ref={myRefs}>
-                {allData && allData.brands.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                {allData && allData.suppliers.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
                 <div 
                 key={idx} 
                 className="form-group-list-item" 
-                onClick={(e) => (stateMethod(createType, 'brand', item), setInputDropdown(''))}>
+                onClick={(e) => (stateMethod(createType, 'supplier', item), setInputDropdown(''))}>
                   {item.name}
                 </div>
                 ))}
@@ -204,12 +206,13 @@ const PriceListModal = ({
             }
           </div>
 
-
           <div className="form-group">
             <input
             onClick={() => setInputDropdown('price_model')} 
             value={manageFormFields(stateData.model, 'name')} 
-            onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'model', e.target.value))}/>
+            onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'model', e.target.value))}
+            readOnly
+            />
             <label 
             className={`input-label ` + (
               stateData.model.length > 0 || 
@@ -244,7 +247,9 @@ const PriceListModal = ({
             <input
             onClick={() => setInputDropdown('price_color')} 
             value={manageFormFields(stateData.color, 'name')} 
-            onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'color', e.target.value))}/>
+            onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'color', e.target.value))}
+            readOnly
+            />
             <label 
             className={`input-label ` + (
               stateData.color.length > 0 || 

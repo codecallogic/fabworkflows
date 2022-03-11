@@ -85,9 +85,9 @@ const Form = ({
             id="save" 
             className="table-header-controls-item" 
             onClick={(e) => edit == typeOfData ? 
-              submitUpdate(e, stateData, 'products', setMessage, 'create_product', setLoading, token, 'products/update-product', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'products')
+              submitUpdate(e, stateData, 'products', 'images', setMessage, 'create_product', setLoading, token, 'products/update-product', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'products')
               : 
-              submitCreate(e, stateData, 'products', setMessage, 'create_product', setLoading, token, 'products/create-product', resetType, resetState, allData, setAllData, setDynamicSVG) 
+              submitCreate(e, stateData, 'products', 'images', setMessage, 'create_product', setLoading, token, 'products/create-product', resetType, resetState, allData, setAllData, setDynamicSVG) 
             }
             >
               {loading == 'create_product' ? 

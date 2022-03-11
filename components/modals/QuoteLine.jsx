@@ -1,6 +1,13 @@
 import {useState, useEffect, useRef} from 'react'
 import SVG from '../../files/svgs'
-import { validateNumber, validatePrice, filterProductSearch, filterPriceListSearch } from '../../helpers/validations'
+import { 
+  validateNumber, 
+  validatePrice, 
+  filterProductSearch, 
+  filterPriceListSearch, 
+  filterSlabSearch,
+  filterRemnantSearch 
+} from '../../helpers/validations'
 import { manageFormFields } from '../../helpers/forms'
 
 const QuoteLineModal = ({
@@ -197,11 +204,11 @@ const QuoteLineModal = ({
       >
           { typeForm == '' && 
             <>
-            <div className="form-group-button" onClick={() => (
+            {/* <div className="form-group-button" onClick={() => (
               null
             )}>
               Materials
-            </div>
+            </div> */}
             <div className="form-group-button" onClick={() => (
               stateMethod(changeFormType, null, 'product'),
               stateMethod(createType, 'typeForm', 'product')
@@ -229,12 +236,12 @@ const QuoteLineModal = ({
             )}>
               Miscellaneous Item
             </div>
-            <div className="form-group-button" onClick={() => (
+            {/* <div className="form-group-button" onClick={() => (
               stateMethod(changeFormType, null, 'priceList'),
               stateMethod(createType, 'typeForm', 'priceList')
             )}>
               Price List
-            </div>
+            </div> */}
             <div className="form-group-button" onClick={() => (
               null
             )}>
@@ -257,6 +264,24 @@ const QuoteLineModal = ({
                   Products
                 </span>
                 <span 
+                className={`addFieldItems-modal-form-container-searchList-categories-item ` + (filterSearch == 'slabs' ? ' categoryClicked' : '')} 
+                onClick={() => 
+                  filterSearch == 'slabs' 
+                  ? setFilterSearch('') 
+                  : setFilterSearch('slabs')
+                }>
+                  Slabs
+                </span>
+                <span 
+                className={`addFieldItems-modal-form-container-searchList-categories-item ` + (filterSearch == 'remnants' ? ' categoryClicked' : '')} 
+                onClick={() => 
+                  filterSearch == 'remnants' 
+                  ? setFilterSearch('') 
+                  : setFilterSearch('remnants')
+                }>
+                  Remnants
+                </span>
+                <span 
                 className={`addFieldItems-modal-form-container-searchList-categories-item ` + (filterSearch == 'priceLists' ? ' categoryClicked' : '')} 
                 onClick={() => 
                   filterSearch == 'priceLists' 
@@ -273,7 +298,7 @@ const QuoteLineModal = ({
               </span>
             </div>
             <div className="addFieldItems-modal-form-container-searchList-container">
-              {filterSearch !== 'priceLists' &&
+              { (filterSearch == 'products' || filterSearch == '') &&
               <>
               <div className="addFieldItems-modal-form-container-searchList-header">
                 Products
@@ -296,9 +321,9 @@ const QuoteLineModal = ({
                       setModalEdit('')
                     )}>
                     {` 
-                      ${manageFormFields(item.brand[0], 'name')} /
-                      ${manageFormFields(item.category[0], 'name')} /
-                      ${manageFormFields(item.model[0], 'name')}
+                      ${manageFormFields(item.brand[0], 'name')}
+                      ${ manageFormFields(item.category[0], 'name') ? ` / ${manageFormFields(item.category[0], 'name')}` : ''}
+                      ${ manageFormFields(item.model[0], 'name') ? ` / ${manageFormFields(item.model[0], 'name')}` : ''}
                     `}
 
                     </div>
@@ -322,9 +347,9 @@ const QuoteLineModal = ({
                     )
                   }>
                     {` 
-                      ${manageFormFields(item.brand[0], 'name')} /
-                      ${manageFormFields(item.category[0], 'name')} /
-                      ${manageFormFields(item.model[0], 'name')}
+                      ${manageFormFields(item.brand[0], 'name')}
+                      ${ manageFormFields(item.category[0], 'name') ? ` / ${manageFormFields(item.category[0], 'name')}` : ''}
+                      ${ manageFormFields(item.model[0], 'name') ? ` / ${manageFormFields(item.model[0], 'name')}` : ''}
                     `}
                   </div>
 
@@ -333,7 +358,7 @@ const QuoteLineModal = ({
               </div>
               </>
               }
-              { filterSearch !== 'products' &&
+              { (filterSearch == 'priceLists' || filterSearch == '') &&
                 <>
                 <div className="addFieldItems-modal-form-container-searchList-header">
                   Price List
@@ -341,22 +366,23 @@ const QuoteLineModal = ({
                 <div className="addFieldItems-modal-form-container-searchList-list">
                   { allData.prices && allData.prices.map((item, idx) => 
                     search.length > 0 ? 
-                    filterPriceListSearch(item) ? 
+                    filterPriceListSearch(item, search) ? 
                     <div 
                       key={idx} className="addFieldItems-modal-form-container-searchList-list-item" 
                       onClick={() => (
                           setSearchItems(false),
                           stateMethod(createType, 'typeForm', 'priceList'), 
-                          stateMethod(createType, 'brand', item.brand[0]), 
+                          stateMethod(createType, 'supplier', item.supplier[0]),
+                          // stateMethod(createType, 'brand', item.brand[0]), 
                           stateMethod(createType, 'model', item.model[0]), 
                           stateMethod(createType, 'color', item.color[0]), stateMethod(createType, 'price', item.price),
                           stateMethod(changeFormType, null, 'priceList'),
                           setModalEdit('')
                         )}>
                         {` 
-                          ${manageFormFields(item.brand[0], 'name')} /
-                          ${manageFormFields(item.color[0], 'name')} /
-                          ${manageFormFields(item.model[0], 'name')}
+                          ${manageFormFields(item.supplier[0], 'name')}
+                          ${ manageFormFields(item.model[0], 'name') ? ` / ${manageFormFields(item.model[0], 'name')}` : ''}
+                          ${ manageFormFields(item.color[0], 'name') ? ` / ${manageFormFields(item.color[0], 'name')}` : ''}
                         `}
                     </div>
                     :
@@ -367,7 +393,8 @@ const QuoteLineModal = ({
                       onClick={() => (
                           setSearchItems(false), 
                           stateMethod(createType, 'typeForm', 'priceList'), 
-                          stateMethod(createType, 'brand', item.brand[0]), 
+                          stateMethod(createType, 'supplier', item.supplier[0]), 
+                          // stateMethod(createType, 'brand', item.brand[0]), 
                           stateMethod(createType, 'model', item.model[0]), 
                           stateMethod(createType, 'color', item.color[0]), stateMethod(createType, 'price', item.price),
                           stateMethod(changeFormType, null, 'priceList'),
@@ -375,15 +402,129 @@ const QuoteLineModal = ({
                         )
                       }>
                       {` 
-                        ${manageFormFields(item.brand[0], 'name')} /
-                        ${manageFormFields(item.color[0], 'name')} /
-                        ${manageFormFields(item.model[0], 'name')}
+                        ${manageFormFields(item.supplier[0], 'name')}
+                        ${ manageFormFields(item.model[0], 'name') ? ` / ${manageFormFields(item.model[0], 'name')}` : ''}
+                        ${ manageFormFields(item.color[0], 'name') ? ` / ${manageFormFields(item.color[0], 'name')}` : ''}
                       `}
                     </div>
                   ) 
                   }
                 </div>
                 </>
+              }
+              { (filterSearch == 'slabs' || filterSearch == '') &&
+              <>
+              <div className="addFieldItems-modal-form-container-searchList-header">
+                Slabs
+              </div>
+              <div className="addFieldItems-modal-form-container-searchList-list">
+                { allData && allData.slabs.map((item, idx) => 
+                  search.length > 0 ? 
+                  filterSlabSearch(item, search) ? 
+                    <div 
+                    key={idx}
+                    className="addFieldItems-modal-form-container-searchList-list-item" 
+                    onClick={() => (
+                      setSearchItems(false),
+                      stateMethod(createType, 'typeForm', 'slab'), 
+                      stateMethod(createType, 'material', item.material[0]), 
+                      stateMethod(createType, 'color', item.color[0]), 
+                      stateMethod(createType, 'supplier', item.supplier[0]), 
+                      stateMethod(createType, 'price', item.price_sqft),
+                      stateMethod(changeFormType, null, 'slab'),
+                      setModalEdit('')
+                    )}>
+                    {` 
+                      ${manageFormFields(item.material[0], 'name')}
+                      ${manageFormFields(item.color[0], 'name') ? ` / ${manageFormFields(item.color[0], 'name')}` : ''}
+                      ${manageFormFields(item.supplier[0], 'name') ? ` / ${manageFormFields(item.supplier[0], 'name')}` : ''}
+                    `}
+
+                    </div>
+                  : 
+                    null
+                  :
+                  <div 
+                  key={idx} 
+                  className="addFieldItems-modal-form-container-searchList-list-item" 
+                  onClick={() => (
+                      setSearchItems(false),
+                      stateMethod(createType, 'typeForm', 'slab'), 
+                      stateMethod(createType, 'material', item.material[0]), 
+                      stateMethod(createType, 'color', item.color[0]), 
+                      stateMethod(createType, 'supplier', item.supplier[0]), 
+                      stateMethod(createType, 'price', item.price_sqft),
+                      stateMethod(changeFormType, null, 'slab'),
+                      setModalEdit('')
+                    )
+                  }>
+                    {` 
+                      ${manageFormFields(item.material[0], 'name')}
+                      ${manageFormFields(item.color[0], 'name') ? ` / ${manageFormFields(item.color[0], 'name')}` : ''}
+                      ${manageFormFields(item.supplier[0], 'name') ? ` / ${manageFormFields(item.supplier[0], 'name')}` : ''}
+                    `}
+                  </div>
+
+                ) 
+                }
+              </div>
+              </>
+              }
+              { (filterSearch == 'remnants' || filterSearch == '') &&
+              <>
+              <div className="addFieldItems-modal-form-container-searchList-header">
+                Remnants
+              </div>
+              <div className="addFieldItems-modal-form-container-searchList-list">
+                { allData && allData.remnants.map((item, idx) => 
+                  search.length > 0 ? 
+                  filterRemnantSearch(item, search) ? 
+                    <div 
+                    key={idx}
+                    className="addFieldItems-modal-form-container-searchList-list-item" 
+                    onClick={() => (
+                      setSearchItems(false),
+                      stateMethod(createType, 'typeForm', 'remnant'), 
+                      stateMethod(createType, 'material', item.material[0]), 
+                      stateMethod(createType, 'color', item.color[0]),
+                      stateMethod(createType, 'shape', item.shape), 
+                      stateMethod(changeFormType, null, 'remnant'),
+                      setModalEdit('')
+                    )}>
+                    {` 
+                      ${manageFormFields(item.material[0], 'name')} /
+                      ${manageFormFields(item.color[0], 'name') ? ` / ${manageFormFields(item.color[0], 'name')}` : ''}
+                      ${item.shape ? ` / ${item.shape}` : ''}
+                    `}
+
+                    </div>
+                  : 
+                    null
+                  :
+                  <div 
+                  key={idx} 
+                  className="addFieldItems-modal-form-container-searchList-list-item" 
+                  onClick={() => (
+                      setSearchItems(false),
+                      stateMethod(createType, 'typeForm', 'remnant'), 
+                      stateMethod(createType, 'material', item.material[0]), 
+                      stateMethod(createType, 'color', item.color[0]),
+                      stateMethod(createType, 'shape', item.shape), 
+                      stateMethod(changeFormType, null, 'remnant'),
+                      setModalEdit('')
+                    )
+                  }>
+                    {` 
+                      ${manageFormFields(item.material[0], 'name')} 
+                      ${manageFormFields(item.color[0], 'name') ? ` / ${manageFormFields(item.color[0], 'name')}` : ''}
+                      ${item.shape ? ` / ${item.shape}` : ''}
+                    `}
+                  </div>
+
+                ) 
+                }
+              </div>
+              </>
               }
             </div>
           </div>
@@ -553,34 +694,34 @@ const QuoteLineModal = ({
           {typeForm == 'priceList' &&
             <>
             <div className="form-group">
-              <input 
-              onClick={() => setInputDropdown('price_brand')} 
-              value={manageFormFields(stateData.brand, 'name')} 
-              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'brand', e.target.value))}/>
+              <input
+              onClick={() => setInputDropdown('price_supplier')} 
+              value={manageFormFields(stateData.supplier, 'name')} 
+              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'supplier', e.target.value))}
+              readOnly
+              />
               <label 
-                className={`input-label ` + (
-                  stateData.brand &&
-                  stateData.brand.length > 0 || 
-                  typeof stateData.brand == 'object' 
+              className={`input-label ` + (
+                stateData.supplier.length > 0 || 
+                typeof stateData.supplier == 'object' 
                 ? ' labelHover' 
                 : ''
               )}
-              htmlFor="brand">
-                Brand
+              htmlFor="supplier">
+                Supplier
               </label>
               <div 
-              onClick={() =>setInputDropdown('price_brand') }>
-              <SVG svg={'dropdown-arrow'}></SVG>
+              onClick={() => setInputDropdown('price_supplier')}><SVG svg={'dropdown-arrow'}></SVG>
               </div>
-              { input_dropdown == 'price_brand' &&
+              { input_dropdown == 'price_supplier' &&
                 <div 
                 className="form-group-list" 
                 ref={myRefs}>
-                  {allData && allData.brands.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                  {allData && allData.suppliers.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
                   <div 
                   key={idx} 
                   className="form-group-list-item" 
-                  onClick={(e) => (stateMethod(createType, 'brand', item), setInputDropdown(''))}>
+                  onClick={(e) => (stateMethod(createType, 'supplier', item), setInputDropdown(''))}>
                     {item.name}
                   </div>
                   ))}
@@ -591,7 +732,9 @@ const QuoteLineModal = ({
               <input 
               onClick={() => setInputDropdown('price_model')} 
               value={manageFormFields(stateData.model, 'name')} 
-              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'model', e.target.value))}/>
+              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'model', e.target.value))}
+              readOnly
+              />
               <label 
                 className={`input-label ` + (
                   stateData.model &&
@@ -626,7 +769,9 @@ const QuoteLineModal = ({
               <input 
               onClick={() => setInputDropdown('price_color')} 
               value={manageFormFields(stateData.color, 'name')} 
-              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'color', e.target.value))}/>
+              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'color', e.target.value))}
+              readOnly
+              />
               <label 
                 className={`input-label ` + (
                   stateData.color &&
@@ -808,7 +953,305 @@ const QuoteLineModal = ({
             </div>
             </>
           }
+
+          {typeForm == 'slab' &&
+            <>
+            <div className="form-group">
+              <input
+              onClick={() => setInputDropdown('slab_material')} 
+              value={manageFormFields(stateData.material, 'name')} 
+              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'material', e.target.value))}
+              readOnly
+              />
+              <label 
+              className={`input-label ` + (
+                stateData.material.length > 0 || 
+                typeof stateData.material == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="material">
+                Material
+              </label>
+              <div 
+              onClick={() => setInputDropdown('slab_material')}><SVG svg={'dropdown-arrow'}></SVG>
+              </div>
+              { input_dropdown == 'slab_material' &&
+                <div 
+                className="form-group-list" 
+                ref={myRefs}>
+                  {allData && allData.materials.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                  <div 
+                  key={idx} 
+                  className="form-group-list-item" 
+                  onClick={(e) => (stateMethod(createType, 'material', item), setInputDropdown(''))}>
+                    {item.name}
+                  </div>
+                  ))}
+                </div>
+              }
+            </div>
+            <div className="form-group">
+              <input 
+              onClick={() => setInputDropdown('slab_color')} 
+              value={manageFormFields(stateData.color, 'name')} 
+              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'color', e.target.value))}
+              readOnly
+              />
+              <label 
+                className={`input-label ` + (
+                  stateData.color &&
+                  stateData.color.length > 0 || 
+                  typeof stateData.color == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="color">
+                Color
+              </label>
+              <div 
+              onClick={() =>setInputDropdown('slab_color') }>
+              <SVG svg={'dropdown-arrow'}></SVG>
+              </div>
+              { input_dropdown == 'slab_color' &&
+                <div 
+                className="form-group-list" 
+                ref={myRefs}>
+                  {allData && allData.colors.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                  <div 
+                  key={idx} 
+                  className="form-group-list-item" 
+                  onClick={(e) => (stateMethod(createType, 'color', item), setInputDropdown(''))}>
+                    {item.name}
+                  </div>
+                  ))}
+                </div>
+              }
+            </div>
+            <div className="form-group">
+              <input 
+              onClick={() => setInputDropdown('slab_supplier')} 
+              value={manageFormFields(stateData.supplier, 'name')} 
+              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'supplier', e.target.value))}
+              readOnly
+              />
+              <label 
+                className={`input-label ` + (
+                  stateData.supplier &&
+                  stateData.supplier.length > 0 || 
+                  typeof stateData.supplier == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="supplier">
+                Supplier
+              </label>
+              <div 
+              onClick={() =>setInputDropdown('slab_supplier') }>
+              <SVG svg={'dropdown-arrow'}></SVG>
+              </div>
+              { input_dropdown == 'slab_supplier' &&
+                <div 
+                className="form-group-list" 
+                ref={myRefs}>
+                  {allData && allData.suppliers.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                  <div 
+                  key={idx} 
+                  className="form-group-list-item" 
+                  onClick={(e) => (stateMethod(createType, 'supplier', item), setInputDropdown(''))}>
+                    {item.name}
+                  </div>
+                  ))}
+                </div>
+              }
+            </div>
+            <div className="form-group">
+              <input 
+              id="price" 
+              value={stateData.price} 
+              onChange={(e) => (stateMethod(createType, 'price', validatePrice(e)))}/>
+              <label 
+              className={`input-label ` + (
+                stateData.price.length > 0 || 
+                typeof stateData.price == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="price">
+                Price
+              </label>
+            </div>
+            <div className="form-group">
+              <input 
+              id="quantity" 
+              value={stateData.quantity} 
+              onChange={(e) => (validateNumber('quantity'), stateMethod(createType, 'quantity', e.target.value))}/>
+              <label 
+              className={`input-label ` + (
+                stateData.quantity.length > 0 || 
+                typeof stateData.quantity == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="quantity">
+                Quantity
+              </label>
+            </div>
+            </>
+          }
           
+          {typeForm == 'remnant' &&
+            <>
+            <div className="form-group">
+              <input
+              onClick={() => setInputDropdown('slab_material')} 
+              value={manageFormFields(stateData.material, 'name')} 
+              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'material', e.target.value))}
+              readOnly
+              />
+              <label 
+              className={`input-label ` + (
+                stateData.material.length > 0 || 
+                typeof stateData.material == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="material">
+                Material
+              </label>
+              <div 
+              onClick={() => setInputDropdown('slab_material')}><SVG svg={'dropdown-arrow'}></SVG>
+              </div>
+              { input_dropdown == 'slab_material' &&
+                <div 
+                className="form-group-list" 
+                ref={myRefs}>
+                  {allData && allData.materials.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                  <div 
+                  key={idx} 
+                  className="form-group-list-item" 
+                  onClick={(e) => (stateMethod(createType, 'material', item), setInputDropdown(''))}>
+                    {item.name}
+                  </div>
+                  ))}
+                </div>
+              }
+            </div>
+            <div className="form-group">
+              <input 
+              onClick={() => setInputDropdown('slab_color')} 
+              value={manageFormFields(stateData.color, 'name')} 
+              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'color', e.target.value))}
+              readOnly
+              />
+              <label 
+                className={`input-label ` + (
+                  stateData.color &&
+                  stateData.color.length > 0 || 
+                  typeof stateData.color == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="color">
+                Color
+              </label>
+              <div 
+              onClick={() =>setInputDropdown('slab_color') }>
+              <SVG svg={'dropdown-arrow'}></SVG>
+              </div>
+              { input_dropdown == 'slab_color' &&
+                <div 
+                className="form-group-list" 
+                ref={myRefs}>
+                  {allData && allData.colors.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                  <div 
+                  key={idx} 
+                  className="form-group-list-item" 
+                  onClick={(e) => (stateMethod(createType, 'color', item), setInputDropdown(''))}>
+                    {item.name}
+                  </div>
+                  ))}
+                </div>
+              }
+            </div>
+            <div className="form-group">
+              <input 
+              onClick={() => setInputDropdown('remnant_shape')} 
+              value={stateData.shape} 
+              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'shape', e.target.value))}
+              readOnly
+              />
+              <label 
+                className={`input-label ` + (
+                  stateData.shape &&
+                  stateData.shape.length > 0 || 
+                  typeof stateData.shape == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="shape">
+                Shape
+              </label>
+              <div 
+              onClick={() =>setInputDropdown('remnant_shape') }>
+              <SVG svg={'dropdown-arrow'}></SVG>
+              </div>
+              { input_dropdown == 'remnant_shape' &&
+                <div 
+                className="form-group-list" 
+                ref={myRefs}>
+                  <div 
+                  className="form-group-list-item" 
+                  onClick={(e) => (setInputDropdown(''), stateMethod(createType, 'shape', e.target.innerText))}>
+                    Remnant L Right
+                  </div>
+                  <div 
+                  className="form-group-list-item" 
+                  onClick={(e) => (setInputDropdown(''), stateMethod(createType, 'shape', e.target.innerText))}>
+                    Remnant L Left
+                  </div>
+                  <div 
+                  className="form-group-list-item" 
+                  onClick={(e) => (setInputDropdown(''), stateMethod(createType, 'shape', e.target.innerText))}>
+                    Remnant Rectangular
+                  </div>
+                </div>
+              }
+            </div>
+            <div className="form-group">
+              <input 
+              id="price" 
+              value={stateData.price} 
+              onChange={(e) => (stateMethod(createType, 'price', validatePrice(e)))}/>
+              <label 
+              className={`input-label ` + (
+                stateData.price.length > 0 || 
+                typeof stateData.price == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="price">
+                Price
+              </label>
+            </div>
+            <div className="form-group">
+              <input 
+              id="quantity" 
+              value={stateData.quantity} 
+              onChange={(e) => (validateNumber('quantity'), stateMethod(createType, 'quantity', e.target.value))}/>
+              <label 
+              className={`input-label ` + (
+                stateData.quantity.length > 0 || 
+                typeof stateData.quantity == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="quantity">
+                Quantity
+              </label>
+            </div>
+            </>
+          }
           
           
       </form>

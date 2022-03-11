@@ -5,11 +5,13 @@ const initialState = {
   price: '',
   taxable: false,
   discount: false,
-
-  // PRODUCT
+  typeForm: '',
   model: '',
   brand: '',
-  typeForm: '',
+  material: '',
+  supplier: '',
+  color: '',
+  shape: '',
   idx: ''
 }
 

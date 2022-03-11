@@ -687,9 +687,9 @@ const QuoteForm = ({
                       ?
                       setMessage('Cannot update quotes after a payment was processed')
                       :
-                      submitUpdate(e, stateData, 'quotes', setMessage, 'update_quote', setLoading, token, 'quotes/update-quote', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'quotes')
+                      submitUpdate(e, stateData, 'quotes', 'images', setMessage, 'update_quote', setLoading, token, 'quotes/update-quote', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'quotes')
                     : 
-                    submitCreate(e, stateData, 'quotes', setMessage, 'create_quote', setLoading, token, 'quotes/create-quote', resetType, resetState, allData, setAllData, setDynamicSVG) 
+                    submitCreate(e, stateData, 'quotes', 'images', setMessage, 'create_quote', setLoading, token, 'quotes/create-quote', resetType, resetState, allData, setAllData, setDynamicSVG) 
                   }
                   >
                   {loading == 'create_quote' ? 
@@ -726,11 +726,12 @@ const QuoteForm = ({
                 className="form-estimate-line"
               >
                  <SVG svg={'adjust'}></SVG>
-                 <div>{item.quantity ? item.quantity : '0'}</div>
+                 <div>{item.quantity ? item.quantity : '0 qty.'}</div>
                  <div className="form-estimate-line-description">
-                  { item.brand 
+                  { item.material 
                     ? 
-                    `${manageFormFields(item.brand, 'name')} / ${manageFormFields(item.model, 'name')}` 
+                    `${manageFormFields(item.material, 'name')} 
+                    ${ item.model ? ` / ${manageFormFields(item.model, 'name')}` : ''}`
                     : 
                     item.category
                     ?

@@ -87,9 +87,9 @@ const Form = ({
             id="save" 
             className="table-header-controls-item" 
             onClick={(e) => edit == typeOfData ? 
-              submitUpdate(e, stateData, 'remnants', setMessage, 'create_remnant', setLoading, token, 'remnants/update-remnant', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'remnants')
+              submitUpdate(e, stateData, 'remnants', 'images', setMessage, 'create_remnant', setLoading, token, 'remnants/update-remnant', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'remnants')
               : 
-              submitCreate(e, stateData, 'remnants', setMessage, 'create_remnant', setLoading, token, 'remnants/create-remnant', resetType, resetState, allData, setAllData, setDynamicSVG) 
+              submitCreate(e, stateData, 'remnants', 'images', setMessage, 'create_remnant', setLoading, token, 'remnants/create-remnant', resetType, resetState, allData, setAllData, setDynamicSVG) 
             }
             >
               {loading == 'create_remnant' ? 

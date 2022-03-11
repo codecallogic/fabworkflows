@@ -848,7 +848,8 @@ body {
         font-size: 1.2rem;
         padding: 0.5rem 1rem;
         margin: 0 1rem;
-        width: 90%; }
+        width: 90%;
+        text-transform: capitalize; }
         .addFieldItems-modal-form-container-searchList-list-item:hover {
           background-color: rgba(253, 126, 60, 0.9);
           color: white;

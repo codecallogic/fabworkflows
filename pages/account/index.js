@@ -841,8 +841,6 @@ const Dashboard = ({
             searchPlaceholder={'Search by contact name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
-            setDynamicType={setDynamicType}
-            setDynamicKey={setDynamicKey}
           >
           </TableAlt>
         }
@@ -1378,7 +1376,7 @@ const Dashboard = ({
           }
           { nav.view == 'transaction-new' &&
             <div className="clientDashboard-view-new">
-              <div className="clientDashboard-view-new-item" onClick={() => changeView('quote')}>
+              <div className="clientDashboard-view-new-item" onClick={() => (changeView('quote'), resetType('RESET_QUOTE'))}>
                 <SVGs svg={'document'}></SVGs>
                 <span>New Quote</span>
               </div>
