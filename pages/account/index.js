@@ -22,7 +22,8 @@ import {
   assigneeSort,
   activitySort,
   activityStatusSort,
-  activitySetSort
+  activitySetSort,
+  purchaseOrderSort
 } from '../../helpers/sorts'
 import { populateEditData } from '../../helpers/modals'
 
@@ -79,6 +80,7 @@ import DependencyModal from '../../components/modals/Dependency'
 import ActivityStatusModal from '../../components/modals/ActivityStatus'
 import ActivitySetModal from '../../components/modals/ActivitySet'
 import ActivityListModal from '../../components/modals/ActivityList'
+import PurchaseOrderModal from '../../components/modals/PurchaseOrder'
 
 axios.defaults.withCredentials = true
 
@@ -120,6 +122,7 @@ const Dashboard = ({
   dependency,
   activityStatus,
   activitySet,
+  purchaseOrder,
   createType,
   resetType,
   addImages, 
@@ -127,7 +130,7 @@ const Dashboard = ({
 }) => {
   const myRefs = useRef(null)
   
-  // console.log(originalData)
+  console.log(originalData)
   
   const router = useRouter()
 
@@ -1136,10 +1139,49 @@ const Dashboard = ({
           >
           </Table>
         }
-
-
-
-
+        {nav.view == 'purchaseOrders' &&
+          <TableAlt
+            token={token}
+            title={'Purchase Order List'}
+            typeOfData={'purchaseOrders'}
+            componentData={data.purchaseOrders}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={purchaseOrderSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'modelControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'purchaseOrders'}
+            modalType={'purchaseOrders'}
+            editModalType={'purchaseOrders'}
+            editDataType={{key: 'purchaseOrders', caseType: 'CREATE_PO'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="purchase-order/delete-purchase-order"
+            searchType={'purchaseOrders'}
+            searchPlaceholder={'Search by supplier'}
+            setDynamicType={setDynamicType}
+            setDynamicKey={setDynamicKey}
+          >
+          </TableAlt>
+        }
+        
 
         {/* ///// FORMS //// */}
         {nav.view == 'slab' &&
@@ -1411,6 +1453,10 @@ const Dashboard = ({
               <div className="clientDashboard-view-new-item" onClick={() => changeView('activitySets')}>
                 <SVGs svg={'stack'}></SVGs>
                 <span>Activity Sets</span>
+              </div>
+              <div className="clientDashboard-view-new-item" onClick={() => setModal('purchaseOrders')}>
+                <SVGs svg={'cart'}></SVGs>
+                <span>Purchase Orders</span>
               </div>
             </div>
           }
@@ -1928,6 +1974,32 @@ const Dashboard = ({
             >
             </ActivityListModal>
           }
+          { modal == 'purchaseOrders' &&
+            <PurchaseOrderModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={purchaseOrder}
+            stateMethod={createType}
+            dynamicType={dynamicType}
+            extractingStateData={extractingStateData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+            >
+            </PurchaseOrderModal>
+          }
       </div>
     </>
   )
@@ -1957,7 +2029,8 @@ const mapStateToProps = (state) => {
     activity: state.activity,
     dependency: state.dependency,
     activityStatus: state.activityStatus,
-    activitySet: state.activitySet
+    activitySet: state.activitySet,
+    purchaseOrder: state.purchaseOrder
   }
 }
 
@@ -2002,6 +2075,7 @@ Dashboard.getInitialProps = async (context) => {
   data.activityStatus   = await tableData(accessToken, 'activities/all-activity-status')
   data.activitySets     = await tableData(accessToken, 'activities/all-activity-sets')
   data.accounts         = await tableData(accessToken, 'accounts/all-accounts')
+  data.purchaseOrders   = await tableData(accessToken, 'purchase-order/all-purchase-orders')
   deepClone             = _.cloneDeep(data)
   
   return {

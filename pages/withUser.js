@@ -36,94 +36,6 @@ const withUser = Page => {
         }
       }
 
-      let materials
-      try {
-        const responseMaterials = await axios.get(`${API}/inventory/materials`)
-        materials = responseMaterials.data
-      } catch (error) {
-        console.log(error)
-      }
-
-      let colors
-      try {
-        const responseColors = await axios.get(`${API}/inventory/colors`)
-        colors = responseColors.data
-      } catch (error) {
-        console.log(error)
-      }
-
-      let suppliers
-      try {
-        const responseColors = await axios.get(`${API}/inventory/suppliers`)
-        suppliers = responseColors.data
-      } catch (error) {
-        console.log(error)
-      }
-
-      let locations
-      try {
-        const responseLocations = await axios.get(`${API}/inventory/locations`)
-        locations = responseLocations.data
-      } catch (error) {
-        console.log(error)
-      }
-
-      let brands
-      try {
-        const responseBrands = await axios.get(`${API}/inventory/brands`)
-        brands = responseBrands.data
-      } catch (error) {
-        console.log(error)
-      }
-
-      let models
-      try {
-        const responseModels = await axios.get(`${API}/inventory/models`)
-        models = responseModels.data
-      } catch (error) {
-        console.log(error)
-      }
-
-      let categories
-      try {
-        const responseCategories = await axios.get(`${API}/inventory/categories`)
-        categories = responseCategories.data
-      } catch (error) {
-        console.log(error)
-      }
-
-      let priceList
-      try {
-        const responsePriceList = await axios.get(`${API}/transaction/get-price-list`)
-        priceList = responsePriceList.data
-      } catch (error) {
-        console.log(error)
-      }
-
-      let addressList
-      try {
-        const responseAddressList = await axios.get(`${API}/transaction/get-address-list`)
-        addressList = responseAddressList.data
-      } catch (error) {
-        console.log(error)
-      }
-
-      let misc_categories
-      try {
-        const responseMiscCategories = await axios.get(`${API}/transaction/get-categories-list`)
-        misc_categories = responseMiscCategories.data
-      } catch (error) {
-        console.log(error)
-      }
-
-      let products
-      try {
-        const responseProducts = await axios.get(`${API}/inventory/all-products`)
-        products = responseProducts.data
-      } catch (error) {
-        console.log(error)
-      }
-
       if(!account){
         context.res.writeHead(302, {
           Location: '/login'
@@ -132,18 +44,7 @@ const withUser = Page => {
       }else{
         return {
             ...(Page.getInitialProps ? await Page.getInitialProps(context) : {}),
-            account,
-            materials,
-            colors,
-            suppliers,
-            locations,
-            brands,
-            models,
-            categories,
-            priceList,
-            addressList,
-            misc_categories,
-            products
+            account
         }
       }
     }

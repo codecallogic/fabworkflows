@@ -35,7 +35,8 @@ const formFields = {
   assignees: ['name', 'color'],
   activities: ['name'],
   activityStatus: ['status'],
-  activitySets: ['name', 'set']
+  activitySets: ['name', 'set'],
+  purchaseOrders: ['supplier', 'shipping', 'POnumber']
 }
 
 
