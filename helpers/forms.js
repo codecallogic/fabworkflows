@@ -112,8 +112,6 @@ const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingTy
 
   }
   
-  console.log(type, filesType, setMessage, loadingType)
-  
   setMessage('')
   setLoading(loadingType)
   let data = new FormData()

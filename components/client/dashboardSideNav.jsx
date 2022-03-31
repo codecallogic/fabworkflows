@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import SVGs from '../../files/svgs'
 
-const SideNav = ({account, changeView, nav, width, toggleSideNav}) => {
+const SideNav = ({account, changeView, nav, width, toggleSideNav, resetType}) => {
 
   const [toggle, setDropdownToggle] = useState('')
   
@@ -113,7 +113,7 @@ const SideNav = ({account, changeView, nav, width, toggleSideNav}) => {
                 Jobs
             </div>
             <div 
-              onClick={() => changeView('purchaseOrders')} 
+              onClick={() => (changeView('purchaseOrders'), resetType('RESET_PO'))} 
               className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'transactions'  ? ' hide-sidenav-dropdown' : '')}>
                 <SVGs svg={'circle-thin'} classprop={`clientDashboard_sidenav-menu-item-arrow` + (!nav.sidenav ? ' hide-sidenav-items' : '')  + (toggle ? ' hide-sidenav-dropdown' : '')}/>
                 Purchase Orders

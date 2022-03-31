@@ -37,6 +37,8 @@ import ProductForm from '../../components/forms/productForm'
 import RemnantForm from '../../components/forms/remnantForm'
 import QuoteForm from '../../components/forms/quoteForm'
 import JobForm from '../../components/forms/jobForm'
+import PurchaseOrderForm from '../../components/forms/purchaseOrderForm'
+
 import { 
   submitCreate, 
   submitUpdate, 
@@ -130,7 +132,7 @@ const Dashboard = ({
 }) => {
   const myRefs = useRef(null)
   
-  console.log(originalData)
+  // console.log(originalData)
   
   const router = useRouter()
 
@@ -263,17 +265,19 @@ const Dashboard = ({
   }, [router.query.change])
 
   const extractingStateData = (stateData) => {
-    // console.log(dynamicType)
-    // console.log(dynamicKey)
     createType(dynamicType, dynamicKey, stateData)
     setControls('')
   }
+
+  useEffect(() => {
+    if(edit == 'purchaseOrderForm'){ setModal(''), changeView('purchaseOrderForm'), setEdit('purchaseOrders') }
+  }, [edit])
   
   return (
     <>
       <TopNav account={account}></TopNav>
       <div className="clientDashboard">
-        <SideNav account={account} width={width}></SideNav>
+        <SideNav account={account} width={width} resetType={resetType}></SideNav>
 
         {/* //// TABLES //// */}
         {nav.view == 'slabs' &&
@@ -1166,7 +1170,7 @@ const Dashboard = ({
             setEdit={setEdit}
             viewType={'purchaseOrders'}
             modalType={'purchaseOrders'}
-            editModalType={'purchaseOrders'}
+            editModalType={'purchaseOrderForm'}
             editDataType={{key: 'purchaseOrders', caseType: 'CREATE_PO'}}
             submitDeleteRow={submitDeleteRow}
             loading={loading}
@@ -1178,6 +1182,7 @@ const Dashboard = ({
             searchPlaceholder={'Search by supplier'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
+
           >
           </TableAlt>
         }
@@ -1361,7 +1366,41 @@ const Dashboard = ({
           >
           </JobForm>
         }
-
+        { nav.view == 'purchaseOrderForm' &&
+          <PurchaseOrderForm
+            token={token}
+            title={'Purchase Order'}
+            typeOfData={'purchaseOrders'}
+            allData={allData}
+            setAllData={setAllData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            submitCreate={submitCreate}
+            modal={modal}
+            setModal={setModal}
+            stateData={purchaseOrder}
+            stateMethod={createType}
+            originalData={originalData}
+            message={message}
+            setMessage={setMessage}
+            loading={loading}
+            setLoading={setLoading}
+            validateNumber={validateNumber}
+            validatePrice={validatePrice}
+            validateDate={validateDate}
+            generateQR={generateQR}
+            resetState={resetType}
+            addImages={addImages}
+            dateNow={dateNow}
+            edit={edit}
+            setEdit={setEdit}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            submitDeleteFile={submitDeleteFile}
+            editData={editData}
+          >
+          </PurchaseOrderForm>
+        }
         
         <div className="clientDashboard-view">
           {nav.view == 'main' &&
@@ -1422,7 +1461,7 @@ const Dashboard = ({
                 <SVGs svg={'document'}></SVGs>
                 <span>New Quote</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => changeView('job')}>
+              <div className="clientDashboard-view-new-item" onClick={() => (changeView('job'), resetType('RESET_JOB'))}>
                 <SVGs svg={'job'}></SVGs>
                 <span>New Job</span>
               </div>
@@ -1454,7 +1493,7 @@ const Dashboard = ({
                 <SVGs svg={'stack'}></SVGs>
                 <span>Activity Sets</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => setModal('purchaseOrders')}>
+              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), setModal('purchaseOrders'), resetType('RESET_PO'))}>
                 <SVGs svg={'cart'}></SVGs>
                 <span>Purchase Orders</span>
               </div>
@@ -1950,53 +1989,44 @@ const Dashboard = ({
           }
           { modal == 'activityList' &&
             <ActivityListModal
-            token={token}
-            message={message}
-            setMessage={setMessage}
-            setModal={setModal}
-            loading={loading}
-            setLoading={setLoading}
-            edit={edit}
-            setEdit={setEdit}
-            stateData={job}
-            stateMethod={createType}
-            dynamicType={dynamicType}
-            extractingStateData={extractingStateData}
-            dynamicSVG={dynamicSVG}
-            setDynamicSVG={setDynamicSVG}
-            resetState={resetType}
-            submitCreate={submitCreate}
-            allData={allData}
-            setAllData={setAllData}
-            submitUpdate={submitUpdate}
-            changeView={changeView}
-            editData={editData}
+              message={message}
+              setMessage={setMessage}
+              setModal={setModal}
+              loading={loading}
+              edit={edit}
+              setEdit={setEdit}
+              stateMethod={createType}
+              dynamicType={dynamicType}
+              extractingStateData={extractingStateData}
+              dynamicSVG={dynamicSVG}
+              allData={allData}
+              title={'Add Activity'}
             >
             </ActivityListModal>
           }
           { modal == 'purchaseOrders' &&
             <PurchaseOrderModal
-            token={token}
-            message={message}
-            setMessage={setMessage}
-            setModal={setModal}
-            loading={loading}
-            setLoading={setLoading}
-            edit={edit}
-            setEdit={setEdit}
-            stateData={purchaseOrder}
-            stateMethod={createType}
-            dynamicType={dynamicType}
-            extractingStateData={extractingStateData}
-            dynamicSVG={dynamicSVG}
-            setDynamicSVG={setDynamicSVG}
-            resetState={resetType}
-            submitCreate={submitCreate}
-            allData={allData}
-            setAllData={setAllData}
-            submitUpdate={submitUpdate}
-            changeView={changeView}
-            editData={editData}
+              token={token}
+              message={message}
+              setMessage={setMessage}
+              setModal={setModal}
+              loading={loading}
+              setLoading={setLoading}
+              edit={edit}
+              setEdit={setEdit}
+              stateData={purchaseOrder}
+              stateMethod={createType}
+              dynamicType={dynamicType}
+              extractingStateData={extractingStateData}
+              dynamicSVG={dynamicSVG}
+              setDynamicSVG={setDynamicSVG}
+              resetState={resetType}
+              submitCreate={submitCreate}
+              allData={allData}
+              setAllData={setAllData}
+              submitUpdate={submitUpdate}
+              changeView={changeView}
+              editData={editData}
             >
             </PurchaseOrderModal>
           }

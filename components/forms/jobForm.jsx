@@ -7,7 +7,11 @@ import 'react-calendar/dist/Calendar.css';
 
 //// HELPERS
 import { manageFormFields } from '../../helpers/forms'
-import { quoteSort, activitySort } from '../../helpers/sorts'
+import { 
+  quoteSort, 
+  activitySort,
+  purchaseOrderSort
+} from '../../helpers/sorts'
 import { 
   validateDate, 
   formatDate, 
@@ -71,6 +75,7 @@ const QuoteForm = ({
   const [input_dropdown, setInputDropdown] = useState('')
   const [save, setSave] = useState(false)
   const [activityHeaders, setActivityHeaders] = useState([])
+  const [purchaseOrderHeaders, setPurchaseOrderHeaders] = useState([])
   
   useEffect(() => {
     
@@ -90,14 +95,6 @@ const QuoteForm = ({
   }
 
   useEffect(() => {
-
-    let object = new Object()
-
-    Object.values(activitySort).forEach( (item) => {
-      object[item] = item
-    })
-
-    setActivityHeaders((oldArray) => [...oldArray, object])
     
     !stateData.invoice ? stateMethod(createType, 'invoice', generateRandomNumber()) : null
     
@@ -105,6 +102,18 @@ const QuoteForm = ({
     return () => {
       document.removeEventListener("click", handleClickOutside, true);
     };
+  }, [])
+
+  useEffect(() => {
+
+    let objectActivities = new Object()
+    Object.values(activitySort).forEach( (item) => { objectActivities[item] = item })
+    setActivityHeaders((oldArray) => [...oldArray, objectActivities])
+
+    let objectPurchaseOrders = new Object()
+    Object.values(purchaseOrderSort).forEach( (item) => { objectPurchaseOrders[item] = item})
+    setPurchaseOrderHeaders((oldArray) => [...oldArray, objectPurchaseOrders])
+
   }, [])
   
   return (
@@ -500,6 +509,44 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           cancelControl={true}
           stateMethod={stateMethod}
         >
+      </Table>
+
+      <Table
+        token={token}
+        title={'Purchase Orders'}
+        typeOfData={'purchaseOrders'}
+        componentData={purchaseOrderHeaders}
+        allData={stateData.purchaseOrders}
+        setAllData={setAllData}
+        modal={modal}
+        setModal={setModal}
+        sortOrder={purchaseOrderSort}
+        controls={controls}
+        setControls={setControls}
+        controlsType={'purchaseOrderControls'}
+        message={message}
+        setMessage={setMessage}
+        resetCheckboxes={resetCheckboxes}
+        editData={editData}
+        changeView={changeView}
+        setEdit={setEdit}
+        viewType={'purchaseOrders'}
+        modalType={'purchaseOrders'}
+        loading={loading}
+        setLoading={setLoading}
+        dynamicSVG={dynamicSVG}
+        setDynamicSVG={setDynamicSVG}
+        setDynamicType={setDynamicType}
+        setDynamicKey={setDynamicKey}
+        selectID={selectID}
+        setSelectID={setSelectID}
+        extractingStateData={extractingStateData}
+        dynamicType={'CREATE_JOB_ARRAY_ITEM'}
+        dynamicKey={'purchaseOrders'}
+        completeControl={true}
+        cancelControl={true}
+        stateMethod={stateMethod}
+      >
       </Table>
 
       <div className="form-box" style={{width: '100%', padding: '0 2rem'}}>

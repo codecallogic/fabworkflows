@@ -1,7 +1,13 @@
 const initialState = {
   supplier: '',
   shipping: '',
-  POnumber: ''
+  POnumber: '',
+  status: 'not ordered',
+  orderDate: '',
+  expectedDelivery: '',
+  taxRate: '',
+  notes: '',
+  POLines: []
 }
 export const purchaseOrderReducer = (state = initialState, action) => {
   switch (action.type) {

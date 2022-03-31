@@ -7,37 +7,24 @@ const searchOptionsAddress = {
   types: ['address']
 }
 
-const PriceListModal = ({
-  token,
+const ListModal = ({
   message,
   setMessage,
   setModal,
   loading,
-  setLoading,
   edit,
   dynamicSVG,
-  setDynamicSVG,
+  title,
 
   //// DATA
   allData,
-  setAllData,
-  editData,
 
   //// REDUX
-  stateData,
-  stateMethod,
-  resetState,
-  changeView,
   dynamicType,
   extractingStateData,
-
-  //// CRUD
-  submitCreate,
-  submitUpdate,
-}) => {
   
-  const createType = 'CREATE_ACTIVITY'
-  const resetType = 'RESET_ACTIVITY'
+}) => {
+
   const myRefs = useRef(null)
   const [loadingColor, setLoadingColor] = useState('white')
   const [input_dropdown, setInputDropdown] = useState('')
@@ -122,13 +109,9 @@ const PriceListModal = ({
         <div className="addFieldItems-modal-box-header">
         <span 
           className="addFieldItems-modal-form-title">
-            {edit == 'job_activity_item' ? 
-            'Edit Activity' 
-            : 
-            'Add Activity'
-            }
+            {title}
         </span>
-        <div onClick={() => (setModal(''), resetState(resetType), setMessage(''))}>
+        <div onClick={() => (setModal(''), setMessage(''))}>
           <SVG svg={'close'}></SVG>
         </div>
         </div>
@@ -163,11 +146,8 @@ const PriceListModal = ({
                   key={idx} 
                   className="form-group-list-item" 
                   onClick={(e) => (
-                    dynamicType 
-                    ?
-                    setCurrentItem(item)
-                    :
-                    stateMethod(createType, 'account', item), setInputDropdown('')
+                    setCurrentItem(item),
+                    setInputDropdown('')
                   )}
                 >
                   {item.name}
@@ -196,7 +176,7 @@ const PriceListModal = ({
             setModal('')
           )
           :
-          null6
+          null
         }
         >
             {loading == 'create_quote' ? 
@@ -217,4 +197,4 @@ const PriceListModal = ({
   )
 }
 
-export default PriceListModal
+export default ListModal

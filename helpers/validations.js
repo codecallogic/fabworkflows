@@ -345,7 +345,7 @@ const addressSelect = async (e, key, createType, reduxMethod, id, keyTwo, keyThr
 }
 
 const formatDate = (e) => {
-  console.log(e)
+  // console.log(e)
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   // console.log(e.getUTCMonth() + 1)
   var month = e.getUTCMonth() + 1

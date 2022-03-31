@@ -35,4 +35,4 @@ const activityStatusSort = ['active', 'appointments', 'confirmTimeChange', 'colo
 
 const activitySetSort = ['set', 'name']
 
-const purchaseOrderSort = ['shipping', 'POnumber', 'supplier']
+const purchaseOrderSort = ['notes', 'taxRate', 'expectedDelivery', 'orderDate', 'POLines', 'status', 'shipping', 'POnumber', 'supplier']

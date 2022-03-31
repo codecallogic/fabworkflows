@@ -9,6 +9,7 @@ const initialState = {
   accountAddress: '',
   quotes: [],
   activities: [],
+  purchaseOrders: [],
   files: []
 }
 
