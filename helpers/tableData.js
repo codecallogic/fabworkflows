@@ -2,7 +2,6 @@ import axios from 'axios'
 import {API} from '../config'
 
 const filterTable = (data, includes, slice) => {
-  
   data.length > 0 && data.forEach((item) => {
     if(includes){
       for(let key in item){

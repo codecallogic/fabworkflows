@@ -1,5 +1,7 @@
 export {
-  activityStatus
+  activityStatus,
+  jobIssueStatus,
+  jobIssueCategory
 }
 
 const activityStatus = [
@@ -10,4 +12,19 @@ const activityStatus = [
   {status: 'canceled'},
   {status: 'in-progress'},
   {status: 'job-on-hold'}
+]
+
+const jobIssueStatus = [
+  {status: 'urgent'},
+  {status: 'open'},
+  {status: 'closed'}
+]
+
+const jobIssueCategory = [
+  {category: 'scratches'},
+  {category: 'marks'},
+  {category: 'dishwashe'},
+  {category: 'other'},
+  {category: 'wrong sink'},
+  {category: 'material delay'},
 ]

@@ -2,6 +2,7 @@ import {filterTable} from '../helpers/tableData'
 import SVG from '../files/svgs'
 import {useEffect, useState, useRef} from 'react'
 import { populateDependency, handleTableDropdowns } from '../helpers/modals'
+import { manageFormFields } from '../helpers/forms'
 
 const Table = ({
   token,
@@ -325,7 +326,11 @@ const Table = ({
                               data.name.substring(0, 10) : 
                               data.quote_name ?
                               data.quote_name.substring(0, 10) : 
-                              data.contact_name.substring(0, 10)
+                              data.contact_name ? 
+                              data.contact_name.substring(0, 10) :
+                              data.supplier ? 
+                              manageFormFields(data.supplier[0], 'name') :
+                              null
                               }
                             </div>
                           )}
@@ -369,7 +374,7 @@ const Table = ({
                     
                     :
                     
-                    item[key]
+                    item[key].substring(0, 60)
                   )
                   :
                    

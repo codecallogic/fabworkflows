@@ -83,6 +83,8 @@ import ActivityStatusModal from '../../components/modals/ActivityStatus'
 import ActivitySetModal from '../../components/modals/ActivitySet'
 import ActivityListModal from '../../components/modals/ActivityList'
 import PurchaseOrderModal from '../../components/modals/PurchaseOrder'
+import PurchaseOrderListModal from '../../components/modals/PurchaseList'
+import JobIssueModal from '../../components/modals/JobIssue'
 
 axios.defaults.withCredentials = true
 
@@ -125,6 +127,7 @@ const Dashboard = ({
   activityStatus,
   activitySet,
   purchaseOrder,
+  jobIssue,
   createType,
   resetType,
   addImages, 
@@ -1331,7 +1334,7 @@ const Dashboard = ({
             token={token}
             title={'New Job'}
             typeOfData={'jobs'}
-            componentData={data.quotes}
+            componentData={data.jobs}
             allData={allData}
             setAllData={setAllData}
             dynamicSVG={dynamicSVG}
@@ -1461,7 +1464,7 @@ const Dashboard = ({
                 <SVGs svg={'document'}></SVGs>
                 <span>New Quote</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (changeView('job'), resetType('RESET_JOB'))}>
+              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('job'), resetType('RESET_JOB'))}>
                 <SVGs svg={'job'}></SVGs>
                 <span>New Job</span>
               </div>
@@ -2030,6 +2033,52 @@ const Dashboard = ({
             >
             </PurchaseOrderModal>
           }
+          { modal == 'purchaseList' &&
+            <PurchaseOrderListModal
+              message={message}
+              setMessage={setMessage}
+              setModal={setModal}
+              loading={loading}
+              edit={edit}
+              setEdit={setEdit}
+              stateMethod={createType}
+              dynamicType={dynamicType}
+              extractingStateData={extractingStateData}
+              dynamicSVG={dynamicSVG}
+              allData={allData}
+              title={'Add Purchase List'}
+            >
+            </PurchaseOrderListModal>
+          }
+          { modal == 'jobIssue' &&
+            <JobIssueModal
+              token={token}
+              account={account}
+              message={message}
+              setMessage={setMessage}
+              setModal={setModal}
+              loading={loading}
+              setLoading={setLoading}
+              edit={edit}
+              setEdit={setEdit}
+              stateData={jobIssue}
+              stateMethod={createType}
+              dynamicType={dynamicType}
+              extractingStateData={extractingStateData}
+              dynamicSVG={dynamicSVG}
+              setDynamicSVG={setDynamicSVG}
+              resetState={resetType}
+              submitCreate={submitCreate}
+              allData={allData}
+              setAllData={setAllData}
+              submitUpdate={submitUpdate}
+              changeView={changeView}
+              editData={editData}
+              autoFill={job}
+              selectID={selectID}
+            >
+            </JobIssueModal>
+          }
       </div>
     </>
   )
@@ -2060,7 +2109,8 @@ const mapStateToProps = (state) => {
     dependency: state.dependency,
     activityStatus: state.activityStatus,
     activitySet: state.activitySet,
-    purchaseOrder: state.purchaseOrder
+    purchaseOrder: state.purchaseOrder,
+    jobIssue: state.jobIssue
   }
 }
 
@@ -2106,6 +2156,7 @@ Dashboard.getInitialProps = async (context) => {
   data.activitySets     = await tableData(accessToken, 'activities/all-activity-sets')
   data.accounts         = await tableData(accessToken, 'accounts/all-accounts')
   data.purchaseOrders   = await tableData(accessToken, 'purchase-order/all-purchase-orders')
+  data.jobIssues        = await tableData(accessToken, 'job-issue/all-job-issues')
   deepClone             = _.cloneDeep(data)
   
   return {

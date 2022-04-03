@@ -10,7 +10,8 @@ import { manageFormFields } from '../../helpers/forms'
 import { 
   quoteSort, 
   activitySort,
-  purchaseOrderSort
+  purchaseOrderSort,
+  jobIssueSort,
 } from '../../helpers/sorts'
 import { 
   validateDate, 
@@ -22,7 +23,7 @@ import {
   multipleFiles
 } from '../../helpers/validations'
 
-const QuoteForm = ({
+const JobForm = ({
   token,
   title,
   dynamicSVG,
@@ -76,6 +77,7 @@ const QuoteForm = ({
   const [save, setSave] = useState(false)
   const [activityHeaders, setActivityHeaders] = useState([])
   const [purchaseOrderHeaders, setPurchaseOrderHeaders] = useState([])
+  const [jobIssueHeaders, setJobIssueHeaders] = useState([])
   
   useEffect(() => {
     
@@ -105,7 +107,6 @@ const QuoteForm = ({
   }, [])
 
   useEffect(() => {
-
     let objectActivities = new Object()
     Object.values(activitySort).forEach( (item) => { objectActivities[item] = item })
     setActivityHeaders((oldArray) => [...oldArray, objectActivities])
@@ -113,6 +114,10 @@ const QuoteForm = ({
     let objectPurchaseOrders = new Object()
     Object.values(purchaseOrderSort).forEach( (item) => { objectPurchaseOrders[item] = item})
     setPurchaseOrderHeaders((oldArray) => [...oldArray, objectPurchaseOrders])
+
+    let objectJobIssues = new Object()
+    Object.values(jobIssueSort).forEach( (item) => { objectJobIssues[item] = item})
+    setJobIssueHeaders((oldArray) => [...oldArray, objectJobIssues])
 
   }, [])
   
@@ -531,7 +536,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
         changeView={changeView}
         setEdit={setEdit}
         viewType={'purchaseOrders'}
-        modalType={'purchaseOrders'}
+        modalType={'purchaseList'}
         loading={loading}
         setLoading={setLoading}
         dynamicSVG={dynamicSVG}
@@ -543,8 +548,46 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
         extractingStateData={extractingStateData}
         dynamicType={'CREATE_JOB_ARRAY_ITEM'}
         dynamicKey={'purchaseOrders'}
-        completeControl={true}
-        cancelControl={true}
+        completeControl={false}
+        cancelControl={false}
+        stateMethod={stateMethod}
+      >
+      </Table>
+
+      <Table
+        token={token}
+        title={'Job Issues'}
+        typeOfData={'jobIssues'}
+        componentData={jobIssueHeaders}
+        allData={stateData.jobIssues}
+        setAllData={setAllData}
+        modal={modal}
+        setModal={setModal}
+        sortOrder={jobIssueSort}
+        controls={controls}
+        setControls={setControls}
+        controlsType={'jobIssueControls'}
+        message={message}
+        setMessage={setMessage}
+        resetCheckboxes={resetCheckboxes}
+        editData={editData}
+        changeView={changeView}
+        setEdit={setEdit}
+        viewType={'jobIssues'}
+        modalType={'jobIssue'}
+        loading={loading}
+        setLoading={setLoading}
+        dynamicSVG={dynamicSVG}
+        setDynamicSVG={setDynamicSVG}
+        setDynamicType={setDynamicType}
+        setDynamicKey={setDynamicKey}
+        selectID={selectID}
+        setSelectID={setSelectID}
+        extractingStateData={extractingStateData}
+        dynamicType={'CREATE_JOB_ARRAY_ITEM'}
+        dynamicKey={'jobIssues'}
+        completeControl={false}
+        cancelControl={false}
         stateMethod={stateMethod}
       >
       </Table>
@@ -612,4 +655,4 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
   )
 }
 
-export default QuoteForm
+export default JobForm

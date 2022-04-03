@@ -387,6 +387,30 @@ body {
           .form-group-tags div span:hover {
             cursor: pointer;
             background-color: #1e1e1e; }
+    .form-group-history {
+      width: 100%;
+      overflow-y: auto;
+      padding: 1rem;
+      border: solid 0.1rem #c8c8cb;
+      border-radius: 1.2rem;
+      max-height: 35rem; }
+      .form-group-history::-webkit-scrollbar {
+        width: 0.3rem;
+        background-color: #757575; }
+      .form-group-history::-webkit-scrollbar-thumb {
+        background-color: rgba(253, 126, 60, 0.9); }
+      .form-group-history-item {
+        margin: 0.5rem 0;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        background-color: #dbdbdb; }
+        .form-group-history-item-details {
+          font-size: 1.2rem;
+          font-weight: 400; }
+          .form-group-history-item-details span {
+            display: block;
+            padding: 0 0.5rem;
+            text-transform: capitalize; }
   .form-estimate {
     padding: 1rem 3rem; }
     .form-estimate-line {

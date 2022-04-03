@@ -10,6 +10,7 @@ const initialState = {
   quotes: [],
   activities: [],
   purchaseOrders: [],
+  jobIssues: [],
   files: []
 }
 
@@ -42,6 +43,19 @@ export const jobReducer = (state = initialState, action) => {
       return {
         ...state,
         [action.name]: newArray
+      }
+      break;
+
+    case 'UPDATE_JOB_ARRAY_ITEM':
+      let updateArray = [...state[action.name]]
+      let newUpdatedArray = []
+
+      newUpdatedArray = updateArray.filter((item) => item._id !== action.value._id)
+      newUpdatedArray.push(action.value)
+      
+      return {
+        ...state,
+        [action.name]: newUpdatedArray
       }
       break;
 

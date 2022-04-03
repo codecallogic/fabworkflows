@@ -51,7 +51,6 @@ const Table = ({
 
 }) => {
   
-  
   const matchPattern = /https?:\/\/(www\.)?/gi;
   const myRefs = useRef([])
   const [loadingColor, setLoadingColor] = useState('black')
@@ -82,7 +81,7 @@ const Table = ({
     }
   }
 
-  useEffect(() => {    
+  useEffect(() => {     
     document.addEventListener("click", handleClickOutside, true);
 
     return () => {
@@ -101,6 +100,12 @@ const Table = ({
     setSelectID(id)
   }
   
+  const handleEdit = () => {
+    if(controls == 'jobIssueControls'){
+      setModal('jobIssue')
+      editData('jobIssues', 'CREATE_JOB_ISSUE', selectID)
+    }
+  }
   
   return (
     <div className="table">
@@ -131,7 +136,8 @@ const Table = ({
                 }>
                 <SVG onClick={() => {extractingStateData(currentItem)}} svg={'thrash-can'} id={'delete'}></SVG>
               </div>
-              {completeControl &&
+
+              {completeControl && controls == 'activityControls' &&
                 <div 
                   id="complete" 
                   className="table-header-controls-item" 
@@ -144,7 +150,8 @@ const Table = ({
                   Complete
                 </div>
               }
-              {cancelControl &&
+
+              {cancelControl && controls == 'activityControls' &&
                 <div 
                   id="cancel" 
                   className="table-header-controls-item" 
@@ -155,6 +162,20 @@ const Table = ({
                   )}
                 >
                   Cancel
+                </div>
+              }
+              
+              {controls == 'jobIssueControls' &&
+                <div
+                  id="complete" 
+                  className="table-header-controls-item" 
+                  onClick={() => {
+                    handleEdit()
+                    setControls(''), 
+                    resetCheckboxes()
+                  }}
+                >
+                  Edit
                 </div>
               }
               
@@ -244,7 +265,11 @@ const Table = ({
                 {
                   Array.isArray(item[key]) && item[key].length > 0 
                   ? 
-                  item[key][0].name
+                    item[key][0].name
+                    ?
+                    item[key][0].name
+                    :
+                    item[key][0].firstName
                   : null
                 }
                 {
@@ -271,9 +296,7 @@ const Table = ({
                     (
                     <div><span className="table-rows-item-color" style={{backgroundColor: item[key]}}></span>{item[key]}</div>
                     )
-                    
                     :
-                    
                     item[key]
                   )
                   :

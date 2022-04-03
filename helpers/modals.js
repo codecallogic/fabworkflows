@@ -5,19 +5,18 @@ export {
   handleTableDropdowns
 }
 
-const allowArrays = ['quotes', 'jobs', 'activities', 'activitySets']
+const allowArrays = ['quotes', 'jobs', 'activities', 'activitySets', 'jobIssues']
 const allowObjects = ['account', 'accountAddress']
 
 const populateEditData = (originalData, keyType, caseType, stateMethods, selectID) => {
   stateMethods.createType(caseType, '_id', selectID)
-  
+
   for(let key in originalData[keyType]){
     if(originalData[keyType][key]._id == selectID){
-      // console.log(originalData[keyType][key])
+
       let object = originalData[keyType][key]
 
       for(let keyOfObject in object){
-        // console.log(object[keyOfObject])
         stateMethods.createType(caseType, keyOfObject, object[keyOfObject])
 
         if(Array.isArray(object[keyOfObject]) && object[keyOfObject].length > 0){
@@ -65,7 +64,7 @@ const populateDependency = (data, stateType, stateMethod, selectID, setEdit) => 
 }
 
 const handleTableDropdowns = (allData, keyType, item, stateMethod, setEdit, setModal, changeView) => {
-
+  
   let listType
   let editType
   let modalType
@@ -110,6 +109,14 @@ const handleTableDropdowns = (allData, keyType, item, stateMethod, setEdit, setM
     modalType     = 'activities'
     viewType      = 'activities'
     createType    = 'CREATE_ACTIVITY'
+  }
+
+  if( keyType == 'purchaseOrders'){
+    listType      = 'purchaseOrders'
+    editType      = 'purchaseOrders'
+    modalType     = 'purchaseOrders'
+    viewType      = 'purchaseOrders'
+    createType    = 'CREATE_PO'
   }
 
   for(let keyItem in allData[listType]){
