@@ -2,7 +2,8 @@ export {
   populateEditData,
   populateAddress,
   populateDependency,
-  handleTableDropdowns
+  handleTableDropdowns,
+  returnSelectedData
 }
 
 const allowArrays = ['quotes', 'jobs', 'activities', 'activitySets', 'jobIssues']
@@ -133,4 +134,18 @@ const handleTableDropdowns = (allData, keyType, item, stateMethod, setEdit, setM
     }
   }
   
+}
+
+const returnSelectedData = (data, listType, selectID) => {
+  let selected
+
+  if(data[listType].length > 0){
+    data[listType].map((item) => {
+      if(item._id == selectID){
+        selected = item
+      }
+    })
+  }
+  
+  return selected
 }

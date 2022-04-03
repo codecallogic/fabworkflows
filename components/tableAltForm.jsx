@@ -1,6 +1,10 @@
 import { filterTable } from '../helpers/tableData'
 import SVG from '../files/svgs'
 import { useEffect, useState, useRef } from 'react'
+import { BlobProvider } from '@react-pdf/renderer';
+import { validatePDFContent } from '../helpers/validations'
+import { returnSelectedData } from '../helpers/modals';
+import JobIssuesPDF from '../components/pdf/jobIssues'
 
 const Table = ({
   token,
@@ -39,6 +43,7 @@ const Table = ({
   componentData,
   allData,
   editData,
+  stateData,
 
   //// REDUX
   changeView,
@@ -63,7 +68,6 @@ const Table = ({
     if(myRefs.current){
       myRefs.current.forEach((item) => {
         if(item){
-          
           if(event.target.id == 'checkbox') return
           if(item.contains(event.target)) return
           if(event.target.getAttribute('id') == 'delete') return resetCheckboxes()
@@ -72,6 +76,8 @@ const Table = ({
           if(event.target == document.getElementById('edit')) return
           if(event.target == document.getElementById('complete')) return
           if(event.target == document.getElementById('cancel')) return
+          if(event.target.nodeName == 'svg') return
+          if(event.target.nodeName == 'path') return
           
           resetCheckboxes()
           setSelectID('')
@@ -164,10 +170,38 @@ const Table = ({
                   Cancel
                 </div>
               }
+
+              {controls == 'jobIssueControls' &&
+                <BlobProvider 
+                  document={<JobIssuesPDF 
+                  stateData={stateData}
+                  jobIssues={returnSelectedData(stateData, 'jobIssues', selectID)}
+                />}
+                  >
+                    {({ blob, url, loading, error }) =>
+                      <div  
+                        id="complete" 
+                        className="table-header-controls-item-svg" 
+                        onClick={() => (
+                        validatePDFContent(
+                          'viewJobIssues', 
+                          'pdfJobIssues', 
+                          returnSelectedData(stateData, 'jobIssues', selectID),
+                          url, 
+                          setDynamicSVG, 
+                          setMessage,
+                          selectID
+                        )
+                      )}>
+                        <SVG svg={'print'} id={'complete'}></SVG>
+                      </div>
+                    }
+                </BlobProvider>
+              } 
               
               {controls == 'jobIssueControls' &&
                 <div
-                  id="complete" 
+                  id="edit" 
                   className="table-header-controls-item" 
                   onClick={() => {
                     handleEdit()
@@ -178,7 +212,6 @@ const Table = ({
                   Edit
                 </div>
               }
-              
               </>
             }
           </div>

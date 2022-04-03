@@ -36,7 +36,8 @@ const formFields = {
   productQRCode: ['brand', 'model', 'category', 'price'],
   remnantQRCode: ['name', 'material', 'l1', 'w1', 'l2', 'w2'],
   pdfQuote: ['contact_name', 'address', 'city', 'state', 'zip_code', 'phone', 'quote_date', 'quote_number', 'quote_name', 'salesperson', 'quote_subtotal', 'quote_tax', 'quote_total', 'quote_balance'],
-  pdfAgreement: ['contact_name', 'quote_name', 'quote_date']
+  pdfAgreement: ['contact_name', 'quote_name', 'quote_date'],
+  pdfJobIssues: ['job', 'subject', 'status', 'category', 'history']
 }
 
 
@@ -438,7 +439,7 @@ const filterRemnantSearch = (item, search) => {
 
 }
 
-const validatePDFContent = (functionType, type, stateData, url, setDynamicSVG, setMessage) => {
+const validatePDFContent = async (functionType, type, stateData, url, setDynamicSVG, setMessage, selectID) => {
 
   for(let i = 0; i < formFields[type].length; i++){
   
@@ -466,6 +467,10 @@ const validatePDFContent = (functionType, type, stateData, url, setDynamicSVG, s
     link.href = url;
     link.download = 'agreement.pdf';
     link.dispatchEvent(new MouseEvent('click'));
+  }
+
+  if( functionType == 'viewJobIssues'){
+    window.open(url, '_blank')
   }
 
 }

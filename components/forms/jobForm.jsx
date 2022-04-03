@@ -3,7 +3,8 @@ import SVG from '../../files/svgs'
 import Calendar from 'react-calendar'
 import Table from '../tableAltForm'
 import 'react-calendar/dist/Calendar.css';
-
+import { PDFViewer } from '@react-pdf/renderer';
+import JobIssues from '../../components/pdf/jobIssues'
 
 //// HELPERS
 import { manageFormFields } from '../../helpers/forms'
@@ -22,6 +23,7 @@ import {
   validateNumber,
   multipleFiles
 } from '../../helpers/validations'
+import { returnSelectedData } from '../../helpers/modals';
 
 const JobForm = ({
   token,
@@ -589,6 +591,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
         completeControl={false}
         cancelControl={false}
         stateMethod={stateMethod}
+        stateData={stateData}
       >
       </Table>
 
