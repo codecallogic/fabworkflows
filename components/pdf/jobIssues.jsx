@@ -77,6 +77,8 @@ const styles = StyleSheet.create({
 })
 
 const Quote = ({stateData, jobIssues}) => { 
+  console.log(stateData)
+  console.log(jobIssues)
   return (
     <Document>
       <Page style={styles.page}>
@@ -100,7 +102,7 @@ const Quote = ({stateData, jobIssues}) => {
                 <Text style={styles.headingOneBold}>Subject: </Text>
               </View>
               <View>
-                <Text style={styles.headingOne}>{jobIssues.subject}</Text>
+                <Text style={styles.headingOne}>{stateData.jobIssues.length > 0 ? jobIssues.subject : ''}</Text>
               </View>
             </View>
             <View style={styles.sectionRow}>
@@ -108,7 +110,7 @@ const Quote = ({stateData, jobIssues}) => {
                 <Text style={styles.headingOneBold}>Category: </Text>
               </View>
               <View>
-                <Text style={styles.headingOne}>{jobIssues.category}</Text>
+                <Text style={styles.headingOne}>{stateData.jobIssues.length > 0 ? jobIssues.category : ''}</Text>
               </View>
             </View>
             <View style={styles.sectionRow}>
@@ -124,7 +126,7 @@ const Quote = ({stateData, jobIssues}) => {
                 <Text style={styles.headingOneBold}>Status: </Text>
               </View>
               <View>
-                <Text style={styles.headingOne}>{jobIssues.status}</Text>
+                <Text style={styles.headingOne}>{stateData.jobIssues.length > 0 ? jobIssues.status : ''}</Text>
               </View>
             </View> 
           </View>
@@ -134,7 +136,12 @@ const Quote = ({stateData, jobIssues}) => {
                 Last Update
               </Text>
               <Text style={styles.normal}>
-                {moment(jobIssues.history[jobIssues.history.length - 1].createdAt).format('MM/DD/YYYY HH:mm:ss')}
+                { stateData.jobIssues.length > 0
+                  ? 
+                  moment(jobIssues.history[jobIssues.history.length - 1].createdAt).format('MM/DD/YYYY HH:mm:ss')
+                  : 
+                  ''
+                }
               </Text>
             </View>
             <View style={{ margin: 1}}>
@@ -142,7 +149,12 @@ const Quote = ({stateData, jobIssues}) => {
                 Last Update By
               </Text>
               <Text style={styles.normal}>
-                {jobIssues.history[jobIssues.history.length - 1].firstName} {jobIssues.history[jobIssues.history.length - 1].lastName}
+                { stateData.jobIssues.length > 0 
+                  ?
+                  `${jobIssues.history[jobIssues.history.length - 1].firstName} ${jobIssues.history[jobIssues.history.length - 1].lastName}`
+                  :
+                  ''
+                }
               </Text>
             </View>
           </View>
@@ -151,27 +163,30 @@ const Quote = ({stateData, jobIssues}) => {
           <Text style={styles.headingOneBold}>
             History
           </Text>
-          {jobIssues.history.length > 0 && jobIssues.history.map((item, idx) => 
+          {stateData.jobIssues.length > 0 && jobIssues.history.map((item, idx) => 
             <View key={idx} style={styles.box}>
               <Text style={styles.headingOne}>
-                {item.firstName} ({moment(item.createdAt).format('MM/DD/YYYY HH:mm:ss')})
+                {item.firstName ? item.firstName : ''} {item.createdAt ? `(${moment(item.createdAt).format('MM/DD/YYYY HH:mm:ss')})` : ''}
               </Text>
               <Text style={styles.normal}>
                 Created
               </Text>
               <Text style={styles.normal}>
-                Subject: {item.subject}
+                Subject: {item.subject ? item.subject : ''}
               </Text>
               <Text style={styles.normal}>
-                Status: {item.status}
+                Status: {item.status ? item.status : ''}
               </Text>
               <Text style={styles.normal}>
-                Category: {item.category}
+                Category: {item.category ? item.category : ''}
               </Text>
-              {item.notes &&
+              {item.notes 
+                ?
                 <Text style={styles.normal}>
-                  {item.notes}
+                  {item.notes ? item.notes : ''}
                 </Text>
+                :
+                null
               }
             </View>
           )}

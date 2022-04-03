@@ -38,7 +38,7 @@ const JobIssueModal = ({
   submitUpdate,
   submitDeleteFile
 }) => {
-  
+
   const createType = 'CREATE_JOB_ISSUE'
   const resetType = 'RESET_JOB_ISSUE'
   const addToJob = 'UPDATE_JOB_ARRAY_ITEM'

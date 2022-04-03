@@ -172,6 +172,7 @@ const Table = ({
               }
 
               {controls == 'jobIssueControls' &&
+                returnSelectedData(stateData, 'jobIssues', selectID) ? 
                 <BlobProvider 
                   document={<JobIssuesPDF 
                   stateData={stateData}
@@ -197,6 +198,8 @@ const Table = ({
                       </div>
                     }
                 </BlobProvider>
+                : 
+                null
               } 
               
               {controls == 'jobIssueControls' &&

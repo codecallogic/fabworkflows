@@ -70,12 +70,13 @@ const Table = ({
     if(myRefs.current){
       myRefs.current.forEach((item) => {
         if(item){
-          
+
           if(event.target.id == 'checkbox') return
           if(item.contains(event.target)) return
           if(event.target.getAttribute('id') == 'dependency') return
           if(event.target == document.getElementById('delete')) return
           if(event.target == document.getElementById('edit')) return
+          // if(event.target.nodeName == 'SPAN') return
           
           resetCheckboxes()
           setControls('')
@@ -184,13 +185,15 @@ const Table = ({
           <div 
             id="edit" 
             className="table-header-controls-item" 
-            onClick={() => (
+            onClick={(e) => (
+              e.stopPropagation(),
               setModal(modalType), 
               changeView(viewType), 
               setEdit(typeOfData), 
               editData(editDataType.key, editDataType.caseType), 
               setControls(''), 
-              resetCheckboxes()
+              resetCheckboxes(),
+              setSelectID('')
             )}
           >
             Edit
