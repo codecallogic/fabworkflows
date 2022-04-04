@@ -138,7 +138,7 @@ const handleTableDropdowns = (allData, keyType, item, stateMethod, setEdit, setM
 
 const returnSelectedData = (data, listType, selectID) => {
   let selected
-  console.log(selectID)
+
   if(data[listType].length > 0){
     data[listType].map((item) => {
       if(item._id == selectID){
@@ -146,6 +146,6 @@ const returnSelectedData = (data, listType, selectID) => {
       }
     })
   }
-  console.log(selected)
+
   return selected
 }

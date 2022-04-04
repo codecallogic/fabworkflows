@@ -23,7 +23,8 @@ import {
   activitySort,
   activityStatusSort,
   activitySetSort,
-  purchaseOrderSort
+  purchaseOrderSort,
+  jobIssueSort
 } from '../../helpers/sorts'
 import { populateEditData } from '../../helpers/modals'
 
@@ -150,6 +151,7 @@ const Dashboard = ({
   const [dynamicSVG, setDynamicSVG] = useState('notification')
   const [edit, setEdit] = useState('')
   const [allData, setAllData] = useState(originalData ? originalData : [])
+  const [event, setEvent] = useState('')
 
   //// EDIT QUOTE LINE
   const [modalEdit, setModalEdit] = useState('')
@@ -1366,6 +1368,8 @@ const Dashboard = ({
             extractingStateData={extractingStateData}
             addImages={addImages}
             submitDeleteFile={submitDeleteFile}
+            event={event}
+            setEvent={setEvent}
           >
           </JobForm>
         }
@@ -1403,6 +1407,48 @@ const Dashboard = ({
             editData={editData}
           >
           </PurchaseOrderForm>
+        }
+
+        {nav.view == 'jobIssues' &&
+          <Table
+            token={token}
+            title={'Job Issues'}
+            typeOfData={'jobIssues'}
+            componentData={data.jobIssues}
+            allData={allData}
+            setAllData={setAllData}
+            stateMethod={createType}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={jobIssueSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'jobIssueControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'jobIssues'}
+            modalType={'jobIssue'}
+            editDataType={{key: 'jobIssues', caseType: 'CREATE_JOB_ISSUE'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="job-issue/delete-job-issue"
+            searchType={'jobsIssues'}
+            searchPlaceholder={'Search by job name'}
+            typeOfDataParent={'jobs'}
+          >
+          </Table>
         }
         
         <div className="clientDashboard-view">
@@ -2076,6 +2122,8 @@ const Dashboard = ({
               editData={editData}
               autoFill={job}
               selectID={selectID}
+              typeOfData={edit == 'jobIssues' ? 'jobIssues' : 'jobs'}
+              setEvent={setEvent}
             >
             </JobIssueModal>
           }

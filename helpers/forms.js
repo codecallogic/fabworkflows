@@ -139,8 +139,8 @@ const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingTy
     setLoading('')
     allData[type]= responseUpdate.data
     setAllData(allData)
-    resetState(resetType)
-    changeView(viewType)
+    if(resetType) resetState(resetType)
+    if(viewType) changeView(viewType)
     if(setModal) setModal('')
     
   } catch (error) {
@@ -181,7 +181,7 @@ const submitDeleteFile = async (e, fileItem, key, caseType, stateMethod, stateDa
   
 }
 
-const submitDeleteRow = async (e, type, setMessage, loadingType, setLoading, token, path, selectID, allData, setAllData, setDynamicSVG, resetCheckboxes, setControls) => {
+const submitDeleteRow = async (e, type, setMessage, loadingType, setLoading, token, path, selectID, allData, setAllData, setDynamicSVG, resetCheckboxes, setControls, typeOfDataParent) => {
 
   setLoading(loadingType)
   
@@ -199,6 +199,7 @@ const submitDeleteRow = async (e, type, setMessage, loadingType, setLoading, tok
     setMessage('Item was deleted')
     setControls('')
     resetCheckboxes()
+    if(typeOfDataParent) getAll(setDynamicSVG, setMessage, token, allData, setAllData, typeOfDataParent)
     
   } catch (error) {
     console.log(error)
@@ -250,5 +251,26 @@ const resetDataType = async (loadingType, setLoading, setMessage, path, type, al
     console.log(error)
     setLoading('')
     if(error) error.response ? error.response.statusText == 'Unauthorized' ? (setDynamicSVG('notification'), setMessage(error.response.statusText), window.location.href = '/login') : (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred searching items'))
+  }
+}
+
+const getAll = async (setDynamicSVG, setMessage, token, allData, setAllData, typeOfData) => {
+  try {
+
+    let response
+
+    if(typeOfData == 'jobs') response = await axios.get(`${API}/jobs/all-jobs`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        contentType: 'multipart/form-data'
+      }
+    })
+
+    allData[typeOfData] = response.data
+    setAllData(allData)
+    
+  } catch (error) {
+    console.log(error)
+    if(error) error.response ? error.response.statusText == 'Unauthorized' ? (setDynamicSVG('notification'), setMessage(error.response.statusText), window.location.href = '/login') : (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred with deleting item'))
   }
 }

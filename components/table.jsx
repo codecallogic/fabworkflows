@@ -29,6 +29,7 @@ const Table = ({
   setAllData,
   searchType,
   searchPlaceholder,
+  typeOfDataParent,
 
   ///// EDIT
   viewType,
@@ -56,7 +57,7 @@ const Table = ({
 }) => {
   
   //// TABLES WITH DROPDOWNS
-  const tableDropdowns = ['jobs', 'activities', 'activitySets']
+  const tableDropdowns = ['jobs', 'activities', 'activitySets', 'jobIssues']
   
   const matchPattern = /https?:\/\/(www\.)?/gi;
   const myRefs = useRef([])
@@ -86,7 +87,8 @@ const Table = ({
     }
   }
 
-  useEffect(() => {    
+  useEffect(() => {   
+    console.log(allData[typeOfData])
     document.addEventListener("click", handleClickOutside, true);
 
     return () => {
@@ -192,8 +194,7 @@ const Table = ({
               setEdit(typeOfData), 
               editData(editDataType.key, editDataType.caseType), 
               setControls(''), 
-              resetCheckboxes(),
-              setSelectID('')
+              resetCheckboxes()
             )}
           >
             Edit
@@ -203,7 +204,7 @@ const Table = ({
           <div 
           id="delete" 
           className="table-header-controls-item" 
-          onClick={(e) => submitDeleteRow(e, typeOfData, setMessage, 'delete_row', setLoading, token, deleteType, selectID, allData, setAllData, setDynamicSVG, resetCheckboxes, setControls)}
+          onClick={(e) => submitDeleteRow(e, typeOfData, setMessage, 'delete_row', setLoading, token, deleteType, selectID, allData, setAllData, setDynamicSVG, resetCheckboxes, setControls, typeOfDataParent)}
           >
             {loading == 'delete_row' ? 
             <div className="loading">
@@ -324,13 +325,16 @@ const Table = ({
                               key={idxDropdown}
                               className="table-rows-item-dropdown-items-item"
                               onClick={() => handleTableDropdowns(allData, key, data, stateMethod, setEdit, setModal, changeView)}
-                            >
-                              {data.name ? 
+                            > 
+                              {
+                              data.name ? 
                               data.name.substring(0, 10) : 
                               data.quote_name ?
                               data.quote_name.substring(0, 10) : 
                               data.contact_name ? 
                               data.contact_name.substring(0, 10) :
+                              data.firstName ? 
+                              `${data.lastName.substring(0, 1)}. ${data.firstName.substring(0, 5)} ` :
                               data.supplier ? 
                               manageFormFields(data.supplier[0], 'name') :
                               null

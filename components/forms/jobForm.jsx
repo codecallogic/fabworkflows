@@ -44,6 +44,7 @@ const JobForm = ({
   resetCheckboxes,
   selectID,
   setSelectID,
+  event,
 
   //// DATA
   typeOfData,
@@ -122,6 +123,11 @@ const JobForm = ({
     setJobIssueHeaders((oldArray) => [...oldArray, objectJobIssues])
 
   }, [])
+
+  useEffect(() => {
+    if(event == 'created-job-issue') submitUpdate(null, stateData, 'jobs', 'files', setMessage, 'update_job', setLoading, token, 'jobs/update-job', null, resetState, allData, setAllData, setDynamicSVG, changeView, null)
+    if(event == 'updated-job-issue') submitUpdate(null, stateData, 'jobs', 'files', setMessage, 'update_job', setLoading, token, 'jobs/update-job', null, resetState, allData, setAllData, setDynamicSVG, changeView, null)
+  }, [event])
   
   return (
     <div className="table">

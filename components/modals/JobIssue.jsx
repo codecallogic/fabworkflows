@@ -18,6 +18,7 @@ const JobIssueModal = ({
   edit,
   dynamicSVG,
   setDynamicSVG,
+  setEvent,
 
   //// DATA
   allData,
@@ -25,6 +26,7 @@ const JobIssueModal = ({
   editData,
   autoFill,
   selectID,
+  typeOfData,
 
   //// REDUX
   stateData,
@@ -32,13 +34,16 @@ const JobIssueModal = ({
   resetState,
   changeView,
   addImages,
+  jobState,
 
   //// CRUD
   submitCreate,
   submitUpdate,
   submitDeleteFile
 }) => {
-
+  console.log(edit)
+  console.log(typeOfData)
+  console.log(selectID)
   const createType = 'CREATE_JOB_ISSUE'
   const resetType = 'RESET_JOB_ISSUE'
   const addToJob = 'UPDATE_JOB_ARRAY_ITEM'
@@ -135,6 +140,7 @@ const JobIssueModal = ({
       stateMethod(addToJob, 'jobIssues', response.data.item)
       resetState(resetType)
       setModal('')
+      setEvent('created-job-issue')
       
     } catch (error) {
       console.log(error)
@@ -164,6 +170,7 @@ const JobIssueModal = ({
       stateMethod(addToJob, 'jobIssues', response.data.item)
       resetState(resetType)
       setModal('')
+      setEvent('updated-job-issue')
       
     } catch (error) {
       console.log(error)
@@ -188,7 +195,7 @@ const JobIssueModal = ({
         <div className="addFieldItems-modal-box-header">
         <span 
           className="addFieldItems-modal-form-title">
-            {edit == 'jobs' && id ? 
+            {edit == typeOfData && id ? 
             'Edit Job Issue' 
             : 
             'New Job Issue'
@@ -244,7 +251,9 @@ const JobIssueModal = ({
             <input
             onClick={() => setInputDropdown('jobIssue-status')} 
             value={stateData.status} 
-            onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'status', e.target.value))}/>
+            onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'status', e.target.value))}
+            readOnly
+            />
             <label 
             className={`input-label ` + (
               stateData.status.length > 0 || 
@@ -278,7 +287,8 @@ const JobIssueModal = ({
             <input
             onClick={() => setInputDropdown('jobIssue-category')} 
             value={stateData.category} 
-            onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'category', e.target.value))}/>
+            onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'category', e.target.value))}
+            />
             <label 
             className={`input-label ` + (
               stateData.category.length > 0 || 
@@ -372,7 +382,7 @@ const JobIssueModal = ({
 
 
       <div className="addFieldItems-modal-box-footer">
-        {edit == 'jobs' && !id && 
+        {edit == typeOfData && !id && 
         <button 
         className="form-group-button" 
         onClick={(e) => (
@@ -390,7 +400,7 @@ const JobIssueModal = ({
             }
         </button>
         }
-        {edit == 'jobs' && id && 
+        {edit == typeOfData && id && 
         <button 
         className="form-group-button" 
         onClick={(e) => (

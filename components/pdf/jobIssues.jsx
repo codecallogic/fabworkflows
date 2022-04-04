@@ -77,8 +77,6 @@ const styles = StyleSheet.create({
 })
 
 const Quote = ({stateData, jobIssues}) => { 
-  console.log(stateData)
-  console.log(jobIssues)
   return (
     <Document>
       <Page style={styles.page}>
