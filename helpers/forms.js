@@ -36,7 +36,8 @@ const formFields = {
   activities: ['name'],
   activityStatus: ['status'],
   activitySets: ['name', 'set'],
-  purchaseOrders: ['supplier', 'shipping', 'POnumber']
+  purchaseOrders: ['supplier', 'shipping', 'POnumber'],
+  contracts: ['job', 'name', 'status', 'contract', 'email', 'subject', 'message']
 }
 
 

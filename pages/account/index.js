@@ -39,6 +39,7 @@ import RemnantForm from '../../components/forms/remnantForm'
 import QuoteForm from '../../components/forms/quoteForm'
 import JobForm from '../../components/forms/jobForm'
 import PurchaseOrderForm from '../../components/forms/purchaseOrderForm'
+import ContractForm from '../../components/forms/contractForm'
 
 import { 
   submitCreate, 
@@ -128,6 +129,7 @@ const Dashboard = ({
   activityStatus,
   activitySet,
   purchaseOrder,
+  contract,
   jobIssue,
   createType,
   resetType,
@@ -136,7 +138,7 @@ const Dashboard = ({
 }) => {
   const myRefs = useRef(null)
   
-  // console.log(originalData)
+  console.log(originalData)
   
   const router = useRouter()
 
@@ -1229,6 +1231,7 @@ const Dashboard = ({
           >
           </SlabForm>
         }
+
         {nav.view == 'product' &&
           <ProductForm
             token={token}
@@ -1265,6 +1268,7 @@ const Dashboard = ({
           >
           </ProductForm>
         }
+
         {nav.view == 'remnant' &&
           <RemnantForm
             token={token}
@@ -1302,6 +1306,7 @@ const Dashboard = ({
           >
           </RemnantForm>
         }
+
         {nav.view == 'quote' &&
           <QuoteForm
             token={token}
@@ -1331,6 +1336,7 @@ const Dashboard = ({
           >
           </QuoteForm>
         }
+
         {nav.view == 'job' &&
           <JobForm
             token={token}
@@ -1373,6 +1379,7 @@ const Dashboard = ({
           >
           </JobForm>
         }
+
         { nav.view == 'purchaseOrderForm' &&
           <PurchaseOrderForm
             token={token}
@@ -1407,6 +1414,42 @@ const Dashboard = ({
             editData={editData}
           >
           </PurchaseOrderForm>
+        }
+
+        { nav.view == 'contractForm' &&
+          <ContractForm
+            token={token}
+            title={'New Contract'}
+            typeOfData={'contracts'}
+            allData={allData}
+            setAllData={setAllData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            submitCreate={submitCreate}
+            modal={modal}
+            setModal={setModal}
+            stateData={contract}
+            stateMethod={createType}
+            originalData={originalData}
+            message={message}
+            setMessage={setMessage}
+            loading={loading}
+            setLoading={setLoading}
+            validateNumber={validateNumber}
+            validatePrice={validatePrice}
+            validateDate={validateDate}
+            generateQR={generateQR}
+            resetState={resetType}
+            addImages={addImages}
+            dateNow={dateNow}
+            edit={edit}
+            setEdit={setEdit}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            submitDeleteFile={submitDeleteFile}
+            editData={editData}
+          >
+          </ContractForm>
         }
 
         {nav.view == 'jobIssues' &&
@@ -1513,6 +1556,10 @@ const Dashboard = ({
               <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('job'), resetType('RESET_JOB'))}>
                 <SVGs svg={'job'}></SVGs>
                 <span>New Job</span>
+              </div>
+              <div className="clientDashboard-view-new-item" onClick={() => (changeView('contractForm'))}>
+                <SVGs svg={'files'}></SVGs>
+                <span>New Contract</span>
               </div>
               <div className="clientDashboard-view-new-item" onClick={() => changeView('prices')}>
                 <SVGs svg={'price-list'}></SVGs>
@@ -2158,7 +2205,8 @@ const mapStateToProps = (state) => {
     activityStatus: state.activityStatus,
     activitySet: state.activitySet,
     purchaseOrder: state.purchaseOrder,
-    jobIssue: state.jobIssue
+    jobIssue: state.jobIssue,
+    contract: state.contract
   }
 }
 
@@ -2205,6 +2253,7 @@ Dashboard.getInitialProps = async (context) => {
   data.accounts         = await tableData(accessToken, 'accounts/all-accounts')
   data.purchaseOrders   = await tableData(accessToken, 'purchase-order/all-purchase-orders')
   data.jobIssues        = await tableData(accessToken, 'job-issue/all-job-issues')
+  data.contracts        = await tableData(accessToken, 'contracts/all-contracts')
   deepClone             = _.cloneDeep(data)
   
   return {

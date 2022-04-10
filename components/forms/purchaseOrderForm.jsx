@@ -89,7 +89,7 @@ const PurchaseOrderForm = ({
             onClick={(e) => edit == typeOfData ? 
               submitUpdate(e, stateData, 'purchaseOrders', 'files', setMessage, 'create_po', setLoading, token, 'purchase-order/update-purchase-order', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'purchaseOrders', null)
               : 
-              submitCreate(e, stateData, 'quotes', setMessage, 'create_quote', setLoading, token, 'quotes/create-quote', resetType, resetState, allData, setAllData, setDynamicSVG)  
+              submitCreate(e, stateData, 'quotes', 'files', setMessage, 'create_quote', setLoading, token, 'quotes/create-quote', resetType, resetState, allData, setAllData, setDynamicSVG)  
             }
             >
             {loading == 'create_po' ? 
