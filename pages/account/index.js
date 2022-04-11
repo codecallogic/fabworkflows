@@ -24,7 +24,8 @@ import {
   activityStatusSort,
   activitySetSort,
   purchaseOrderSort,
-  jobIssueSort
+  jobIssueSort,
+  contractSort
 } from '../../helpers/sorts'
 import { populateEditData } from '../../helpers/modals'
 
@@ -1490,6 +1491,47 @@ const Dashboard = ({
             searchType={'jobsIssues'}
             searchPlaceholder={'Search by job name'}
             typeOfDataParent={'jobs'}
+          >
+          </Table>
+        }
+
+        {nav.view == 'contracts' &&
+          <Table
+            token={token}
+            title={'Contracts'}
+            typeOfData={'contracts'}
+            componentData={data.contracts}
+            allData={allData}
+            setAllData={setAllData}
+            stateMethod={createType}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={contractSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'contractControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'contractForm'}
+            modalType={''}
+            editDataType={{key: 'contracts', caseType: 'CREATE_CONTRACT'}}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="contracts/delete-contract"
+            searchType={'contracts'}
+            searchPlaceholder={'Search by job name'}
           >
           </Table>
         }

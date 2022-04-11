@@ -527,3 +527,8 @@ const validateTime = (e, type, createType, reduxMethod) => {
   if(time.length < 5) return reduxMethod(createType, type, `${time.slice(0,2)}:${time.slice(2,4)}`)
   
 }
+
+const validateTable = (item, key) => {
+
+  
+}

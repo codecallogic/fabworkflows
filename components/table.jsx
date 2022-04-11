@@ -55,7 +55,7 @@ const Table = ({
   deleteType
 
 }) => {
-  
+  // console.log(allData[typeOfData])
   //// TABLES WITH DROPDOWNS
   const tableDropdowns = ['jobs', 'activities', 'activitySets', 'jobIssues']
   
@@ -354,7 +354,7 @@ const Table = ({
                   !Array.isArray(item[key]) && item[key].length > 0 && (item[key].match(/^data:image\/(png|jpg|jpeg);base64,/gmi) !== null)
                   ? 
                   <a 
-                    download="qr-code.png" 
+                    download={`image.png`}
                     href={`${item[key]}`} target="_blank"
                   >
                     <img src={item[key]}></img>
@@ -380,8 +380,15 @@ const Table = ({
                     )
                     
                     :
-                    
-                    item[key].substring(0, 60)
+                      typeof item[key] == 'boolean'
+                    ?
+                      item[key] ? 'true' : 'false'
+                    : 
+                      item[key].match(/^data:image\/(png|jpg|jpeg);base64,/gmi) !== null
+                    ?
+                      ''
+                    :
+                      item[key].substring(0, 60)
                   )
                   :
                    

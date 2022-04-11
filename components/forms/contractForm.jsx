@@ -107,7 +107,7 @@ const ContractForm = ({
     <div className="table">
       <div className="table-header">
         <div className="table-header-title">
-          {edit == typeOfData ? 'Edit Purchase Order' : title}
+          {edit == typeOfData ? 'Edit Contract' : title}
         </div>
         {save &&
         <div className="table-header-controls">
