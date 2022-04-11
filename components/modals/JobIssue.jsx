@@ -5,7 +5,7 @@ import { jobIssueStatus, jobIssueCategory } from '../../helpers/lists'
 import axios from 'axios'
 import { API } from '../../config'
 import moment from 'moment-timezone'
-moment.tz(Date.now(), 'America/Los_Angeles')
+moment.tz(Date.now(), 'America/New_York')
 
 const JobIssueModal = ({
   token,

@@ -2,9 +2,19 @@
   display: flex;
   justify-content: center;
   margin: 0 0 2rem 0;
+  overflow: hidden;
   
   &-container {
     width: 60rem;
+  }
+
+  &-title {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.8rem;
+    margin: 3rem 0 0 0;
+    font-weight: 700;
   }
   
 }

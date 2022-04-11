@@ -10,7 +10,7 @@ import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import dynamic from 'next/dynamic'
 import 'react-quill/dist/quill.snow.css'
-import jsPDF from 'jspdf'
+const html2pdf = dynamic(() => import('html2pdf.js'), { ssr: false })
 const ReactQuill = dynamic(() => import('react-quill'), {ssr: false, loading: () => <p>Loading ...</p>})
 
 const modules = {
@@ -89,20 +89,18 @@ const ContractForm = ({
 
   }, [])
 
-  useEffect(() => {
-    console.log(stateData)
-  }, [stateData])
-
-  const generatePDF = () => {
-    let doc = new jsPDF('p', 'pt', 'a4');
-
-    
-    doc.html(document.getElementById('pdf'), {
-      callback: function(pdf){
-        pdf.save("mypdf.pdf")
-      }
-    })
-    
+  const convertToPDF = async () => {
+    const html = await import('html2pdf.js')
+   
+    let element = document.getElementById('pdf')
+    let opt = {
+      margin: 1,
+      filename: 'myfile.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'}
+    }
+    html.default().set(opt).from(element).save()
   }
   
   return (
@@ -338,14 +336,18 @@ const ContractForm = ({
                 required
               />
             </div>
-
-            {/* <button className="form-group-button" onClick={(e) => (e.preventDefault(), generatePDF())}>Generate PDF</button>*/}
-            <div className="pdf">
+                
+            {/* <button className="form-group-button" onClick={(e) => (e.preventDefault(), convertToPDF())}>Generate</button> */}
+            
+            {stateData.contract && stateData.signed == false &&
+            <div id="pdf" className="pdf">
               <div className="pdf-container">
-                <div id="pdf" dangerouslySetInnerHTML={{ __html: stateData.contract ? stateData.contract : ''}}>
+                <div dangerouslySetInnerHTML={{ __html: stateData.contract ? stateData.contract : ''}}>
                 </div>
               </div>
             </div> 
+            }
+
           </div>
         </div>
                

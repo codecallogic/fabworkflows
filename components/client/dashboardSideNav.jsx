@@ -119,6 +119,12 @@ const SideNav = ({account, changeView, nav, width, toggleSideNav, resetType}) =>
                 Issues
             </div>
             <div 
+              onClick={() => (changeView('contracts'), resetType('RESET_CONTRACT'))} 
+              className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'transactions'  ? ' hide-sidenav-dropdown' : '')}>
+                <SVGs svg={'circle-thin'} classprop={`clientDashboard_sidenav-menu-item-arrow` + (!nav.sidenav ? ' hide-sidenav-items' : '')  + (toggle ? ' hide-sidenav-dropdown' : '')}/>
+                Contracts
+            </div>
+            <div 
               onClick={() => (changeView('purchaseOrders'), resetType('RESET_PO'))} 
               className={`clientDashboard_sidenav-menu-item-dropdown-item` + (!nav.sidenav ? ' hide-sidenav-items' : '') + (toggle == 'transactions'  ? ' hide-sidenav-dropdown' : '')}>
                 <SVGs svg={'circle-thin'} classprop={`clientDashboard_sidenav-menu-item-arrow` + (!nav.sidenav ? ' hide-sidenav-items' : '')  + (toggle ? ' hide-sidenav-dropdown' : '')}/>

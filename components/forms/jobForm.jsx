@@ -5,6 +5,8 @@ import Table from '../tableAltForm'
 import 'react-calendar/dist/Calendar.css';
 import { PDFViewer } from '@react-pdf/renderer';
 import JobIssues from '../../components/pdf/jobIssues'
+import dynamic from 'next/dynamic'
+const html2pdf = dynamic(() => import('html2pdf.js'), { ssr: false })
 
 //// HELPERS
 import { manageFormFields } from '../../helpers/forms'
@@ -128,6 +130,20 @@ const JobForm = ({
     if(event == 'created-job-issue') submitUpdate(null, stateData, 'jobs', 'files', setMessage, 'update_job', setLoading, token, 'jobs/update-job', null, resetState, allData, setAllData, setDynamicSVG, changeView, null)
     if(event == 'updated-job-issue') submitUpdate(null, stateData, 'jobs', 'files', setMessage, 'update_job', setLoading, token, 'jobs/update-job', null, resetState, allData, setAllData, setDynamicSVG, changeView, null)
   }, [event])
+
+  const convertToPDF = async (item, id) => {
+    const html = await import('html2pdf.js')
+
+    let element = document.getElementById(id)
+    let opt = {
+      margin: 1,
+      filename: `${item.subject}`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'}
+    }
+    html.default().set(opt).from(element).save()
+  }
   
   return (
     <div className="table">
@@ -653,6 +669,66 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
                   }
                   </span>
                   {item.name ? item.name : item.location.substring(50, 70)}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div> 
+
+        <div className="form-box" style={{width: '100%', padding: '0 2rem'}}>
+          <div className="form-box-heading">Contracts</div>
+          <div className="form-box-container">
+            <div className="form-group-gallery">
+              { stateData.contracts.length == 0 &&
+                 <a 
+                 className="form-group-gallery-link"
+                 target="_blank" 
+                 rel="noreferrer"
+                 style={{width: '25%'}}
+                 >
+                   <img 
+                   className="form-group-gallery-image"
+                   src='https://via.placeholder.com/300'
+                   />
+                 </a>
+              }
+              {stateData.contracts.length > 0 && stateData.contracts.map((item, idx) => (
+                <a 
+                  key={idx} 
+                  onClick={() => convertToPDF(item, `pdf-${idx}`)}
+                  className="form-group-gallery-link"
+                  target="_blank" 
+                  rel="noreferrer"
+                  style={{width: '25%'}}
+                >
+                  <img 
+                    className="form-group-gallery-image"
+                    src={item.image}
+                  />
+                  {/* <span onClick={(e) => (e.stopPropagation(), loading !== 'delete_file' ? 
+                    submitDeleteFile(e, item, 'files', createType, stateMethod, stateData, 'jobs', setMessage, 'delete_file', setLoading, token, 'jobs/delete-file', allData, setAllData, setDynamicSVG, editData, null, stateData._id) 
+                    : null)
+                  }>
+                  { loading == 'delete_file' ? 
+                    <div className="loading-spinner"></div>
+                    :
+                    <SVG svg={'close'}></SVG>
+                  }
+                  </span> */}
+                  {item.urlID ? `${item.urlID}.pdf` : item.subject.substring(0, 20)}
+
+                  <div id="element">
+                    <div id={`pdf-${idx}`} className="pdf">
+                      <div className="pdf-container">
+                        <div dangerouslySetInnerHTML={{ __html: item.contract ? item.contract : ''}}>
+                        </div>
+                      </div>
+                      <img src={item.image} alt={item.signatureFullName} />
+                      {item.dateSigned ? <h3>Date signed: {item.dateSigned}</h3> : null}
+                      {item.signatureFullName ? <h3>Signed By: {item.signatureFullName}</h3> : null}
+                    </div> 
+                  </div>
+                  
                 </a>
               ))}
             </div>

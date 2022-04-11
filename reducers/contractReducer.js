@@ -6,7 +6,8 @@ const initialState = {
   contract: '',
   email: '',
   subject: '',
-  message: ''
+  message: '',
+  signed: false
 }
 
 export const contractReducer = (state = initialState, action) => {

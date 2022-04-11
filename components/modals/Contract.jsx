@@ -1,21 +1,27 @@
 import { useState, useEffect } from 'react'
 import SVG from '../../files/svgs'
 import SignaturePad from 'signature_pad'
-
-// let signaturePad = new SignaturePad(canvas)
+import axios from 'axios'
+import { API } from '../../config'
+import moment from 'moment-timezone'
+moment.tz(Date.now(), 'America/New_York')
 
 const ContractModal = ({
   token,
-  setModal
+  setModal,
+  message,
+  setMessage,
+  data,
+  setContract
 }) => {
   
   const resetType = ''
   const [loadingColor, setLoadingColor] = useState('white')
-  const [message, setMessage] = useState('')
   const [loading, setLoading] = useState('')
   const [canvasID, setCanvasID] = useState('')
   const [signaturePad, setSignaturePad] = useState('')
-  const [image, setImage] = useState('')
+  const [fullName, setFullName] = useState('')
+  const [signature, setSignature] = useState(false)
 
   //// HANDLE MODAL DRAG
   const [prevX, setPrevX] = useState(0)
@@ -86,6 +92,35 @@ const ContractModal = ({
      }
     
   }, [canvasID])
+
+  const signContract = async (image) => {
+    
+    if(!fullName) return setMessage('Full name is required')
+    if(!signature) return setMessage('Signature is required')
+    setLoading('create_signature')
+
+    data.signatureFullName = fullName
+    data.image = image
+    data.signed = true
+    data.dateSigned =moment(Date.now()).format('MM/DD/YYYY HH:mm:ss')
+    
+    try {
+      const response = await axios.post(`${API}/contracts/sign-contract`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          contentType: 'multipart/form-data'
+        }
+      })
+      setLoading('')
+      setModal('')
+      setContract(response.data)
+      
+    } catch (error) {
+      console.log(error)
+      setLoading('')
+      if(error) error.response ? setMessage(error.response.data) : setMessage('Error occurred signing the document')
+    }
+  }
   
   return (
     <div 
@@ -102,51 +137,65 @@ const ContractModal = ({
       <div className="addFieldItems-modal-box-header">
         <span 
           className="addFieldItems-modal-form-title">
-            Sign
+            Signature
         </span>
-        <div onClick={() => setModal('')}>
+        <div onClick={() => (setMessage(''), setModal(''))}>
           <SVG svg={'close'}></SVG>
         </div>
       </div>
       <form 
       className="addFieldItems-modal-form" 
       >
+        <div className="form-group">
+          <input 
+          id="fullName" 
+          value={fullName} 
+          onChange={(e) => setFullName(e.target.value)}
+          />
+          <label 
+          className={`input-label ` + (
+            fullName.length > 0 || 
+            typeof fullName == 'object' 
+            ? ' labelHover' 
+            : ''
+          )}
+          htmlFor="fullName">
+            Your first and last name
+          </label>
+        </div>
+        
         <div className="sig-container">
-          <canvas id="sig"></canvas>
+          <canvas id="sig" onClick={() => setSignature(true)}></canvas>
         </div>
       
 
         {message && 
         <span className="form-group-message">
-          <SVG svg={dynamicSVG} color={'#fd7e3c'}></SVG>
+          <SVG svg={'error'} color={'#fd7e3c'}></SVG>
           {message}
         </span>
         }
 
         <button 
         className="form-group-button" 
-        onClick={(e) => (e.preventDefault(), signaturePad.clear())}
+        onClick={(e) => (e.preventDefault(), setSignature(false), signaturePad.clear())}
         >
           Clear
         </button>
         <button 
         className="form-group-button" 
-        onClick={(e) => (e.preventDefault(), setImage(signaturePad.toDataURL()))}
+        onClick={(e) => (e.preventDefault(), signContract(signaturePad.toDataURL()))}
         >
-           {loading == 'create_email' ? 
+           {loading == 'create_signature' ? 
             <div className="loading">
               <span style={{backgroundColor: loadingColor}}></span>
               <span style={{backgroundColor: loadingColor}}></span>
               <span style={{backgroundColor: loadingColor}}></span>
             </div>
             : 
-            'Send Quote'
+            'Sign document'
             }
         </button>
-
-        {image &&
-          <img src={image}></img>
-        }
         
       </form>
     </div>
