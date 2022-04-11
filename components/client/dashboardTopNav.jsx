@@ -8,7 +8,7 @@ const TopNav = ({account, toggleSideNav}) => {
       </div>
       <div className="clientDashboard_topnav-menu">
         <div className="clientDashboard_topnav-menu-mobile">
-          <div className="clientDashboard_topnav-menu-mobile-user">Welcome, {account.first_name}</div>
+          <div className="clientDashboard_topnav-menu-mobile-user">Welcome, {account.firstName}</div>
           <input type="checkbox" className="clientDashboard_topnav-menu-mobile-checkbox" id="nav-toggle"/>
           <label className="clientDashboard_topnav-menu-mobile-button" htmlFor="nav-toggle" onClick={toggleSideNav}>
               <span className="clientDashboard_topnav-menu-mobile-icon">&nbsp;</span>
@@ -16,7 +16,7 @@ const TopNav = ({account, toggleSideNav}) => {
         </div>
         <div className="clientDashboard_topnav-menu-account">
           <img src="/media/user_placeholder.png" alt="User avatar"/>
-          <div>Welcome, {account.first_name}</div>
+          <div>Welcome, {account.firstName}</div>
         </div>
       </div>
     </div>

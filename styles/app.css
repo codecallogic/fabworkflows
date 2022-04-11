@@ -3050,6 +3050,10 @@ body {
       @media only screen and (max-width: 992px) {
         .signup-form-container form {
           margin: 0; } }
+  .signup-form-title {
+    font-size: 1.6rem;
+    text-transform: capitalize;
+    margin: 1rem 0; }
   .signup-free_trial {
     text-align: center; }
     @media only screen and (max-width: 992px) {
@@ -3085,18 +3089,20 @@ body {
           margin-right: 5rem; }
 
 .activate {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
   justify-content: center;
-  color: #404141; }
+  color: rgba(253, 126, 60, 0.9); }
   .activate-form {
-    grid-column: 1/-1;
-    justify-self: center;
+    width: 30rem;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     margin: 10rem 0; }
+    .activate-form-title {
+      font-size: 2rem;
+      font-weight: 400;
+      margin: 1rem 0; }
 
 .checkout {
   display: flex;

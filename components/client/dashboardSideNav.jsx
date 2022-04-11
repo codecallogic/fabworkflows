@@ -17,7 +17,7 @@ const SideNav = ({account, changeView, nav, width, toggleSideNav, resetType}) =>
           <div 
             className={`clientDashboard_sidenav-menu-account` + (!nav.sidenav ? ' hide-sidenav-items' : '')}>
             <img src="/media/user_placeholder.png" alt="User avatar"/>
-            <div>Welcome, {account.first_name}</div>
+            <div>Welcome, {account.firstName}</div>
           </div>
 
           <div 

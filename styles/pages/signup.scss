@@ -40,6 +40,14 @@
     }
   }
 
+  &-form {
+    &-title {
+      font-size: 1.6rem;
+      text-transform: capitalize;
+      margin: 1rem 0;
+    }
+  }
+
   &-free_trial {
     text-align: center;
 

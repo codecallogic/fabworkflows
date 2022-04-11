@@ -95,7 +95,7 @@ const ContractForm = ({
     let element = document.getElementById('pdf')
     let opt = {
       margin: 1,
-      filename: 'myfile.pdf',
+      filename: 'contract.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'}
@@ -109,34 +109,51 @@ const ContractForm = ({
         <div className="table-header-title">
           {edit == typeOfData ? 'Edit Contract' : title}
         </div>
-        {save &&
+        {save && 
         <div className="table-header-controls">
-          <div 
-            id="save" 
-            className="table-header-controls-item" 
-            onClick={(e) => edit == typeOfData ? 
-              submitUpdate(e, stateData, 'purchaseOrders', 'files', setMessage, 'create_po', setLoading, token, 'purchase-order/update-purchase-order', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'purchaseOrders', null)
+          {!stateData.signed && 
+            <div 
+              id="save" 
+              className="table-header-controls-item" 
+              onClick={(e) => edit == typeOfData ? 
+                // submitUpdate(e, stateData, 'purchaseOrders', 'files', setMessage, 'create_po', setLoading, token, 'purchase-order/update-purchase-order', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'purchaseOrders', null)
+                null
+                : 
+                submitCreate(e, stateData, 'contracts', 'files', setMessage, 'create_contract', setLoading, token, 'contracts/create-contract', resetType, resetState, allData, setAllData, setDynamicSVG)  
+              }
+              >
+              {loading == 'create_contract' ? 
+              <div className="loading">
+                <span style={{backgroundColor: loadingColor}}></span>
+                <span style={{backgroundColor: loadingColor}}></span>
+                <span style={{backgroundColor: loadingColor}}></span>
+              </div>
               : 
-              submitCreate(e, stateData, 'contracts', 'files', setMessage, 'create_contract', setLoading, token, 'contracts/create-contract', resetType, resetState, allData, setAllData, setDynamicSVG)  
-            }
-            >
-            {loading == 'create_contract' ? 
-            <div className="loading">
-              <span style={{backgroundColor: loadingColor}}></span>
-              <span style={{backgroundColor: loadingColor}}></span>
-              <span style={{backgroundColor: loadingColor}}></span>
+                edit == typeOfData ? 'Update' : 'Save'
+              }
             </div>
-            : 
-              edit == typeOfData ? 'Update' : 'Save'
-            }
-          </div>
-          <div 
-          id="reset" 
-          className="table-header-controls-item" 
-          onClick={() => (setLoading(''), resetState(resetType), setMessage(''), setEdit(''))}
-          >
-            Reset
-          </div>
+          }
+          
+          {!stateData.signed && 
+            <div 
+            id="reset" 
+            className="table-header-controls-item" 
+            onClick={() => (setLoading(''), resetState(resetType), setMessage(''), setEdit(''))}
+            >
+              Reset
+            </div>
+          }
+
+          {stateData.signed && 
+            <div 
+            id="reset" 
+            className="table-header-controls-item" 
+            onClick={() => convertToPDF()}
+            >
+              Print Contract
+            </div>
+          }
+          
         </div>
         }
         { message && 
@@ -337,7 +354,6 @@ const ContractForm = ({
               />
             </div>
                 
-            {/* <button className="form-group-button" onClick={(e) => (e.preventDefault(), convertToPDF())}>Generate</button> */}
             
             {stateData.contract && stateData.signed == false &&
             <div id="pdf" className="pdf">
@@ -348,6 +364,19 @@ const ContractForm = ({
             </div> 
             }
 
+            {stateData.contract && stateData.signed == true &&
+            <div id="element">
+              <div id="pdf" className="pdf">
+                <div className="pdf-container">
+                  <div dangerouslySetInnerHTML={{ __html: stateData.contract ? stateData.contract : ''}}>
+                  </div>
+                </div>
+                <img src={stateData.image} alt={stateData.signatureFullName} />
+                {stateData.dateSigned ? <h3>Date signed: {stateData.dateSigned}</h3> : null}
+                {stateData.signatureFullName ? <h3>Signed By: {stateData.signatureFullName}</h3> : null}
+              </div> 
+            </div>
+            } 
           </div>
         </div>
                
