@@ -1599,7 +1599,7 @@ const Dashboard = ({
                 <SVGs svg={'job'}></SVGs>
                 <span>New Job</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (changeView('contractForm'))}>
+              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('contractForm'), resetType('RESET_CONTRACT'))}>
                 <SVGs svg={'files'}></SVGs>
                 <span>New Contract</span>
               </div>
