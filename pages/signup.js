@@ -5,6 +5,7 @@ import {API} from '../config'
 
 const Signup = ({}) => {
 
+  const loadingColor = 'white'
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
@@ -28,8 +29,9 @@ const Signup = ({}) => {
       setLoading(false)
       setMessage(`${responseSignup.data}, please activate account to continue.`)
     } catch (error) {
-      if(error) error.response ? setError(error.response.data) : setError('')
+      console.log(error.response)
       setLoading(false)
+      if(error) error.response ? setMessage(error.response.data) : setError('Error occurred signing you up please try again later')
     }
   }
   
@@ -114,7 +116,13 @@ const Signup = ({}) => {
             onClick={(e) => (e.preventDefault(), signup())}
           >
             {!loading && <span>Start free trial</span>} 
-            {loading && <div className="loading"><span></span><span></span><span></span></div>}
+            {loading && 
+            <div className="loading">
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+            </div>
+            }
           </button>
           <span className="link-text">Already have an account? <a className="link" onClick={() => window.location.href = '/login'}>Login</a></span>
         </form>
