@@ -116,8 +116,7 @@ const ContractForm = ({
               id="save" 
               className="table-header-controls-item" 
               onClick={(e) => edit == typeOfData ? 
-                // submitUpdate(e, stateData, 'purchaseOrders', 'files', setMessage, 'create_po', setLoading, token, 'purchase-order/update-purchase-order', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'purchaseOrders', null)
-                null
+                submitUpdate(e, stateData, 'contracts', 'files', setMessage, 'create_contract', setLoading, token, 'contracts/update-contract', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'contracts', null)
                 : 
                 submitCreate(e, stateData, 'contracts', 'files', setMessage, 'create_contract', setLoading, token, 'contracts/create-contract', resetType, resetState, allData, setAllData, setDynamicSVG)  
               }

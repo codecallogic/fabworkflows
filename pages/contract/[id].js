@@ -15,7 +15,7 @@ const Contract = ({
   const [contract, setContract] = useState('')
   const [modal, setModal] = useState('')
   const [message, setMessage] = useState( error ? error : '')
-
+  
   useEffect(() => {
     setContract(data)
   }, [])
@@ -77,7 +77,7 @@ const Contract = ({
           <div className="overlay-message-svg">
             <SVG svg={'error'}></SVG>
           </div>
-          {message ? <span className="overlay-message-text">{message.substring(0, 500)}</span> : ''}
+          {message ? <span className="overlay-message-text">{ message.substring(0, 500) }</span> : <span className="overlay-message-text">Error item not found, please contact support</span>}
         </div>
         
       }
