@@ -117,7 +117,7 @@ const QuoteForm = ({
         </div>
         {save &&
           <div className="table-header-controls">
-            { edit == typeOfData ? 
+            {/* { edit == typeOfData ? 
               <div
               className="table-header-controls-item-svg"
               onClick={() => setModal('email')}
@@ -126,7 +126,7 @@ const QuoteForm = ({
               </div>
               :
               null
-            }
+            } */}
             <div 
             id="save" 
             className="table-header-controls-item" 
@@ -157,6 +157,36 @@ const QuoteForm = ({
             >
               Reset
             </div>
+            { edit == typeOfData ? 
+              <div 
+              className="table-header-controls-item" 
+              onClick={() => setModal('email')}
+              >
+                Send Quote
+              </div>
+              :
+              null
+            }
+            { edit == typeOfData ? 
+              <div 
+              className="table-header-controls-item" 
+              onClick={() => (setEdit(''), changeView('contractForm'))}
+              >
+                Contract
+              </div>
+              :
+              null
+            }
+            { edit == typeOfData ? 
+              <div 
+              className="table-header-controls-item" 
+              onClick={() => (setEdit(''), changeView('job'))}
+              >
+                Job
+              </div>
+              :
+              null
+            }
           </div>
         }
         { message && 

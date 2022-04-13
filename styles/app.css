@@ -1066,6 +1066,9 @@ body {
     background-color: #666;
     border-top-right-radius: 2rem;
     border-top-left-radius: 2rem; }
+    @media only screen and (max-width: 992px) {
+      .table-header {
+        height: 8rem; } }
     .table-header-title {
       font-size: 1.6rem;
       color: white;
@@ -1073,7 +1076,14 @@ body {
       text-transform: uppercase; }
     .table-header-controls {
       display: flex;
-      margin-left: 1rem; }
+      margin-left: 1rem;
+      overflow-x: auto; }
+      .table-header-controls::-webkit-scrollbar {
+        width: 0.5rem;
+        height: .6rem;
+        background-color: #757575; }
+      .table-header-controls::-webkit-scrollbar-thumb {
+        background-color: rgba(253, 126, 60, 0.9); }
       .table-header-controls-item {
         width: max-content;
         padding: 0.5rem 2rem;
@@ -1084,6 +1094,10 @@ body {
         font-size: 1.4rem;
         margin-right: 1rem;
         transition: all 0.3s ease-in-out; }
+        @media only screen and (max-width: 992px) {
+          .table-header-controls-item {
+            min-width: max-content;
+            margin: 0 1rem 1.2rem 0; } }
         .table-header-controls-item:hover {
           cursor: pointer;
           box-shadow: 0rem 0.3rem 0.5rem 0.5rem rgba(0, 0, 0, 0.2); }

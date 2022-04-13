@@ -34,6 +34,11 @@
     border-top-right-radius: 2rem;
     border-top-left-radius: 2rem;
 
+    @media only screen and (max-width: $large){
+      height: 8rem;
+    }
+
+
     &-title {
       font-size: 1.6rem;
       color: white;
@@ -44,6 +49,17 @@
     &-controls {
       display: flex;
       margin-left: 1rem;
+      overflow-x: auto;
+
+      &::-webkit-scrollbar {
+        width: 0.5rem;
+        height: .6rem;
+        background-color: #757575;
+      }
+    
+      &::-webkit-scrollbar-thumb {
+        background-color: $color-scheme-1;
+      }
 
       &-item {
         width: max-content;
@@ -55,6 +71,11 @@
         font-size: 1.4rem;
         margin-right: 1rem;
         transition: all 0.3s ease-in-out;
+
+        @media only screen and (max-width: $large){
+          min-width: max-content;
+          margin: 0 1rem 1.2rem 0;
+        }
 
         &:hover {
           cursor: pointer;
