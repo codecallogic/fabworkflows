@@ -93,6 +93,7 @@
           background-color: $color-light-shade-scheme-3;
           transition: all 0.5s ease-in-out;
           z-index: 2000;
+          position: relative;
 
           &:hover {
             cursor: pointer;
@@ -105,6 +106,28 @@
             fill: $color-scheme-1;
             z-index: 1;
           }
+
+          span {
+            position: absolute;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            transition: all 0.5s ease-in-out;
+    
+            &:hover {
+              cursor: pointer;
+            }
+
+            svg {
+              width: 2rem;
+              height: 2rem;
+              fill: $color-scheme-1;
+            }
+          }
+
         }
       }
     }
@@ -335,26 +358,32 @@
           top: 100%;
           width: 100%;
           max-height: 10rem;
+          background-color: $color-light-shade-scheme-3;
           overflow-y: scroll;
           z-index: 5000;
+          overflow-x: auto;
+
 
           &::-webkit-scrollbar {
             width: 0.3rem;
+            height: .5rem;
+
           }
 
           &::-webkit-scrollbar-thumb {
             background-color: $color-scheme-3;
+
           }
 
           &-item {
-            width: 100%;
+            width: max-content;
             height: 100%;
             font-size: 1.4rem;
             background-color: $color-light-shade-scheme-3;
             padding: 0.5rem 1rem;
             z-index: 5000;
             transition: all 0.3s ease-in-out;
-
+            
             &:hover {
               cursor: pointer;
               color: $color-scheme-2;

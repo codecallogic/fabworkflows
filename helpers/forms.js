@@ -182,8 +182,7 @@ const submitDeleteFile = async (e, fileItem, key, caseType, stateMethod, stateDa
   
 }
 
-const submitDeleteRow = async (e, type, setMessage, loadingType, setLoading, token, path, selectID, allData, setAllData, setDynamicSVG, resetCheckboxes, setControls, typeOfDataParent) => {
-
+const submitDeleteRow = async (e, type, setMessage, loadingType, setLoading, token, path, selectID, allData, setAllData, setDynamicSVG, resetCheckboxes, setControls, typeOfDataParent, changeView) => {
   setLoading(loadingType)
   
   try {
@@ -201,13 +200,13 @@ const submitDeleteRow = async (e, type, setMessage, loadingType, setLoading, tok
     setControls('')
     resetCheckboxes()
     if(typeOfDataParent) getAll(setDynamicSVG, setMessage, token, allData, setAllData, typeOfDataParent)
+    if(changeView) changeView(type)
     
   } catch (error) {
     console.log(error)
     setLoading('')
     if(error)  error.response ? error.response.statusText == 'Unauthorized' ? (setDynamicSVG('notification'), setMessage(error.response.statusText), window.location.href = '/login') : (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred with deleting item'))
   }
-  
 }
 
 const submitSearch = async (search, setLoading, setMessage, path, type, allData, setAllData, token, setDynamicSVG, changeView, viewType) => {

@@ -10,6 +10,8 @@ import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import dynamic from 'next/dynamic'
 import 'react-quill/dist/quill.snow.css'
+import axios from 'axios'
+import { API } from '../../config'
 const html2pdf = dynamic(() => import('html2pdf.js'), { ssr: false })
 const ReactQuill = dynamic(() => import('react-quill'), {ssr: false, loading: () => <p>Loading ...</p>})
 
@@ -102,6 +104,33 @@ const ContractForm = ({
     }
     html.default().set(opt).from(element).save()
   }
+
+  const sendMessage = async (loadingType) => {
+    if(!stateData.email) return (setDynamicSVG('notification'), setMessage('Email is required'))
+    if(!stateData.subject) return (setDynamicSVG('notification'), setMessage('Subject is required'))
+    if(!stateData.message) return (setDynamicSVG('notification'), setMessage('Message is required'))
+    setLoading(loadingType)
+    
+    try {
+      
+      const response = await axios.post(`${API}/contracts/send-message`, stateData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          contentType: 'multipart/form-data'
+        }
+      })
+
+      setLoading('')
+      resetState(resetType)
+      setDynamicSVG('checkmark')
+      setMessage(response.data)
+      
+    } catch (error) {
+      console.log(error)
+      if(error)  error.response ? error.response.statusText == 'Unauthorized' ? (setDynamicSVG('notification'), setMessage(error.response.statusText), window.location.href = '/login') : (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred with creating item'))
+      
+    }
+  }
   
   return (
     <div className="table">
@@ -152,6 +181,17 @@ const ContractForm = ({
               Print Contract
             </div>
           }
+
+          <div
+            className="table-header-controls-item-svg"
+            onClick={() => sendMessage('send_message')}
+          >
+            { loading == 'send_message' ? 
+              <span><div className="loading-spinner"></div></span>
+              :
+              <span><SVG svg={'send'}></SVG></span>
+            }
+          </div>
           
         </div>
         }
@@ -327,7 +367,7 @@ const ContractForm = ({
                 id="message" 
                 rows="5" 
                 wrap="hard" 
-                maxLength="400"
+                maxLength="2000"
                 name="message" 
                 value={stateData.message} 
                 onChange={(e) => stateMethod(createType, 'message', e.target.value)} 

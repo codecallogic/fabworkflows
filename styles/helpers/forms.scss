@@ -33,14 +33,30 @@
       font-size: 1.2rem;
       font-weight: 700;
       color: $color-dark-shade-scheme-2;
-      padding: 0 1rem;
+      padding: 1rem 1rem;
+      overflow-x: auto;
+      overflow-y: hidden;
+
+      @media only screen and (max-width: $large){
+        height: 5rem;
+      }
+
+      &::-webkit-scrollbar {
+        width: 0.5rem;
+        height: .2rem;
+        background-color: #757575;
+      }
+    
+      &::-webkit-scrollbar-thumb {
+        background-color: $color-scheme-1;
+      }
 
       &-item {
         display: flex;
         align-items: center;
         justify-content: center;
         min-height: 3rem;
-        min-width: 5rem;
+        min-width: max-content;
         max-height: 100%;
         max-width: 100%;
         background-color: $color-scheme-2;

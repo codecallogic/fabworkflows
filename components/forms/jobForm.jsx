@@ -153,7 +153,7 @@ const JobForm = ({
         </div>
         {save &&
           <div className="table-header-controls">
-            { edit == typeOfData ? 
+            {/* { edit == typeOfData ? 
               <div
               className="table-header-controls-item-svg"
               >
@@ -161,7 +161,7 @@ const JobForm = ({
               </div>
               :
               null
-            }
+            } */}
             <div 
             id="save" 
             className="table-header-controls-item" 
@@ -240,7 +240,9 @@ const JobForm = ({
             <input
             onClick={() => setInputDropdown('job_account')} 
             value={manageFormFields(stateData.account, 'name')} 
-            onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'account', e.target.value))}/>
+            onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'account', e.target.value))}
+            readOnly
+            />
             <label 
             className={`input-label ` + (
               stateData.account.length > 0 || 

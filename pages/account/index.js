@@ -1334,6 +1334,11 @@ const Dashboard = ({
             submitUpdate={submitUpdate}
             changeView={changeView}
             editData={editData}
+            submitDeleteRow={submitDeleteRow}
+            deleteType="quotes/delete-quote"
+            resetCheckboxes={resetCheckboxes}
+            setControls={setControls}
+            typeOfDataParent={'jobs'}
           >
           </QuoteForm>
         }
@@ -1591,7 +1596,7 @@ const Dashboard = ({
           }
           { nav.view == 'transaction-new' &&
             <div className="clientDashboard-view-new">
-              <div className="clientDashboard-view-new-item" onClick={() => (changeView('quote'), resetType('RESET_QUOTE'))}>
+              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('quote'), resetType('RESET_QUOTE'))}>
                 <SVGs svg={'document'}></SVGs>
                 <span>New Quote</span>
               </div>

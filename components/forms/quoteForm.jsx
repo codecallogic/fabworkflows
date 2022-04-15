@@ -38,6 +38,8 @@ const QuoteForm = ({
   edit,
   setEdit,
   setModalEdit,
+  resetCheckboxes,
+  setControls,
 
   //// DATA
   typeOfData,
@@ -51,10 +53,13 @@ const QuoteForm = ({
   stateMethod,
   resetState,
   changeView,
+  deleteType, 
+  typeOfDataParent,
 
   ///// CRUD
   submitCreate,
-  submitUpdate
+  submitUpdate,
+  submitDeleteRow
 }) => {
 
   const createType            = 'CREATE_QUOTE'
@@ -97,7 +102,7 @@ const QuoteForm = ({
   //// QUOTE CALCULATIONS
 
   useEffect(() => {
-
+    // console.log(stateData)
     if(stateData.payment == 'deposit' || stateData.payment == 'complete') return
     
     calculateEstimate(stateData, stateMethod, createType, depositType)
@@ -108,6 +113,23 @@ const QuoteForm = ({
     stateData.quote_tax, 
     stateData.quote_deposit
   ])
+
+  const generateAccountAddress = (data) => {
+    let obj = new Object()
+
+    obj.contact_name = data.contact_name
+    obj.address = data.address
+    obj.city = data.city
+    obj.state = data.state
+    obj.zip_code = data.zip_code
+    obj.country = data.country
+    obj.phone = data.phone
+    obj.fax = data.fax
+    obj.email = data.email
+    obj.contact_notes = data.contact_notes
+    
+    return obj
+  }
   
   return (
     <div className="table">
@@ -117,16 +139,20 @@ const QuoteForm = ({
         </div>
         {save &&
           <div className="table-header-controls">
-            {/* { edit == typeOfData ? 
+            { edit == typeOfData ? 
               <div
               className="table-header-controls-item-svg"
-              onClick={() => setModal('email')}
+              onClick={(e) => submitDeleteRow(e, typeOfData, setMessage, 'delete_quote', setLoading, token, deleteType, stateData._id, allData, setAllData, setDynamicSVG, resetCheckboxes, setControls, typeOfDataParent, changeView)}
               >
-                <SVG svg={'send'}></SVG>
+                { loading == 'delete_quote' ? 
+                  <span><div className="loading-spinner"></div></span>
+                  :
+                  <span><SVG svg={'thrash-can'}></SVG></span>
+                }
               </div>
               :
               null
-            } */}
+            }
             <div 
             id="save" 
             className="table-header-controls-item" 
@@ -135,7 +161,7 @@ const QuoteForm = ({
               ?
               setMessage('Cannot update quotes after a payment was processed')
               :
-              submitUpdate(e, stateData, 'quotes', 'images', setMessage, 'update_quote', setLoading, token, 'quotes/update-quote', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'quotes')
+              submitUpdate(e, stateData, 'quotes', 'images', setMessage, 'create_quote', setLoading, token, 'quotes/update-quote', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'quotes')
               : 
               submitCreate(e, stateData, 'quotes', 'images', setMessage, 'create_quote', setLoading, token, 'quotes/create-quote', resetType, resetState, allData, setAllData, setDynamicSVG)  
             }
@@ -157,36 +183,6 @@ const QuoteForm = ({
             >
               Reset
             </div>
-            { edit == typeOfData ? 
-              <div 
-              className="table-header-controls-item" 
-              onClick={() => setModal('email')}
-              >
-                Send Quote
-              </div>
-              :
-              null
-            }
-            { edit == typeOfData ? 
-              <div 
-              className="table-header-controls-item" 
-              onClick={() => (setEdit(''), changeView('contractForm'))}
-              >
-                Contract
-              </div>
-              :
-              null
-            }
-            { edit == typeOfData ? 
-              <div 
-              className="table-header-controls-item" 
-              onClick={() => (setEdit(''), changeView('job'))}
-              >
-                Job
-              </div>
-              :
-              null
-            }
           </div>
         }
         { message && 
@@ -708,7 +704,43 @@ const QuoteForm = ({
                 > 
                   <SVG svg={'send'}></SVG>
                 </div>
+                { edit == typeOfData ? 
                 <div 
+                  className="form-box-heading-item" 
+                  onClick={() => (
+                    setEdit(''), 
+                    stateMethod('CREATE_CONTRACT', 'name', manageFormFields(stateData.contact_name, 'contact_name')),
+                    stateMethod('CREATE_CONTRACT', 'email', stateData.email),
+                    stateMethod('CREATE_CONTRACT', 'description', stateData.contact_notes),
+                    changeView('contractForm'), 
+                    window.scrollTo(0, 0)
+                  )}>
+                    Create Contract
+                  </div>
+                  :
+                  null
+                }
+
+                { edit == typeOfData ? 
+                  <div 
+                  className="form-box-heading-item" 
+                  onClick={() => (
+                    setEdit(''),
+                    resetState('RESET_JOB'),
+                    stateMethod('CREATE_JOB', 'name', manageFormFields(stateData.contact_name, 'contact_name')),
+                    stateMethod('CREATE_JOB', 'salesperson', stateData.salesperson),
+                    stateMethod('CREATE_JOB', 'accountAddress', generateAccountAddress(stateData)),
+                    stateMethod('CREATE_JOB_ARRAY_ITEM', 'quotes', stateData),
+                    changeView('job'),
+                    window.scrollTo(0, 0)
+                  )}>
+                    Create Job
+                  </div>
+                  :
+                  null
+                }
+
+                {/* <div 
                   id="save" 
                   className="form-box-heading-item" 
                   onClick={(e) => edit == typeOfData 
@@ -731,7 +763,7 @@ const QuoteForm = ({
                   : 
                     edit == typeOfData ? 'Update' : 'Save'
                   }
-                </div>
+                </div> */}
                 </>
               }
               { message && 
