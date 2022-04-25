@@ -1,5 +1,7 @@
 const initialState = {
   name: '',
+  type: '',
+  price: ''
 }
 
 export const modelReducer = (state = initialState, action) => {

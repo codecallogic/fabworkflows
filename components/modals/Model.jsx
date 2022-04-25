@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react'
 import SVG from '../../files/svgs'
+import { validatePrice } from '../../helpers/validations'
 
 const MaterialModal = ({
   token,
@@ -120,6 +121,88 @@ const MaterialModal = ({
           )}
           htmlFor="name">
             Name
+          </label>
+        </div>
+        <div className="form-group-checkbox">
+          <input 
+            type="checkbox" 
+            name="type" 
+            id="type" 
+            hidden={true} 
+            checked={stateData.type == 'sink' ? true : false} 
+            readOnly
+          />
+          <label 
+            htmlFor="type" 
+            onClick={() => (
+              stateData.type
+              ? 
+              stateMethod(createType, 'type', '') 
+              : 
+              stateMethod(createType, 'type', 'sink')
+            )}
+          >
+          </label>
+          <span>Sinks</span>
+        </div>
+        <div className="form-group-checkbox">
+          <input 
+            type="checkbox" 
+            name="type" 
+            id="type" 
+            hidden={true} 
+            checked={stateData.type == 'cutouts' ? true : false} 
+            readOnly
+          />
+          <label 
+            htmlFor="type" 
+            onClick={() => (
+              stateData.type
+              ? 
+              stateMethod(createType, 'type', '') 
+              : 
+              stateMethod(createType, 'type', 'cutouts')
+            )}
+          >
+          </label>
+          <span>Cutouts</span>
+        </div>
+        <div className="form-group-checkbox">
+          <input 
+            type="checkbox" 
+            name="type" 
+            id="type" 
+            hidden={true} 
+            checked={stateData.type == 'edges' ? true : false} 
+            readOnly
+          />
+          <label 
+            htmlFor="type" 
+            onClick={() => (
+              stateData.type
+              ? 
+              stateMethod(createType, 'type', '') 
+              : 
+              stateMethod(createType, 'type', 'edges')
+            )}
+          >
+          </label>
+          <span>Edges</span>
+        </div>
+        <div className="form-group">
+          <input 
+          id="price" 
+          value={stateData.price} 
+          onChange={(e) => (stateMethod(createType, 'price', validatePrice(e)))}/>
+          <label 
+          className={`input-label ` + (
+            stateData.price.length > 0 || 
+            typeof stateData.price == 'object' 
+            ? ' labelHover' 
+            : ''
+          )}
+          htmlFor="price">
+            Price
           </label>
         </div>
         {message && 
