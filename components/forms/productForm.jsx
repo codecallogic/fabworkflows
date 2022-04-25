@@ -244,6 +244,46 @@ const Form = ({
                   </div>
                 }
             </div>
+            <div className="form-group">
+                <input 
+                onClick={() => setInputDropdown('product_color')} 
+                value={manageFormFields(stateData.color, 'name')} 
+                onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'color', e.target.value))}/>
+                <label 
+                 className={`input-label ` + (
+                  stateData.color.length > 0 || 
+                  typeof stateData.color == 'object' 
+                  ? ' labelHover' 
+                  : ''
+                )}
+                htmlFor="color">
+                  Color
+                </label>
+                <div 
+                onClick={() =>setInputDropdown('product_color') }>
+                <SVG svg={'dropdown-arrow'}></SVG>
+                </div>
+                { input_dropdown == 'product_color' &&
+                  <div 
+                  className="form-group-list" 
+                  ref={myRefs}>
+                  <div 
+                  className="form-group-list-item" 
+                  onClick={() => (setInputDropdown(''), setModal('add_color'))}>
+                    <SVG svg={'plus'}></SVG> 
+                    Add new
+                  </div>
+                    {originalData && originalData.colors.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                    <div 
+                    key={idx} 
+                    className="form-group-list-item" 
+                    onClick={(e) => (stateMethod(createType, 'color', item), setInputDropdown(''))}>
+                      {item.name}
+                    </div>
+                    ))}
+                  </div>
+                }
+            </div>
           </div>
         </div>
 

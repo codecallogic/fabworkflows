@@ -101,7 +101,7 @@ const Table = ({
     els.forEach( (el) => { el.checked = false })
 
     e.target.checked = true
-   
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     setControls(controlsType)
     setSelectID(id)
   }

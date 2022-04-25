@@ -103,6 +103,7 @@ const JobForm = ({
 
   useEffect(() => {
     
+    !stateData.date ? stateMethod(createType, 'date', formatDate(new Date(Date.now()))) : null
     !stateData.invoice ? stateMethod(createType, 'invoice', generateRandomNumber()) : null
     
     document.addEventListener("click", handleClickOutside, true);
@@ -112,6 +113,7 @@ const JobForm = ({
   }, [])
 
   useEffect(() => {
+
     let objectActivities = new Object()
     Object.values(activitySort).forEach( (item) => { objectActivities[item] = item })
     setActivityHeaders((oldArray) => [...oldArray, objectActivities])

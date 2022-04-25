@@ -2,6 +2,7 @@ let initialState = {
   brand: '',
   model: '',
   category: '',
+  color: '',
   quantity: '',
   location: '',
   qr_code: '',

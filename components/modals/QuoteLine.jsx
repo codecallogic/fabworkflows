@@ -213,7 +213,12 @@ const QuoteLineModal = ({
               stateMethod(changeFormType, null, 'product'),
               stateMethod(createType, 'typeForm', 'product')
             )}>
-              Products
+              Materials
+            </div>
+            <div className="form-group-button" onClick={() => (
+              null
+            )}>
+              Sinks
             </div>
             <div className="form-group-button" onClick={() => (
               null
@@ -234,7 +239,7 @@ const QuoteLineModal = ({
               stateMethod(changeFormType, null, 'miscellaneous'),
               stateMethod(createType, 'typeForm', 'miscellaneous')
             )}>
-              Miscellaneous Item
+              Miscellaneous
             </div>
             {/* <div className="form-group-button" onClick={() => (
               stateMethod(changeFormType, null, 'priceList'),
@@ -315,7 +320,9 @@ const QuoteLineModal = ({
                       stateMethod(createType, 'typeForm', 'product'), 
                       stateMethod(createType, 'brand', item.brand[0]), 
                       stateMethod(createType, 'model', item.model[0]), 
-                      stateMethod(createType, 'category', item.category[0]), stateMethod(createType, 'description', item.description), 
+                      stateMethod(createType, 'category', item.category[0]), 
+                      stateMethod(createType, 'color', item.color[0]),
+                      stateMethod(createType, 'description', item.description), 
                       stateMethod(createType, 'price', item.price),
                       stateMethod(changeFormType, null, 'product'),
                       setModalEdit('')
@@ -324,6 +331,7 @@ const QuoteLineModal = ({
                       ${manageFormFields(item.brand[0], 'name')}
                       ${ manageFormFields(item.category[0], 'name') ? ` / ${manageFormFields(item.category[0], 'name')}` : ''}
                       ${ manageFormFields(item.model[0], 'name') ? ` / ${manageFormFields(item.model[0], 'name')}` : ''}
+                      ${ manageFormFields(item.color[0], 'name') ? ` / ${manageFormFields(item.color[0], 'name')}` : ''}
                     `}
 
                     </div>
@@ -338,7 +346,9 @@ const QuoteLineModal = ({
                       stateMethod(createType, 'typeForm', 'product'), 
                       stateMethod(createType, 'brand', item.brand[0]), 
                       stateMethod(createType, 'model', item.model[0]), 
-                      stateMethod(createType, 'category', item.category[0]), stateMethod(createType, 'description', item.description), 
+                      stateMethod(createType, 'category', item.category[0]), 
+                      stateMethod(createType, 'color', item.color[0]),
+                      stateMethod(createType, 'description', item.description), 
                       stateMethod(createType, 'price', item.price), 
                       // stateMethod(createType, 'price_unformatted',
                       // validatePrice(item.price)),
@@ -350,6 +360,7 @@ const QuoteLineModal = ({
                       ${manageFormFields(item.brand[0], 'name')}
                       ${ manageFormFields(item.category[0], 'name') ? ` / ${manageFormFields(item.category[0], 'name')}` : ''}
                       ${ manageFormFields(item.model[0], 'name') ? ` / ${manageFormFields(item.model[0], 'name')}` : ''}
+                      ${ manageFormFields(item.color[0], 'name') ? ` / ${manageFormFields(item.color[0], 'name')}` : ''}
                     `}
                   </div>
 
@@ -633,6 +644,41 @@ const QuoteLineModal = ({
                   key={idx} 
                   className="form-group-list-item" 
                   onClick={(e) => (stateMethod(createType, 'category', item), setInputDropdown(''))}>
+                    {item.name}
+                  </div>
+                  ))}
+                </div>
+              }
+            </div>
+            <div className="form-group">
+              <input 
+              onClick={() => setInputDropdown('product_color')} 
+              value={manageFormFields(stateData.color, 'name')} 
+              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'color', e.target.value))}/>
+              <label 
+                className={`input-label ` + (
+                  stateData.color &&
+                  stateData.color.length > 0 || 
+                  typeof stateData.color == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="color">
+                Color
+              </label>
+              <div 
+              onClick={() =>setInputDropdown('product_color') }>
+              <SVG svg={'dropdown-arrow'}></SVG>
+              </div>
+              { input_dropdown == 'product_color' &&
+                <div 
+                className="form-group-list" 
+                ref={myRefs}>
+                  {allData && allData.colors.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                  <div 
+                  key={idx} 
+                  className="form-group-list-item" 
+                  onClick={(e) => (stateMethod(createType, 'color', item), setInputDropdown(''))}>
                     {item.name}
                   </div>
                   ))}

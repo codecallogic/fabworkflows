@@ -102,7 +102,7 @@ const Table = ({
     els.forEach( (el) => { el.checked = false })
 
     e.target.checked = true
-   
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     setControls(controlsType)
     setSelectID(id)
   }
@@ -289,6 +289,7 @@ const Table = ({
             {Object.keys(item).sort((a, b) => sortOrder.indexOf(b) - sortOrder.indexOf(a)).map((key, idxKey, array) => 
               key !== '_id' && 
               <div key={idxKey} className="table-rows-item">
+                {/* {console.log(key, item[key])} */}
                 { 
                   Array.isArray(item[key]) && item[key].length > 0 && matchPattern.test(item[key][0].location)
                   ? 

@@ -32,7 +32,7 @@ const calculateEstimate = (stateData, stateMethod, caseType, depositType) => {
   let deposit               = 0
   let balance               = 0
   
-
+  // console.log(stateData)
   
   stateData.quote_lines.forEach((item) => {
     
@@ -169,27 +169,26 @@ const calculateEstimate = (stateData, stateMethod, caseType, depositType) => {
     deposit += (
       +total.toFixed(2)
       *
-      ( +stateData.quote_deposit.replace('%', '') / 100)
+      ( +stateData.quote_deposit.replace('%', '').replace(',', '') / 100)
     )
   } 
   
 
   if(stateData.quote_deposit.includes('%')) stateMethod(caseType, 'quote_deposit_total', deposit.toFixed(2))
-
-
+  
   if(stateData.quote_deposit.includes('$')){
       
     deposit += (
-      ( +stateData.quote_deposit.replace('$', ''))
+      ( +stateData.quote_deposit.replace('$', '').replace(',', ''))
     )
   }
-  
+  // console.log(deposit)
   if(stateData.quote_deposit.includes('$')) stateMethod(caseType, 'quote_deposit_total', deposit.toFixed(2))
- 
 
   balance += (
     +total.toFixed(2) - +deposit.toFixed(2)
   )
+
   stateMethod(caseType, 'quote_balance', balance.toFixed(2))
 
 }
