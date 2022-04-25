@@ -377,7 +377,7 @@ const Checkout = ({
                 <span id="deposit">${
                   newDeposit 
                   ? 
-                    (quote.quote_balance * (newDeposit / 100)).toFixed(2)
+                    ((quote.quote_balance * (newDeposit / 100)) + +quote.quote_deposit_total.replace('$', '')).toFixed(2)
                   : 
                     quote.quote_deposit_total
                 }</span>

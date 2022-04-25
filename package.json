@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-pdf/renderer": "^2.0.20",
     "@stripe/react-stripe-js": "^1.6.0",
+    "@stripe/stripe-js": "^1.29.0",
     "axios": "^0.21.1",
     "cookies": "^0.8.0",
     "html2canvas": "^1.4.1",
