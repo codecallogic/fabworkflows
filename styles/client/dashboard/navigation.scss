@@ -242,23 +242,28 @@
           color: white;
           border-left: 0.1rem solid $color-scheme-3;
           transition: all 0.5s ease-in-out;
+          display: none;
         }
 
         &-item {
           display: flex;
           align-items: center;
-          margin: 0 2rem;
-          padding: 0.5rem 1.5rem;
+          margin: .5rem 1rem;
+          padding: 1rem 1.5rem;
           font-size: 1.4rem;
           font-weight: 400;
           color: $color-scheme-3;
-          border-left: 0.1rem solid $color-scheme-3;
+          // border-left: 0.1rem solid $color-scheme-3;
+          background-color: $color-scheme-2;
+          color: white;
+          border-radius: .5rem;
           position: relative;
           transition: all 0.5s ease-in-out;
 
           &:hover {
             cursor: pointer;
-            color: $color-dark-shade-scheme-3;
+            margin: .5rem .5rem;
+            background-color: $color-scheme-1;
           }
 
           svg {
@@ -269,6 +274,7 @@
             fill: $color-light-shade-scheme-2;
             background-color: $color-dark-shade-scheme-1;
             border-radius: 50%;
+            display: none;
           }
         }
       }

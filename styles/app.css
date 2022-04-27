@@ -1519,21 +1519,25 @@ body {
       font-size: 1.4rem;
       color: white;
       border-left: 0.1rem solid #404141;
-      transition: all 0.5s ease-in-out; }
+      transition: all 0.5s ease-in-out;
+      display: none; }
     .clientDashboard_sidenav-menu-item-dropdown-item {
       display: flex;
       align-items: center;
-      margin: 0 2rem;
-      padding: 0.5rem 1.5rem;
+      margin: .5rem 1rem;
+      padding: 1rem 1.5rem;
       font-size: 1.4rem;
       font-weight: 400;
       color: #404141;
-      border-left: 0.1rem solid #404141;
+      background-color: #1bc9a2;
+      color: white;
+      border-radius: .5rem;
       position: relative;
       transition: all 0.5s ease-in-out; }
       .clientDashboard_sidenav-menu-item-dropdown-item:hover {
         cursor: pointer;
-        color: #666; }
+        margin: .5rem .5rem;
+        background-color: rgba(253, 126, 60, 0.9); }
       .clientDashboard_sidenav-menu-item-dropdown-item svg {
         position: absolute;
         left: -0.5rem;
@@ -1541,7 +1545,8 @@ body {
         height: 1rem;
         fill: #c8c8cb;
         background-color: #413838;
-        border-radius: 50%; }
+        border-radius: 50%;
+        display: none; }
   @media only screen and (max-width: 992px) {
     .clientDashboard_sidenav {
       position: absolute;
