@@ -216,7 +216,8 @@ const QuoteLineModal = ({
               Materials
             </div>
             <div className="form-group-button" onClick={() => (
-              null
+              stateMethod(changeFormType, null, 'sinks'),
+              stateMethod(createType, 'typeForm', 'sinks')
             )}>
               Sinks
             </div>
@@ -1292,6 +1293,117 @@ const QuoteLineModal = ({
               )}
               htmlFor="quantity">
                 Quantity
+              </label>
+            </div>
+            </>
+          }
+
+          {typeForm == 'sinks' &&
+            <>
+            <div className="form-group">
+              <input 
+              onClick={() => setInputDropdown('sink_model')} 
+              value={manageFormFields(stateData.model, 'name')} 
+              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'model', e.target.value))}
+              readOnly
+              />
+              <label 
+                className={`input-label ` + (
+                  stateData.model &&
+                  stateData.model.length > 0 || 
+                  typeof stateData.model == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="model">
+                Model
+              </label>
+              <div 
+              onClick={() =>setInputDropdown('sink_model') }>
+              <SVG svg={'dropdown-arrow'}></SVG>
+              </div>
+              { input_dropdown == 'sink_model' &&
+                <div 
+                className="form-group-list" 
+                ref={myRefs}>
+                  {allData && allData.models.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                  <div 
+                  key={idx} 
+                  className="form-group-list-item" 
+                  onClick={(e) => (stateMethod(createType, 'model', item), setInputDropdown(''))}>
+                    {item.name}
+                  </div>
+                  ))}
+                </div>
+              }
+            </div>
+            <div className="form-group">
+              <input 
+              onClick={() => setInputDropdown('sink_color')} 
+              value={manageFormFields(stateData.color, 'name')} 
+              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'color', e.target.value))}
+              readOnly
+              />
+              <label 
+                className={`input-label ` + (
+                  stateData.color &&
+                  stateData.color.length > 0 || 
+                  typeof stateData.color == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="color">
+                Color
+              </label>
+              <div 
+              onClick={() =>setInputDropdown('sink_color') }>
+              <SVG svg={'dropdown-arrow'}></SVG>
+              </div>
+              { input_dropdown == 'sink_color' &&
+                <div 
+                className="form-group-list" 
+                ref={myRefs}>
+                  {allData && allData.colors.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
+                  <div 
+                  key={idx} 
+                  className="form-group-list-item" 
+                  onClick={(e) => (stateMethod(createType, 'color', item), setInputDropdown(''))}>
+                    {item.name}
+                  </div>
+                  ))}
+                </div>
+              }
+            </div>
+            <div className="form-group">
+              <input 
+              id="quantity" 
+              value={stateData.quantity} 
+              onChange={(e) => (validateNumber('quantity'), stateMethod(createType, 'quantity', e.target.value))}/>
+              <label 
+              className={`input-label ` + (
+                stateData.quantity.length > 0 || 
+                typeof stateData.quantity == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="quantity">
+                Quantity
+              </label>
+            </div>
+            <div className="form-group">
+              <input 
+              id="price" 
+              value={stateData.price} 
+              onChange={(e) => (stateMethod(createType, 'price', validatePrice(e)))}/>
+              <label 
+              className={`input-label ` + (
+                stateData.price.length > 0 || 
+                typeof stateData.price == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="price">
+                Price
               </label>
             </div>
             </>

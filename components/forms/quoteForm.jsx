@@ -802,6 +802,10 @@ const QuoteForm = ({
                     ?
                     `${manageFormFields(item.category, 'name')}` 
                     :
+                    item.model ? 
+                      `Sink: ${manageFormFields(item.model, 'name')}
+                      ${ item.color ? ` / ${manageFormFields(item.color, 'name')}` : ''}`
+                    : 
                     item.description
                   }
                 </div>
