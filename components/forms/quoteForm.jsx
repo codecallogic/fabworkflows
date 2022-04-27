@@ -15,7 +15,7 @@ import {
   addressSelect, 
   formatDate, 
   numberType, 
-  validatePrice,
+  validateTax,
   generateRandomNumber 
 } from '../../helpers/validations'
 import { manageEstimates, updateQuoteLine, calculateEstimate } from '../../helpers/estimates'
@@ -27,6 +27,7 @@ const searchOptionsAddress = {
 
 const QuoteForm = ({
   token,
+  account,
   title,
   dynamicSVG,
   setDynamicSVG,
@@ -90,6 +91,8 @@ const QuoteForm = ({
   }
 
   useEffect(() => {
+
+    !stateData.salesperson ? stateMethod(createType, 'salesperson', `${account.firstName} ${account.lastName}`) : null
     !stateData.quote_date ? stateMethod(createType, 'quote_date', formatDate(new Date())) : null
     !stateData.quote_number ? stateMethod(createType, 'quote_number', generateRandomNumber()) : null
     
@@ -205,7 +208,7 @@ const QuoteForm = ({
             <input
             onClick={() => setInputDropdown('quote_contact')} 
             value={manageFormFields(stateData.contact_name, 'contact_name')} 
-            onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'contact_name', e.target.value))}/>
+            onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'contact_name', e.target.value), stateMethod(createType, 'quote_name', e.target.value))}/>
             <label 
             className={`input-label ` + (
               stateData.contact_name.length > 0 || 
@@ -618,7 +621,7 @@ const QuoteForm = ({
             <input 
             id="quote_tax" 
             value={stateData.quote_tax} 
-            onChange={(e) => (validateNumber('quote_tax'), stateMethod(createType, 'quote_tax', e.target.value))}/>
+            onChange={(e) => (stateMethod(createType, 'quote_tax', validateTax(e.target.value)))}/>
             
             <label 
             className={`input-label ` + (

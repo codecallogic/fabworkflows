@@ -266,7 +266,7 @@ const QuoteLineModal = ({
                   ? setFilterSearch('') 
                   : setFilterSearch('products')
                 }>
-                  Products
+                  Materials
                 </span>
                 <span 
                 className={`addFieldItems-modal-form-container-searchList-categories-item ` + (filterSearch == 'slabs' ? ' categoryClicked' : '')} 
@@ -306,7 +306,7 @@ const QuoteLineModal = ({
               { (filterSearch == 'products' || filterSearch == '') &&
               <>
               <div className="addFieldItems-modal-form-container-searchList-header">
-                Products
+                Materials
               </div>
               <div className="addFieldItems-modal-form-container-searchList-list">
                 { allData && allData.products.map((item, idx) => 
@@ -319,7 +319,7 @@ const QuoteLineModal = ({
                       setSearchItems(false),
                       stateMethod(createType, 'typeForm', 'product'), 
                       stateMethod(createType, 'brand', item.brand[0]), 
-                      stateMethod(createType, 'model', item.model[0]), 
+                      // stateMethod(createType, 'model', item.model[0]), 
                       stateMethod(createType, 'category', item.category[0]), 
                       stateMethod(createType, 'color', item.color[0]),
                       stateMethod(createType, 'description', item.description), 
@@ -330,7 +330,6 @@ const QuoteLineModal = ({
                     {` 
                       ${manageFormFields(item.brand[0], 'name')}
                       ${ manageFormFields(item.category[0], 'name') ? ` / ${manageFormFields(item.category[0], 'name')}` : ''}
-                      ${ manageFormFields(item.model[0], 'name') ? ` / ${manageFormFields(item.model[0], 'name')}` : ''}
                       ${ manageFormFields(item.color[0], 'name') ? ` / ${manageFormFields(item.color[0], 'name')}` : ''}
                     `}
 
@@ -345,7 +344,7 @@ const QuoteLineModal = ({
                       setSearchItems(false),
                       stateMethod(createType, 'typeForm', 'product'), 
                       stateMethod(createType, 'brand', item.brand[0]), 
-                      stateMethod(createType, 'model', item.model[0]), 
+                      // stateMethod(createType, 'model', item.model[0]), 
                       stateMethod(createType, 'category', item.category[0]), 
                       stateMethod(createType, 'color', item.color[0]),
                       stateMethod(createType, 'description', item.description), 
@@ -359,7 +358,6 @@ const QuoteLineModal = ({
                     {` 
                       ${manageFormFields(item.brand[0], 'name')}
                       ${ manageFormFields(item.category[0], 'name') ? ` / ${manageFormFields(item.category[0], 'name')}` : ''}
-                      ${ manageFormFields(item.model[0], 'name') ? ` / ${manageFormFields(item.model[0], 'name')}` : ''}
                       ${ manageFormFields(item.color[0], 'name') ? ` / ${manageFormFields(item.color[0], 'name')}` : ''}
                     `}
                   </div>
@@ -580,7 +578,7 @@ const QuoteLineModal = ({
                 </div>
               }
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
               <input 
               onClick={() => setInputDropdown('product_model')} 
               value={manageFormFields(stateData.model, 'name')} 
@@ -614,7 +612,7 @@ const QuoteLineModal = ({
                   ))}
                 </div>
               }
-            </div>
+            </div> */}
             <div className="form-group">
               <input 
               onClick={() => setInputDropdown('product_category')} 

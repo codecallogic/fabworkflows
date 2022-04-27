@@ -123,7 +123,8 @@ const MaterialModal = ({
             Name
           </label>
         </div>
-        <div className="form-group-checkbox">
+
+        {/* <div className="form-group-checkbox">
           <input 
             type="checkbox" 
             name="type" 
@@ -144,51 +145,8 @@ const MaterialModal = ({
           >
           </label>
           <span>Sinks</span>
-        </div>
-        <div className="form-group-checkbox">
-          <input 
-            type="checkbox" 
-            name="type" 
-            id="type" 
-            hidden={true} 
-            checked={stateData.type == 'cutouts' ? true : false} 
-            readOnly
-          />
-          <label 
-            htmlFor="type" 
-            onClick={() => (
-              stateData.type
-              ? 
-              stateMethod(createType, 'type', '') 
-              : 
-              stateMethod(createType, 'type', 'cutouts')
-            )}
-          >
-          </label>
-          <span>Cutouts</span>
-        </div>
-        <div className="form-group-checkbox">
-          <input 
-            type="checkbox" 
-            name="type" 
-            id="type" 
-            hidden={true} 
-            checked={stateData.type == 'edges' ? true : false} 
-            readOnly
-          />
-          <label 
-            htmlFor="type" 
-            onClick={() => (
-              stateData.type
-              ? 
-              stateMethod(createType, 'type', '') 
-              : 
-              stateMethod(createType, 'type', 'edges')
-            )}
-          >
-          </label>
-          <span>Edges</span>
-        </div>
+        </div> */}
+        
         <div className="form-group">
           <input 
           id="price" 

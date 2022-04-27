@@ -121,7 +121,6 @@ const ContractForm = ({
       })
 
       setLoading('')
-      resetState(resetType)
       setDynamicSVG('checkmark')
       setMessage(response.data)
       
@@ -147,7 +146,7 @@ const ContractForm = ({
               onClick={(e) => edit == typeOfData ? 
                 submitUpdate(e, stateData, 'contracts', 'files', setMessage, 'create_contract', setLoading, token, 'contracts/update-contract', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'contracts', null)
                 : 
-                submitCreate(e, stateData, 'contracts', 'files', setMessage, 'create_contract', setLoading, token, 'contracts/create-contract', resetType, resetState, allData, setAllData, setDynamicSVG)  
+                submitCreate(e, stateData, 'contracts', 'files', setMessage, 'create_contract', setLoading, token, 'contracts/create-contract', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'contracts')  
               }
               >
               {loading == 'create_contract' ? 
@@ -182,6 +181,7 @@ const ContractForm = ({
             </div>
           }
 
+          {edit == typeOfData && 
           <div
             className="table-header-controls-item-svg"
             onClick={() => sendMessage('send_message')}
@@ -192,7 +192,8 @@ const ContractForm = ({
               <span><SVG svg={'send'}></SVG></span>
             }
           </div>
-          
+          }
+
         </div>
         }
         { message && 

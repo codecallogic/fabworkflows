@@ -1311,6 +1311,7 @@ const Dashboard = ({
         {nav.view == 'quote' &&
           <QuoteForm
             token={token}
+            account={account}
             title={'New Quote'}
             typeOfData={'quotes'}
             allData={allData}
@@ -1346,6 +1347,7 @@ const Dashboard = ({
         {nav.view == 'job' &&
           <JobForm
             token={token}
+            account={account}
             title={'New Job'}
             typeOfData={'jobs'}
             componentData={data.jobs}

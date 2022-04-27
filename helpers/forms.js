@@ -52,7 +52,7 @@ const manageFormFields = (data, key) => {
   
 }
 
-const submitCreate = async (e, stateData, type, fileType, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG) => {
+const submitCreate = async (e, stateData, type, fileType, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType) => {
   e.preventDefault()
 
   for(let i = 0; i < formFields[type].length; i++){
@@ -93,8 +93,9 @@ const submitCreate = async (e, stateData, type, fileType, setMessage, loadingTyp
     setDynamicSVG('checkmark-2')
     setMessage('Item was created')
     resetState(resetType)
-
+    
     if(loadingType == 'create_email') setMessage(responseCreate.data)
+    if(changeView) changeView(viewType)
     
   } catch (error) {
     console.log(error)

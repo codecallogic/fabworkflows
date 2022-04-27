@@ -29,6 +29,7 @@ import { returnSelectedData } from '../../helpers/modals';
 
 const JobForm = ({
   token,
+  account,
   title,
   dynamicSVG,
   setDynamicSVG,
@@ -71,7 +72,7 @@ const JobForm = ({
   submitUpdate,
   submitDeleteFile
 }) => {
-
+  console.log(account)
   const createType                  = 'CREATE_JOB'
   const resetType                   = 'RESET_JOB'
   const resetTypeContact            = 'RESET_CONTACT'
@@ -103,6 +104,7 @@ const JobForm = ({
 
   useEffect(() => {
     
+    !stateData.salesperson ? stateMethod(createType, 'salesperson', `${account.firstName} ${account.lastName}`) : null
     !stateData.date ? stateMethod(createType, 'date', formatDate(new Date(Date.now()))) : null
     !stateData.invoice ? stateMethod(createType, 'invoice', generateRandomNumber()) : null
     

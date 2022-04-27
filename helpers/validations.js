@@ -4,6 +4,7 @@ import { manageFormFields } from './forms'
 
 export {
   validateNumber,
+  validateTax,
   validateSize,
   validateEmail,
   validatePrice,
@@ -64,7 +65,17 @@ const validateNumber = (type) => {
 }
 
 
+const validateTax = (data) => {
+  // ^\d*\.?\d+$
+  const regex = /^\d*\.?\d{0,2}$/g
+  
+  if(data.match(regex)){
+    return data.match(regex)[0]
+  }else{
+    return data.substring(0, data.length - 1)
+  }
 
+}
 
 
 const validateSize = (e, type, createType, reduxMethod) => {
