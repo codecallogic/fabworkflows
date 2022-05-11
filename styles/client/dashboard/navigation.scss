@@ -23,17 +23,72 @@
       align-items: center;
       font-size: 1.6rem;
       color: white;
+      background-color: $color-scheme-2;
+      padding: 1rem;
+      border-radius: 1.2rem;
+      box-shadow: .3rem .3rem .3rem .3rem rgba(0,0,0, .1);
 
       @media only screen and (max-width: $large) {
         display: none;
       }
 
+      &:hover {
+        cursor: pointer;
+      }
+
+      &:hover &-dropdown-container {
+        visibility: visible;
+        font-size: 1.4rem;
+      }
+      
       img {
         height: 4rem;
         margin-right: 1rem;
         background-color: white;
         border-radius: 50%;
+        box-shadow: .2rem .2rem .2rem .2rem rgba(0,0,0, 0.1);
       }
+
+      &-dropdown {
+        display: flex;
+        align-items: center;
+        position: relative;
+        
+        svg {
+          width: 3rem;
+          height: 3rem;
+          fill: white;
+        }
+
+        &-container {
+          position: absolute;
+          top: 100%;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          visibility: hidden;
+          font-size: 0;
+          background-color: $color-scheme-1;
+          transition: all .3s;
+
+          &-item {
+            display: flex;
+            justify-content: center;
+            padding: .5rem;
+            width: 100%;
+
+            &:hover {
+              cursor: pointer;
+              background-color: $color-light-shade-scheme-3;
+              color: black;
+            }
+          }
+          
+        }
+      }
+      
     }
 
     &-mobile {

@@ -1,3 +1,6 @@
+import axios from 'axios';
+import { API } from '../config'
+
 export const getUser = (req) => {
   if(!req.headers.cookie){
     return undefined
@@ -40,4 +43,15 @@ export const getToken = (req) => {
   let parsedToken = newArray.find( a => a.includes("accessToken"))
 
   return parsedToken
+}
+
+export const logoutAdmin = async () => {
+  
+  try {
+    const response = await axios.post(`${API}/auth/logout`)
+    window.location.reload()
+  } catch (error) {
+    console.log(error)
+  }
+  
 }

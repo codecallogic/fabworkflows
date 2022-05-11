@@ -1,4 +1,6 @@
 import {connect} from 'react-redux'
+import SVG from '../../files/svgs'
+import { logoutAdmin } from '../../helpers/auth'
 
 const TopNav = ({account, toggleSideNav}) => {
   return (
@@ -16,7 +18,14 @@ const TopNav = ({account, toggleSideNav}) => {
         </div>
         <div className="clientDashboard_topnav-menu-account">
           <img src="/media/user_placeholder.png" alt="User avatar"/>
-          <div>Welcome, {account.firstName}</div>
+          <div className="clientDashboard_topnav-menu-account-dropdown">
+            Welcome, {account.firstName}
+            <SVG svg={'dropdown-arrow'}></SVG>
+            <div className="clientDashboard_topnav-menu-account-dropdown-container">
+              <div className="clientDashboard_topnav-menu-account-dropdown-container-item" onClick={() => window.location.href = '/'}>Home</div>
+              <div className="clientDashboard_topnav-menu-account-dropdown-container-item" onClick={() => logoutAdmin()}>Logout</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

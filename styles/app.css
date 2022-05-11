@@ -1368,15 +1368,54 @@ body {
       display: flex;
       align-items: center;
       font-size: 1.6rem;
-      color: white; }
+      color: white;
+      background-color: #1bc9a2;
+      padding: 1rem;
+      border-radius: 1.2rem;
+      box-shadow: 0.3rem 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.1); }
       @media only screen and (max-width: 992px) {
         .clientDashboard_topnav-menu-account {
           display: none; } }
+      .clientDashboard_topnav-menu-account:hover {
+        cursor: pointer; }
+      .clientDashboard_topnav-menu-account:hover .clientDashboard_topnav-menu-account-dropdown-container {
+        visibility: visible;
+        font-size: 1.4rem; }
       .clientDashboard_topnav-menu-account img {
         height: 4rem;
         margin-right: 1rem;
         background-color: white;
-        border-radius: 50%; }
+        border-radius: 50%;
+        box-shadow: 0.2rem 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.1); }
+      .clientDashboard_topnav-menu-account-dropdown {
+        display: flex;
+        align-items: center;
+        position: relative; }
+        .clientDashboard_topnav-menu-account-dropdown svg {
+          width: 3rem;
+          height: 3rem;
+          fill: white; }
+        .clientDashboard_topnav-menu-account-dropdown-container {
+          position: absolute;
+          top: 100%;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          visibility: hidden;
+          font-size: 0;
+          background-color: rgba(253, 126, 60, 0.9);
+          transition: all .3s; }
+          .clientDashboard_topnav-menu-account-dropdown-container-item {
+            display: flex;
+            justify-content: center;
+            padding: .5rem;
+            width: 100%; }
+            .clientDashboard_topnav-menu-account-dropdown-container-item:hover {
+              cursor: pointer;
+              background-color: #ededec;
+              color: black; }
     .clientDashboard_topnav-menu-mobile {
       display: none; }
       @media only screen and (max-width: 992px) {
