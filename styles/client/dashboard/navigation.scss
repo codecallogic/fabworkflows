@@ -200,9 +200,9 @@
 
     &-account {
       display: none;
-      padding: 0 0 0 2rem;
+      padding: 0 0 0 0;
       font-size: 1.6rem;
-      margin: 3rem 0;
+      margin: 3rem 1rem;
       color: white;
       animation: slideFromLeft 1s ease-in-out;
       transition: all 0.6s ease-in-out;
@@ -210,7 +210,27 @@
       @media only screen and (max-width: $large) {
         display: flex;
         align-items: center;
+        justify-content: center;
+        flex-direction: column;
         color: $color-scheme-3;
+      }
+
+      &-item {
+        display: flex;
+        align-items: center;
+        border-radius: .8rem;
+        padding: 1rem;
+        margin: 0 1rem;
+        width: 100%;
+        background-color: $color-scheme-2;
+        color: white;
+        transition: all 0.5s ease-in-out;
+
+        &:hover {
+          cursor: pointer;
+          margin: 0 .5rem;
+          background-color: $color-scheme-1;
+        }
       }
 
       img {

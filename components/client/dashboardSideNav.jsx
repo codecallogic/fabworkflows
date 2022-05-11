@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import SVGs from '../../files/svgs'
+import { logoutAdmin } from '../../helpers/auth'
 
 const SideNav = ({account, changeView, nav, width, toggleSideNav, resetType}) => {
 
@@ -18,6 +19,12 @@ const SideNav = ({account, changeView, nav, width, toggleSideNav, resetType}) =>
             className={`clientDashboard_sidenav-menu-account` + (!nav.sidenav ? ' hide-sidenav-items' : '')}>
             <img src="/media/user_placeholder.png" alt="User avatar"/>
             <div>Welcome, {account.firstName}</div>
+            <div 
+              className={`clientDashboard_sidenav-menu-account-item` + (!nav.sidenav ? ' hide-sidenav-items' : '')} 
+              onClick={() => logoutAdmin()}
+            >
+              Logout
+            </div>
           </div>
 
           <div 

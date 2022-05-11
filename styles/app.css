@@ -1485,9 +1485,9 @@ body {
       width: 40%; } }
   .clientDashboard_sidenav-menu-account {
     display: none;
-    padding: 0 0 0 2rem;
+    padding: 0 0 0 0;
     font-size: 1.6rem;
-    margin: 3rem 0;
+    margin: 3rem 1rem;
     color: white;
     animation: slideFromLeft 1s ease-in-out;
     transition: all 0.6s ease-in-out; }
@@ -1495,7 +1495,23 @@ body {
       .clientDashboard_sidenav-menu-account {
         display: flex;
         align-items: center;
+        justify-content: center;
+        flex-direction: column;
         color: #404141; } }
+    .clientDashboard_sidenav-menu-account-item {
+      display: flex;
+      align-items: center;
+      border-radius: .8rem;
+      padding: 1rem;
+      margin: 0 1rem;
+      width: 100%;
+      background-color: #1bc9a2;
+      color: white;
+      transition: all 0.5s ease-in-out; }
+      .clientDashboard_sidenav-menu-account-item:hover {
+        cursor: pointer;
+        margin: 0 .5rem;
+        background-color: rgba(253, 126, 60, 0.9); }
     .clientDashboard_sidenav-menu-account img {
       height: 4rem;
       margin-right: 1rem;
