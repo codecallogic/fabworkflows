@@ -1,5 +1,6 @@
 const initialState = {
   // ADDRESS
+  account: '',
   contact_name: '',
   address: '',
   city: '',

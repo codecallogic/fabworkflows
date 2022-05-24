@@ -88,6 +88,7 @@ import ActivityListModal from '../../components/modals/ActivityList'
 import PurchaseOrderModal from '../../components/modals/PurchaseOrder'
 import PurchaseOrderListModal from '../../components/modals/PurchaseList'
 import JobIssueModal from '../../components/modals/JobIssue'
+import AccountsModal from '../../components/modals/Accounts'
 
 axios.defaults.withCredentials = true
 
@@ -138,7 +139,6 @@ const Dashboard = ({
 
 }) => {
   const myRefs = useRef(null)
-  
   // console.log(originalData)
   
   const router = useRouter()
@@ -2222,6 +2222,37 @@ const Dashboard = ({
               setEvent={setEvent}
             >
             </JobIssueModal>
+          }
+          { modal == 'accounts' &&
+            <AccountsModal
+              token={token}
+              account={account}
+              message={message}
+              setMessage={setMessage}
+              setModal={setModal}
+              loading={loading}
+              setLoading={setLoading}
+              edit={edit}
+              setEdit={setEdit}
+              stateData={jobIssue}
+              stateMethod={createType}
+              dynamicType={dynamicType}
+              extractingStateData={extractingStateData}
+              dynamicSVG={dynamicSVG}
+              setDynamicSVG={setDynamicSVG}
+              resetState={resetType}
+              submitCreate={submitCreate}
+              allData={allData}
+              setAllData={setAllData}
+              submitUpdate={submitUpdate}
+              changeView={changeView}
+              editData={editData}
+              autoFill={nav.view === 'job' ? job : quote}
+              selectID={selectID}
+              typeOfData={nav.view}
+              setEvent={setEvent}
+            >
+            </AccountsModal>
           }
       </div>
     </>

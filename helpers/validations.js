@@ -17,6 +17,7 @@ export {
   addressSelect,
   formatDate,
   numberType,
+  filterAccountSearch,
   filterProductSearch,
   filterPriceListSearch,
   filterSlabSearch,
@@ -396,6 +397,13 @@ const numberType = (e, type) => {
     if(e.target.value !== '') return validatePrice(e)
   }
   
+}
+
+const filterAccountSearch = (item, search) => {
+  
+  if( item.name && item.name.toLowerCase().includes(search.toLowerCase())) 
+    return true
+
 }
 
 const filterProductSearch = (item, search) => {

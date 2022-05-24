@@ -219,7 +219,36 @@
           border-bottom: 0.2rem solid $color-light-shade-scheme-1;
         }
 
+        &-table {
+          &-header {
+            padding: 0.5rem 1rem;
+            
+            &-item {
+              display: flex;
+              align-items: center;
+              font-size: 1.6rem;
+              background-color: $color-scheme-3;
+              padding: .5rem 1rem;
+              border-radius: .2rem;
+              color: white;
+
+              svg {
+                width: 2rem;
+                height: 2rem;
+                fill: $color-scheme-2;
+              }
+
+              &:hover {
+                cursor: pointer;
+              }
+              
+            }
+          }
+        }
+
         &-list {
+          max-height: 50rem;
+          
           &-item {
             font-size: 1.2rem;
             padding: 0.5rem 1rem;
