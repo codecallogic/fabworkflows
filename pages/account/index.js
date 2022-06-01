@@ -2159,6 +2159,7 @@ const Dashboard = ({
         {modal == 'quote' && (
           <QuoteModal
             token={token}
+            account={account}
             message={message}
             setMessage={setMessage}
             setModal={setModal}
@@ -2166,7 +2167,7 @@ const Dashboard = ({
             setLoading={setLoading}
             edit={edit}
             setEdit={setEdit}
-            stateData={job}
+            stateData={quote}
             stateMethod={createType}
             dynamicType={dynamicType}
             extractingStateData={extractingStateData}
@@ -2179,6 +2180,12 @@ const Dashboard = ({
             submitUpdate={submitUpdate}
             changeView={changeView}
             editData={editData}
+            autoFill={nav.view === 'job' ? job : accountItem}
+            autoFillType={'quotes'}
+            dataType={'quotes'}
+            selectID={selectID}
+            typeOfData={'account'}
+            setEvent={setEvent}
           ></QuoteModal>
         )}
         {modal == 'assignee' && (

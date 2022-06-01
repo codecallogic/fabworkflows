@@ -18,6 +18,7 @@ export {
   formatDate,
   numberType,
   filterAccountSearch,
+  filterQuoteSearch,
   filterProductSearch,
   filterPriceListSearch,
   filterSlabSearch,
@@ -403,6 +404,19 @@ const filterAccountSearch = (item, search) => {
   
   if( item.name && item.name.toLowerCase().includes(search.toLowerCase())) 
     return true
+
+}
+
+const filterQuoteSearch = (item, search) => {
+  
+  if( item.quote_name && item.quote_name.toLowerCase().includes(search.toLowerCase())) 
+    return true
+
+  // if( manageFormFields(item.category[0], 'name') && manageFormFields(item.category[0], 'name').toLowerCase().includes(search.toLowerCase())) 
+  //   return true
+
+  // if( manageFormFields(item.model[0], 'name') && manageFormFields(item.model[0], 'name').toLowerCase().includes(search.toLowerCase())) 
+  //   return true
 
 }
 

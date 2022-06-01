@@ -7,7 +7,8 @@ import { returnIfTrue } from '../../helpers/validations'
 import { populateAddress } from '../../helpers/modals'
 import {
   contactSort,
-  priceSort
+  priceSort,
+  quoteSort
 } from '../../helpers/sorts';
 
 const AccountForm = ({
@@ -62,6 +63,9 @@ const AccountForm = ({
   const resetType         = 'RESET_ACCOUNT';
   const resetTypeContact  = 'RESET_CONTACT';
   const [save, setSave] = useState(false);
+  const [quoteHeaders, setQuoteHeaders] = useState([]);
+  const [contactHeaders, setContactHeaders] = useState([]);
+  const [priceListHeaders, setPriceListHeaders] = useState([]);
 
   useEffect(() => {
     const isEmpty = Object.values(stateData).every(
@@ -76,6 +80,29 @@ const AccountForm = ({
   useEffect(() => {
     !stateData.salesperson ? stateMethod(createType, 'salesperson', `${account.firstName} ${account.lastName}`): null;
   }, [])
+
+  useEffect(() => {
+
+    let objectQuotes = new Object();
+    Object.values(quoteSort).forEach((item) => {
+      objectQuotes[item] = item;
+    });
+    setQuoteHeaders((oldArray) => [...oldArray, objectQuotes]);
+
+    let objectContacts = new Object();
+    Object.values(contactSort).forEach((item) => {
+      objectContacts[item] = item;
+    });
+    setContactHeaders((oldArray) => [...oldArray, objectContacts]);
+
+
+    let objectPriceList = new Object();
+    Object.values(priceSort).forEach((item) => {
+      objectPriceList[item] = item;
+    });
+    setPriceListHeaders((oldArray) => [...oldArray, objectPriceList]);
+
+  }, []);
   
   return (
     <div className="table">
@@ -290,7 +317,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           token={token}
           title={'Contacts'}
           typeOfData={'contacts'}
-          componentData={componentData}
+          componentData={contactHeaders}
           allData={stateData.contacts}
           setAllData={setAllData}
           modal={modal}
@@ -324,7 +351,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           token={token}
           title={'Price Lists'}
           typeOfData={'prices'}
-          componentData={componentData}
+          componentData={priceListHeaders}
           allData={stateData.priceLists}
           setAllData={setAllData}
           modal={modal}
@@ -352,6 +379,40 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           extractingStateData={extractingStateData}
           dynamicType={'CREATE_ACCOUNT_ARRAY_ITEM'}
           dynamicKey={'priceLists'}
+        ></Table>
+
+        <Table
+          token={token}
+          title={'Quotes'}
+          typeOfData={'quotes'}
+          componentData={quoteHeaders}
+          allData={stateData.quotes}
+          setAllData={setAllData}
+          modal={modal}
+          setModal={setModal}
+          sortOrder={quoteSort}
+          controls={controls}
+          setControls={setControls}
+          controlsType={'quoteControls'}
+          message={message}
+          setMessage={setMessage}
+          resetCheckboxes={resetCheckboxes}
+          editData={editData}
+          changeView={changeView}
+          setEdit={setEdit}
+          viewType={'quotes'}
+          modalType={'quote'}
+          loading={loading}
+          setLoading={setLoading}
+          dynamicSVG={dynamicSVG}
+          setDynamicSVG={setDynamicSVG}
+          setDynamicType={setDynamicType}
+          setDynamicKey={setDynamicKey}
+          selectID={selectID}
+          setSelectID={setSelectID}
+          extractingStateData={extractingStateData}
+          dynamicType={'CREATE_ACCOUNT_ARRAY_ITEM'}
+          dynamicKey={'quotes'}
         ></Table>
         
       </form>

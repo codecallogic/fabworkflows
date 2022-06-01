@@ -149,7 +149,7 @@ const PriceListItems = ({
               }
               htmlFor={`${autoFillType}`}
             >
-              Account
+              Search Price List
             </label>
           </div>
           <div className="addFieldItems-modal-form-container-searchList-container">
@@ -167,7 +167,7 @@ const PriceListItems = ({
             <div className="addFieldItems-modal-form-container-searchList-list">
               {allData &&
                 allData[dataType]
-                  // .sort((a, b) => sort === 'down' ? a.supplier[0].name > b.supplier[0].name ? -1 : 1 : a.supplier[0].name > b.supplier[0].name ? 1 : -1)
+                  .sort((a, b) => sort === 'down' ? a.supplier[0].name > b.supplier[0].name ? -1 : 1 : a.supplier[0].name > b.supplier[0].name ? 1 : -1)
                   .map((item, idx) =>
                     search.length > 0 ? (
                       filterPriceListSearch(item, search) ? (
@@ -189,7 +189,7 @@ const PriceListItems = ({
                       <div
                         key={idx}
                         className="addFieldItems-modal-form-container-searchList-list-item"
-                        onClick={() => stateMethod(createType, autoFillType, item)}
+                        onClick={() => (stateMethod(createType, autoFillType, item), setModal(''))}
                       >
                         {` 
                           ${manageFormFields(item.supplier[0], 'name')}

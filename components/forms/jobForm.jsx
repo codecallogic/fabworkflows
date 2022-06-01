@@ -76,6 +76,7 @@ const JobForm = ({
   const [loadingColor, setLoadingColor] = useState('black');
   const [input_dropdown, setInputDropdown] = useState('');
   const [save, setSave] = useState(false);
+  const [quoteHeaders, setQuoteHeaders] = useState([]);
   const [activityHeaders, setActivityHeaders] = useState([]);
   const [purchaseOrderHeaders, setPurchaseOrderHeaders] = useState([]);
   const [jobIssueHeaders, setJobIssueHeaders] = useState([]);
@@ -107,6 +108,13 @@ const JobForm = ({
   }, []);
 
   useEffect(() => {
+
+    let objectQuotes = new Object();
+    Object.values(quoteSort).forEach((item) => {
+      objectQuotes[item] = item;
+    });
+    setQuoteHeaders((oldArray) => [...oldArray, objectQuotes]);
+    
     let objectActivities = new Object();
     Object.values(activitySort).forEach((item) => {
       objectActivities[item] = item;
@@ -128,42 +136,10 @@ const JobForm = ({
 
   useEffect(() => {
     if (event == 'created-job-issue')
-      submitUpdate(
-        null,
-        stateData,
-        'jobs',
-        'files',
-        setMessage,
-        'update_job',
-        setLoading,
-        token,
-        'jobs/update-job',
-        null,
-        resetState,
-        allData,
-        setAllData,
-        setDynamicSVG,
-        changeView,
-        null
+      submitUpdate( null, stateData, 'jobs', 'files', setMessage, 'update_job', setLoading, token, 'jobs/update-job', null, resetState, allData, setAllData, setDynamicSVG, changeView, null
       );
     if (event == 'updated-job-issue')
-      submitUpdate(
-        null,
-        stateData,
-        'jobs',
-        'files',
-        setMessage,
-        'update_job',
-        setLoading,
-        token,
-        'jobs/update-job',
-        null,
-        resetState,
-        allData,
-        setAllData,
-        setDynamicSVG,
-        changeView,
-        null
+      submitUpdate( null, stateData, 'jobs', 'files', setMessage, 'update_job', setLoading, token, 'jobs/update-job', null, resetState, allData, setAllData, setDynamicSVG, changeView, null
       );
   }, [event]);
 
@@ -556,7 +532,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           token={token}
           title={'Quotes'}
           typeOfData={'quotes'}
-          componentData={componentData}
+          componentData={quoteHeaders}
           allData={stateData.quotes}
           setAllData={setAllData}
           modal={modal}
