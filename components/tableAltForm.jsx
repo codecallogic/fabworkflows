@@ -295,7 +295,10 @@ const Table = ({
                 { 
                   Array.isArray(item[key]) && item[key].length > 0 && matchPattern.test(item[key][0].location)
                   ? 
-                  <img src={`${item[key][0].location}`}></img> 
+                  <img 
+                    src={`${item[key][0].location}`}
+                    onError={(e) => e.target.src = "https://static.thenounproject.com/png/47347-200.png"}
+                  />
                   : null
                 }
                 {
@@ -306,6 +309,10 @@ const Table = ({
                     item[key][0].name
                     :
                     item[key][0].firstName
+                    ?
+                    item[key][0].firstName
+                    :
+                    item[key][0].quote_name
                   : null
                 }
                 {
@@ -333,7 +340,7 @@ const Table = ({
                     <div><span className="table-rows-item-color" style={{backgroundColor: item[key]}}></span>{item[key]}</div>
                     )
                     :
-                    item[key]
+                    item[key] 
                   )
                   :
                    

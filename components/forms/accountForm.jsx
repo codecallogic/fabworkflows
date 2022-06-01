@@ -8,7 +8,8 @@ import { populateAddress } from '../../helpers/modals'
 import {
   contactSort,
   priceSort,
-  quoteSort
+  quoteSort,
+  jobSort
 } from '../../helpers/sorts';
 
 const AccountForm = ({
@@ -66,6 +67,7 @@ const AccountForm = ({
   const [quoteHeaders, setQuoteHeaders] = useState([]);
   const [contactHeaders, setContactHeaders] = useState([]);
   const [priceListHeaders, setPriceListHeaders] = useState([]);
+  const [jobHeaders, setJobHeaders] = useState([]);
 
   useEffect(() => {
     const isEmpty = Object.values(stateData).every(
@@ -101,6 +103,12 @@ const AccountForm = ({
       objectPriceList[item] = item;
     });
     setPriceListHeaders((oldArray) => [...oldArray, objectPriceList]);
+
+    let objectJobList = new Object();
+    Object.values(jobSort).forEach((item) => {
+      objectJobList[item] = item;
+    });
+    setJobHeaders((oldArray) => [...oldArray, objectJobList]);
 
   }, []);
   
@@ -413,6 +421,40 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           extractingStateData={extractingStateData}
           dynamicType={'CREATE_ACCOUNT_ARRAY_ITEM'}
           dynamicKey={'quotes'}
+        ></Table>
+
+        <Table
+          token={token}
+          title={'Jobs'}
+          typeOfData={'jobs'}
+          componentData={jobHeaders}
+          allData={stateData.jobs}
+          setAllData={setAllData}
+          modal={modal}
+          setModal={setModal}
+          sortOrder={jobSort}
+          controls={controls}
+          setControls={setControls}
+          controlsType={'jobControls'}
+          message={message}
+          setMessage={setMessage}
+          resetCheckboxes={resetCheckboxes}
+          editData={editData}
+          changeView={changeView}
+          setEdit={setEdit}
+          viewType={'jobs'}
+          modalType={'job_list_items'}
+          loading={loading}
+          setLoading={setLoading}
+          dynamicSVG={dynamicSVG}
+          setDynamicSVG={setDynamicSVG}
+          setDynamicType={setDynamicType}
+          setDynamicKey={setDynamicKey}
+          selectID={selectID}
+          setSelectID={setSelectID}
+          extractingStateData={extractingStateData}
+          dynamicType={'CREATE_ACCOUNT_ARRAY_ITEM'}
+          dynamicKey={'jobs'}
         ></Table>
         
       </form>

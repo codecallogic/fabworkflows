@@ -19,6 +19,7 @@ export {
   numberType,
   filterAccountSearch,
   filterQuoteSearch,
+  filterJobSearch,
   filterProductSearch,
   filterPriceListSearch,
   filterSlabSearch,
@@ -93,10 +94,6 @@ const validateSize = (e, type, createType, reduxMethod) => {
   return input.value = input.value.split(regex).join('') + ' in'
 }
 
-
-
-
-
 const validateEmail = (type) => {
   const input = document.getElementById(type)
   const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/g
@@ -108,9 +105,6 @@ const validateEmail = (type) => {
   }
   // return !regex.test(input.value) ? 'true' : 'false'
 }
-
-
-
 
 const validatePrice = (e) => {
 
@@ -131,10 +125,6 @@ const validatePrice = (e) => {
   return formatter.format(newValue)
 
 }
-
-
-
-
 
 function checkValue(str, max){
   if (str.charAt(0) !== '0' || str == '00') {
@@ -412,11 +402,21 @@ const filterQuoteSearch = (item, search) => {
   if( item.quote_name && item.quote_name.toLowerCase().includes(search.toLowerCase())) 
     return true
 
-  // if( manageFormFields(item.category[0], 'name') && manageFormFields(item.category[0], 'name').toLowerCase().includes(search.toLowerCase())) 
-  //   return true
+  if(item.quote_number && item.quote_number.toLowerCase().includes(search.toLowerCase())) 
+    return true
 
-  // if( manageFormFields(item.model[0], 'name') && manageFormFields(item.model[0], 'name').toLowerCase().includes(search.toLowerCase())) 
-  //   return true
+  if(item.contact_name && item.contact_name.toLowerCase().includes(search.toLowerCase())) 
+    return true
+
+}
+
+const filterJobSearch = (item, search) => {
+  
+  if( item.name && item.name.toLowerCase().includes(search.toLowerCase()) ) 
+    return true
+
+  if( item.invoice && item.invoice.toLowerCase().includes(search.toLowerCase()) ) 
+    return true
 
 }
 

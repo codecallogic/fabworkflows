@@ -93,6 +93,7 @@ import PurchaseOrderListModal from '../../components/modals/PurchaseList';
 import JobIssueModal from '../../components/modals/JobIssue';
 import AccountsModal from '../../components/modals/Accounts';
 import PriceListItemsModal from '../../components/modals/PriceListItems'
+import JobListItemsModal from '../../components/modals/Job'
 
 axios.defaults.withCredentials = true;
 
@@ -2184,7 +2185,7 @@ const Dashboard = ({
             autoFillType={'quotes'}
             dataType={'quotes'}
             selectID={selectID}
-            typeOfData={'account'}
+            typeOfData={nav.view === 'job' ? 'job' : 'account'}
             setEvent={setEvent}
           ></QuoteModal>
         )}
@@ -2466,6 +2467,38 @@ const Dashboard = ({
             typeOfData={'account'}
             setEvent={setEvent}
           ></PriceListItemsModal>
+        )}
+        {modal == 'job_list_items' && (
+          <JobListItemsModal
+            token={token}
+            account={account}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={job}
+            stateMethod={createType}
+            dynamicType={dynamicType}
+            extractingStateData={extractingStateData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+            autoFill={accountItem}
+            autoFillType={'jobs'}
+            dataType={'jobs'}
+            selectID={selectID}
+            typeOfData={'account'}
+            setEvent={setEvent}
+          ></JobListItemsModal>
         )}
       </div>
     </>
