@@ -428,7 +428,8 @@ const PriceListModal = ({
           ?
           (
             extractingStateData(stateData),
-            setModal('')
+            setModal(''),
+            resetState(resetType)
           )
           :
           submitCreate(e, stateData, 'contacts', null, setMessage, 'create_contact', setLoading, token, 'contact/create-contact', resetType, resetState, allData, setAllData, setDynamicSVG)

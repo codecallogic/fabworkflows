@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import SVG from '../../files/svgs';
 import { manageFormFields } from '../../helpers/forms';
-import { selectCreateType, selectResetType } from '../../helpers/dispatchTypes';
-import { filterAccountSearch } from '../../helpers/validations';
+import { selectCreateArrayType, selectResetType } from '../../helpers/dispatchTypes';
+import { filterPriceListSearch } from '../../helpers/validations';
 
-const Accounts = ({
+const PriceListItems = ({
   token,
   message,
   setMessage,
@@ -33,7 +33,8 @@ const Accounts = ({
   submitCreate,
   submitUpdate,
 }) => {
-  const createType = selectCreateType(typeOfData);
+
+  const createType = selectCreateArrayType(typeOfData);
   const resetType = selectResetType(typeOfData);
   const myRefs = useRef(null);
   const [loadingColor, setLoadingColor] = useState('white');
@@ -135,7 +136,6 @@ const Accounts = ({
             <input
               value={manageFormFields(autoFill[autoFillType], 'name')}
               onChange={(e) => (
-                stateMethod(createType, autoFillType, e.target.value),
                 setSearch(e.target.value)
               )}
             />
@@ -160,17 +160,17 @@ const Accounts = ({
                   sort === 'down' ? setSort('up') : setSort('down')
                 }
               >
-                <span>Account</span>
+                <span>Price List</span>
                 <SVG svg={'dropdown-arrow'}></SVG>
               </div>
             </div>
             <div className="addFieldItems-modal-form-container-searchList-list">
               {allData &&
                 allData[dataType]
-                  .sort((a, b) => sort === 'down' ? a.name > b.name ? -1 : 1 : a.name > b.name ? 1 : -1)
+                  // .sort((a, b) => sort === 'down' ? a.supplier[0].name > b.supplier[0].name ? -1 : 1 : a.supplier[0].name > b.supplier[0].name ? 1 : -1)
                   .map((item, idx) =>
                     search.length > 0 ? (
-                      filterAccountSearch(item, search) ? (
+                      filterPriceListSearch(item, search) ? (
                         <div
                           key={idx}
                           className="addFieldItems-modal-form-container-searchList-list-item"
@@ -178,7 +178,11 @@ const Accounts = ({
                             stateMethod(createType, autoFillType, item)
                           }
                         >
-                          {item.name}
+                          {` 
+                            ${manageFormFields(item.supplier[0], 'name')}
+                            ${ manageFormFields(item.model[0], 'name') ? ` / ${manageFormFields(item.model[0], 'name')}` : ''}
+                            ${ manageFormFields(item.color[0], 'name') ? ` / ${manageFormFields(item.color[0], 'name')}` : ''}
+                          `}
                         </div>
                       ) : null
                     ) : (
@@ -187,7 +191,11 @@ const Accounts = ({
                         className="addFieldItems-modal-form-container-searchList-list-item"
                         onClick={() => stateMethod(createType, autoFillType, item)}
                       >
-                        {item.name}
+                        {` 
+                          ${manageFormFields(item.supplier[0], 'name')}
+                          ${ manageFormFields(item.model[0], 'name') ? ` / ${manageFormFields(item.model[0], 'name')}` : ''}
+                          ${ manageFormFields(item.color[0], 'name') ? ` / ${manageFormFields(item.color[0], 'name')}` : ''}
+                        `}
                       </div>
                     )
                   )}
@@ -237,4 +245,4 @@ const Accounts = ({
   );
 };
 
-export default Accounts;
+export default PriceListItems;

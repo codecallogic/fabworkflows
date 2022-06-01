@@ -25,6 +25,7 @@ import { activitySetReducer } from './activitySetReducer'
 import { purchaseOrderReducer } from './purchaseOrderReducer'
 import { jobIssueReducer } from './jobIssueReducer'
 import { contractReducer } from './contractReducer'
+import { accountReducer } from './accountReducer'
 
 const rootReducer = combineReducers({
   nav: navReducer,
@@ -52,7 +53,8 @@ const rootReducer = combineReducers({
   activitySet: activitySetReducer,
   purchaseOrder: purchaseOrderReducer,
   jobIssue: jobIssueReducer,
-  contract: contractReducer
+  contract: contractReducer,
+  account: accountReducer
 })
 
 export default rootReducer

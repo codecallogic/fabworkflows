@@ -1,22 +1,22 @@
-import TopNav from '../../components/client/dashboardTopNav'
-import SideNav from '../../components/client/dashboardSideNav'
-import {connect} from 'react-redux'
-import SVGs from '../../files/svgs'
-import React, { useState, useEffect, useRef } from 'react'
-import withUser from '../withUser'
-import axios from 'axios'
-import {useRouter} from 'next/router'
+import TopNav from '../../components/client/dashboardTopNav';
+import SideNav from '../../components/client/dashboardSideNav';
+import { connect } from 'react-redux';
+import SVGs from '../../files/svgs';
+import React, { useState, useEffect, useRef } from 'react';
+import withUser from '../withUser';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 
 //// TABLE
-import Table from '../../components/table'
-import TableAlt from '../../components/tableAlt'
-import { tableData } from '../../helpers/tableData'
-import { 
-  slabSort, 
-  productSort, 
-  remnantSort, 
-  materialSort, 
-  priceSort, 
+import Table from '../../components/table';
+import TableAlt from '../../components/tableAlt';
+import { tableData } from '../../helpers/tableData';
+import {
+  slabSort,
+  productSort,
+  remnantSort,
+  materialSort,
+  priceSort,
   quoteSort,
   jobSort,
   assigneeSort,
@@ -25,75 +25,79 @@ import {
   activitySetSort,
   purchaseOrderSort,
   jobIssueSort,
-  contractSort
-} from '../../helpers/sorts'
-import { populateEditData } from '../../helpers/modals'
+  contractSort,
+  accountSort,
+  contactSort
+} from '../../helpers/sorts';
+import { populateEditData } from '../../helpers/modals';
 
 //// DATA
-import { getToken } from '../../helpers/auth'
-import _ from 'lodash'
+import { getToken } from '../../helpers/auth';
+import _ from 'lodash';
 
 //// FORMS
-import SlabForm from '../../components/forms/slabForm'
-import ProductForm from '../../components/forms/productForm'
-import RemnantForm from '../../components/forms/remnantForm'
-import QuoteForm from '../../components/forms/quoteForm'
-import JobForm from '../../components/forms/jobForm'
-import PurchaseOrderForm from '../../components/forms/purchaseOrderForm'
-import ContractForm from '../../components/forms/contractForm'
+import SlabForm from '../../components/forms/slabForm';
+import ProductForm from '../../components/forms/productForm';
+import RemnantForm from '../../components/forms/remnantForm';
+import QuoteForm from '../../components/forms/quoteForm';
+import JobForm from '../../components/forms/jobForm';
+import PurchaseOrderForm from '../../components/forms/purchaseOrderForm';
+import ContractForm from '../../components/forms/contractForm';
+import AccountForm from '../../components/forms/accountForm'
 
-import { 
-  submitCreate, 
-  submitUpdate, 
-  submitDeleteFile, 
-  submitDeleteRow, 
-  submitSearch, 
-  resetDataType 
-} from '../../helpers/forms'
+import {
+  submitCreate,
+  submitUpdate,
+  submitDeleteFile,
+  submitDeleteRow,
+  submitSearch,
+  resetDataType,
+} from '../../helpers/forms';
 
 //// VALIDATIONS
-import { 
-  validateNumber, 
-  validateSize, 
-  validatePrice, 
-  validateDate, 
-  generateQR, 
-  multipleFiles, 
-  dateNow, 
-  phoneNumber, 
-  addressSelect
-} from '../../helpers/validations'
+import {
+  validateNumber,
+  validateSize,
+  validatePrice,
+  validateDate,
+  generateQR,
+  multipleFiles,
+  dateNow,
+  phoneNumber,
+  addressSelect,
+} from '../../helpers/validations';
 
 //// MODALS
-import MaterialModal from '../../components/modals/Material'
-import ColorModal from '../../components/modals/Color'
-import SupplierModal from '../../components/modals/Supplier'
-import LocationModal from '../../components/modals/Location'
-import BrandModal from '../../components/modals/Brand'
-import ModelModal from '../../components/modals/Model'
-import CategoryModal from '../../components/modals/Category'
-import QuoteLineModal from '../../components/modals/QuoteLine'
-import PrintModal from '../../components/modals/Print'
-import EmailModal from '../../components/modals/Email'
-import PhaseModal from '../../components/modals/Phase'
-import QuoteModal from '../../components/modals/Quote'
-import PriceListModal from '../../components/modals/PriceList'
-import ContactModal from '../../components/modals/Contact'
-import AssigneeModal from '../../components/modals/Assignee'
-import ActivityModal from '../../components/modals/Activity'
-import DependencyModal from '../../components/modals/Dependency'
-import ActivityStatusModal from '../../components/modals/ActivityStatus'
-import ActivitySetModal from '../../components/modals/ActivitySet'
-import ActivityListModal from '../../components/modals/ActivityList'
-import PurchaseOrderModal from '../../components/modals/PurchaseOrder'
-import PurchaseOrderListModal from '../../components/modals/PurchaseList'
-import JobIssueModal from '../../components/modals/JobIssue'
-import AccountsModal from '../../components/modals/Accounts'
+import MaterialModal from '../../components/modals/Material';
+import ColorModal from '../../components/modals/Color';
+import SupplierModal from '../../components/modals/Supplier';
+import LocationModal from '../../components/modals/Location';
+import BrandModal from '../../components/modals/Brand';
+import ModelModal from '../../components/modals/Model';
+import CategoryModal from '../../components/modals/Category';
+import QuoteLineModal from '../../components/modals/QuoteLine';
+import PrintModal from '../../components/modals/Print';
+import EmailModal from '../../components/modals/Email';
+import PhaseModal from '../../components/modals/Phase';
+import QuoteModal from '../../components/modals/Quote';
+import PriceListModal from '../../components/modals/PriceList';
+import ContactModal from '../../components/modals/Contact';
+import AssigneeModal from '../../components/modals/Assignee';
+import ActivityModal from '../../components/modals/Activity';
+import DependencyModal from '../../components/modals/Dependency';
+import ActivityStatusModal from '../../components/modals/ActivityStatus';
+import ActivitySetModal from '../../components/modals/ActivitySet';
+import ActivityListModal from '../../components/modals/ActivityList';
+import PurchaseOrderModal from '../../components/modals/PurchaseOrder';
+import PurchaseOrderListModal from '../../components/modals/PurchaseList';
+import JobIssueModal from '../../components/modals/JobIssue';
+import AccountsModal from '../../components/modals/Accounts';
+import PriceListItemsModal from '../../components/modals/PriceListItems'
 
-axios.defaults.withCredentials = true
+axios.defaults.withCredentials = true;
 
 const formatter = new Intl.NumberFormat('en-US', {
-  minimumFractionDigits: 2,      
+  minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 });
 
@@ -103,12 +107,12 @@ const Dashboard = ({
   token,
   data,
   originalData,
-  params, 
+  params,
 
   //// REDUX
-  hideSideNav, 
-  showSideNav, 
-  changeView, 
+  hideSideNav,
+  showSideNav,
+  changeView,
   slab,
   material,
   color,
@@ -133,162 +137,194 @@ const Dashboard = ({
   purchaseOrder,
   contract,
   jobIssue,
+  accountItem,
+  
+  // DISPATCH
   createType,
   resetType,
-  addImages, 
-
+  addImages,
 }) => {
-  const myRefs = useRef(null)
+  const myRefs = useRef(null);
   // console.log(originalData)
-  
-  const router = useRouter()
+
+  const router = useRouter();
 
   ///// STATE MANAGEMENT
-  const [width, setWidth] = useState()
-  const [message, setMessage] = useState('')
-  const [loading, setLoading] = useState('')
-  const [search, setSearch] = useState('')
-  const [selectID, setSelectID] = useState('')
-  const [controls, setControls] = useState('')
-  const [modal, setModal] = useState('')
-  const [dynamicSVG, setDynamicSVG] = useState('notification')
-  const [edit, setEdit] = useState('')
-  const [allData, setAllData] = useState(originalData ? originalData : [])
-  const [event, setEvent] = useState('')
+  const [width, setWidth] = useState();
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState('');
+  const [search, setSearch] = useState('');
+  const [selectID, setSelectID] = useState('');
+  const [controls, setControls] = useState('');
+  const [modal, setModal] = useState('');
+  const [dynamicSVG, setDynamicSVG] = useState('notification');
+  const [edit, setEdit] = useState('');
+  const [allData, setAllData] = useState(originalData ? originalData : []);
+  const [event, setEvent] = useState('');
 
   //// EDIT QUOTE LINE
-  const [modalEdit, setModalEdit] = useState('')
+  const [modalEdit, setModalEdit] = useState('');
 
   //// EXTRACTING STATE DATA
-  const [dynamicType, setDynamicType] = useState('')
-  const [dynamicKey, setDynamicKey] = useState('')
+  const [dynamicType, setDynamicType] = useState('');
+  const [dynamicKey, setDynamicKey] = useState('');
 
   const handleClickOutside = (event) => {
-    if(myRefs.current){
-      if(!myRefs.current.contains(event.target)){
-        setInputDropdown('')
+    if (myRefs.current) {
+      if (!myRefs.current.contains(event.target)) {
+        setInputDropdown('');
       }
     }
-  }
-
-  useEffect(() => {setMessage(''), setLoading('')}, [nav.view])
+  };
 
   useEffect(() => {
-    document.addEventListener("click", handleClickOutside, true);
+    setMessage(''), setLoading('');
+  }, [nav.view]);
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside, true);
 
     return () => {
-      document.removeEventListener("click", handleClickOutside, true);
+      document.removeEventListener('click', handleClickOutside, true);
     };
-  }, [])
+  }, []);
 
   useEffect(() => {
-    if(window.innerWidth < 992) hideSideNav()
-    
+    if (window.innerWidth < 992) hideSideNav();
+
     function handleResize() {
-      if(width){
-        if(width < 992){hideSideNav()}
-        if(width > 992){showSideNav()}
+      if (width) {
+        if (width < 992) {
+          hideSideNav();
+        }
+        if (width > 992) {
+          showSideNav();
+        }
       }
       setWidth(window.innerWidth);
     }
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-
-  }, [width])
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [width]);
 
   useEffect(() => {
-    let timeOutSearch
-    
-    if(search.length > 0){
+    let timeOutSearch;
+
+    if (search.length > 0) {
       timeOutSearch = setTimeout(() => {
-        if(nav.view == 'slabs'){
-          submitSearch(search, setLoading, setMessage, 'slabs/search-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView, 'slabs')
+        if (nav.view == 'slabs') {
+          submitSearch( search, setLoading, setMessage, 'slabs/search-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView, 'slabs'
+          );
         }
-        if(nav.view == 'products'){
-          submitSearch(search, setLoading, setMessage, 'products/search-products', 'products', allData, setAllData, token, setDynamicSVG, changeView, 'products')
+        if (nav.view == 'products') {
+          submitSearch( search, setLoading, setMessage, 'products/search-products', 'products', allData, setAllData, token, setDynamicSVG, changeView, 'products'
+          );
         }
-        if(nav.view == 'remnants'){
-          submitSearch(search, setLoading, setMessage, 'remnants/search-remnants', 'remnants', allData, setAllData, token, setDynamicSVG, changeView, 'remnants')
+        if (nav.view == 'remnants') {
+          submitSearch( search, setLoading, setMessage, 'remnants/search-remnants', 'remnants', allData, setAllData, token, setDynamicSVG, changeView, 'remnants'
+          );
         }
-        if(nav.view == 'trackers' && loading == 'slabs'){
-          submitSearch(search, setLoading, setMessage, 'slabs/search-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView, 'trackers')
+        if (nav.view == 'trackers' && loading == 'slabs') {
+          submitSearch( search, setLoading, setMessage, 'slabs/search-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView, 'trackers'
+          );
         }
-        if(nav.view == 'trackers' && loading == 'products'){
-          submitSearch(search, setLoading, setMessage, 'products/search-products', 'products', allData, setAllData, token, setDynamicSVG, changeView, 'trackers')
+        if (nav.view == 'trackers' && loading == 'products') {
+          submitSearch( search, setLoading, setMessage, 'products/search-products', 'products', allData, setAllData, token, setDynamicSVG, changeView, 'trackers'
+          );
         }
-        if(nav.view == 'quotes'){
-          submitSearch(search, setLoading, setMessage, 'quotes/search-quotes', 'quotes', allData, setAllData, token, setDynamicSVG, changeView, 'quotes')
+        if (nav.view == 'quotes') {
+          submitSearch( search, setLoading, setMessage, 'quotes/search-quotes', 'quotes', allData, setAllData, token, setDynamicSVG, changeView, 'quotes'
+          );
         }
-        if(nav.view == 'jobs'){
-          submitSearch(search, setLoading, setMessage, 'jobs/search-jobs', 'jobs', allData, setAllData, token, setDynamicSVG, changeView, 'jobs')
+        if (nav.view == 'jobs') {
+          submitSearch( search, setLoading, setMessage, 'jobs/search-jobs', 'jobs', allData, setAllData, token, setDynamicSVG, changeView, 'jobs'
+          );
         }
-      }, 2000)
-    }
-    
-    if(search.length == 0){ 
-      if(nav.view == 'slabs'){
-        resetDataType(loading, setLoading, setMessage, 'slabs/all-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView, 'slabs')
-      }
-      if(nav.view == 'products'){
-        resetDataType(loading, setLoading, setMessage, 'products/all-products', 'products', allData, setAllData, token, setDynamicSVG, changeView, 'products')
-      }
-      if(nav.view == 'remnants'){
-        resetDataType(loading, setLoading, setMessage, 'remnants/all-remnants', 'remnants', allData, setAllData, token, setDynamicSVG, changeView, 'remnants')
-      }
-      if(nav.view == 'trackers' && loading == 'slabs'){
-        resetDataType(loading, setLoading, setMessage, 'slabs/all-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView, 'trackers')
-      }
-      if(nav.view == 'trackers' && loading == 'products'){
-        resetDataType(loading, setLoading, setMessage, 'products/all-products', 'products', allData, setAllData, token, setDynamicSVG, changeView, 'trackers')
-      }
-      if(nav.view == 'quotes'){
-        resetDataType(loading, setLoading, setMessage, 'quotes/all-quotes', 'quotes', allData, setAllData, token, setDynamicSVG, changeView, 'quotes')
-      }
-      if(nav.view == 'jobs'){
-        resetDataType(loading, setLoading, setMessage, 'jobs/all-jobs', 'jobs', allData, setAllData, token, setDynamicSVG, changeView, 'jobs')
-      }
+      }, 2000);
     }
 
-    return () => clearTimeout(timeOutSearch)
+    if (search.length == 0) {
+      if (nav.view == 'slabs') {
+        resetDataType( loading, setLoading, setMessage, 'slabs/all-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView, 'slabs'
+        );
+      }
+      if (nav.view == 'products') {
+        resetDataType( loading, setLoading, setMessage, 'products/all-products', 'products', allData, setAllData, token, setDynamicSVG, changeView, 'products'
+        );
+      }
+      if (nav.view == 'remnants') {
+        resetDataType( loading, setLoading, setMessage, 'remnants/all-remnants', 'remnants', allData, setAllData, token, setDynamicSVG, changeView, 'remnants'
+        );
+      }
+      if (nav.view == 'trackers' && loading == 'slabs') {
+        resetDataType( loading, setLoading, setMessage, 'slabs/all-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView, 'trackers'
+        );
+      }
+      if (nav.view == 'trackers' && loading == 'products') {
+        resetDataType( loading, setLoading, setMessage, 'products/all-products', 'products', allData, setAllData, token, setDynamicSVG, changeView, 'trackers'
+        );
+      }
+      if (nav.view == 'quotes') {
+        resetDataType( loading, setLoading, setMessage, 'quotes/all-quotes', 'quotes', allData, setAllData, token, setDynamicSVG, changeView, 'quotes'
+        );
+      }
+      if (nav.view == 'jobs') {
+        resetDataType( loading, setLoading, setMessage, 'jobs/all-jobs', 'jobs', allData, setAllData, token, setDynamicSVG, changeView, 'jobs'
+        );
+      }
+    }
 
-  }, [search])
-
-
+    return () => clearTimeout(timeOutSearch);
+  }, [search]);
 
   const resetCheckboxes = () => {
-    const els = document.querySelectorAll('.table-rows-checkbox-input')
-    els.forEach( (el) => { el.checked = false })
-  }
+    const els = document.querySelectorAll('.table-rows-checkbox-input');
+    els.forEach((el) => {
+      el.checked = false;
+    });
+  };
 
   const editData = (keyType, caseType, id) => {
     // console.log(id)
-    let stateMethods = new Object()
-    stateMethods.createType = createType
+    let stateMethods = new Object();
+    stateMethods.createType = createType;
 
-    return populateEditData(allData, keyType, caseType, stateMethods, id ? id : selectID)
-  }
+    return populateEditData(
+      allData,
+      keyType,
+      caseType,
+      stateMethods,
+      id ? id : selectID
+    );
+  };
 
   useEffect(() => {
-    if(params) params.change ? changeView(params.change) : null
-  }, [router.query.change])
+    if (params) params.change ? changeView(params.change) : null;
+  }, [router.query.change]);
 
   const extractingStateData = (stateData) => {
-    createType(dynamicType, dynamicKey, stateData)
-    setControls('')
-  }
+    createType(dynamicType, dynamicKey, stateData);
+    setControls('');
+  };
 
   useEffect(() => {
-    if(edit == 'purchaseOrderForm'){ setModal(''), changeView('purchaseOrderForm'), setEdit('purchaseOrders') }
-  }, [edit])
-  
+    if (edit == 'purchaseOrderForm') {
+      setModal(''), changeView('purchaseOrderForm'), setEdit('purchaseOrders');
+    }
+  }, [edit]);
+
   return (
     <>
       <TopNav account={account}></TopNav>
       <div className="clientDashboard">
-        <SideNav account={account} width={width} resetType={resetType}></SideNav>
+        <SideNav
+          account={account}
+          width={width}
+          resetType={resetType}
+        ></SideNav>
 
         {/* //// TABLES //// */}
-        {nav.view == 'slabs' &&
+        {nav.view == 'slabs' && (
           <Table
             token={token}
             title={'Slab List'}
@@ -315,7 +351,7 @@ const Dashboard = ({
             setEdit={setEdit}
             viewType={'slab'}
             modalType={''}
-            editDataType={{key: 'slabs', caseType: 'CREATE_SLAB'}}
+            editDataType={{ key: 'slabs', caseType: 'CREATE_SLAB' }}
             submitDeleteRow={submitDeleteRow}
             loading={loading}
             setLoading={setLoading}
@@ -324,10 +360,9 @@ const Dashboard = ({
             deleteType="slabs/delete-slab"
             searchType={'slabs'}
             searchPlaceholder={'Search by material or color'}
-          >
-          </Table>
-        }
-        {nav.view == 'products' &&
+          ></Table>
+        )}
+        {nav.view == 'products' && (
           <Table
             token={token}
             title={'Product List'}
@@ -354,7 +389,7 @@ const Dashboard = ({
             setEdit={setEdit}
             viewType={'product'}
             modalType={''}
-            editDataType={{key: 'products', caseType: 'CREATE_PRODUCT'}}
+            editDataType={{ key: 'products', caseType: 'CREATE_PRODUCT' }}
             submitDeleteRow={submitDeleteRow}
             loading={loading}
             setLoading={setLoading}
@@ -363,10 +398,9 @@ const Dashboard = ({
             deleteType="products/delete-product"
             searchType={'products'}
             searchPlaceholder={'Search by brand, model, or category'}
-          >
-          </Table>
-        }
-        {nav.view == 'remnants' &&
+          ></Table>
+        )}
+        {nav.view == 'remnants' && (
           <Table
             token={token}
             title={'Remnant List'}
@@ -393,7 +427,7 @@ const Dashboard = ({
             setEdit={setEdit}
             viewType={'remnant'}
             modalType={''}
-            editDataType={{key: 'remnants', caseType: 'CREATE_REMNANT'}}
+            editDataType={{ key: 'remnants', caseType: 'CREATE_REMNANT' }}
             submitDeleteRow={submitDeleteRow}
             loading={loading}
             setLoading={setLoading}
@@ -402,86 +436,83 @@ const Dashboard = ({
             deleteType="remnants/delete-remnant"
             searchType={'remnants'}
             searchPlaceholder={'Search by name, material, or color'}
-          >
-          </Table>
-        }
-        {nav.view == 'trackers' &&
+          ></Table>
+        )}
+        {nav.view == 'trackers' && (
           <div className="table-stack">
-          <Table
-            token={token}
-            title={'Slab List'}
-            typeOfData={'slabs'}
-            componentData={data.slabs}
-            allData={allData}
-            setAllData={setAllData}
-            modal={modal}
-            setModal={setModal}
-            sortOrder={slabSort}
-            selectID={selectID}
-            setSelectID={setSelectID}
-            controls={controls}
-            setControls={setControls}
-            controlsType={'slabControls'}
-            searchEnable={true}
-            search={search}
-            setSearch={setSearch}
-            message={message}
-            setMessage={setMessage}
-            resetCheckboxes={resetCheckboxes}
-            editData={editData}
-            changeView={changeView}
-            setEdit={setEdit}
-            viewType={'slab'}
-            modalType={''}
-            editDataType={{key: 'slabs', caseType: 'CREATE_SLAB'}}
-            submitDeleteRow={submitDeleteRow}
-            loading={loading}
-            setLoading={setLoading}
-            dynamicSVG={dynamicSVG}
-            setDynamicSVG={setDynamicSVG}
-            deleteType="slabs/delete-slab"
-            searchType={'slabs'}
-          >
-          </Table>
-          <Table
-            token={token}
-            title={'Product List'}
-            typeOfData={'products'}
-            componentData={data.products}
-            allData={allData}
-            setAllData={setAllData}
-            modal={modal}
-            setModal={setModal}
-            sortOrder={productSort}
-            selectID={selectID}
-            setSelectID={setSelectID}
-            controls={controls}
-            setControls={setControls}
-            controlsType={'productControls'}
-            searchEnable={true}
-            search={search}
-            setSearch={setSearch}
-            message={message}
-            setMessage={setMessage}
-            resetCheckboxes={resetCheckboxes}
-            editData={editData}
-            changeView={changeView}
-            setEdit={setEdit}
-            viewType={'product'}
-            modalType={''}
-            editDataType={{key: 'products', caseType: 'CREATE_PRODUCT'}}
-            submitDeleteRow={submitDeleteRow}
-            loading={loading}
-            setLoading={setLoading}
-            dynamicSVG={dynamicSVG}
-            setDynamicSVG={setDynamicSVG}
-            deleteType="products/delete-product"
-            searchType={'products'}
-          >
-          </Table>
+            <Table
+              token={token}
+              title={'Slab List'}
+              typeOfData={'slabs'}
+              componentData={data.slabs}
+              allData={allData}
+              setAllData={setAllData}
+              modal={modal}
+              setModal={setModal}
+              sortOrder={slabSort}
+              selectID={selectID}
+              setSelectID={setSelectID}
+              controls={controls}
+              setControls={setControls}
+              controlsType={'slabControls'}
+              searchEnable={true}
+              search={search}
+              setSearch={setSearch}
+              message={message}
+              setMessage={setMessage}
+              resetCheckboxes={resetCheckboxes}
+              editData={editData}
+              changeView={changeView}
+              setEdit={setEdit}
+              viewType={'slab'}
+              modalType={''}
+              editDataType={{ key: 'slabs', caseType: 'CREATE_SLAB' }}
+              submitDeleteRow={submitDeleteRow}
+              loading={loading}
+              setLoading={setLoading}
+              dynamicSVG={dynamicSVG}
+              setDynamicSVG={setDynamicSVG}
+              deleteType="slabs/delete-slab"
+              searchType={'slabs'}
+            ></Table>
+            <Table
+              token={token}
+              title={'Product List'}
+              typeOfData={'products'}
+              componentData={data.products}
+              allData={allData}
+              setAllData={setAllData}
+              modal={modal}
+              setModal={setModal}
+              sortOrder={productSort}
+              selectID={selectID}
+              setSelectID={setSelectID}
+              controls={controls}
+              setControls={setControls}
+              controlsType={'productControls'}
+              searchEnable={true}
+              search={search}
+              setSearch={setSearch}
+              message={message}
+              setMessage={setMessage}
+              resetCheckboxes={resetCheckboxes}
+              editData={editData}
+              changeView={changeView}
+              setEdit={setEdit}
+              viewType={'product'}
+              modalType={''}
+              editDataType={{ key: 'products', caseType: 'CREATE_PRODUCT' }}
+              submitDeleteRow={submitDeleteRow}
+              loading={loading}
+              setLoading={setLoading}
+              dynamicSVG={dynamicSVG}
+              setDynamicSVG={setDynamicSVG}
+              deleteType="products/delete-product"
+              searchType={'products'}
+            ></Table>
           </div>
-        }
-        {nav.view == 'materials' &&
+        )}
+        {nav.view == 'materials' && (
           <TableAlt
             token={token}
             title={'Material List'}
@@ -509,7 +540,7 @@ const Dashboard = ({
             viewType={'materials'}
             modalType={'add_material'}
             editModalType={'material'}
-            editDataType={{key: 'materials', caseType: 'CREATE_MATERIAL'}}
+            editDataType={{ key: 'materials', caseType: 'CREATE_MATERIAL' }}
             submitDeleteRow={submitDeleteRow}
             loading={loading}
             setLoading={setLoading}
@@ -520,10 +551,9 @@ const Dashboard = ({
             searchPlaceholder={'Search by name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
-          >
-          </TableAlt>
-        }
-        {nav.view == 'colors' &&
+          ></TableAlt>
+        )}
+        {nav.view == 'colors' && (
           <TableAlt
             token={token}
             title={'Color List'}
@@ -551,7 +581,7 @@ const Dashboard = ({
             viewType={'colors'}
             modalType={'add_color'}
             editModalType={'color'}
-            editDataType={{key: 'colors', caseType: 'CREATE_COLOR'}}
+            editDataType={{ key: 'colors', caseType: 'CREATE_COLOR' }}
             submitDeleteRow={submitDeleteRow}
             loading={loading}
             setLoading={setLoading}
@@ -562,10 +592,9 @@ const Dashboard = ({
             searchPlaceholder={'Search by name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
-          >
-          </TableAlt>
-        }
-        {nav.view == 'suppliers' &&
+          ></TableAlt>
+        )}
+        {nav.view == 'suppliers' && (
           <TableAlt
             token={token}
             title={'Supplier List'}
@@ -593,7 +622,7 @@ const Dashboard = ({
             viewType={'suppliers'}
             modalType={'add_supplier'}
             editModalType={'supplier'}
-            editDataType={{key: 'suppliers', caseType: 'CREATE_SUPPLIER'}}
+            editDataType={{ key: 'suppliers', caseType: 'CREATE_SUPPLIER' }}
             submitDeleteRow={submitDeleteRow}
             loading={loading}
             setLoading={setLoading}
@@ -604,10 +633,9 @@ const Dashboard = ({
             searchPlaceholder={'Search by name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
-          >
-          </TableAlt>
-        }
-        {nav.view == 'locations' &&
+          ></TableAlt>
+        )}
+        {nav.view == 'locations' && (
           <TableAlt
             token={token}
             title={'Location List'}
@@ -635,7 +663,7 @@ const Dashboard = ({
             viewType={'locations'}
             modalType={'add_location'}
             editModalType={'location'}
-            editDataType={{key: 'locations', caseType: 'CREATE_LOCATION'}}
+            editDataType={{ key: 'locations', caseType: 'CREATE_LOCATION' }}
             submitDeleteRow={submitDeleteRow}
             loading={loading}
             setLoading={setLoading}
@@ -646,10 +674,9 @@ const Dashboard = ({
             searchPlaceholder={'Search by name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
-          >
-          </TableAlt>
-        }
-        {nav.view == 'brands' &&
+          ></TableAlt>
+        )}
+        {nav.view == 'brands' && (
           <TableAlt
             token={token}
             title={'Brand List'}
@@ -677,7 +704,7 @@ const Dashboard = ({
             viewType={'brands'}
             modalType={'add_brand'}
             editModalType={'brand'}
-            editDataType={{key: 'brands', caseType: 'CREATE_BRAND'}}
+            editDataType={{ key: 'brands', caseType: 'CREATE_BRAND' }}
             submitDeleteRow={submitDeleteRow}
             loading={loading}
             setLoading={setLoading}
@@ -688,10 +715,9 @@ const Dashboard = ({
             searchPlaceholder={'Search by name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
-          >
-          </TableAlt>
-        }
-        {nav.view == 'categories' &&
+          ></TableAlt>
+        )}
+        {nav.view == 'categories' && (
           <TableAlt
             token={token}
             title={'Category List'}
@@ -719,7 +745,7 @@ const Dashboard = ({
             viewType={'categories'}
             modalType={'add_category'}
             editModalType={'category'}
-            editDataType={{key: 'categories', caseType: 'CREATE_CATEGORY'}}
+            editDataType={{ key: 'categories', caseType: 'CREATE_CATEGORY' }}
             submitDeleteRow={submitDeleteRow}
             loading={loading}
             setLoading={setLoading}
@@ -730,10 +756,9 @@ const Dashboard = ({
             searchPlaceholder={'Search by name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
-          >
-          </TableAlt>
-        }
-        {nav.view == 'models' &&
+          ></TableAlt>
+        )}
+        {nav.view == 'models' && (
           <TableAlt
             token={token}
             title={'Model List'}
@@ -761,7 +786,7 @@ const Dashboard = ({
             viewType={'models'}
             modalType={'add_model'}
             editModalType={'model'}
-            editDataType={{key: 'models', caseType: 'CREATE_MODEL'}}
+            editDataType={{ key: 'models', caseType: 'CREATE_MODEL' }}
             submitDeleteRow={submitDeleteRow}
             loading={loading}
             setLoading={setLoading}
@@ -772,10 +797,9 @@ const Dashboard = ({
             searchPlaceholder={'Search by name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
-          >
-          </TableAlt>
-        }
-        {nav.view == 'prices' &&
+          ></TableAlt>
+        )}
+        {nav.view == 'prices' && (
           <TableAlt
             token={token}
             title={'Price List'}
@@ -803,7 +827,7 @@ const Dashboard = ({
             viewType={'prices'}
             modalType={'new_price_list'}
             editModalType={'price_list'}
-            editDataType={{key: 'prices', caseType: 'CREATE_PRICE_LIST'}}
+            editDataType={{ key: 'prices', caseType: 'CREATE_PRICE_LIST' }}
             submitDeleteRow={submitDeleteRow}
             loading={loading}
             setLoading={setLoading}
@@ -814,10 +838,9 @@ const Dashboard = ({
             searchPlaceholder={'Search by name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
-          >
-          </TableAlt>
-        }
-        {nav.view == 'contacts' &&
+          ></TableAlt>
+        )}
+        {nav.view == 'contacts' && (
           <TableAlt
             token={token}
             title={'Contact List'}
@@ -827,7 +850,7 @@ const Dashboard = ({
             setAllData={setAllData}
             modal={modal}
             setModal={setModal}
-            sortOrder={materialSort}
+            sortOrder={contactSort}
             selectID={selectID}
             setSelectID={setSelectID}
             controls={controls}
@@ -845,7 +868,7 @@ const Dashboard = ({
             viewType={'contacts'}
             modalType={'new_contact'}
             editModalType={'contact'}
-            editDataType={{key: 'contacts', caseType: 'CREATE_CONTACT'}}
+            editDataType={{ key: 'contacts', caseType: 'CREATE_CONTACT' }}
             submitDeleteRow={submitDeleteRow}
             loading={loading}
             setLoading={setLoading}
@@ -856,10 +879,9 @@ const Dashboard = ({
             searchPlaceholder={'Search by contact name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
-          >
-          </TableAlt>
-        }
-        {nav.view == 'quotes' &&
+          ></TableAlt>
+        )}
+        {nav.view == 'quotes' && (
           <Table
             token={token}
             title={'Quote List'}
@@ -886,7 +908,7 @@ const Dashboard = ({
             setEdit={setEdit}
             viewType={'quote'}
             modalType={''}
-            editDataType={{key: 'quotes', caseType: 'CREATE_QUOTE'}}
+            editDataType={{ key: 'quotes', caseType: 'CREATE_QUOTE' }}
             submitDeleteRow={submitDeleteRow}
             loading={loading}
             setLoading={setLoading}
@@ -895,10 +917,9 @@ const Dashboard = ({
             deleteType="quotes/delete-quote"
             searchType={'quotes'}
             searchPlaceholder={'Search by quote number or quote name'}
-          >
-          </Table>
-        }
-        {nav.view == 'phases' &&
+          ></Table>
+        )}
+        {nav.view == 'phases' && (
           <TableAlt
             token={token}
             title={'Phase List'}
@@ -926,7 +947,7 @@ const Dashboard = ({
             viewType={'phases'}
             modalType={'phase'}
             editModalType={'phase'}
-            editDataType={{key: 'phases', caseType: 'CREATE_PHASE'}}
+            editDataType={{ key: 'phases', caseType: 'CREATE_PHASE' }}
             submitDeleteRow={submitDeleteRow}
             loading={loading}
             setLoading={setLoading}
@@ -937,12 +958,10 @@ const Dashboard = ({
             searchPlaceholder={'Search by phase name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
-          >
-          </TableAlt>
-        }
+          ></TableAlt>
+        )}
 
-
-        {nav.view == 'jobs' &&
+        {nav.view == 'jobs' && (
           <Table
             token={token}
             title={'Job List'}
@@ -970,7 +989,7 @@ const Dashboard = ({
             setEdit={setEdit}
             viewType={'job'}
             modalType={''}
-            editDataType={{key: 'jobs', caseType: 'CREATE_JOB'}}
+            editDataType={{ key: 'jobs', caseType: 'CREATE_JOB' }}
             submitDeleteRow={submitDeleteRow}
             loading={loading}
             setLoading={setLoading}
@@ -979,10 +998,9 @@ const Dashboard = ({
             deleteType="jobs/delete-job"
             searchType={'jobs'}
             searchPlaceholder={'Search by job name or quote number'}
-          >
-          </Table>
-        }
-        {nav.view == 'assignees' &&
+          ></Table>
+        )}
+        {nav.view == 'assignees' && (
           <TableAlt
             token={token}
             title={'Assignee List'}
@@ -1010,7 +1028,7 @@ const Dashboard = ({
             viewType={'assignees'}
             modalType={'assignee'}
             editModalType={'assignees'}
-            editDataType={{key: 'assignees', caseType: 'CREATE_ASSIGNEE'}}
+            editDataType={{ key: 'assignees', caseType: 'CREATE_ASSIGNEE' }}
             submitDeleteRow={submitDeleteRow}
             loading={loading}
             setLoading={setLoading}
@@ -1021,10 +1039,9 @@ const Dashboard = ({
             searchPlaceholder={'Search by assignee name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
-          >
-          </TableAlt>
-        }
-        {nav.view == 'activities' &&
+          ></TableAlt>
+        )}
+        {nav.view == 'activities' && (
           <Table
             token={token}
             title={'Activity Type List'}
@@ -1052,7 +1069,7 @@ const Dashboard = ({
             viewType={'activities'}
             modalType={'activities'}
             editModalType={'activities'}
-            editDataType={{key: 'activities', caseType: 'CREATE_ACTIVITY'}}
+            editDataType={{ key: 'activities', caseType: 'CREATE_ACTIVITY' }}
             submitDeleteRow={submitDeleteRow}
             loading={loading}
             setLoading={setLoading}
@@ -1064,10 +1081,9 @@ const Dashboard = ({
             createItem={'activities'}
             createDependency={'activities'}
             stateMethod={createType}
-          >
-          </Table>
-        }
-        {nav.view == 'activityStatus' &&
+          ></Table>
+        )}
+        {nav.view == 'activityStatus' && (
           <TableAlt
             token={token}
             title={'Activity Status List'}
@@ -1095,7 +1111,10 @@ const Dashboard = ({
             viewType={'activityStatus'}
             modalType={'activityStatus'}
             editModalType={'activityStatus'}
-            editDataType={{key: 'activityStatus', caseType: 'CREATE_ACTIVITY_STATUS'}}
+            editDataType={{
+              key: 'activityStatus',
+              caseType: 'CREATE_ACTIVITY_STATUS',
+            }}
             submitDeleteRow={submitDeleteRow}
             loading={loading}
             setLoading={setLoading}
@@ -1106,10 +1125,9 @@ const Dashboard = ({
             searchPlaceholder={'Search by activity status'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
-          >
-          </TableAlt>
-        }
-        {nav.view == 'activitySets' &&
+          ></TableAlt>
+        )}
+        {nav.view == 'activitySets' && (
           <Table
             token={token}
             title={'Activity Set List'}
@@ -1137,7 +1155,10 @@ const Dashboard = ({
             viewType={'activitySets'}
             modalType={'activitySet'}
             editModalType={'activitySet'}
-            editDataType={{key: 'activitySets', caseType: 'CREATE_ACTIVITY_SET'}}
+            editDataType={{
+              key: 'activitySets',
+              caseType: 'CREATE_ACTIVITY_SET',
+            }}
             submitDeleteRow={submitDeleteRow}
             loading={loading}
             setLoading={setLoading}
@@ -1148,10 +1169,9 @@ const Dashboard = ({
             searchPlaceholder={'Search by activity set name'}
             createItem={'activitySets'}
             stateMethod={createType}
-          >
-          </Table>
-        }
-        {nav.view == 'purchaseOrders' &&
+          ></Table>
+        )}
+        {nav.view == 'purchaseOrders' && (
           <TableAlt
             token={token}
             title={'Purchase Order List'}
@@ -1179,7 +1199,7 @@ const Dashboard = ({
             viewType={'purchaseOrders'}
             modalType={'purchaseOrders'}
             editModalType={'purchaseOrderForm'}
-            editDataType={{key: 'purchaseOrders', caseType: 'CREATE_PO'}}
+            editDataType={{ key: 'purchaseOrders', caseType: 'CREATE_PO' }}
             submitDeleteRow={submitDeleteRow}
             loading={loading}
             setLoading={setLoading}
@@ -1190,14 +1210,131 @@ const Dashboard = ({
             searchPlaceholder={'Search by supplier'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
+          ></TableAlt>
+        )}
+        {nav.view == 'jobIssues' && (
+          <Table
+            token={token}
+            title={'Job Issues'}
+            typeOfData={'jobIssues'}
+            componentData={data.jobIssues}
+            allData={allData}
+            setAllData={setAllData}
+            stateMethod={createType}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={jobIssueSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'jobIssueControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'jobIssues'}
+            modalType={'jobIssue'}
+            editDataType={{ key: 'jobIssues', caseType: 'CREATE_JOB_ISSUE' }}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="job-issue/delete-job-issue"
+            searchType={'jobsIssues'}
+            searchPlaceholder={'Search by job name'}
+            typeOfDataParent={'jobs'}
+          ></Table>
+        )}
 
-          >
-          </TableAlt>
-        }
-        
+        {nav.view == 'contracts' && (
+          <Table
+            token={token}
+            title={'Contracts'}
+            typeOfData={'contracts'}
+            componentData={data.contracts}
+            allData={allData}
+            setAllData={setAllData}
+            stateMethod={createType}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={contractSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'contractControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'contractForm'}
+            modalType={''}
+            editDataType={{ key: 'contracts', caseType: 'CREATE_CONTRACT' }}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="contracts/delete-contract"
+            searchType={'contracts'}
+            searchPlaceholder={'Search by job name'}
+          ></Table>
+        )}
+
+        {nav.view == 'accounts' && (
+          <Table
+            token={token}
+            title={'Accounts List'}
+            typeOfData={'accounts'}
+            componentData={data.accounts}
+            allData={allData}
+            setAllData={setAllData}
+            stateMethod={createType}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={accountSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'accountControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'accounts'}
+            modalType={''}
+            editDataType={{ key: 'accounts', caseType: 'CREATE_ACCOUNT' }}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="accounts/delete-account"
+            searchType={'accounts'}
+            searchPlaceholder={'Search by account by name or account number'}
+          ></Table>
+        )}
 
         {/* ///// FORMS //// */}
-        {nav.view == 'slab' &&
+        {nav.view == 'slab' && (
           <SlabForm
             token={token}
             title={'New Slab'}
@@ -1229,11 +1366,10 @@ const Dashboard = ({
             changeView={changeView}
             submitDeleteFile={submitDeleteFile}
             editData={editData}
-          >
-          </SlabForm>
-        }
+          ></SlabForm>
+        )}
 
-        {nav.view == 'product' &&
+        {nav.view == 'product' && (
           <ProductForm
             token={token}
             title={'New Product'}
@@ -1266,11 +1402,10 @@ const Dashboard = ({
             changeView={changeView}
             submitDeleteFile={submitDeleteFile}
             editData={editData}
-          >
-          </ProductForm>
-        }
+          ></ProductForm>
+        )}
 
-        {nav.view == 'remnant' &&
+        {nav.view == 'remnant' && (
           <RemnantForm
             token={token}
             title={'New Remnant'}
@@ -1304,11 +1439,10 @@ const Dashboard = ({
             changeView={changeView}
             submitDeleteFile={submitDeleteFile}
             editData={editData}
-          >
-          </RemnantForm>
-        }
+          ></RemnantForm>
+        )}
 
-        {nav.view == 'quote' &&
+        {nav.view == 'quote' && (
           <QuoteForm
             token={token}
             account={account}
@@ -1340,11 +1474,10 @@ const Dashboard = ({
             resetCheckboxes={resetCheckboxes}
             setControls={setControls}
             typeOfDataParent={'jobs'}
-          >
-          </QuoteForm>
-        }
+          ></QuoteForm>
+        )}
 
-        {nav.view == 'job' &&
+        {nav.view == 'job' && (
           <JobForm
             token={token}
             account={account}
@@ -1377,18 +1510,17 @@ const Dashboard = ({
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
             controls={controls}
-            setControls={setControls} 
+            setControls={setControls}
             resetCheckboxes={resetCheckboxes}
             extractingStateData={extractingStateData}
             addImages={addImages}
             submitDeleteFile={submitDeleteFile}
             event={event}
             setEvent={setEvent}
-          >
-          </JobForm>
-        }
+          ></JobForm>
+        )}
 
-        { nav.view == 'purchaseOrderForm' &&
+        {nav.view == 'purchaseOrderForm' && (
           <PurchaseOrderForm
             token={token}
             title={'Purchase Order'}
@@ -1420,11 +1552,10 @@ const Dashboard = ({
             changeView={changeView}
             submitDeleteFile={submitDeleteFile}
             editData={editData}
-          >
-          </PurchaseOrderForm>
-        }
+          ></PurchaseOrderForm>
+        )}
 
-        { nav.view == 'contractForm' &&
+        {nav.view == 'contractForm' && (
           <ContractForm
             token={token}
             title={'New Contract'}
@@ -1456,808 +1587,883 @@ const Dashboard = ({
             changeView={changeView}
             submitDeleteFile={submitDeleteFile}
             editData={editData}
-          >
-          </ContractForm>
-        }
+          ></ContractForm>
+        )}
 
-        {nav.view == 'jobIssues' &&
-          <Table
+        {nav.view == 'accountForm' && (
+          <AccountForm
             token={token}
-            title={'Job Issues'}
-            typeOfData={'jobIssues'}
-            componentData={data.jobIssues}
+            account={account}
+            title={'New Account'}
+            typeOfData={'accounts'}
+            componentData={data.accounts}
             allData={allData}
             setAllData={setAllData}
-            stateMethod={createType}
-            modal={modal}
-            setModal={setModal}
-            sortOrder={jobIssueSort}
-            selectID={selectID}
-            setSelectID={setSelectID}
-            controls={controls}
-            setControls={setControls}
-            controlsType={'jobIssueControls'}
-            searchEnable={false}
-            search={search}
-            setSearch={setSearch}
-            message={message}
-            setMessage={setMessage}
-            resetCheckboxes={resetCheckboxes}
-            editData={editData}
-            changeView={changeView}
-            setEdit={setEdit}
-            viewType={'jobIssues'}
-            modalType={'jobIssue'}
-            editDataType={{key: 'jobIssues', caseType: 'CREATE_JOB_ISSUE'}}
-            submitDeleteRow={submitDeleteRow}
-            loading={loading}
-            setLoading={setLoading}
             dynamicSVG={dynamicSVG}
             setDynamicSVG={setDynamicSVG}
-            deleteType="job-issue/delete-job-issue"
-            searchType={'jobsIssues'}
-            searchPlaceholder={'Search by job name'}
-            typeOfDataParent={'jobs'}
-          >
-          </Table>
-        }
+            submitCreate={submitCreate}
+            modal={modal}
+            setModal={setModal}
+            setModalEdit={setModalEdit}
+            stateData={accountItem}
+            stateMethod={createType}
+            originalData={originalData}
+            message={message}
+            setMessage={setMessage}
+            loading={loading}
+            setLoading={setLoading}
+            resetState={resetType}
+            edit={edit}
+            setEdit={setEdit}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            setDynamicType={setDynamicType}
+            setDynamicKey={setDynamicKey}
+            controls={controls}
+            setControls={setControls}
+            resetCheckboxes={resetCheckboxes}
+            extractingStateData={extractingStateData}
+            addImages={addImages}
+            submitDeleteFile={submitDeleteFile}
+            event={event}
+            setEvent={setEvent}
+          ></AccountForm>
+        )}
 
-        {nav.view == 'contracts' &&
-          <Table
-            token={token}
-            title={'Contracts'}
-            typeOfData={'contracts'}
-            componentData={data.contracts}
-            allData={allData}
-            setAllData={setAllData}
-            stateMethod={createType}
-            modal={modal}
-            setModal={setModal}
-            sortOrder={contractSort}
-            selectID={selectID}
-            setSelectID={setSelectID}
-            controls={controls}
-            setControls={setControls}
-            controlsType={'contractControls'}
-            searchEnable={false}
-            search={search}
-            setSearch={setSearch}
-            message={message}
-            setMessage={setMessage}
-            resetCheckboxes={resetCheckboxes}
-            editData={editData}
-            changeView={changeView}
-            setEdit={setEdit}
-            viewType={'contractForm'}
-            modalType={''}
-            editDataType={{key: 'contracts', caseType: 'CREATE_CONTRACT'}}
-            submitDeleteRow={submitDeleteRow}
-            loading={loading}
-            setLoading={setLoading}
-            dynamicSVG={dynamicSVG}
-            setDynamicSVG={setDynamicSVG}
-            deleteType="contracts/delete-contract"
-            searchType={'contracts'}
-            searchPlaceholder={'Search by job name'}
-          >
-          </Table>
-        }
-        
         <div className="clientDashboard-view">
-          {nav.view == 'main' &&
-          <div className="clientDashboard-view-main">
-            <div className="clientDashboard-view-main-box"></div>
-            <div className="clientDashboard-view-main-box"></div>
-            <div className="clientDashboard-view-main-box"></div>
-            <div className="clientDashboard-view-main-box"></div>
-          </div>
-          }
-          { nav.view == 'new' &&
+          {nav.view == 'main' && (
+            <div className="clientDashboard-view-main">
+              <div className="clientDashboard-view-main-box"></div>
+              <div className="clientDashboard-view-main-box"></div>
+              <div className="clientDashboard-view-main-box"></div>
+              <div className="clientDashboard-view-main-box"></div>
+            </div>
+          )}
+          {nav.view == 'new' && (
             <div className="clientDashboard-view-new">
-              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('slab'), resetType('RESET_SLAB'))}>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => (
+                  setEdit(''), changeView('slab'), resetType('RESET_SLAB')
+                )}
+              >
                 <SVGs svg={'slab'}></SVGs>
                 <span>New Slab</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('product'), resetType('RESET_PRODUCT'))}>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => (
+                  setEdit(''), changeView('product'), resetType('RESET_PRODUCT')
+                )}
+              >
                 <SVGs svg={'box'}></SVGs>
                 <span>New Product</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('remnant'), resetType('RESET_REMNANT'))}>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => (
+                  setEdit(''), changeView('remnant'), resetType('RESET_REMNANT')
+                )}
+              >
                 <SVGs svg={'remnant'}></SVGs>
                 <span>New Remnant</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('materials'), resetType('RESET_MATERIAL'))}>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => (
+                  setEdit(''),
+                  changeView('materials'),
+                  resetType('RESET_MATERIAL')
+                )}
+              >
                 <SVGs svg={'materials'}></SVGs>
                 <span>Materials</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('colors'), resetType('RESET_COLOR'))}>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => (
+                  setEdit(''), changeView('colors'), resetType('RESET_COLOR')
+                )}
+              >
                 <SVGs svg={'colors'}></SVGs>
                 <span>Colors</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('suppliers'), resetType('RESET_SUPPLIER'))}>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => (
+                  setEdit(''),
+                  changeView('suppliers'),
+                  resetType('RESET_SUPPLIER')
+                )}
+              >
                 <SVGs svg={'supplier'}></SVGs>
                 <span>Suppliers</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('locations'), resetType('RESET_LOCATION'))}>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => (
+                  setEdit(''),
+                  changeView('locations'),
+                  resetType('RESET_LOCATION')
+                )}
+              >
                 <SVGs svg={'location'}></SVGs>
                 <span>Locations</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('brands'), resetType('RESET_BRAND'))}>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => (
+                  setEdit(''), changeView('brands'), resetType('RESET_BRAND')
+                )}
+              >
                 <SVGs svg={'brand'}></SVGs>
                 <span>Brands</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('categories'), resetType('RESET_CATEGORY'))}>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => (
+                  setEdit(''),
+                  changeView('categories'),
+                  resetType('RESET_CATEGORY')
+                )}
+              >
                 <SVGs svg={'category'}></SVGs>
                 <span>Categories</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('models'), resetType('RESET_MODEL'))}>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => (
+                  setEdit(''), changeView('models'), resetType('RESET_MODEL')
+                )}
+              >
                 <SVGs svg={'model'}></SVGs>
                 <span>Model</span>
               </div>
             </div>
-          }
-          { nav.view == 'transaction-new' &&
+          )}
+          {nav.view == 'transaction-new' && (
             <div className="clientDashboard-view-new">
-              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('quote'), resetType('RESET_QUOTE'))}>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => (
+                  setEdit(''), changeView('accountForm'), resetType('RESET_ACCOUNT')
+                )}
+              >
+                <SVGs svg={'account'}></SVGs>
+                <span>New Account</span>
+              </div>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => (
+                  setEdit(''), changeView('quote'), resetType('RESET_QUOTE')
+                )}
+              >
                 <SVGs svg={'document'}></SVGs>
                 <span>New Quote</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('job'), resetType('RESET_JOB'))}>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => (
+                  setEdit(''), changeView('job'), resetType('RESET_JOB')
+                )}
+              >
                 <SVGs svg={'job'}></SVGs>
                 <span>New Job</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), changeView('contractForm'), resetType('RESET_CONTRACT'))}>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => (
+                  setEdit(''),
+                  changeView('contractForm'),
+                  resetType('RESET_CONTRACT')
+                )}
+              >
                 <SVGs svg={'files'}></SVGs>
                 <span>New Contract</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => changeView('prices')}>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => changeView('prices')}
+              >
                 <SVGs svg={'price-list'}></SVGs>
                 <span>Price List</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (changeView('contacts'))}>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => changeView('contacts')}
+              >
                 <SVGs svg={'location'}></SVGs>
                 <span>Contacts</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => changeView('phases')}>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => changeView('phases')}
+              >
                 <SVGs svg={'clipboard'}></SVGs>
                 <span>Phase/Category</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => changeView('assignees')}>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => changeView('assignees')}
+              >
                 <SVGs svg={'user'}></SVGs>
                 <span>Assignee</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => changeView('activities')}>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => changeView('activities')}
+              >
                 <SVGs svg={'activity'}></SVGs>
                 <span>Activity Types</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => changeView('activityStatus')}>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => changeView('activityStatus')}
+              >
                 <SVGs svg={'hour-glass'}></SVGs>
                 <span>Activity Status</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => changeView('activitySets')}>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => changeView('activitySets')}
+              >
                 <SVGs svg={'stack'}></SVGs>
                 <span>Activity Sets</span>
               </div>
-              <div className="clientDashboard-view-new-item" onClick={() => (setEdit(''), setModal('purchaseOrders'), resetType('RESET_PO'))}>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => (
+                  setEdit(''), setModal('purchaseOrders'), resetType('RESET_PO')
+                )}
+              >
                 <SVGs svg={'cart'}></SVGs>
                 <span>Purchase Orders</span>
               </div>
             </div>
-          }
+          )}
         </div>
 
+        {/* /////////////////// MODALS ///////////////////////////// */}
 
-
-
-
-         {/* /////////////////// MODALS ///////////////////////////// */}
-          
-         { modal == 'add_material' &&
-            <MaterialModal
-              token={token}
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              setLoading={setLoading}
-              edit={edit}
-              setEdit={setEdit}
-              stateData={material}
-              stateMethod={createType}
-              dynamicSVG={dynamicSVG}
-              setDynamicSVG={setDynamicSVG}
-              resetState={resetType}
-              submitCreate={submitCreate}
-              allData={allData}
-              setAllData={setAllData}
-              submitUpdate={submitUpdate}
-              changeView={changeView}
-            >
-            </MaterialModal>
-          }
-          { modal == 'add_color' &&
-            <ColorModal
-              token={token}
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              setLoading={setLoading}
-              edit={edit}
-              setEdit={setEdit}
-              stateData={color}
-              stateMethod={createType}
-              dynamicSVG={dynamicSVG}
-              setDynamicSVG={setDynamicSVG}
-              resetState={resetType}
-              submitCreate={submitCreate}
-              allData={allData}
-              setAllData={setAllData}
-              submitUpdate={submitUpdate}
-              changeView={changeView}
-            >
-            </ColorModal>
-          }
-          { modal == 'add_supplier' &&
-            <SupplierModal
-              token={token}
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              setLoading={setLoading}
-              edit={edit}
-              setEdit={setEdit}
-              stateData={supplier}
-              stateMethod={createType}
-              dynamicSVG={dynamicSVG}
-              setDynamicSVG={setDynamicSVG}
-              resetState={resetType}
-              submitCreate={submitCreate}
-              allData={allData}
-              setAllData={setAllData}
-              validateNumber={validateNumber}
-              phoneNumber={phoneNumber}
-              addressSelect={addressSelect}
-              submitUpdate={submitUpdate}
-              changeView={changeView}
-            >
-            </SupplierModal>
-          }
-          { modal == 'add_location' &&
-            <LocationModal
-              token={token}
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              setLoading={setLoading}
-              edit={edit}
-              setEdit={setEdit}
-              stateData={location}
-              stateMethod={createType}
-              dynamicSVG={dynamicSVG}
-              setDynamicSVG={setDynamicSVG}
-              resetState={resetType}
-              submitCreate={submitCreate}
-              allData={allData}
-              setAllData={setAllData}
-              submitUpdate={submitUpdate}
-              changeView={changeView}
-            >
-            </LocationModal>
-          }
-          { modal == 'add_brand' &&
-            <BrandModal
-              token={token}
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              setLoading={setLoading}
-              edit={edit}
-              setEdit={setEdit}
-              stateData={brand}
-              stateMethod={createType}
-              dynamicSVG={dynamicSVG}
-              setDynamicSVG={setDynamicSVG}
-              resetState={resetType}
-              submitCreate={submitCreate}
-              allData={allData}
-              setAllData={setAllData}
-              submitUpdate={submitUpdate}
-              changeView={changeView}
-            >
-            </BrandModal>
-          }
-          { modal == 'add_model' &&
-            <ModelModal
-              token={token}
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              setLoading={setLoading}
-              edit={edit}
-              setEdit={setEdit}
-              stateData={model}
-              stateMethod={createType}
-              dynamicSVG={dynamicSVG}
-              setDynamicSVG={setDynamicSVG}
-              resetState={resetType}
-              submitCreate={submitCreate}
-              allData={allData}
-              setAllData={setAllData}
-              submitUpdate={submitUpdate}
-              changeView={changeView}
-            >
-            </ModelModal>
-          }
-          { modal == 'add_category' &&
-            <CategoryModal
-              token={token}
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              setLoading={setLoading}
-              edit={edit}
-              setEdit={setEdit}
-              stateData={category}
-              stateMethod={createType}
-              dynamicSVG={dynamicSVG}
-              setDynamicSVG={setDynamicSVG}
-              resetState={resetType}
-              submitCreate={submitCreate}
-              allData={allData}
-              setAllData={setAllData}
-              submitUpdate={submitUpdate}
-              changeView={changeView}
-            >
-            </CategoryModal>
-          }
-          { modal == 'add_quote_line' &&
-            <QuoteLineModal
-              token={token}
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              setLoading={setLoading}
-              edit={edit}
-              setEdit={setEdit}
-              modalEdit={modalEdit}
-              setModalEdit={setModalEdit}
-              stateData={quoteLine}
-              stateMethod={createType}
-              dynamicSVG={dynamicSVG}
-              setDynamicSVG={setDynamicSVG}
-              resetState={resetType}
-              submitCreate={submitCreate}
-              allData={allData}
-              setAllData={setAllData}
-              submitUpdate={submitUpdate}
-              changeView={changeView}
-              typeForm={nav.form}
-            >
-            </QuoteLineModal>
-          }
-          { modal == 'new_price_list' &&
-            <PriceListModal
-              token={token}
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              setLoading={setLoading}
-              edit={edit}
-              setEdit={setEdit}
-              stateData={priceList}
-              stateMethod={createType}
-              dynamicSVG={dynamicSVG}
-              setDynamicSVG={setDynamicSVG}
-              resetState={resetType}
-              submitCreate={submitCreate}
-              addImages={addImages}
-              allData={allData}
-              setAllData={setAllData}
-              submitUpdate={submitUpdate}
-              changeView={changeView}
-              submitDeleteFile={submitDeleteFile}
-              editData={editData}
-            >
-            </PriceListModal>
-          }
-          { modal == 'new_contact' &&
-            <ContactModal
-              token={token}
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              setLoading={setLoading}
-              edit={edit}
-              setEdit={setEdit}
-              stateData={contact}
-              stateMethod={createType}
-              dynamicType={dynamicType}
-              extractingStateData={extractingStateData}
-              dynamicSVG={dynamicSVG}
-              setDynamicSVG={setDynamicSVG}
-              resetState={resetType}
-              submitCreate={submitCreate}
-              addImages={addImages}
-              allData={allData}
-              setAllData={setAllData}
-              submitUpdate={submitUpdate}
-              changeView={changeView}
-              submitDeleteFile={submitDeleteFile}
-              editData={editData}
-            >
-            </ContactModal>
-          }
-          { modal == 'new_pdf' &&
-            <PrintModal
-              token={token}
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              setLoading={setLoading}
-              edit={edit}
-              setEdit={setEdit}
-              stateData={quote}
-              typeForm={nav.form}
-              stateMethod={createType}
-              dynamicSVG={dynamicSVG}
-              setDynamicSVG={setDynamicSVG}
-              resetState={resetType}
-              submitCreate={submitCreate}
-              addImages={addImages}
-              allData={allData}
-              setAllData={setAllData}
-              submitUpdate={submitUpdate}
-              changeView={changeView}
-              submitDeleteFile={submitDeleteFile}
-              editData={editData}
-            >
-            </PrintModal>
-          }
-          { modal == 'email' &&
-            <EmailModal
-              token={token}
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              setLoading={setLoading}
-              edit={edit}
-              setEdit={setEdit}
-              stateData={quote}
-              stateMethod={createType}
-              dynamicSVG={dynamicSVG}
-              setDynamicSVG={setDynamicSVG}
-              resetState={resetType}
-              submitCreate={submitCreate}
-              addImages={addImages}
-              allData={allData}
-              setAllData={setAllData}
-              submitUpdate={submitUpdate}
-              changeView={changeView}
-              editData={editData}
-            >
-            </EmailModal>
-          }
-          { modal == 'phase' &&
-            <PhaseModal
-              token={token}
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              setLoading={setLoading}
-              edit={edit}
-              setEdit={setEdit}
-              stateData={phase}
-              stateMethod={createType}
-              dynamicSVG={dynamicSVG}
-              setDynamicSVG={setDynamicSVG}
-              resetState={resetType}
-              submitCreate={submitCreate}
-              addImages={addImages}
-              allData={allData}
-              setAllData={setAllData}
-              submitUpdate={submitUpdate}
-              changeView={changeView}
-              editData={editData}
-            >
-            </PhaseModal>
-          }
-          { modal == 'quote' &&
-            <QuoteModal
-              token={token}
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              setLoading={setLoading}
-              edit={edit}
-              setEdit={setEdit}
-              stateData={job}
-              stateMethod={createType}
-              dynamicType={dynamicType}
-              extractingStateData={extractingStateData}
-              dynamicSVG={dynamicSVG}
-              setDynamicSVG={setDynamicSVG}
-              resetState={resetType}
-              submitCreate={submitCreate}
-              allData={allData}
-              setAllData={setAllData}
-              submitUpdate={submitUpdate}
-              changeView={changeView}
-              editData={editData}
-            >
-            </QuoteModal>
-          }
-          { modal == 'assignee' &&
-            <AssigneeModal
-              token={token}
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              setLoading={setLoading}
-              edit={edit}
-              setEdit={setEdit}
-              stateData={assignee}
-              stateMethod={createType}
-              dynamicType={dynamicType}
-              extractingStateData={extractingStateData}
-              dynamicSVG={dynamicSVG}
-              setDynamicSVG={setDynamicSVG}
-              resetState={resetType}
-              submitCreate={submitCreate}
-              allData={allData}
-              setAllData={setAllData}
-              submitUpdate={submitUpdate}
-              changeView={changeView}
-              editData={editData}
-            >
-            </AssigneeModal>
-          }
-          { modal == 'activities' &&
-            <ActivityModal
-              token={token}
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              setLoading={setLoading}
-              edit={edit}
-              setEdit={setEdit}
-              stateData={activity}
-              stateMethod={createType}
-              dynamicType={dynamicType}
-              extractingStateData={extractingStateData}
-              dynamicSVG={dynamicSVG}
-              setDynamicSVG={setDynamicSVG}
-              resetState={resetType}
-              submitCreate={submitCreate}
-              allData={allData}
-              setAllData={setAllData}
-              submitUpdate={submitUpdate}
-              changeView={changeView}
-              editData={editData}
-            >
-            </ActivityModal>
-          }
-          { modal == 'dependency' &&
-            <DependencyModal
-              token={token}
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              setLoading={setLoading}
-              edit={edit}
-              setEdit={setEdit}
-              stateData={dependency}
-              stateMethod={createType}
-              dynamicType={dynamicType}
-              extractingStateData={extractingStateData}
-              dynamicSVG={dynamicSVG}
-              setDynamicSVG={setDynamicSVG}
-              resetState={resetType}
-              submitCreate={submitCreate}
-              allData={allData}
-              setAllData={setAllData}
-              submitUpdate={submitUpdate}
-              changeView={changeView}
-              editData={editData}
-              selectID={selectID}
-            >
-            </DependencyModal>
-          }
-          { modal == 'activityStatus' &&
-            <ActivityStatusModal
-              token={token}
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              setLoading={setLoading}
-              edit={edit}
-              setEdit={setEdit}
-              stateData={activityStatus}
-              stateMethod={createType}
-              dynamicType={dynamicType}
-              extractingStateData={extractingStateData}
-              dynamicSVG={dynamicSVG}
-              setDynamicSVG={setDynamicSVG}
-              resetState={resetType}
-              submitCreate={submitCreate}
-              allData={allData}
-              setAllData={setAllData}
-              submitUpdate={submitUpdate}
-              changeView={changeView}
-              editData={editData}
-              selectID={selectID}
-            >
-            </ActivityStatusModal>
-          }
-          { modal == 'activitySet' &&
-            <ActivitySetModal
-              token={token}
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              setLoading={setLoading}
-              edit={edit}
-              setEdit={setEdit}
-              stateData={activitySet}
-              stateMethod={createType}
-              dynamicType={dynamicType}
-              extractingStateData={extractingStateData}
-              dynamicSVG={dynamicSVG}
-              setDynamicSVG={setDynamicSVG}
-              resetState={resetType}
-              submitCreate={submitCreate}
-              allData={allData}
-              setAllData={setAllData}
-              submitUpdate={submitUpdate}
-              changeView={changeView}
-              editData={editData}
-              selectID={selectID}
-            >
-            </ActivitySetModal>
-          }
-          { modal == 'activityList' &&
-            <ActivityListModal
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              edit={edit}
-              setEdit={setEdit}
-              stateMethod={createType}
-              dynamicType={dynamicType}
-              extractingStateData={extractingStateData}
-              dynamicSVG={dynamicSVG}
-              allData={allData}
-              title={'Add Activity'}
-            >
-            </ActivityListModal>
-          }
-          { modal == 'purchaseOrders' &&
-            <PurchaseOrderModal
-              token={token}
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              setLoading={setLoading}
-              edit={edit}
-              setEdit={setEdit}
-              stateData={purchaseOrder}
-              stateMethod={createType}
-              dynamicType={dynamicType}
-              extractingStateData={extractingStateData}
-              dynamicSVG={dynamicSVG}
-              setDynamicSVG={setDynamicSVG}
-              resetState={resetType}
-              submitCreate={submitCreate}
-              allData={allData}
-              setAllData={setAllData}
-              submitUpdate={submitUpdate}
-              changeView={changeView}
-              editData={editData}
-            >
-            </PurchaseOrderModal>
-          }
-          { modal == 'purchaseList' &&
-            <PurchaseOrderListModal
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              edit={edit}
-              setEdit={setEdit}
-              stateMethod={createType}
-              dynamicType={dynamicType}
-              extractingStateData={extractingStateData}
-              dynamicSVG={dynamicSVG}
-              allData={allData}
-              title={'Add Purchase List'}
-            >
-            </PurchaseOrderListModal>
-          }
-          { modal == 'jobIssue' &&
-            <JobIssueModal
-              token={token}
-              account={account}
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              setLoading={setLoading}
-              edit={edit}
-              setEdit={setEdit}
-              stateData={jobIssue}
-              stateMethod={createType}
-              dynamicType={dynamicType}
-              extractingStateData={extractingStateData}
-              dynamicSVG={dynamicSVG}
-              setDynamicSVG={setDynamicSVG}
-              resetState={resetType}
-              submitCreate={submitCreate}
-              allData={allData}
-              setAllData={setAllData}
-              submitUpdate={submitUpdate}
-              changeView={changeView}
-              editData={editData}
-              autoFill={job}
-              selectID={selectID}
-              typeOfData={edit == 'jobIssues' ? 'jobIssues' : 'jobs'}
-              setEvent={setEvent}
-            >
-            </JobIssueModal>
-          }
-          { modal == 'accounts' &&
-            <AccountsModal
-              token={token}
-              account={account}
-              message={message}
-              setMessage={setMessage}
-              setModal={setModal}
-              loading={loading}
-              setLoading={setLoading}
-              edit={edit}
-              setEdit={setEdit}
-              stateData={jobIssue}
-              stateMethod={createType}
-              dynamicType={dynamicType}
-              extractingStateData={extractingStateData}
-              dynamicSVG={dynamicSVG}
-              setDynamicSVG={setDynamicSVG}
-              resetState={resetType}
-              submitCreate={submitCreate}
-              allData={allData}
-              setAllData={setAllData}
-              submitUpdate={submitUpdate}
-              changeView={changeView}
-              editData={editData}
-              autoFill={nav.view === 'job' ? job : quote}
-              selectID={selectID}
-              typeOfData={nav.view}
-              setEvent={setEvent}
-            >
-            </AccountsModal>
-          }
+        {modal == 'add_material' && (
+          <MaterialModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={material}
+            stateMethod={createType}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+          ></MaterialModal>
+        )}
+        {modal == 'add_color' && (
+          <ColorModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={color}
+            stateMethod={createType}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+          ></ColorModal>
+        )}
+        {modal == 'add_supplier' && (
+          <SupplierModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={supplier}
+            stateMethod={createType}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            validateNumber={validateNumber}
+            phoneNumber={phoneNumber}
+            addressSelect={addressSelect}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+          ></SupplierModal>
+        )}
+        {modal == 'add_location' && (
+          <LocationModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={location}
+            stateMethod={createType}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+          ></LocationModal>
+        )}
+        {modal == 'add_brand' && (
+          <BrandModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={brand}
+            stateMethod={createType}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+          ></BrandModal>
+        )}
+        {modal == 'add_model' && (
+          <ModelModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={model}
+            stateMethod={createType}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+          ></ModelModal>
+        )}
+        {modal == 'add_category' && (
+          <CategoryModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={category}
+            stateMethod={createType}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+          ></CategoryModal>
+        )}
+        {modal == 'add_quote_line' && (
+          <QuoteLineModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            modalEdit={modalEdit}
+            setModalEdit={setModalEdit}
+            stateData={quoteLine}
+            stateMethod={createType}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            typeForm={nav.form}
+          ></QuoteLineModal>
+        )}
+        {modal == 'new_price_list' && (
+          <PriceListModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={priceList}
+            stateMethod={createType}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            addImages={addImages}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            submitDeleteFile={submitDeleteFile}
+            editData={editData}
+          ></PriceListModal>
+        )}
+        {modal == 'new_contact' && (
+          <ContactModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={contact}
+            stateMethod={createType}
+            dynamicType={dynamicType}
+            extractingStateData={extractingStateData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            addImages={addImages}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            submitDeleteFile={submitDeleteFile}
+            editData={editData}
+          ></ContactModal>
+        )}
+        {modal == 'new_pdf' && (
+          <PrintModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={quote}
+            typeForm={nav.form}
+            stateMethod={createType}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            addImages={addImages}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            submitDeleteFile={submitDeleteFile}
+            editData={editData}
+          ></PrintModal>
+        )}
+        {modal == 'email' && (
+          <EmailModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={quote}
+            stateMethod={createType}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            addImages={addImages}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+          ></EmailModal>
+        )}
+        {modal == 'phase' && (
+          <PhaseModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={phase}
+            stateMethod={createType}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            addImages={addImages}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+          ></PhaseModal>
+        )}
+        {modal == 'quote' && (
+          <QuoteModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={job}
+            stateMethod={createType}
+            dynamicType={dynamicType}
+            extractingStateData={extractingStateData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+          ></QuoteModal>
+        )}
+        {modal == 'assignee' && (
+          <AssigneeModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={assignee}
+            stateMethod={createType}
+            dynamicType={dynamicType}
+            extractingStateData={extractingStateData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+          ></AssigneeModal>
+        )}
+        {modal == 'activities' && (
+          <ActivityModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={activity}
+            stateMethod={createType}
+            dynamicType={dynamicType}
+            extractingStateData={extractingStateData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+          ></ActivityModal>
+        )}
+        {modal == 'dependency' && (
+          <DependencyModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={dependency}
+            stateMethod={createType}
+            dynamicType={dynamicType}
+            extractingStateData={extractingStateData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+            selectID={selectID}
+          ></DependencyModal>
+        )}
+        {modal == 'activityStatus' && (
+          <ActivityStatusModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={activityStatus}
+            stateMethod={createType}
+            dynamicType={dynamicType}
+            extractingStateData={extractingStateData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+            selectID={selectID}
+          ></ActivityStatusModal>
+        )}
+        {modal == 'activitySet' && (
+          <ActivitySetModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={activitySet}
+            stateMethod={createType}
+            dynamicType={dynamicType}
+            extractingStateData={extractingStateData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+            selectID={selectID}
+          ></ActivitySetModal>
+        )}
+        {modal == 'activityList' && (
+          <ActivityListModal
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            edit={edit}
+            setEdit={setEdit}
+            stateMethod={createType}
+            dynamicType={dynamicType}
+            extractingStateData={extractingStateData}
+            dynamicSVG={dynamicSVG}
+            allData={allData}
+            title={'Add Activity'}
+          ></ActivityListModal>
+        )}
+        {modal == 'purchaseOrders' && (
+          <PurchaseOrderModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={purchaseOrder}
+            stateMethod={createType}
+            dynamicType={dynamicType}
+            extractingStateData={extractingStateData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+          ></PurchaseOrderModal>
+        )}
+        {modal == 'purchaseList' && (
+          <PurchaseOrderListModal
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            edit={edit}
+            setEdit={setEdit}
+            stateMethod={createType}
+            dynamicType={dynamicType}
+            extractingStateData={extractingStateData}
+            dynamicSVG={dynamicSVG}
+            allData={allData}
+            title={'Add Purchase List'}
+          ></PurchaseOrderListModal>
+        )}
+        {modal == 'jobIssue' && (
+          <JobIssueModal
+            token={token}
+            account={account}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={jobIssue}
+            stateMethod={createType}
+            dynamicType={dynamicType}
+            extractingStateData={extractingStateData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+            autoFill={job}
+            selectID={selectID}
+            typeOfData={edit == 'jobIssues' ? 'jobIssues' : 'jobs'}
+            setEvent={setEvent}
+          ></JobIssueModal>
+        )}
+        {modal == 'accounts' && (
+          <AccountsModal
+            token={token}
+            account={account}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={accountItem}
+            stateMethod={createType}
+            dynamicType={dynamicType}
+            extractingStateData={extractingStateData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+            autoFill={nav.view === 'job' ? job : quote}
+            autoFillType={'account'}
+            dataType={'accounts'}
+            selectID={selectID}
+            typeOfData={nav.view}
+            setEvent={setEvent}
+          ></AccountsModal>
+        )}
+        {modal == 'price_list_items' && (
+          <PriceListItemsModal
+            token={token}
+            account={account}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={priceList}
+            stateMethod={createType}
+            dynamicType={dynamicType}
+            extractingStateData={extractingStateData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+            autoFill={accountItem}
+            autoFillType={'priceLists'}
+            dataType={'prices'}
+            selectID={selectID}
+            typeOfData={'account'}
+            setEvent={setEvent}
+          ></PriceListItemsModal>
+        )}
       </div>
     </>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state) => {
   return {
@@ -2286,62 +2492,65 @@ const mapStateToProps = (state) => {
     activitySet: state.activitySet,
     purchaseOrder: state.purchaseOrder,
     jobIssue: state.jobIssue,
-    contract: state.contract
-  }
-}
+    contract: state.contract,
+    accountItem: state.account
+  };
+};
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    hideSideNav: () => dispatch({type: 'HIDE_SIDENAV'}),
-    showSideNav: () => dispatch({type: 'SHOW_SIDENAV'}),
-    changeView: (view) => dispatch({type: 'CHANGE_VIEW', value: view}),
-    createType: (caseType, type, data) => dispatch({type: caseType, name: type, value: data}),
-    resetType: (caseType) => dispatch({type: caseType}),
-    addImages: (caseType, type, data) => dispatch({type: caseType, name: type, value: data}),
-  }
-}
+    hideSideNav: () => dispatch({ type: 'HIDE_SIDENAV' }),
+    showSideNav: () => dispatch({ type: 'SHOW_SIDENAV' }),
+    changeView: (view) => dispatch({ type: 'CHANGE_VIEW', value: view }),
+    createType: (caseType, type, data) => dispatch({ type: caseType, name: type, value: data }),
+    resetType: (caseType) => dispatch({ type: caseType }),
+    addImages: (caseType, type, data) => dispatch({ type: caseType, name: type, value: data }),
+  };
+};
 
 Dashboard.getInitialProps = async (context) => {
+  let data = new Object();
+  let deepClone;
 
-  let data = new Object()
-  let deepClone
+  const token = getToken(context.req);
+  let accessToken;
+  if (token) { accessToken = token.split('=')[1] }
 
-  const token = getToken(context.req)
-  let accessToken
-  if(token){accessToken = token.split('=')[1]}
-  
-  data.slabs            = await tableData(accessToken, 'slabs/all-slabs')
-  data.materials        = await tableData(accessToken, 'materials/all-materials')
-  data.colors           = await tableData(accessToken, 'colors/all-colors')
-  data.suppliers        = await tableData(accessToken, 'suppliers/all-suppliers')
-  data.locations        = await tableData(accessToken, 'locations/all-locations')
-  data.products         = await tableData(accessToken, 'products/all-products')
-  data.remnants         = await tableData(accessToken, 'remnants/all-remnants')
-  data.brands           = await tableData(accessToken, 'brands/all-brands')
-  data.models           = await tableData(accessToken, 'models/all-models')
-  data.categories       = await tableData(accessToken, 'categories/all-categories')
-  data.remnants         = await tableData(accessToken, 'remnants/all-remnants')
-  data.quotes           = await tableData(accessToken, 'quotes/all-quotes')
-  data.contacts         = await tableData(accessToken, 'contact/all-contacts')
-  data.prices           = await tableData(accessToken, 'price/all-prices')
-  data.phases           = await tableData(accessToken, 'phases/all-phases')
-  data.jobs             = await tableData(accessToken, 'jobs/all-jobs')
-  data.assignees        = await tableData(accessToken, 'assignee/all-assignees')
-  data.activities       = await tableData(accessToken, 'activities/all-activities')
-  data.activityStatus   = await tableData(accessToken, 'activities/all-activity-status')
-  data.activitySets     = await tableData(accessToken, 'activities/all-activity-sets')
-  data.accounts         = await tableData(accessToken, 'accounts/all-accounts')
-  data.purchaseOrders   = await tableData(accessToken, 'purchase-order/all-purchase-orders')
-  data.jobIssues        = await tableData(accessToken, 'job-issue/all-job-issues')
-  data.contracts        = await tableData(accessToken, 'contracts/all-contracts')
-  deepClone             = _.cloneDeep(data)
-  
+  data.slabs              = await tableData(accessToken, 'slabs/all-slabs');
+  data.materials          = await tableData(accessToken, 'materials/all-materials');
+  data.colors             = await tableData(accessToken, 'colors/all-colors');
+  data.suppliers          = await tableData(accessToken, 'suppliers/all-suppliers');
+  data.locations          = await tableData(accessToken, 'locations/all-locations');
+  data.products           = await tableData(accessToken, 'products/all-products');
+  data.remnants           = await tableData(accessToken, 'remnants/all-remnants');
+  data.brands             = await tableData(accessToken, 'brands/all-brands');
+  data.models             = await tableData(accessToken, 'models/all-models');
+  data.categories         = await tableData(accessToken, 'categories/all-categories');
+  data.remnants           = await tableData(accessToken, 'remnants/all-remnants');
+  data.quotes             = await tableData(accessToken, 'quotes/all-quotes');
+  data.contacts           = await tableData(accessToken, 'contact/all-contacts');
+  data.prices             = await tableData(accessToken, 'price/all-prices');
+  data.phases             = await tableData(accessToken, 'phases/all-phases');
+  data.jobs               = await tableData(accessToken, 'jobs/all-jobs');
+  data.assignees          = await tableData(accessToken, 'assignee/all-assignees');
+  data.activities         = await tableData(accessToken, 'activities/all-activities');
+  data.activityStatus     = await tableData(accessToken, 'activities/all-activity-status');
+  data.activitySets       = await tableData(accessToken, 'activities/all-activity-sets');
+  data.accounts           = await tableData(accessToken, 'accounts/all-accounts');
+  data.purchaseOrders     = await tableData(accessToken, 'purchase-order/all-purchase-orders');
+  data.jobIssues          = await tableData(accessToken, 'job-issue/all-job-issues');
+  data.contracts          = await tableData(accessToken, 'contracts/all-contracts');
+  deepClone               = _.cloneDeep(data);
+
   return {
     token: accessToken,
     data: Object.keys(data).length > 0 ? data : null,
     originalData: Object.keys(deepClone).length > 0 ? deepClone : null,
     // params: query
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withUser(Dashboard))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withUser(Dashboard));

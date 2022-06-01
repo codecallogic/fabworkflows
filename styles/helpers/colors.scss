@@ -1,0 +1,22 @@
+.color-grey-light {
+  &-scheme-1 {
+    background-color:  $color-light-shade-scheme-1!important;
+    color: $color-dark-shade-scheme-1!important;
+    
+  }
+
+  &-scheme-2 {
+    background-color: $color-light-shade-scheme-2!important;
+    color: $color-dark-shade-scheme-1!important;
+  }
+
+  &-scheme-3 {
+    background-color: $color-light-shade-scheme-3!important;
+    color: $color-dark-shade-scheme-1!important;
+  }
+
+  &-scheme-4 {
+    background-color: $color-light-shade-scheme-4!important;
+    color: $color-dark-shade-scheme-1!important;
+  }
+}

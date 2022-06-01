@@ -12,7 +12,9 @@ export {
   activitySetSort,
   purchaseOrderSort,
   jobIssueSort,
-  contractSort
+  contractSort,
+  accountSort,
+  contactSort
 }
 
 const slabSort = ['lot_number','location','supplier','block','price_sqft','price_slab','thickness','size_2','size_1','finish','color','grade', 'delivered_status', 'received_status','ordered_status', 'delivery_date','quantity', 'material', 'qr_code', 'images']
@@ -41,4 +43,8 @@ const purchaseOrderSort = ['notes', 'taxRate', 'expectedDelivery', 'orderDate', 
 
 const jobIssueSort = ['history', 'notes', 'category', 'status', 'subject', 'job']
 
-const contractSort = [ 'image', 'urlID', 'name', 'description', 'contract', 'message', 'signed', 'signatureFullName', 'dateSigned', 'email', 'subject', 'status', 'job']
+const contractSort = [ 'urlID', 'name', 'description', 'contract', 'message', 'signed', 'signatureFullName', 'dateSigned', 'email', 'subject', 'status', 'image', 'job']
+
+const accountSort = ['files', 'accountIssues', 'jobs', 'quotes', 'priceLists', 'contacts', 'name']
+
+const contactSort = ['contact_notes', 'email', 'fax', 'cell', 'phone', 'country', 'zip_code', 'state', 'city', 'address', 'contact_name']

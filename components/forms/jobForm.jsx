@@ -3,13 +3,10 @@ import SVG from '../../files/svgs';
 import Calendar from 'react-calendar';
 import Table from '../tableAltForm';
 import 'react-calendar/dist/Calendar.css';
-import { PDFViewer } from '@react-pdf/renderer';
-import JobIssues from '../../components/pdf/jobIssues';
-import dynamic from 'next/dynamic';
-const html2pdf = dynamic(() => import('html2pdf.js'), { ssr: false });
 
 //// HELPERS
 import { manageFormFields } from '../../helpers/forms';
+import { populateAddress } from '../../helpers/modals'
 import {
   quoteSort,
   activitySort,
@@ -25,7 +22,6 @@ import {
   validateNumber,
   multipleFiles,
 } from '../../helpers/validations';
-import { returnSelectedData } from '../../helpers/modals';
 
 const JobForm = ({
   token,
@@ -72,10 +68,10 @@ const JobForm = ({
   submitUpdate,
   submitDeleteFile,
 }) => {
-  const createType = 'CREATE_JOB';
-  const resetType = 'RESET_JOB';
-  const resetTypeContact = 'RESET_CONTACT';
-  const filesType = 'ADD_ARRAY_WITH_ITEMS';
+  const createType        = 'CREATE_JOB';
+  const resetType         = 'RESET_JOB';
+  const resetTypeContact  = 'RESET_CONTACT';
+  const filesType         = 'ADD_ARRAY_WITH_ITEMS';
   const myRefs = useRef(null);
   const [loadingColor, setLoadingColor] = useState('black');
   const [input_dropdown, setInputDropdown] = useState('');
@@ -102,20 +98,8 @@ const JobForm = ({
   };
 
   useEffect(() => {
-    !stateData.salesperson
-      ? stateMethod(
-          createType,
-          'salesperson',
-          `${account.firstName} ${account.lastName}`
-        )
-      : null;
-    !stateData.date
-      ? stateMethod(createType, 'date', formatDate(new Date(Date.now())))
-      : null;
-    !stateData.invoice
-      ? stateMethod(createType, 'invoice', generateRandomNumber())
-      : null;
-
+    !stateData.salesperson ? stateMethod(createType, 'salesperson', `${account.firstName} ${account.lastName}`): null;
+    !stateData.date ? stateMethod(createType, 'date', formatDate(new Date(Date.now()))) : null;
     document.addEventListener('click', handleClickOutside, true);
     return () => {
       document.removeEventListener('click', handleClickOutside, true);
@@ -219,43 +203,14 @@ const JobForm = ({
               className="table-header-controls-item"
               onClick={(e) =>
                 edit == typeOfData
-                  ? stateData.payment == 'deposit' ||
-                    stateData.payment == 'complete'
-                    ? setMessage('Cannot update quotes with payments processed')
-                    : submitUpdate(
-                        e,
-                        stateData,
-                        'jobs',
-                        'files',
-                        setMessage,
-                        'update_job',
-                        setLoading,
-                        token,
-                        'jobs/update-job',
-                        resetType,
-                        resetState,
-                        allData,
-                        setAllData,
-                        setDynamicSVG,
-                        changeView,
-                        'jobs'
-                      )
-                  : submitCreate(
-                      e,
-                      stateData,
-                      'jobs',
-                      'files',
-                      setMessage,
-                      'create_job',
-                      setLoading,
-                      token,
-                      'jobs/create-job',
-                      resetType,
-                      resetState,
-                      allData,
-                      setAllData,
-                      setDynamicSVG
-                    )
+                ? 
+                  stateData.payment == 'deposit' || stateData.payment == 'complete'
+                ? 
+                  setMessage('Cannot update quotes with payments processed')
+                : 
+                  submitUpdate(e, stateData, 'jobs', 'files', setMessage, 'update_job', setLoading, token, 'jobs/update-job', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'jobs')
+                : 
+                  submitCreate( e, stateData, 'jobs', 'files', setMessage, 'create_job', setLoading, token, 'jobs/create-job', resetType, resetState, allData, setAllData, setDynamicSVG)
               }
             >
               {loading == 'create_job' || loading == 'update_job' ? (
@@ -486,10 +441,19 @@ const JobForm = ({
             <div
               className="form-box-heading-item"
               onClick={() => (
-                setModal('new_contact'),
-                setDynamicType('CREATE_JOB'),
-                setDynamicKey('jobAddress'),
-                resetState(resetTypeContact)
+                stateData.jobAddress 
+                ? (
+                  setModal('new_contact'),
+                  setDynamicType('CREATE_JOB'),
+                  setDynamicKey('jobAddress'),
+                  populateAddress(null, stateData.jobAddress, stateMethod, 'CREATE_CONTACT')
+                  )
+                : (
+                  setModal('new_contact'),
+                  setDynamicType('CREATE_JOB'),
+                  setDynamicKey('jobAddress'),
+                  resetState(resetTypeContact)
+                  )
               )}
             >
               <SVG svg={'location'}></SVG>
@@ -511,19 +475,19 @@ const JobForm = ({
                 maxLength="400"
                 name="jobAddress"
                 value={
-                  checkObjectValues(stateData.jobAddress)
-                    ? `${returnIfTrue(stateData.jobAddress.contact_name)} 
+                    checkObjectValues(stateData.jobAddress) 
+                    ?
+                    `
+${returnIfTrue(stateData.jobAddress.contact_name)} 
 ${returnIfTrue(stateData.jobAddress.address)}
-${returnIfTrue(stateData.jobAddress.city)} ${returnIfTrue(
-                        stateData.jobAddress.state
-                      )} ${returnIfTrue(stateData.jobAddress.zip_code)}
+${returnIfTrue(stateData.jobAddress.city)} ${returnIfTrue(stateData.jobAddress.state)} ${returnIfTrue(stateData.jobAddress.zip_code)}
 ${returnIfTrue(stateData.jobAddress.country)}
 ${returnIfTrue(stateData.jobAddress.phone)}
 ${returnIfTrue(stateData.jobAddress.cell)}
 ${returnIfTrue(stateData.jobAddress.fax)}
 ${returnIfTrue(stateData.jobAddress.email)}
 ${returnIfTrue(stateData.jobAddress.contact_notes)}
-`
+                    `
                     : `(Same as account address)`
                 }
                 readOnly
@@ -536,10 +500,19 @@ ${returnIfTrue(stateData.jobAddress.contact_notes)}
             <div
               className="form-box-heading-item"
               onClick={() => (
-                setModal('new_contact'),
-                setDynamicType('CREATE_JOB'),
-                setDynamicKey('accountAddress'),
-                resetState(resetTypeContact)
+                stateData.accountAddress 
+                ? (
+                  setModal('new_contact'),
+                  setDynamicType('CREATE_JOB'),
+                  setDynamicKey('accountAddress'),
+                  populateAddress(null, stateData.accountAddress, stateMethod, 'CREATE_CONTACT')
+                  )
+                : (
+                  setModal('new_contact'),
+                  setDynamicType('CREATE_JOB'),
+                  setDynamicKey('accountAddress'),
+                  resetState(resetTypeContact)
+                  )
               )}
             >
               <SVG svg={'location'}></SVG>
@@ -558,17 +531,14 @@ ${returnIfTrue(stateData.jobAddress.contact_notes)}
               >
                 Account Address
               </label>
-              <textarea
-                id="accountAddress"
+              <textarea 
                 rows="9"
                 wrap="hard"
                 maxLength="400"
                 name="accountAddress"
                 value={`${returnIfTrue(stateData.accountAddress.contact_name)} 
 ${returnIfTrue(stateData.accountAddress.address)}
-${returnIfTrue(stateData.accountAddress.city)} ${returnIfTrue(
-                  stateData.accountAddress.state
-                )} ${returnIfTrue(stateData.accountAddress.zip_code)}
+${returnIfTrue(stateData.accountAddress.city)} ${returnIfTrue(stateData.accountAddress.state)} ${returnIfTrue(stateData.accountAddress.zip_code)}
 ${returnIfTrue(stateData.accountAddress.country)}
 ${returnIfTrue(stateData.accountAddress.phone)}
 ${returnIfTrue(stateData.accountAddress.cell)}
@@ -784,26 +754,8 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
                       onClick={(e) => (
                         e.stopPropagation(),
                         loading !== 'delete_file'
-                          ? submitDeleteFile(
-                              e,
-                              item,
-                              'files',
-                              createType,
-                              stateMethod,
-                              stateData,
-                              'jobs',
-                              setMessage,
-                              'delete_file',
-                              setLoading,
-                              token,
-                              'jobs/delete-file',
-                              allData,
-                              setAllData,
-                              setDynamicSVG,
-                              editData,
-                              null,
-                              stateData._id
-                            )
+                          ? 
+                          submitDeleteFile(e, item, 'files', createType, stateMethod, stateData, 'jobs', setMessage, 'delete_file', setLoading, token, 'jobs/delete-file', allData, setAllData, setDynamicSVG, editData, null, stateData._id)
                           : null
                       )}
                     >

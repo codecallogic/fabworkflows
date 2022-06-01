@@ -684,6 +684,22 @@ body {
   50.1% {
     stroke-dashoffset: 880; } }
 
+.color-grey-light-scheme-1 {
+  background-color: #dbdbdb !important;
+  color: #413838 !important; }
+
+.color-grey-light-scheme-2 {
+  background-color: #c8c8cb !important;
+  color: #413838 !important; }
+
+.color-grey-light-scheme-3 {
+  background-color: #ededec !important;
+  color: #413838 !important; }
+
+.color-grey-light-scheme-4 {
+  background-color: #f1f1ee !important;
+  color: #413838 !important; }
+
 .logout {
   color: #1bc9a2;
   font-size: 1.6rem; }
@@ -1286,6 +1302,7 @@ body {
       min-width: 11rem;
       max-width: 11rem;
       max-height: 12rem;
+      text-align: center;
       word-break: break-word;
       display: -webkit-box;
       -webkit-box-pack: center;

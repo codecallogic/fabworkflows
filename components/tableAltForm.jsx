@@ -101,7 +101,7 @@ const Table = ({
     els.forEach( (el) => { el.checked = false })
 
     e.target.checked = true
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // window.scrollTo({ top: 0, behavior: 'smooth' });
     setControls(controlsType)
     setSelectID(id)
   }
@@ -115,8 +115,8 @@ const Table = ({
   
   return (
     <div className="table">
-      <div className="table-header">
-        <div className="table-header-title">{title}</div> 
+      <div className="table-header color-grey-light-scheme-2">
+        <div className="table-header-title color-grey-light-scheme-2">{title}</div> 
           <div className="table-header-controls">
             <div 
             id="plus" 
