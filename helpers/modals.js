@@ -120,11 +120,44 @@ const handleTableDropdowns = (allData, keyType, item, stateMethod, setEdit, setM
     createType    = 'CREATE_PO'
   }
 
+  if( keyType == 'contacts'){
+    listType      = 'contacts'
+    editType      = 'contact'
+    modalType     = 'new_contact'
+    viewType      = 'contacts'
+    createType    = 'CREATE_CONTACT'
+  }
+
+  if( keyType == 'priceLists'){
+    listType      = 'prices'
+    editType      = 'price_list'
+    modalType     = 'new_price_list'
+    viewType      = 'prices'
+    createType    = 'CREATE_PRICE_LIST'
+  }
+
+  if( keyType == 'jobs'){
+    listType      = 'jobs'
+    editType      = 'jobs'
+    modalType     = ''
+    viewType      = 'job'
+    createType    = 'CREATE_JOB'
+  }
+
   for(let keyItem in allData[listType]){
     if( allData[listType][keyItem]._id == item._id ){
 
       for(let key in allData[listType][keyItem]){
         stateMethod(createType, key, allData[listType][keyItem][key])
+
+        if(
+          Array.isArray(allData[listType][keyItem][key]) && 
+          allData[listType][keyItem][key].length > 0 && 
+          key !== 'images' &&
+          listType === 'priceLists'
+        ){
+          stateMethod(createType, key, allData[listType][keyItem][key][0])
+        }
       }
       
       setEdit(editType)

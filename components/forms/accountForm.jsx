@@ -72,6 +72,8 @@ const AccountForm = ({
   const [priceListHeaders, setPriceListHeaders] = useState([]);
   const [jobHeaders, setJobHeaders] = useState([]);
 
+  // TODO: Update contacts list when creating new contact after submitting create account, suggest to Diego implementing RTC tech
+  
   useEffect(() => {
     const isEmpty = Object.values(stateData).every(
       (x) => x === '' || x.length < 1 || x === ''
@@ -348,7 +350,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           changeView={changeView}
           setEdit={setEdit}
           viewType={'contacts'}
-          modalType={'new_contact'}
+          modalType={'contact_list_items'}
           loading={loading}
           setLoading={setLoading}
           dynamicSVG={dynamicSVG}

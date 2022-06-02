@@ -598,7 +598,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           cancelControl={true}
           stateMethod={stateMethod}
         ></Table>
-
+        {/* // TODO: Update modals to list items modals */}
         <Table
           token={token}
           title={'Purchase Orders'}
@@ -635,7 +635,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           cancelControl={false}
           stateMethod={stateMethod}
         ></Table>
-
+        {/* // FIXME: JOB ISSUES MODAL NOT WORKING PROPERLY, BETTER TO CREATE AN ISSUE WHEN SUBMITTING JOB NOT BEFORE*/}
         <Table
           token={token}
           title={'Job Issues'}

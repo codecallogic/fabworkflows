@@ -55,7 +55,7 @@ const Table = ({
   deleteType
 
 }) => {
-  console.log(allData[typeOfData])
+  // console.log(allData[typeOfData])
   //// TABLES WITH DROPDOWNS
   const tableDropdowns = ['jobs', 'activities', 'activitySets', 'jobIssues', 'accounts']
   
@@ -193,6 +193,7 @@ const Table = ({
               changeView(viewType), 
               setEdit(typeOfData), 
               editData(editDataType.key, editDataType.caseType), 
+              setSelectID(''),
               setControls(''), 
               resetCheckboxes()
             )}

@@ -230,7 +230,9 @@ const ActivityModal = ({
           <input
           onClick={() => setInputDropdown('activity_assignee')} 
           value={manageFormFields(stateData.assignee[0], 'name')} 
-          onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'assignee', e.target.value))}/>
+          onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'assignee', e.target.value))}
+          readOnly
+          />
           <label 
           className={`input-label ` + (
             stateData.assignee.length > 0 || 

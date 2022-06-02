@@ -1,57 +1,69 @@
-import {useState, useEffect, useRef} from 'react'
-import SVG from '../../files/svgs'
-import { manageFormFields } from '../../helpers/forms'
+import { useState, useEffect, useRef } from 'react';
+import SVG from '../../files/svgs';
+import { manageFormFields } from '../../helpers/forms';
+import { selectCreateArrayType, selectResetType } from '../../helpers/dispatchTypes';
+import { filterPurchaseOrderSearch } from '../../helpers/validations';
 
-const searchOptionsAddress = {
-  componentRestrictions: {country: 'us'},
-  types: ['address']
-}
-
-const ListModal = ({
+const PurchaseListItems = ({
+  token,
   message,
   setMessage,
   setModal,
   loading,
+  setLoading,
   edit,
   dynamicSVG,
-  title,
+  setDynamicSVG,
+  typeOfData,
 
   //// DATA
   allData,
+  setAllData,
 
   //// REDUX
-  dynamicType,
-  extractingStateData,
-  
+  stateData,
+  stateMethod,
+  resetState,
+  changeView,
+  autoFill,
+  autoFillType,
+  dataType,
+
+  //// CRUD
+  submitCreate,
+  submitUpdate,
 }) => {
-  const myRefs = useRef(null)
-  const [loadingColor, setLoadingColor] = useState('white')
-  const [input_dropdown, setInputDropdown] = useState('')
-  const [currentItem, setCurrentItem] = useState('')
+
+  const createType = selectCreateArrayType(typeOfData);
+  const resetType = selectResetType(typeOfData);
+  const myRefs = useRef(null);
+  const [loadingColor, setLoadingColor] = useState('white');
+  const [search, setSearch] = useState('');
+  const [sort, setSort] = useState('');
 
   //// HANDLE MODAL DRAG
-  const [prevX, setPrevX] = useState(0)
-  const [prevY, setPrevY] = useState(0)
-  const onPointerDown = () => {}
-  const onPointerUp = () => {}
-  const onPointerMove = () => {}
-  const [isDragging, setIsDragging] = useState(false)
+  const [prevX, setPrevX] = useState(0);
+  const [prevY, setPrevY] = useState(0);
+  const onPointerDown = () => {};
+  const onPointerUp = () => {};
+  const onPointerMove = () => {};
+  const [isDragging, setIsDragging] = useState(false);
   const [translate, setTranslate] = useState({
     x: 0,
-    y: 0
+    y: 0,
   });
 
   const handlePointerDown = (e) => {
-    setPrevX(0)
-    setPrevY(0)
-    setIsDragging(true)
-    onPointerDown(e)
-  }
+    setPrevX(0);
+    setPrevY(0);
+    setIsDragging(true);
+    onPointerDown(e);
+  };
 
   const handlePointerUp = (e) => {
-    setIsDragging(false)
-    onPointerUp(e)
-  }
+    setIsDragging(false);
+    onPointerUp(e);
+  };
 
   const handlePointerMove = (e) => {
     if (isDragging) handleDragMove(e);
@@ -60,144 +72,169 @@ const ListModal = ({
   };
 
   const handleDragMove = (e) => {
-    var movementX = (prevX ? e.screenX - prevX : 0)
-    var movementY = (prevY ? e.screenY - prevY : 0)
-    
-    setPrevX(e.screenX)
-    setPrevY(e.screenY)
+    var movementX = prevX ? e.screenX - prevX : 0;
+    var movementY = prevY ? e.screenY - prevY : 0;
 
-    handleModalMove(movementX, movementY)
+    setPrevX(e.screenX);
+    setPrevY(e.screenY);
+
+    handleModalMove(movementX, movementY);
   };
 
   const handleModalMove = (X, Y) => {
     setTranslate({
       x: translate.x + X,
-      y: translate.y + Y
+      y: translate.y + Y,
     });
-  }
-
+  };
 
   // HANDLE DROPDOWNS
   const handleClickOutside = (event) => {
-    if(myRefs.current){
-      if(!myRefs.current.contains(event.target)){
-        setInputDropdown('')
+    if (myRefs.current) {
+      if (!myRefs.current.contains(event.target)) {
+        setInputDropdown('');
       }
     }
-  }
+  };
 
   useEffect(() => {
-    document.addEventListener("click", handleClickOutside, true);
+    document.addEventListener('click', handleClickOutside, true);
     return () => {
-      document.removeEventListener("click", handleClickOutside, true);
+      document.removeEventListener('click', handleClickOutside, true);
     };
-  }, [])
-  
+  }, []);
+
   return (
-    <div 
-      className="addFieldItems-modal" 
-      data-value="parent" 
-      onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}
+    <div
+      className="addFieldItems-modal"
+      data-value="parent"
+      onClick={(e) =>
+        e.target.getAttribute('data-value') == 'parent'
+          ? setIsDragging(false)
+          : null
+      }
     >
-      <div 
-      className="addFieldItems-modal-box" 
-      onPointerDown={handlePointerDown} 
-      onPointerUp={handlePointerUp} 
-      onPointerMove={handlePointerMove} 
-      style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
+      <div
+        className="addFieldItems-modal-box"
+        onPointerDown={handlePointerDown}
+        onPointerUp={handlePointerUp}
+        onPointerMove={handlePointerMove}
+        style={{
+          transform: `translateX(${translate.x}px) translateY(${translate.y}px)`,
+        }}
+      >
         <div className="addFieldItems-modal-box-header">
-        <span 
-          className="addFieldItems-modal-form-title">
-            {title}
-        </span>
-        <div onClick={() => (setModal(''), setMessage(''))}>
-          <SVG svg={'close'}></SVG>
-        </div>
-        </div>
-
-
-
-        <form className="addFieldItems-modal-form">
-          <div className="form-group mbType1">
-            <input
-            onClick={() => setInputDropdown('job_purchase_order')} 
-            value={currentItem.supplier ? manageFormFields(currentItem.supplier[0], 'name') : ''} 
-            readOnly
-            />
-            <label 
-            className={`input-label ` + (
-              currentItem !== ''
-              ? ' labelHover' 
-              : ''
-            )}
-            htmlFor="quotes">
-              Purchase Order
-            </label>
-            <div 
-            onClick={() => setInputDropdown('job_purchase_order')}><SVG svg={'dropdown-arrow'}></SVG>
-            </div>
-            { input_dropdown == 'job_purchase_order' &&
-              <div 
-              className="form-group-list" 
-              ref={myRefs}>
-                {allData && allData.purchaseOrders.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
-                <div 
-                  key={idx} 
-                  className="form-group-list-item" 
-                  onClick={(e) => (
-                    setCurrentItem(item),
-                    setInputDropdown('')
-                  )}
-                >
-                   {` 
-                    ${manageFormFields(item.supplier[0], 'name')}
-                    ${ item.shipping ? ` / ${item.shipping}` : ''}
-                    ${ item.POnumber ? ` / ${item.POnumber}` : ''}
-                  `}
-                </div>
-                ))}
-              </div>
-            }
-          </div>
-
-          {message && 
-          <span className="form-group-message">
-            <SVG svg={dynamicSVG} color={'#fd7e3c'}></SVG>
-            {message}
+          <span className="addFieldItems-modal-form-title">
+            {edit == dataType ? 'Edit' : 'Select'}
           </span>
-          }
-      </form>
-
-
-      <div className="addFieldItems-modal-box-footer">
-        <button 
-        className="form-group-button" 
-        onClick={(e) => dynamicType 
-          ?
-          (
-            extractingStateData(currentItem),
-            setModal('')
-          )
-          :
-          null
-        }
-        >
-            {loading == 'create_po_item' ? 
-            <div className="loading">
-              <span style={{backgroundColor: loadingColor}}></span>
-              <span style={{backgroundColor: loadingColor}}></span>
-              <span style={{backgroundColor: loadingColor}}></span>
+          <div onClick={() => (setModal(''), setMessage(''))}>
+            <SVG svg={'close'}></SVG>
+          </div>
+        </div>
+        <form className="addFieldItems-modal-form">
+          <div className="form-group">
+            <input
+              value={manageFormFields(autoFill[autoFillType], 'name')}
+              onChange={(e) => (
+                setSearch(e.target.value)
+              )}
+            />
+            <label
+              className={
+                `input-label ` +
+                (autoFill[autoFillType].length > 0 ||
+                typeof autoFill[autoFillType] == 'object'
+                  ? ' labelHover'
+                  : '')
+              }
+              htmlFor={`${autoFillType}`}
+            >
+              Search Purchase Orders (Ex. supplier, PO number, date)
+            </label>
+          </div>
+          <div className="addFieldItems-modal-form-container-searchList-container">
+            <div className="addFieldItems-modal-form-container-searchList-table-header">
+              <div
+                className="addFieldItems-modal-form-container-searchList-table-header-item"
+                onClick={() =>
+                  sort === 'down' ? setSort('up') : setSort('down')
+                }
+              >
+                <span>Purchase Orders</span>
+                <SVG svg={'dropdown-arrow'}></SVG>
+              </div>
             </div>
-            : 
-            'Save'
-            }
-        </button>
-      </div>
-      
-    </div>
-    </div>
-    
-  )
-}
+            <div className="addFieldItems-modal-form-container-searchList-list">
+              {allData &&
+                allData[dataType]
+                  .sort((a, b) => sort === 'down' ? a.supplier[0].name > b.supplier[0].name ? -1 : 1 : a.supplier[0].name > b.supplier[0].name ? 1 : -1)
+                  .map((item, idx) =>
+                    search.length > 0 ? (
+                      filterPurchaseOrderSearch(item, search) ? (
+                        <div
+                          key={idx}
+                          className="addFieldItems-modal-form-container-searchList-list-item"
+                          onClick={() =>
+                            stateMethod(createType, autoFillType, item)
+                          }
+                        >
+                          {`${manageFormFields(item.supplier[0], 'name')} / ${item.POnumber} / ${item.orderDate}`}
+                        </div>
+                      ) : null
+                    ) : (
+                      <div
+                        key={idx}
+                        className="addFieldItems-modal-form-container-searchList-list-item"
+                        onClick={() => (stateMethod(createType, autoFillType, item), setModal(''))}
+                      >
+                         {`${manageFormFields(item.supplier[0], 'name')} /  ${item.POnumber} / ${item.orderDate}`}
+                      </div>
+                    )
+                  )}
+            </div>
+          </div>
+        </form>
 
-export default ListModal
+        <div className="addFieldItems-modal-box-footer">
+          {message && (
+            <span className="form-group-message">
+              <SVG svg={dynamicSVG} color={'#fd7e3c'}></SVG>
+              {message}
+            </span>
+          )}
+          {
+            <button className="form-group-button" onClick={(e) => setModal('')}>
+              {loading == 'select_account' ? (
+                <div className="loading">
+                  <span style={{ backgroundColor: loadingColor }}></span>
+                  <span style={{ backgroundColor: loadingColor }}></span>
+                  <span style={{ backgroundColor: loadingColor }}></span>
+                </div>
+              ) : (
+                'Save'
+              )}
+            </button>
+          }
+          {edit == dataType && (
+            <button
+              className="form-group-button"
+              onClick={(e) => (e.preventDefault(), null)}
+            >
+              {loading == 'select_account' ? (
+                <div className="loading">
+                  <span style={{ backgroundColor: loadingColor }}></span>
+                  <span style={{ backgroundColor: loadingColor }}></span>
+                  <span style={{ backgroundColor: loadingColor }}></span>
+                </div>
+              ) : (
+                'Update'
+              )}
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PurchaseListItems;

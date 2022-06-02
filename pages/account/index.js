@@ -94,6 +94,7 @@ import JobIssueModal from '../../components/modals/JobIssue';
 import AccountsModal from '../../components/modals/Accounts';
 import PriceListItemsModal from '../../components/modals/PriceListItems'
 import JobListItemsModal from '../../components/modals/Job'
+import ContactListItemsModal from '../../components/modals/ContactsListItems'
 
 axios.defaults.withCredentials = true;
 
@@ -2319,18 +2320,34 @@ const Dashboard = ({
         )}
         {modal == 'activityList' && (
           <ActivityListModal
+            token={token}
+            account={account}
             message={message}
             setMessage={setMessage}
             setModal={setModal}
             loading={loading}
+            setLoading={setLoading}
             edit={edit}
             setEdit={setEdit}
+            stateData={activity}
             stateMethod={createType}
             dynamicType={dynamicType}
             extractingStateData={extractingStateData}
             dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
             allData={allData}
-            title={'Add Activity'}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+            autoFill={job}
+            autoFillType={'activities'}
+            dataType={'activities'}
+            selectID={selectID}
+            typeOfData={'job'}
+            setEvent={setEvent}
           ></ActivityListModal>
         )}
         {modal == 'purchaseOrders' && (
@@ -2360,18 +2377,34 @@ const Dashboard = ({
         )}
         {modal == 'purchaseList' && (
           <PurchaseOrderListModal
+            token={token}
+            account={account}
             message={message}
             setMessage={setMessage}
             setModal={setModal}
             loading={loading}
+            setLoading={setLoading}
             edit={edit}
             setEdit={setEdit}
+            stateData={activity}
             stateMethod={createType}
             dynamicType={dynamicType}
             extractingStateData={extractingStateData}
             dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
             allData={allData}
-            title={'Add Purchase List'}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+            autoFill={job}
+            autoFillType={'purchaseOrders'}
+            dataType={'purchaseOrders'}
+            selectID={selectID}
+            typeOfData={'job'}
+            setEvent={setEvent}
           ></PurchaseOrderListModal>
         )}
         {modal == 'jobIssue' && (
@@ -2499,6 +2532,38 @@ const Dashboard = ({
             typeOfData={'account'}
             setEvent={setEvent}
           ></JobListItemsModal>
+        )}
+        {modal == 'contact_list_items' && (
+          <ContactListItemsModal
+            token={token}
+            account={account}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={contact}
+            stateMethod={createType}
+            dynamicType={dynamicType}
+            extractingStateData={extractingStateData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+            autoFill={accountItem}
+            autoFillType={'contacts'}
+            dataType={'contacts'}
+            selectID={selectID}
+            typeOfData={'account'}
+            setEvent={setEvent}
+          ></ContactListItemsModal>
         )}
       </div>
     </>

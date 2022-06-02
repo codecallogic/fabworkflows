@@ -2,9 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import SVG from '../../files/svgs';
 import { manageFormFields } from '../../helpers/forms';
 import { selectCreateArrayType, selectResetType } from '../../helpers/dispatchTypes';
-import { filterActivitySearch } from '../../helpers/validations';
+import { filterContactSearch } from '../../helpers/validations';
 
-const ActivityListItems = ({
+const ContactListItems = ({
   token,
   message,
   setMessage,
@@ -149,7 +149,7 @@ const ActivityListItems = ({
               }
               htmlFor={`${autoFillType}`}
             >
-              Search Activity (Ex. name, status)
+              Search Contact (Ex. contact name, address, city, phone)
             </label>
           </div>
           <div className="addFieldItems-modal-form-container-searchList-container">
@@ -160,17 +160,17 @@ const ActivityListItems = ({
                   sort === 'down' ? setSort('up') : setSort('down')
                 }
               >
-                <span>Activities</span>
+                <span>Contacts</span>
                 <SVG svg={'dropdown-arrow'}></SVG>
               </div>
             </div>
             <div className="addFieldItems-modal-form-container-searchList-list">
               {allData &&
                 allData[dataType]
-                  .sort((a, b) => sort === 'down' ? a.name > b.name ? -1 : 1 : a.name > b.name ? 1 : -1)
+                  .sort((a, b) => sort === 'down' ? a.contact_name > b.contact_name ? -1 : 1 : a.contact_name > b.contact_name ? 1 : -1)
                   .map((item, idx) =>
                     search.length > 0 ? (
-                      filterActivitySearch(item, search) ? (
+                      filterContactSearch(item, search) ? (
                         <div
                           key={idx}
                           className="addFieldItems-modal-form-container-searchList-list-item"
@@ -178,7 +178,7 @@ const ActivityListItems = ({
                             stateMethod(createType, autoFillType, item)
                           }
                         >
-                          {`${item.name} / ${item.status}`}
+                          {`${item.contact_name} / ${item.address} / ${item.city} / ${item.phone}`}
                         </div>
                       ) : null
                     ) : (
@@ -187,7 +187,7 @@ const ActivityListItems = ({
                         className="addFieldItems-modal-form-container-searchList-list-item"
                         onClick={() => (stateMethod(createType, autoFillType, item), setModal(''))}
                       >
-                         {`${item.name} / ${item.status}`}
+                         {`${item.contact_name} / ${item.address} / ${item.city} / ${item.phone}`}
                       </div>
                     )
                   )}
@@ -237,4 +237,4 @@ const ActivityListItems = ({
   );
 };
 
-export default ActivityListItems;
+export default ContactListItems;

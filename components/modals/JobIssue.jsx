@@ -48,7 +48,7 @@ const JobIssueModal = ({
   const myRefs = useRef(null)
   const [loadingColor, setLoadingColor] = useState('white')
   const [input_dropdown, setInputDropdown] = useState('')
-  const [id, setID] = useState(selectID)
+  const [id, setID] = useState()
 
   //// HANDLE MODAL DRAG
   const [prevX, setPrevX] = useState(0)
@@ -116,6 +116,10 @@ const JobIssueModal = ({
     };
 
   }, [])
+
+  useEffect(() => {
+    setID(selectID)
+  }, [selectID])
 
   const submitJobIssue = async (req, res) => {
     if(!stateData.job) return setMessage('Job is required')
@@ -208,7 +212,7 @@ const JobIssueModal = ({
 
         <form className="addFieldItems-modal-form">
 
-          <div className="form-group">
+          {/* <div className="form-group">
             <input 
             id="job" 
             value={manageFormFields(stateData.job, 'name')} 
@@ -225,7 +229,7 @@ const JobIssueModal = ({
             htmlFor="job">
               Job Name
             </label>
-          </div>
+          </div> */}
 
           <div className="form-group">
             <input 
@@ -380,7 +384,7 @@ const JobIssueModal = ({
 
 
       <div className="addFieldItems-modal-box-footer">
-        {edit == typeOfData && !id && 
+        {( edit === '' || typeOfData ) && !id && 
         <button 
         className="form-group-button" 
         onClick={(e) => (

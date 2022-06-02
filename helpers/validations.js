@@ -18,8 +18,11 @@ export {
   formatDate,
   numberType,
   filterAccountSearch,
+  filterContactSearch,
+  filterActivitySearch,
   filterQuoteSearch,
   filterJobSearch,
+  filterPurchaseOrderSearch,
   filterProductSearch,
   filterPriceListSearch,
   filterSlabSearch,
@@ -397,6 +400,32 @@ const filterAccountSearch = (item, search) => {
 
 }
 
+const filterContactSearch = (item, search) => {
+  
+  if( item.contact_name && item.contact_name.toLowerCase().includes(search.toLowerCase())) 
+    return true
+
+  if( item.address && item.address.toLowerCase().includes(search.toLowerCase())) 
+    return true
+
+  if( item.city && item.city.toLowerCase().includes(search.toLowerCase())) 
+    return true
+
+  if( item.phone && item.phone.toLowerCase().includes(search.toLowerCase())) 
+    return true
+
+}
+
+const filterActivitySearch = (item, search) => {
+  
+  if( item.name && item.name.toLowerCase().includes(search.toLowerCase())) 
+    return true
+
+  if( item.status && item.status.toLowerCase().includes(search.toLowerCase())) 
+    return true
+  
+}
+
 const filterQuoteSearch = (item, search) => {
   
   if( item.quote_name && item.quote_name.toLowerCase().includes(search.toLowerCase())) 
@@ -418,6 +447,18 @@ const filterJobSearch = (item, search) => {
   if( item.invoice && item.invoice.toLowerCase().includes(search.toLowerCase()) ) 
     return true
 
+}
+
+const filterPurchaseOrderSearch = (item, search) => {
+  
+  if( manageFormFields(item.supplier[0], 'name') && manageFormFields(item.supplier[0], 'name').toLowerCase().includes(search.toLowerCase())) 
+    return true
+
+  if( item.POnumber && item.POnumber.toLowerCase().includes(search.toLowerCase()) ) 
+    return true
+
+  if( item.orderDate && item.orderDate.toLowerCase().includes(search.toLowerCase()) ) 
+    return true
 }
 
 const filterProductSearch = (item, search) => {

@@ -31,7 +31,6 @@ const PriceListModal = ({
   submitUpdate,
   submitDeleteFile
 }) => {
-  
   const createType = 'CREATE_PRICE_LIST'
   const resetType = 'RESET_PRICE_LIST'
   const imageType = 'PRICE_LIST_IMAGE'
