@@ -1049,6 +1049,7 @@ const QuoteForm = ({
                 stateData.quote_lines.map((item, idx) => (
                   <React.Fragment>
                     <span
+                      key={idx}
                       onClick={() => (
                         setModal('add_quote_line'),
                         setModalEdit('quote_line'),
@@ -1067,29 +1068,25 @@ const QuoteForm = ({
                         <div className="form-estimate-line-description">
                           {item.material
                             ? `${manageFormFields(item.material, 'name')} 
-                    ${
-                      item.model
-                        ? ` / ${manageFormFields(item.model, 'name')}`
-                        : ''
-                    }`
+                              ${
+                                item.model
+                                ? ` / ${manageFormFields(item.model, 'name')}`
+                                : ''
+                              }`
                             : item.category
                             ? `${manageFormFields(item.category, 'name')}`
                             : item.model
                             ? `Sink: ${manageFormFields(item.model, 'name')}
-                      ${
-                        item.color
-                          ? ` / ${manageFormFields(item.color, 'name')}`
-                          : ''
-                      }`
+                              ${
+                                item.color
+                                  ? ` / ${manageFormFields(item.color, 'name')}`
+                                  : ''
+                              }`
                             : item.description}
                         </div>
                         <div>
                           {item.price && item.quantity
-                            ? manageEstimates(
-                                'lineTotal',
-                                item.quantity,
-                                item.price
-                              )
+                            ? manageEstimates( 'lineTotal', item.quantity, item.price )
                             : `(No subtotal)`}
                         </div>
                       </div>

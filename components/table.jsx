@@ -55,9 +55,9 @@ const Table = ({
   deleteType
 
 }) => {
-  // console.log(allData[typeOfData])
+  console.log(allData[typeOfData])
   //// TABLES WITH DROPDOWNS
-  const tableDropdowns = ['jobs', 'activities', 'activitySets', 'jobIssues']
+  const tableDropdowns = ['jobs', 'activities', 'activitySets', 'jobIssues', 'accounts']
   
   const matchPattern = /https?:\/\/(www\.)?/gi;
   const myRefs = useRef([])

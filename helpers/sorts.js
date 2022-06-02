@@ -45,6 +45,6 @@ const jobIssueSort = ['history', 'notes', 'category', 'status', 'subject', 'job'
 
 const contractSort = [ 'urlID', 'name', 'description', 'contract', 'message', 'signed', 'signatureFullName', 'dateSigned', 'email', 'subject', 'status', 'image', 'job']
 
-const accountSort = ['files', 'accountIssues', 'jobs', 'quotes', 'priceLists', 'contacts', 'name']
+const accountSort = ['notes', 'accountIssues', 'jobs', 'quotes', 'priceLists', 'contacts', 'accountAddress', 'taxExempt', 'salesperson', 'name', 'files']
 
 const contactSort = ['contact_notes', 'email', 'fax', 'cell', 'phone', 'country', 'zip_code', 'state', 'city', 'address', 'contact_name']

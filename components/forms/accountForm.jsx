@@ -3,7 +3,11 @@ import SVG from '../../files/svgs';
 import Table from '../tableAltForm';
 
 //// HELPERS
-import { returnIfTrue } from '../../helpers/validations'
+import { 
+  returnIfTrue,
+  multipleFiles,
+  validateNumber
+} from '../../helpers/validations'
 import { populateAddress } from '../../helpers/modals'
 import {
   contactSort,
@@ -34,9 +38,6 @@ const AccountForm = ({
   setSelectID,
   event,
 
-  //// METHODs
-  validateNumber,
-
   //// DATA
   typeOfData,
   componentData,
@@ -63,6 +64,8 @@ const AccountForm = ({
   const createType        = 'CREATE_ACCOUNT';
   const resetType         = 'RESET_ACCOUNT';
   const resetTypeContact  = 'RESET_CONTACT';
+  const filesType         = 'ADD_ACCOUNT_ARRAY_WITH_ITEMS';
+  const [loadingColor, setLoadingColor] = useState('black');
   const [save, setSave] = useState(false);
   const [quoteHeaders, setQuoteHeaders] = useState([]);
   const [contactHeaders, setContactHeaders] = useState([]);
@@ -134,13 +137,17 @@ const AccountForm = ({
               className="table-header-controls-item"
               onClick={(e) =>
                 edit == typeOfData
-                ? stateData.payment == 'deposit' || stateData.payment == 'complete'
-                ? setMessage('Cannot update quotes with payments processed')
-                : submitUpdate( e, stateData, 'jobs', 'files', setMessage, 'update_job', setLoading, token, 'jobs/update-job', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'jobs')
-                : submitCreate( e, stateData, 'jobs', 'files', setMessage, 'create_job', setLoading, token, 'jobs/create-job', resetType, resetState, allData, setAllData, setDynamicSVG)
+                ? 
+                stateData.payment == 'deposit' || stateData.payment == 'complete'
+                ? 
+                setMessage('Cannot update quotes with payments processed')
+                : 
+                submitUpdate( e, stateData, 'accounts', 'files', setMessage, 'update_account', setLoading, token, 'accounts/update-account', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'jobs')
+                : 
+                submitCreate( e, stateData, 'accounts', 'files', setMessage, 'create_account', setLoading, token, 'accounts/create-account', resetType, resetState, allData, setAllData, setDynamicSVG)
               }
             >
-              {loading == 'create_job' || loading == 'update_job' ? (
+              {loading == 'create_account' || loading == 'update_account' ? (
                 <div className="loading">
                   <span style={{ backgroundColor: loadingColor }}></span>
                   <span style={{ backgroundColor: loadingColor }}></span>
@@ -225,23 +232,23 @@ const AccountForm = ({
             </div>
             <div className="form-group">
               <input
-                id="tax_exempt"
-                value={stateData.tax_exempt}
+                id="taxExempt"
+                value={stateData.taxExempt}
                 onChange={(e) => (
-                  validateNumber('tax_exempt'),
-                  stateMethod(createType, 'tax_exempt', e.target.value)
+                  validateNumber('taxExempt'),
+                  stateMethod(createType, 'taxExempt', e.target.value)
                 )}
               />
 
               <label
                 className={
                   `input-label ` +
-                  (stateData.tax_exempt.length > 0 ||
-                  typeof stateData.tax_exempt == 'object'
+                  (stateData.taxExempt.length > 0 ||
+                  typeof stateData.taxExempt == 'object'
                     ? ' labelHover'
                     : '')
                 }
-                htmlFor="tax_exempt"
+                htmlFor="taxExempt"
               >
                 Tax Exempt
               </label>
@@ -456,6 +463,72 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           dynamicType={'CREATE_ACCOUNT_ARRAY_ITEM'}
           dynamicKey={'jobs'}
         ></Table>
+
+        <div className="form-box" style={{ width: '100%', padding: '0 2rem' }}>
+          <div className="form-box-heading">
+            <label htmlFor="imageFiles" className="form-box-heading-item">
+              <SVG svg={'upload'}></SVG> Upload Files
+              <input
+                id="imageFiles"
+                type="file"
+                accept="*"
+                multiple
+                onChange={(e) =>
+                  multipleFiles(e, stateData, 'files', setMessage, filesType, 'files', addImages)
+                }
+              />
+            </label>
+          </div>
+          <div className="form-box-container">
+            <div className="form-group-gallery">
+              {stateData.files.length == 0 && (
+                <a
+                  className="form-group-gallery-link"
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ width: '25%' }}
+                >
+                  <img
+                    className="form-group-gallery-image"
+                    src="https://via.placeholder.com/300"
+                  />
+                </a>
+              )}
+              {stateData.files.length > 0 &&
+                stateData.files.map((item, idx) => (
+                  <a
+                    key={idx}
+                    onClick={() => window.open(item.location, '_blank')}
+                    className="form-group-gallery-link"
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{ width: '25%' }}
+                  >
+                    <img
+                      className="form-group-gallery-image"
+                      src="https://static.thenounproject.com/png/47347-200.png"
+                    />
+                    <span
+                      onClick={(e) => (
+                        e.stopPropagation(),
+                        loading !== 'delete_file'
+                          ? 
+                          submitDeleteFile(e, item, 'files', createType, stateMethod, stateData, 'accounts', setMessage, 'delete_file', setLoading, token, 'accounts/delete-file', allData, setAllData, setDynamicSVG, editData, null, stateData._id)
+                          : null
+                      )}
+                    >
+                      {loading == 'delete_file' ? (
+                        <div className="loading-spinner"></div>
+                      ) : (
+                        <SVG svg={'close'}></SVG>
+                      )}
+                    </span>
+                    {item.name ? item.name : item.location.substring(50, 70)}
+                  </a>
+                ))}
+            </div>
+          </div>
+        </div>
         
       </form>
     </div>

@@ -1,7 +1,7 @@
 const initialState = {
   name: '',
   salesperson: '',
-  tax_exempt: '',
+  taxExempt: '',
   notes: '',
   accountAddress: '',
   contacts: [],
@@ -57,7 +57,7 @@ export const accountReducer = (state = initialState, action) => {
       }
       break;
 
-    case 'ADD_ARRAY_WITH_ITEMS':
+    case 'ADD_ACCOUNT_ARRAY_WITH_ITEMS':
       return {
         ...state,
         [action.name]: [...action.value]
