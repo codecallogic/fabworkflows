@@ -144,7 +144,7 @@ const AccountForm = ({
                 ? 
                 setMessage('Cannot update quotes with payments processed')
                 : 
-                submitUpdate( e, stateData, 'accounts', 'files', setMessage, 'update_account', setLoading, token, 'accounts/update-account', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'jobs')
+                submitUpdate( e, stateData, 'accounts', 'files', setMessage, 'update_account', setLoading, token, 'accounts/update-account', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'accounts')
                 : 
                 submitCreate( e, stateData, 'accounts', 'files', setMessage, 'create_account', setLoading, token, 'accounts/create-account', resetType, resetState, allData, setAllData, setDynamicSVG)
               }
