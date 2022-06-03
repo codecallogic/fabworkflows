@@ -6,7 +6,7 @@ export {
   returnSelectedData
 }
 
-const allowArrays = ['quotes', 'jobs', 'activities', 'activitySets', 'jobIssues']
+const allowArrays = ['quotes', 'jobs', 'activities', 'activitySets', 'jobIssues', 'accounts']
 const allowObjects = ['account', 'accountAddress']
 
 const populateEditData = (originalData, keyType, caseType, stateMethods, selectID) => {
