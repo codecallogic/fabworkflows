@@ -55,7 +55,7 @@ const Table = ({
   submitDeleteRow,
 
 }) => {
-  
+
   const matchPattern = /https?:\/\/(www\.)?/gi;
   const myRefs = useRef([])
   const [loadingColor, setLoadingColor] = useState('black')
@@ -339,6 +339,10 @@ const Table = ({
                     (
                     <div><span className="table-rows-item-color" style={{backgroundColor: item[key]}}></span>{item[key]}</div>
                     )
+                    :
+                    key == 'account' && typeof item[key] == 'object'
+                    ?
+                    item[key].name
                     :
                     item[key] 
                   )

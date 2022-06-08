@@ -131,16 +131,16 @@ const QuoteForm = ({
   const generateAccountAddress = (data) => {
     let obj = new Object();
 
-    obj.contact_name = data.contact_name;
-    obj.address = data.address;
-    obj.city = data.city;
-    obj.state = data.state;
-    obj.zip_code = data.zip_code;
-    obj.country = data.country;
-    obj.phone = data.phone;
-    obj.fax = data.fax;
-    obj.email = data.email;
-    obj.contact_notes = data.contact_notes;
+    obj.contact_name    = data.contact_name;
+    obj.address         = data.address;
+    obj.city            = data.city;
+    obj.state           = data.state;
+    obj.zip_code        = data.zip_code;
+    obj.country         = data.country;
+    obj.phone           = data.phone;
+    obj.fax             = data.fax;
+    obj.email           = data.email;
+    obj.contact_notes   = data.contact_notes;
 
     return obj;
   };
@@ -988,7 +988,7 @@ const QuoteForm = ({
                       stateMethod(
                         'CREATE_JOB',
                         'name',
-                        manageFormFields(stateData.contact_name, 'contact_name')
+                        stateData.contact_name
                       ),
                       stateMethod(
                         'CREATE_JOB',

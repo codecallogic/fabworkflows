@@ -108,7 +108,7 @@ const JobForm = ({
   }, []);
 
   useEffect(() => {
-
+    
     let objectQuotes = new Object();
     Object.values(quoteSort).forEach((item) => {
       objectQuotes[item] = item;
@@ -598,7 +598,6 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           cancelControl={true}
           stateMethod={stateMethod}
         ></Table>
-        {/* // TODO: Update modals to list items modals */}
         <Table
           token={token}
           title={'Purchase Orders'}

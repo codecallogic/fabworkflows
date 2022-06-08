@@ -28,6 +28,9 @@ const JobIssueModal = ({
   selectID,
   typeOfData,
 
+  //// METHODS
+  extractingStateData,
+
   //// REDUX
   stateData,
   stateMethod,
@@ -108,7 +111,6 @@ const JobIssueModal = ({
   }
 
   useEffect(() => {
-    if(autoFill) stateMethod(createType, 'job', autoFill)
 
     document.addEventListener("click", handleClickOutside, true);
     return () => {
@@ -388,7 +390,7 @@ const JobIssueModal = ({
         <button 
         className="form-group-button" 
         onClick={(e) => (
-          submitJobIssue()
+          extractingStateData(stateData)
         )}
         >
             {loading == 'create_job_issue' ? 
@@ -406,7 +408,7 @@ const JobIssueModal = ({
         <button 
         className="form-group-button" 
         onClick={(e) => (
-          submitUpdateJobIssue()
+          null
         )}
         >
            {loading == 'update_job_issue' ? 
