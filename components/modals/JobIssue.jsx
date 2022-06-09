@@ -45,9 +45,11 @@ const JobIssueModal = ({
   submitDeleteFile
 }) => {
 
-  const createType = 'CREATE_JOB_ISSUE'
-  const resetType = 'RESET_JOB_ISSUE'
-  const addToJob = 'UPDATE_JOB_ARRAY_ITEM'
+  const createType      = 'CREATE_JOB_ISSUE'
+  const resetType       = 'RESET_JOB_ISSUE'
+  const arrayType       = 'CREATE_JOB_ISSUE_ARRAY_ITEM'
+  const updateArrayType = 'UPDATE_JOB_ISSUE_ARRAY_ITEM'
+  const addToJob        = 'UPDATE_JOB_ARRAY_ITEM'
   const myRefs = useRef(null)
   const [loadingColor, setLoadingColor] = useState('white')
   const [input_dropdown, setInputDropdown] = useState('')
@@ -122,6 +124,32 @@ const JobIssueModal = ({
   useEffect(() => {
     setID(selectID)
   }, [selectID])
+
+  useEffect(() => {
+    if(!id && stateData.subject && stateData.status && stateData.category && stateData.history.length === 0) logHistory(arrayType)
+    if(!id && stateData.subject && stateData.status && stateData.category && stateData.history.length === 1) logHistory(updateArrayType)
+  }, [stateData.subject, stateData.status, stateData.category])
+
+  const readyState = () => {
+    if(!stateData.subject) return setMessage('Subject is required')
+    if(!stateData.status) return setMessage('Status is required')
+    if(!stateData.category) return setMessage('Category is required')
+  }
+
+  const logHistory = (reducerType) => {
+
+    let history           = new Object()
+    history.id            = account._id
+    history.firstName     = account.firstName
+    history.lastName      = account.lastName
+    history.subject       = stateData.subject
+    history.status        = stateData.status
+    history.category      = stateData.category
+    history.notes         = stateData.notes
+    history.createdAt     = Date.now()
+
+    stateMethod(reducerType, 'history', history)
+  }
 
   const submitUpdateJobIssue = async (req, res) => {
     if(!stateData.job) return setMessage('Job is required')
@@ -360,6 +388,7 @@ const JobIssueModal = ({
         <button 
         className="form-group-button" 
         onClick={(e) => (
+          readyState(),
           extractingStateData(stateData),
           resetState(resetType),
           setModal('')

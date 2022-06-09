@@ -134,7 +134,7 @@ const Quote = ({stateData, jobIssues}) => {
                 Last Update
               </Text>
               <Text style={styles.normal}>
-                { stateData.jobIssues.length > 0
+                { stateData.jobIssues.length > 0 && jobIssues.history.length > 0
                   ? 
                   moment(jobIssues.history[jobIssues.history.length - 1].createdAt).format('MM/DD/YYYY HH:mm:ss')
                   : 
@@ -147,7 +147,7 @@ const Quote = ({stateData, jobIssues}) => {
                 Last Update By
               </Text>
               <Text style={styles.normal}>
-                { stateData.jobIssues.length > 0 
+                { stateData.jobIssues.length > 0  && jobIssues.history.length > 0
                   ?
                   `${jobIssues.history[jobIssues.history.length - 1].firstName} ${jobIssues.history[jobIssues.history.length - 1].lastName}`
                   :

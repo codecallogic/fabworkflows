@@ -9,7 +9,7 @@ export {
 const allowArrays = ['quotes', 'jobs', 'activities', 'activitySets', 'jobIssues', 'accounts']
 const allowObjects = ['account', 'accountAddress']
 
-const populateEditData = (originalData, keyType, caseType, stateMethods, selectID) => {
+const populateEditData = (originalData, keyType, caseType, stateMethods, selectID, list, setSelectID) => {
   stateMethods.createType(caseType, '_id', selectID)
 
   for(let key in originalData[keyType]){
@@ -38,6 +38,17 @@ const populateEditData = (originalData, keyType, caseType, stateMethods, selectI
 
       }
 
+    }else{
+      for(let i = 0; i <= list.length; i++){
+        if(i === selectID){
+          for( let key in list[i]){
+            stateMethods.createType(caseType, key, list[i][key])
+          }
+        }
+      }
+      
+      setSelectID(selectID + 1)
+      
     }
   }
 }
@@ -173,8 +184,8 @@ const returnSelectedData = (data, listType, selectID) => {
   let selected
 
   if(data[listType].length > 0){
-    data[listType].map((item) => {
-      if(item._id == selectID){
+    data[listType].map((item, idx) => {
+      if(item._id ? item._id : idx == selectID){
         selected = item
       }
     })

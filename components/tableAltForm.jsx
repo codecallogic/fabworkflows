@@ -109,7 +109,7 @@ const Table = ({
   const handleEdit = () => {
     if(controls == 'jobIssueControls'){
       setModal('jobIssue')
-      editData('jobIssues', 'CREATE_JOB_ISSUE', selectID)
+      editData('jobIssues', 'CREATE_JOB_ISSUE', selectID, allData)
     }
   }
   
@@ -275,7 +275,7 @@ const Table = ({
                   setMessage(''),
                   setDynamicType(dynamicType),
                   setDynamicKey(dynamicKey),
-                  handleSelect(e, item._id), 
+                  handleSelect(e, item._id ? item._id : item.id ? item.id : idx), 
                   setCurrentItem(item)
                   ) 
                   : (

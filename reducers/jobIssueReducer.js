@@ -32,6 +32,19 @@ export const jobIssueReducer = (state = initialState, action) => {
       }
       break;
 
+    case 'UPDATE_JOB_ISSUE_ARRAY_ITEM':
+      let updateArray = [...state[action.name]]
+      let newUpdatedArray = []
+
+      newUpdatedArray = updateArray.filter((item) => item.id !== action.value.id)
+      newUpdatedArray.push(action.value)
+
+      return {
+        ...state,
+        [action.name]: newUpdatedArray
+      }
+      break;
+
     case 'RESET_JOB_ISSUE':
       return initialState
       break;
