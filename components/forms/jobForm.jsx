@@ -665,7 +665,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           selectID={selectID}
           setSelectID={setSelectID}
           extractingStateData={extractingStateData}
-          dynamicType={'CREATE_JOB_ARRAY_ITEM'}
+          dynamicType={'CREATE_JOB_ISSUE_ITEM'}
           dynamicKey={'jobIssues'}
           completeControl={false}
           cancelControl={false}

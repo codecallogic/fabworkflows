@@ -32,7 +32,7 @@ export const jobReducer = (state = initialState, action) => {
     case 'CREATE_JOB_ARRAY_ITEM':
       let oldArray = [...state[action.name]]
       let newArray = []
-      
+      console.log(action.value._id)
       if(oldArray.findIndex((item) => item._id == action.value._id) == -1){
         oldArray.push(action.value)
         newArray = [...oldArray]
@@ -96,6 +96,23 @@ export const jobReducer = (state = initialState, action) => {
       return {
         ...state,
         [action.name]: [...action.value]
+      }
+      break;
+    
+    case 'CREATE_JOB_ISSUE_ITEM':
+      let issueArray = [...state[action.name]]
+      let newIssueArray = []
+
+      if(issueArray.findIndex((item) => item.subject == action.value.subject) == -1){
+        issueArray.push(action.value)
+        newIssueArray = [...issueArray]
+      }else{
+        newIssueArray = issueArray.filter((item) => item.subject !== action.value.subject)
+      }
+
+      return {
+        ...state,
+        [action.name]: newIssueArray
       }
       break;
     

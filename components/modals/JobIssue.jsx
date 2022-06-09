@@ -123,36 +123,6 @@ const JobIssueModal = ({
     setID(selectID)
   }, [selectID])
 
-  const submitJobIssue = async (req, res) => {
-    if(!stateData.job) return setMessage('Job is required')
-    if(!stateData.subject) return setMessage('Subject is required')
-    if(!stateData.status) return setMessage('Status is required')
-    if(!stateData.category) return setMessage('Category is required')
-    
-    setLoading('create_job_issue')
-
-    try {
-      const response = await axios.post(`${API}/job-issue/create-job-issue`, {data: stateData, account: account}, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          contentType: 'multipart/form-data'
-        }
-      })
-      setLoading('')
-      allData['jobIssues']= response.data.list
-      setAllData(allData)
-      stateMethod(addToJob, 'jobIssues', response.data.item)
-      resetState(resetType)
-      setModal('')
-      setEvent('created-job-issue')
-      
-    } catch (error) {
-      console.log(error)
-      setLoading('')
-      if(error)  error.response ? error.response.statusText == 'Unauthorized' ? (setDynamicSVG('notification'), setMessage(error.response.statusText), window.location.href = '/login') : (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred with creating item'))
-    }
-  }
-
   const submitUpdateJobIssue = async (req, res) => {
     if(!stateData.job) return setMessage('Job is required')
     if(!stateData.subject) return setMessage('Subject is required')
@@ -390,7 +360,9 @@ const JobIssueModal = ({
         <button 
         className="form-group-button" 
         onClick={(e) => (
-          extractingStateData(stateData)
+          extractingStateData(stateData),
+          resetState(resetType),
+          setModal('')
         )}
         >
             {loading == 'create_job_issue' ? 

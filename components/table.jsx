@@ -55,7 +55,7 @@ const Table = ({
   deleteType
 
 }) => {
-  // console.log(allData[typeOfData])
+
   //// TABLES WITH DROPDOWNS
   const tableDropdowns = ['jobs', 'activities', 'activitySets', 'jobIssues', 'accounts']
   
@@ -339,6 +339,8 @@ const Table = ({
                               `${data.lastName.substring(0, 1)}. ${data.firstName.substring(0, 5)} ` :
                               data.supplier ? 
                               manageFormFields(data.supplier[0], 'name') :
+                              data.subject ?
+                              data.subject :
                               null
                               }
                             </div>
