@@ -1074,7 +1074,7 @@ const QuoteForm = ({
                                 : ''
                               }`
                             : item.category
-                            ? `${manageFormFields(item.category, 'name')}`
+                            ? `${manageFormFields(item.category, 'name')} ${ item.description ? `/ ${item.description}` : ''}`
                             : item.model
                             ? `Sink: ${manageFormFields(item.model, 'name')}
                               ${

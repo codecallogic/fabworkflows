@@ -1337,7 +1337,7 @@ const QuoteLineModal = ({
                 </div>
               }
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
               <input 
               onClick={() => setInputDropdown('sink_color')} 
               value={manageFormFields(stateData.color, 'name')} 
@@ -1373,7 +1373,7 @@ const QuoteLineModal = ({
                   ))}
                 </div>
               }
-            </div>
+            </div> */}
             <div className="form-group">
               <input 
               id="quantity" 
