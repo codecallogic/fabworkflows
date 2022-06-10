@@ -149,7 +149,7 @@ const Accounts = ({
               }
               htmlFor={`${autoFillType}`}
             >
-              Account
+              Account (search by account name)
             </label>
           </div>
           <div className="addFieldItems-modal-form-container-searchList-container">
