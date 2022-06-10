@@ -106,11 +106,12 @@ const Table = ({
     setSelectID(id)
   }
   
-  const handleEdit = () => {
+  const handleEdit = (id) => {
     if(controls == 'jobIssueControls'){
       setModal('jobIssue')
-      editData('jobIssues', 'CREATE_JOB_ISSUE', selectID, allData)
+      editData('jobIssues', 'CREATE_JOB_ISSUE', id, allData)
     }
+
   }
   
   return (
@@ -122,11 +123,12 @@ const Table = ({
             id="plus" 
             className="table-header-controls-item-svg" 
             onClick={() => (
-                setModal(modalType),
+                setSelectID(''),
                 setDynamicType(dynamicType),
                 setDynamicKey(dynamicKey),
                 setControls(''), 
                 setMessage(''),
+                setModal(modalType),
                 resetCheckboxes()
               )}
             >
@@ -137,9 +139,9 @@ const Table = ({
               <div 
                 id="delete" 
                 className="table-header-controls-item-svg" 
-                onClick={(e) => 
+                onClick={(e) => (
                   extractingStateData(currentItem)
-                }>
+                )}>
                 <SVG onClick={() => {extractingStateData(currentItem)}} svg={'thrash-can'} id={'delete'}></SVG>
               </div>
 
@@ -207,7 +209,7 @@ const Table = ({
                   id="edit" 
                   className="table-header-controls-item" 
                   onClick={() => {
-                    handleEdit()
+                    handleEdit(selectID),
                     setControls(''), 
                     resetCheckboxes()
                   }}

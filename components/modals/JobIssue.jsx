@@ -5,6 +5,7 @@ import { jobIssueStatus, jobIssueCategory } from '../../helpers/lists'
 import axios from 'axios'
 import { API } from '../../config'
 import moment from 'moment-timezone'
+import { nanoid } from 'nanoid'
 moment.tz(Date.now(), 'America/New_York')
 
 const JobIssueModal = ({
@@ -37,7 +38,6 @@ const JobIssueModal = ({
   resetState,
   changeView,
   addImages,
-  jobState,
 
   //// CRUD
   submitCreate,
@@ -48,12 +48,12 @@ const JobIssueModal = ({
   const createType      = 'CREATE_JOB_ISSUE'
   const resetType       = 'RESET_JOB_ISSUE'
   const arrayType       = 'CREATE_JOB_ISSUE_ARRAY_ITEM'
-  const updateArrayType = 'UPDATE_JOB_ISSUE_ARRAY_ITEM'
+  const updateArrayType = 'UPDATE_JOB_ISSUE_ARRAY_ITEM_HISTORY'
   const addToJob        = 'UPDATE_JOB_ARRAY_ITEM'
   const myRefs = useRef(null)
   const [loadingColor, setLoadingColor] = useState('white')
   const [input_dropdown, setInputDropdown] = useState('')
-  const [id, setID] = useState()
+  const [id, setID] = useState(selectID)
 
   //// HANDLE MODAL DRAG
   const [prevX, setPrevX] = useState(0)
@@ -113,7 +113,6 @@ const JobIssueModal = ({
   }
 
   useEffect(() => {
-
     document.addEventListener("click", handleClickOutside, true);
     return () => {
       document.removeEventListener("click", handleClickOutside, true);
@@ -122,12 +121,9 @@ const JobIssueModal = ({
   }, [])
 
   useEffect(() => {
-    setID(selectID)
-  }, [selectID])
-
-  useEffect(() => {
     if(!id && stateData.subject && stateData.status && stateData.category && stateData.history.length === 0) logHistory(arrayType)
     if(!id && stateData.subject && stateData.status && stateData.category && stateData.history.length === 1) logHistory(updateArrayType)
+    if(id && stateData.subject && stateData.status && stateData.category) logHistory(updateArrayType)
   }, [stateData.subject, stateData.status, stateData.category])
 
   const readyState = () => {
@@ -138,6 +134,16 @@ const JobIssueModal = ({
 
   const logHistory = (reducerType) => {
 
+    let historyItems = autoFill.jobIssues.filter( (item) => item._id === id)
+    
+    let index
+
+    if(historyItems[0] && historyItems[0].history.length === stateData.history.length){
+      index = null
+    } else {
+      index = stateData.history[stateData.history.length - 1] ? stateData.history[stateData.history.length - 1].index ?  stateData.history[stateData.history.length - 1].index : null : null
+    }
+
     let history           = new Object()
     history.id            = account._id
     history.firstName     = account.firstName
@@ -146,6 +152,7 @@ const JobIssueModal = ({
     history.status        = stateData.status
     history.category      = stateData.category
     history.notes         = stateData.notes
+    history.index         = index ? index : nanoid()
     history.createdAt     = Date.now()
 
     stateMethod(reducerType, 'history', history)
@@ -197,7 +204,7 @@ const JobIssueModal = ({
         <div className="addFieldItems-modal-box-header">
         <span 
           className="addFieldItems-modal-form-title">
-            {edit == typeOfData && id ? 
+            {id ? 
             'Edit Job Issue' 
             : 
             'New Job Issue'
@@ -320,7 +327,7 @@ const JobIssueModal = ({
             }
           </div>
 
-          {id && 
+          {id && stateData.history.length > 0 &&
             <div className="form-group">
               <input 
               id="history" 
@@ -341,7 +348,7 @@ const JobIssueModal = ({
             </div>
           }
 
-          {id && 
+          {id && stateData.history.length > 0 &&
           <div className="form-group-history">
             {stateData.history.length > 0 && stateData.history.map((item, idx) => 
               <div key={idx} className="form-group-history-item">
@@ -384,7 +391,7 @@ const JobIssueModal = ({
 
 
       <div className="addFieldItems-modal-box-footer">
-        {( edit === '' || typeOfData ) && !id && 
+        {!id && 
         <button 
         className="form-group-button" 
         onClick={(e) => (
@@ -405,11 +412,13 @@ const JobIssueModal = ({
             }
         </button>
         }
-        {edit == typeOfData && id && 
+        {id && 
         <button 
         className="form-group-button" 
         onClick={(e) => (
-          null
+          stateMethod(addToJob, 'jobIssues', stateData),
+          resetState(resetType),
+          setModal('')
         )}
         >
            {loading == 'update_job_issue' ? 

@@ -12,33 +12,38 @@ const allowObjects = ['account', 'accountAddress']
 const populateEditData = (originalData, keyType, caseType, stateMethods, selectID, list, setSelectID) => {
   stateMethods.createType(caseType, '_id', selectID)
 
-  for(let key in originalData[keyType]){
-    if(originalData[keyType][key]._id == selectID){
-
-      let object = originalData[keyType][key]
-
-      for(let keyOfObject in object){
-        stateMethods.createType(caseType, keyOfObject, object[keyOfObject])
-
-        if(Array.isArray(object[keyOfObject]) && object[keyOfObject].length > 0){
-
-
-          if(!object[keyOfObject][0]['location'] ) stateMethods.createType(caseType, keyOfObject, object[keyOfObject][0])
-
-          if(object[keyOfObject][0]['location']) return stateMethods.createType(caseType, keyOfObject, object[keyOfObject])
-
-          if(allowArrays.includes(keyType)){
-            stateMethods.createType(caseType, keyOfObject, object[keyOfObject])
+  if(originalData[keyType].length > 0){
+    for(let key in originalData[keyType]){
+      if(originalData[keyType][key]._id == selectID){
+        
+        let object = originalData[keyType][key]
+  
+        for(let keyOfObject in object){
+          stateMethods.createType(caseType, keyOfObject, object[keyOfObject])
+  
+          if(Array.isArray(object[keyOfObject]) && object[keyOfObject].length > 0){
+  
+  
+            if(!object[keyOfObject][0]['location'] ) stateMethods.createType(caseType, keyOfObject, object[keyOfObject][0])
+  
+            if(object[keyOfObject][0]['location']) return stateMethods.createType(caseType, keyOfObject, object[keyOfObject])
+  
+            if(allowArrays.includes(keyType)){
+              stateMethods.createType(caseType, keyOfObject, object[keyOfObject])
+            }
+  
+            if(allowObjects.includes(keyOfObject)){
+              stateMethods.createType(caseType, keyOfObject, object[keyOfObject][0])
+            }
           }
-
-          if(allowObjects.includes(keyOfObject)){
-            stateMethods.createType(caseType, keyOfObject, object[keyOfObject][0])
-          }
+  
         }
-
+  
       }
-
-    }else{
+    }
+  } else {
+    
+    if(list.length > 0){
       for(let i = 0; i <= list.length; i++){
         if(i === selectID){
           for( let key in list[i]){
@@ -48,9 +53,9 @@ const populateEditData = (originalData, keyType, caseType, stateMethods, selectI
       }
       
       setSelectID(selectID + 1)
-      
     }
   }
+  
 }
 
 const populateAddress = (keyID, data, stateMethod, stateType) => {

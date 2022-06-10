@@ -23,7 +23,7 @@ const jobIssueStatus = [
 const jobIssueCategory = [
   {category: 'scratches'},
   {category: 'marks'},
-  {category: 'dishwashe'},
+  {category: 'dishwasher'},
   {category: 'other'},
   {category: 'wrong sink'},
   {category: 'material delay'},

@@ -41,7 +41,7 @@ const activitySetSort = ['set', 'name']
 
 const purchaseOrderSort = ['notes', 'taxRate', 'expectedDelivery', 'orderDate', 'POLines', 'status', 'shipping', 'POnumber', 'supplier']
 
-const jobIssueSort = ['history', 'notes', 'category', 'status', 'subject']
+const jobIssueSort = ['job', 'history', 'notes', 'category', 'status', 'subject']
 
 const contractSort = [ 'urlID', 'name', 'description', 'contract', 'message', 'signed', 'signatureFullName', 'dateSigned', 'email', 'subject', 'status', 'image', 'job']
 

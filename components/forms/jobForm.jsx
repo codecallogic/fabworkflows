@@ -101,6 +101,7 @@ const JobForm = ({
   useEffect(() => {
     !stateData.salesperson ? stateMethod(createType, 'salesperson', `${account.firstName} ${account.lastName}`): null;
     !stateData.date ? stateMethod(createType, 'date', formatDate(new Date(Date.now()))) : null;
+    !stateData.invoice ? stateMethod(createType, 'invoice', Math.floor(Math.random() * 10000000)) : null;
     document.addEventListener('click', handleClickOutside, true);
     return () => {
       document.removeEventListener('click', handleClickOutside, true);

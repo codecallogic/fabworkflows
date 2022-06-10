@@ -287,7 +287,7 @@ const Dashboard = ({
   };
 
   const editData = (keyType, caseType, id, list) => {
-    // console.log(id)
+
     let stateMethods = new Object();
     stateMethods.createType = createType;
 
@@ -296,7 +296,7 @@ const Dashboard = ({
       keyType,
       caseType,
       stateMethods,
-      id ? id : selectID,
+      id + 1 ? id : selectID,
       list,
       setSelectID
     );

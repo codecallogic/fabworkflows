@@ -19,11 +19,11 @@ export const jobIssueReducer = (state = initialState, action) => {
       let oldArray = [...state[action.name]]
       let newArray = []
       
-      if(oldArray.findIndex((item) => item._id == action.value._id) == -1){
+      if(oldArray.findIndex((item) => item.id == action.value.id) == -1){
         oldArray.push(action.value)
         newArray = [...oldArray]
       }else{
-        newArray = oldArray.filter((item) => item._id !== action.value._id)
+        newArray = oldArray.filter((item) => item.id !== action.value.id)
       }
 
       return {
@@ -32,11 +32,12 @@ export const jobIssueReducer = (state = initialState, action) => {
       }
       break;
 
-    case 'UPDATE_JOB_ISSUE_ARRAY_ITEM':
+    case 'UPDATE_JOB_ISSUE_ARRAY_ITEM_HISTORY':
       let updateArray = [...state[action.name]]
-      let newUpdatedArray = []
 
-      newUpdatedArray = updateArray.filter((item) => item.id !== action.value.id)
+      let newUpdatedArray = []
+      
+      newUpdatedArray = updateArray.filter((item) => item.index !== action.value.index)
       newUpdatedArray.push(action.value)
 
       return {
