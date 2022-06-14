@@ -31,7 +31,7 @@ const formFields = {
   quotes: ['contact_name', 'phone', 'email', 'quote_lines', 'quote_subtotal', 'quote_total', 'quote_balance', 'quote_date', 'quote_name', 'quote_number'],
   payment: ['name', 'address', 'city', 'state', 'zip_code'],
   phases: ['name'],
-  jobs: ['name', 'account', 'date', 'invoice'],
+  jobs: ['name', 'account', 'invoice'],
   assignees: ['name', 'color'],
   activities: ['name'],
   activityStatus: ['status'],
@@ -53,7 +53,7 @@ const manageFormFields = (data, key) => {
   
 }
 
-const submitCreate = async (e, stateData, type, fileType, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType) => {
+const submitCreate = async (e, stateData, type, fileType, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType, setModal, modalType) => {
   e.preventDefault()
 
   for(let i = 0; i < formFields[type].length; i++){
@@ -97,6 +97,7 @@ const submitCreate = async (e, stateData, type, fileType, setMessage, loadingTyp
     
     if(loadingType == 'create_email') setMessage(responseCreate.data)
     if(changeView) changeView(viewType)
+    if(setModal) setModal(modalType)
     
   } catch (error) {
     console.log(error)

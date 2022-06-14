@@ -128,22 +128,22 @@ const QuoteForm = ({
     stateData.quote_deposit,
   ]);
 
-  const generateAccountAddress = (data) => {
-    let obj = new Object();
+  // const generateAccountAddress = (data) => {
+  //   let obj = new Object();
 
-    obj.contact_name    = data.contact_name;
-    obj.address         = data.address;
-    obj.city            = data.city;
-    obj.state           = data.state;
-    obj.zip_code        = data.zip_code;
-    obj.country         = data.country;
-    obj.phone           = data.phone;
-    obj.fax             = data.fax;
-    obj.email           = data.email;
-    obj.contact_notes   = data.contact_notes;
+  //   obj.contact_name    = data.contact_name;
+  //   obj.address         = data.address;
+  //   obj.city            = data.city;
+  //   obj.state           = data.state;
+  //   obj.zip_code        = data.zip_code;
+  //   obj.country         = data.country;
+  //   obj.phone           = data.phone;
+  //   obj.fax             = data.fax;
+  //   obj.email           = data.email;
+  //   obj.contact_notes   = data.contact_notes;
 
-    return obj;
-  };
+  //   return obj;
+  // };
 
   return (
     <div className="table">
@@ -983,7 +983,6 @@ const QuoteForm = ({
                   <div
                     className="form-box-heading-item"
                     onClick={() => (
-                      setEdit(''),
                       resetState('RESET_JOB'),
                       stateMethod(
                         'CREATE_JOB',
@@ -997,13 +996,11 @@ const QuoteForm = ({
                       ),
                       stateMethod(
                         'CREATE_JOB',
-                        'accountAddress',
-                        generateAccountAddress(stateData)
+                        'invoice',
+                        Math.floor(Math.random() * 10000000)
                       ),
                       stateMethod('CREATE_JOB_ARRAY_ITEM', 'quotes', stateData),
-                      changeView('job'),
-                      setModal('accounts'),
-                      window.scrollTo(0, 0)
+                      setModal('accounts')
                     )}
                   >
                     Create Job

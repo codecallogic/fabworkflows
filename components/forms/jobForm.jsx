@@ -278,8 +278,8 @@ const JobForm = ({
               >
                 Account
               </label>
-              <div onClick={() => setInputDropdown('job_account')}>
-                <SVG svg={'dropdown-arrow'}></SVG>
+              <div onClick={() => setModal('accounts')}>
+                <SVG svg={'move-file'}></SVG>
               </div>
               {input_dropdown == 'job_account' && (
                 <div className="form-group-list" ref={myRefs}>

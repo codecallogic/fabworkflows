@@ -1478,6 +1478,7 @@ const Dashboard = ({
             resetCheckboxes={resetCheckboxes}
             setControls={setControls}
             typeOfDataParent={'jobs'}
+            secondStateData={job}
           ></QuoteForm>
         )}
 
@@ -2462,9 +2463,10 @@ const Dashboard = ({
             setAllData={setAllData}
             submitUpdate={submitUpdate}
             changeView={changeView}
+            viewType={'jobs'}
             editData={editData}
-            autoFill={nav.view === 'job' ? job : quote}
-            autoFillType={'account'}
+            autoFill={nav.view === 'job' ? job : job}
+            autoFillType={nav.view === 'job' ? 'account' : 'account'}
             dataType={'accounts'}
             selectID={selectID}
             typeOfData={nav.view}

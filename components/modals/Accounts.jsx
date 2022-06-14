@@ -25,6 +25,7 @@ const Accounts = ({
   stateMethod,
   resetState,
   changeView,
+  viewType,
   autoFill,
   autoFillType,
   dataType,
@@ -33,6 +34,7 @@ const Accounts = ({
   submitCreate,
   submitUpdate,
 }) => {
+
   const createType = selectCreateType(typeOfData);
   const resetType = selectResetType(typeOfData);
   const myRefs = useRef(null);
@@ -131,6 +133,29 @@ const Accounts = ({
           </div>
         </div>
         <form className="addFieldItems-modal-form">
+          {typeOfData == 'quote' && 
+          <div className="form-group">
+            <input
+              id="name"
+              value={autoFill['name']}
+              onChange={(e) => (
+                stateMethod(createType, 'name', e.target.value)
+              )}
+            />
+            <label
+              className={
+                `input-label ` +
+                (autoFill['name'].length > 0 ||
+                typeof autoFill['name'] == 'object'
+                  ? ' labelHover'
+                  : '')
+              }
+              htmlFor={`name`}
+            >
+              Job Name
+            </label>
+          </div>
+          }
           <div className="form-group">
             <input
               value={manageFormFields(autoFill[autoFillType], 'name')}
@@ -203,8 +228,14 @@ const Accounts = ({
             </span>
           )}
           {
-            <button className="form-group-button" onClick={(e) => setModal('')}>
-              {loading == 'select_account' ? (
+            <button className="form-group-button" onClick={(e) => 
+              typeOfData == 'quote' 
+              ?
+              submitCreate( e, autoFill, 'jobs', 'files', setMessage, 'save_account', setLoading, token, 'jobs/create-job', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType, setModal, '')
+              :
+              setModal('')
+            }>
+              {loading == 'save_account' ? (
                 <div className="loading">
                   <span style={{ backgroundColor: loadingColor }}></span>
                   <span style={{ backgroundColor: loadingColor }}></span>
@@ -220,7 +251,7 @@ const Accounts = ({
               className="form-group-button"
               onClick={(e) => (e.preventDefault(), null)}
             >
-              {loading == 'select_account' ? (
+              {loading == 'update_account' ? (
                 <div className="loading">
                   <span style={{ backgroundColor: loadingColor }}></span>
                   <span style={{ backgroundColor: loadingColor }}></span>
