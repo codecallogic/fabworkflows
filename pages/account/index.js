@@ -27,7 +27,8 @@ import {
   jobIssueSort,
   contractSort,
   accountSort,
-  contactSort
+  contactSort,
+  edgeSort
 } from '../../helpers/sorts';
 import { populateEditData } from '../../helpers/modals';
 
@@ -95,6 +96,7 @@ import AccountsModal from '../../components/modals/Accounts';
 import PriceListItemsModal from '../../components/modals/PriceListItems'
 import JobListItemsModal from '../../components/modals/Job'
 import ContactListItemsModal from '../../components/modals/ContactsListItems'
+import EdgeModal from '../../components/modals/Edge'
 
 axios.defaults.withCredentials = true;
 
@@ -139,6 +141,7 @@ const Dashboard = ({
   purchaseOrder,
   contract,
   jobIssue,
+  edge,
   accountItem,
   
   // DISPATCH
@@ -798,6 +801,47 @@ const Dashboard = ({
             setDynamicSVG={setDynamicSVG}
             deleteType="models/delete-model"
             searchType={'models'}
+            searchPlaceholder={'Search by name'}
+            setDynamicType={setDynamicType}
+            setDynamicKey={setDynamicKey}
+          ></TableAlt>
+        )}
+        {nav.view == 'edges' && (
+          <TableAlt
+            token={token}
+            title={'Edge List'}
+            typeOfData={'edges'}
+            componentData={data.edges}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={edgeSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'edgeControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'edges'}
+            modalType={'add_edge'}
+            editModalType={'edge'}
+            editDataType={{ key: 'edges', caseType: 'CREATE_EDGE' }}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="edges/delete-edge"
+            searchType={'edges'}
             searchPlaceholder={'Search by name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
@@ -1747,6 +1791,15 @@ const Dashboard = ({
                 <SVGs svg={'model'}></SVGs>
                 <span>Model</span>
               </div>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => (
+                  setEdit(''), changeView('edges'), resetType('RESET_EDGE')
+                )}
+              >
+                <SVGs svg={'edge'}></SVGs>
+                <span>Edge</span>
+              </div>
             </div>
           )}
           {nav.view == 'transaction-new' && (
@@ -2569,6 +2622,28 @@ const Dashboard = ({
             setEvent={setEvent}
           ></ContactListItemsModal>
         )}
+        {modal == 'add_edge' && (
+          <EdgeModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={edge}
+            stateMethod={createType}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+          ></EdgeModal>
+        )}
       </div>
     </>
   );
@@ -2602,6 +2677,7 @@ const mapStateToProps = (state) => {
     purchaseOrder: state.purchaseOrder,
     jobIssue: state.jobIssue,
     contract: state.contract,
+    edge: state.edge,
     accountItem: state.account
   };
 };
@@ -2649,6 +2725,7 @@ Dashboard.getInitialProps = async (context) => {
   data.purchaseOrders     = await tableData(accessToken, 'purchase-order/all-purchase-orders');
   data.jobIssues          = await tableData(accessToken, 'job-issue/all-job-issues');
   data.contracts          = await tableData(accessToken, 'contracts/all-contracts');
+  data.edges              = await tableData(accessToken, 'edges/all-edges')
   deepClone               = _.cloneDeep(data);
 
   return {

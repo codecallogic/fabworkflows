@@ -47,9 +47,6 @@ const formFields = {
   pdfJobIssues: ['job', 'subject', 'status', 'category', 'history']
 }
 
-
-
-
 const validateNumber = (type) => {
   const input = document.getElementById(type)
   
@@ -599,10 +596,5 @@ const validateTime = (e, type, createType, reduxMethod) => {
   if(time.length < 3 && +time < 60) return reduxMethod(createType, type, `00:${time}`)
   if(time.length < 4) return reduxMethod(createType, type, `${time.slice(0,1)}:${time.slice(1,3)}`)
   if(time.length < 5) return reduxMethod(createType, type, `${time.slice(0,2)}:${time.slice(2,4)}`)
-  
-}
-
-const validateTable = (item, key) => {
-
   
 }

@@ -1,8 +1,9 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useRef} from 'react'
 import SVG from '../../files/svgs'
 import { validatePrice } from '../../helpers/validations'
+import { edges } from '../../helpers/lists'
 
-const MaterialModal = ({
+const EdgeModal = ({
   token,
   message,
   setMessage,
@@ -28,9 +29,11 @@ const MaterialModal = ({
   submitUpdate
 }) => {
   
-  const createType = 'CREATE_MODEL'
-  const resetType = 'RESET_MODEL'
+  const createType = 'CREATE_EDGE'
+  const resetType = 'RESET_EDGE'
+  const myRefs = useRef(null)
   const [loadingColor, setLoadingColor] = useState('white')
+  const [input_dropdown, setInputDropdown] = useState('')
 
   //// HANDLE MODAL DRAG
   const [prevX, setPrevX] = useState(0)
@@ -94,10 +97,10 @@ const MaterialModal = ({
         <div className="addFieldItems-modal-box-header">
         <span 
           className="addFieldItems-modal-form-title">
-            {edit == 'model' ? 
-            'Edit Model' 
+            {edit == 'edge' ? 
+            'Edit Edge' 
             : 
-            'New Model'
+            'New Edge'
             }
         </span>
         <div onClick={() => (setModal(''), resetState(resetType), setMessage(''))}>
@@ -108,20 +111,39 @@ const MaterialModal = ({
       className="addFieldItems-modal-form" 
       >
         <div className="form-group">
-          <input 
-          id="name" 
-          value={stateData.name} 
-          onChange={(e) => stateMethod(createType, 'name', e.target.value)}/>
+          <input
+          onClick={() => setInputDropdown('edge_type')} 
+          value={stateData.type} 
+          onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'type', e.target.value))}
+          readOnly
+          />
           <label 
           className={`input-label ` + (
-            stateData.name.length > 0 || 
-            typeof stateData.name == 'object' 
+            stateData.type.length > 0 || 
+            typeof stateData.type == 'object' 
             ? ' labelHover' 
             : ''
           )}
-          htmlFor="name">
-            Name
+          htmlFor="type">
+            Type
           </label>
+          <div 
+          onClick={() => setInputDropdown('edge_type')}><SVG svg={'dropdown-arrow'}></SVG>
+          </div>
+          { input_dropdown == 'edge_type' &&
+            <div 
+            className="form-group-list" 
+            ref={myRefs}>
+              {edges && edges.sort( (a, b) => a.type > b.type ? 1 : -1).map( (item, idx) => (
+              <div 
+              key={idx} 
+              className="form-group-list-item" 
+              onClick={(e) => (stateMethod(createType, 'type', item.type), setInputDropdown(''))}>
+                {item.type}
+              </div>
+              ))}
+            </div>
+          }
         </div>
         
         <div className="form-group">
@@ -137,7 +159,7 @@ const MaterialModal = ({
             : ''
           )}
           htmlFor="price">
-            Price
+            Price Per Feet
           </label>
         </div>
         {message && 
@@ -149,9 +171,9 @@ const MaterialModal = ({
         {!edit && 
         <button 
         className="form-group-button" 
-        onClick={(e) => submitCreate(e, stateData, 'models', null, setMessage, 'create_model', setLoading, token, 'models/create-model', resetType, resetState, allData, setAllData, setDynamicSVG)}
+        onClick={(e) => submitCreate(e, stateData, 'edges', null, setMessage, 'create_edge', setLoading, token, 'edges/create-edge', resetType, resetState, allData, setAllData, setDynamicSVG)}
         >
-           {loading == 'create_model' ? 
+           {loading == 'create_edge' ? 
             <div className="loading">
               <span style={{backgroundColor: loadingColor}}></span>
               <span style={{backgroundColor: loadingColor}}></span>
@@ -162,7 +184,7 @@ const MaterialModal = ({
             }
         </button>
         }
-        {edit == 'model' && 
+        {edit == 'edge' && 
         <button 
         className="form-group-button" 
         onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'models', null, setMessage, 'update_model', setLoading, token, 'models/update-model', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'models', setModal))}
@@ -184,4 +206,4 @@ const MaterialModal = ({
   )
 }
 
-export default MaterialModal
+export default EdgeModal
