@@ -27,6 +27,7 @@ import { jobIssueReducer } from './jobIssueReducer'
 import { contractReducer } from './contractReducer'
 import { accountReducer } from './accountReducer'
 import { edgeReducer } from './edgeReducer'
+import { cutoutReducer } from './cutoutReducer'
 
 const rootReducer = combineReducers({
   nav: navReducer,
@@ -56,7 +57,8 @@ const rootReducer = combineReducers({
   jobIssue: jobIssueReducer,
   contract: contractReducer,
   account: accountReducer,
-  edge: edgeReducer
+  edge: edgeReducer,
+  cutout: cutoutReducer
 })
 
 export default rootReducer

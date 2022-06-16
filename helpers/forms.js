@@ -39,7 +39,8 @@ const formFields = {
   purchaseOrders: ['supplier', 'shipping', 'POnumber'],
   contracts: ['job', 'name', 'status', 'contract', 'email', 'subject', 'message'],
   accounts: ['accountAddress', 'notes', 'taxExempt', 'salesperson', 'name'],
-  edges: ['price', 'type']
+  edges: ['price', 'type'],
+  cutouts: ['price', 'type'],
 }
 
 

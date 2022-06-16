@@ -1,8 +1,9 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useRef} from 'react'
 import SVG from '../../files/svgs'
 import { validatePrice } from '../../helpers/validations'
+import { cutouts } from '../../helpers/lists'
 
-const MaterialModal = ({
+const CutoutsModal = ({
   token,
   message,
   setMessage,
@@ -28,9 +29,11 @@ const MaterialModal = ({
   submitUpdate
 }) => {
   
-  const createType = 'CREATE_MODEL'
-  const resetType = 'RESET_MODEL'
+  const createType = 'CREATE_CUTOUT'
+  const resetType = 'RESET_CUTOUT'
+  const myRefs = useRef(null)
   const [loadingColor, setLoadingColor] = useState('white')
+  const [input_dropdown, setInputDropdown] = useState('')
 
   //// HANDLE MODAL DRAG
   const [prevX, setPrevX] = useState(0)
@@ -94,10 +97,10 @@ const MaterialModal = ({
         <div className="addFieldItems-modal-box-header">
         <span 
           className="addFieldItems-modal-form-title">
-            {edit == 'model' ? 
-            'Edit Model' 
+            {edit == 'edge' ? 
+            'Edit Cutout' 
             : 
-            'New Model'
+            'New Cutout'
             }
         </span>
         <div onClick={() => (setModal(''), resetState(resetType), setMessage(''))}>
@@ -108,46 +111,42 @@ const MaterialModal = ({
       className="addFieldItems-modal-form" 
       >
         <div className="form-group">
-          <input 
-          id="name" 
-          value={stateData.name} 
-          onChange={(e) => stateMethod(createType, 'name', e.target.value)}/>
+          <input
+          onClick={() => setInputDropdown('cutout_type')} 
+          value={stateData.type} 
+          onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'type', e.target.value))}
+          readOnly
+          />
           <label 
           className={`input-label ` + (
-            stateData.name.length > 0 || 
-            typeof stateData.name == 'object' 
+            stateData.type.length > 0 || 
+            typeof stateData.type == 'object' 
             ? ' labelHover' 
             : ''
           )}
-          htmlFor="name">
-            Name
+          htmlFor="type">
+            Type
           </label>
+          <div 
+          onClick={() => setInputDropdown('cutout_type')}><SVG svg={'dropdown-arrow'}></SVG>
+          </div>
+          { input_dropdown == 'cutout_type' &&
+            <div 
+            className="form-group-list" 
+            ref={myRefs}>
+              {cutouts && cutouts.sort( (a, b) => a.type > b.type ? 1 : -1).map( (item, idx) => (
+              <div 
+              key={idx} 
+              className="form-group-list-item" 
+              onClick={(e) => (stateMethod(createType, 'type', item.type), setInputDropdown(''))}>
+                {item.type}
+              </div>
+              ))}
+            </div>
+          }
         </div>
-
-        {/* <div className="form-group-checkbox">
-          <input 
-            type="checkbox" 
-            name="type" 
-            id="type" 
-            hidden={true} 
-            checked={stateData.type == 'sink' ? true : false} 
-            readOnly
-          />
-          <label 
-            htmlFor="type" 
-            onClick={() => (
-              stateData.type
-              ? 
-              stateMethod(createType, 'type', '') 
-              : 
-              stateMethod(createType, 'type', 'sink')
-            )}
-          >
-          </label>
-          <span>Sinks</span>
-        </div> */}
         
-        {/* <div className="form-group">
+        <div className="form-group">
           <input 
           id="price" 
           value={stateData.price} 
@@ -162,7 +161,7 @@ const MaterialModal = ({
           htmlFor="price">
             Price
           </label>
-        </div> */}
+        </div>
         {message && 
         <span className="form-group-message">
           <SVG svg={dynamicSVG} color={'#fd7e3c'}></SVG>
@@ -172,9 +171,9 @@ const MaterialModal = ({
         {!edit && 
         <button 
         className="form-group-button" 
-        onClick={(e) => submitCreate(e, stateData, 'models', null, setMessage, 'create_model', setLoading, token, 'models/create-model', resetType, resetState, allData, setAllData, setDynamicSVG)}
+        onClick={(e) => submitCreate(e, stateData, 'cutouts', null, setMessage, 'create_cutout', setLoading, token, 'cutouts/create-cutout', resetType, resetState, allData, setAllData, setDynamicSVG)}
         >
-           {loading == 'create_model' ? 
+           {loading == 'create_cutout' ? 
             <div className="loading">
               <span style={{backgroundColor: loadingColor}}></span>
               <span style={{backgroundColor: loadingColor}}></span>
@@ -185,12 +184,12 @@ const MaterialModal = ({
             }
         </button>
         }
-        {edit == 'model' && 
+        {edit == 'cutout' && 
         <button 
         className="form-group-button" 
-        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'models', null, setMessage, 'update_model', setLoading, token, 'models/update-model', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'models', setModal))}
+        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'cutouts', null, setMessage, 'update_cutout', setLoading, token, 'cutouts/update-cutout', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'cutouts', setModal))}
         >
-           {loading == 'update_model' ? 
+           {loading == 'update_cutout' ? 
             <div className="loading">
               <span style={{backgroundColor: loadingColor}}></span>
               <span style={{backgroundColor: loadingColor}}></span>
@@ -207,4 +206,4 @@ const MaterialModal = ({
   )
 }
 
-export default MaterialModal
+export default CutoutsModal

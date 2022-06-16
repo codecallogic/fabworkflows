@@ -32,41 +32,36 @@ const tableData = async (token, path) => {
 }
 
 const searchData = (view, submitSearch, search, setLoading, setMessage, urlRequest, dataType, allData, setAllData, token, setDynamicSVG, changeView, viewType) => {
-  let timeOutSearch;
-
-  if(search.length > 0){
-    timeOutSearch = setTimeout(() => {
-      if (view == 'slabs') {
-        submitSearch( search, setLoading, setMessage, 'slabs/search-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView, 'slabs'
-        );
-      }
-      if (view == 'products') {
-        submitSearch( search, setLoading, setMessage, 'products/search-products', 'products', allData, setAllData, token, setDynamicSVG, changeView, 'products'
-        );
-      }
-      if (view == 'remnants') {
-        submitSearch( search, setLoading, setMessage, 'remnants/search-remnants', 'remnants', allData, setAllData, token, setDynamicSVG, changeView, 'remnants'
-        );
-      }
-      if (view == 'trackers' && loading == 'slabs') {
-        submitSearch( search, setLoading, setMessage, 'slabs/search-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView, 'trackers'
-        );
-      }
-      if (view == 'trackers' && loading == 'products') {
-        submitSearch( search, setLoading, setMessage, 'products/search-products', 'products', allData, setAllData, token, setDynamicSVG, changeView, 'trackers'
-        );
-      }
-      if (view == 'quotes') {
-        submitSearch( search, setLoading, setMessage, 'quotes/search-quotes', 'quotes', allData, setAllData, token, setDynamicSVG, changeView, 'quotes'
-        );
-      }
-      if (view == 'jobs') {
-        submitSearch( search, setLoading, setMessage, 'jobs/search-jobs', 'jobs', allData, setAllData, token, setDynamicSVG, changeView, 'jobs'
-        );
-      }
-    }, 2000);
-  }
-  return () => clearTimeout(timeOutSearch);
+  
+    if (view == 'slabs') {
+      submitSearch( search, setLoading, setMessage, 'slabs/search-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView, 'slabs'
+      );
+    }
+    if (view == 'products') {
+      submitSearch( search, setLoading, setMessage, 'products/search-products', 'products', allData, setAllData, token, setDynamicSVG, changeView, 'products'
+      );
+    }
+    if (view == 'remnants') {
+      submitSearch( search, setLoading, setMessage, 'remnants/search-remnants', 'remnants', allData, setAllData, token, setDynamicSVG, changeView, 'remnants'
+      );
+    }
+    if (view == 'trackers' && loading == 'slabs') {
+      submitSearch( search, setLoading, setMessage, 'slabs/search-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView, 'trackers'
+      );
+    }
+    if (view == 'trackers' && loading == 'products') {
+      submitSearch( search, setLoading, setMessage, 'products/search-products', 'products', allData, setAllData, token, setDynamicSVG, changeView, 'trackers'
+      );
+    }
+    if (view == 'quotes') {
+      submitSearch( search, setLoading, setMessage, 'quotes/search-quotes', 'quotes', allData, setAllData, token, setDynamicSVG, changeView, 'quotes'
+      );
+    }
+    if (view == 'jobs') {
+      submitSearch( search, setLoading, setMessage, 'jobs/search-jobs', 'jobs', allData, setAllData, token, setDynamicSVG, changeView, 'jobs'
+      );
+    }
+   
 }
 
 const resetTableData = (view, resetDataType, search, loading, setLoading, setMessage, urlRequest, dataType, allData, setAllData, token, setDynamicSVG, changeView, viewType) => {
@@ -109,6 +104,12 @@ const buildHeaders = (setHeaders, sortType, tableType) => {
     let objectEdges = new Object();
     Object.values(sortType).forEach((item) => { objectEdges[item] = item });
     setHeaders((oldArray) => [...oldArray, objectEdges]);
+  }
+
+  if(tableType == 'cutouts'){
+    let objectCutouts = new Object();
+    Object.values(sortType).forEach((item) => { objectCutouts[item] = item });
+    setHeaders((oldArray) => [...oldArray, objectCutouts]);
   }
 
 }

@@ -187,9 +187,9 @@ const EdgeModal = ({
         {edit == 'edge' && 
         <button 
         className="form-group-button" 
-        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'models', null, setMessage, 'update_model', setLoading, token, 'models/update-model', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'models', setModal))}
+        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'edges', null, setMessage, 'update_edge', setLoading, token, 'edges/update-edge', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'edges', setModal))}
         >
-           {loading == 'update_model' ? 
+           {loading == 'update_edge' ? 
             <div className="loading">
               <span style={{backgroundColor: loadingColor}}></span>
               <span style={{backgroundColor: loadingColor}}></span>

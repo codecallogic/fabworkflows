@@ -97,6 +97,7 @@ import PriceListItemsModal from '../../components/modals/PriceListItems'
 import JobListItemsModal from '../../components/modals/Job'
 import ContactListItemsModal from '../../components/modals/ContactsListItems'
 import EdgeModal from '../../components/modals/Edge'
+import CutoutModal from '../../components/modals/Cutouts'
 
 axios.defaults.withCredentials = true;
 
@@ -142,6 +143,7 @@ const Dashboard = ({
   contract,
   jobIssue,
   edge,
+  cutout,
   accountItem,
   
   // DISPATCH
@@ -167,6 +169,7 @@ const Dashboard = ({
   const [allData, setAllData] = useState(originalData ? originalData : []);
   const [event, setEvent] = useState('');
   const [edgeHeaders, setEdgeHeaders] = useState([]);
+  const [cutoutHeaders, setCutoutHeaders] = useState([]);
 
   //// EDIT QUOTE LINE
   const [modalEdit, setModalEdit] = useState('');
@@ -189,6 +192,7 @@ const Dashboard = ({
 
   useEffect(() => {
     buildHeaders(setEdgeHeaders, edgeSort, 'edges')
+    buildHeaders(setCutoutHeaders, edgeSort, 'cutouts')
     
     document.addEventListener('click', handleClickOutside, true);
 
@@ -216,10 +220,18 @@ const Dashboard = ({
   }, [width]);
 
   useEffect(() => {
-    
-    searchData(nav.view, submitSearch, search, setLoading, setMessage, null, null, allData, setAllData, token, setDynamicSVG, changeView, null)
+
+    let timeOutSearch;
+
+    if(search.length > 0){
+      timeOutSearch = setTimeout(() => {
+        searchData(nav.view, submitSearch, search, setLoading, setMessage, null, null, allData, setAllData, token, setDynamicSVG, changeView, null)
+      }, 2000);
+    }
 
     resetTableData(nav.view, resetDataType, search, loading, setLoading, setMessage, null, null, allData, setAllData, token, setDynamicSVG, changeView, null)
+
+    return () => clearTimeout(timeOutSearch);
 
   }, [search]);
 
@@ -1323,7 +1335,48 @@ const Dashboard = ({
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
           ></TableAlt>
-        )} 
+        )}
+        {nav.view == 'cutouts' && (
+          <TableAlt
+            token={token}
+            title={'Cutouts List'}
+            typeOfData={'cutouts'}
+            componentData={cutoutHeaders}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={edgeSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'cutoutControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'cutouts'}
+            modalType={'add_cutout'}
+            editModalType={'cutout'}
+            editDataType={{ key: 'cutouts', caseType: 'CREATE_CUTOUT' }}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="cutouts/delete-cutout"
+            searchType={'cutouts'}
+            searchPlaceholder={'Search by name'}
+            setDynamicType={setDynamicType}
+            setDynamicKey={setDynamicKey}
+          ></TableAlt>
+        )}
 
 
 
@@ -1747,6 +1800,15 @@ const Dashboard = ({
               >
                 <SVGs svg={'edge'}></SVGs>
                 <span>Edge</span>
+              </div>
+              <div
+                className="clientDashboard-view-new-item"
+                onClick={() => (
+                  setEdit(''), changeView('cutouts'), resetType('RESET_CUTOUT')
+                )}
+              >
+                <SVGs svg={'cutouts'}></SVGs>
+                <span>Cutouts</span>
               </div>
             </div>
           )}
@@ -2592,6 +2654,28 @@ const Dashboard = ({
             changeView={changeView}
           ></EdgeModal>
         )}
+        {modal == 'add_cutout' && (
+          <CutoutModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={cutout}
+            stateMethod={createType}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+          ></CutoutModal>
+        )}
       </div>
     </>
   );
@@ -2626,6 +2710,7 @@ const mapStateToProps = (state) => {
     jobIssue: state.jobIssue,
     contract: state.contract,
     edge: state.edge,
+    cutout: state.cutout,
     accountItem: state.account
   };
 };
@@ -2674,6 +2759,7 @@ Dashboard.getInitialProps = async (context) => {
   data.jobIssues          = await tableData(accessToken, 'job-issue/all-job-issues');
   data.contracts          = await tableData(accessToken, 'contracts/all-contracts');
   data.edges              = await tableData(accessToken, 'edges/all-edges')
+  data.cutouts            = await tableData(accessToken, 'cutouts/all-cutouts')
   deepClone               = _.cloneDeep(data);
 
   return {
