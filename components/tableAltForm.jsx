@@ -55,7 +55,7 @@ const Table = ({
   submitDeleteRow,
 
 }) => {
-
+  
   const matchPattern = /https?:\/\/(www\.)?/gi;
   const myRefs = useRef([])
   const [loadingColor, setLoadingColor] = useState('black')

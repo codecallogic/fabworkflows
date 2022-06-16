@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 //// TABLE
 import Table from '../../components/table';
 import TableAlt from '../../components/tableAlt';
-import { tableData } from '../../helpers/tableData';
+import { tableData, searchData, resetTableData, buildHeaders } from '../../helpers/tableData';
 import {
   slabSort,
   productSort,
@@ -166,6 +166,7 @@ const Dashboard = ({
   const [edit, setEdit] = useState('');
   const [allData, setAllData] = useState(originalData ? originalData : []);
   const [event, setEvent] = useState('');
+  const [edgeHeaders, setEdgeHeaders] = useState([]);
 
   //// EDIT QUOTE LINE
   const [modalEdit, setModalEdit] = useState('');
@@ -187,6 +188,8 @@ const Dashboard = ({
   }, [nav.view]);
 
   useEffect(() => {
+    buildHeaders(setEdgeHeaders, edgeSort, 'edges')
+    
     document.addEventListener('click', handleClickOutside, true);
 
     return () => {
@@ -213,73 +216,11 @@ const Dashboard = ({
   }, [width]);
 
   useEffect(() => {
-    let timeOutSearch;
+    
+    searchData(nav.view, submitSearch, search, setLoading, setMessage, null, null, allData, setAllData, token, setDynamicSVG, changeView, null)
 
-    if (search.length > 0) {
-      timeOutSearch = setTimeout(() => {
-        if (nav.view == 'slabs') {
-          submitSearch( search, setLoading, setMessage, 'slabs/search-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView, 'slabs'
-          );
-        }
-        if (nav.view == 'products') {
-          submitSearch( search, setLoading, setMessage, 'products/search-products', 'products', allData, setAllData, token, setDynamicSVG, changeView, 'products'
-          );
-        }
-        if (nav.view == 'remnants') {
-          submitSearch( search, setLoading, setMessage, 'remnants/search-remnants', 'remnants', allData, setAllData, token, setDynamicSVG, changeView, 'remnants'
-          );
-        }
-        if (nav.view == 'trackers' && loading == 'slabs') {
-          submitSearch( search, setLoading, setMessage, 'slabs/search-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView, 'trackers'
-          );
-        }
-        if (nav.view == 'trackers' && loading == 'products') {
-          submitSearch( search, setLoading, setMessage, 'products/search-products', 'products', allData, setAllData, token, setDynamicSVG, changeView, 'trackers'
-          );
-        }
-        if (nav.view == 'quotes') {
-          submitSearch( search, setLoading, setMessage, 'quotes/search-quotes', 'quotes', allData, setAllData, token, setDynamicSVG, changeView, 'quotes'
-          );
-        }
-        if (nav.view == 'jobs') {
-          submitSearch( search, setLoading, setMessage, 'jobs/search-jobs', 'jobs', allData, setAllData, token, setDynamicSVG, changeView, 'jobs'
-          );
-        }
-      }, 2000);
-    }
+    resetTableData(nav.view, resetDataType, search, loading, setLoading, setMessage, null, null, allData, setAllData, token, setDynamicSVG, changeView, null)
 
-    if (search.length == 0) {
-      if (nav.view == 'slabs') {
-        resetDataType( loading, setLoading, setMessage, 'slabs/all-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView, 'slabs'
-        );
-      }
-      if (nav.view == 'products') {
-        resetDataType( loading, setLoading, setMessage, 'products/all-products', 'products', allData, setAllData, token, setDynamicSVG, changeView, 'products'
-        );
-      }
-      if (nav.view == 'remnants') {
-        resetDataType( loading, setLoading, setMessage, 'remnants/all-remnants', 'remnants', allData, setAllData, token, setDynamicSVG, changeView, 'remnants'
-        );
-      }
-      if (nav.view == 'trackers' && loading == 'slabs') {
-        resetDataType( loading, setLoading, setMessage, 'slabs/all-slabs', 'slabs', allData, setAllData, token, setDynamicSVG, changeView, 'trackers'
-        );
-      }
-      if (nav.view == 'trackers' && loading == 'products') {
-        resetDataType( loading, setLoading, setMessage, 'products/all-products', 'products', allData, setAllData, token, setDynamicSVG, changeView, 'trackers'
-        );
-      }
-      if (nav.view == 'quotes') {
-        resetDataType( loading, setLoading, setMessage, 'quotes/all-quotes', 'quotes', allData, setAllData, token, setDynamicSVG, changeView, 'quotes'
-        );
-      }
-      if (nav.view == 'jobs') {
-        resetDataType( loading, setLoading, setMessage, 'jobs/all-jobs', 'jobs', allData, setAllData, token, setDynamicSVG, changeView, 'jobs'
-        );
-      }
-    }
-
-    return () => clearTimeout(timeOutSearch);
   }, [search]);
 
   const resetCheckboxes = () => {
@@ -519,6 +460,293 @@ const Dashboard = ({
             ></Table>
           </div>
         )}
+        {nav.view == 'activities' && (
+          <Table
+            token={token}
+            title={'Activity Type List'}
+            typeOfData={'activities'}
+            componentData={data.activities}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={activitySort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'activityControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'activities'}
+            modalType={'activities'}
+            editModalType={'activities'}
+            editDataType={{ key: 'activities', caseType: 'CREATE_ACTIVITY' }}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="activities/delete-activity"
+            searchType={'activities'}
+            searchPlaceholder={'Search by activity name'}
+            createItem={'activities'}
+            createDependency={'activities'}
+            stateMethod={createType}
+          ></Table>
+        )}
+        {nav.view == 'quotes' && (
+          <Table
+            token={token}
+            title={'Quote List'}
+            typeOfData={'quotes'}
+            componentData={data.quotes}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={quoteSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'quoteControls'}
+            searchEnable={true}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'quote'}
+            modalType={''}
+            editDataType={{ key: 'quotes', caseType: 'CREATE_QUOTE' }}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="quotes/delete-quote"
+            searchType={'quotes'}
+            searchPlaceholder={'Search by quote number or quote name'}
+          ></Table>
+        )}
+        {nav.view == 'jobIssues' && (
+          <Table
+            token={token}
+            title={'Job Issues'}
+            typeOfData={'jobIssues'}
+            componentData={data.jobIssues}
+            allData={allData}
+            setAllData={setAllData}
+            stateMethod={createType}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={jobIssueSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'jobIssueControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'jobIssues'}
+            modalType={'jobIssue'}
+            editDataType={{ key: 'jobIssues', caseType: 'CREATE_JOB_ISSUE' }}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="job-issue/delete-job-issue"
+            searchType={'jobsIssues'}
+            searchPlaceholder={'Search by job name'}
+            typeOfDataParent={'jobs'}
+          ></Table>
+        )}
+
+        {nav.view == 'contracts' && (
+          <Table
+            token={token}
+            title={'Contracts'}
+            typeOfData={'contracts'}
+            componentData={data.contracts}
+            allData={allData}
+            setAllData={setAllData}
+            stateMethod={createType}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={contractSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'contractControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'contractForm'}
+            modalType={''}
+            editDataType={{ key: 'contracts', caseType: 'CREATE_CONTRACT' }}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="contracts/delete-contract"
+            searchType={'contracts'}
+            searchPlaceholder={'Search by job name'}
+          ></Table>
+        )}
+        {nav.view == 'accounts' && (
+          <Table
+            token={token}
+            title={'Accounts List'}
+            typeOfData={'accounts'}
+            componentData={data.accounts}
+            allData={allData}
+            setAllData={setAllData}
+            stateMethod={createType}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={accountSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'accountControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'accountForm'}
+            modalType={''}
+            editDataType={{ key: 'accounts', caseType: 'CREATE_ACCOUNT' }}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="accounts/delete-account"
+            searchType={'accounts'}
+            searchPlaceholder={'Search by account by name or account number'}
+          ></Table>
+        )}
+        {nav.view == 'jobs' && (
+          <Table
+            token={token}
+            title={'Job List'}
+            typeOfData={'jobs'}
+            componentData={data.jobs}
+            allData={allData}
+            setAllData={setAllData}
+            stateMethod={createType}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={jobSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'jobControls'}
+            searchEnable={true}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'job'}
+            modalType={''}
+            editDataType={{ key: 'jobs', caseType: 'CREATE_JOB' }}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="jobs/delete-job"
+            searchType={'jobs'}
+            searchPlaceholder={'Search by job name or quote number'}
+          ></Table>
+        )}
+        {nav.view == 'activitySets' && (
+          <Table
+            token={token}
+            title={'Activity Set List'}
+            typeOfData={'activitySets'}
+            componentData={data.activitySets}
+            allData={allData}
+            setAllData={setAllData}
+            modal={modal}
+            setModal={setModal}
+            sortOrder={activitySetSort}
+            selectID={selectID}
+            setSelectID={setSelectID}
+            controls={controls}
+            setControls={setControls}
+            controlsType={'activitySetControls'}
+            searchEnable={false}
+            search={search}
+            setSearch={setSearch}
+            message={message}
+            setMessage={setMessage}
+            resetCheckboxes={resetCheckboxes}
+            editData={editData}
+            changeView={changeView}
+            setEdit={setEdit}
+            viewType={'activitySets'}
+            modalType={'activitySet'}
+            editModalType={'activitySet'}
+            editDataType={{
+              key: 'activitySets',
+              caseType: 'CREATE_ACTIVITY_SET',
+            }}
+            submitDeleteRow={submitDeleteRow}
+            loading={loading}
+            setLoading={setLoading}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            deleteType="activities/delete-activity-set"
+            searchType={'activitySets'}
+            searchPlaceholder={'Search by activity set name'}
+            createItem={'activitySets'}
+            stateMethod={createType}
+          ></Table>
+        )}
+
+
+        {/* ALTERNATIVE TABLES */}
+
+
         {nav.view == 'materials' && (
           <TableAlt
             token={token}
@@ -806,47 +1034,6 @@ const Dashboard = ({
             setDynamicKey={setDynamicKey}
           ></TableAlt>
         )}
-        {nav.view == 'edges' && (
-          <TableAlt
-            token={token}
-            title={'Edge List'}
-            typeOfData={'edges'}
-            componentData={data.edges}
-            allData={allData}
-            setAllData={setAllData}
-            modal={modal}
-            setModal={setModal}
-            sortOrder={edgeSort}
-            selectID={selectID}
-            setSelectID={setSelectID}
-            controls={controls}
-            setControls={setControls}
-            controlsType={'edgeControls'}
-            searchEnable={false}
-            search={search}
-            setSearch={setSearch}
-            message={message}
-            setMessage={setMessage}
-            resetCheckboxes={resetCheckboxes}
-            editData={editData}
-            changeView={changeView}
-            setEdit={setEdit}
-            viewType={'edges'}
-            modalType={'add_edge'}
-            editModalType={'edge'}
-            editDataType={{ key: 'edges', caseType: 'CREATE_EDGE' }}
-            submitDeleteRow={submitDeleteRow}
-            loading={loading}
-            setLoading={setLoading}
-            dynamicSVG={dynamicSVG}
-            setDynamicSVG={setDynamicSVG}
-            deleteType="edges/delete-edge"
-            searchType={'edges'}
-            searchPlaceholder={'Search by name'}
-            setDynamicType={setDynamicType}
-            setDynamicKey={setDynamicKey}
-          ></TableAlt>
-        )}
         {nav.view == 'prices' && (
           <TableAlt
             token={token}
@@ -929,44 +1116,6 @@ const Dashboard = ({
             setDynamicKey={setDynamicKey}
           ></TableAlt>
         )}
-        {nav.view == 'quotes' && (
-          <Table
-            token={token}
-            title={'Quote List'}
-            typeOfData={'quotes'}
-            componentData={data.quotes}
-            allData={allData}
-            setAllData={setAllData}
-            modal={modal}
-            setModal={setModal}
-            sortOrder={quoteSort}
-            selectID={selectID}
-            setSelectID={setSelectID}
-            controls={controls}
-            setControls={setControls}
-            controlsType={'quoteControls'}
-            searchEnable={true}
-            search={search}
-            setSearch={setSearch}
-            message={message}
-            setMessage={setMessage}
-            resetCheckboxes={resetCheckboxes}
-            editData={editData}
-            changeView={changeView}
-            setEdit={setEdit}
-            viewType={'quote'}
-            modalType={''}
-            editDataType={{ key: 'quotes', caseType: 'CREATE_QUOTE' }}
-            submitDeleteRow={submitDeleteRow}
-            loading={loading}
-            setLoading={setLoading}
-            dynamicSVG={dynamicSVG}
-            setDynamicSVG={setDynamicSVG}
-            deleteType="quotes/delete-quote"
-            searchType={'quotes'}
-            searchPlaceholder={'Search by quote number or quote name'}
-          ></Table>
-        )}
         {nav.view == 'phases' && (
           <TableAlt
             token={token}
@@ -1008,46 +1157,6 @@ const Dashboard = ({
             setDynamicKey={setDynamicKey}
           ></TableAlt>
         )}
-
-        {nav.view == 'jobs' && (
-          <Table
-            token={token}
-            title={'Job List'}
-            typeOfData={'jobs'}
-            componentData={data.jobs}
-            allData={allData}
-            setAllData={setAllData}
-            stateMethod={createType}
-            modal={modal}
-            setModal={setModal}
-            sortOrder={jobSort}
-            selectID={selectID}
-            setSelectID={setSelectID}
-            controls={controls}
-            setControls={setControls}
-            controlsType={'jobControls'}
-            searchEnable={true}
-            search={search}
-            setSearch={setSearch}
-            message={message}
-            setMessage={setMessage}
-            resetCheckboxes={resetCheckboxes}
-            editData={editData}
-            changeView={changeView}
-            setEdit={setEdit}
-            viewType={'job'}
-            modalType={''}
-            editDataType={{ key: 'jobs', caseType: 'CREATE_JOB' }}
-            submitDeleteRow={submitDeleteRow}
-            loading={loading}
-            setLoading={setLoading}
-            dynamicSVG={dynamicSVG}
-            setDynamicSVG={setDynamicSVG}
-            deleteType="jobs/delete-job"
-            searchType={'jobs'}
-            searchPlaceholder={'Search by job name or quote number'}
-          ></Table>
-        )}
         {nav.view == 'assignees' && (
           <TableAlt
             token={token}
@@ -1088,48 +1197,6 @@ const Dashboard = ({
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
           ></TableAlt>
-        )}
-        {nav.view == 'activities' && (
-          <Table
-            token={token}
-            title={'Activity Type List'}
-            typeOfData={'activities'}
-            componentData={data.activities}
-            allData={allData}
-            setAllData={setAllData}
-            modal={modal}
-            setModal={setModal}
-            sortOrder={activitySort}
-            selectID={selectID}
-            setSelectID={setSelectID}
-            controls={controls}
-            setControls={setControls}
-            controlsType={'activityControls'}
-            searchEnable={false}
-            search={search}
-            setSearch={setSearch}
-            message={message}
-            setMessage={setMessage}
-            resetCheckboxes={resetCheckboxes}
-            editData={editData}
-            changeView={changeView}
-            setEdit={setEdit}
-            viewType={'activities'}
-            modalType={'activities'}
-            editModalType={'activities'}
-            editDataType={{ key: 'activities', caseType: 'CREATE_ACTIVITY' }}
-            submitDeleteRow={submitDeleteRow}
-            loading={loading}
-            setLoading={setLoading}
-            dynamicSVG={dynamicSVG}
-            setDynamicSVG={setDynamicSVG}
-            deleteType="activities/delete-activity"
-            searchType={'activities'}
-            searchPlaceholder={'Search by activity name'}
-            createItem={'activities'}
-            createDependency={'activities'}
-            stateMethod={createType}
-          ></Table>
         )}
         {nav.view == 'activityStatus' && (
           <TableAlt
@@ -1175,50 +1242,6 @@ const Dashboard = ({
             setDynamicKey={setDynamicKey}
           ></TableAlt>
         )}
-        {nav.view == 'activitySets' && (
-          <Table
-            token={token}
-            title={'Activity Set List'}
-            typeOfData={'activitySets'}
-            componentData={data.activitySets}
-            allData={allData}
-            setAllData={setAllData}
-            modal={modal}
-            setModal={setModal}
-            sortOrder={activitySetSort}
-            selectID={selectID}
-            setSelectID={setSelectID}
-            controls={controls}
-            setControls={setControls}
-            controlsType={'activitySetControls'}
-            searchEnable={false}
-            search={search}
-            setSearch={setSearch}
-            message={message}
-            setMessage={setMessage}
-            resetCheckboxes={resetCheckboxes}
-            editData={editData}
-            changeView={changeView}
-            setEdit={setEdit}
-            viewType={'activitySets'}
-            modalType={'activitySet'}
-            editModalType={'activitySet'}
-            editDataType={{
-              key: 'activitySets',
-              caseType: 'CREATE_ACTIVITY_SET',
-            }}
-            submitDeleteRow={submitDeleteRow}
-            loading={loading}
-            setLoading={setLoading}
-            dynamicSVG={dynamicSVG}
-            setDynamicSVG={setDynamicSVG}
-            deleteType="activities/delete-activity-set"
-            searchType={'activitySets'}
-            searchPlaceholder={'Search by activity set name'}
-            createItem={'activitySets'}
-            stateMethod={createType}
-          ></Table>
-        )}
         {nav.view == 'purchaseOrders' && (
           <TableAlt
             token={token}
@@ -1260,23 +1283,22 @@ const Dashboard = ({
             setDynamicKey={setDynamicKey}
           ></TableAlt>
         )}
-        {nav.view == 'jobIssues' && (
-          <Table
+        {nav.view == 'edges' && (
+          <TableAlt
             token={token}
-            title={'Job Issues'}
-            typeOfData={'jobIssues'}
-            componentData={data.jobIssues}
+            title={'Edge List'}
+            typeOfData={'edges'}
+            componentData={edgeHeaders}
             allData={allData}
             setAllData={setAllData}
-            stateMethod={createType}
             modal={modal}
             setModal={setModal}
-            sortOrder={jobIssueSort}
+            sortOrder={edgeSort}
             selectID={selectID}
             setSelectID={setSelectID}
             controls={controls}
             setControls={setControls}
-            controlsType={'jobIssueControls'}
+            controlsType={'edgeControls'}
             searchEnable={false}
             search={search}
             setSearch={setSearch}
@@ -1286,102 +1308,28 @@ const Dashboard = ({
             editData={editData}
             changeView={changeView}
             setEdit={setEdit}
-            viewType={'jobIssues'}
-            modalType={'jobIssue'}
-            editDataType={{ key: 'jobIssues', caseType: 'CREATE_JOB_ISSUE' }}
+            viewType={'edges'}
+            modalType={'add_edge'}
+            editModalType={'edge'}
+            editDataType={{ key: 'edges', caseType: 'CREATE_EDGE' }}
             submitDeleteRow={submitDeleteRow}
             loading={loading}
             setLoading={setLoading}
             dynamicSVG={dynamicSVG}
             setDynamicSVG={setDynamicSVG}
-            deleteType="job-issue/delete-job-issue"
-            searchType={'jobsIssues'}
-            searchPlaceholder={'Search by job name'}
-            typeOfDataParent={'jobs'}
-          ></Table>
-        )}
+            deleteType="edges/delete-edge"
+            searchType={'edges'}
+            searchPlaceholder={'Search by name'}
+            setDynamicType={setDynamicType}
+            setDynamicKey={setDynamicKey}
+          ></TableAlt>
+        )} 
 
-        {nav.view == 'contracts' && (
-          <Table
-            token={token}
-            title={'Contracts'}
-            typeOfData={'contracts'}
-            componentData={data.contracts}
-            allData={allData}
-            setAllData={setAllData}
-            stateMethod={createType}
-            modal={modal}
-            setModal={setModal}
-            sortOrder={contractSort}
-            selectID={selectID}
-            setSelectID={setSelectID}
-            controls={controls}
-            setControls={setControls}
-            controlsType={'contractControls'}
-            searchEnable={false}
-            search={search}
-            setSearch={setSearch}
-            message={message}
-            setMessage={setMessage}
-            resetCheckboxes={resetCheckboxes}
-            editData={editData}
-            changeView={changeView}
-            setEdit={setEdit}
-            viewType={'contractForm'}
-            modalType={''}
-            editDataType={{ key: 'contracts', caseType: 'CREATE_CONTRACT' }}
-            submitDeleteRow={submitDeleteRow}
-            loading={loading}
-            setLoading={setLoading}
-            dynamicSVG={dynamicSVG}
-            setDynamicSVG={setDynamicSVG}
-            deleteType="contracts/delete-contract"
-            searchType={'contracts'}
-            searchPlaceholder={'Search by job name'}
-          ></Table>
-        )}
 
-        {nav.view == 'accounts' && (
-          <Table
-            token={token}
-            title={'Accounts List'}
-            typeOfData={'accounts'}
-            componentData={data.accounts}
-            allData={allData}
-            setAllData={setAllData}
-            stateMethod={createType}
-            modal={modal}
-            setModal={setModal}
-            sortOrder={accountSort}
-            selectID={selectID}
-            setSelectID={setSelectID}
-            controls={controls}
-            setControls={setControls}
-            controlsType={'accountControls'}
-            searchEnable={false}
-            search={search}
-            setSearch={setSearch}
-            message={message}
-            setMessage={setMessage}
-            resetCheckboxes={resetCheckboxes}
-            editData={editData}
-            changeView={changeView}
-            setEdit={setEdit}
-            viewType={'accountForm'}
-            modalType={''}
-            editDataType={{ key: 'accounts', caseType: 'CREATE_ACCOUNT' }}
-            submitDeleteRow={submitDeleteRow}
-            loading={loading}
-            setLoading={setLoading}
-            dynamicSVG={dynamicSVG}
-            setDynamicSVG={setDynamicSVG}
-            deleteType="accounts/delete-account"
-            searchType={'accounts'}
-            searchPlaceholder={'Search by account by name or account number'}
-          ></Table>
-        )}
 
         {/* ///// FORMS //// */}
+
+
         {nav.view == 'slab' && (
           <SlabForm
             token={token}
