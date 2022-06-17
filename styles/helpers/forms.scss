@@ -575,6 +575,10 @@
         margin: 0.5rem 0 0 1rem;
         font-size: 1.2rem;
         color: $color-dark-shade-scheme-3;
+
+        span {
+          text-transform: capitalize;
+        }
       }
 
       &-total {

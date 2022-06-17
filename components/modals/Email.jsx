@@ -129,17 +129,17 @@ const EmailModal = ({
         }
         <button 
         className="form-group-button" 
-        onClick={(e) => submitCreate(e, stateData, 'quotes', null, setMessage, 'create_email', setLoading, token, 'quotes/send-quote', resetType, resetState, allData, setAllData, setDynamicSVG) }
+        onClick={(e) => submitCreate(e, stateData, 'quotes', null, setMessage, 'create_email', setLoading, token, 'quotes/send-quote', resetType, resetState, allData, setAllData, setDynamicSVG, null, null, setModal, '', 'email') }
         >
-           {loading == 'create_email' ? 
-            <div className="loading">
-              <span style={{backgroundColor: loadingColor}}></span>
-              <span style={{backgroundColor: loadingColor}}></span>
-              <span style={{backgroundColor: loadingColor}}></span>
-            </div>
-            : 
-            'Send Quote'
-            }
+          {loading == 'create_email' ? 
+          <div className="loading">
+            <span style={{backgroundColor: loadingColor}}></span>
+            <span style={{backgroundColor: loadingColor}}></span>
+            <span style={{backgroundColor: loadingColor}}></span>
+          </div>
+          : 
+          'Send Quote'
+          }
         </button>
       </form>
     </div>

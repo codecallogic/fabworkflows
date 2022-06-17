@@ -281,14 +281,26 @@ const Checkout = ({
                   <SVG svg={'checkmark-2'}></SVG>
                   <div>{item.quantity ? item.quantity : '0'}</div>
                   <div className="form-estimate-line-description">
-                    { item.brand 
+                    {item.material
                       ? 
-                      `${manageFormFields(item.brand, 'name')} / ${manageFormFields(item.model, 'name')}` 
+                      `${manageFormFields(item.material, 'name')} 
+                      ${
+                        item.model
+                        ? ` / ${manageFormFields(item.model, 'name')}`
+                        : ''
+                      }`
+                      : item.category
+                      ? 
+                      `${manageFormFields(item.category, 'name')}`
+                      : item.model
+                      ? 
+                      `Sink: ${manageFormFields(item.model, 'name')}
+                      ${
+                        item.color
+                          ? ` / ${manageFormFields(item.color, 'name')}`
+                          : ''
+                      }`
                       : 
-                      item.category
-                      ?
-                      `${manageFormFields(item.category, 'name')}` 
-                      :
                       item.description
                     }
                   </div>
@@ -302,15 +314,19 @@ const Checkout = ({
                   </div>
                 </div>
                 <div className="form-estimate-line-label">
-                  [Category: {item.category 
-                    ? 
-                    manageFormFields(item.category, 'name') : 'none'}][{item.price 
-                    ? 
-                    `${item.price}/each` 
-                    : 
-                    'No Price'}
-                  ]
-                  [{item.taxable == true ? `Taxed: yes` : 'Taxed: no'}]
+                  <span>
+                  {item.typeForm !== 'miscellaneous' && item.category === ''
+                    ? `[Category: ${item.typeForm}]`
+                    : null
+                  }
+                  </span>
+                  <span>
+                  {item.category
+                    ? `[Category: ${manageFormFields(item.category, 'name')}]`
+                    : null
+                  }
+                  </span>
+                  [{item.price ? `${item.price}/each` : 'No Price'}]
                 </div>
               </div>
             )

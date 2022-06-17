@@ -453,6 +453,8 @@ body {
         margin: 0.5rem 0 0 1rem;
         font-size: 1.2rem;
         color: #666; }
+        .form-estimate-line-label span {
+          text-transform: capitalize; }
       .form-estimate-line-total {
         width: 100%;
         display: flex;

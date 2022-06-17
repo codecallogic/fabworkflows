@@ -1046,35 +1046,50 @@ const QuoteForm = ({
                         <div>{item.quantity ? item.quantity : '0 qty.'}</div>
                         <div className="form-estimate-line-description">
                           {item.material
-                            ? `${manageFormFields(item.material, 'name')} 
-                              ${
-                                item.model
-                                ? ` / ${manageFormFields(item.model, 'name')}`
-                                : ''
-                              }`
+                            ? 
+                            `${manageFormFields(item.material, 'name')} 
+                            ${
+                              item.model
+                              ? ` / ${manageFormFields(item.model, 'name')}`
+                              : ''
+                            }`
                             : item.category
-                            ? `${manageFormFields(item.category, 'name')} ${ item.description ? `/ ${item.description}` : ''}`
+                            ? 
+                            `${manageFormFields(item.category, 'name')} ${ item.description ? `/ ${item.description}` : ''}`
                             : item.model
-                            ? `Sink: ${manageFormFields(item.model, 'name')}
-                              ${
-                                item.color
-                                  ? ` / ${manageFormFields(item.color, 'name')}`
-                                  : ''
-                              }`
-                            : item.description}
+                            ? 
+                            `Sink: ${manageFormFields(item.model, 'name')}
+                            ${
+                              item.color
+                                ? ` / ${manageFormFields(item.color, 'name')}`
+                                : ''
+                            }`
+                            : 
+                            item.description
+                          }
                         </div>
                         <div>
                           {item.price && item.quantity
-                            ? manageEstimates( 'lineTotal', item.quantity, item.price )
-                            : `(No subtotal)`}
+                          ? manageEstimates( 'lineTotal', item.quantity, item.price )
+                          : `(No subtotal)`
+                          }
                         </div>
                       </div>
                       <div className="form-estimate-line-label">
-                        [Category:{' '}
+                        <span>
+                        {item.typeForm !== 'miscellaneous' && item.category === ''
+                          ? `[Category: ${item.typeForm}]`
+                          : null
+                        }
+                        </span>
+                        <span>
                         {item.category
-                          ? manageFormFields(item.category, 'name')
-                          : 'none'}
-                        ][{item.price ? `${item.price}/each` : 'No Price'}]
+                          ? `[Category: ${manageFormFields(item.category, 'name')}]`
+                          : null
+                        }
+                        </span>
+                        [{item.price ? `${item.price}/each` : 'No Price'}]
+
                       </div>
                     </span>
                   </React.Fragment>

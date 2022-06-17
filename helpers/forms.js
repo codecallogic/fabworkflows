@@ -97,7 +97,7 @@ const submitCreate = async (e, stateData, type, fileType, setMessage, loadingTyp
     setMessage('Item was created')
     resetState(resetType)
     
-    if(loadingType == 'create_email') setMessage(responseCreate.data)
+    if(loadingType == 'create_email') setMessage(`Email sent to ${stateData.email}`)
     if(changeView) changeView(viewType)
     if(setModal) setModal(modalType)
     
