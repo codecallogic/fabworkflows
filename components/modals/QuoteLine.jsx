@@ -222,20 +222,22 @@ const QuoteLineModal = ({
               Sinks
             </div>
             <div className="form-group-button" onClick={() => (
-              null
+              stateMethod(changeFormType, null, 'cutouts'),
+              stateMethod(createType, 'typeForm', 'cutouts')
             )}>
               Cutouts
             </div>
             <div className="form-group-button" onClick={() => (
-              null
+              stateMethod(changeFormType, null, 'edges'),
+              stateMethod(createType, 'typeForm', 'edges')
             )}>
               Edges
             </div>
-            <div className="form-group-button" onClick={() => (
+            {/* <div className="form-group-button" onClick={() => (
               null
             )}>
               Services
-            </div>
+            </div> */}
             <div className="form-group-button" onClick={() => (
               stateMethod(changeFormType, null, 'miscellaneous'),
               stateMethod(createType, 'typeForm', 'miscellaneous')
@@ -248,11 +250,11 @@ const QuoteLineModal = ({
             )}>
               Price List
             </div> */}
-            <div className="form-group-button" onClick={() => (
+            {/* <div className="form-group-button" onClick={() => (
               null
             )}>
               Text
-            </div>
+            </div> */}
             </>
           }
 
@@ -1435,6 +1437,252 @@ const QuoteLineModal = ({
                   className="form-group-list-item" 
                   onClick={(e) => (stateMethod(createType, 'model', item), setInputDropdown(''))}>
                     {item.name}
+                  </div>
+                  ))}
+                </div>
+              }
+            </div>
+            <div className="form-group">
+              <input 
+              id="quantity" 
+              value={stateData.quantity} 
+              onChange={(e) => (validateNumber('quantity'), stateMethod(createType, 'quantity', e.target.value))}/>
+              <label 
+              className={`input-label ` + (
+                stateData.quantity.length > 0 || 
+                typeof stateData.quantity == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="quantity">
+                Quantity
+              </label>
+            </div>
+            <div className="form-group">
+              <input 
+              id="price" 
+              value={stateData.price} 
+              onChange={(e) => (stateMethod(createType, 'price', validatePrice(e)))}/>
+              <label 
+              className={`input-label ` + (
+                stateData.price.length > 0 || 
+                typeof stateData.price == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="price">
+                Price
+              </label>
+            </div>
+            <div className="form-group-checkbox">
+              <input 
+                type="checkbox" 
+                name="taxable" 
+                id="taxable" 
+                hidden={true} 
+                checked={stateData.taxable ? true : false} 
+                readOnly
+              />
+              <label 
+                htmlFor="taxable" 
+                onClick={() => (
+                  stateData.taxable
+                  ? 
+                  stateMethod(createType, 'taxable', false) 
+                  : 
+                  stateMethod(createType, 'taxable', true)
+                )}
+              >
+              </label>
+              <span>Taxable</span>
+            </div>
+            <div className="form-group-checkbox">
+              <input 
+                type="checkbox" 
+                name="discount" 
+                id="discount" 
+                hidden={true} 
+                checked={stateData.discount ? true : false} 
+                readOnly
+              />
+              <label 
+                htmlFor="discount" 
+                onClick={() => (
+                  stateData.discount
+                  ? 
+                  stateMethod(createType, 'discount', false) 
+                  : 
+                  stateMethod(createType, 'discount', true)
+                )}
+              >
+              </label>
+              <span>Allow discount</span>
+            </div>
+            </>
+          }
+
+          {typeForm == 'edges' &&
+            <>
+            <div className="form-group">
+              <input 
+              onClick={() => setInputDropdown('edge_dropdown')} 
+              value={stateData.edgeType} 
+              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'edgeType', e.target.value))}
+              readOnly
+              />
+              <label 
+                className={`input-label ` + (
+                  stateData.edgeType &&
+                  stateData.edgeType.length > 0 || 
+                  typeof stateData.edgeType == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="edgeType">
+                Edge Type
+              </label>
+              <div 
+              onClick={() =>setInputDropdown('edge_dropdown') }>
+              <SVG svg={'dropdown-arrow'}></SVG>
+              </div>
+              { input_dropdown == 'edge_dropdown' &&
+                <div 
+                className="form-group-list" 
+                ref={myRefs}>
+                  {allData && allData.edges.sort( (a, b) => a.type > b.type ? 1 : -1).map( (item, idx) => (
+                  <div 
+                  key={idx} 
+                  className="form-group-list-item" 
+                  onClick={(e) => 
+                  (
+                    stateMethod(createType, 'edgeType', item.type),
+                    stateMethod(createType, 'price', item.price), 
+                    setInputDropdown('')
+                  )}>
+                    {item.type}
+                  </div>
+                  ))}
+                </div>
+              }
+            </div>
+            <div className="form-group">
+              <input 
+              id="quantity" 
+              value={stateData.quantity} 
+              onChange={(e) => (validateNumber('quantity'), stateMethod(createType, 'quantity', e.target.value))}/>
+              <label 
+              className={`input-label ` + (
+                stateData.quantity.length > 0 || 
+                typeof stateData.quantity == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="quantity">
+                Quantity
+              </label>
+            </div>
+            <div className="form-group">
+              <input 
+              id="price" 
+              value={stateData.price} 
+              onChange={(e) => (stateMethod(createType, 'price', validatePrice(e)))}/>
+              <label 
+              className={`input-label ` + (
+                stateData.price.length > 0 || 
+                typeof stateData.price == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="price">
+                Price Per Feet
+              </label>
+            </div>
+            <div className="form-group-checkbox">
+              <input 
+                type="checkbox" 
+                name="taxable" 
+                id="taxable" 
+                hidden={true} 
+                checked={stateData.taxable ? true : false} 
+                readOnly
+              />
+              <label 
+                htmlFor="taxable" 
+                onClick={() => (
+                  stateData.taxable
+                  ? 
+                  stateMethod(createType, 'taxable', false) 
+                  : 
+                  stateMethod(createType, 'taxable', true)
+                )}
+              >
+              </label>
+              <span>Taxable</span>
+            </div>
+            <div className="form-group-checkbox">
+              <input 
+                type="checkbox" 
+                name="discount" 
+                id="discount" 
+                hidden={true} 
+                checked={stateData.discount ? true : false} 
+                readOnly
+              />
+              <label 
+                htmlFor="discount" 
+                onClick={() => (
+                  stateData.discount
+                  ? 
+                  stateMethod(createType, 'discount', false) 
+                  : 
+                  stateMethod(createType, 'discount', true)
+                )}
+              >
+              </label>
+              <span>Allow discount</span>
+            </div>
+            </>
+          }
+
+          {typeForm == 'cutouts' &&
+            <>
+            <div className="form-group">
+              <input 
+              onClick={() => setInputDropdown('cutout_dropdown')} 
+              value={stateData.cutoutType} 
+              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'cutoutType', e.target.value))}
+              readOnly
+              />
+              <label 
+                className={`input-label ` + (
+                  stateData.cutoutType &&
+                  stateData.cutoutType.length > 0 || 
+                  typeof stateData.cutoutType == 'object' 
+                ? ' labelHover' 
+                : ''
+              )}
+              htmlFor="cutoutType">
+                Cutout Type
+              </label>
+              <div 
+              onClick={() =>setInputDropdown('cutout_dropdown') }>
+              <SVG svg={'dropdown-arrow'}></SVG>
+              </div>
+              { input_dropdown == 'cutout_dropdown' &&
+                <div 
+                className="form-group-list" 
+                ref={myRefs}>
+                  {allData && allData.cutouts.sort( (a, b) => a.type > b.type ? 1 : -1).map( (item, idx) => (
+                  <div 
+                  key={idx} 
+                  className="form-group-list-item" 
+                  onClick={(e) => 
+                  (
+                    stateMethod(createType, 'cutoutType', item.type),
+                    stateMethod(createType, 'price', item.price), 
+                    setInputDropdown('')
+                  )}>
+                    {item.type}
                   </div>
                   ))}
                 </div>

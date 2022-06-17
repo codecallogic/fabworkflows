@@ -448,7 +448,8 @@ body {
       .form-estimate-line div {
         margin-left: 3rem; }
       .form-estimate-line-description {
-        flex-grow: 1; }
+        flex-grow: 1;
+        text-transform: capitalize; }
       .form-estimate-line-label {
         margin: 0.5rem 0 0 1rem;
         font-size: 1.2rem;

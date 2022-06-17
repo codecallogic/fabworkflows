@@ -291,7 +291,7 @@ const Checkout = ({
                       }`
                       : item.category
                       ? 
-                      `${manageFormFields(item.category, 'name')}`
+                      `${manageFormFields(item.category, 'name')} ${ item.description ? `/ ${item.description.substring(0, 30)}...` : ''}` 
                       : item.model
                       ? 
                       `Sink: ${manageFormFields(item.model, 'name')}
@@ -301,6 +301,14 @@ const Checkout = ({
                           : ''
                       }`
                       : 
+                      item.edgeType
+                      ?
+                      item.edgeType
+                      :
+                      item.cutoutType
+                      ?
+                      item.cutoutType
+                      :
                       item.description
                     }
                   </div>
@@ -326,7 +334,9 @@ const Checkout = ({
                     : null
                   }
                   </span>
-                  [{item.price ? `${item.price}/each` : 'No Price'}]
+                  {!item.price ? `[no price]` : null}
+                  {item.price && !item.edgeType ? `[${item.price} / each]` : null}
+                  {item.price && item.edgeType ? `[${item.price} / linear ft]` : null}
                 </div>
               </div>
             )

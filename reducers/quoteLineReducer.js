@@ -12,6 +12,8 @@ const initialState = {
   supplier: '',
   color: '',
   shape: '',
+  edgeType: '',
+  cutoutType: '',
   idx: ''
 }
 

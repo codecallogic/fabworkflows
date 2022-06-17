@@ -1043,7 +1043,7 @@ const QuoteForm = ({
                     >
                       <div className="form-estimate-line">
                         <SVG svg={'adjust'}></SVG>
-                        <div>{item.quantity ? item.quantity : '0 qty.'}</div>
+                        <div>{item.quantity ? `${item.quantity}` : '0'}</div>
                         <div className="form-estimate-line-description">
                           {item.material
                             ? 
@@ -1055,7 +1055,7 @@ const QuoteForm = ({
                             }`
                             : item.category
                             ? 
-                            `${manageFormFields(item.category, 'name')} ${ item.description ? `/ ${item.description}` : ''}`
+                            `${manageFormFields(item.category, 'name')} ${ item.description ? `/ ${item.description.substring(0, 60)}...` : ''}`
                             : item.model
                             ? 
                             `Sink: ${manageFormFields(item.model, 'name')}
@@ -1065,6 +1065,14 @@ const QuoteForm = ({
                                 : ''
                             }`
                             : 
+                            item.edgeType
+                            ?
+                            item.edgeType
+                            :
+                            item.cutoutType
+                            ?
+                            item.cutoutType
+                            :
                             item.description
                           }
                         </div>
@@ -1088,7 +1096,9 @@ const QuoteForm = ({
                           : null
                         }
                         </span>
-                        [{item.price ? `${item.price}/each` : 'No Price'}]
+                        {!item.price ? `[no price]` : null}
+                        {item.price && !item.edgeType ? `[${item.price} / each]` : null}
+                        {item.price && item.edgeType ? `[${item.price} / linear ft]` : null}
 
                       </div>
                     </span>
