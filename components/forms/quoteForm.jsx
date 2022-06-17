@@ -128,23 +128,6 @@ const QuoteForm = ({
     stateData.quote_deposit,
   ]);
 
-  // const generateAccountAddress = (data) => {
-  //   let obj = new Object();
-
-  //   obj.contact_name    = data.contact_name;
-  //   obj.address         = data.address;
-  //   obj.city            = data.city;
-  //   obj.state           = data.state;
-  //   obj.zip_code        = data.zip_code;
-  //   obj.country         = data.country;
-  //   obj.phone           = data.phone;
-  //   obj.fax             = data.fax;
-  //   obj.email           = data.email;
-  //   obj.contact_notes   = data.contact_notes;
-
-  //   return obj;
-  // };
-
   return (
     <div className="table">
       <div className="table-header">
@@ -1044,9 +1027,8 @@ const QuoteForm = ({
             <div className="form-estimate">
               {stateData.quote_lines.length > 0 &&
                 stateData.quote_lines.map((item, idx) => (
-                  <React.Fragment>
+                  <React.Fragment key={idx}>
                     <span
-                      key={idx}
                       onClick={() => (
                         setModal('add_quote_line'),
                         setModalEdit('quote_line'),

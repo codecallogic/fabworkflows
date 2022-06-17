@@ -542,6 +542,12 @@ const QuoteLineModal = ({
 
 
 
+
+          {/* FORM TYPES */}
+
+
+
+
           { typeForm == 'product' && 
             <>
             <div className="form-group">
@@ -579,41 +585,6 @@ const QuoteLineModal = ({
                 </div>
               }
             </div>
-            {/* <div className="form-group">
-              <input 
-              onClick={() => setInputDropdown('product_model')} 
-              value={manageFormFields(stateData.model, 'name')} 
-              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'model', e.target.value))}/>
-              <label 
-                className={`input-label ` + (
-                  stateData.model &&
-                  stateData.model.length > 0 || 
-                  typeof stateData.model == 'object' 
-                ? ' labelHover' 
-                : ''
-              )}
-              htmlFor="model">
-                Model
-              </label>
-              <div 
-              onClick={() =>setInputDropdown('product_model') }>
-              <SVG svg={'dropdown-arrow'}></SVG>
-              </div>
-              { input_dropdown == 'product_model' &&
-                <div 
-                className="form-group-list" 
-                ref={myRefs}>
-                  {allData && allData.models.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
-                  <div 
-                  key={idx} 
-                  className="form-group-list-item" 
-                  onClick={(e) => (stateMethod(createType, 'model', item), setInputDropdown(''))}>
-                    {item.name}
-                  </div>
-                  ))}
-                </div>
-              }
-            </div> */}
             <div className="form-group">
               <input 
               onClick={() => setInputDropdown('product_category')} 
@@ -730,6 +701,50 @@ const QuoteLineModal = ({
                 value={stateData.description} 
                 onChange={(e) => stateMethod(createType, 'description', e.target.value)} 
               />
+            </div>
+            <div className="form-group-checkbox">
+              <input 
+                type="checkbox" 
+                name="taxable" 
+                id="taxable" 
+                hidden={true} 
+                checked={stateData.taxable ? true : false} 
+                readOnly
+              />
+              <label 
+                htmlFor="taxable" 
+                onClick={() => (
+                  stateData.taxable
+                  ? 
+                  stateMethod(createType, 'taxable', false) 
+                  : 
+                  stateMethod(createType, 'taxable', true)
+                )}
+              >
+              </label>
+              <span>Taxable</span>
+            </div>
+            <div className="form-group-checkbox">
+              <input 
+                type="checkbox" 
+                name="discount" 
+                id="discount" 
+                hidden={true} 
+                checked={stateData.discount ? true : false} 
+                readOnly
+              />
+              <label 
+                htmlFor="discount" 
+                onClick={() => (
+                  stateData.discount
+                  ? 
+                  stateMethod(createType, 'discount', false) 
+                  : 
+                  stateMethod(createType, 'discount', true)
+                )}
+              >
+              </label>
+              <span>Allow discount</span>
             </div>
             </>
           }
@@ -1142,6 +1157,50 @@ const QuoteLineModal = ({
                 Quantity
               </label>
             </div>
+            <div className="form-group-checkbox">
+              <input 
+                type="checkbox" 
+                name="taxable" 
+                id="taxable" 
+                hidden={true} 
+                checked={stateData.taxable ? true : false} 
+                readOnly
+              />
+              <label 
+                htmlFor="taxable" 
+                onClick={() => (
+                  stateData.taxable
+                  ? 
+                  stateMethod(createType, 'taxable', false) 
+                  : 
+                  stateMethod(createType, 'taxable', true)
+                )}
+              >
+              </label>
+              <span>Taxable</span>
+            </div>
+            <div className="form-group-checkbox">
+              <input 
+                type="checkbox" 
+                name="discount" 
+                id="discount" 
+                hidden={true} 
+                checked={stateData.discount ? true : false} 
+                readOnly
+              />
+              <label 
+                htmlFor="discount" 
+                onClick={() => (
+                  stateData.discount
+                  ? 
+                  stateMethod(createType, 'discount', false) 
+                  : 
+                  stateMethod(createType, 'discount', true)
+                )}
+              >
+              </label>
+              <span>Allow discount</span>
+            </div>
             </>
           }
           
@@ -1295,6 +1354,50 @@ const QuoteLineModal = ({
                 Quantity
               </label>
             </div>
+            <div className="form-group-checkbox">
+              <input 
+                type="checkbox" 
+                name="taxable" 
+                id="taxable" 
+                hidden={true} 
+                checked={stateData.taxable ? true : false} 
+                readOnly
+              />
+              <label 
+                htmlFor="taxable" 
+                onClick={() => (
+                  stateData.taxable
+                  ? 
+                  stateMethod(createType, 'taxable', false) 
+                  : 
+                  stateMethod(createType, 'taxable', true)
+                )}
+              >
+              </label>
+              <span>Taxable</span>
+            </div>
+            <div className="form-group-checkbox">
+              <input 
+                type="checkbox" 
+                name="discount" 
+                id="discount" 
+                hidden={true} 
+                checked={stateData.discount ? true : false} 
+                readOnly
+              />
+              <label 
+                htmlFor="discount" 
+                onClick={() => (
+                  stateData.discount
+                  ? 
+                  stateMethod(createType, 'discount', false) 
+                  : 
+                  stateMethod(createType, 'discount', true)
+                )}
+              >
+              </label>
+              <span>Allow discount</span>
+            </div>
             </>
           }
 
@@ -1337,43 +1440,6 @@ const QuoteLineModal = ({
                 </div>
               }
             </div>
-            {/* <div className="form-group">
-              <input 
-              onClick={() => setInputDropdown('sink_color')} 
-              value={manageFormFields(stateData.color, 'name')} 
-              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'color', e.target.value))}
-              readOnly
-              />
-              <label 
-                className={`input-label ` + (
-                  stateData.color &&
-                  stateData.color.length > 0 || 
-                  typeof stateData.color == 'object' 
-                ? ' labelHover' 
-                : ''
-              )}
-              htmlFor="color">
-                Color
-              </label>
-              <div 
-              onClick={() =>setInputDropdown('sink_color') }>
-              <SVG svg={'dropdown-arrow'}></SVG>
-              </div>
-              { input_dropdown == 'sink_color' &&
-                <div 
-                className="form-group-list" 
-                ref={myRefs}>
-                  {allData && allData.colors.sort( (a, b) => a.name > b.name ? 1 : -1).map( (item, idx) => (
-                  <div 
-                  key={idx} 
-                  className="form-group-list-item" 
-                  onClick={(e) => (stateMethod(createType, 'color', item), setInputDropdown(''))}>
-                    {item.name}
-                  </div>
-                  ))}
-                </div>
-              }
-            </div> */}
             <div className="form-group">
               <input 
               id="quantity" 
@@ -1405,6 +1471,50 @@ const QuoteLineModal = ({
               htmlFor="price">
                 Price
               </label>
+            </div>
+            <div className="form-group-checkbox">
+              <input 
+                type="checkbox" 
+                name="taxable" 
+                id="taxable" 
+                hidden={true} 
+                checked={stateData.taxable ? true : false} 
+                readOnly
+              />
+              <label 
+                htmlFor="taxable" 
+                onClick={() => (
+                  stateData.taxable
+                  ? 
+                  stateMethod(createType, 'taxable', false) 
+                  : 
+                  stateMethod(createType, 'taxable', true)
+                )}
+              >
+              </label>
+              <span>Taxable</span>
+            </div>
+            <div className="form-group-checkbox">
+              <input 
+                type="checkbox" 
+                name="discount" 
+                id="discount" 
+                hidden={true} 
+                checked={stateData.discount ? true : false} 
+                readOnly
+              />
+              <label 
+                htmlFor="discount" 
+                onClick={() => (
+                  stateData.discount
+                  ? 
+                  stateMethod(createType, 'discount', false) 
+                  : 
+                  stateMethod(createType, 'discount', true)
+                )}
+              >
+              </label>
+              <span>Allow discount</span>
             </div>
             </>
           }
