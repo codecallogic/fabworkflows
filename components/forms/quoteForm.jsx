@@ -934,7 +934,12 @@ const QuoteForm = ({
               <>
                 <div
                   className="form-box-heading-item"
-                  onClick={() => setModal('email')}
+                  onClick={() => (
+                    stateMethod('CREATE_EMAIL', 'email', stateData.email),
+                    stateMethod('CREATE_EMAIL', 'data', stateData),
+                    stateMethod('CREATE_EMAIL', 'route', 'quotes/send-quote'),
+                    setModal('email')
+                  )}
                 >
                   <SVG svg={'send'}></SVG>
                 </div>

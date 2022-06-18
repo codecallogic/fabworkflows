@@ -1,7 +1,7 @@
 import { API } from '../config'
 import axios from 'axios'
 import { nanoid } from 'nanoid'
-import { validateEmail } from '../helpers/validations'
+import { validateEmailData } from '../helpers/validations'
 
 export {
   formFields,
@@ -41,6 +41,7 @@ const formFields = {
   accounts: ['accountAddress', 'notes', 'taxExempt', 'salesperson', 'name'],
   edges: ['price', 'type'],
   cutouts: ['price', 'type'],
+  email: ['email'],
 }
 
 
@@ -55,12 +56,12 @@ const manageFormFields = (data, key) => {
   
 }
 
-const submitCreate = async (e, stateData, type, fileType, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType, setModal, modalType) => {
+const submitCreate = async (e, stateData, type, fileType, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType, setModal, modalType, noDataReset) => {
   e.preventDefault()
 
   for(let i = 0; i < formFields[type].length; i++){
-    
-    if(formFields[type][i].includes('email') && !validateEmail(formFields[type][i])) return (setDynamicSVG('notification'), setMessage('Invalid email address'))
+
+    if(formFields[type][i].includes('email') && !validateEmailData(stateData[formFields[type][i]])) return (setDynamicSVG('notification'), setMessage('Invalid email address'))
 
     if(!stateData[formFields[type][i]] || stateData[formFields[type][i]].length < 1) return (setDynamicSVG('notification'), setMessage(`${formFields[type][i].replace('_', ' ')} is required`))
 
@@ -90,8 +91,9 @@ const submitCreate = async (e, stateData, type, fileType, setMessage, loadingTyp
         contentType: 'multipart/form-data'
       }
     })
+
     setLoading('')
-    allData[type]= responseCreate.data
+    if(!noDataReset) allData[type]= responseCreate.data
     setAllData(allData)
     setDynamicSVG('checkmark-2')
     setMessage('Item was created')

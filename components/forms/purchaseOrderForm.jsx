@@ -1,3 +1,4 @@
+import Table from '../tableAltForm';
 import { useState, useEffect, useRef } from 'react'
 import { manageFormFields } from '../../helpers/forms'
 import { 
@@ -5,6 +6,9 @@ import {
   formatDate,
   validateNumber
 } from '../../helpers/validations'
+import {
+  purchaseOrderLineSort,
+} from '../../helpers/sorts';
 import SVG from '../../files/svgs'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
@@ -15,6 +19,7 @@ const PurchaseOrderForm = ({
   title,
   dynamicSVG,
   setDynamicSVG,
+  modal,
   setModal,
   message, 
   setMessage,
@@ -23,6 +28,11 @@ const PurchaseOrderForm = ({
   edit,
   setEdit,
   setModalEdit,
+  controls,
+  setControls,
+  resetCheckboxes,
+  selectID,
+  setSelectID,
 
   //// DATA
   typeOfData,
@@ -30,12 +40,15 @@ const PurchaseOrderForm = ({
   setAllData,
   originalData,
   editData,
+  extractingStateData,
   
   //// REDUX
   stateData,
   stateMethod,
   resetState,
   changeView,
+  setDynamicType,
+  setDynamicKey,
 
   ///// CRUD
   submitCreate,
@@ -48,6 +61,7 @@ const PurchaseOrderForm = ({
   const [loadingColor, setLoadingColor] = useState('black')
   const [input_dropdown, setInputDropdown] = useState('')
   const [save, setSave] = useState(false)
+  const [purchaseOrderLineHeaders, setPurchaseOrderLineHeaders] = useState([]);
 
   useEffect(() => {
     
@@ -67,6 +81,12 @@ const PurchaseOrderForm = ({
   }
 
   useEffect(() => {
+
+    let objectPurchaseOrdersLines = new Object();
+    Object.values(purchaseOrderLineSort).forEach((item) => {
+      objectPurchaseOrdersLines[item] = item;
+    });
+    setPurchaseOrderLineHeaders((oldArray) => [...oldArray, objectPurchaseOrdersLines]);
     
     document.addEventListener("click", handleClickOutside, true);
     return () => {
@@ -121,7 +141,7 @@ const PurchaseOrderForm = ({
 
       <form className="table-forms" onSubmit={null}>
 
-        <div className="form-box" style={{width: '49%'}}>
+        <div className="form-box" style={{width: '100%'}}>
           <div className="form-box-heading">Purchase Order Info</div>
           <div className="form-box-container">
             <div className="form-group">
@@ -337,6 +357,41 @@ const PurchaseOrderForm = ({
 
           
         </div>        
+
+        <Table
+          token={token}
+          title={'PO Lines'}
+          typeOfData={'purchaseOrderLines'}
+          componentData={purchaseOrderLineHeaders}
+          allData={stateData.POLines}
+          setAllData={setAllData}
+          modal={modal}
+          setModal={setModal}
+          sortOrder={purchaseOrderLineSort}
+          controls={controls}
+          setControls={setControls}
+          controlsType={'purchaseOrderLinesControls'}
+          message={message}
+          setMessage={setMessage}
+          resetCheckboxes={resetCheckboxes}
+          editData={editData}
+          changeView={changeView}
+          setEdit={setEdit}
+          viewType={'purchaseOrders'}
+          modalType={'POLines'}
+          loading={loading}
+          setLoading={setLoading}
+          dynamicSVG={dynamicSVG}
+          setDynamicSVG={setDynamicSVG}
+          setDynamicType={setDynamicType}
+          setDynamicKey={setDynamicKey}
+          selectID={selectID}
+          setSelectID={setSelectID}
+          extractingStateData={extractingStateData}
+          dynamicType={'CREATE_PO_ARRAY_ITEM'}
+          dynamicKey={'POLines'}
+        ></Table>
+        
       </form>
       
     </div> 

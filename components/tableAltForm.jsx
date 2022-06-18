@@ -38,6 +38,8 @@ const Table = ({
   completeControl,
   cancelControl,
   stateMethod,
+  emailModal,
+  emailRoute,
 
   //// DATA
   componentData,
@@ -134,6 +136,19 @@ const Table = ({
             >
               <SVG svg={'plus'}></SVG>
             </div>
+            {emailModal && controls == controlsType &&
+              <div 
+                id="email" 
+                className="table-header-controls-item-svg" 
+                onClick={(e) => (
+                  setModal('email'),
+                  stateMethod('CREATE_EMAIL', 'email', currentItem.supplier[0] ? currentItem.supplier[0].contact_email : ''),
+                  stateMethod('CREATE_EMAIL', 'data', currentItem),
+                  stateMethod('CREATE_EMAIL', 'route', emailRoute)
+                )}>
+                <SVG onClick={() => {null}} svg={'send'} id={'email'}></SVG>
+              </div>
+            }
             {controls == controlsType && 
               <>
               <div 
@@ -274,11 +289,11 @@ const Table = ({
                 type="checkbox" 
                 onClick={(e) => e.target.checked == true ?  
                   (
-                  setMessage(''),
-                  setDynamicType(dynamicType),
-                  setDynamicKey(dynamicKey),
-                  handleSelect(e, item._id ? item._id : item.id ? item.id : idx), 
-                  setCurrentItem(item)
+                    setMessage(''),
+                    setDynamicType(dynamicType),
+                    setDynamicKey(dynamicKey),
+                    handleSelect(e, item._id ? item._id : item.id ? item.id : idx), 
+                    setCurrentItem(item)
                   ) 
                   : (
                     setControls(''), 

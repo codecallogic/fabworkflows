@@ -15,7 +15,8 @@ export {
   contractSort,
   accountSort,
   contactSort,
-  edgeSort
+  edgeSort,
+  purchaseOrderLineSort,
 }
 
 const slabSort = ['lot_number','location','supplier','block','price_sqft','price_slab','thickness','size_2','size_1','finish','color','grade', 'delivered_status', 'received_status','ordered_status', 'delivery_date','quantity', 'material', 'qr_code', 'images']
@@ -51,3 +52,5 @@ const contractSort = [ 'urlID', 'name', 'description', 'contract', 'message', 's
 const accountSort = ['notes', 'accountIssues', 'jobs', 'quotes', 'priceLists', 'contacts', 'accountAddress', 'taxExempt', 'salesperson', 'name', 'files']
 
 const contactSort = ['contact_notes', 'email', 'fax', 'cell', 'phone', 'country', 'zip_code', 'state', 'city', 'address', 'contact_name']
+
+const purchaseOrderLineSort = ['delivery date', 'received qty', 'line status', 'total', 'unit cost', 'total units', 'description', 'ordered qty']

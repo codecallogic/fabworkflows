@@ -144,6 +144,7 @@ const Dashboard = ({
   jobIssue,
   edge,
   cutout,
+  email,
   accountItem,
   
   // DISPATCH
@@ -1602,6 +1603,14 @@ const Dashboard = ({
             changeView={changeView}
             submitDeleteFile={submitDeleteFile}
             editData={editData}
+            controls={controls}
+            setControls={setControls}
+            resetCheckboxes={resetCheckboxes}
+            extractingStateData={extractingStateData}
+            setDynamicType={setDynamicType}
+            setDynamicKey={setDynamicKey}
+            selectID={selectID}
+            setSelectID={setSelectID}
           ></PurchaseOrderForm>
         )}
 
@@ -2186,7 +2195,7 @@ const Dashboard = ({
             setLoading={setLoading}
             edit={edit}
             setEdit={setEdit}
-            stateData={quote}
+            stateData={email}
             stateMethod={createType}
             dynamicSVG={dynamicSVG}
             setDynamicSVG={setDynamicSVG}
@@ -2711,6 +2720,7 @@ const mapStateToProps = (state) => {
     contract: state.contract,
     edge: state.edge,
     cutout: state.cutout,
+    email: state.email,
     accountItem: state.account
   };
 };

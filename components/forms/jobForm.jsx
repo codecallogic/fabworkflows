@@ -634,8 +634,9 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           completeControl={false}
           cancelControl={false}
           stateMethod={stateMethod}
+          emailModal={true}
+          emailRoute='purchase-order/email-purchase-order'
         ></Table>
-        {/* // FIXME: JOB ISSUES MODAL NOT WORKING PROPERLY, BETTER TO CREATE AN ISSUE WHEN SUBMITTING JOB NOT BEFORE*/}
         <Table
           token={token}
           title={'Job Issues'}

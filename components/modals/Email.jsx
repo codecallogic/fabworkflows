@@ -27,7 +27,8 @@ const EmailModal = ({
   submitUpdate
 }) => {
   
-  const resetType = ''
+  const createType  = 'CREATE_EMAIL'
+  const resetType   = 'RESET_EMAIL'
   const [loadingColor, setLoadingColor] = useState('white')
 
   //// HANDLE MODAL DRAG
@@ -107,9 +108,10 @@ const EmailModal = ({
       >
         <div className="form-group">
           <input 
-          id="email" 
-          value={stateData.email} 
-          readOnly/>
+            id="email" 
+            value={stateData.email}
+            onChange={(e) => stateMethod(createType, 'email', e.target.value)}
+          />
           <label 
           className={`input-label ` + (
             stateData.email.length > 0 || 
@@ -129,7 +131,7 @@ const EmailModal = ({
         }
         <button 
         className="form-group-button" 
-        onClick={(e) => submitCreate(e, stateData, 'quotes', null, setMessage, 'create_email', setLoading, token, 'quotes/send-quote', resetType, resetState, allData, setAllData, setDynamicSVG, null, null, setModal, '', 'email') }
+        onClick={(e) => submitCreate(e, stateData, 'email', null, setMessage, 'create_email', setLoading, token, stateData.route, resetType, resetState, allData, setAllData, setDynamicSVG, null, null, setModal, '', 'email') }
         >
           {loading == 'create_email' ? 
           <div className="loading">

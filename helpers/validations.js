@@ -7,6 +7,7 @@ export {
   validateTax,
   validateSize,
   validateEmail,
+  validateEmailData,
   validatePrice,
   validateDate,
   generateQR,
@@ -104,6 +105,16 @@ const validateEmail = (type) => {
     return false
   }
   // return !regex.test(input.value) ? 'true' : 'false'
+}
+
+const validateEmailData = (value) => {
+  const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/g
+  
+  if(regex.test(value)){
+    return true
+  }else{
+    return false
+  }
 }
 
 const validatePrice = (e) => {
