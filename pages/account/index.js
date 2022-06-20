@@ -174,6 +174,7 @@ const Dashboard = ({
   const [edgeHeaders, setEdgeHeaders] = useState([]);
   const [cutoutHeaders, setCutoutHeaders] = useState([]);
   const [modalFormType, setModalFormType] = useState('')
+  const [typeForm, setTypeForm] = useState('')
 
   //// EDIT QUOTE LINE
   const [modalEdit, setModalEdit] = useState('');
@@ -1615,6 +1616,8 @@ const Dashboard = ({
             selectID={selectID}
             setSelectID={setSelectID}
             setModalFormType={setModalFormType}
+            typeForm={typeForm}
+            setTypeForm={setTypeForm}
           ></PurchaseOrderForm>
         )}
 
@@ -2716,7 +2719,10 @@ const Dashboard = ({
             selectID={selectID}
             modalFormType={modalFormType}
             setModalFormType={setModalFormType}
+            typeForm={typeForm}
+            setTypeForm={setTypeForm}
             typeOfData={'purchaseOrderLines'}
+            purchaseOrder={purchaseOrder}
           ></PurchaseOrderLinesModal>
         )}
       </div>

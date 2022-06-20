@@ -34,6 +34,7 @@ const PurchaseOrderForm = ({
   selectID,
   setSelectID,
   setModalFormType,
+  setTypeForm,
 
   //// DATA
   typeOfData,
@@ -392,6 +393,7 @@ const PurchaseOrderForm = ({
           dynamicType={'ADD_PO_LINE'}
           dynamicKey={'POLines'}
           setModalFormType={setModalFormType}
+          setTypeForm={setTypeForm}
         ></Table>
         
       </form>

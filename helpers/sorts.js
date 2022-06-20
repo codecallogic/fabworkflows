@@ -53,4 +53,4 @@ const accountSort = ['notes', 'accountIssues', 'jobs', 'quotes', 'priceLists', '
 
 const contactSort = ['contact_notes', 'email', 'fax', 'cell', 'phone', 'country', 'zip_code', 'state', 'city', 'address', 'contact_name']
 
-const purchaseOrderLineSort = ['deliveryDate', 'receivedQty', 'lineStatus', 'total', 'unitCost', 'description', 'quantity']
+const purchaseOrderLineSort = ['type', 'deliveryDate', 'receivedQty', 'lineStatus', 'total', 'unitCost', 'description', 'quantity']

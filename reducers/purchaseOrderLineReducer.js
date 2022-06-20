@@ -5,7 +5,9 @@ const initialState = {
   quantity: '',
   lineStatus: 'ordered',
   total: '',
-  typeForm: '',
+  type: '',
+  receivedQty: '',
+  deliveryDate: '',
   idx: ''
 }
 

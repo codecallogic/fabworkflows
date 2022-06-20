@@ -40,6 +40,20 @@ export const purchaseOrderReducer = (state = initialState, action) => {
       }
       break;
 
+    case 'UPDATE_PO_LINE':
+      console.log(action.value)
+      let updateArray = [...state[action.name]]
+      let newUpdatedArray = []
+
+      newUpdatedArray = updateArray.filter((item, idx) => item.idx !== action.value.idx)
+      newUpdatedArray.push(action.value)
+      
+      return {
+        ...state,
+        [action.name]: newUpdatedArray
+      }
+      break;
+
     default:
      return state
     }

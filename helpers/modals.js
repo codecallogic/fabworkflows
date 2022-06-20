@@ -12,7 +12,7 @@ const allowObjects = ['account', 'accountAddress']
 const populateEditData = (originalData, keyType, caseType, stateMethods, selectID, list, setSelectID) => {
   stateMethods.createType(caseType, '_id', selectID)
 
-  if(originalData[keyType].length > 0){
+  if(originalData[keyType] && originalData[keyType].length > 0){
     for(let key in originalData[keyType]){
       if(originalData[keyType][key]._id == selectID){
         
@@ -42,7 +42,6 @@ const populateEditData = (originalData, keyType, caseType, stateMethods, selectI
       }
     }
   } else {
-    
     if(list.length > 0){
       for(let i = 0; i <= list.length; i++){
         if(i === selectID){

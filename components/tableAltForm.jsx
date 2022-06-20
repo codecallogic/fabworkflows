@@ -41,6 +41,7 @@ const Table = ({
   emailModal,
   emailRoute,
   setModalFormType,
+  setTypeForm,
 
   //// DATA
   componentData,
@@ -115,6 +116,13 @@ const Table = ({
       editData('jobIssues', 'CREATE_JOB_ISSUE', id, allData)
     }
 
+    if(controls == 'purchaseOrderLinesControls'){
+      console.log(currentItem.type)
+      setModal('purchaseOrderLines')
+      if(currentItem.type == 'products'){ setModalFormType('productsForm'), setTypeForm('purchaseOrderLines') }
+      if(currentItem.type == 'miscellaneous'){ setModalFormType('miscellaneousForm', setTypeForm('purchaseOrderLines')) }
+      editData('POLines', 'CREATE_PO_LINE', id, allData)
+    }
   }
   
   const manageModalFormTypes = () => {
@@ -139,6 +147,7 @@ const Table = ({
                 setMessage(''),
                 setModal(modalType),
                 manageModalFormTypes(),
+                setTypeForm(''),
                 resetCheckboxes()
               )}
             >
@@ -164,11 +173,23 @@ const Table = ({
                 className="table-header-controls-item-svg" 
                 onClick={(e) => (
                   setModal('purchaseOrderLines'),
-                  setModalFormType('miscellaneous')
+                  setModalFormType('miscellaneousForm')
                 )}>
                 <SVG svg={'miscellaneous'} id={'miscellaneous'}></SVG>
               </div>
             }
+
+            { (controls == 'purchaseOrderLinesControls') &&
+                <div
+                  id="receive" 
+                  className="table-header-controls-item-svg" 
+                  onClick={() => {
+                    null
+                  }}
+                >
+                  <SVG svg={'receive'} id={'receive'}></SVG>  
+                </div>
+              }
 
             {controls == controlsType && 
               <>
@@ -240,7 +261,7 @@ const Table = ({
                 null
               } 
               
-              {controls == 'jobIssueControls' &&
+              { (controls == 'jobIssueControls' || 'purchaseOrderLinesControls') &&
                 <div
                   id="edit" 
                   className="table-header-controls-item" 

@@ -3,6 +3,7 @@ import SVG from '../../files/svgs';
 import { manageFormFields } from '../../helpers/forms';
 import { selectCreateType, selectCreateArrayType, selectResetType } from '../../helpers/dispatchTypes';
 import { filterProductSearch, validateNumber, validatePrice } from '../../helpers/validations';
+import { nanoid } from 'nanoid'
 
 const PurchaseListItems = ({
   token,
@@ -12,10 +13,13 @@ const PurchaseListItems = ({
   loading,
   setLoading,
   edit,
+  setEdit,
   dynamicSVG,
   setDynamicSVG,
   typeOfData,
   modalFormType,
+  typeForm,
+  purchaseOrder,
 
   //// DATA
   allData,
@@ -30,6 +34,7 @@ const PurchaseListItems = ({
   autoFillType,
   dataType,
   setModalFormType,
+  setTypeForm,
 
   //// CRUD
   submitCreate,
@@ -44,7 +49,6 @@ const PurchaseListItems = ({
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('');
   const [input_dropdown, setInputDropdown] = useState('')
-  const [typeForm, setTypeForm] = useState('')
 
   //// HANDLE MODAL DRAG
   const [prevX, setPrevX] = useState(0);
@@ -103,6 +107,7 @@ const PurchaseListItems = ({
   };
 
   useEffect(() => {
+    
     document.addEventListener('click', handleClickOutside, true);
     return () => {
       document.removeEventListener('click', handleClickOutside, true);
@@ -145,13 +150,14 @@ const PurchaseListItems = ({
           <div onClick={() => (
             setModal(''), 
             setMessage(''),
-            setTypeForm('')
+            setTypeForm(''),
+            stateMethod(resetType)
           )}>
             <SVG svg={'close'}></SVG>
           </div>
           </div>
         </div>
-        {!typeForm && modalFormType && modalFormType == 'products' &&
+        {modalFormType == 'products' &&
           <form className="addFieldItems-modal-form">
             <div className="form-group">
               <input
@@ -200,8 +206,8 @@ const PurchaseListItems = ({
                           stateMethod(createType, 'description', item),
                           stateMethod(createType, 'color', item.color[0]),
                           stateMethod(createType, 'unitCost', item.price),
-                          setModalFormType(''),
-                          setTypeForm('products')
+                          stateMethod(createType, 'type', 'products'),
+                          setModalFormType('productsForm')
                         )}
                       >
                         {`${manageFormFields(item.category[0], 'name')} / ${manageFormFields(item.model[0], 'name')} / ${manageFormFields(item.brand[0], 'name')}`}
@@ -218,8 +224,8 @@ const PurchaseListItems = ({
                         stateMethod(createType, 'description', item),
                         stateMethod(createType, 'color', item.color[0]),
                         stateMethod(createType, 'unitCost', item.price),
-                        setModalFormType(''),
-                        setTypeForm('products')
+                        stateMethod(createType, 'type', 'products'),
+                        setModalFormType('productsForm')
                       )}
                     >
                        {`${manageFormFields(item.category[0], 'name')} / ${manageFormFields(item.model[0], 'name')} / ${manageFormFields(item.brand[0], 'name')}`}
@@ -231,7 +237,7 @@ const PurchaseListItems = ({
           </form>
         }
 
-        {!typeForm && modalFormType && modalFormType == 'miscellaneous' &&
+        {modalFormType == 'miscellaneousForm' &&
           <form className="addFieldItems-modal-form">
             <div className="form-group-textarea">
               <label
@@ -259,7 +265,10 @@ const PurchaseListItems = ({
               value={stateData.quantity} 
               onChange={(e) => (
                 validateNumber('quantity'), 
-                stateMethod(createType, 'quantity', e.target.value)
+                stateMethod(createType, 'quantity', e.target.value),
+                stateData.unitCost ? stateMethod(createType, 'total', `$${+e.target.value * +stateData.unitCost.replace('$', '')}`) : null,
+                !typeForm ? stateMethod(createType, 'idx', nanoid()) : null,
+                stateMethod(createType, 'type', 'miscellaneous')
               )}/>
               <label 
               className={`input-label ` + (
@@ -278,7 +287,9 @@ const PurchaseListItems = ({
               value={stateData.unitCost} 
               onChange={(e) => (
                 stateMethod(createType, 'unitCost', validatePrice(e)),
-                stateMethod(createType, 'total', `$${+stateData.quantity * +validatePrice(e).replace('$', '')}`)
+                stateData.quantity ? stateMethod(createType, 'total', `$${+stateData.quantity * +validatePrice(e).replace('$', '')}`) : null,
+                !typeForm ? stateMethod(createType, 'idx', nanoid()) : null,
+                stateMethod(createType, 'type', 'miscellaneous')
               )}/>
               <label 
               className={`input-label ` + (
@@ -294,7 +305,7 @@ const PurchaseListItems = ({
           </form>
         }
 
-        {typeForm == 'products' &&
+        {modalFormType == 'productsForm' &&
           <form className="addFieldItems-modal-form">
             <div className="form-group">
               <input 
@@ -377,7 +388,7 @@ const PurchaseListItems = ({
               {message}
             </span>
           )}
-          { typeForm &&
+          {modalFormType == 'productsForm' && !typeForm &&
             <button className="form-group-button" onClick={(e) => (
               stateMethod('ADD_PO_LINE', 'POLines', stateData),
               setModal(''),
@@ -395,7 +406,7 @@ const PurchaseListItems = ({
               )}
             </button>
           }
-          { modalFormType == 'miscellaneous' &&
+          {modalFormType == 'miscellaneousForm' && !typeForm &&
             <button className="form-group-button" onClick={(e) => (
               stateMethod('ADD_PO_LINE', 'POLines', stateData),
               setModal(''),
@@ -413,12 +424,19 @@ const PurchaseListItems = ({
               )}
             </button>
           }
-          {edit == dataType && (
+          {edit == 'purchaseOrders' && typeForm == 'purchaseOrderLines' &&
+          (
             <button
               className="form-group-button"
-              onClick={(e) => (e.preventDefault(), null)}
+              onClick={(e) => (
+                e.preventDefault(),
+                stateMethod('UPDATE_PO_LINE', 'POLines', stateData),
+                setModal(''),
+                stateMethod(resetType),
+                setTypeForm('')
+              )}
             >
-              {loading == 'select_account' ? (
+              {loading == 'update_po_line' ? (
                 <div className="loading">
                   <span style={{ backgroundColor: loadingColor }}></span>
                   <span style={{ backgroundColor: loadingColor }}></span>
