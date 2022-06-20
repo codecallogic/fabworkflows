@@ -33,6 +33,7 @@ const PurchaseOrderForm = ({
   resetCheckboxes,
   selectID,
   setSelectID,
+  setModalFormType,
 
   //// DATA
   typeOfData,
@@ -378,7 +379,7 @@ const PurchaseOrderForm = ({
           changeView={changeView}
           setEdit={setEdit}
           viewType={'purchaseOrders'}
-          modalType={'POLines'}
+          modalType={'purchaseOrderLines'}
           loading={loading}
           setLoading={setLoading}
           dynamicSVG={dynamicSVG}
@@ -388,8 +389,9 @@ const PurchaseOrderForm = ({
           selectID={selectID}
           setSelectID={setSelectID}
           extractingStateData={extractingStateData}
-          dynamicType={'CREATE_PO_ARRAY_ITEM'}
+          dynamicType={'ADD_PO_LINE'}
           dynamicKey={'POLines'}
+          setModalFormType={setModalFormType}
         ></Table>
         
       </form>

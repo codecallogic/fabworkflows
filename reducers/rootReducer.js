@@ -29,6 +29,7 @@ import { accountReducer } from './accountReducer'
 import { edgeReducer } from './edgeReducer'
 import { cutoutReducer } from './cutoutReducer'
 import { emailReducer } from './emailReducer'
+import { purchaseOrderLineReducer } from './purchaseOrderLineReducer'
 
 const rootReducer = combineReducers({
   nav: navReducer,
@@ -60,7 +61,8 @@ const rootReducer = combineReducers({
   account: accountReducer,
   edge: edgeReducer,
   cutout: cutoutReducer,
-  email: emailReducer
+  email: emailReducer,
+  POLine: purchaseOrderLineReducer
 })
 
 export default rootReducer

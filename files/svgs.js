@@ -4,6 +4,18 @@ const SVG = ({svg, classprop, color, id}) => {
   const selectSVG = (svg) => {
     switch(svg){
 
+      case 'miscellaneous':
+        return <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+          <title>Miscellaneous</title>
+          <path d="M48 0H0V48H48V0Z" fill="white" opacity="0.01"/>
+          <path d="M44 14L24 4L4 14V34L24 44L44 34V14Z" stroke="black" strokeWidth="4" strokeLinejoin="round"/>
+          <path d="M4 14L24 24" stroke="black" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M24 44V24" stroke="black" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M44 14L24 24" stroke="black" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M34 9L14 19" stroke="black" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>  
+        break;
+
       case 'cutouts':
         return <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.704 42.704">
           <title>Cutout</title>

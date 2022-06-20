@@ -98,6 +98,15 @@
       border-top-right-radius: 1.2rem;
       border-top-left-radius: 1.2rem;
 
+      &-right {
+        display: flex;
+        align-items: center;
+         
+        div {
+          margin-left: 1.5rem;
+        }
+      }
+
       svg {
         width: 2.5rem;
         height: 2.5rem;

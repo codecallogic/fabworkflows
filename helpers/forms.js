@@ -21,7 +21,7 @@ const formFields = {
   colors: ['name'],
   suppliers: ['name', 'contact_email'],
   locations: ['name'],
-  products: ['brand'],
+  products: ['brand', 'model', 'category', 'color'],
   brands: ['name'],
   models: ['name'],
   categories: ['name'],

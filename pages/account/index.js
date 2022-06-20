@@ -98,6 +98,7 @@ import JobListItemsModal from '../../components/modals/Job'
 import ContactListItemsModal from '../../components/modals/ContactsListItems'
 import EdgeModal from '../../components/modals/Edge'
 import CutoutModal from '../../components/modals/Cutouts'
+import PurchaseOrderLinesModal from '../../components/modals/PurchaseOrderLines'
 
 axios.defaults.withCredentials = true;
 
@@ -145,6 +146,7 @@ const Dashboard = ({
   edge,
   cutout,
   email,
+  POLine,
   accountItem,
   
   // DISPATCH
@@ -171,6 +173,7 @@ const Dashboard = ({
   const [event, setEvent] = useState('');
   const [edgeHeaders, setEdgeHeaders] = useState([]);
   const [cutoutHeaders, setCutoutHeaders] = useState([]);
+  const [modalFormType, setModalFormType] = useState('')
 
   //// EDIT QUOTE LINE
   const [modalEdit, setModalEdit] = useState('');
@@ -1611,6 +1614,7 @@ const Dashboard = ({
             setDynamicKey={setDynamicKey}
             selectID={selectID}
             setSelectID={setSelectID}
+            setModalFormType={setModalFormType}
           ></PurchaseOrderForm>
         )}
 
@@ -2685,6 +2689,36 @@ const Dashboard = ({
             changeView={changeView}
           ></CutoutModal>
         )}
+        {modal == 'purchaseOrderLines' && (
+          <PurchaseOrderLinesModal
+            token={token}
+            account={account}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={POLine}
+            stateMethod={createType}
+            dynamicType={dynamicType}
+            extractingStateData={extractingStateData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+            selectID={selectID}
+            modalFormType={modalFormType}
+            setModalFormType={setModalFormType}
+            typeOfData={'purchaseOrderLines'}
+          ></PurchaseOrderLinesModal>
+        )}
       </div>
     </>
   );
@@ -2721,6 +2755,7 @@ const mapStateToProps = (state) => {
     edge: state.edge,
     cutout: state.cutout,
     email: state.email,
+    POLine: state.POLine,
     accountItem: state.account
   };
 };

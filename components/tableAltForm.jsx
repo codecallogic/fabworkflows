@@ -40,6 +40,7 @@ const Table = ({
   stateMethod,
   emailModal,
   emailRoute,
+  setModalFormType,
 
   //// DATA
   componentData,
@@ -116,6 +117,12 @@ const Table = ({
 
   }
   
+  const manageModalFormTypes = () => {
+    if(modalType == 'purchaseOrderLines'){
+      setModalFormType('products')
+    }
+  }
+  
   return (
     <div className="table">
       <div className="table-header color-grey-light-scheme-2">
@@ -131,6 +138,7 @@ const Table = ({
                 setControls(''), 
                 setMessage(''),
                 setModal(modalType),
+                manageModalFormTypes(),
                 resetCheckboxes()
               )}
             >
@@ -149,6 +157,19 @@ const Table = ({
                 <SVG onClick={() => {null}} svg={'send'} id={'email'}></SVG>
               </div>
             }
+
+            {typeOfData == 'purchaseOrderLines' && 
+              <div 
+                id="miscellaneous" 
+                className="table-header-controls-item-svg" 
+                onClick={(e) => (
+                  setModal('purchaseOrderLines'),
+                  setModalFormType('miscellaneous')
+                )}>
+                <SVG svg={'miscellaneous'} id={'miscellaneous'}></SVG>
+              </div>
+            }
+
             {controls == controlsType && 
               <>
               <div 
@@ -234,6 +255,8 @@ const Table = ({
               }
               </>
             }
+
+
           </div>
         { message && 
           <div className="table-header-error">
@@ -347,9 +370,10 @@ const Table = ({
                     key == 'dependency' && typeof item[key] == 'object' 
                     ? 
                     <span style={{ fontWeight: '600'}}>{item[key].days} days {item[key].schedule} {item[key].activity}</span> 
+
                     : 
 
-                    key == 'color' 
+                    key == 'color' && typeof item[key] !== 'object'
                     
                     ?
                     
@@ -361,7 +385,15 @@ const Table = ({
                     ?
                     item[key].name
                     :
-                    item[key] 
+                    key == 'description' && typeof item[key] == 'object'
+                    ?
+                    item[key].category[0].name ? item[key].category[0].name : item[key]
+                    :
+                    item[key] && typeof item[key] !== 'object' && key !== 'idx'
+                    ?
+                    item[key]
+                    :
+                    null
                   )
                   :
                    
