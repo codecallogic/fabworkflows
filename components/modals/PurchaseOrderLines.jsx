@@ -148,10 +148,10 @@ const PurchaseListItems = ({
           }
 
           <div onClick={() => (
+            stateMethod(resetType),
             setModal(''), 
             setMessage(''),
-            setTypeForm(''),
-            stateMethod(resetType)
+            setTypeForm('')
           )}>
             <SVG svg={'close'}></SVG>
           </div>

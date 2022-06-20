@@ -117,7 +117,6 @@ const Table = ({
     }
 
     if(controls == 'purchaseOrderLinesControls'){
-      console.log(currentItem.type)
       setModal('purchaseOrderLines')
       if(currentItem.type == 'products'){ setModalFormType('productsForm'), setTypeForm('purchaseOrderLines') }
       if(currentItem.type == 'miscellaneous'){ setModalFormType('miscellaneousForm', setTypeForm('purchaseOrderLines')) }
@@ -179,17 +178,17 @@ const Table = ({
               </div>
             }
 
-            { (controls == 'purchaseOrderLinesControls') &&
-                <div
-                  id="receive" 
-                  className="table-header-controls-item-svg" 
-                  onClick={() => {
-                    null
-                  }}
-                >
-                  <SVG svg={'receive'} id={'receive'}></SVG>  
-                </div>
-              }
+            { typeOfData == 'purchaseOrderLines' && 
+              <div
+                id="receive" 
+                className="table-header-controls-item-svg" 
+                onClick={() => {
+                  setModal('receievePurchaseOrders')
+                }}
+              >
+                <SVG svg={'receive'} id={'receive'}></SVG>  
+              </div>
+            }
 
             {controls == controlsType && 
               <>

@@ -99,6 +99,7 @@ import ContactListItemsModal from '../../components/modals/ContactsListItems'
 import EdgeModal from '../../components/modals/Edge'
 import CutoutModal from '../../components/modals/Cutouts'
 import PurchaseOrderLinesModal from '../../components/modals/PurchaseOrderLines'
+import ReceivePurchaseOrdersModal from '../../components/modals/ReceivePurchaseOrders'
 
 axios.defaults.withCredentials = true;
 
@@ -2724,6 +2725,39 @@ const Dashboard = ({
             typeOfData={'purchaseOrderLines'}
             purchaseOrder={purchaseOrder}
           ></PurchaseOrderLinesModal>
+        )}
+        {modal == 'receievePurchaseOrders' && (
+          <ReceivePurchaseOrdersModal
+            token={token}
+            account={account}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={purchaseOrder}
+            stateMethod={createType}
+            dynamicType={dynamicType}
+            extractingStateData={extractingStateData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+            selectID={selectID}
+            modalFormType={modalFormType}
+            setModalFormType={setModalFormType}
+            typeForm={typeForm}
+            setTypeForm={setTypeForm}
+            typeOfData={'purchaseOrders'}
+            purchaseOrder={purchaseOrder}
+          ></ReceivePurchaseOrdersModal>
         )}
       </div>
     </>

@@ -38,7 +38,6 @@
       height: 8rem;
     }
 
-
     &-title {
       font-size: 1.6rem;
       color: white;
@@ -188,6 +187,57 @@
         min-width: 5rem;
         max-width: 5rem;
       }
+
+      span {
+        display: flex;
+        // align-items: center;
+        justify-content: center;
+        width: 100%;
+      }
+
+      svg {
+        width: 1.2rem;
+        height: 1.2rem;
+        fill: $color-scheme-2;
+        margin-left: 0.5rem;
+        margin-bottom: 0.2rem;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  &-headers-modal {
+    display: flex;
+    padding: 1rem 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    &::-webkit-scrollbar {
+      height: 0.3rem;
+      width: 0.5rem;
+      background-color: $color-light-shade-scheme-3;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $color-scheme-1;
+    }
+
+    &-item {
+      overflow: hidden;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 0 1rem;
+      min-width: 11rem;
+      max-width: 11rem;
+      word-break: break-word;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      text-transform: capitalize;
 
       span {
         display: flex;
@@ -397,6 +447,55 @@
     }
   }
 
+  &-purchaseOrderLine {
+    display: flex;
+    
+    &-item {
+      display: flex;
+      
+      &-qty {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        overflow: hidden;
+        font-size: 1rem;
+        font-weight: 700;
+        padding: 1rem;
+        min-width: 13rem;
+        max-width: 13rem;
+
+        input {
+          min-width: 3rem;
+          width: 3rem;
+          height: 2.5rem;
+          margin-left: 2rem;
+          border-radius: .3rem;
+          box-sizing: border-box;
+          padding-left: .5rem;
+          border: .1rem solid $color-scheme-3;
+          outline: none;
+        }
+
+        span {
+          margin-left: 1rem;
+        }
+        
+      }
+
+      &-description {
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        font-size: 1.2rem;
+        padding: 1rem;
+        min-width: min-content;
+        text-transform: capitalize;
+      }
+
+    }
+    
+  }
+
   &-forms {
     padding: 1rem 2rem;
     width: 100%;
@@ -421,4 +520,8 @@
 .row-even {
   background-color: white;
   padding: 1rem 0;
+}
+
+.width-auto {
+  width: auto !important;
 }

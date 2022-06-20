@@ -41,7 +41,6 @@ export const purchaseOrderReducer = (state = initialState, action) => {
       break;
 
     case 'UPDATE_PO_LINE':
-      console.log(action.value)
       let updateArray = [...state[action.name]]
       let newUpdatedArray = []
 
@@ -51,6 +50,19 @@ export const purchaseOrderReducer = (state = initialState, action) => {
       return {
         ...state,
         [action.name]: newUpdatedArray
+      }
+      break;
+
+    case 'RECEIVE_PO_LINE':
+      let updateReceiveArray = [...state[action.name]]
+      let newReceiveArray = []
+      
+      newReceiveArray = updateReceiveArray.filter((item, idx) => item.idx !== action.value.idx)
+      newReceiveArray.push(action.value)
+      
+      return {
+        ...state,
+        [action.name]: newReceiveArray
       }
       break;
 
