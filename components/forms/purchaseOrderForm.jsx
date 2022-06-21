@@ -4,7 +4,8 @@ import { manageFormFields } from '../../helpers/forms'
 import { 
   validateDate,
   formatDate,
-  validateNumber
+  validateNumber,
+  multipleFiles
 } from '../../helpers/validations'
 import {
   purchaseOrderLineSort,
@@ -51,14 +52,17 @@ const PurchaseOrderForm = ({
   changeView,
   setDynamicType,
   setDynamicKey,
+  addImages,
 
   ///// CRUD
   submitCreate,
-  submitUpdate
+  submitUpdate,
+  submitDeleteFile
 }) => {
   
   const createType            = 'CREATE_PO'
   const resetType             = 'RESET_PO'
+  const filesType             = 'ADD_PO_ARRAY_WITH_ITEMS';
   const myRefs = useRef(null)
   const [loadingColor, setLoadingColor] = useState('black')
   const [input_dropdown, setInputDropdown] = useState('')
@@ -96,6 +100,10 @@ const PurchaseOrderForm = ({
     };
 
   }, [])
+
+  useEffect(() => {
+   if(stateData.POLines.length > 0) stateMethod(createType, 'status', 'ordered')
+  }, [stateData.POLines])
   
   return (
     <div className="table">
@@ -149,7 +157,7 @@ const PurchaseOrderForm = ({
             <div className="form-group">
               <input
                 onClick={() => setInputDropdown('purchase_order_supplier')} 
-                value={manageFormFields(stateData.supplier, 'name')} 
+                value={manageFormFields(stateData.supplier[0] ? stateData.supplier[0] : stateData.supplier, 'name')} 
                 onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'supplier', e.target.value))}
                 readOnly
               />
@@ -395,6 +403,80 @@ const PurchaseOrderForm = ({
           setModalFormType={setModalFormType}
           setTypeForm={setTypeForm}
         ></Table>
+
+        <div className="form-box" style={{ width: '100%', padding: '0 2rem' }}>
+          <div className="form-box-heading">
+            <label htmlFor="imageFiles" className="form-box-heading-item">
+              <SVG svg={'upload'}></SVG> Upload Files
+              <input
+                id="imageFiles"
+                type="file"
+                accept="*"
+                multiple
+                onChange={(e) =>
+                  multipleFiles(
+                    e,
+                    stateData,
+                    'files',
+                    setMessage,
+                    filesType,
+                    'files',
+                    addImages
+                  )
+                }
+              />
+            </label>
+          </div>
+          <div className="form-box-container">
+            <div className="form-group-gallery">
+              {stateData.files.length == 0 && (
+                <a
+                  className="form-group-gallery-link"
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ width: '25%' }}
+                >
+                  <img
+                    className="form-group-gallery-image"
+                    src="https://via.placeholder.com/300"
+                  />
+                </a>
+              )}
+              {stateData.files.length > 0 &&
+                stateData.files.map((item, idx) => (
+                  <a
+                    key={idx}
+                    onClick={() => window.open(item.location, '_blank')}
+                    className="form-group-gallery-link"
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{ width: '25%' }}
+                  >
+                    <img
+                      className="form-group-gallery-image"
+                      src="https://static.thenounproject.com/png/47347-200.png"
+                    />
+                    <span
+                      onClick={(e) => (
+                        e.stopPropagation(),
+                        loading !== 'delete_file'
+                          ? 
+                          submitDeleteFile(e, item, 'files', createType, stateMethod, stateData, 'purchaseOrders', setMessage, 'delete_file', setLoading, token, 'purchase-order/delete-file', allData, setAllData, setDynamicSVG, editData, null, stateData._id)
+                          : null
+                      )}
+                    >
+                      {loading == 'delete_file' ? (
+                        <div className="loading-spinner"></div>
+                      ) : (
+                        <SVG svg={'close'}></SVG>
+                      )}
+                    </span>
+                    {item.name ? item.name : item.location.substring(50, 70)}
+                  </a>
+                ))}
+            </div>
+          </div>
+        </div>
         
       </form>
       

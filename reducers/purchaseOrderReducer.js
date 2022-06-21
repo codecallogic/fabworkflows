@@ -7,7 +7,8 @@ const initialState = {
   expectedDelivery: '',
   taxRate: '',
   notes: '',
-  POLines: []
+  POLines: [],
+  files: []
 }
 
 export const purchaseOrderReducer = (state = initialState, action) => {
@@ -63,6 +64,30 @@ export const purchaseOrderReducer = (state = initialState, action) => {
       return {
         ...state,
         [action.name]: newReceiveArray
+      }
+      break;
+
+    case 'PO_DELIVERY_DATE':
+      let updateDeliveryArray = [...state[action.name]]
+      let newDeliveryArray = []
+      
+      if(action.value){
+        updateDeliveryArray.forEach((item, idx) => {
+          item.deliveryDate = action.value;
+          item.lineStatus = 'delivered';
+        })
+      }
+      
+      return {
+        ...state,
+        [action.name]: updateDeliveryArray
+      }
+      break;
+
+    case 'ADD_PO_ARRAY_WITH_ITEMS':
+      return {
+        ...state,
+        [action.name]: [...action.value]
       }
       break;
 

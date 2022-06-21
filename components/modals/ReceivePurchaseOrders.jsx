@@ -42,7 +42,7 @@ const PurchaseListItems = ({
   submitCreate,
   submitUpdate,
 }) => {
-  console.log(stateData)
+
   const createType = selectCreateType(typeOfData);
   const createArrayType = selectCreateArrayType(typeOfData);
   const resetType = selectResetType(typeOfData);
@@ -112,7 +112,7 @@ const PurchaseListItems = ({
   };
 
   useEffect(() => {
-    console.log(input_dropdown)
+
     document.addEventListener('click', handleClickOutside, true);
     return () => {
       document.removeEventListener('click', handleClickOutside, true);
@@ -268,41 +268,22 @@ const PurchaseListItems = ({
               {message}
             </span>
           )}
-          {modalFormType == 'productsForm' && !typeForm &&
-            <button className="form-group-button" onClick={(e) => (
-              stateMethod('ADD_PO_LINE', 'POLines', stateData),
-              setModal(''),
-              stateMethod(resetType),
-              setTypeForm('')
-            )}>
-              {loading == 'add_po_line' ? (
-                <div className="loading">
-                  <span style={{ backgroundColor: loadingColor }}></span>
-                  <span style={{ backgroundColor: loadingColor }}></span>
-                  <span style={{ backgroundColor: loadingColor }}></span>
-                </div>
-              ) : (
-                'Save'
-              )}
-            </button>
-          }
-
-          {modalFormType == 'miscellaneousForm' && !typeForm &&
-            <button className="form-group-button" onClick={(e) => (
+          
+          <button className="form-group-button" onClick={(e) => (
+              stateMethod('PO_DELIVERY_DATE', 'POLines', receiptDate),
               setModal(''),
               setTypeForm('')
-            )}>
-              {loading == 'add_po_line' ? (
-                <div className="loading">
-                  <span style={{ backgroundColor: loadingColor }}></span>
-                  <span style={{ backgroundColor: loadingColor }}></span>
-                  <span style={{ backgroundColor: loadingColor }}></span>
-                </div>
-              ) : (
-                'Save'
-              )}
-            </button>
-          }
+          )}>
+            {loading == 'add_po_line' ? (
+              <div className="loading">
+                <span style={{ backgroundColor: loadingColor }}></span>
+                <span style={{ backgroundColor: loadingColor }}></span>
+                <span style={{ backgroundColor: loadingColor }}></span>
+              </div>
+            ) : (
+              'Save'
+            )}
+          </button>
 
           {edit == 'purchaseOrders' && typeForm == 'purchaseOrderLines' &&
           (
