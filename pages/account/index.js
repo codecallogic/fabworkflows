@@ -1573,6 +1573,7 @@ const Dashboard = ({
             submitDeleteFile={submitDeleteFile}
             event={event}
             setEvent={setEvent}
+            setTypeForm={setTypeForm}
           ></JobForm>
         )}
 
@@ -1697,6 +1698,7 @@ const Dashboard = ({
             submitDeleteFile={submitDeleteFile}
             event={event}
             setEvent={setEvent}
+            setTypeForm={setTypeForm}
           ></AccountForm>
         )}
 
@@ -2613,7 +2615,7 @@ const Dashboard = ({
             autoFillType={'jobs'}
             dataType={'jobs'}
             selectID={selectID}
-            typeOfData={'account'}
+            typeOfData={nav.view}
             setEvent={setEvent}
           ></JobListItemsModal>
         )}
@@ -2726,7 +2728,7 @@ const Dashboard = ({
             purchaseOrder={purchaseOrder}
           ></PurchaseOrderLinesModal>
         )}
-        {modal == 'receievePurchaseOrders' && (
+        {modal == 'receivePurchaseOrders' && (
           <ReceivePurchaseOrdersModal
             token={token}
             account={account}

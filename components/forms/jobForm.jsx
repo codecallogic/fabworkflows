@@ -44,6 +44,7 @@ const JobForm = ({
   selectID,
   setSelectID,
   event,
+  setTypeForm,
 
   //// DATA
   typeOfData,
@@ -561,6 +562,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           extractingStateData={extractingStateData}
           dynamicType={'CREATE_JOB_ARRAY_ITEM'}
           dynamicKey={'quotes'}
+          setTypeForm={setTypeForm}
         ></Table>
 
         <Table
@@ -598,6 +600,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           completeControl={true}
           cancelControl={true}
           stateMethod={stateMethod}
+          setTypeForm={setTypeForm}
         ></Table>
         <Table
           token={token}
@@ -636,6 +639,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           stateMethod={stateMethod}
           emailModal={true}
           emailRoute='purchase-order/email-purchase-order'
+          setTypeForm={setTypeForm}
         ></Table>
         <Table
           token={token}
@@ -673,6 +677,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           cancelControl={false}
           stateMethod={stateMethod}
           stateData={stateData}
+          setTypeForm={setTypeForm}
         ></Table>
 
         <div className="form-box" style={{ width: '100%', padding: '0 2rem' }}>

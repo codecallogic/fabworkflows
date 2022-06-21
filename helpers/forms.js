@@ -44,7 +44,6 @@ const formFields = {
   email: ['email'],
 }
 
-
 const manageFormFields = (data, key) => {  
 
   if(data){

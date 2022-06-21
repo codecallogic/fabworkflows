@@ -9,6 +9,7 @@ import {
 } from '../../helpers/validations'
 import {
   purchaseOrderLineSort,
+  jobSort
 } from '../../helpers/sorts';
 import SVG from '../../files/svgs'
 import Calendar from 'react-calendar'
@@ -68,6 +69,7 @@ const PurchaseOrderForm = ({
   const [input_dropdown, setInputDropdown] = useState('')
   const [save, setSave] = useState(false)
   const [purchaseOrderLineHeaders, setPurchaseOrderLineHeaders] = useState([]);
+  const [jobHeaders, setJobHeaders] = useState([]);
 
   useEffect(() => {
     
@@ -93,6 +95,13 @@ const PurchaseOrderForm = ({
       objectPurchaseOrdersLines[item] = item;
     });
     setPurchaseOrderLineHeaders((oldArray) => [...oldArray, objectPurchaseOrdersLines]);
+
+
+    let objectJobHeaders = new Object();
+    Object.values(jobSort).forEach((item) => {
+      objectJobHeaders[item] = item;
+    });
+    setJobHeaders((oldArray) => [...oldArray, objectJobHeaders]);
     
     document.addEventListener("click", handleClickOutside, true);
     return () => {
@@ -401,6 +410,41 @@ const PurchaseOrderForm = ({
           dynamicType={'ADD_PO_LINE'}
           dynamicKey={'POLines'}
           setModalFormType={setModalFormType}
+          setTypeForm={setTypeForm}
+        ></Table>
+
+        <Table
+          token={token}
+          title={'Related Jobs'}
+          typeOfData={'jobs'}
+          componentData={jobHeaders}
+          allData={stateData.jobs}
+          setAllData={setAllData}
+          modal={modal}
+          setModal={setModal}
+          sortOrder={jobSort}
+          controls={controls}
+          setControls={setControls}
+          controlsType={'jobControls'}
+          message={message}
+          setMessage={setMessage}
+          resetCheckboxes={resetCheckboxes}
+          editData={editData}
+          changeView={changeView}
+          setEdit={setEdit}
+          viewType={'jobs'}
+          modalType={'job_list_items'}
+          loading={loading}
+          setLoading={setLoading}
+          dynamicSVG={dynamicSVG}
+          setDynamicSVG={setDynamicSVG}
+          setDynamicType={setDynamicType}
+          setDynamicKey={setDynamicKey}
+          selectID={selectID}
+          setSelectID={setSelectID}
+          extractingStateData={extractingStateData}
+          dynamicType={'CREATE_PO_ARRAY_ITEM'}
+          dynamicKey={'jobs'}
           setTypeForm={setTypeForm}
         ></Table>
 

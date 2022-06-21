@@ -17,16 +17,19 @@ const populateEditData = (originalData, keyType, caseType, stateMethods, selectI
       if(originalData[keyType][key]._id == selectID){
         
         let object = originalData[keyType][key]
-  
+
+        if(object.jobs && object.jobs.length > 0) stateMethods.createType(caseType, 'jobs', object.jobs)
+        
         for(let keyOfObject in object){
           stateMethods.createType(caseType, keyOfObject, object[keyOfObject])
-  
+
           if(Array.isArray(object[keyOfObject]) && object[keyOfObject].length > 0){
   
-  
             if(!object[keyOfObject][0]['location'] ) stateMethods.createType(caseType, keyOfObject, object[keyOfObject][0])
-  
-            if(object[keyOfObject][0]['location']) return stateMethods.createType(caseType, keyOfObject, object[keyOfObject])
+            
+            if(object[keyOfObject][0]['location'] !== undefined){
+              return stateMethods.createType(caseType, keyOfObject, object[keyOfObject])
+            }
   
             if(allowArrays.includes(keyType)){
               stateMethods.createType(caseType, keyOfObject, object[keyOfObject])

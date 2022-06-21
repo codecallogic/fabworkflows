@@ -91,7 +91,7 @@ const Table = ({
     }
   }
 
-  useEffect(() => {     
+  useEffect(() => {    
     document.addEventListener("click", handleClickOutside, true);
 
     return () => {
@@ -183,7 +183,7 @@ const Table = ({
                 id="receive" 
                 className="table-header-controls-item-svg" 
                 onClick={() => {
-                  setModal('receievePurchaseOrders')
+                  setModal('receivePurchaseOrders')
                 }}
               >
                 <SVG svg={'receive'} id={'receive'}></SVG>  
@@ -260,7 +260,21 @@ const Table = ({
                 null
               } 
               
-              { (controls == 'jobIssueControls' || 'purchaseOrderLinesControls') &&
+              { controls == 'jobIssueControls' &&
+                <div
+                  id="edit" 
+                  className="table-header-controls-item" 
+                  onClick={() => {
+                    handleEdit(selectID),
+                    setControls(''), 
+                    resetCheckboxes()
+                  }}
+                >
+                  Edit
+                </div>
+              }
+
+              { controls == 'purchaseOrderLinesControls' &&
                 <div
                   id="edit" 
                   className="table-header-controls-item" 

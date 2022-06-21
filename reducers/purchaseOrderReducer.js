@@ -8,7 +8,8 @@ const initialState = {
   taxRate: '',
   notes: '',
   POLines: [],
-  files: []
+  files: [],
+  jobs: []
 }
 
 export const purchaseOrderReducer = (state = initialState, action) => {
@@ -88,6 +89,23 @@ export const purchaseOrderReducer = (state = initialState, action) => {
       return {
         ...state,
         [action.name]: [...action.value]
+      }
+      break;
+
+    case 'CREATE_PO_ARRAY_ITEM':
+      let oldJobsArray = [...state[action.name]]
+      let newJobsArray = []
+
+      if(oldJobsArray.findIndex((item) => item._id == action.value._id) == -1){
+        oldJobsArray.push(action.value)
+        newJobsArray = [...oldJobsArray]
+      }else{
+        newJobsArray = oldJobsArray.filter((item) => item._id !== action.value._id)
+      }
+
+      return {
+        ...state,
+        [action.name]: newJobsArray
       }
       break;
 

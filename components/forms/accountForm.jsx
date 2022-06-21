@@ -37,6 +37,7 @@ const AccountForm = ({
   selectID,
   setSelectID,
   event,
+  setTypeForm,
 
   //// DATA
   typeOfData,
@@ -362,6 +363,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           extractingStateData={extractingStateData}
           dynamicType={'CREATE_ACCOUNT_ARRAY_ITEM'}
           dynamicKey={'contacts'}
+          setTypeForm={setTypeForm}
         ></Table>
 
         <Table
@@ -396,6 +398,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           extractingStateData={extractingStateData}
           dynamicType={'CREATE_ACCOUNT_ARRAY_ITEM'}
           dynamicKey={'priceLists'}
+          setTypeForm={setTypeForm}
         ></Table>
 
         <Table
@@ -430,6 +433,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           extractingStateData={extractingStateData}
           dynamicType={'CREATE_ACCOUNT_ARRAY_ITEM'}
           dynamicKey={'quotes'}
+          setTypeForm={setTypeForm}
         ></Table>
 
         <Table
@@ -464,6 +468,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           extractingStateData={extractingStateData}
           dynamicType={'CREATE_ACCOUNT_ARRAY_ITEM'}
           dynamicKey={'jobs'}
+          setTypeForm={setTypeForm}
         ></Table>
 
         <div className="form-box" style={{ width: '100%', padding: '0 2rem' }}>
