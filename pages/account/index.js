@@ -2271,7 +2271,7 @@ const Dashboard = ({
             autoFillType={'quotes'}
             dataType={'quotes'}
             selectID={selectID}
-            typeOfData={nav.view === 'job' ? 'job' : 'account'}
+            typeOfData={nav.view === 'job' ? 'job' : 'accountForm'}
             setEvent={setEvent}
           ></QuoteModal>
         )}
@@ -2583,7 +2583,7 @@ const Dashboard = ({
             autoFillType={'priceLists'}
             dataType={'prices'}
             selectID={selectID}
-            typeOfData={'account'}
+            typeOfData={nav.view}
             setEvent={setEvent}
           ></PriceListItemsModal>
         )}
@@ -2647,7 +2647,7 @@ const Dashboard = ({
             autoFillType={'contacts'}
             dataType={'contacts'}
             selectID={selectID}
-            typeOfData={'account'}
+            typeOfData={nav.view}
             setEvent={setEvent}
           ></ContactListItemsModal>
         )}
