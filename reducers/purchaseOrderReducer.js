@@ -44,33 +44,31 @@ export const purchaseOrderReducer = (state = initialState, action) => {
 
     case 'UPDATE_PO_LINE':
       let updateArray = [...state[action.name]]
-      let newUpdatedArray = []
 
-      newUpdatedArray = updateArray.filter((item, idx) => item.idx !== action.value.idx)
-      newUpdatedArray.push(action.value)
+      let oldItemUpdate = updateArray.findIndex((item, idx) => item.idx == action.value.idx)
+      if(!isNaN(oldItemUpdate)) updateArray[oldItemUpdate] = action.value
       
       return {
         ...state,
-        [action.name]: newUpdatedArray
+        [action.name]: updateArray
       }
       break;
 
     case 'RECEIVE_PO_LINE':
       let updateReceiveArray = [...state[action.name]]
-      let newReceiveArray = []
       
-      newReceiveArray = updateReceiveArray.filter((item, idx) => item.idx !== action.value.idx)
-      newReceiveArray.push(action.value)
+      let oldItem = updateReceiveArray.findIndex((item, idx) => item.idx == action.value.idx)
+      
+      if(oldItem) updateReceiveArray[oldItem] = action.value
       
       return {
         ...state,
-        [action.name]: newReceiveArray
+        [action.name]: updateReceiveArray
       }
       break;
 
     case 'PO_DELIVERY_DATE':
       let updateDeliveryArray = [...state[action.name]]
-      let newDeliveryArray = []
       
       if(action.value){
         updateDeliveryArray.forEach((item, idx) => {
