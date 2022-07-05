@@ -63,6 +63,10 @@
       height: 100%;
     }
   }
+
+  img {
+    page-break-inside: avoid;
+  }
 }
 
 .ql-align-center {

@@ -112,8 +112,10 @@ const submitCreate = async (e, stateData, type, fileType, setMessage, loadingTyp
 const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType, setModal) => {
   
   for(let i = 0; i < formFields[type].length; i++){
+
+    if(formFields[type][i].includes('email') && !validateEmailData(stateData[formFields[type][i]])) return (setDynamicSVG('notification'), setMessage('Invalid email address'))
     
-    if(formFields[type][i].includes('email') && !validateEmail(formFields[type][i])) return (setDynamicSVG('notification'), setMessage('Invalid email address'))
+    // if(formFields[type][i].includes('email') && !validateEmailData(formFields[type][i])) return (setDynamicSVG('notification'), setMessage('Invalid email address'))
 
     if(!stateData[formFields[type][i]]) return (setDynamicSVG('notification'), setMessage(`${formFields[type][i].replace('_', ' ')} is required`))
 
