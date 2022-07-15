@@ -1,4 +1,4 @@
-import {filterTable} from '../helpers/tableData'
+import { filterTable, sortColumns } from '../helpers/tableData'
 import SVG from '../files/svgs'
 import {useEffect, useState, useRef} from 'react'
 import { populateDependency, handleTableDropdowns } from '../helpers/modals'
@@ -105,28 +105,6 @@ const Table = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setControls(controlsType)
     setSelectID(id)
-  }
-
-  const sortColumns = (a, b, type) => {
-    if(typeof a[type] == 'string' && /^[0-9.,$]+$/.test(a[type])){
-      if(parseFloat(a[type].replace('$', '').replace(',', '')) > parseFloat(b[type].replace('$', '').replace(',', ''))) return true
-
-      return false
-    } 
-    
-    if(typeof a[type] == 'string'){
-      if(a[type] > b[type]) return true
-      return false
-    }
-
-    if(typeof a[type] == 'object'){
-      let left = a[type][0] ? a[type][0].name : null
-      let right = b[type][0] ? b[type][0].name : null
-      
-      if(left > right) return true
-      return false
-    }
-    
   }
   
   

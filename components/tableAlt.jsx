@@ -1,6 +1,6 @@
-import {filterTable} from '../helpers/tableData'
+import { filterTable, sortColumns } from '../helpers/tableData'
 import SVG from '../files/svgs'
-import {useEffect, useState, useRef} from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 const Table = ({
   token,
@@ -174,12 +174,12 @@ const Table = ({
           filterTable(componentData, ['_id', 'createdAt', 'updatedAt', '__v'], 1).map((item, idx, array) => 
             Object.keys(array[0]).sort((a, b) => sortOrder.indexOf(b) - sortOrder.indexOf(a)).map((key, idx) => 
               <div key={idx} className="table-headers-item">
-                <span onClick={() => filter == key 
-                  ? 
-                  (setUp(up == 1 ? -1 : 1), setDown(down == -1 ? 1 : -1))
-                  : 
-                  setFilter(key)}
-                >
+                <span onClick={() => 
+                  (
+                    filter == key ? null : setFilter(key),
+                    setUp(up == 1 ? -1 : 1), setDown(down == -1 ? 1 : -1)
+                  )
+                }>
                   {(key.replace( /([a-z])([A-Z])/g, "$1 $2")).replace('_', ' ')}
                   <SVG svg={'sort'}></SVG>
                 </span>
@@ -199,7 +199,7 @@ const Table = ({
       }
       { 
         filterTable(allData[typeOfData]).length > 0 && 
-        filterTable(allData[typeOfData], ['createdAt', 'updatedAt', '__v']).map((item, idx) => 
+        filterTable(allData[typeOfData], ['createdAt', 'updatedAt', '__v']).sort((a, b) => sortColumns(a, b, filter) ? up : down).map((item, idx) => 
         // .sort((a, b) => a[filter] > b[filter] ? up : down)
           <div 
           key={idx} 

@@ -115,10 +115,32 @@ const buildHeaders = (setHeaders, sortType, tableType) => {
 
 }
 
+const sortColumns = (a, b, type) => {
+  if(typeof a[type] == 'string' && /^[0-9.,$]+$/.test(a[type])){
+    if(parseFloat(a[type].replace('$', '').replace(',', '')) > parseFloat(b[type].replace('$', '').replace(',', ''))) return true
+
+    return false
+  } 
+  
+  if(typeof a[type] == 'string'){
+    if(a[type] > b[type]) return true
+    return false
+  }
+
+  if(typeof a[type] == 'object'){
+    let left = a[type][0] ? a[type][0].name : null
+    let right = b[type][0] ? b[type][0].name : null
+    
+    if(left > right) return true
+    return false
+  }
+}
+
 export {
   filterTable,
   tableData,
   searchData, 
   resetTableData,
-  buildHeaders
+  buildHeaders,
+  sortColumns
 }
