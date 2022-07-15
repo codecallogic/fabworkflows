@@ -68,7 +68,8 @@ const Checkout = ({
               <input 
               id="name" 
               value={order.name} 
-              onChange={(e) => (createMethod(createType, 'name', e.target.value))}/>
+              onChange={(e) => (createMethod(createType, 'name', e.target.value))}
+              />
               
               <label 
               className={`input-label ` + (
