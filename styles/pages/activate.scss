@@ -1,7 +1,7 @@
 .activate {
   display: flex;
   justify-content: center;
-  color: $color-scheme-1;
+  color: var(--color-scheme-1);
 
   &-form {
     width: 30rem;

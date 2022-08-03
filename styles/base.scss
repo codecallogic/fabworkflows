@@ -1,9 +1,49 @@
-// COLORS
+// LIGHT THEME
 $color-scheme-1: rgba(#fd7e3c, 0.9);
 $color-scheme-2: #1bc9a2;
 $color-scheme-3: #404141;
 $color-scheme-4: #041219;
 $color-scheme-5: #024060;
+
+
+:root {
+  // PRIMARY COLORS
+  --color-scheme-1: #fd7e3c;
+  --color-scheme-2: #1bc9a2;
+  --color-scheme-3: #404141;
+  --color-scheme-4: #041219;
+  --color-scheme-5: #024060;
+
+  // SHADES
+  --color-dark-shade-scheme-1: #413838;
+  --color-dark-shade-scheme-2: #1e1e1e;
+  --color-dark-shade-scheme-3: #666;
+  --color-dark-shade-scheme-4: #5b615d;
+  --color-light-shade-scheme-1: #dbdbdb;
+  --color-light-shade-scheme-2: #c8c8cb;
+  --color-light-shade-scheme-3: #ededec;
+  --color-light-shade-scheme-4: #f1f1ee;
+}
+
+:root[data-theme="theme-dark"] {
+  // PRIMARY COLORS
+  --color-scheme-1: #041F1E;
+  --color-scheme-2: #3F5169;
+  --color-scheme-3: #BBA451;
+  --color-scheme-4: #881E27;
+  --color-scheme-5: #B21212;
+  // --color-theme-background: var(--color-scheme-2);
+
+  // SHADES
+  --color-dark-shade-scheme-1: #dbdbdb;
+  --color-dark-shade-scheme-2: #c8c8cb;
+  --color-dark-shade-scheme-3: #ededec;
+  --color-dark-shade-scheme-4: #f1f1ee;
+  --color-light-shade-scheme-1: #413838;
+  --color-light-shade-scheme-2: #1e1e1e;
+  --color-light-shade-scheme-3: #666;
+  --color-light-shade-scheme-4: #5b615d;
+}
 
 // SHADES
 $color-dark-shade-scheme-1: #413838;
@@ -60,6 +100,6 @@ body {
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: $color-scheme-1;
+    background-color: var(--color-scheme-1) !important;
   }
 }

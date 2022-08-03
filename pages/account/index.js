@@ -176,6 +176,17 @@ const Dashboard = ({
   const [cutoutHeaders, setCutoutHeaders] = useState([]);
   const [modalFormType, setModalFormType] = useState('')
   const [typeForm, setTypeForm] = useState('')
+  const [theme, setTheme] = useState('light')
+
+  let html
+
+  if (typeof window !== "undefined") {
+    html = document.querySelector('html')
+  }
+
+  useEffect(() => {
+    html.dataset.theme = `theme-${theme}`;
+  }, [theme])
 
   //// EDIT QUOTE LINE
   const [modalEdit, setModalEdit] = useState('');
@@ -281,7 +292,12 @@ const Dashboard = ({
 
   return (
     <>
-      <TopNav account={account}></TopNav>
+      <TopNav 
+        account={account}
+        theme={theme}
+        setTheme={setTheme}
+      >
+      </TopNav>
       <div className="clientDashboard">
         <SideNav
           account={account}

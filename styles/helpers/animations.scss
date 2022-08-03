@@ -50,7 +50,7 @@
         height: 100%;
         fill: none;
         stroke-width: 4;
-        stroke: $color-scheme-1;
+        stroke: var(--color-scheme-1);
         stroke-linecap: round;
         transform: translate(0.5rem, 0.5rem);
         stroke-dasharray: 200;
@@ -104,8 +104,8 @@
     content: '';
     width: 80%;
     height: 80%;
-    border: 0.5rem solid $color-dark-shade-scheme-1;
-    border-top-color: $color-light-shade-scheme-3;
+    border: 0.5rem solid var(--color-dark-shade-scheme-1);
+    border-top-color: var(--color-light-shade-scheme-1);
     border-radius: 50%;
     animation: loadingSpinner 1s linear infinite;
   }

@@ -1,6 +1,7 @@
 .clientDashboard {
   display: flex;
   width: 100%;
+  background-color: var(--color-light-shade-scheme-3);
 
   &-view {
     width: auto;
@@ -22,7 +23,7 @@
       }
 
       &-box {
-        background-color: $color-dark-shade-scheme-1;
+        background-color: var(--color-dark-shade-scheme-1);
         width: calc(100% - 2.5rem);
         height: 45rem;
         margin-bottom: 2rem;
@@ -45,8 +46,8 @@
       &-item {
         margin-bottom: 2rem;
         border-radius: 1.2rem;
-        // border: 0.2rem solid $color-scheme-2;
-        background-color: rgba($color-scheme-5, 0.05);
+        // border: 0.2rem solid var(--color-scheme-2);
+        background-color: rgba(var(--color-scheme-5), 0.05);
         padding: 2rem 3rem;
         width: 20rem;
         height: 20rem;
@@ -57,6 +58,7 @@
         outline: none;
         transition: all 0.5s ease-in-out;
         margin-right: 3rem;
+        background-color: var(--color-light-shade-scheme-2);
 
         @media only screen and (max-width: $medium) {
           width: 100%;
@@ -70,13 +72,13 @@
         svg {
           width: 5rem;
           height: 5rem;
-          fill: $color-dark-shade-scheme-1;
+          fill: var(--color-dark-shade-scheme-1);
         }
 
         span {
           font-size: 1.6rem;
           margin: 1rem 0 0 0;
-          color: $color-dark-shade-scheme-1;
+          color: var(--color-dark-shade-scheme-1);
         }
       }
     }
@@ -86,7 +88,7 @@
       width: 100%;
       display: flex;
       flex-wrap: wrap;
-      border: 0.1rem solid $color-light-shade-scheme-1;
+      border: 0.1rem solid var(--color-light-shade-scheme-1);
       border-bottom-left-radius: 1.2rem;
       border-bottom-right-radius: 1.2rem;
 
@@ -96,7 +98,7 @@
 
       &-container {
         margin: 3rem 5rem;
-        background-color: white;
+        background-color: var(--color-light-shade-scheme-1);
         height: 100%;
         border-radius: 1.2rem;
 
@@ -110,8 +112,8 @@
         display: flex;
         font-size: 1.4rem;
         height: 5rem;
-        color: white;
-        background-color: $color-dark-shade-scheme-1;
+        color: var(--color-light-shade-scheme-1);
+        background-color: var(--color-dark-shade-scheme-1);
         padding: 1rem 1rem;
         border-top-left-radius: 1.2rem;
         border-top-right-radius: 1.2rem;
@@ -132,7 +134,7 @@
         &-item {
           display: flex;
           justify-content: center;
-          background-color: rgba($color-scheme-3, 0.05);
+          background-color: rgba(var(--color-scheme-3), 0.05);
           box-shadow: 2rem 1rem 2rem 0.2rem rgba(0, 0, 0, 0.4);
           padding: 2rem;
           overflow-x: scroll;
@@ -144,7 +146,7 @@
           }
 
           &::-webkit-scrollbar-thumb {
-            background-color: $color-scheme-1;
+            background-color: var(--color-scheme-1);
           }
 
           @media only screen and (max-width: $wide) {
@@ -165,11 +167,13 @@
             transform: rotate3d(0.05, 1, -0.1, 40deg);
 
             &-section_top {
-              background-color: rgba(104, 104, 104, 0.2);
+              background-color: var(--color-dark-shade-scheme-4);
+              opacity: .4;
             }
 
             &-section_bottom {
-              background-color: rgba(104, 104, 104, 0.2);
+              background-color: var(--color-dark-shade-scheme-4);
+              opacity: .4;
             }
           }
 
@@ -191,7 +195,7 @@
 
             &-title {
               font-size: 2.4rem;
-              color: $color-scheme-1;
+              color: var(--color-scheme-1);
               font-weight: 500;
               text-align: center;
             }
@@ -221,7 +225,7 @@
               &-image-right {
                 transform: rotate(-90deg);
                 position: relative;
-                background-color: rgba(104, 104, 104, 0.1);
+                background-color: #6868681a;
                 box-shadow: 3rem 3rem 1rem 0.1rem rgba(104, 104, 104, 0.1);
 
                 &-svg_1 {
@@ -229,7 +233,7 @@
                   top: -9.5%;
                   left: -5%;
                   width: 3rem;
-                  fill: $color-scheme-1;
+                  fill: var(--color-scheme-1);
 
                   @media only screen and (max-width: $small) {
                     bottom: -12.2%;
@@ -242,7 +246,7 @@
                   top: -9.5%;
                   right: -5%;
                   width: 3rem;
-                  fill: $color-scheme-1;
+                  fill: var(--color-scheme-1);
 
                   @media only screen and (max-width: $small) {
                     bottom: -12.2%;
@@ -255,7 +259,7 @@
                   bottom: -4%;
                   left: -13%;
                   width: 3rem;
-                  fill: $color-scheme-1;
+                  fill: var(--color-scheme-1);
 
                   @media only screen and (max-width: $small) {
                     bottom: -6%;
@@ -268,7 +272,7 @@
                   top: -4%;
                   left: -13.5%;
                   width: 3rem;
-                  fill: $color-scheme-1;
+                  fill: var(--color-scheme-1);
 
                   @media only screen and (max-width: $small) {
                     top: -5%;
@@ -280,14 +284,14 @@
                   content: 'A';
                   position: absolute;
                   left: -20%;
-                  border-right: 0.2rem solid $color-scheme-1;
+                  border-right: 0.2rem solid var(--color-scheme-1);
                   height: 100%;
                   font-size: 1.5rem;
                   font-weight: 700;
                   display: flex;
                   align-items: center;
                   padding: 0 1rem;
-                  color: $color-scheme-1;
+                  color: var(--color-scheme-1);
 
                   @media only screen and (max-width: $small) {
                     left: -25%;
@@ -299,14 +303,14 @@
                   position: absolute;
                   bottom: 105%;
                   left: 0;
-                  border-bottom: 0.2rem solid $color-scheme-1;
+                  border-bottom: 0.2rem solid var(--color-scheme-1);
                   width: 100%;
                   font-size: 1.5rem;
                   font-weight: 700;
                   display: flex;
                   justify-content: center;
                   padding: 0 1rem;
-                  color: $color-scheme-1;
+                  color: var(--color-scheme-1);
 
                   @media only screen and (max-width: $small) {
                     bottom: 102.2%;
@@ -332,7 +336,7 @@
                   bottom: -9.8%;
                   left: -5%;
                   width: 3rem;
-                  fill: $color-scheme-1;
+                  fill: var(--color-scheme-1);
 
                   @media only screen and (max-width: $small) {
                     bottom: -12.2%;
@@ -345,7 +349,7 @@
                   bottom: -9.8%;
                   right: -5%;
                   width: 3rem;
-                  fill: $color-scheme-1;
+                  fill: var(--color-scheme-1);
 
                   @media only screen and (max-width: $small) {
                     bottom: -12.2%;
@@ -358,7 +362,7 @@
                   bottom: -4.5%;
                   right: -12.2%;
                   width: 3rem;
-                  fill: $color-scheme-1;
+                  fill: var(--color-scheme-1);
 
                   @media only screen and (max-width: $small) {
                     bottom: -5%;
@@ -371,7 +375,7 @@
                   top: -4%;
                   right: -12.2%;
                   width: 3rem;
-                  fill: $color-scheme-1;
+                  fill: var(--color-scheme-1);
 
                   @media only screen and (max-width: $small) {
                     top: -5%;
@@ -383,14 +387,14 @@
                   content: 'A';
                   position: absolute;
                   right: -19%;
-                  border-left: 0.2rem solid $color-scheme-1;
+                  border-left: 0.2rem solid var(--color-scheme-1);
                   height: 100%;
                   font-size: 1.5rem;
                   font-weight: 700;
                   display: flex;
                   align-items: center;
                   padding: 0 1rem;
-                  color: $color-scheme-1;
+                  color: var(--color-scheme-1);
 
                   @media only screen and (max-width: $small) {
                     right: -25%;
@@ -402,14 +406,14 @@
                   position: absolute;
                   top: 105%;
                   right: 0;
-                  border-top: 0.2rem solid $color-scheme-1;
+                  border-top: 0.2rem solid var(--color-scheme-1);
                   width: 100%;
                   font-size: 1.5rem;
                   font-weight: 700;
                   display: flex;
                   justify-content: center;
                   padding: 0 1rem;
-                  color: $color-scheme-1;
+                  color: var(--color-scheme-1);
                 }
               }
 
@@ -428,7 +432,7 @@
                   top: -9.5%;
                   left: -5%;
                   width: 3rem;
-                  fill: $color-scheme-1;
+                  fill: var(--color-scheme-1);
 
                   @media only screen and (max-width: $small) {
                     bottom: -12.2%;
@@ -441,7 +445,7 @@
                   top: -9.5%;
                   right: -5%;
                   width: 3rem;
-                  fill: $color-scheme-1;
+                  fill: var(--color-scheme-1);
 
                   @media only screen and (max-width: $small) {
                     top: -9%;
@@ -454,7 +458,7 @@
                   bottom: -4%;
                   right: -12.8%;
                   width: 3rem;
-                  fill: $color-scheme-1;
+                  fill: var(--color-scheme-1);
 
                   @media only screen and (max-width: $small) {
                     bottom: -5%;
@@ -467,7 +471,7 @@
                   top: -4%;
                   right: -12.8%;
                   width: 3rem;
-                  fill: $color-scheme-1;
+                  fill: var(--color-scheme-1);
 
                   @media only screen and (max-width: $small) {
                     top: -5%;
@@ -479,14 +483,14 @@
                   content: 'A';
                   position: absolute;
                   left: 106.5%;
-                  border-left: 0.2rem solid $color-scheme-1;
+                  border-left: 0.2rem solid var(--color-scheme-1);
                   height: 100%;
                   font-size: 1.5rem;
                   font-weight: 700;
                   display: flex;
                   align-items: center;
                   padding: 0 1rem;
-                  color: $color-scheme-1;
+                  color: var(--color-scheme-1);
 
                   @media only screen and (max-width: $small) {
                     left: 106.5%;
@@ -498,14 +502,14 @@
                   position: absolute;
                   bottom: 105%;
                   left: 0;
-                  border-bottom: 0.2rem solid $color-scheme-1;
+                  border-bottom: 0.2rem solid var(--color-scheme-1);
                   width: 100%;
                   font-size: 1.5rem;
                   font-weight: 700;
                   display: flex;
                   justify-content: center;
                   padding: 0 1rem;
-                  color: $color-scheme-1;
+                  color: var(--color-scheme-1);
 
                   @media only screen and (max-width: $small) {
                     bottom: 102%;
@@ -533,7 +537,7 @@
                   bottom: -9.5%;
                   left: -5%;
                   width: 3rem;
-                  fill: $color-scheme-1;
+                  fill: var(--color-scheme-1);
 
                   @media only screen and (max-width: $small) {
                     bottom: -12.2%;
@@ -546,7 +550,7 @@
                   bottom: -9.5%;
                   right: -5%;
                   width: 3rem;
-                  fill: $color-scheme-1;
+                  fill: var(--color-scheme-1);
 
                   @media only screen and (max-width: $small) {
                     bottom: -12.2%;
@@ -559,7 +563,7 @@
                   bottom: -4%;
                   left: -11.2%;
                   width: 3rem;
-                  fill: $color-scheme-1;
+                  fill: var(--color-scheme-1);
 
                   @media only screen and (max-width: $small) {
                     bottom: -5%;
@@ -572,7 +576,7 @@
                   top: -4%;
                   left: -11.2%;
                   width: 3rem;
-                  fill: $color-scheme-1;
+                  fill: var(--color-scheme-1);
 
                   @media only screen and (max-width: $small) {
                     top: -5%;
@@ -584,14 +588,14 @@
                   content: 'A';
                   position: absolute;
                   right: 105%;
-                  border-right: 0.2rem solid $color-scheme-1;
+                  border-right: 0.2rem solid var(--color-scheme-1);
                   height: 100%;
                   font-size: 1.5rem;
                   font-weight: 700;
                   display: flex;
                   align-items: center;
                   padding: 0 1rem;
-                  color: $color-scheme-1;
+                  color: var(--color-scheme-1);
 
                   @media only screen and (max-width: $small) {
                     right: 103%;
@@ -603,14 +607,14 @@
                   position: absolute;
                   top: 105%;
                   right: 0;
-                  border-top: 0.2rem solid $color-scheme-1;
+                  border-top: 0.2rem solid var(--color-scheme-1);
                   width: 100%;
                   font-size: 1.5rem;
                   font-weight: 700;
                   display: flex;
                   justify-content: center;
                   padding: 0 1rem;
-                  color: $color-scheme-1;
+                  color: var(--color-scheme-1);
 
                   @media only screen and (max-width: $small) {
                     top: 105%;
@@ -625,14 +629,14 @@
                   content: 'B';
                   position: absolute;
                   left: -12%;
-                  border-right: 0.2rem solid $color-scheme-1;
+                  border-right: 0.2rem solid var(--color-scheme-1);
                   height: 100%;
                   font-size: 1.5rem;
                   font-weight: 700;
                   display: flex;
                   align-items: center;
                   padding: 0 1rem;
-                  color: $color-scheme-1;
+                  color: var(--color-scheme-1);
                 }
 
                 &::after {
@@ -640,14 +644,14 @@
                   position: absolute;
                   top: 105%;
                   left: 0;
-                  border-top: 0.2rem solid $color-scheme-1;
+                  border-top: 0.2rem solid var(--color-scheme-1);
                   width: 100%;
                   font-size: 1.5rem;
                   font-weight: 700;
                   display: flex;
                   justify-content: center;
                   padding: 0 1rem;
-                  color: $color-scheme-1;
+                  color: var(--color-scheme-1);
                 }
               }
 
@@ -661,14 +665,14 @@
                   content: 'A';
                   position: absolute;
                   right: -15%;
-                  border-left: 0.2rem solid $color-scheme-1;
+                  border-left: 0.2rem solid var(--color-scheme-1);
                   height: 100%;
                   font-size: 1.5rem;
                   font-weight: 700;
                   display: flex;
                   align-items: center;
                   padding: 0 1rem;
-                  color: $color-scheme-1;
+                  color: var(--color-scheme-1);
                 }
 
                 &::after {
@@ -676,14 +680,14 @@
                   position: absolute;
                   bottom: 105%;
                   left: 0;
-                  border-bottom: 0.2rem solid $color-scheme-1;
+                  border-bottom: 0.2rem solid var(--color-scheme-1);
                   width: 100%;
                   font-size: 1.5rem;
                   font-weight: 700;
                   display: flex;
                   justify-content: center;
                   padding: 0 1rem;
-                  color: $color-scheme-1;
+                  color: var(--color-scheme-1);
                 }
               }
             }
@@ -724,7 +728,7 @@
         font-size: 1.4rem;
         height: 5rem;
         color: white;
-        background-color: $color-dark-shade-scheme-4;
+        background-color: var(--color-dark-shade-scheme-4);
         padding: 1rem 1rem;
         border-top-left-radius: 1.2rem;
         border-top-right-radius: 1.2rem;
@@ -781,7 +785,7 @@
           }
 
           &::-webkit-scrollbar-thumb {
-            background-color: $color-scheme-1;
+            background-color: var(--color-scheme-1);
           }
         }
 
@@ -801,7 +805,7 @@
           margin-left: 1rem;
           font-size: 1.2rem;
           font-weight: 700;
-          border-bottom: 0.05rem solid $color-light-shade-scheme-3;
+          border-bottom: 0.05rem solid var(--color-light-shade-scheme-3);
           width: 8rem;
           text-align: center;
 
@@ -812,7 +816,7 @@
           svg {
             width: 1.5rem;
             height: 1.5rem;
-            fill: $color-scheme-1;
+            fill: var(--color-scheme-1);
             margin-left: 0.5rem;
           }
 
@@ -852,7 +856,7 @@
         // }
 
         // &::-webkit-scrollbar-thumb {
-        //   background-color: $color-scheme-3;
+        //   background-color: var(--color-scheme-3);
         // }
 
         &-checkbox {
@@ -865,7 +869,7 @@
           label {
             width: 2em;
             height: 2rem;
-            border: 0.1rem solid $color-dark-shade-scheme-1;
+            border: 0.1rem solid var(--color-dark-shade-scheme-1);
             border-radius: 50%;
 
             &:hover {
@@ -877,7 +881,7 @@
             display: none;
 
             &:checked + label {
-              background-color: $color-scheme-1;
+              background-color: var(--color-scheme-1);
             }
           }
         }
@@ -894,7 +898,7 @@
           }
 
           &::-webkit-scrollbar-thumb {
-            background-color: $color-scheme-3;
+            background-color: var(--color-scheme-3);
           }
 
           @media only screen and (max-width: $wide) {
@@ -914,7 +918,7 @@
             }
 
             &::-webkit-scrollbar-thumb {
-              background-color: $color-scheme-3;
+              background-color: var(--color-scheme-3);
             }
           }
         }
@@ -927,7 +931,7 @@
           margin-left: 1rem;
           font-size: 1.2rem;
           font-weight: 300;
-          // border-bottom: 0.05rem solid $color-dark-shade-scheme-2;
+          // border-bottom: 0.05rem solid var(--color-dark-shade-scheme-2);
           width: 8rem;
           text-align: center;
 
@@ -946,7 +950,7 @@
             }
 
             &::-webkit-scrollbar-thumb {
-              background-color: $color-scheme-1;
+              background-color: var(--color-scheme-1);
             }
           }
 
@@ -970,7 +974,7 @@
 
             &:hover {
               cursor: pointer;
-              background-color: $color-light-shade-scheme-3;
+              background-color: var(--color-light-shade-scheme-3);
             }
 
             // @media only screen and (max-width: $wide) {
@@ -1004,7 +1008,7 @@
               align-items: center;
               width: 100%;
               padding: 1rem;
-              background-color: $color-scheme-2;
+              background-color: var(--color-scheme-2);
               color: white;
               outline: none;
               border: 0.1rem solid white;
@@ -1022,7 +1026,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: $color-dark-shade-scheme-2;
+            background-color: var(--color-dark-shade-scheme-2);
             border-top-left-radius: 0.8rem;
             border-top-right-radius: 0.8rem;
             padding: 0.5rem 1rem;
@@ -1039,7 +1043,7 @@
             &-container {
               position: absolute;
               top: 100%;
-              background-color: $color-light-shade-scheme-2;
+              background-color: var(--color-light-shade-scheme-2);
               width: 100%;
               height: 100%;
               z-index: 1000 !important;
@@ -1051,10 +1055,10 @@
               padding: 0.5rem 0;
               height: 100%;
               z-index: 1000 !important;
-              background-color: $color-light-shade-scheme-2;
+              background-color: var(--color-light-shade-scheme-2);
 
               &:hover {
-                background-color: $color-scheme-1;
+                background-color: var(--color-scheme-1);
               }
             }
           }
@@ -1070,8 +1074,8 @@
           display: flex;
           align-items: center;
           justify-content: space-between;
-          color: $color-dark-shade-scheme-1;
-          background-color: $color-light-shade-scheme-3;
+          color: var(--color-dark-shade-scheme-1);
+          background-color: var(--color-light-shade-scheme-3);
           font-size: 1.4rem;
           font-weight: 700;
           padding: 1rem 2rem;
@@ -1081,7 +1085,7 @@
           svg {
             width: 3rem;
             height: 3rem;
-            fill: $color-scheme-3 !important;
+            fill: var(--color-scheme-3) !important;
 
             &:hover {
               cursor: pointer;
@@ -1103,7 +1107,7 @@
             }
 
             &::-webkit-scrollbar-thumb {
-              background-color: $color-scheme-1;
+              background-color: var(--color-scheme-1);
             }
           }
 
@@ -1123,7 +1127,7 @@
             margin-left: 1rem;
             font-size: 1.2rem;
             font-weight: 700;
-            border-bottom: 0.05rem solid $color-light-shade-scheme-3;
+            border-bottom: 0.05rem solid var(--color-light-shade-scheme-3);
             width: 8rem;
             text-align: center;
 
@@ -1134,7 +1138,7 @@
             svg {
               width: 1.5rem;
               height: 1.5rem;
-              fill: $color-scheme-1;
+              fill: var(--color-scheme-1);
               margin-left: 0.5rem;
             }
 
@@ -1169,7 +1173,7 @@
         }
 
         &-box {
-          border: 0.1rem solid $color-light-shade-scheme-1;
+          border: 0.1rem solid var(--color-light-shade-scheme-1);
           border-top-right-radius: 1.2rem;
           border-top-left-radius: 1.2rem;
           margin-bottom: 1rem;
@@ -1182,15 +1186,15 @@
           }
 
           &::-webkit-scrollbar-thumb {
-            background-color: $color-scheme-1;
+            background-color: var(--color-scheme-1);
           }
 
           &-heading {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            color: $color-dark-shade-scheme-1;
-            background-color: $color-light-shade-scheme-3;
+            color: var(--color-dark-shade-scheme-1);
+            background-color: var(--color-light-shade-scheme-3);
             font-size: 1.4rem;
             font-weight: 700;
             padding: 1rem 2rem;
@@ -1217,11 +1221,11 @@
               width: 3.5rem;
               height: 3.5rem;
               border-radius: 50%;
-              background-color: $color-dark-shade-scheme-2;
+              background-color: var(--color-dark-shade-scheme-2);
               transition: all 0.3s ease-in-out;
 
               &:hover {
-                background-color: $color-scheme-1;
+                background-color: var(--color-scheme-1);
 
                 svg {
                   fill: white !important;
@@ -1229,14 +1233,14 @@
               }
 
               svg {
-                fill: $color-light-shade-scheme-3 !important;
+                fill: var(--color-light-shade-scheme-3) !important;
               }
             }
 
             svg {
               width: 2rem;
               height: 2rem;
-              fill: $color-scheme-3;
+              fill: var(--color-scheme-3);
 
               &:hover {
                 cursor: pointer;
@@ -1255,7 +1259,7 @@
             }
 
             &::-webkit-scrollbar-thumb {
-              background-color: $color-scheme-1;
+              background-color: var(--color-scheme-1);
             }
 
             &-item {
@@ -1282,7 +1286,7 @@
                 }
 
                 &::-webkit-scrollbar-thumb {
-                  background-color: $color-scheme-1;
+                  background-color: var(--color-scheme-1);
                 }
 
                 &-headers {
@@ -1297,7 +1301,7 @@
                   }
 
                   &::-webkit-scrollbar-thumb {
-                    background-color: $color-light-shade-scheme-1;
+                    background-color: var(--color-light-shade-scheme-1);
                   }
 
                   span {
@@ -1314,7 +1318,7 @@
                       margin-left: 1rem;
                       width: 2rem;
                       height: 2rem;
-                      fill: $color-scheme-1;
+                      fill: var(--color-scheme-1);
 
                       &:hover {
                         cursor: pointer;
@@ -1332,7 +1336,7 @@
 
                 a {
                   text-decoration: underline;
-                  color: $color-scheme-1;
+                  color: var(--color-scheme-1);
                   font-size: 1.4rem;
                   padding: 1.5rem;
                   min-width: 12rem;
@@ -1351,11 +1355,11 @@
                   svg {
                     width: 3rem;
                     height: 2.5rem;
-                    fill: $color-scheme-1;
+                    fill: var(--color-scheme-1);
 
                     &:hover {
                       cursor: pointer;
-                      fill: $color-scheme-3;
+                      fill: var(--color-scheme-3);
                     }
                   }
                 }
@@ -1375,7 +1379,7 @@
             }
 
             &::-webkit-scrollbar-thumb {
-              background-color: $color-scheme-1;
+              background-color: var(--color-scheme-1);
             }
 
             &-item {
@@ -1395,12 +1399,12 @@
                 margin-left: 2rem;
                 width: 100%;
                 font-size: 1.4rem;
-                // border-bottom: 0.1rem solid $color-scheme-2;
+                // border-bottom: 0.1rem solid var(--color-scheme-2);
                 position: relative;
 
                 a {
                   font-weight: 500;
-                  color: $color-scheme-2;
+                  color: var(--color-scheme-2);
                 }
 
                 &-toggle {
@@ -1413,7 +1417,7 @@
                   border-radius: 1.2rem;
                   display: flex;
                   align-items: center;
-                  border: 0.1rem solid $color-light-shade-scheme-1;
+                  border: 0.1rem solid var(--color-light-shade-scheme-1);
                   width: 100%;
 
                   textarea {
@@ -1434,7 +1438,7 @@
                   svg {
                     width: 3rem !important;
                     height: 3rem !important;
-                    fill: $color-scheme-1 !important;
+                    fill: var(--color-scheme-1) !important;
 
                     &:hover {
                       cursor: pointer;
@@ -1466,7 +1470,7 @@
                     &:hover {
                       cursor: pointer;
                       color: white;
-                      background-color: $color-scheme-1;
+                      background-color: var(--color-scheme-1);
                     }
                   }
                 }
@@ -1603,7 +1607,7 @@
     top: -12.5%;
     left: -5%;
     width: 3rem;
-    fill: $color-scheme-1;
+    fill: var(--color-scheme-1);
 
     @media only screen and (max-width: $small) {
       bottom: -12.2%;
@@ -1616,7 +1620,7 @@
     top: -12.5%;
     right: -5%;
     width: 3rem;
-    fill: $color-scheme-1;
+    fill: var(--color-scheme-1);
 
     @media only screen and (max-width: $small) {
       bottom: -12.2%;
@@ -1638,7 +1642,7 @@
     top: -7%;
     right: -9.5%;
     width: 3rem;
-    fill: $color-scheme-1;
+    fill: var(--color-scheme-1);
 
     @media only screen and (max-width: $small) {
       top: -7%;
@@ -1651,7 +1655,7 @@
     bottom: -6%;
     right: -9.5%;
     width: 3rem;
-    fill: $color-scheme-1;
+    fill: var(--color-scheme-1);
 
     @media only screen and (max-width: $small) {
       bottom: -6%;
@@ -1668,7 +1672,7 @@
     right: -11.2%;
     top: -15%;
     width: 3rem;
-    fill: $color-scheme-1;
+    fill: var(--color-scheme-1);
 
     @media only screen and (max-width: $small) {
       right: -15.5%;
@@ -1681,7 +1685,7 @@
     bottom: -15%;
     right: -11.2%;
     width: 3rem;
-    fill: $color-scheme-1;
+    fill: var(--color-scheme-1);
 
     @media only screen and (max-width: $small) {
       bottom: -15%;
@@ -1693,14 +1697,14 @@
     content: 'D';
     position: absolute;
     left: 105%;
-    border-left: 0.2rem solid $color-scheme-1;
+    border-left: 0.2rem solid var(--color-scheme-1);
     height: 100%;
     font-size: 1.5rem;
     font-weight: 700;
     display: flex;
     align-items: center;
     padding: 0 1rem;
-    color: $color-scheme-1;
+    color: var(--color-scheme-1);
   }
 }
 
@@ -1712,7 +1716,7 @@
     top: 99.5%;
     left: -15%;
     width: 3rem;
-    fill: $color-scheme-1;
+    fill: var(--color-scheme-1);
 
     @media only screen and (max-width: $small) {
       top: 96%;
@@ -1725,7 +1729,7 @@
     top: 99.5%;
     left: 85%;
     width: 3rem;
-    fill: $color-scheme-1;
+    fill: var(--color-scheme-1);
 
     @media only screen and (max-width: $small) {
       top: 96%;
@@ -1737,14 +1741,14 @@
     content: 'C';
     position: absolute;
     top: 105%;
-    border-top: 0.2rem solid $color-scheme-1;
+    border-top: 0.2rem solid var(--color-scheme-1);
     width: 100%;
     font-size: 1.5rem;
     font-weight: 700;
     display: flex;
     justify-content: center;
     padding: 0 1rem;
-    color: $color-scheme-1;
+    color: var(--color-scheme-1);
   }
 }
 
@@ -1756,7 +1760,7 @@
     top: -11.2%;
     left: -13%;
     width: 3rem;
-    fill: $color-scheme-1;
+    fill: var(--color-scheme-1);
 
     @media only screen and (max-width: $small) {
       top: -15.5%;
@@ -1768,7 +1772,7 @@
     top: -11.2%;
     right: -13%;
     width: 3rem;
-    fill: $color-scheme-1;
+    fill: var(--color-scheme-1);
 
     @media only screen and (max-width: $small) {
       top: -15.5%;
@@ -1779,14 +1783,14 @@
     content: 'C';
     position: absolute;
     bottom: 105%;
-    border-bottom: 0.2rem solid $color-scheme-1;
+    border-bottom: 0.2rem solid var(--color-scheme-1);
     width: 100%;
     font-size: 1.5rem;
     font-weight: 700;
     display: flex;
     justify-content: center;
     padding: 0 1rem;
-    color: $color-scheme-1;
+    color: var(--color-scheme-1);
   }
 }
 
@@ -1798,7 +1802,7 @@
     top: -11.2%;
     left: -11.5%;
     width: 3rem;
-    fill: $color-scheme-1;
+    fill: var(--color-scheme-1);
 
     @media only screen and (max-width: $small) {
       top: -15.2%;
@@ -1811,7 +1815,7 @@
     bottom: -11.2%;
     left: -11.5%;
     width: 3rem;
-    fill: $color-scheme-1;
+    fill: var(--color-scheme-1);
 
     @media only screen and (max-width: $small) {
       bottom: -15.2%;
@@ -1823,14 +1827,14 @@
     content: 'D';
     position: absolute;
     right: 105%;
-    border-right: 0.2rem solid $color-scheme-1;
+    border-right: 0.2rem solid var(--color-scheme-1);
     height: 100%;
     font-size: 1.5rem;
     font-weight: 700;
     display: flex;
     align-items: center;
     padding: 0 1rem;
-    color: $color-scheme-1;
+    color: var(--color-scheme-1);
   }
 }
 
@@ -1842,7 +1846,7 @@
     top: -11.2%;
     left: -13%;
     width: 3rem;
-    fill: $color-scheme-1;
+    fill: var(--color-scheme-1);
 
     @media only screen and (max-width: $small) {
       top: -15.5%;
@@ -1854,7 +1858,7 @@
     top: -11.2%;
     right: -13%;
     width: 3rem;
-    fill: $color-scheme-1;
+    fill: var(--color-scheme-1);
 
     @media only screen and (max-width: $small) {
       top: -15.5%;
@@ -1866,14 +1870,14 @@
     position: absolute;
     bottom: 105%;
     left: 0;
-    border-bottom: 0.2rem solid $color-scheme-1;
+    border-bottom: 0.2rem solid var(--color-scheme-1);
     width: 100%;
     font-size: 1.5rem;
     font-weight: 700;
     display: flex;
     justify-content: center;
     padding: 0 1rem;
-    color: $color-scheme-1;
+    color: var(--color-scheme-1);
   }
 }
 
@@ -1885,7 +1889,7 @@
     top: -11.2%;
     left: 99.5%;
     width: 3rem;
-    fill: $color-scheme-1;
+    fill: var(--color-scheme-1);
 
     @media only screen and (max-width: $small) {
       top: -11.5%;
@@ -1897,7 +1901,7 @@
     bottom: -11.2%;
     left: 99.5%;
     width: 3rem;
-    fill: $color-scheme-1;
+    fill: var(--color-scheme-1);
 
     @media only screen and (max-width: $small) {
       bottom: -15.2%;
@@ -1909,14 +1913,14 @@
     position: absolute;
     top: 5%;
     left: 105%;
-    border-left: 0.2rem solid $color-scheme-1;
+    border-left: 0.2rem solid var(--color-scheme-1);
     height: 95%;
     font-size: 1.5rem;
     font-weight: 700;
     display: flex;
     align-items: center;
     padding: 0 1rem;
-    color: $color-scheme-1;
+    color: var(--color-scheme-1);
 
     @media only screen and (max-width: $small) {
       left: 109%;
@@ -1932,7 +1936,7 @@
     top: -11.2%;
     right: 99.2%;
     width: 3rem;
-    fill: $color-scheme-1;
+    fill: var(--color-scheme-1);
 
     @media only screen and (max-width: $small) {
       top: -15.5%;
@@ -1944,7 +1948,7 @@
     bottom: -11.2%;
     right: 99.2%;
     width: 3rem;
-    fill: $color-scheme-1;
+    fill: var(--color-scheme-1);
 
     @media only screen and (max-width: $small) {
       bottom: -15.5%;
@@ -1956,14 +1960,14 @@
     position: absolute;
     // bottom: 110%;
     right: 105%;
-    border-right: 0.2rem solid $color-scheme-1;
+    border-right: 0.2rem solid var(--color-scheme-1);
     height: 100%;
     font-size: 1.5rem;
     font-weight: 700;
     display: flex;
     align-items: center;
     padding: 0 1rem;
-    color: $color-scheme-1;
+    color: var(--color-scheme-1);
 
     @media only screen and (max-width: $small) {
       right: 109%;
@@ -1979,7 +1983,7 @@
     top: 99.5%;
     left: -15%;
     width: 3rem;
-    fill: $color-scheme-1;
+    fill: var(--color-scheme-1);
   }
 
   &-svg_2 {
@@ -1987,7 +1991,7 @@
     top: 99.5%;
     right: -15%;
     width: 3rem;
-    fill: $color-scheme-1;
+    fill: var(--color-scheme-1);
 
     @media only screen and (max-width: $small) {
       top: 99%;
@@ -1998,14 +2002,14 @@
     content: 'C';
     position: absolute;
     top: 105%;
-    border-top: 0.2rem solid $color-scheme-1;
+    border-top: 0.2rem solid var(--color-scheme-1);
     width: 100%;
     font-size: 1.5rem;
     font-weight: 700;
     display: flex;
     justify-content: center;
     padding: 0 1rem;
-    color: $color-scheme-1;
+    color: var(--color-scheme-1);
 
     @media only screen and (max-width: $small) {
       top: 108.5%;

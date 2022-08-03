@@ -297,7 +297,7 @@ const Table = ({
                   <a href={`${item[key][0].location}`} target="_blank">
                     { key == 'files' 
                       ?
-                      <img src="https://static.thenounproject.com/png/47347-200.png"></img>
+                      <SVG svg={'document-2'}></SVG>
                       :
                       <img src={`${item[key][0].location}`}></img>
                     }

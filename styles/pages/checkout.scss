@@ -38,7 +38,7 @@
     &-billing {
       width: 40%;
       padding: 1rem 2rem;
-      background-color: $color-light-shade-scheme-4;
+      background-color: var(--color-light-shade-scheme-4);
       border-radius: 1.2rem;
 
       &-title {
@@ -65,7 +65,7 @@
         padding: 1rem 2rem;
         margin-right: 1rem;
         margin-bottom: 1rem;
-        background-color: $color-scheme-2;
+        background-color: var(--color-scheme-2);
         border-radius: 1.2rem;
         font-size: 1.2rem;
         color: white;
@@ -74,7 +74,7 @@
 
         &:hover {
           cursor: pointer;
-          background-color: $color-scheme-1;
+          background-color: var(--color-scheme-1);
         }
       }
     }
@@ -82,20 +82,20 @@
     &-summary {
       width: 60%;
       margin-left: 2rem;
-      border: 0.2rem solid $color-light-shade-scheme-3;
+      border: 0.2rem solid var(--color-light-shade-scheme-3);
       border-radius: 1.2rem;
       padding: 1rem 0;
-      color: $color-dark-shade-scheme-3;
+      color: var(--color-dark-shade-scheme-3);
       max-height: 100rem;
       overflow-y: auto;
 
       &::-webkit-scrollbar {
         width: 0.3rem;
-        background-color: $color-light-shade-scheme-4;
+        background-color: var(--color-light-shade-scheme-4);
       }
 
       &::-webkit-scrollbar-thumb {
-        background-color: $color-scheme-1;
+        background-color: var(--color-scheme-1);
       }
 
       &-title {
@@ -110,7 +110,7 @@
         &-svg {
           width: 3rem;
           height: 3rem;
-          fill: $color-scheme-1;
+          fill: var(--color-scheme-1);
         }
       }
 

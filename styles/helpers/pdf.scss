@@ -18,7 +18,7 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: $color-scheme-1;
+    background-color: var(--color-scheme-1);
   }
 
   @media only screen and (max-width: $medium){

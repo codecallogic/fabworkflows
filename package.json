@@ -10,6 +10,9 @@
     "watch:css": "node-sass styles/main.scss styles/app.css -w"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.0",
+    "@emotion/styled": "^11.10.0",
+    "@mui/material": "^5.9.3",
     "@react-pdf/renderer": "^2.0.20",
     "@stripe/react-stripe-js": "^1.6.0",
     "@stripe/stripe-js": "^1.29.0",

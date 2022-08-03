@@ -1,5 +1,5 @@
 .logout {
-  color: $color-scheme-2;
+  color: var(--color-scheme-2);
   font-size: 1.6rem;
 
   &:hover {
@@ -22,7 +22,7 @@
     margin: 1rem 0;
     font-size: 1.4rem;
     text-decoration: underline;
-    color: $color-scheme-1;
+    color: var(--color-scheme-1);
   }
 }
 

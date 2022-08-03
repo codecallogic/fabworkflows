@@ -12,7 +12,7 @@
   &-box {
     padding: 1rem 2rem;
     box-sizing: content-box;
-    background-color: $color-light-shade-scheme-1;
+    background-color: var(--color-light-shade-scheme-1);
     width: 40%;
     height: 40rem;
     border-radius: 1.2rem;
@@ -40,7 +40,7 @@
 
         &:hover {
           cursor: pointer;
-          fill: $color-scheme-1;
+          fill: var(--color-scheme-1);
         }
       }
     }
@@ -74,7 +74,7 @@
   &-box {
     margin: 0 auto;
     z-index: 2000 !important;
-    background-color: $color-light-shade-scheme-3;
+    background-color: var(--color-light-shade-scheme-3);
     width: 40%;
     padding: 0 0 2rem 0;
     border-radius: 1.2rem;
@@ -93,8 +93,8 @@
       align-items: center;
       font-size: 2.2rem;
       padding: 1rem 2rem;
-      background-color: $color-dark-shade-scheme-4;
-      color: white;
+      background-color: var(--color-dark-shade-scheme-4);
+      color: var(--color-light-shade-scheme-4);
       border-top-right-radius: 1.2rem;
       border-top-left-radius: 1.2rem;
 
@@ -110,12 +110,12 @@
       svg {
         width: 2.5rem;
         height: 2.5rem;
-        fill: white;
+        fill: var(--color-light-shade-scheme-4);
         transition: all 0.2s ease-in-out;
 
         &:hover {
           cursor: pointer;
-          fill: $color-scheme-1;
+          fill: var(--color-scheme-1);
         }
       }
     }
@@ -139,7 +139,7 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: $color-scheme-1;
+      background-color: var(--color-scheme-1);
     }
 
     &-container {
@@ -157,7 +157,7 @@
       // }
 
       // &::-webkit-scrollbar-thumb {
-      //   background-color: $color-scheme-1;
+      //   background-color: var(--color-scheme-1);
       // }
 
       &-searchList {
@@ -168,7 +168,7 @@
         min-height: 22rem;
         padding: 1rem 2rem;
         z-index: 500;
-        background-color: $color-light-shade-scheme-3;
+        background-color: var(--color-light-shade-scheme-3);
 
         &-container {
           margin: 0.5rem 0;
@@ -181,7 +181,7 @@
           }
 
           &::-webkit-scrollbar-thumb {
-            background-color: $color-scheme-1;
+            background-color: var(--color-scheme-1);
           }
         }
 
@@ -196,11 +196,11 @@
             svg {
               width: 2rem;
               height: 2rem;
-              fill: black;
+              fill: var(--color-dark-shade-scheme-1);
 
               &:hover {
                 cursor: pointer;
-                fill: $color-scheme-1;
+                fill: var(--color-scheme-1);
               }
             }
           }
@@ -208,13 +208,14 @@
           &-item {
             padding: 0.5rem 2rem;
             border-radius: 1.2rem;
-            background-color: $color-light-shade-scheme-1;
+            background-color: var(--color-dark-shade-scheme-1);
+            color: var(--color-light-shade-scheme-1);
             font-weight: 700;
             margin-right: 0.5rem;
 
             &:hover {
-              background-color: $color-scheme-1;
-              color: white;
+              background-color: var(--color-light-shade-scheme-1);
+              color: var(--color-dark-shade-scheme-1);
               cursor: pointer;
               font-weight: 700;
             }
@@ -225,7 +226,8 @@
           font-size: 1.6rem;
           width: 100%;
           padding: 0.5rem 1rem;
-          border-bottom: 0.2rem solid $color-light-shade-scheme-1;
+          color: var(--color-dark-shade-scheme-1);
+          border-bottom: 0.2rem solid var(--color-dark-shade-scheme-1);
         }
 
         &-table {
@@ -236,7 +238,7 @@
               display: flex;
               align-items: center;
               font-size: 1.6rem;
-              background-color: $color-scheme-3;
+              background-color: var(--color-scheme-3);
               padding: .5rem 1rem;
               border-radius: .2rem;
               color: white;
@@ -244,7 +246,7 @@
               svg {
                 width: 2rem;
                 height: 2rem;
-                fill: $color-scheme-2;
+                fill: var(--color-scheme-2);
               }
 
               &:hover {
@@ -264,10 +266,11 @@
             margin: 0 1rem;
             width: 90%;
             text-transform: capitalize;
+            color: var(--color-dark-shade-scheme-1);
 
             &:hover {
-              background-color: $color-scheme-1;
-              color: white;
+              background-color: var(--color-dark-shade-scheme-1);
+              color: var(--color-light-shade-scheme-1);
               cursor: pointer;
               font-weight: 700;
             }
@@ -337,7 +340,7 @@
       margin-left: 1rem;
       width: 3rem;
       height: 3rem;
-      fill: $color-scheme-2;
+      fill: var(--color-scheme-2);
 
       &:hover {
         cursor: pointer;
@@ -348,7 +351,7 @@
 }
 
 .categoryClicked {
-  background-color: $color-scheme-1;
+  background-color: var(--color-scheme-1);
   color: white;
   font-weight: 700;
 }
@@ -373,12 +376,12 @@
     width: 10rem;
     height: 10rem;
     border-radius: 50%;
-    border: .1rem solid $color-scheme-1;
+    border: .1rem solid var(--color-scheme-1);
     
     svg {
       width: 5rem;
       height: 5rem;
-      fill: $color-scheme-1;
+      fill: var(--color-scheme-1);
     }
   }
 
@@ -406,7 +409,7 @@
 
     &:hover {
       cursor: pointer;
-      background-color: $color-scheme-1;
+      background-color: var(--color-scheme-1);
       color: white;
     }
     
