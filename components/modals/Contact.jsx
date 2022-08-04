@@ -421,7 +421,7 @@ const PriceListModal = ({
 
 
       <div className="addFieldItems-modal-box-footer">
-        {edit == '' | edit == 'jobs' && 
+        { (edit == '' | edit == 'jobs' | edit == 'new_account') && 
         <button 
         className="form-group-button" 
         onClick={(e) => dynamicType 
@@ -446,7 +446,7 @@ const PriceListModal = ({
             }
         </button>
         }
-        {edit == 'contact' && 
+        { edit == 'contact' && 
         <button 
         className="form-group-button" 
         onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'contacts', null, setMessage, 'update_contact', setLoading, token, 'contact/update-contact', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'contacts', setModal))}

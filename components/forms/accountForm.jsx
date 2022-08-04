@@ -156,7 +156,7 @@ const AccountForm = ({
                   <span style={{ backgroundColor: loadingColor }}></span>
                   <span style={{ backgroundColor: loadingColor }}></span>
                 </div>
-              ) : edit == typeOfData ? (
+              ) : (edit == typeOfData | edit == 'new_account') ? (
                 'Update'
               ) : (
                 'Save'
@@ -285,12 +285,14 @@ const AccountForm = ({
                 stateData.accountAddress 
                 ? (
                   setModal('new_contact'),
+                  setEdit('new_account'),
                   setDynamicType('CREATE_ACCOUNT'),
                   setDynamicKey('accountAddress'),
                   populateAddress(null, stateData.accountAddress, stateMethod, 'CREATE_CONTACT')
                   )
                 : (
                   setModal('new_contact'),
+                  setEdit('new_account'),
                   setDynamicType('CREATE_ACCOUNT'),
                   setDynamicKey('accountAddress'),
                   resetState(resetTypeContact)

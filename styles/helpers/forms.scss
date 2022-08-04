@@ -245,6 +245,7 @@
         align-items: center;
         margin-right: 1rem;
         box-shadow: 0.3rem 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.2);
+        background-color: white;
         border-radius: 1.2rem;
         transition: all 0.5s ease-in-out;
         font-size: 1.2rem;
@@ -262,6 +263,7 @@
       &-image {
         width: 100%;
         object-fit: cover;
+        background-color: white;
         border-radius: 1.2rem;
       }
 
