@@ -62,8 +62,8 @@ const Table = ({
   const matchPattern = /https?:\/\/(www\.)?/gi;
   const myRefs = useRef([])
   const [loadingColor, setLoadingColor] = useState('black')
-  const [up, setUp] = useState(1)
-  const [down, setDown] = useState(-1)
+  const [up, setUp] = useState(-1)
+  const [down, setDown] = useState(1)
   const [filter, setFilter] = useState('')
   const [dropdown, setDropdown] = useState('')
 
@@ -256,10 +256,9 @@ const Table = ({
         </div>
         : null
       }
-      {/* sort((a, b) => sortColumns(a, b, filter) ? up : down). */}
       { 
         filterTable(allData[typeOfData]).length > 0 && 
-        filterTable(allData[typeOfData], ['createdAt', 'updatedAt', '__v']).map((item, idx) => 
+        filterTable(allData[typeOfData], ['createdAt', 'updatedAt', '__v']).sort((a, b) => sortColumns(a, b, filter) ? up : down).map((item, idx) => 
         // .sort((a, b) => a[filter] > b[filter] ? up : down)
           <div 
           key={idx} 
