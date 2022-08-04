@@ -256,9 +256,10 @@ const Table = ({
         </div>
         : null
       }
+      {/* sort((a, b) => sortColumns(a, b, filter) ? up : down). */}
       { 
         filterTable(allData[typeOfData]).length > 0 && 
-        filterTable(allData[typeOfData], ['createdAt', 'updatedAt', '__v']).sort((a, b) => sortColumns(a, b, filter) ? up : down).map((item, idx) => 
+        filterTable(allData[typeOfData], ['createdAt', 'updatedAt', '__v']).map((item, idx) => 
         // .sort((a, b) => a[filter] > b[filter] ? up : down)
           <div 
           key={idx} 
