@@ -32,8 +32,6 @@ const calculateEstimate = (stateData, stateMethod, caseType, depositType) => {
   let deposit               = 0
   let balance               = 0
   
-  // console.log(stateData)
-  
   stateData.quote_lines.forEach((item) => {
     
     if(item.taxable){ 

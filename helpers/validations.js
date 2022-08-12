@@ -389,12 +389,12 @@ const formatTime = (duration) => {
 
 const numberType = (e, type) => {
 
-  if(type == 'percentage'){ 
+  if(type == 'dollar'){ 
     if(e.target.value == '') return ''
     if(e.target.value !== '') return e.target.value + '%'
   }
 
-  if(type == 'dollar'){ 
+  if(type == 'percentage'){ 
     if(e.target.value == '') return ''
     if(e.target.value !== '') return validatePrice(e)
   }

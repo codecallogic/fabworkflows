@@ -115,7 +115,6 @@ const CutoutsModal = ({
           onClick={() => setInputDropdown('cutout_type')} 
           value={stateData.type} 
           onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'type', e.target.value))}
-          readOnly
           />
           <label 
           className={`input-label ` + (

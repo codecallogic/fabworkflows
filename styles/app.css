@@ -8,10 +8,10 @@
   --color-dark-shade-scheme-2: #1e1e1e;
   --color-dark-shade-scheme-3: #666;
   --color-dark-shade-scheme-4: #5b615d;
-  --color-light-shade-scheme-1: #dbdbdb;
-  --color-light-shade-scheme-2: #c8c8cb;
-  --color-light-shade-scheme-3: #ededec;
-  --color-light-shade-scheme-4: #f1f1ee; }
+  --color-light-shade-scheme-1: #fafafa;
+  --color-light-shade-scheme-2: #f1f1f0;
+  --color-light-shade-scheme-3: #e3e3e3fb;
+  --color-light-shade-scheme-4: #dededef0; }
 
 :root[data-theme="theme-dark"] {
   --color-scheme-1: #041F1E;
@@ -19,10 +19,10 @@
   --color-scheme-3: #BBA451;
   --color-scheme-4: #881E27;
   --color-scheme-5: #B21212;
-  --color-dark-shade-scheme-1: #dbdbdb;
-  --color-dark-shade-scheme-2: #c8c8cb;
-  --color-dark-shade-scheme-3: #ededec;
-  --color-dark-shade-scheme-4: #f1f1ee;
+  --color-dark-shade-scheme-1: #fafafa;
+  --color-dark-shade-scheme-2: #f1f1f0;
+  --color-dark-shade-scheme-3: #e3e3e3f7;
+  --color-dark-shade-scheme-4: #dededef6;
   --color-light-shade-scheme-1: #413838;
   --color-light-shade-scheme-2: #1e1e1e;
   --color-light-shade-scheme-3: #666;
@@ -115,7 +115,7 @@ body {
       transition: all 0.3s ease-in-out; }
       .form-box-heading-item:hover {
         cursor: pointer;
-        background-color: var(--color-light-shade-scheme-1);
+        background-color: var(--color-dark-shade-scheme-1);
         box-shadow: 0.2rem 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.2); }
       .form-box-heading-item svg {
         transition: all 0.3s ease-in-out;
@@ -171,7 +171,9 @@ body {
       top: 40%;
       transition: all 0.3s ease-in-out;
       font-size: 1.2rem;
-      text-transform: lowercase; }
+      text-transform: capitalize; }
+      .form-group label span {
+        text-transform: lowercase; }
     .form-group div > svg {
       width: 3rem;
       height: 3rem;
@@ -194,9 +196,9 @@ body {
         align-items: center;
         padding: 0.8rem 2rem;
         font-size: inherit;
+        text-transform: capitalize;
         color: var(--color-dark-shade-scheme-1);
-        background-color: var(--color-light-shade-scheme-1);
-        text-transform: lowercase; }
+        background-color: var(--color-light-shade-scheme-1); }
         .form-group-list-item:last-child {
           border-bottom-right-radius: 0.5rem;
           border-bottom-left-radius: 0.5rem;
@@ -227,6 +229,7 @@ body {
       transition: all 0.5s ease-in-out; }
       .form-group-button:hover {
         cursor: pointer;
+        color: var(--color-dark-shade-scheme-1);
         background-color: var(--color-light-shade-scheme-1);
         box-shadow: 0.3rem 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.2); }
       .form-group-button svg {
@@ -284,7 +287,7 @@ body {
         height: 2rem;
         fill: white; }
     .form-group-textarea {
-      text-transform: lowercase;
+      text-transform: capitalize;
       padding: 0.5rem 1.5rem;
       position: relative; }
       .form-group-textarea textarea {
@@ -1259,11 +1262,11 @@ body {
       align-items: center;
       margin-left: 2rem;
       font-size: 1.4rem;
-      color: white; }
+      color: var(--color-dark-shade-scheme-1); }
       .table-header-error svg {
         width: 3rem;
         height: 3rem;
-        fill: white; }
+        fill: var(--color-dark-shade-scheme-1); }
       .table-header-error span {
         margin-left: 1rem; }
   .table-headers {
@@ -1559,7 +1562,7 @@ body {
       display: flex;
       align-items: center;
       font-size: 1.6rem;
-      color: var(--color-dark-shade-scheme-1);
+      color: white;
       background-color: var(--color-scheme-2);
       padding: 1rem;
       border-radius: 1.2rem;
@@ -1618,7 +1621,7 @@ body {
             justify-content: center;
             padding: .5rem;
             width: 100%;
-            color: var(--color-dark-shade-scheme-1); }
+            color: white; }
             .clientDashboard_topnav-menu-account-dropdown-container-item:hover {
               cursor: pointer;
               background-color: var(--color-light-shade-scheme-2);

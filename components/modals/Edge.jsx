@@ -115,7 +115,6 @@ const EdgeModal = ({
           onClick={() => setInputDropdown('edge_type')} 
           value={stateData.type} 
           onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'type', e.target.value))}
-          readOnly
           />
           <label 
           className={`input-label ` + (

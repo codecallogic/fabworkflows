@@ -371,23 +371,23 @@ const Checkout = ({
               </div>
             }
 
-            { quote.quote_lines.length > 0 &&
+            {/* { quote.quote_lines.length > 0 &&
               <div className="form-estimate-line-total">
                 <label>Non-Taxable Subtotal</label>
                 <span id="nonTaxableSubtotal">${
                   quote.quote_nontaxable_subtotal
                 }</span>
               </div>
-            }
+            } */}
 
-            { quote.quote_lines.length > 0 &&
+            {/* { quote.quote_lines.length > 0 &&
               <div className="form-estimate-line-total">
                 <label>Non-Taxable Discount</label>
                 <span id="nonTaxableSubtotal">${
                   quote.quote_nontaxable_discount
                 }</span>
               </div>
-            }
+            } */}
 
             { quote.quote_lines.length > 0 &&
               <div className="form-estimate-line-total">

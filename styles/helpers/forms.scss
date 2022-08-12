@@ -69,7 +69,7 @@
 
         &:hover {
           cursor: pointer;
-          background-color: var(--color-light-shade-scheme-1);
+          background-color: var(--color-dark-shade-scheme-1);
           box-shadow: .2rem .2rem .2rem .2rem rgba(0,0,0, .2);
         }
 
@@ -143,7 +143,12 @@
       top: 40%;
       transition: all 0.3s ease-in-out;
       font-size: 1.2rem;
-      text-transform: lowercase;
+      text-transform: capitalize;
+
+      span {
+        text-transform: lowercase;
+      }
+      
     }
 
     div > svg {
@@ -173,9 +178,9 @@
         align-items: center;
         padding: 0.8rem 2rem;
         font-size: inherit;
+        text-transform: capitalize;
         color: var(--color-dark-shade-scheme-1);
         background-color: var(--color-light-shade-scheme-1);
-        text-transform: lowercase;
 
         &:last-child {
           border-bottom-right-radius: 0.5rem;
@@ -217,6 +222,7 @@
 
       &:hover {
         cursor: pointer;
+        color: var(--color-dark-shade-scheme-1);
         background-color: var(--color-light-shade-scheme-1);
         box-shadow: 0.3rem 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.2);
       }
@@ -295,7 +301,7 @@
     }
 
     &-textarea {
-      text-transform: lowercase;
+      text-transform: capitalize;
       padding: 0.5rem 1.5rem;
       position: relative;
 

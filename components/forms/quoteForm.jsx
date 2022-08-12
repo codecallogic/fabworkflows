@@ -73,7 +73,9 @@ const QuoteForm = ({
   const [loadingColor, setLoadingColor] = useState('black');
   const [input_dropdown, setInputDropdown] = useState('');
   const [save, setSave] = useState(false);
-  const [depositType, setDepositType] = useState('percentage');
+  const [depositType, setDepositType] = useState( stateData.quote_deposit.includes('$') ? 'percentage' : 'dollar');
+  
+  // console.log(stateData)
 
   useEffect(() => {
     const isEmpty = Object.values(stateData).every(
@@ -884,21 +886,28 @@ const QuoteForm = ({
                 }
                 htmlFor="quote_deposit"
               >
-                Deposit
+                Deposit <span>(credit card fee in %)</span>
               </label>
               <div
                 onClick={() =>
-                  depositType == 'percentage'
-                    ? (setDepositType('dollar'),
-                      stateMethod(createType, 'quote_deposit', ''))
-                    : (setDepositType('percentage'),
-                      stateMethod(createType, 'quote_deposit', ''))
+                  depositType == 'dollar'
+                    ? (setDepositType('percentage'),
+                      stateMethod(createType, 'quote_deposit', '')
+                      )
+                    : (
+                      setDepositType('dollar'),
+                      stateMethod(createType, 'quote_deposit', '')
+                      )
                 }
               >
-                {depositType == 'percentage' ? (
-                  <SVG svg={'dollar'}></SVG>
-                ) : (
+                {depositType == 'percentage' 
+                ? 
+                (
                   <SVG svg={'percentage'}></SVG>
+                ) 
+                : 
+                (
+                  <SVG svg={'dollar'}></SVG>
                 )}
               </div>
             </div>
@@ -1053,14 +1062,15 @@ const QuoteForm = ({
                           {item.material
                             ? 
                             `${manageFormFields(item.material, 'name')} 
-                            ${
+                              ${ item.color ? `/ ${manageFormFields(item.color, 'name')} ` : '' }
+                              ${
                               item.model
                               ? ` / ${manageFormFields(item.model, 'name')}`
                               : ''
-                            }`
-                            : item.category
+                              }`
+                            : `${item.category}`
                             ? 
-                            `${manageFormFields(item.category, 'name')} ${ item.description ? `/ ${item.description.substring(0, 60)}...` : ''}`
+                            `${manageFormFields(item.category, 'name')} ${ item.color ? `/ ${manageFormFields(item.color, 'name')} ` : '' } ${ item.description ? `/ ${item.description.substring(0, 60)}...` : ''} `
                             : item.model
                             ? 
                             `Sink: ${manageFormFields(item.model, 'name')}
@@ -1135,23 +1145,23 @@ const QuoteForm = ({
                 </div>
               )}
 
-              {stateData.quote_lines.length > 0 && (
+              {/* {stateData.quote_lines.length > 0 && (
                 <div className="form-estimate-line-total">
                   <label>Non-Taxable Subtotal</label>
                   <span id="nonTaxableSubtotal">
                     ${stateData.quote_nontaxable_subtotal}
                   </span>
                 </div>
-              )}
+              )} */}
 
-              {stateData.quote_lines.length > 0 && (
+              {/* {stateData.quote_lines.length > 0 && (
                 <div className="form-estimate-line-total">
                   <label>Non-Taxable Discount</label>
                   <span id="nonTaxableSubtotal">
                     ${stateData.quote_nontaxable_discount}
                   </span>
                 </div>
-              )}
+              )} */}
 
               {stateData.quote_lines.length > 0 && (
                 <div className="form-estimate-line-total">
