@@ -231,7 +231,7 @@ const Table = ({
                   resetCheckboxes()
                 )}
               >
-                <SVG svg={'edit-2'}></SVG>
+                <SVG svg={'edit'}></SVG>
               </div>
             </div>
             {Object.keys(item).sort((a, b) => sortOrder.indexOf(b) - sortOrder.indexOf(a)).map((key, idx, array) => 

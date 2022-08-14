@@ -798,8 +798,8 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
                   }
                   </span> */}
                     {item.urlID
-                      ? `${item.urlID}.pdf`
-                      : item.subject.substring(0, 20)}
+                      ? `${item.urlID.substring(0, 15)}.pdf`
+                      : item.subject.substring(0, 15)}
 
                     <div id="element">
                       <div id={`pdf-${idx}`} className="pdf">

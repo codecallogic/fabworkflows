@@ -258,6 +258,9 @@ body {
         height: min-content;
         margin-bottom: 1rem;
         position: relative; }
+        @media only screen and (max-width: 768px) {
+          .form-group-gallery-link {
+            font-size: .8rem; } }
         .form-group-gallery-link:hover {
           cursor: pointer;
           box-shadow: 0.3rem 0.5rem 0.5rem 0.3rem rgba(0, 0, 0, 0.3); }
@@ -272,6 +275,11 @@ body {
           background-color: var(--color-scheme-2);
           width: 100%;
           height: 5rem; }
+          @media only screen and (max-width: 768px) {
+            .form-group-gallery-link div {
+              bottom: 15%;
+              font-size: 1.2rem;
+              height: 2.5rem; } }
       .form-group-gallery-image {
         width: 100%;
         object-fit: cover;
@@ -1479,6 +1487,7 @@ body {
           padding: 0.5rem 1rem;
           transition: all 0.5s ease-in-out; }
           .table-rows-item-dropdown span svg {
+            margin-left: .5rem;
             width: 2rem;
             height: 2rem;
             fill: var(--color-scheme-2); }

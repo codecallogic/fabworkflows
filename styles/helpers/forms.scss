@@ -260,6 +260,10 @@
         margin-bottom: 1rem;
         position: relative;
 
+        @media only screen and (max-width: $medium) {
+          font-size: .8rem;
+        }
+
         &:hover {
           cursor: pointer;
           box-shadow: 0.3rem 0.5rem 0.5rem 0.3rem rgba(0, 0, 0, 0.3);
@@ -276,6 +280,12 @@
           background-color: var(--color-scheme-2);
           width: 100%;
           height: 5rem;
+
+          @media only screen and (max-width: $medium) {
+            bottom: 15%;
+            font-size: 1.2rem;
+            height: 2.5rem;
+          }
         }
       }
 
