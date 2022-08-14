@@ -24,6 +24,9 @@ const tableData = async (token, path) => {
         contentType: `application/json`
       }
     })
+
+    if(!Array.isArray(responseItems.data) && responseItems.data.list) return responseItems.data.list
+
     return responseItems.data
   } catch (error) {
     console.log(error)

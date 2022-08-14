@@ -92,8 +92,6 @@ const submitCreate = async (e, stateData, type, fileType, setMessage, loadingTyp
         contentType: 'multipart/form-data'
       }
     })
-
-    console.log(responseCreate.data)
     
     setLoading('')
     if(!noDataReset) allData[type]= responseCreate.data.list
@@ -162,8 +160,12 @@ const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingTy
         contentType: 'multipart/form-data'
       }
     })
+
     setLoading('')
-    allData[type]= responseUpdate.data
+
+    if(Array.isArray(responseUpdate.data)) allData[type] = responseUpdate.data
+    if(!Array.isArray(responseUpdate.data) && responseUpdate.data.list) allData[type] = responseUpdate.data.list
+    
     setAllData(allData)
     if(resetType) resetState(resetType)
     if(viewType) changeView(viewType)
