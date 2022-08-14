@@ -1445,9 +1445,9 @@ body {
       .table-rows-item svg {
         width: 90%;
         height: 90%;
-        fill: var(--color-light-shade-scheme-1);
-        background-color: var(--color-dark-shade-scheme-1);
-        box-shadow: 0.3rem 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.2);
+        fill: black;
+        background-color: white;
+        box-shadow: 0.5rem 0.5rem 0.5rem 0.1rem rgba(0, 0, 0, 0.2);
         border-radius: 1.2rem;
         object-fit: cover; }
       .table-rows-item-color {
