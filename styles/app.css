@@ -261,6 +261,17 @@ body {
         .form-group-gallery-link:hover {
           cursor: pointer;
           box-shadow: 0.3rem 0.5rem 0.5rem 0.3rem rgba(0, 0, 0, 0.3); }
+        .form-group-gallery-link div {
+          position: absolute;
+          bottom: 10%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 1.8rem;
+          color: white;
+          background-color: var(--color-scheme-2);
+          width: 100%;
+          height: 5rem; }
       .form-group-gallery-image {
         width: 100%;
         object-fit: cover;

@@ -506,6 +506,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
                       className="form-group-gallery-image"
                       src="https://static.thenounproject.com/png/47347-200.png"
                     />
+                    <div>Click to view</div>
                     <span
                       onClick={(e) => (
                         e.stopPropagation(),
