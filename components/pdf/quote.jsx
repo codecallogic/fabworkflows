@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react'
 import {Document, Page, Text, View, Image, StyleSheet} from '@react-pdf/renderer'
+import { manageFormFields } from '../../helpers/forms'
 
 const styles = StyleSheet.create({
   page: {
@@ -42,17 +43,17 @@ const styles = StyleSheet.create({
     width: 200
   },
   heading: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: 700,
     paddingBottom: 3,
   },
   headingTwo: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 700,
     paddingBottom: 3
   },
   subheading: {
-    fontSize: 12,
+    fontSize: 8,
     fontWeight: 200,
     padding: 2,
   },
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
     margin: 0
   },
   headingTable: {
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: 700,
     padding: 5,
     width: 200,
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fd7e3c',
   },
   headingTableTwo: {
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: 700,
     padding: 5,
     color: 'white',
@@ -116,15 +117,14 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   tableRow: {
-    fontSize: 12,
+    fontSize: 8,
     fontWeight: 300,
-    textAlign: 'center',
     padding: 5,
     width: 200,
     backgroundColor: '#f1f1ee'
   },
   tableRowTwo: {
-    fontSize: 12,
+    fontSize: 8,
     fontWeight: 300,
     textAlign: 'center',
     padding: 5,
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f1f1ee'
   },
   tableColumn: {
-    fontSize: 12,
+    fontSize: 8,
     fontWeight: 300,
     display: 'flex',
     flexDirection: 'row',
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     marginLeft: 5
   },
   fontStyleOne: {
-    fontSize: 12,
+    fontSize: 8,
     fontWeight: 200,
     padding: 2,
     textTransform: 'capitalize'
@@ -236,7 +236,39 @@ const Quote = ({stateData}) => {
           {stateData.quote_lines.length > 0 && stateData.quote_lines.map((item) =>
             <View style={styles.sectionRow}>
               <Text style={styles.tableRowTwo}>{item.quantity}</Text>
-              <Text style={styles.tableRowTwo}>{item.description}</Text>
+              <Text style={styles.tableRowTwo}>
+              {item.material
+                ? 
+                `${manageFormFields(item.material, 'name')} 
+                  ${ item.color ? `/ ${manageFormFields(item.color, 'name')} ` : '' }
+                  ${
+                  item.model
+                  ? ` / ${manageFormFields(item.model, 'name')}`
+                  : ''
+                  }`
+                : `${item.category}`
+                ? 
+                `${manageFormFields(item.category, 'name')} ${ item.color ? `/ ${manageFormFields(item.color, 'name')} ` : '' } ${ item.description ? `/ ${item.description.substring(0, 60)}...` : ''} `
+                : item.model
+                ? 
+                `Sink: ${manageFormFields(item.model, 'name')}
+                ${
+                  item.color
+                    ? ` / ${manageFormFields(item.color, 'name')}`
+                    : ''
+                }`
+                : 
+                item.edgeType
+                ?
+                item.edgeType
+                :
+                item.cutoutType
+                ?
+                item.cutoutType
+                :
+                item.description
+              }
+              </Text>
               <Text style={styles.tableRowTwo}>
                 {item.price ? item.price : 'No Subtotal'}
               </Text>

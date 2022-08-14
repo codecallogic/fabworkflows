@@ -52,6 +52,7 @@ const ContractForm = ({
   stateMethod,
   resetState,
   changeView,
+  setSelectID,
 
   ///// CRUD
   submitCreate,
@@ -64,7 +65,7 @@ const ContractForm = ({
   const [loadingColor, setLoadingColor] = useState('black')
   const [input_dropdown, setInputDropdown] = useState('')
   const [save, setSave] = useState(false)
-
+  
   useEffect(() => {
 
     const isEmpty = Object.values(stateData).every( x => x === '' || x === 'active')
@@ -139,7 +140,7 @@ const ContractForm = ({
         </div>
         {save && 
         <div className="table-header-controls">
-          {!stateData.signed && 
+          {!stateData.signed && edit == typeOfData &&
             <div 
               id="save" 
               className="table-header-controls-item" 
@@ -156,9 +157,24 @@ const ContractForm = ({
                 <span style={{backgroundColor: loadingColor}}></span>
               </div>
               : 
-                edit == typeOfData ? 'Update' : 'Save'
+                edit == typeOfData ? 'Update' : null
               }
             </div>
+          }
+
+          {edit !== typeOfData && 
+          <div
+            className="table-header-controls-item-svg"
+            onClick={(e) => (
+              submitCreate(e, stateData, 'contracts', 'files', setMessage, 'create_email', setLoading, token, 'contracts/create-contract', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'contractForm', null, null, false, editData, { key: 'contracts', caseType: 'CREATE_CONTRACT', method: stateMethod, setSelectID: setSelectID }, setEdit)
+            )}
+          >
+            { loading == 'create_email' ? 
+              <span><div className="loading-spinner"></div></span>
+              :
+              <span><SVG svg={'send'}></SVG></span>
+            }
+          </div>
           }
           
           {!stateData.signed && 
@@ -179,19 +195,6 @@ const ContractForm = ({
             >
               Print Contract
             </div>
-          }
-
-          {edit == typeOfData && 
-          <div
-            className="table-header-controls-item-svg"
-            onClick={() => sendMessage('send_message')}
-          >
-            { loading == 'send_message' ? 
-              <span><div className="loading-spinner"></div></span>
-              :
-              <span><SVG svg={'send'}></SVG></span>
-            }
-          </div>
           }
 
         </div>

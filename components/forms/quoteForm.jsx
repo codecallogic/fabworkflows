@@ -6,7 +6,7 @@ import 'react-calendar/dist/Calendar.css';
 
 //// HELPERS
 import { manageFormFields } from '../../helpers/forms';
-import { populateAddress } from '../../helpers/modals';
+import { populateAddress, editData } from '../../helpers/modals';
 import {
   validateNumber,
   phoneNumber,
@@ -51,6 +51,7 @@ const QuoteForm = ({
   setAllData,
   originalData,
   editData,
+  setSelectID,
 
   //// REDUX
   stateData,
@@ -74,8 +75,6 @@ const QuoteForm = ({
   const [input_dropdown, setInputDropdown] = useState('');
   const [save, setSave] = useState(false);
   const [depositType, setDepositType] = useState( stateData.quote_deposit.includes('$') ? 'percentage' : 'dollar');
-  
-  // console.log(stateData)
 
   useEffect(() => {
     const isEmpty = Object.values(stateData).every(
@@ -200,21 +199,31 @@ const QuoteForm = ({
                         changeView,
                         'quotes'
                       )
-                  : submitCreate(
-                      e,
-                      stateData,
-                      'quotes',
-                      'images',
-                      setMessage,
-                      'create_quote',
-                      setLoading,
-                      token,
-                      'quotes/create-quote',
-                      resetType,
-                      resetState,
-                      allData,
-                      setAllData,
-                      setDynamicSVG
+                  : (
+                      setEdit('jobs'),
+                      submitCreate(
+                        e,
+                        stateData,
+                        'quotes',
+                        'images',
+                        setMessage,
+                        'create_quote',
+                        setLoading,
+                        token,
+                        'quotes/create-quote',
+                        resetType,
+                        resetState,
+                        allData,
+                        setAllData,
+                        setDynamicSVG,
+                        changeView,
+                        'job',
+                        null,
+                        null,
+                        false,
+                        editData,
+                        { key: 'jobs', caseType: 'CREATE_JOB', method: stateMethod, setSelectID: setSelectID }
+                      )
                     )
               }
             >
@@ -227,7 +236,7 @@ const QuoteForm = ({
               ) : edit == typeOfData ? (
                 'Update'
               ) : (
-                'Save'
+                'Create Quote & Job'
               )}
             </div>
             <div
@@ -976,7 +985,7 @@ const QuoteForm = ({
                   </div>
                 ) : null}
 
-                {edit == typeOfData ? (
+                {/* {edit == typeOfData ? (
                   <div
                     className="form-box-heading-item"
                     onClick={() => (
@@ -1002,32 +1011,8 @@ const QuoteForm = ({
                   >
                     Create Job
                   </div>
-                ) : null}
+                ) : null} */}
 
-                {/* <div 
-                  id="save" 
-                  className="form-box-heading-item" 
-                  onClick={(e) => edit == typeOfData 
-                    ? 
-                      stateData.payment == 'deposit' || stateData.payment == 'complete'
-                      ?
-                      setMessage('Cannot update quotes after a payment was processed')
-                      :
-                      submitUpdate(e, stateData, 'quotes', 'images', setMessage, 'update_quote', setLoading, token, 'quotes/update-quote', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'quotes')
-                    : 
-                    submitCreate(e, stateData, 'quotes', 'images', setMessage, 'create_quote', setLoading, token, 'quotes/create-quote', resetType, resetState, allData, setAllData, setDynamicSVG) 
-                  }
-                  >
-                  {loading == 'create_quote' ? 
-                  <div className="loading">
-                    <span style={{backgroundColor: loadingColor}}></span>
-                    <span style={{backgroundColor: loadingColor}}></span>
-                    <span style={{backgroundColor: loadingColor}}></span>
-                  </div>
-                  : 
-                    edit == typeOfData ? 'Update' : 'Save'
-                  }
-                </div> */}
               </>
             )}
             {message && (

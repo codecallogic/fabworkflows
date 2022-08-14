@@ -126,15 +126,6 @@ const AccountForm = ({
         </div>
         {save && (
           <div className="table-header-controls">
-            {/* { edit == typeOfData ? 
-              <div
-              className="table-header-controls-item-svg"
-              >
-                <SVG svg={'send'}></SVG>
-              </div>
-              :
-              null
-            } */}
             <div
               id="save"
               className="table-header-controls-item"
@@ -156,7 +147,7 @@ const AccountForm = ({
                   <span style={{ backgroundColor: loadingColor }}></span>
                   <span style={{ backgroundColor: loadingColor }}></span>
                 </div>
-              ) : (edit == typeOfData | edit == 'new_account') ? (
+              ) : (edit == typeOfData) ? (
                 'Update'
               ) : (
                 'Save'
@@ -285,14 +276,12 @@ const AccountForm = ({
                 stateData.accountAddress 
                 ? (
                   setModal('new_contact'),
-                  setEdit('new_account'),
                   setDynamicType('CREATE_ACCOUNT'),
                   setDynamicKey('accountAddress'),
                   populateAddress(null, stateData.accountAddress, stateMethod, 'CREATE_CONTACT')
                   )
                 : (
                   setModal('new_contact'),
-                  setEdit('new_account'),
                   setDynamicType('CREATE_ACCOUNT'),
                   setDynamicKey('accountAddress'),
                   resetState(resetTypeContact)

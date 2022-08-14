@@ -192,7 +192,7 @@ const Table = ({
               setModal(modalType), 
               changeView(viewType), 
               setEdit(typeOfData), 
-              editData(editDataType.key, editDataType.caseType), 
+              editData(editDataType.key, editDataType.caseType, stateMethod, allData, setSelectID, null, selectID), 
               setSelectID(''),
               setControls(''), 
               resetCheckboxes()
@@ -205,8 +205,7 @@ const Table = ({
           <div 
           id="delete" 
           className="table-header-controls-item" 
-          onClick={(e) => submitDeleteRow(e, typeOfData, setMessage, 'delete_row', setLoading, token, deleteType, selectID, allData, setAllData, setDynamicSVG, resetCheckboxes, setControls, typeOfDataParent)}
-          >
+          onClick={(e) => submitDeleteRow(e, typeOfData, setMessage, 'delete_row', setLoading, token, deleteType, selectID, allData, setAllData, setDynamicSVG, resetCheckboxes, setControls, typeOfDataParent)}>
             {loading == 'delete_row' ? 
             <div className="loading">
               <span style={{backgroundColor: loadingColor}}></span>

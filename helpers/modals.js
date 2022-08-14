@@ -1,4 +1,5 @@
 export {
+  editData,
   populateEditData,
   populateAddress,
   populateDependency,
@@ -7,7 +8,7 @@ export {
 }
 
 const allowArrays = ['quotes', 'jobs', 'activities', 'activitySets', 'jobIssues', 'accounts', 'purchaseOrders']
-const allowObjects = ['account', 'accountAddress']
+const allowObjects = ['account', 'accountAddress', 'jobAddress']
 
 const populateEditData = (originalData, keyType, caseType, stateMethods, selectID, list, setSelectID) => {
   stateMethods.createType(caseType, '_id', selectID)
@@ -59,6 +60,24 @@ const populateEditData = (originalData, keyType, caseType, stateMethods, selectI
   }
   
 }
+
+const editData = (keyType, caseType, stateMethod, allData, setSelectID, id, selectID, list) => {
+
+  let stateMethods = new Object();
+  stateMethods.createType = stateMethod;
+
+  return populateEditData(
+    allData,
+    keyType,
+    caseType,
+    stateMethods,
+    id && id + 1 ? id : selectID,
+    list,
+    setSelectID
+  );
+  
+}
+
 
 const populateAddress = (keyID, data, stateMethod, stateType) => {
   for(let key in data){

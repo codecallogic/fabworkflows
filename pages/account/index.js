@@ -30,7 +30,7 @@ import {
   contactSort,
   edgeSort
 } from '../../helpers/sorts';
-import { populateEditData } from '../../helpers/modals';
+import { editData, populateEditData } from '../../helpers/modals';
 
 //// DATA
 import { getToken } from '../../helpers/auth';
@@ -257,22 +257,6 @@ const Dashboard = ({
     els.forEach((el) => {
       el.checked = false;
     });
-  };
-
-  const editData = (keyType, caseType, id, list) => {
-
-    let stateMethods = new Object();
-    stateMethods.createType = createType;
-
-    return populateEditData(
-      allData,
-      keyType,
-      caseType,
-      stateMethods,
-      id + 1 ? id : selectID,
-      list,
-      setSelectID
-    );
   };
 
   useEffect(() => {
@@ -544,6 +528,7 @@ const Dashboard = ({
             componentData={data.quotes}
             allData={allData}
             setAllData={setAllData}
+            stateMethod={createType}
             modal={modal}
             setModal={setModal}
             sortOrder={quoteSort}
@@ -1546,6 +1531,7 @@ const Dashboard = ({
             setControls={setControls}
             typeOfDataParent={'jobs'}
             secondStateData={job}
+            setSelectID={setSelectID}
           ></QuoteForm>
         )}
 
@@ -1671,6 +1657,7 @@ const Dashboard = ({
             changeView={changeView}
             submitDeleteFile={submitDeleteFile}
             editData={editData}
+            setSelectID={setSelectID}
           ></ContractForm>
         )}
 
@@ -2561,7 +2548,7 @@ const Dashboard = ({
             setAllData={setAllData}
             submitUpdate={submitUpdate}
             changeView={changeView}
-            viewType={'jobs'}
+            viewType={'job'}
             editData={editData}
             autoFill={nav.view === 'job' ? job : job}
             autoFillType={nav.view === 'job' ? 'account' : 'account'}

@@ -34,7 +34,7 @@ const Accounts = ({
   submitCreate,
   submitUpdate,
 }) => {
-
+  
   const createType = selectCreateType(typeOfData);
   const resetType = selectResetType(typeOfData);
   const myRefs = useRef(null);
@@ -206,7 +206,8 @@ const Accounts = ({
                           {item.name}
                         </div>
                       ) : null
-                    ) : (
+                    ) : 
+                    (
                       <div
                         key={idx}
                         className="addFieldItems-modal-form-container-searchList-list-item"

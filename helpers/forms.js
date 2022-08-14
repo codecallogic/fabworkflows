@@ -28,7 +28,7 @@ const formFields = {
   remnants: ['name'],
   prices: ['supplier', 'price'],
   contacts: ['contact_name', 'phone', 'email'],
-  quotes: ['contact_name', 'phone', 'email', 'quote_lines', 'quote_subtotal', 'quote_total', 'quote_balance', 'quote_date', 'quote_name', 'quote_number'],
+  quotes: ['contact_name', 'phone', 'email', 'quote_lines', 'quote_subtotal', 'quote_total', 'quote_balance', 'quote_date', 'quote_name', 'quote_number', 'account'],
   payment: ['name', 'address', 'city', 'state', 'zip_code'],
   phases: ['name'],
   jobs: ['name', 'account', 'invoice'],
@@ -55,7 +55,7 @@ const manageFormFields = (data, key) => {
   
 }
 
-const submitCreate = async (e, stateData, type, fileType, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType, setModal, modalType, noDataReset) => {
+const submitCreate = async (e, stateData, type, fileType, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType, setModal, modalType, noDataReset, editData, editDataType, setEdit) => {
   e.preventDefault()
 
   for(let i = 0; i < formFields[type].length; i++){
@@ -69,6 +69,8 @@ const submitCreate = async (e, stateData, type, fileType, setMessage, loadingTyp
   setMessage('')
   setLoading(loadingType)
   let data = new FormData()
+
+  delete stateData._id
   
   if(stateData[fileType] && stateData[fileType].length > 0){
     stateData[fileType].forEach((item) => {
@@ -91,16 +93,31 @@ const submitCreate = async (e, stateData, type, fileType, setMessage, loadingTyp
       }
     })
 
+    console.log(responseCreate.data)
+    
     setLoading('')
-    if(!noDataReset) allData[type]= responseCreate.data
+    if(!noDataReset) allData[type]= responseCreate.data.list
     setAllData(allData)
     setDynamicSVG('checkmark-2')
     setMessage('Item was created')
     resetState(resetType)
     
+    if(editData){
+
+      if(type !== editDataType.key){
+        let secondList = [...allData[editDataType.key]]
+        secondList.push(responseCreate.data.item)
+        allData[editDataType.key] = secondList
+        setAllData(allData)
+      }
+
+      editData(editDataType.key, editDataType.caseType, editDataType.method, allData, editDataType.setSelectID, responseCreate.data.item._id)
+      
+    }
     if(loadingType == 'create_email') setMessage(`Email sent to ${stateData.email}`)
     if(changeView) changeView(viewType)
     if(setModal) setModal(modalType)
+    if(setEdit) setEdit(type)
     
   } catch (error) {
     console.log(error)
