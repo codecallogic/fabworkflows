@@ -2481,6 +2481,7 @@ const Dashboard = ({
             submitUpdate={submitUpdate}
             changeView={changeView}
             editData={editData}
+            setSelectID={setSelectID}
           ></PurchaseOrderModal>
         )}
         {modal == 'purchaseList' && (

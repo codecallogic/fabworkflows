@@ -128,7 +128,8 @@ const PurchaseOrderForm = ({
             onClick={(e) => edit == typeOfData ? 
               submitUpdate(e, stateData, 'purchaseOrders', 'files', setMessage, 'create_po', setLoading, token, 'purchase-order/update-purchase-order', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'purchaseOrders', null)
               : 
-              submitCreate(e, stateData, 'quotes', 'files', setMessage, 'create_quote', setLoading, token, 'quotes/create-quote', resetType, resetState, allData, setAllData, setDynamicSVG)  
+              null
+              // submitCreate(e, stateData, 'purchaseOrders', 'files', setMessage, 'create_quote', setLoading, token, 'quotes/create-quote', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'purchaseOrderForm', null, null, false, editData, { key: 'purchaseOrders', caseType: 'CREATE_PO', method: stateMethod, setSelectID: setSelectID }, setEdit)  
             }
             >
             {loading == 'create_po' ? 
@@ -411,6 +412,7 @@ const PurchaseOrderForm = ({
           dynamicKey={'POLines'}
           setModalFormType={setModalFormType}
           setTypeForm={setTypeForm}
+          stateMethod={stateMethod}
         ></Table>
 
         <Table
@@ -446,6 +448,7 @@ const PurchaseOrderForm = ({
           dynamicType={'CREATE_PO_ARRAY_ITEM'}
           dynamicKey={'jobs'}
           setTypeForm={setTypeForm}
+          stateMethod={stateMethod}
         ></Table>
 
         <div className="form-box" style={{ width: '100%', padding: '0 2rem' }}>

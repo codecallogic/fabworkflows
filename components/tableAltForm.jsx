@@ -111,16 +111,17 @@ const Table = ({
   }
   
   const handleEdit = (id) => {
+
     if(controls == 'jobIssueControls'){
       setModal('jobIssue')
-      editData('jobIssues', 'CREATE_JOB_ISSUE', id, allData)
+      editData('jobIssues', 'CREATE_JOB_ISSUE', stateMethod, allData, setSelectID, null, id, allData)
     }
 
     if(controls == 'purchaseOrderLinesControls'){
       setModal('purchaseOrderLines')
       if(currentItem.type == 'products'){ setModalFormType('productsForm'), setTypeForm('purchaseOrderLines') }
       if(currentItem.type == 'miscellaneous'){ setModalFormType('miscellaneousForm', setTypeForm('purchaseOrderLines')) }
-      editData('POLines', 'CREATE_PO_LINE', id, allData)
+      editData('POLines', 'CREATE_PO_LINE', stateMethod, allData, setSelectID, null, id, allData)
     }
   }
   

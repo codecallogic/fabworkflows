@@ -62,7 +62,6 @@ const populateEditData = (originalData, keyType, caseType, stateMethods, selectI
 }
 
 const editData = (keyType, caseType, stateMethod, allData, setSelectID, id, selectID, list) => {
-
   let stateMethods = new Object();
   stateMethods.createType = stateMethod;
 

@@ -11,6 +11,7 @@ const PurchaseOrderModal = ({
   loading,
   setLoading,
   edit,
+  setEdit,
   dynamicSVG,
   setDynamicSVG,
 
@@ -25,6 +26,7 @@ const PurchaseOrderModal = ({
   resetState,
   changeView,
   addImages,
+  setSelectID,
 
   //// CRUD
   submitCreate,
@@ -232,7 +234,7 @@ const PurchaseOrderModal = ({
         {!edit && 
         <button 
         className="form-group-button" 
-        onClick={(e) => submitCreate(e, stateData, 'purchaseOrders', null, setMessage, 'create_purchase_order', setLoading, token, 'purchase-order/create-purchase-order', resetType, resetState, allData, setAllData, setDynamicSVG)}
+        onClick={(e) => submitCreate(e, stateData, 'purchaseOrders', null, setMessage, 'create_purchase_order', setLoading, token, 'purchase-order/create-purchase-order', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'purchaseOrderForm', setModal, '', false, editData, { key: 'purchaseOrders', caseType: 'CREATE_PO', method: stateMethod, setSelectID: setSelectID }, setEdit)}
         >
             {loading == 'create_purchase_order' ? 
             <div className="loading">
