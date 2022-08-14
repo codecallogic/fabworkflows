@@ -285,6 +285,21 @@ const Table = ({
                   <SVG svg={'checkmark'}></SVG>
                 </div>
               </label>
+              <div 
+                className="table-rows-edit"
+                onClick={ (e) => (
+                  e.stopPropagation(),
+                  setModal(modalType), 
+                  changeView(viewType), 
+                  setEdit(typeOfData), 
+                  editData(editDataType.key, editDataType.caseType, stateMethod, allData, setSelectID, null, item._id), 
+                  setSelectID(''),
+                  setControls(''), 
+                  resetCheckboxes()
+                )}
+              >
+                <SVG svg={'edit-2'}></SVG>
+              </div>
             </div>
             {Object.keys(item).sort((a, b) => sortOrder.indexOf(b) - sortOrder.indexOf(a)).map((key, idxKey, array) => 
               key !== '_id' && 

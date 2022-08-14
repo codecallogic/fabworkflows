@@ -365,7 +365,7 @@ const Table = ({
               </label>
             </div>
             {Object.keys(item).sort((a, b) => sortOrder.indexOf(b) - sortOrder.indexOf(a)).map((key, idx, array) => 
-              key !== '_id' && 
+              key !== '_id' && sortOrder.includes(key) &&
               <div key={idx} className="table-rows-item">
                 { 
                   Array.isArray(item[key]) && item[key].length > 0 && matchPattern.test(item[key][0].location)

@@ -9,6 +9,7 @@ import { manageFormFields } from '../../helpers/forms';
 import { populateAddress } from '../../helpers/modals'
 import {
   quoteSort,
+  quoteJobSort,
   activitySort,
   purchaseOrderSort,
   jobIssueSort,
@@ -112,7 +113,7 @@ const JobForm = ({
   useEffect(() => {
     
     let objectQuotes = new Object();
-    Object.values(quoteSort).forEach((item) => {
+    Object.values(quoteJobSort).forEach((item) => {
       objectQuotes[item] = item;
     });
     setQuoteHeaders((oldArray) => [...oldArray, objectQuotes]);
@@ -539,7 +540,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           setAllData={setAllData}
           modal={modal}
           setModal={setModal}
-          sortOrder={quoteSort}
+          sortOrder={quoteJobSort}
           controls={controls}
           setControls={setControls}
           controlsType={'quoteControls'}

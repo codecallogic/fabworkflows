@@ -295,7 +295,7 @@
       justify-content: center;
       align-items: center;
       width: 3rem;
-      min-width: 5rem;
+      min-width: 7rem;
       max-width: 5rem;
 
       label {
@@ -324,7 +324,7 @@
           left: 0;
           height: 2.5rem;
           width: 2.5rem;
-          border-radius: 1rem;
+          border-radius: 1.2rem;
           border: 0.2rem solid var(--color-dark-shade-scheme-1);
         }
 
@@ -346,6 +346,26 @@
           }
         }
       }
+    }
+
+    &-edit {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 3rem;
+      
+      svg {
+        width: 1.7rem;
+        height: 1.7rem;
+        fill: var(--color-scheme-3);
+        transition: all .5s;
+
+        &:hover {
+          cursor: pointer;
+          fill: var(--color-dark-shade-scheme-1);
+        }
+      }
+      
     }
 
     &-item {

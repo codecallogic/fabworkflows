@@ -239,12 +239,13 @@ const submitDeleteRow = async (e, type, setMessage, loadingType, setLoading, tok
 const submitSearch = async (search, setLoading, setMessage, path, type, allData, setAllData, token, setDynamicSVG, changeView, viewType) => {
 
   try {
-    const responseSearch = await axios.post(`${API}/${path}`, {query: search}, {
+    const responseSearch = await axios.post(`${API}/${path}`, { query: search }, {
       headers: {
         Authorization: `Bearer ${token}`,
         contentType: 'multipart/form-data'
       }
     })
+
     setLoading('')
     setMessage('')
     allData[type]= responseSearch.data
@@ -270,7 +271,10 @@ const resetDataType = async (loadingType, setLoading, setMessage, path, type, al
       }
     })
     setLoading('')
-    allData[type]= responseGet.data
+
+    if(Array.isArray(responseGet.data)) allData[type]= responseGet.data
+    if(!Array.isArray(responseGet.data) && responseGet.data.list) allData[type] = responseGet.data.list
+
     setAllData(allData)
     changeView(viewType)
     

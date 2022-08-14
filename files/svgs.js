@@ -381,6 +381,12 @@ const SVG = ({svg, classprop, color, id}) => {
           <path d="M12.3 3.7l4 4-12.3 12.3h-4v-4l12.3-12.3zM13.7 2.3l2.3-2.3 4 4-2.3 2.3-4-4z"></path>
         </svg> 
 
+      case 'edit-2':
+        return <svg version="1.1" className={classprop} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+          <title>Compose</title>
+          <path d="M15 16h-14c-0.552 0-1-0.447-1-1v-14c0-0.553 0.448-1 1-1h10l-2 2h-7v12h12v-7l2-2v10c0 0.553-0.448 1-1 1zM4 12v-3l9-9h1l2 2v1l-9 9h-3zM8.5 8.5l5.5-5.5-1-1-5.5 5.5 1 1zM6 9l-1 1v1h1l1-1-1-1z"></path>
+        </svg> 
+
       case 'delete':
         return <svg version="1.1" className={classprop} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
           <title>Edit</title>

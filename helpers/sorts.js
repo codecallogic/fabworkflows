@@ -5,6 +5,7 @@ export {
   materialSort,
   priceSort,
   quoteSort,
+  quoteJobSort,
   jobSort,
   assigneeSort,
   activitySort,
@@ -32,6 +33,8 @@ const edgeSort = ['price', 'name']
 const priceSort = ['model', 'color', 'supplier', 'price', 'images']
 
 const quoteSort = ['address', 'city', 'state', 'zip_code', 'country', 'phone', 'cell', 'fax', 'email', 'contact_notes', 'contact_name', 'salesperson', 'lead', 'po_number', 'quote_notes', 'quote_lines', 'quote_subtotal', 'quote_discount', 'quote_taxable_discount', 'quote_taxable_total', 'quote_nontaxable_subtotal', 'quote_nontaxable_discount', 'quote_total', 'quote_deposit_total', 'quote_deposit', 'quote_discount', 'quote_tax', 'quote_balance', 'quote_date', 'payment', 'quote_number', 'account', 'quote_name']
+
+const quoteJobSort = ['quote_date', 'payment', 'quote_number', 'quote_name']
 
 const jobSort = ['priceLists', 'contacts', 'jobAddress', 'account', 'activities', 'quotes', 'accountAddress',  'notes', 'date', 'invoice', 'salesperson', 'name', 'files']
 
