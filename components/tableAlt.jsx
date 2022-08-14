@@ -40,6 +40,7 @@ const Table = ({
   componentData,
   allData,
   editData,
+  stateMethod,
 
   //// REDUX
   changeView,
@@ -137,7 +138,7 @@ const Table = ({
             <div 
             id="edit" 
             className="table-header-controls-item" 
-            onClick={(e) => (e.stopPropagation(), setModal(modalType), setEdit(editModalType), editData(editDataType.key, editDataType.caseType), setControls(''), resetCheckboxes())}
+            onClick={(e) => (e.stopPropagation(), setModal(modalType), setEdit(editModalType), editData(editDataType.key, editDataType.caseType, stateMethod, allData, setSelectID, null, selectID), setControls(''), resetCheckboxes())}
             >
               Edit
             </div>

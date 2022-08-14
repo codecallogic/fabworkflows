@@ -326,6 +326,7 @@ const Dashboard = ({
             deleteType="slabs/delete-slab"
             searchType={'slabs'}
             searchPlaceholder={'Search by material or color'}
+            stateMethod={createType}
           ></Table>
         )}
         {nav.view == 'products' && (
@@ -364,6 +365,7 @@ const Dashboard = ({
             deleteType="products/delete-product"
             searchType={'products'}
             searchPlaceholder={'Search by brand, model, or category'}
+            stateMethod={createType}
           ></Table>
         )}
         {nav.view == 'remnants' && (
@@ -402,6 +404,7 @@ const Dashboard = ({
             deleteType="remnants/delete-remnant"
             searchType={'remnants'}
             searchPlaceholder={'Search by name, material, or color'}
+            stateMethod={createType}
           ></Table>
         )}
         {nav.view == 'trackers' && (
@@ -440,6 +443,7 @@ const Dashboard = ({
               setDynamicSVG={setDynamicSVG}
               deleteType="slabs/delete-slab"
               searchType={'slabs'}
+              stateMethod={createType}
             ></Table>
             <Table
               token={token}
@@ -475,6 +479,7 @@ const Dashboard = ({
               setDynamicSVG={setDynamicSVG}
               deleteType="products/delete-product"
               searchType={'products'}
+              stateMethod={createType}
             ></Table>
           </div>
         )}
@@ -805,6 +810,7 @@ const Dashboard = ({
             searchPlaceholder={'Search by name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
+            stateMethod={createType}
           ></TableAlt>
         )}
         {nav.view == 'colors' && (
@@ -846,6 +852,7 @@ const Dashboard = ({
             searchPlaceholder={'Search by name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
+            stateMethod={createType}
           ></TableAlt>
         )}
         {nav.view == 'suppliers' && (
@@ -887,6 +894,7 @@ const Dashboard = ({
             searchPlaceholder={'Search by name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
+            stateMethod={createType}
           ></TableAlt>
         )}
         {nav.view == 'locations' && (
@@ -928,6 +936,7 @@ const Dashboard = ({
             searchPlaceholder={'Search by name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
+            stateMethod={createType}
           ></TableAlt>
         )}
         {nav.view == 'brands' && (
@@ -969,6 +978,7 @@ const Dashboard = ({
             searchPlaceholder={'Search by name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
+            stateMethod={createType}
           ></TableAlt>
         )}
         {nav.view == 'categories' && (
@@ -1010,6 +1020,7 @@ const Dashboard = ({
             searchPlaceholder={'Search by name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
+            stateMethod={createType}
           ></TableAlt>
         )}
         {nav.view == 'models' && (
@@ -1051,6 +1062,7 @@ const Dashboard = ({
             searchPlaceholder={'Search by name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
+            stateMethod={createType}
           ></TableAlt>
         )}
         {nav.view == 'prices' && (
@@ -1092,6 +1104,7 @@ const Dashboard = ({
             searchPlaceholder={'Search by name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
+            stateMethod={createType}
           ></TableAlt>
         )}
         {nav.view == 'contacts' && (
@@ -1133,6 +1146,7 @@ const Dashboard = ({
             searchPlaceholder={'Search by contact name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
+            stateMethod={createType}
           ></TableAlt>
         )}
         {nav.view == 'phases' && (
@@ -1174,6 +1188,7 @@ const Dashboard = ({
             searchPlaceholder={'Search by phase name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
+            stateMethod={createType}
           ></TableAlt>
         )}
         {nav.view == 'assignees' && (
@@ -1215,6 +1230,7 @@ const Dashboard = ({
             searchPlaceholder={'Search by assignee name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
+            stateMethod={createType}
           ></TableAlt>
         )}
         {nav.view == 'activityStatus' && (
@@ -1259,6 +1275,7 @@ const Dashboard = ({
             searchPlaceholder={'Search by activity status'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
+            stateMethod={createType}
           ></TableAlt>
         )}
         {nav.view == 'purchaseOrders' && (
@@ -1300,6 +1317,7 @@ const Dashboard = ({
             searchPlaceholder={'Search by supplier'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
+            stateMethod={createType}
           ></TableAlt>
         )}
         {nav.view == 'edges' && (
@@ -1341,6 +1359,7 @@ const Dashboard = ({
             searchPlaceholder={'Search by name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
+            stateMethod={createType}
           ></TableAlt>
         )}
         {nav.view == 'cutouts' && (
@@ -1382,6 +1401,7 @@ const Dashboard = ({
             searchPlaceholder={'Search by name'}
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
+            stateMethod={createType}
           ></TableAlt>
         )}
 
