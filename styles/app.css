@@ -8,7 +8,7 @@
   --color-dark-shade-scheme-2: #1e1e1e;
   --color-dark-shade-scheme-3: #666;
   --color-dark-shade-scheme-4: #5b615d;
-  --color-light-shade-scheme-1: #fafafa;
+  --color-light-shade-scheme-1: #ffffff;
   --color-light-shade-scheme-2: #f1f1f0;
   --color-light-shade-scheme-3: #e3e3e3fb;
   --color-light-shade-scheme-4: #dededef0; }
@@ -1582,8 +1582,8 @@ body {
   width: 100%;
   height: 100%;
   padding: 1rem 2rem;
-  background-color: var(--color-light-shade-scheme-2);
-  border-bottom: 0.2rem solid var(--color-light-shade-scheme-1);
+  background-color: var(--color-light-shade-scheme-1);
+  border-bottom: 0.2rem solid var(--color-light-shade-scheme-2);
   box-shadow: 0.3rem 0.3rem 3rem 0.5rem rgba(0, 0, 0, 0.2); }
   .clientDashboard_topnav-logo img {
     height: 6rem; }
@@ -1714,8 +1714,8 @@ body {
   min-height: 100rem;
   height: 100%;
   transition: all 0.5s ease-in-out;
-  background-color: var(--color-light-shade-scheme-2);
-  border-right: solid 0.1rem var(--color-light-shade-scheme-1);
+  background-color: var(--color-light-shade-scheme-1);
+  border-right: solid 0.1rem var(--color-light-shade-scheme-2);
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
   z-index: 2000 !important; }
@@ -1856,7 +1856,7 @@ body {
 .clientDashboard {
   display: flex;
   width: 100%;
-  background-color: var(--color-light-shade-scheme-3); }
+  background-color: var(--color-light-shade-scheme-1); }
   .clientDashboard-view {
     width: auto;
     height: 100%; }
@@ -1891,7 +1891,6 @@ body {
       .clientDashboard-view-new-item {
         margin-bottom: 2rem;
         border-radius: 1.2rem;
-        background-color: rgba(var(--color-scheme-5), 0.05);
         padding: 2rem 3rem;
         width: 20rem;
         height: 20rem;

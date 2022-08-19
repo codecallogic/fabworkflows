@@ -59,7 +59,7 @@ const TopNav = ({account, theme, setTheme, toggleSideNav}) => {
   
   return (
     <div className="clientDashboard_topnav">
-      <div className="clientDashboard_topnav-logo" onClick={() => switchTheme()}>
+      <div className="clientDashboard_topnav-logo" onClick={() => window.location.reload() }>
         <img src="/media/logo_4.png" alt="Logo" />
       </div>
       <div className="clientDashboard_topnav-menu">

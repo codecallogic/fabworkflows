@@ -1,11 +1,12 @@
 .clientDashboard {
   display: flex;
   width: 100%;
-  background-color: var(--color-light-shade-scheme-3);
+  background-color: var(--color-light-shade-scheme-1);
 
   &-view {
     width: auto;
     height: 100%;
+    
 
     @media only screen and (max-width: $large) {
       padding: 0 0 20rem 0;
@@ -47,7 +48,7 @@
         margin-bottom: 2rem;
         border-radius: 1.2rem;
         // border: 0.2rem solid var(--color-scheme-2);
-        background-color: rgba(var(--color-scheme-5), 0.05);
+        // background-color: rgba(var(--color-scheme-5), 0.05);
         padding: 2rem 3rem;
         width: 20rem;
         height: 20rem;
