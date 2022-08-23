@@ -148,14 +148,13 @@ body {
       width: 100%;
       padding: 2rem 1.5rem;
       box-sizing: border-box;
-      outline: none;
       font-weight: 300;
       font-size: 1.4rem;
       font-family: inherit;
-      border: none;
       margin: 0.5rem 0.5rem 0.5rem 0;
       color: var(--color-dark-shade-scheme-1);
-      background-color: var(--color-light-shade-scheme-4);
+      background-color: var(--color-light-shade-scheme-1);
+      border: 0.05rem solid var(--color-light-shade-scheme-2);
       border-radius: 1.2rem;
       transition: all 0.5s ease-in-out; }
       .form-group input:focus + .input-label {
@@ -317,15 +316,13 @@ body {
         height: auto;
         resize: none;
         padding: 2rem 1rem;
-        outline: none;
         box-sizing: border-box;
         font-size: 1.4rem;
         font-family: inherit;
-        border: none;
         border-radius: 1.2rem;
         color: var(--color-dark-shade-scheme-1);
-        background-color: var(--color-light-shade-scheme-4);
-        box-shadow: 0.1rem 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.2);
+        background-color: var(--color-light-shade-scheme-1);
+        border: 0.05rem solid var(--color-light-shade-scheme-2);
         overflow-y: auto; }
         .form-group-textarea textarea::-webkit-scrollbar {
           width: 0.2rem;
@@ -1779,6 +1776,8 @@ body {
       transition: all 0.5s ease-in-out;
       color: var(--color-dark-shade-scheme-2); }
       .clientDashboard_sidenav-menu-item-tab svg {
+        width: 2rem;
+        height: 2rem;
         margin-right: 1rem;
         fill: var(--color-dark-shade-scheme-1); }
     .clientDashboard_sidenav-menu-item-tabIcon {
@@ -3341,6 +3340,83 @@ body {
   @media only screen and (max-width: 1500px) {
     .wide-row-item {
       width: 15rem !important; } }
+
+.calendar {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1rem;
+  position: relative;
+  width: 100%;
+  height: 100%; }
+  .calendar-view {
+    width: 100%; }
+  .calendar-popup {
+    width: 50%;
+    margin-bottom: 1.5rem;
+    position: relative; }
+    .calendar-popup-item {
+      position: absolute;
+      width: 100%;
+      height: 100%; }
+  .calendar-tools {
+    display: flex;
+    align-items: center;
+    background-color: var(--color-light-shade-scheme-2); }
+    .calendar-tools svg {
+      width: 3rem;
+      height: 3rem;
+      fill: var(--color-scheme-2);
+      margin: .5rem; }
+    .calendar-tools span {
+      padding: 1.2rem 0;
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: var(--color-dark-shade-scheme-1); }
+
+.rbc-calendar * {
+  color: var(--color-dark-shade-scheme-1) !important; }
+
+.rbc-toolbar {
+  padding: 1rem 1rem; }
+
+.rbc-row {
+  height: 5rem !important; }
+
+.rbc-header {
+  padding: 1rem 0 !important; }
+  .rbc-header span {
+    font-weight: 700 !important; }
+
+.rbc-time-slot {
+  font-weight: 600 !important; }
+
+.rbc-today {
+  background-color: var(--color-scheme-2) !important; }
+  .rbc-today * {
+    color: white !important; }
+
+.react-calendar__navigation button:first-child {
+  border-top-left-radius: 1.2rem; }
+
+.react-calendar__navigation button:last-child {
+  border-top-right-radius: 1.2rem; }
+
+.react-calendar__month-view__days button {
+  z-index: 10 !important;
+  opacity: 1 !important; }
+
+.react-calendar__month-view__days button:not([disabled]) {
+  background-color: white !important; }
+
+.react-calendar__tile--now {
+  color: var(--color-scheme-2); }
+
+.react-calendar__viewContainer {
+  background-color: white !important; }
+
+.rbc-time-view {
+  min-height: 130% !important; }
 
 .home {
   display: flex;

@@ -17,6 +17,7 @@ export {
   phoneNumber,
   addressSelect,
   formatDate,
+  formatDate2,
   numberType,
   filterAccountSearch,
   filterContactSearch,
@@ -370,6 +371,21 @@ const formatDate = (e) => {
   var year = e.getUTCFullYear()
   
   return `${+month}/${day}/${year}`
+}
+
+const formatDate2 = (e) => {
+  // console.log(e)
+  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  // console.log(e.getUTCMonth() + 1)
+  // console.log(e.getUTCDay())
+  // var month = e.getUTCMonth() + 1
+  let dayOfWeek = weekday[e.getUTCDay()]
+  let month = monthNames[e.getUTCMonth() + 1]
+  let day = e.getUTCDate()
+  let year = e.getUTCFullYear()
+
+  return `${dayOfWeek}, ${month} ${day}, ${year}`
 }
 
 const formatTime = (duration) => {

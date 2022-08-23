@@ -45,6 +45,7 @@ import JobForm from '../../components/forms/jobForm';
 import PurchaseOrderForm from '../../components/forms/purchaseOrderForm';
 import ContractForm from '../../components/forms/contractForm';
 import AccountForm from '../../components/forms/accountForm'
+import Calendar from '../../components/calendar/calendar'
 
 import {
   submitCreate,
@@ -2784,6 +2785,9 @@ const Dashboard = ({
             typeOfData={'purchaseOrders'}
             purchaseOrder={purchaseOrder}
           ></ReceivePurchaseOrdersModal>
+        )}
+        {nav.view == 'calendar' && (
+          <Calendar />
         )}
       </div>
     </>

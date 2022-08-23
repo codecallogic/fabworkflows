@@ -358,6 +358,75 @@ const SideNav = ({
             Accounts
           </div>
         </div>
+        <div
+          className={
+            `clientDashboard_sidenav-menu-item` +
+            (!nav.sidenav ? ' hide-sidenav-items' : '')
+          }
+          onClick={(e) =>
+            toggle == 'operations'
+              ? setDropdownToggle('')
+              : setDropdownToggle('operations')
+          }
+        >
+          <div className="clientDashboard_sidenav-menu-item-tab">
+            {!nav.sidenav ? 
+              ''
+              :
+              <SVGs
+                svg={'operations'}
+                classprop={
+                  'clientDashboard_sidenav-menu-item-tabIcon' +
+                  (!nav.sidenav ? ' hide-sidenav-items' : '')
+                }
+              ></SVGs>
+            }
+            <div className={!nav.sidenav ? ' hide-sidenav-items' : ''}>
+              Operations
+            </div>
+          </div>
+          <div className="clientDashboard_sidenav-menu-item-arrow">
+            <input
+              type="checkbox"
+              className="clientDashboard_sidenav-menu-item-arrow-input"
+              id="dropdown-toggle-transactions"
+            />
+            <SVGs
+              svg={'dropdown-arrow'}
+              classprop={!nav.sidenav ? ' hide-sidenav-items' : ''}
+            ></SVGs>
+          </div>
+        </div>
+        <div className="clientDashboard_sidenav-menu-item-dropdown">
+          <div
+            className={
+              `clientDashboard_sidenav-menu-item-dropdown-fill` +
+              (!nav.sidenav ? ' hide-sidenav-items' : '') +
+              (toggle == 'operations' ? ' hide-sidenav-dropdown' : '')
+            }
+          ></div>
+          <div
+            onClick={() => (
+              changeView('calendar'),
+              width < 992 ? toggleSideNav('toggle_nav_button') : null
+            )}
+            className={
+              `clientDashboard_sidenav-menu-item-dropdown-item` +
+              (!nav.sidenav ? ' hide-sidenav-items' : '') +
+              (toggle == 'operations' ? ' hide-sidenav-dropdown' : '')
+            }
+          >
+            <SVGs
+              svg={'circle-thin'}
+              classprop={
+                `clientDashboard_sidenav-menu-item-arrow` +
+                (!nav.sidenav ? ' hide-sidenav-items' : '') +
+                (toggle == 'operations' ? ' hide-sidenav-dropdown' : '')
+              }
+            />
+            Calendar
+          </div>
+        </div>
       </div>
     </div>
   );
