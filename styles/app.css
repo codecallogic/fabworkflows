@@ -3362,17 +3362,23 @@ body {
   .calendar-tools {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     background-color: var(--color-light-shade-scheme-2); }
     .calendar-tools svg {
       width: 3rem;
       height: 3rem;
       fill: var(--color-scheme-2);
       margin: .5rem; }
-    .calendar-tools span {
-      padding: 1.2rem 0;
-      font-size: 1.4rem;
-      font-weight: 500;
-      color: var(--color-dark-shade-scheme-1); }
+      .calendar-tools svg:hover {
+        cursor: pointer; }
+    .calendar-tools-date {
+      display: flex;
+      align-items: center; }
+      .calendar-tools-date span {
+        padding: 1.2rem 0;
+        font-size: 1.4rem;
+        font-weight: 500;
+        color: var(--color-dark-shade-scheme-1); }
 
 .rbc-calendar * {
   color: var(--color-dark-shade-scheme-1) !important; }

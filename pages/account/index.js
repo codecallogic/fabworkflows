@@ -28,7 +28,7 @@ import {
   contractSort,
   accountSort,
   contactSort,
-  edgeSort
+  edgeSort,
 } from '../../helpers/sorts';
 import { editData, populateEditData } from '../../helpers/modals';
 
@@ -101,6 +101,7 @@ import EdgeModal from '../../components/modals/Edge'
 import CutoutModal from '../../components/modals/Cutouts'
 import PurchaseOrderLinesModal from '../../components/modals/PurchaseOrderLines'
 import ReceivePurchaseOrdersModal from '../../components/modals/ReceivePurchaseOrders'
+import AppointmentsModal from '../../components/modals/Appointments'
 
 axios.defaults.withCredentials = true;
 
@@ -150,6 +151,7 @@ const Dashboard = ({
   email,
   POLine,
   accountItem,
+  appointment,
   
   // DISPATCH
   createType,
@@ -1726,6 +1728,12 @@ const Dashboard = ({
           ></AccountForm>
         )}
 
+        {nav.view == 'calendar' && (
+          <Calendar 
+            setModal={setModal}
+          />
+        )}
+
         <div className="clientDashboard-view">
           {nav.view == 'main' && (
             <div className="clientDashboard-view-main">
@@ -2786,8 +2794,37 @@ const Dashboard = ({
             purchaseOrder={purchaseOrder}
           ></ReceivePurchaseOrdersModal>
         )}
-        {nav.view == 'calendar' && (
-          <Calendar />
+        {modal == 'appointments' && (
+          <AppointmentsModal
+            token={token}
+            account={account}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={appointment}
+            stateMethod={createType}
+            dynamicType={dynamicType}
+            extractingStateData={extractingStateData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+            selectID={selectID}
+            modalFormType={modalFormType}
+            setModalFormType={setModalFormType}
+            typeForm={typeForm}
+            setTypeForm={setTypeForm}
+            typeOfData={'appointments'}
+          ></AppointmentsModal>
         )}
       </div>
     </>
@@ -2826,7 +2863,8 @@ const mapStateToProps = (state) => {
     cutout: state.cutout,
     email: state.email,
     POLine: state.POLine,
-    accountItem: state.account
+    accountItem: state.account,
+    appointment: state.appointment
   };
 };
 

@@ -17,7 +17,9 @@ moment.locale('ko', {
 
 const localizer = momentLocalizer(moment)
 
-const Schedule = ({}) => {
+const Schedule = ({
+  setModal
+}) => {
 
   const [events, setEvents] = useState([])
   const [dateNow, setDateNow] = useState(new Date(Date.now()))
@@ -45,12 +47,19 @@ const Schedule = ({}) => {
   
   return (
     <div className="calendar">
-      <div 
-        className="calendar-tools" 
-        onClick={() => calendar ? setCalendar(false) : setCalendar(true)}
-      >
-        <SVG svg={'calendar'}></SVG>
-        <span>{formatDate2(dateNow)}</span>
+      <div className="calendar-tools"> 
+        <div
+          className="calendar-tools-date"
+          onClick={() => calendar ? setCalendar(false) : setCalendar(true)} 
+        >
+          <SVG svg={'calendar'}></SVG>
+          <span>{formatDate2(dateNow)}</span>
+        </div>
+        <div className="calendar-tools-controls">
+          <div className="calendar-tools-controls-item"
+            onClick={() => setModal('appointments')}
+          ><SVG svg={'plus'}></SVG></div>
+        </div>
       </div>
       {calendar && 
         <div className="calendar-popup">

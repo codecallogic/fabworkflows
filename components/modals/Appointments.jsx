@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
 import SVG from '../../files/svgs'
 
-const MaterialModal = ({
+const Appointments = ({
   token,
   message,
   setMessage,
@@ -26,7 +26,7 @@ const MaterialModal = ({
   submitCreate,
   submitUpdate
 }) => {
-  
+
   const createType = 'CREATE_CATEGORY'
   const resetType = 'RESET_CATEGORY'
   const [loadingColor, setLoadingColor] = useState('white')
@@ -93,77 +93,24 @@ const MaterialModal = ({
         <div className="addFieldItems-modal-box-header">
           <span 
             className="addFieldItems-modal-form-title">
-              {edit == 'category' ? 
-              'Edit Category' 
+              {edit == 'appointment' ? 
+              'Edit Appointment' 
               : 
-              'New Category'
+              'New Appointment'
               }
           </span>
           <div onClick={() => (setModal(''), resetState(resetType), setMessage(''))}>
             <SVG svg={'close'}></SVG>
           </div>
         </div>
-      <form 
+        <form 
         className="addFieldItems-modal-form" 
-      >
-        <div className="form-group">
-          <input 
-          id="name" 
-          value={stateData.name} 
-          onChange={(e) => stateMethod(createType, 'name', e.target.value)}/>
-          <label 
-          className={`input-label ` + (
-            stateData.name.length > 0 || 
-            typeof stateData.name == 'object' 
-            ? ' labelHover' 
-            : ''
-          )}
-          htmlFor="name">
-            Name
-          </label>
-        </div>
-        {message && 
-        <span className="form-group-message">
-          <SVG svg={dynamicSVG} color={'#fd7e3c'}></SVG>
-          {message}
-        </span>
-        }
-        {!edit && 
-        <button 
-        className="form-group-button" 
-        onClick={(e) => submitCreate(e, stateData, 'categories', null, setMessage, 'create_category', setLoading, token, 'categories/create-category', resetType, resetState, allData, setAllData, setDynamicSVG)}
         >
-           {loading == 'create_category' ? 
-            <div className="loading">
-              <span style={{backgroundColor: loadingColor}}></span>
-              <span style={{backgroundColor: loadingColor}}></span>
-              <span style={{backgroundColor: loadingColor}}></span>
-            </div>
-            : 
-            'Save'
-            }
-        </button>
-        }
-        {edit == 'category' && 
-        <button 
-        className="form-group-button" 
-        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'categories', null, setMessage, 'update_category', setLoading, token, 'categories/update-category', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'categories', setModal))}
-        >
-           {loading == 'update_category' ? 
-            <div className="loading">
-              <span style={{backgroundColor: loadingColor}}></span>
-              <span style={{backgroundColor: loadingColor}}></span>
-              <span style={{backgroundColor: loadingColor}}></span>
-            </div>
-            : 
-            'Update'
-            }
-        </button>
-        }
-      </form>
-    </div>
+          
+        </form>
+      </div>
     </div>
   )
 }
 
-export default MaterialModal
+export default Appointments
