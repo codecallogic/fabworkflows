@@ -36,6 +36,7 @@ export {
   checkObjectValues,
   validateTime,
   formatTime,
+  getTimeHour
 }
 
 ///// VALIDATIONS
@@ -389,7 +390,7 @@ const formatDate2 = (e) => {
 }
 
 const formatTime = (duration) => {
-  console.log(duration)
+
   var milliseconds = Math.floor((duration % 1000) / 100),
 
   seconds = Math.floor((duration / 1000) % 60),
@@ -401,6 +402,15 @@ const formatTime = (duration) => {
   seconds = (seconds < 10) ? "0" + seconds : seconds;
 
   return hours + ":" + minutes + ":" + seconds;
+}
+
+const getTimeHour = (e) => {
+  
+  let hours = e.getHours() == 0 ? 12 : (e.getHours() > 12 ? e.getHours() - 12 : e.getHours());
+  let minutes = e.getMinutes();
+  let ampm = e.getHours() < 12 ? 'AM' : 'PM';
+
+  return hours + ":" + minutes + ' ' + ampm
 }
 
 const numberType = (e, type) => {

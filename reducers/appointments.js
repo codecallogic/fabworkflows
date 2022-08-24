@@ -4,7 +4,7 @@ const initialState = {
   startDate: '',
   scheduleTime: '',
   duration: '',
-  assigned: '',
+  assigne: '',
   category: '',
   notes: '',
   recurring: ''

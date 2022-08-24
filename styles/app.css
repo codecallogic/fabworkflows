@@ -336,7 +336,8 @@ body {
         transition: all 0.3s ease-in-out;
         padding: 0 0.5rem;
         color: var(--color-dark-shade-scheme-1);
-        font-size: 1.2rem; }
+        font-size: 1.2rem;
+        font-weight: 700; }
     .form-group-message {
       display: flex;
       align-items: center;
@@ -1627,7 +1628,8 @@ body {
       .clientDashboard_topnav-menu-account-dropdown {
         display: flex;
         align-items: center;
-        position: relative; }
+        position: relative;
+        z-index: 20; }
         .clientDashboard_topnav-menu-account-dropdown svg {
           width: 3rem;
           height: 3rem;
@@ -3352,18 +3354,19 @@ body {
   .calendar-view {
     width: 100%; }
   .calendar-popup {
+    position: absolute;
+    top: 5%;
     width: 50%;
-    margin-bottom: 1.5rem;
-    position: relative; }
+    margin-bottom: 1.5rem; }
     .calendar-popup-item {
-      position: absolute;
       width: 100%;
       height: 100%; }
   .calendar-tools {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: var(--color-light-shade-scheme-2); }
+    background-color: var(--color-light-shade-scheme-2);
+    position: relative; }
     .calendar-tools svg {
       width: 3rem;
       height: 3rem;

@@ -37,7 +37,6 @@ const Schedule = ({
   }
 
   const onNavigate = (newDate) => {
-    console.log(newDate)
     setDateNow(newDate)
   }
 
