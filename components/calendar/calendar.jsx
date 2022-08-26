@@ -7,6 +7,7 @@ import CalendarModal from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import SVG from '../../files/svgs';
 import { formatDate2 } from '../../helpers/validations';
+import { areArraysEqual } from '@mui/base';
 
 moment.locale('ko', {
   week: {
@@ -18,7 +19,11 @@ moment.locale('ko', {
 const localizer = momentLocalizer(moment)
 
 const Schedule = ({
-  setModal
+  setModal,
+  setEdit,
+
+  // DATA
+  allData
 }) => {
 
   const [events, setEvents] = useState([])
@@ -41,12 +46,53 @@ const Schedule = ({
   }
 
   const onView = (view) => {
-    console.log(view)
+    
   }
 
   useEffect(() => {
     setCalendar(false)
   }, [dateNow])
+
+  useEffect(() => {    
+
+    let newEvents = []
+    
+    allData.appointments.forEach((item) => {
+
+      let appointment = new Object()
+
+      appointment.id = item._id
+      appointment.title = item.name
+
+      let startTime = item.scheduleTime.split(' ')
+      let hourTime = startTime[0].split(':')[0]
+      let timePeriod = startTime[1]
+      let minutes = item.duration.split(' ')[0]
+      let minutesType = item.duration.split(' ')[1]
+
+      if(minutesType !== 'min'){
+        let hours = minutes.split('.')
+        if(hours[0]) minutes = hours[0] * 60
+        if(hours[1]) minutes = minutes + 30
+      }
+
+      let newDate = new Date(item.startDate)
+      let endDate = new Date(item.startDate)
+      newDate.setHours(hourTime)
+      endDate.setHours(hourTime)
+      
+      endDate.setMinutes(minutes)
+      
+      appointment.start = newDate
+      appointment.end = endDate
+
+      newEvents.push(appointment)
+      
+    })
+    
+    setEvents(newEvents)
+
+  }, [allData.appointments])
   
   return (
     <div className="calendar">
@@ -60,7 +106,10 @@ const Schedule = ({
         </div>
         <div className="calendar-tools-controls">
           <div className="calendar-tools-controls-item"
-            onClick={() => setModal('appointments')}
+            onClick={() => (
+              setEdit(''),
+              setModal('appointments')
+            )}
           ><SVG svg={'plus'}></SVG></div>
         </div>
       </div>

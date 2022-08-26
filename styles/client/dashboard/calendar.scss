@@ -58,6 +58,15 @@
   
 }
 
+.rbc-event {
+  background-color: var(--color-dark-shade-scheme-1)!important;
+  font-weight: 700;
+
+  div {
+    color: var(--color-light-shade-scheme-1)!important;
+  }
+}
+
 
 .rbc-calendar {
   * {

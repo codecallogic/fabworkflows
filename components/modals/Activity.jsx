@@ -325,7 +325,7 @@ const ActivityModal = ({
       </form>
 
       <div className="addFieldItems-modal-box-footer">
-        {message && 
+          {message && 
           <span className="form-group-message">
             <SVG svg={dynamicSVG} color={'#fd7e3c'}></SVG>
             {message}

@@ -446,8 +446,11 @@ const Recurring = ({
         </div>
         <button 
           className="form-group-button" 
-          onClick={(e) => null}
-          >
+          onClick={(e) => (
+            e.preventDefault(),
+            stateMethod(createTypeAppointment, 'recurring', stateData),
+            setModal('appointments')
+          )}>
             {loading == 'create_appointment' ? 
               <div className="loading">
                 <span style={{backgroundColor: loadingColor}}></span>
@@ -457,7 +460,7 @@ const Recurring = ({
               : 
               'Save'
             }
-          </button>
+        </button>
       </form>
       </div>
     </div>

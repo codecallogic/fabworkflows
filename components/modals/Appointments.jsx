@@ -4,6 +4,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { validateDate, formatDate, getTimeHour } from '../../helpers/validations'
 import { scheduleList, duration } from '../../utils/schedule'
+import { manageFormFields } from '../../helpers/forms'
 
 const Appointments = ({
   token,
@@ -83,6 +84,12 @@ const Appointments = ({
       y: translate.y + Y
     });
   }
+
+  useEffect(() => {
+    if(stateData.recurring){
+      document.getElementById("recurring").scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
+    }
+  }, [stateData.recurring])
   
   return (
     <div 
@@ -278,7 +285,7 @@ const Appointments = ({
           <div className="form-group">
             <input
             onClick={() => setInputDropdown('assigne')} 
-            value={stateData.assigne} 
+            value={manageFormFields(stateData.assigne, 'name')} 
             onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'assigne', e.target.value))}/>
             <label 
             className={`input-label ` + (
@@ -301,7 +308,40 @@ const Appointments = ({
                   <div 
                     key={idx} 
                     className="form-group-list-item" 
-                    onClick={(e) => (stateMethod(createType, 'assigne', item.name), setInputDropdown(''))}>
+                    onClick={(e) => (stateMethod(createType, 'assigne', item), setInputDropdown(''))}>
+                      {item.name}
+                  </div>
+                )}
+              </div>
+            }
+          </div>
+          <div className="form-group">
+            <input
+            onClick={() => setInputDropdown('category')} 
+            value={manageFormFields(stateData.category, 'name')} 
+            onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'category', e.target.value))}/>
+            <label 
+            className={`input-label ` + (
+              stateData.category.length > 0 || 
+              typeof stateData.category == 'object' 
+              ? ' labelHover' 
+              : ''
+            )}
+            htmlFor="category">
+              Category
+            </label>
+            <div 
+            onClick={() => setInputDropdown('category')}><SVG svg={'dropdown-arrow'}></SVG>
+            </div>
+            { input_dropdown == 'category' &&
+              <div 
+              className="form-group-list" 
+              ref={myRefs}>
+                {allData.phases.length > 0 && allData.phases.map((item, idx) => 
+                  <div 
+                    key={idx} 
+                    className="form-group-list-item" 
+                    onClick={(e) => (stateMethod(createType, 'category', item), setInputDropdown(''))}>
                       {item.name}
                   </div>
                 )}
@@ -331,7 +371,30 @@ const Appointments = ({
           <div className="form-group">
             <input
               id="recurring"
-              value={stateData.recurring}
+              value={stateData.recurring 
+                ? 
+                  stateData.recurring.type == 'daily' 
+                  ?
+                    (
+                      `Occurs every ${stateData.recurring.occurrenceDay ? `${stateData.recurring.occurrenceDay} days` : stateData.recurring.occurrenceType} (Ends after ${stateData.recurring.rangeEndOccurrence ? `${stateData.recurring.rangeEndOccurrence} occurrences` : `${stateData.recurring.rangeEndDate}`} )`
+                    )
+                  :
+                  stateData.recurring.type == 'weekly' 
+                  ?
+                  (
+                    `Occurs ${stateData.recurring.occurrenceType} every ${stateData.recurring.occurrenceWeek} week(s) (Ends after ${stateData.recurring.rangeEndOccurrence ? `${stateData.recurring.rangeEndOccurrence} occurrences` : `${stateData.recurring.rangeEndDate}`} )`
+                  )
+                  :
+                  stateData.recurring.type == 'monthly' 
+                  ?
+                  (
+                    `Occurs ${stateData.recurring.occurrenceDay ? `day ${stateData.recurring.occurrenceDay} of every ${stateData.recurring.occurrenceMonth} month(s)` : `the ${stateData.recurring.occurrenceType.split('-')} of every ${stateData.recurring.occurrenceMonth} month(s)`} (Ends after ${stateData.recurring.rangeEndOccurrence ? `${stateData.recurring.rangeEndOccurrence} occurrences` : `${stateData.recurring.rangeEndDate}`} )`
+                  ).replace(',', ' ')
+                  :
+                  null
+                : 
+                ''
+              }
               readOnly
             />
             <label
@@ -354,38 +417,46 @@ const Appointments = ({
               <SVG svg={'recurring'}></SVG>
             </div>
           </div>
-          {!edit && 
-          <button 
-          className="form-group-button" 
-          onClick={(e) => submitCreate(e, stateData, 'appointments', null, setMessage, 'create_appointment', setLoading, token, 'appointments/create-appointment', resetType, resetState, allData, setAllData, setDynamicSVG)}
-          >
-            {loading == 'create_appointment' ? 
-              <div className="loading">
-                <span style={{backgroundColor: loadingColor}}></span>
-                <span style={{backgroundColor: loadingColor}}></span>
-                <span style={{backgroundColor: loadingColor}}></span>
-              </div>
-              : 
-              'Save'
+          <div className="addFieldItems-modal-box-footer">
+            {message && 
+            <span className="form-group-message">
+              <SVG svg={dynamicSVG} color={'#fd7e3c'}></SVG>
+              {message}
+            </span>
+            }
+            {!edit && 
+            <button 
+            className="form-group-button" 
+            onClick={(e) => submitCreate(e, stateData, 'appointments', null, setMessage, 'create_appointment', setLoading, token, 'appointments/create-appointment', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'calendar', setModal, '')}
+            >
+              {loading == 'create_appointment' ? 
+                <div className="loading">
+                  <span style={{backgroundColor: loadingColor}}></span>
+                  <span style={{backgroundColor: loadingColor}}></span>
+                  <span style={{backgroundColor: loadingColor}}></span>
+                </div>
+                : 
+                'Save'
               }
-          </button>
-          }
-          {edit == 'appointment' && 
-          <button 
-          className="form-group-button" 
-          onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'categories', null, setMessage, 'update_category', setLoading, token, 'categories/update-category', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'categories', setModal))}
-          >
-            {loading == 'update_category' ? 
-              <div className="loading">
-                <span style={{backgroundColor: loadingColor}}></span>
-                <span style={{backgroundColor: loadingColor}}></span>
-                <span style={{backgroundColor: loadingColor}}></span>
-              </div>
-              : 
-              'Update'
-              }
-          </button>
-          }
+            </button>
+            }
+          </div>
+            {/* {edit == 'appointment' && 
+            <button 
+            className="form-group-button" 
+            onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'categories', null, setMessage, 'update_category', setLoading, token, 'categories/update-category', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'categories', setModal))}
+            >
+              {loading == 'update_category' ? 
+                <div className="loading">
+                  <span style={{backgroundColor: loadingColor}}></span>
+                  <span style={{backgroundColor: loadingColor}}></span>
+                  <span style={{backgroundColor: loadingColor}}></span>
+                </div>
+                : 
+                'Update'
+                }
+            </button>
+            } */}
         </form>
       </div>
     </div>

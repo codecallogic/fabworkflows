@@ -3458,6 +3458,12 @@ body {
         font-weight: 500;
         color: var(--color-dark-shade-scheme-1); }
 
+.rbc-event {
+  background-color: var(--color-dark-shade-scheme-1) !important;
+  font-weight: 700; }
+  .rbc-event div {
+    color: var(--color-light-shade-scheme-1) !important; }
+
 .rbc-calendar * {
   color: var(--color-dark-shade-scheme-1) !important; }
 

@@ -154,6 +154,7 @@ const Dashboard = ({
   accountItem,
   appointment,
   recurring,
+  appointments,
   
   // DISPATCH
   createType,
@@ -1732,7 +1733,9 @@ const Dashboard = ({
 
         {nav.view == 'calendar' && (
           <Calendar 
+            setEdit={setEdit}
             setModal={setModal}
+            allData={allData}
           />
         )}
 
@@ -2948,6 +2951,7 @@ Dashboard.getInitialProps = async (context) => {
   data.contracts          = await tableData(accessToken, 'contracts/all-contracts');
   data.edges              = await tableData(accessToken, 'edges/all-edges')
   data.cutouts            = await tableData(accessToken, 'cutouts/all-cutouts')
+  data.appointments       = await tableData(accessToken, 'appointments/all-appointments')
   deepClone               = _.cloneDeep(data);
 
   return {

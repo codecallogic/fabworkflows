@@ -42,6 +42,7 @@ const formFields = {
   edges: ['price', 'type'],
   cutouts: ['price', 'type'],
   email: ['email'],
+  appointments: ['name', 'status', 'startDate', 'scheduleTime', 'duration']
 }
 
 const manageFormFields = (data, key) => {  
@@ -112,6 +113,7 @@ const submitCreate = async (e, stateData, type, fileType, setMessage, loadingTyp
       editData(editDataType.key, editDataType.caseType, editDataType.method, allData, editDataType.setSelectID, responseCreate.data.item._id)
       
     }
+
     if(loadingType == 'create_email') setMessage(`Email sent to ${stateData.email}`)
     if(changeView) changeView(viewType)
     if(setModal) setModal(modalType)
