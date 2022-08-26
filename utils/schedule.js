@@ -1,3 +1,26 @@
+export const dayPosition = [
+  'first',
+  'second',
+  'third',
+  'fourth'
+]
+
+export const days = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday'
+]
+
+export const repeat = [
+  'daily',
+  'weekly',
+  'monthly'
+]
+
 export const duration = [
   '5 min',
   '15 min',

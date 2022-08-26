@@ -463,9 +463,10 @@
       label {
         width: 2.5rem;
         height: 2.5rem;
-        border: 0.1rem solid var(--color-light-shade-scheme-1);
+        border: 0.08rem solid var(--color-dark-shade-scheme-1);
         background-color: var(--color-light-shade-scheme-1);
         box-shadow: 0.1rem 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.1);
+        border-radius: 50%;
 
         &:hover {
           cursor: pointer;
@@ -755,4 +756,26 @@
   border-bottom-left-radius: 1.2rem !important;
   border-bottom-right-radius: 1.2rem !important;
   background-color: var(--color-light-shade-scheme-4);
+}
+
+//// CUSTOM FORM GROUPS
+.spanGroup {
+  span {
+    min-width: max-content;
+    padding: 0 1rem;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  input {
+    width: 40%!important;
+  }
+}
+
+.zindexTop {
+  flex-wrap: wrap;
+  
+  :last-child {
+    position: relative;
+  }
 }

@@ -478,8 +478,14 @@
     }
   }
 
-  &-purchaseOrderLine {
+  &-rowLine {
     display: flex;
+
+    label {
+      font-size: 1.2rem;
+      padding: 0 1rem;
+      font-weight: 700;
+    }
     
     &-item {
       display: flex;
@@ -499,7 +505,7 @@
           min-width: 3rem;
           width: 3rem;
           height: 2.5rem;
-          margin-left: 2rem;
+          margin-left: 1.5rem;
           border-radius: .3rem;
           box-sizing: border-box;
           padding-left: .5rem;
@@ -509,6 +515,7 @@
 
         span {
           margin-left: 1rem;
+          min-width: max-content;
         }
         
       }
@@ -521,6 +528,82 @@
         padding: 1rem;
         min-width: min-content;
         text-transform: capitalize;
+      }
+
+      &-dropdown {
+        display: flex;
+        align-items: center;
+        // border: .1rem solid var(--color-scheme-3);
+        border-radius: .5rem;
+        margin-left: 1rem;
+        background-color: white;
+        position: relative;
+
+        input {
+          min-width: 6rem;
+          width: 6rem;
+          height: 2.5rem;
+          border-radius: .3rem;
+          box-sizing: border-box;
+          padding-left: .5rem;
+          border: none;
+          outline: none;
+        }
+
+        div > svg {
+          width: 2rem;
+          height: 2rem;
+          margin: auto;
+          fill: var(--color-dark-shade-scheme-1);
+    
+          &:hover {
+            cursor: pointer;
+          }
+        }
+
+        &-list {
+          position: absolute;
+          top: 100%;
+          width: min-content;
+          // height: 100%;
+          font-size: 1.4rem;
+          border-top: 0.1rem solid var(--color-light-shade-scheme-1);
+          border: 0.1rem solid var(--color-light-shade-scheme-1);
+          border-bottom-right-radius: 1rem;
+          border-bottom-left-radius: 1rem;
+          box-shadow: 0rem 1rem 0.5rem 0.2rem rgba(0, 0, 0, 0.2);
+          z-index: 500;
+    
+          &-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem .5rem;
+            font-size: inherit;
+            text-transform: capitalize;
+            color: var(--color-dark-shade-scheme-1);
+            background-color: var(--color-light-shade-scheme-1);
+    
+            &:last-child {
+              border-bottom-right-radius: 0.5rem;
+              border-bottom-left-radius: 0.5rem;
+              padding-bottom: 1.5rem;
+            }
+    
+            svg {
+              width: 2rem;
+              height: 2rem;
+              fill: var(--color-scheme-2);
+              margin-right: 1rem;
+              margin-left: 1rem;
+            }
+    
+            &:hover {
+              cursor: pointer;
+              background-color: var(--color-light-shade-scheme-3);
+            }
+          }
+        }
+        
       }
 
     }

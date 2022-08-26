@@ -409,9 +409,10 @@ body {
       .form-group-checkbox label {
         width: 2.5rem;
         height: 2.5rem;
-        border: 0.1rem solid var(--color-light-shade-scheme-1);
+        border: 0.08rem solid var(--color-dark-shade-scheme-1);
         background-color: var(--color-light-shade-scheme-1);
-        box-shadow: 0.1rem 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.1); }
+        box-shadow: 0.1rem 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.1);
+        border-radius: 50%; }
         .form-group-checkbox label:hover {
           cursor: pointer; }
       .form-group-checkbox span {
@@ -611,6 +612,20 @@ body {
   border-bottom-left-radius: 1.2rem !important;
   border-bottom-right-radius: 1.2rem !important;
   background-color: var(--color-light-shade-scheme-4); }
+
+.spanGroup span {
+  min-width: max-content;
+  padding: 0 1rem;
+  font-size: 1rem;
+  font-weight: 700; }
+
+.spanGroup input {
+  width: 40% !important; }
+
+.zindexTop {
+  flex-wrap: wrap; }
+  .zindexTop :last-child {
+    position: relative; }
 
 .center {
   text-align: center;
@@ -1516,11 +1531,15 @@ body {
             transition: all 0.3s ease-in-out; }
             .table-rows-item-dropdown-items-item:hover {
               cursor: pointer; }
-  .table-purchaseOrderLine {
+  .table-rowLine {
     display: flex; }
-    .table-purchaseOrderLine-item {
+    .table-rowLine label {
+      font-size: 1.2rem;
+      padding: 0 1rem;
+      font-weight: 700; }
+    .table-rowLine-item {
       display: flex; }
-      .table-purchaseOrderLine-item-qty {
+      .table-rowLine-item-qty {
         display: flex;
         justify-content: flex-start;
         align-items: center;
@@ -1530,19 +1549,20 @@ body {
         padding: 1rem;
         min-width: 13rem;
         max-width: 13rem; }
-        .table-purchaseOrderLine-item-qty input {
+        .table-rowLine-item-qty input {
           min-width: 3rem;
           width: 3rem;
           height: 2.5rem;
-          margin-left: 2rem;
+          margin-left: 1.5rem;
           border-radius: .3rem;
           box-sizing: border-box;
           padding-left: .5rem;
           border: 0.1rem solid var(--color-scheme-3);
           outline: none; }
-        .table-purchaseOrderLine-item-qty span {
-          margin-left: 1rem; }
-      .table-purchaseOrderLine-item-description {
+        .table-rowLine-item-qty span {
+          margin-left: 1rem;
+          min-width: max-content; }
+      .table-rowLine-item-description {
         display: flex;
         align-items: center;
         overflow: hidden;
@@ -1550,6 +1570,61 @@ body {
         padding: 1rem;
         min-width: min-content;
         text-transform: capitalize; }
+      .table-rowLine-item-dropdown {
+        display: flex;
+        align-items: center;
+        border-radius: .5rem;
+        margin-left: 1rem;
+        background-color: white;
+        position: relative; }
+        .table-rowLine-item-dropdown input {
+          min-width: 6rem;
+          width: 6rem;
+          height: 2.5rem;
+          border-radius: .3rem;
+          box-sizing: border-box;
+          padding-left: .5rem;
+          border: none;
+          outline: none; }
+        .table-rowLine-item-dropdown div > svg {
+          width: 2rem;
+          height: 2rem;
+          margin: auto;
+          fill: var(--color-dark-shade-scheme-1); }
+          .table-rowLine-item-dropdown div > svg:hover {
+            cursor: pointer; }
+        .table-rowLine-item-dropdown-list {
+          position: absolute;
+          top: 100%;
+          width: min-content;
+          font-size: 1.4rem;
+          border-top: 0.1rem solid var(--color-light-shade-scheme-1);
+          border: 0.1rem solid var(--color-light-shade-scheme-1);
+          border-bottom-right-radius: 1rem;
+          border-bottom-left-radius: 1rem;
+          box-shadow: 0rem 1rem 0.5rem 0.2rem rgba(0, 0, 0, 0.2);
+          z-index: 500; }
+          .table-rowLine-item-dropdown-list-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem .5rem;
+            font-size: inherit;
+            text-transform: capitalize;
+            color: var(--color-dark-shade-scheme-1);
+            background-color: var(--color-light-shade-scheme-1); }
+            .table-rowLine-item-dropdown-list-item:last-child {
+              border-bottom-right-radius: 0.5rem;
+              border-bottom-left-radius: 0.5rem;
+              padding-bottom: 1.5rem; }
+            .table-rowLine-item-dropdown-list-item svg {
+              width: 2rem;
+              height: 2rem;
+              fill: var(--color-scheme-2);
+              margin-right: 1rem;
+              margin-left: 1rem; }
+            .table-rowLine-item-dropdown-list-item:hover {
+              cursor: pointer;
+              background-color: var(--color-light-shade-scheme-3); }
   .table-forms {
     padding: 1rem 2rem;
     width: 100%;

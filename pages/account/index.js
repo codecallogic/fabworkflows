@@ -102,6 +102,7 @@ import CutoutModal from '../../components/modals/Cutouts'
 import PurchaseOrderLinesModal from '../../components/modals/PurchaseOrderLines'
 import ReceivePurchaseOrdersModal from '../../components/modals/ReceivePurchaseOrders'
 import AppointmentsModal from '../../components/modals/Appointments'
+import RecurringModal from '../../components/modals/Recurring'
 
 axios.defaults.withCredentials = true;
 
@@ -152,6 +153,7 @@ const Dashboard = ({
   POLine,
   accountItem,
   appointment,
+  recurring,
   
   // DISPATCH
   createType,
@@ -2826,6 +2828,38 @@ const Dashboard = ({
             typeOfData={'appointments'}
           ></AppointmentsModal>
         )}
+        {modal == 'recurring' && (
+          <RecurringModal
+            token={token}
+            account={account}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={recurring}
+            stateMethod={createType}
+            dynamicType={dynamicType}
+            extractingStateData={extractingStateData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+            selectID={selectID}
+            modalFormType={modalFormType}
+            setModalFormType={setModalFormType}
+            typeForm={typeForm}
+            setTypeForm={setTypeForm}
+            typeOfData={'appointments'}
+          ></RecurringModal>
+        )}
       </div>
     </>
   );
@@ -2864,7 +2898,8 @@ const mapStateToProps = (state) => {
     email: state.email,
     POLine: state.POLine,
     accountItem: state.account,
-    appointment: state.appointment
+    appointment: state.appointment,
+    recurring: state.recurring
   };
 };
 

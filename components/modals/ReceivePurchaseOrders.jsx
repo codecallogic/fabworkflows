@@ -227,9 +227,9 @@ const PurchaseListItems = ({
           </div>
           
           { stateData.POLines && stateData.POLines.map((item, idx) => 
-            <div key={idx} className="table-purchaseOrderLine">
-              <div className="table-purchaseOrderLine-item">
-                <div className="table-purchaseOrderLine-item-qty">
+            <div key={idx} className="table-rowLine">
+              <div className="table-rowLine-item">
+                <div className="table-rowLine-item-qty">
                   <input 
                     type="text"
                     value={item.receivedQty}
@@ -241,8 +241,8 @@ const PurchaseListItems = ({
                   <span>of {item.quantity}</span>
                 </div>
               </div>
-              <div className="table-purchaseOrderLine-item">
-                <div className="table-purchaseOrderLine-item-description">
+              <div className="table-rowLine-item">
+                <div className="table-rowLine-item-description">
                   <span>
                   {
                      item.description

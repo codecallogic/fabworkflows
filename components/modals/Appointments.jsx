@@ -3,7 +3,7 @@ import SVG from '../../files/svgs'
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { validateDate, formatDate, getTimeHour } from '../../helpers/validations'
-import { scheduleList, duration } from '../../utlis/schedule'
+import { scheduleList, duration } from '../../utils/schedule'
 
 const Appointments = ({
   token,
@@ -193,14 +193,10 @@ const Appointments = ({
             {input_dropdown == 'calendar' && (
               <div className="form-group-list" ref={myRefs}>
                 <Calendar
-                  onClickDay={(date) =>
-                    stateMethod(
-                      createType,
-                      'startDate',
-                      formatDate(date),
-                      setInputDropdown('')
-                    )
-                  }
+                  onClickDay={(date) => (
+                    stateMethod( createType, 'startDate', formatDate(date) ),
+                    setInputDropdown('')
+                  )}
                   minDate={new Date(Date.now())}
                 />
               </div>
@@ -332,6 +328,64 @@ const Appointments = ({
               }
             />
           </div>
+          <div className="form-group">
+            <input
+              id="recurring"
+              value={stateData.recurring}
+              readOnly
+            />
+            <label
+              className={
+                `input-label ` +
+                (stateData.recurring.length > 0 ||
+                typeof stateData.recurring == 'object'
+                  ? ' labelHover'
+                  : '')
+              }
+              htmlFor="recurring"
+            >
+              Recurring
+            </label>
+            <div
+              onClick={() =>
+                setModal('recurring')
+              }
+            >
+              <SVG svg={'recurring'}></SVG>
+            </div>
+          </div>
+          {!edit && 
+          <button 
+          className="form-group-button" 
+          onClick={(e) => submitCreate(e, stateData, 'appointments', null, setMessage, 'create_appointment', setLoading, token, 'appointments/create-appointment', resetType, resetState, allData, setAllData, setDynamicSVG)}
+          >
+            {loading == 'create_appointment' ? 
+              <div className="loading">
+                <span style={{backgroundColor: loadingColor}}></span>
+                <span style={{backgroundColor: loadingColor}}></span>
+                <span style={{backgroundColor: loadingColor}}></span>
+              </div>
+              : 
+              'Save'
+              }
+          </button>
+          }
+          {edit == 'appointment' && 
+          <button 
+          className="form-group-button" 
+          onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'categories', null, setMessage, 'update_category', setLoading, token, 'categories/update-category', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'categories', setModal))}
+          >
+            {loading == 'update_category' ? 
+              <div className="loading">
+                <span style={{backgroundColor: loadingColor}}></span>
+                <span style={{backgroundColor: loadingColor}}></span>
+                <span style={{backgroundColor: loadingColor}}></span>
+              </div>
+              : 
+              'Update'
+              }
+          </button>
+          }
         </form>
       </div>
     </div>

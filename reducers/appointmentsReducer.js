@@ -7,7 +7,7 @@ const initialState = {
   assigne: '',
   category: '',
   notes: '',
-  recurring: ''
+  recurring: '',
 }
 
 export const appointmentReducer = (state = initialState, action) => {

@@ -40,6 +40,10 @@ const Schedule = ({
     setDateNow(newDate)
   }
 
+  const onView = (view) => {
+    console.log(view)
+  }
+
   useEffect(() => {
     setCalendar(false)
   }, [dateNow])
@@ -83,6 +87,7 @@ const Schedule = ({
           eventPropGetter={eventStyleGetter}
           onNavigate={onNavigate}
           date={dateNow}
+          onView={onView}
         />
       </div>
     </div>
