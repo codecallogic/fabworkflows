@@ -410,6 +410,8 @@ const getTimeHour = (e) => {
   let minutes = e.getMinutes();
   let ampm = e.getHours() < 12 ? 'AM' : 'PM';
 
+  if(`${minutes}`.length == 1) minutes = `0${minutes}`
+  
   return hours + ":" + minutes + ' ' + ampm
 }
 

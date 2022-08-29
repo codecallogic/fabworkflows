@@ -30,17 +30,6 @@ const Schedule = ({
   const [dateNow, setDateNow] = useState(new Date(Date.now()))
   const [calendar, setCalendar] = useState(false)
 
-  const eventStyleGetter = (event) => {
-
-    let style = {
-      backgroundColor: event.color
-    }
-
-    return {
-      style: style
-    }
-  }
-
   const onNavigate = (newDate) => {
     setDateNow(newDate)
   }
@@ -85,14 +74,66 @@ const Schedule = ({
       
       appointment.start = newDate
       appointment.end = endDate
+      appointment.className = 'appointments'
 
       newEvents.push(appointment)
       
     })
-    
+
+    allData.jobs.forEach((job) => {
+
+      job.activities.forEach((item) => {
+
+        let activity = new Object()
+
+        activity.id = item._id
+        activity.title = item.name
+
+        let startTime = item.scheduleTime.split(' ')
+        let hourTime = startTime[0].split(':')[0]
+
+        let timePeriod = startTime[1]
+        let minutes = item.duration.split(' ')[0]
+        let minutesType = item.duration.split(' ')[1]
+
+        if(minutesType !== 'min'){
+          let hours = minutes.split('.')
+          if(hours[0]) minutes = hours[0] * 60
+          if(hours[1]) minutes = minutes + 30
+        }
+
+        let newDate = new Date(item.startDate)
+        let endDate = new Date(item.startDate)
+        
+        if(hourTime){
+          newDate.setHours(hourTime)
+          endDate.setHours(hourTime)
+        }
+
+        if(minutes){
+          endDate.setMinutes(minutes)
+        }
+        
+        activity.start = newDate
+        activity.end = endDate
+        activity.className = 'activities'
+        
+        newEvents.push(activity)
+      })
+      
+    })
+
     setEvents(newEvents)
 
-  }, [allData.appointments])
+  }, [allData.appointments, allData.jobs])
+
+  const eventStyleGetter = (event) => {
+
+    return {
+      className: event.className
+    }
+  }
+
   
   return (
     <div className="calendar">
@@ -133,10 +174,10 @@ const Schedule = ({
           endAccessor="end"
           view={'week'}
           views={['week']}
-          eventPropGetter={eventStyleGetter}
           onNavigate={onNavigate}
           date={dateNow}
           onView={onView}
+          eventPropGetter={eventStyleGetter}
         />
       </div>
     </div>

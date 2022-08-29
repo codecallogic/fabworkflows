@@ -1,9 +1,11 @@
 import {useState, useEffect, useRef} from 'react'
 import SVG from '../../files/svgs'
 import { HexColorPicker } from "react-colorful";
-import { activityStatus } from '../../helpers/lists'
-import { validateTime, validateNumber, validatePrice } from '../../helpers/validations';
+import { validateTime, validateNumber, validatePrice, getTimeHour, validateDate, formatDate } from '../../helpers/validations';
 import { manageFormFields } from '../../helpers/forms';
+import { scheduleList } from '../../utils/schedule'
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 const ActivityModal = ({
   token,
@@ -15,6 +17,8 @@ const ActivityModal = ({
   edit,
   dynamicSVG,
   setDynamicSVG,
+  altEdit,
+  setAltEdit,
 
   //// DATA
   allData,
@@ -34,6 +38,7 @@ const ActivityModal = ({
   const createType = 'CREATE_ACTIVITY'
   const resetType = 'RESET_ACTIVITY'
   const createArrayItem = 'CREATE_ACTIVITY_ARRAY_ITEM'
+  const updateJobArrayItem = 'UPDATE_JOB_ARRAY_ITEM'
   const myRefs = useRef(null)
   const [loadingColor, setLoadingColor] = useState('white')
   const [input_dropdown, setInputDropdown] = useState('')
@@ -208,6 +213,90 @@ const ActivityModal = ({
             </div>
           }
         </div>
+        {altEdit == 'activities' && 
+        <div className="form-group">
+          <input
+            id="startDate"
+            value={stateData.startDate}
+            onChange={(e) =>
+              validateDate(e, 'startDate', createType, stateMethod)
+            }
+          />
+          <label
+            className={
+              `input-label ` +
+              (stateData.startDate.length > 0 ||
+              typeof stateData.startDate == 'object'
+                ? ' labelHover'
+                : '')
+            }
+            htmlFor="startDate"
+          >
+            Start Date
+          </label>
+          <div
+            onClick={() =>
+              input_dropdown == 'calendar'
+                ? setInputDropdown('')
+                : setInputDropdown('calendar')
+            }
+          >
+            <SVG svg={'calendar'}></SVG>
+          </div>
+          {input_dropdown == 'calendar' && (
+            <div className="form-group-list" ref={myRefs}>
+              <Calendar
+                onClickDay={(date) => (
+                  stateMethod( createType, 'startDate', formatDate(date) ),
+                  setInputDropdown('')
+                )}
+                minDate={new Date(Date.now())}
+              />
+            </div>
+          )}
+        </div>
+        }
+        {altEdit == 'activities' && 
+          <div className="form-group">
+            <input
+            id="scheduleTime"
+            onClick={() => setInputDropdown('schedule')} 
+            value={stateData.scheduleTime} 
+            onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'scheduleTime', e.target.value))}/>
+            <label 
+            className={`input-label ` + (
+              stateData.scheduleTime.length > 0 || 
+              typeof stateData.scheduleTime == 'object' 
+              ? ' labelHover' 
+              : ''
+            )}
+            htmlFor="scheduleTime">
+              Schedule
+            </label>
+            <div 
+            onClick={() => setInputDropdown('schedule')}><SVG svg={'clock'}></SVG>
+            </div>
+            { input_dropdown == 'schedule' &&
+              <div 
+              className="form-group-list" 
+              ref={myRefs}>
+                <div 
+                  className="form-group-list-item" 
+                  onClick={(e) => (stateMethod(createType, 'scheduleTime', getTimeHour(new Date(Date.now()))), setInputDropdown(''))}>
+                    Current time
+                </div>
+                {scheduleList.length > 0 && scheduleList.map((item, idx) => 
+                  <div 
+                    key={idx} 
+                    className="form-group-list-item" 
+                    onClick={(e) => (stateMethod(createType, 'scheduleTime', item), setInputDropdown(''))}>
+                      {item}
+                  </div>
+                )}
+              </div>
+            }
+          </div>
+        }
         <div className="form-group">
           <input 
           id="duration" 
@@ -235,8 +324,7 @@ const ActivityModal = ({
           />
           <label 
           className={`input-label ` + (
-            stateData.assignee.length > 0 || 
-            typeof stateData.assignee == 'object' 
+            stateData.assignee.length > 0 
             ? ' labelHover' 
             : ''
           )}
@@ -331,7 +419,7 @@ const ActivityModal = ({
             {message}
           </span>
           }
-          {!edit && 
+          {!edit && !altEdit &&
           <button 
           className="form-group-button" 
           onClick={(e) => submitCreate(e, stateData, 'activities', null, setMessage, 'create_activity', setLoading, token, 'activities/create-activity', resetType, resetState, allData, setAllData, setDynamicSVG)}
@@ -347,11 +435,32 @@ const ActivityModal = ({
               }
           </button>
           }
-          {edit == 'activities' && 
+          {edit == 'activities' && !altEdit &&
           <button 
           className="form-group-button" 
           onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'activities', null, setMessage, 'update_activity', setLoading, token, 'activities/update-activity', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'activities', setModal))}
           >
+              {loading == 'update_activity' ? 
+              <div className="loading">
+                <span style={{backgroundColor: loadingColor}}></span>
+                <span style={{backgroundColor: loadingColor}}></span>
+                <span style={{backgroundColor: loadingColor}}></span>
+              </div>
+              : 
+              'Update'
+              }
+          </button>
+          }
+          {altEdit == 'activities' &&
+          <button 
+          className="form-group-button" 
+          onClick={(e) => (
+            e.preventDefault(),
+            stateMethod(updateJobArrayItem, 'activities', stateData),
+            setModal(''),
+            setAltEdit(''),
+            resetState(resetType)
+          )}>
               {loading == 'update_activity' ? 
               <div className="loading">
                 <span style={{backgroundColor: loadingColor}}></span>

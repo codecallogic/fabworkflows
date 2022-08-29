@@ -3458,12 +3458,6 @@ body {
         font-weight: 500;
         color: var(--color-dark-shade-scheme-1); }
 
-.rbc-event {
-  background-color: var(--color-dark-shade-scheme-1) !important;
-  font-weight: 700; }
-  .rbc-event div {
-    color: var(--color-light-shade-scheme-1) !important; }
-
 .rbc-calendar * {
   color: var(--color-dark-shade-scheme-1) !important; }
 
@@ -3507,6 +3501,19 @@ body {
 
 .rbc-time-view {
   min-height: 130% !important; }
+
+.red {
+  background-color: 'red'; }
+
+.appointments {
+  background-color: var(--color-dark-shade-scheme-1) !important; }
+  .appointments * {
+    color: var(--color-light-shade-scheme-1) !important; }
+
+.activities {
+  background-color: var(--color-scheme-1) !important; }
+  .activities * {
+    color: white !important; }
 
 .home {
   display: flex;

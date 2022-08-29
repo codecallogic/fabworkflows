@@ -58,16 +58,6 @@
   
 }
 
-.rbc-event {
-  background-color: var(--color-dark-shade-scheme-1)!important;
-  font-weight: 700;
-
-  div {
-    color: var(--color-light-shade-scheme-1)!important;
-  }
-}
-
-
 .rbc-calendar {
   * {
     color: var(--color-dark-shade-scheme-1) !important;
@@ -137,4 +127,34 @@
 
 .rbc-time-view {
   min-height: 130% !important ;
+}
+
+.red {
+  background-color: 'red';
+}
+
+// .rbc-event {
+//   background-color: var(--color-dark-shade-scheme-1)!important;
+//   font-weight: 700;
+
+//   div {
+//     color: var(--color-light-shade-scheme-1)!important;
+//   }
+// }
+
+.appointments {
+  background-color: var(--color-dark-shade-scheme-1)!important;
+
+  * {
+    color: var(--color-light-shade-scheme-1)!important;
+  }
+  
+}
+
+.activities {
+  background-color: var(--color-scheme-1)!important;
+
+  * {
+    color: white!important;
+  }
 }

@@ -52,6 +52,7 @@ export const jobReducer = (state = initialState, action) => {
       let newUpdatedArray = []
       
       newUpdatedArray = updateArray.filter((item, idx) => (item._id ? item._id : idx) !== action.value._id)
+      
       newUpdatedArray.push(action.value)
       
       return {

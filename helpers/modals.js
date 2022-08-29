@@ -19,6 +19,8 @@ const populateEditData = (originalData, keyType, caseType, stateMethods, selectI
         
         let object = originalData[keyType][key]
 
+        console.log(originalData[keyType][key])
+
         if(object.jobs && object.jobs.length > 0) stateMethods.createType(caseType, 'jobs', object.jobs)
         
         for(let keyOfObject in object){
@@ -46,9 +48,11 @@ const populateEditData = (originalData, keyType, caseType, stateMethods, selectI
       }
     }
   } else {
+   
     if(list.length > 0){
       for(let i = 0; i <= list.length; i++){
         if(i === selectID){
+
           for( let key in list[i]){
             stateMethods.createType(caseType, key, list[i][key])
           }
@@ -70,7 +74,7 @@ const editData = (keyType, caseType, stateMethod, allData, setSelectID, id, sele
     keyType,
     caseType,
     stateMethods,
-    id && id + 1 ? id : selectID,
+    typeof id == 'number' ? id : selectID,
     list,
     setSelectID
   );

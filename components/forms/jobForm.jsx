@@ -11,6 +11,7 @@ import {
   quoteSort,
   quoteJobSort,
   activitySort,
+  activityJobSort,
   purchaseOrderSort,
   jobIssueSort,
 } from '../../helpers/sorts';
@@ -46,6 +47,8 @@ const JobForm = ({
   setSelectID,
   event,
   setTypeForm,
+  altEdit,
+  setAltEdit,
 
   //// DATA
   typeOfData,
@@ -82,7 +85,7 @@ const JobForm = ({
   const [activityHeaders, setActivityHeaders] = useState([]);
   const [purchaseOrderHeaders, setPurchaseOrderHeaders] = useState([]);
   const [jobIssueHeaders, setJobIssueHeaders] = useState([]);
-
+  
   useEffect(() => {
     const isEmpty = Object.values(stateData).every(
       (x) => x === '' || x.length < 1 || x === '0.00'
@@ -119,7 +122,7 @@ const JobForm = ({
     setQuoteHeaders((oldArray) => [...oldArray, objectQuotes]);
     
     let objectActivities = new Object();
-    Object.values(activitySort).forEach((item) => {
+    Object.values(activityJobSort).forEach((item) => {
       objectActivities[item] = item;
     });
     setActivityHeaders((oldArray) => [...oldArray, objectActivities]);
@@ -575,7 +578,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           setAllData={setAllData}
           modal={modal}
           setModal={setModal}
-          sortOrder={activitySort}
+          sortOrder={activityJobSort}
           controls={controls}
           setControls={setControls}
           controlsType={'activityControls'}
@@ -602,6 +605,9 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           cancelControl={true}
           stateMethod={stateMethod}
           setTypeForm={setTypeForm}
+          originalData={allData}
+          altEdit={altEdit}
+          setAltEdit={setAltEdit}
         ></Table>
         <Table
           token={token}

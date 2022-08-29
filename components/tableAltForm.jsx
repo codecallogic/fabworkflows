@@ -42,12 +42,15 @@ const Table = ({
   emailRoute,
   setModalFormType,
   setTypeForm,
+  altEdit,
+  setAltEdit,
 
   //// DATA
   componentData,
   allData,
   editData,
   stateData,
+  originalData,
 
   //// REDUX
   changeView,
@@ -92,6 +95,7 @@ const Table = ({
   }
 
   useEffect(() => {    
+  
     document.addEventListener("click", handleClickOutside, true);
 
     return () => {
@@ -122,6 +126,18 @@ const Table = ({
       if(currentItem.type == 'products'){ setModalFormType('productsForm'), setTypeForm('purchaseOrderLines') }
       if(currentItem.type == 'miscellaneous'){ setModalFormType('miscellaneousForm', setTypeForm('purchaseOrderLines')) }
       editData('POLines', 'CREATE_PO_LINE', stateMethod, allData, setSelectID, null, id, allData)
+    }
+
+    if(controls == 'activityControls'){
+      let idxUpdate  
+      
+      allData.map((item, idx) => {
+        if(item._id == id) idxUpdate = idx
+      })
+      
+      editData('activities', 'CREATE_ACTIVITY', stateMethod, allData, setSelectID, idxUpdate, null, allData)
+      setAltEdit('activities')
+      setModal('activities')
     }
   }
   
@@ -201,6 +217,20 @@ const Table = ({
                 )}>
                 <SVG onClick={() => {extractingStateData(currentItem)}} svg={'thrash-can'} id={'delete'}></SVG>
               </div>
+
+              {cancelControl && controls == 'activityControls' &&
+                <div 
+                  id="edit" 
+                  className="table-header-controls-item-svg" 
+                  onClick={() => (
+                    handleEdit(selectID)
+                  )}
+                >
+                  <SVG 
+                    svg={'edit'} 
+                  ></SVG>
+                </div>
+              }
 
               {completeControl && controls == 'activityControls' &&
                 <div 

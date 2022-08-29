@@ -2,6 +2,8 @@ const initialState = {
   name: '',
   color: '#026dab',
   status: '',
+  startDate: '',
+  scheduleTime: '',
   duration: '00:00',
   assignee: [],
   cost: '',
@@ -9,6 +11,7 @@ const initialState = {
   description: '',
   active: ''
 }
+
 export const activityReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'CREATE_ACTIVITY':

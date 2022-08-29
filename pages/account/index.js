@@ -176,6 +176,7 @@ const Dashboard = ({
   const [modal, setModal] = useState('');
   const [dynamicSVG, setDynamicSVG] = useState('notification');
   const [edit, setEdit] = useState('');
+  const [altEdit, setAltEdit] = useState('');
   const [allData, setAllData] = useState(originalData ? originalData : []);
   const [event, setEvent] = useState('');
   const [edgeHeaders, setEdgeHeaders] = useState([]);
@@ -1602,6 +1603,8 @@ const Dashboard = ({
             event={event}
             setEvent={setEvent}
             setTypeForm={setTypeForm}
+            altEdit={altEdit}
+            setAltEdit={setAltEdit}
           ></JobForm>
         )}
 
@@ -2360,6 +2363,8 @@ const Dashboard = ({
             submitUpdate={submitUpdate}
             changeView={changeView}
             editData={editData}
+            altEdit={altEdit}
+            setAltEdit={setAltEdit}
           ></ActivityModal>
         )}
         {modal == 'dependency' && (

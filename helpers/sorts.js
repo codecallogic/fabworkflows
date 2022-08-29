@@ -9,6 +9,7 @@ export {
   jobSort,
   assigneeSort,
   activitySort,
+  activityJobSort,
   activityStatusSort,
   activitySetSort,
   purchaseOrderSort,
@@ -41,6 +42,8 @@ const jobSort = ['priceLists', 'contacts', 'jobAddress', 'account', 'activities'
 const assigneeSort = ['description', 'color', 'status', 'name']
 
 const activitySort = ['description', 'assignee', 'dependency', 'status', 'color', 'duration', 'cost', 'active', 'name']
+
+const activityJobSort = ['description', 'assignee', 'dependency', 'status', 'color', 'startDate', 'scheduleTime', 'duration', 'cost', 'active', 'name']
 
 const activityStatusSort = ['active', 'appointments', 'confirmTimeChange', 'color', 'abbreviation', 'status']
 
