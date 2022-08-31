@@ -101,9 +101,9 @@ const Recurring = ({
           <span 
             className="addFieldItems-modal-form-title">
               {edit == 'repeat_appointment' ? 
-              'Repeat Appointment' 
+              'Repeat Recurring' 
               : 
-              'Repeat Appointment'
+              'Repeat Recurring'
               }
           </span>
           <div onClick={() => (setModal('appointments'), setMessage(''))}>

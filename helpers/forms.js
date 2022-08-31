@@ -126,7 +126,7 @@ const submitCreate = async (e, stateData, type, fileType, setMessage, loadingTyp
   }
 }
 
-const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType, setModal) => {
+const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType, setModal, setAltEdit) => {
   
   for(let i = 0; i < formFields[type].length; i++){
 
@@ -169,9 +169,10 @@ const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingTy
     if(!Array.isArray(responseUpdate.data) && responseUpdate.data.list) allData[type] = responseUpdate.data.list
     
     setAllData(allData)
-    if(resetType) resetState(resetType)
     if(viewType) changeView(viewType)
+    if(resetType) resetState(resetType)
     if(setModal) setModal('')
+    if(setAltEdit) setAltEdit('')
     
   } catch (error) {
     console.log(error)

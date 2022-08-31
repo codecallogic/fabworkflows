@@ -19,8 +19,6 @@ const populateEditData = (originalData, keyType, caseType, stateMethods, selectI
         
         let object = originalData[keyType][key]
 
-        console.log(originalData[keyType][key])
-
         if(object.jobs && object.jobs.length > 0) stateMethods.createType(caseType, 'jobs', object.jobs)
         
         for(let keyOfObject in object){
@@ -59,7 +57,7 @@ const populateEditData = (originalData, keyType, caseType, stateMethods, selectI
         }
       }
       
-      setSelectID(selectID + 1)
+      if(setSelectID) setSelectID(selectID + 1)
     }
   }
   

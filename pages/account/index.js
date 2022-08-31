@@ -154,7 +154,6 @@ const Dashboard = ({
   accountItem,
   appointment,
   recurring,
-  appointments,
   
   // DISPATCH
   createType,
@@ -1739,6 +1738,19 @@ const Dashboard = ({
             setEdit={setEdit}
             setModal={setModal}
             allData={allData}
+            editData={editData}
+            stateMethod={createType}
+            setAltEdit={setAltEdit}
+            changeView={changeView}
+            stateData={job}
+            loading={loading}
+            setLoading={setLoading}
+            submitUpdate={submitUpdate}
+            token={token}
+            resetState={resetType}
+            setAllData={setAllData}
+            setMessage={setMessage}
+            setDynamicSVG={setDynamicSVG}
           />
         )}
 

@@ -21,14 +21,35 @@ const localizer = momentLocalizer(moment)
 const Schedule = ({
   setModal,
   setEdit,
+  setAltEdit,
+  loading,
+  setLoading,
+  token,
+  setMessage,
+  changeView,
+  setDynamicSVG,
+
+  // REDUX
+  editData,
+  stateMethod,
+  stateData,
+  resetState,
 
   // DATA
-  allData
+  allData,
+  setAllData,
+
+  // CRUD
+  submitUpdate
 }) => {
+
+  const recurringCreateType = 'CREATE_RECURRING'
+  const resetType = 'RESET_JOB'
 
   const [events, setEvents] = useState([])
   const [dateNow, setDateNow] = useState(new Date(Date.now()))
   const [calendar, setCalendar] = useState(false)
+  const [id, setID] = useState('')
 
   const onNavigate = (newDate) => {
     setDateNow(newDate)
@@ -72,8 +93,10 @@ const Schedule = ({
       
       endDate.setMinutes(minutes)
       
+      appointment.type = 'appointment'
       appointment.start = newDate
       appointment.end = endDate
+      appointment.originalData = item
       appointment.className = 'appointments'
 
       newEvents.push(appointment)
@@ -113,10 +136,13 @@ const Schedule = ({
         if(minutes){
           endDate.setMinutes(minutes)
         }
-        
+        //
+        activity.type = 'activity'
         activity.start = newDate
         activity.end = endDate
+        activity.originalData = item
         activity.className = 'activities'
+        activity.jobID = job._id
         
         newEvents.push(activity)
       })
@@ -133,6 +159,68 @@ const Schedule = ({
       className: event.className
     }
   }
+
+
+
+  const onSelectEvent = (event) => {
+    
+    if(event.type == 'appointment'){
+      editData('appointments', 'CREATE_APPOINTMENT', stateMethod, allData, null, null, event.originalData._id)
+      
+      if(event.originalData.recurring){
+        let keys = []
+
+        Object.keys(event.originalData.recurring).forEach( (key) => {
+          keys.push(key)
+        })
+
+        Object.values(event.originalData.recurring).forEach( (value, idx) => {
+          stateMethod(recurringCreateType, keys[idx], value)
+        })
+        
+      }
+      
+      setEdit('appointment'),
+      setModal('appointments')
+    }
+
+    if(event.type == 'activity'){
+      editData('jobs', 'CREATE_JOB', stateMethod, allData, null, null, event.jobID)
+      setID(event.originalData._id)
+      
+    }
+    
+  }
+
+  useEffect(() => {
+    setID('')
+  }, [])
+
+  useEffect(() => {
+    
+    if(stateData.activities && id){
+      let idxUpdate  
+
+      stateData.activities.map((item, idx) => {
+        if(item._id == id) idxUpdate = idx
+      })
+
+      editData('activities', 'CREATE_ACTIVITY', stateMethod, stateData.activities, null, idxUpdate, null, stateData.activities)
+      setAltEdit('activities')
+      setModal('activities')
+    }
+    
+  }, [stateData])
+
+  useEffect(() => {
+    
+    if(loading == 'update_activity_job_form'){
+      
+      submitUpdate(null, stateData, 'jobs', 'files', setMessage, 'update_activity_job_form', setLoading, token, 'jobs/update-job', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'calendar', setModal, setAltEdit)
+
+    }
+    
+  }, [stateData.activities])
 
   
   return (
@@ -178,6 +266,7 @@ const Schedule = ({
           date={dateNow}
           onView={onView}
           eventPropGetter={eventStyleGetter}
+          onSelectEvent={onSelectEvent}
         />
       </div>
     </div>

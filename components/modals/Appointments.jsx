@@ -441,12 +441,12 @@ const Appointments = ({
             </button>
             }
           </div>
-            {/* {edit == 'appointment' && 
+          {edit == 'appointment' && 
             <button 
             className="form-group-button" 
-            onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'categories', null, setMessage, 'update_category', setLoading, token, 'categories/update-category', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'categories', setModal))}
+            onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'appointments', null, setMessage, 'update_appointment', setLoading, token, 'appointments/update-appointment', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'calendar', setModal, ''))}
             >
-              {loading == 'update_category' ? 
+              {loading == 'update_appointment' ? 
                 <div className="loading">
                   <span style={{backgroundColor: loadingColor}}></span>
                   <span style={{backgroundColor: loadingColor}}></span>
@@ -456,7 +456,7 @@ const Appointments = ({
                 'Update'
                 }
             </button>
-            } */}
+          }
         </form>
       </div>
     </div>

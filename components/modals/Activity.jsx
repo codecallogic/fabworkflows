@@ -3,7 +3,7 @@ import SVG from '../../files/svgs'
 import { HexColorPicker } from "react-colorful";
 import { validateTime, validateNumber, validatePrice, getTimeHour, validateDate, formatDate } from '../../helpers/validations';
 import { manageFormFields } from '../../helpers/forms';
-import { scheduleList } from '../../utils/schedule'
+import { scheduleList, duration } from '../../utils/schedule'
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
@@ -121,7 +121,7 @@ const ActivityModal = ({
         <div className="addFieldItems-modal-box-header">
         <span 
           className="addFieldItems-modal-form-title">
-            {edit == 'activities' ? 
+            {edit == 'activities' || altEdit ? 
             'Edit Activity' 
             : 
             'New Activity'
@@ -298,12 +298,11 @@ const ActivityModal = ({
           </div>
         }
         <div className="form-group">
-          <input 
-          id="duration" 
+          <input
+          id="duration"
+          onClick={() => setInputDropdown('duration')} 
           value={stateData.duration} 
-          onChange={(e) => (validateTime(e, 'duration', createType, stateMethod))}
-          onFocus={() => stateMethod(createType, 'duration', '')}
-          />
+          onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'duration', e.target.value))}/>
           <label 
           className={`input-label ` + (
             stateData.duration.length > 0 || 
@@ -312,8 +311,25 @@ const ActivityModal = ({
             : ''
           )}
           htmlFor="duration">
-            Duration (hh:mm)
+            Duration
           </label>
+          <div 
+          onClick={() => setInputDropdown('duration')}><SVG svg={'stopwatch'}></SVG>
+          </div>
+          { input_dropdown == 'duration' &&
+            <div 
+            className="form-group-list" 
+            ref={myRefs}>
+              {duration.length > 0 && duration.map((item, idx) => 
+                <div 
+                  key={idx} 
+                  className="form-group-list-item" 
+                  onClick={(e) => (stateMethod(createType, 'duration', item), setInputDropdown(''))}>
+                    {item}
+                </div>
+              )}
+            </div>
+          }
         </div>
         <div className="form-group">
           <input
@@ -456,12 +472,13 @@ const ActivityModal = ({
           className="form-group-button" 
           onClick={(e) => (
             e.preventDefault(),
+            setLoading('update_activity_job_form'),
             stateMethod(updateJobArrayItem, 'activities', stateData),
             setModal(''),
             setAltEdit(''),
             resetState(resetType)
           )}>
-              {loading == 'update_activity' ? 
+              {loading == 'update_activity_job_form' ? 
               <div className="loading">
                 <span style={{backgroundColor: loadingColor}}></span>
                 <span style={{backgroundColor: loadingColor}}></span>
