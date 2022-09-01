@@ -1,13 +1,17 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { Calendar, momentLocalizer } from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment'
 import CalendarModal from 'react-calendar';
+import { Calendar, momentLocalizer } from 'react-big-calendar'
+import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
+import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import 'react-calendar/dist/Calendar.css';
 import SVG from '../../files/svgs';
-import { formatDate2 } from '../../helpers/validations';
-import { areArraysEqual } from '@mui/base';
+import { formatDate2, getTimeHour, formatDate } from '../../helpers/validations';
+import { lightOrDark } from '../../helpers/css'
+
+const DnDCalendar = withDragAndDrop(Calendar)
 
 moment.locale('ko', {
   week: {
@@ -106,7 +110,6 @@ const Schedule = ({
     allData.jobs.forEach((job) => {
 
       job.activities.forEach((item) => {
-
         let activity = new Object()
 
         activity.id = item._id
@@ -136,12 +139,16 @@ const Schedule = ({
         if(minutes){
           endDate.setMinutes(minutes)
         }
-        //
+        
         activity.type = 'activity'
         activity.start = newDate
         activity.end = endDate
         activity.originalData = item
-        activity.className = 'activities'
+        activity.backgroundColor = item.color
+        
+        if(lightOrDark(item.color) == 'dark') activity.className = 'activities-light'
+        if(lightOrDark(item.color) == 'light') activity.className = 'activities-dark'
+        
         activity.jobID = job._id
         
         newEvents.push(activity)
@@ -155,8 +162,13 @@ const Schedule = ({
 
   const eventStyleGetter = (event) => {
 
+    let style = {
+      backgroundColor: event.backgroundColor
+    }
+    
     return {
-      className: event.className
+      className: event.className,
+      style: style
     }
   }
 
@@ -190,6 +202,32 @@ const Schedule = ({
       
     }
     
+  }
+
+  const onEventDrop = ({event, start, end, isAllDay}) => {
+    
+    if(event.type == 'activity'){
+      let job
+      
+      allData.jobs.forEach((item, idx) => {
+        if(item._id == event.jobID) job = item
+      })
+
+      if(job){
+        job.activities.forEach((item, idx) => {
+          if(item._id == event.id){
+            item.scheduleTime = getTimeHour(start)
+            item.startDate = formatDate(start)
+          }
+        })
+      }
+
+      setAllData(allData)
+
+      submitUpdate(null, job, 'jobs', 'files', setMessage, 'update_activity_drag_drop', setLoading, token, 'jobs/update-job', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'calendar')
+
+    }
+
   }
 
   useEffect(() => {
@@ -232,6 +270,7 @@ const Schedule = ({
         >
           <SVG svg={'calendar'}></SVG>
           <span>{formatDate2(dateNow)}</span>
+          {loading == 'update_activity_drag_drop' && <span><div className="loading-spinner"></div></span>}
         </div>
         <div className="calendar-tools-controls">
           <div className="calendar-tools-controls-item"
@@ -255,7 +294,7 @@ const Schedule = ({
         </div>
       }
       <div className="calendar-view">
-        <Calendar
+        <DnDCalendar
           localizer={localizer} 
           events={events}
           startAccessor="start"
@@ -267,6 +306,8 @@ const Schedule = ({
           onView={onView}
           eventPropGetter={eventStyleGetter}
           onSelectEvent={onSelectEvent}
+          onEventDrop={onEventDrop}
+          resizableAccessor={() => false}
         />
       </div>
     </div>
