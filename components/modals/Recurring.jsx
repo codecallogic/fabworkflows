@@ -289,7 +289,8 @@ const Recurring = ({
                 type="text"
                 value={stateData.occurrenceDay}
                 onChange={(e) => (
-                  stateMethod(createType, 'occurrenceDay', e.target.value)
+                  stateMethod(createType, 'occurrenceDay', e.target.value),
+                  stateMethod(createType, 'occurrenceType', '')
                 )}
               />
               <span>of every</span>
@@ -325,7 +326,7 @@ const Recurring = ({
                       className="table-rowLine-item-dropdown-list-item" 
                       onClick={(e) => (
                         setInputDropdown(''),
-                        stateMethod(createType, 'occurrenceType', `${item}-${stateData.occurrenceType.split('-')[1]}`),
+                        stateMethod(createType, 'occurrenceType', `${item}-${ stateData.occurrenceType ? stateData.occurrenceType.split('-')[1] : '' }`),
                         stateMethod(createType, 'occurrenceDay', '')
                       )}>
                         {item}
