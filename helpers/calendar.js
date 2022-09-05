@@ -215,6 +215,57 @@ export const setAllEvents = (appointments, jobs) => {
           }
         }
 
+        if(item.recurring.type == 'monthly'){
+          if(item.recurring.occurrenceMonth && item.recurring.occurrenceType){
+            let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+            let weeks = ['first', 'second', 'third', 'fourth']
+            let dayType = days.indexOf(item.recurring.occurrenceType.split('-')[1])
+            let weekType = weeks.indexOf(item.recurring.occurrenceType.split('-')[0])
+            let start = new Date(item.startDate)
+            let date = start.getDate();
+            
+            let weekOfMonth = Math.ceil(date / 7)
+            if(weekOfMonth == 5) weekOfMonth = 4
+
+            if(item.recurring.rangeEndOccurrence){
+              let currentMonth
+              let occurrences = []
+              
+              for(let i = 0; i < item.recurring.rangeEndOccurrence; i++){
+                currentMonth = start.getUTCMonth() + +item.recurring.occurrenceMonth
+                let newMonth = start.setMonth(currentMonth)
+                newMonth = new Date(newMonth)
+                newMonth = new Date(newMonth.setDate(1))
+              
+                if(newMonth.getDay() == dayType) occurrences.push(newMonth)
+                if(newMonth.getDay() !== dayType){
+                  let monthDay = new Date(newMonth)
+
+                  while(new Date(monthDay).getDay() !== dayType){
+                    monthDay = new Date(monthDay).setDate(new Date(monthDay).getDate() + 1)
+                  }
+
+                  occurrences.push(new Date(monthDay))
+                  
+                }
+
+              }
+
+              if(occurrences){
+                for(let i = 0; i < occurrences.length; i++){
+                  let newDate = new Date(occurrences[i])
+                  newDate = newDate.setDate(newDate.getDate() + (weekType * 7))
+                  newDate = new Date(newDate)
+
+                  let appointment = generateAppointment(item, null, newDate)
+                  newEvents.push(appointment)
+                }
+              }
+
+            }
+          }
+        }
+
       }
 
     })
