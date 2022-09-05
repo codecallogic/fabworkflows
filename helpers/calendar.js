@@ -163,6 +163,58 @@ export const setAllEvents = (appointments, jobs) => {
 
         }
 
+        if(item.recurring.type == 'weekly'){
+          if(item.recurring.occurrenceWeek && item.recurring.occurrenceType){
+            let start = new Date(item.startDate)
+            let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+            let firstOccurrence
+            
+            while(firstOccurrence == undefined){
+              let newDay = start.setDate(start.getDate() + 1)
+              start = new Date(newDay)
+
+              if(new Date(newDay).getDay() == days.indexOf(item.recurring.occurrenceType)) firstOccurrence = new Date(newDay)
+              
+            }
+
+            let newStartDate
+            if(firstOccurrence) newStartDate = firstOccurrence
+
+            if(item.recurring.rangeEndOccurrence){
+              let appointment = generateAppointment(item, null, firstOccurrence)
+              newEvents.push(appointment)
+              
+              for(let i = 0; i < item.recurring.rangeEndOccurrence; i++){
+                let newWeek = newStartDate.setDate(newStartDate.getDate() + (7*+item.recurring.occurrenceWeek))
+                newStartDate = new Date(newWeek)
+
+                let appointment2 = generateAppointment(item, null, newStartDate)
+                newEvents.push(appointment2)
+              }
+            }
+
+            if(item.recurring.rangeEndDate){
+              let firstWeek = new Date(firstOccurrence)
+
+              let appointment = generateAppointment(item, null, firstWeek)
+              newEvents.push(appointment)
+              
+              while(new Date(firstWeek) < new Date(item.recurring.rangeEndDate)){
+                let newWeek = firstWeek.setDate(firstWeek.getDate() + (7*+item.recurring.occurrenceWeek))
+
+                if(new Date(newWeek) > new Date(item.recurring.rangeEndDate)) break;
+                
+                firstWeek = new Date(newWeek)
+
+                let appointment = generateAppointment(item, null, newWeek)
+                newEvents.push(appointment)
+                
+              }
+            }
+            
+          }
+        }
+
       }
 
     })

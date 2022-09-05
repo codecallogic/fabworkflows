@@ -375,14 +375,14 @@ const formatDate = (e) => {
 }
 
 const formatDate2 = (e) => {
-  // console.log(e)
+
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
   // console.log(e.getUTCMonth() + 1)
   // console.log(e.getUTCDay())
   // var month = e.getUTCMonth() + 1
   let dayOfWeek = weekday[e.getUTCDay()]
-  let month = monthNames[e.getUTCMonth() + 1]
+  let month = monthNames[e.getUTCMonth()]
   let day = e.getUTCDate()
   let year = e.getUTCFullYear()
 
