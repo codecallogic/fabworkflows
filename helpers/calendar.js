@@ -222,10 +222,6 @@ export const setAllEvents = (appointments, jobs) => {
             let dayType = days.indexOf(item.recurring.occurrenceType.split('-')[1])
             let weekType = weeks.indexOf(item.recurring.occurrenceType.split('-')[0])
             let start = new Date(item.startDate)
-            let date = start.getDate();
-            
-            let weekOfMonth = Math.ceil(date / 7)
-            if(weekOfMonth == 5) weekOfMonth = 4
 
             if(item.recurring.rangeEndOccurrence){
               let currentMonth
@@ -263,7 +259,89 @@ export const setAllEvents = (appointments, jobs) => {
               }
 
             }
+
+            if(item.recurring.rangeEndDate){
+              let currentMonth
+              let occurrences = []
+
+              while(new Date(start) <= new Date(item.recurring.rangeEndDate)){
+                currentMonth = start.getUTCMonth() + +item.recurring.occurrenceMonth
+                let newMonth = start.setMonth(currentMonth)
+                newMonth = new Date(newMonth)
+                newMonth = new Date(newMonth.setDate(1))
+
+                if(newMonth > new Date(item.recurring.rangeEndDate)) break;
+              
+                if(newMonth.getDay() == dayType){
+                  start = new Date(newMonth)
+                  occurrences.push(newMonth)
+                }
+                if(newMonth.getDay() !== dayType){
+                  let monthDay = new Date(newMonth)
+
+                  while(new Date(monthDay).getDay() !== dayType){
+                    monthDay = new Date(monthDay).setDate(new Date(monthDay).getDate() + 1)
+                  }
+
+                  start = new Date(monthDay)
+                  occurrences.push(new Date(monthDay))
+                  
+                }
+              }
+
+              if(occurrences){
+                for(let i = 0; i < occurrences.length; i++){
+                  let newDate = new Date(occurrences[i])
+                  newDate = newDate.setDate(newDate.getDate() + (weekType * 7))
+                  newDate = new Date(newDate)
+
+                  let appointment = generateAppointment(item, null, newDate)
+                  newEvents.push(appointment)
+                }
+              }
+              
+            }
           }
+
+          if(!item.recurring.occurrenceType && item.recurring.occurrenceMonth && item.recurring.occurrenceDay){
+            let start = new Date(item.startDate)
+
+            if(item.recurring.rangeEndOccurrence){
+              let currentMonth
+
+              for(let i = 0; i < item.recurring.rangeEndOccurrence; i++){
+                currentMonth = start.getUTCMonth() + +item.recurring.occurrenceMonth
+                let newMonth = start.setMonth(currentMonth)
+                newMonth = new Date(newMonth)
+                newMonth = new Date(newMonth.setDate(+item.recurring.occurrenceDay))
+                start = newMonth
+
+                let appointment = generateAppointment(item, null, newMonth)
+                newEvents.push(appointment)
+              }
+
+            }
+
+            if(item.recurring.rangeEndDate){
+              let currentMonth
+ 
+              while(start <= new Date(item.recurring.rangeEndDate)){
+
+                currentMonth = start.getUTCMonth() + +item.recurring.occurrenceMonth
+                let newMonth = start.setMonth(currentMonth)
+                newMonth = new Date(newMonth)
+                newMonth = new Date(newMonth.setDate(+item.recurring.occurrenceDay))
+                start = newMonth
+
+                let appointment = generateAppointment(item, null, newMonth)
+                newEvents.push(appointment)
+
+              }
+              
+            }
+            
+          }
+          
         }
 
       }
