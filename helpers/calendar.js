@@ -1,6 +1,6 @@
 import { lightOrDark } from './css'
 
-const generateAppointment = (item, day) => {
+const generateAppointment = (item, day, workday) => {
   let appointment = new Object()
   
   appointment.id = item._id
@@ -22,12 +22,15 @@ const generateAppointment = (item, day) => {
   let endDate = new Date(item.startDate)
 
   if(day){
-    
     let startDate = `${item.startDate.split('/')[0]}/${day}/${item.startDate.split('/')[2]}`
     
     newDate = new Date(startDate)
     endDate = new Date(startDate)
+  }
 
+  if(workday){
+    newDate = new Date(workday)
+    endDate = new Date(workday)
   }
 
   newDate.setHours(hourTime)
@@ -42,6 +45,39 @@ const generateAppointment = (item, day) => {
   appointment.className = 'appointments'
 
   return appointment
+}
+
+const getNumberOfDays = (start, end) => {
+  const date1 = new Date(start);
+  const date2 = new Date(end);
+
+  // One day in milliseconds
+  const oneDay = 1000 * 60 * 60 * 24;
+
+  // Calculating the time difference between two dates
+  const diffInTime = date2.getTime() - date1.getTime();
+
+  // Calculating the no. of days between two dates
+  const diffInDays = Math.round(diffInTime / oneDay);
+
+  return diffInDays;
+
+}
+
+const getWeekDayList = (startDate, endDate) => {
+  let days = []
+  let end = new Date(endDate)
+
+  for (let start = new Date(startDate); start <= end; start.setDate(start.getDate() + 1)) {
+    let day = start.getDay();
+
+    if (day != 6 && day != 0) {
+      days.push(new Date(start));
+    }
+  }
+
+  return days
+  
 }
 
 export const setAllEvents = (appointments, jobs) => {
@@ -60,28 +96,69 @@ export const setAllEvents = (appointments, jobs) => {
               let newDay = +item.startDate.split('/')[1]
               
               for(let i = 0; i < item.recurring.rangeEndOccurrence; i++){
-                newDay = newDay + 2
-                // let newStartDate = `${newItem.startDate.split('/')[0]}/${newDay}/${newItem.startDate.split('/')[2]}`
-                // console.log(newStartDate)
-
-                // newItem.startDate = newStartDate
+                newDay = newDay + +item.recurring.occurrenceDay
 
                 let appointment = generateAppointment(item, newDay)
 
                 newEvents.push(appointment)
-                
-                // newItem.startDate = `${newItem.startDate.split('/')[0]}/${newDay}/${newItem.startDate.split('/')[2]}`
-                // console.log(newItem)
-                // item.startDate = `${item.startDate.split('/')[0]}/${+item.startDate.split('/')[1] + +item.recurring.occurrenceDay}/${item.startDate.split('/')[2]}`
-                // console.log(item.startDate)
 
               }
+            }
+
+            if(item.recurring.rangeEndDate){
+              let newDay = +item.startDate.split('/')[1]
+              let occurrence = getNumberOfDays(item.startDate, item.recurring.rangeEndDate) / +item.recurring.occurrenceDay
+              
+              for(let i = 0; i < Math.floor(occurrence); i++){
+                newDay = newDay + +item.recurring.occurrenceDay
+
+                let appointment = generateAppointment(item, newDay)
+
+                newEvents.push(appointment)
+
+              }
+
+              
             }
             
           }
           
-          if(item.recurring.occurenceType == 'workday'){
+          if(item.recurring.occurrenceType == 'workday'){
 
+            if(item.recurring.rangeEndOccurrence){
+              let start = new Date(item.startDate)
+              let days = []
+              let weekends = [1, 2, 3, 4, 5]
+
+              while(days.length < +item.recurring.rangeEndOccurrence){
+                let newDay = start.setDate(start.getDate() + 1)
+                start = new Date(newDay)
+
+                if(weekends.includes(new Date(newDay).getDay())){
+                  days.push(new Date(newDay))
+                }
+                
+              }
+
+              for(let i = 0; i < days.length; i++){
+                let appointment = generateAppointment(item, null, days[i])
+                newEvents.push(appointment)
+              }
+              
+            }
+
+            if(item.recurring.rangeEndDate){
+              let days = getWeekDayList(item.startDate, item.recurring.rangeEndDate)
+              if(days.length > 0){
+
+                for(let i = 1; i < days.length; i++){
+                  let appointment = generateAppointment(item, null, days[i])
+                  newEvents.push(appointment)
+                }
+                
+              }
+              
+            }
           }
 
         }

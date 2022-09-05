@@ -445,12 +445,25 @@ const Recurring = ({
             </div>
           )}
         </div>
+        {message && 
+        <span className="form-group-message">
+          <SVG svg={dynamicSVG} color={'#fd7e3c'}></SVG>
+          {message}
+        </span>
+        }
         <button 
           className="form-group-button" 
           onClick={(e) => (
             e.preventDefault(),
-            stateMethod(createTypeAppointment, 'recurring', stateData),
-            setModal('appointments')
+            stateData.rangeEndOccurrence || stateData.rangeEndDate 
+            ?
+            (
+              stateMethod(createTypeAppointment, 'recurring', stateData),
+              setModal('appointments'),
+              setMessage('')
+            )
+            :
+            setMessage('Range is required')
           )}>
             {loading == 'create_appointment' ? 
               <div className="loading">

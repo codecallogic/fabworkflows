@@ -376,19 +376,19 @@ const Appointments = ({
                   stateData.recurring.type == 'daily' 
                   ?
                     (
-                      `Occurs every ${stateData.recurring.occurrenceDay ? `${stateData.recurring.occurrenceDay} days` : stateData.recurring.occurrenceType} (Ends after ${stateData.recurring.rangeEndOccurrence ? `${stateData.recurring.rangeEndOccurrence} occurrences` : `${stateData.recurring.rangeEndDate}`} )`
+                      `Occurs every ${stateData.recurring.occurrenceDay ? `${stateData.recurring.occurrenceDay} days` : stateData.recurring.occurrenceType} (Ends ${stateData.recurring.rangeEndOccurrence ? `${stateData.recurring.rangeEndOccurrence} after occurrences` : `by ${stateData.recurring.rangeEndDate}`} )`
                     )
                   :
                   stateData.recurring.type == 'weekly' 
                   ?
                   (
-                    `Occurs ${stateData.recurring.occurrenceType} every ${stateData.recurring.occurrenceWeek} week(s) (Ends after ${stateData.recurring.rangeEndOccurrence ? `${stateData.recurring.rangeEndOccurrence} occurrences` : `${stateData.recurring.rangeEndDate}`} )`
+                    `Occurs ${stateData.recurring.occurrenceType} every ${stateData.recurring.occurrenceWeek} week(s) (Ends ${stateData.recurring.rangeEndOccurrence ? `${stateData.recurring.rangeEndOccurrence} after occurrences` : `by ${stateData.recurring.rangeEndDate}`} )`
                   )
                   :
                   stateData.recurring.type == 'monthly' 
                   ?
                   (
-                    `Occurs ${stateData.recurring.occurrenceDay ? `day ${stateData.recurring.occurrenceDay} of every ${stateData.recurring.occurrenceMonth} month(s)` : `the ${stateData.recurring.occurrenceType.split('-')} of every ${stateData.recurring.occurrenceMonth} month(s)`} (Ends after ${stateData.recurring.rangeEndOccurrence ? `${stateData.recurring.rangeEndOccurrence} occurrences` : `${stateData.recurring.rangeEndDate}`} )`
+                    `Occurs ${stateData.recurring.occurrenceDay ? `day ${stateData.recurring.occurrenceDay} of every ${stateData.recurring.occurrenceMonth} month(s)` : `the ${stateData.recurring.occurrenceType.split('-')} of every ${stateData.recurring.occurrenceMonth} month(s)`} (Ends ${stateData.recurring.rangeEndOccurrence ? `${stateData.recurring.rangeEndOccurrence} after occurrences` : `by ${stateData.recurring.rangeEndDate}`} )`
                   ).replace(',', ' ')
                   :
                   null
