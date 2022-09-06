@@ -14,6 +14,8 @@ const Form = ({
   setLoading,
   edit,
   setEdit,
+  setSelectID,
+  selectID,
 
   //// VALIDATIONS
   validateNumber,
@@ -52,6 +54,15 @@ const Form = ({
   const [save, setSave] = useState(false)
 
   useEffect(() => {
+
+    if(stateData.brand && !edit){
+      if(!stateData.model) return setMessage('Model required')
+      if(!stateData.category) return setMessage('Category required')
+      if(!stateData.color) return setMessage('Color required')
+      
+      submitCreate(null, stateData, 'products', 'images', setMessage, 'create_product', setLoading, token, 'products/create-product', null, null, allData, setAllData, setDynamicSVG, changeView, 'product', null, null, false,  null, null, setEdit, setSelectID)
+      
+    }
     
     const isEmpty = Object.values(stateData).every( x => x === '' || x.length < 1)
     
@@ -59,6 +70,12 @@ const Form = ({
     if(isEmpty) return setSave(false)
 
   }, [stateData])
+
+  useEffect(() => {
+    if(edit == typeOfData){
+      editData('products', 'CREATE_PRODUCT', stateMethod, allData, setSelectID, null, selectID)
+    }
+  }, [selectID])
 
   const handleClickOutside = (event) => {
     if(myRefs.current){
@@ -300,7 +317,7 @@ const Form = ({
             onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'location', e.target.value))}/>
             <label 
               className={`input-label ` + (
-              stateData.location.length > 0 || 
+              !Array.isArray(stateData.location) &&
               typeof stateData.location == 'object' 
               ? ' labelHover' 
               : ''

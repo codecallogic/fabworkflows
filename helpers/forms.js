@@ -56,8 +56,8 @@ const manageFormFields = (data, key) => {
   
 }
 
-const submitCreate = async (e, stateData, type, fileType, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType, setModal, modalType, noDataReset, editData, editDataType, setEdit) => {
-  e.preventDefault()
+const submitCreate = async (e, stateData, type, fileType, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType, setModal, modalType, noDataReset, editData, editDataType, setEdit, setSelectID) => {
+  if(e) e.preventDefault()
 
   for(let i = 0; i < formFields[type].length; i++){
 
@@ -95,12 +95,13 @@ const submitCreate = async (e, stateData, type, fileType, setMessage, loadingTyp
     })
     
     setLoading('')
+
     if(!noDataReset) allData[type]= responseCreate.data.list
     setAllData(allData)
     setDynamicSVG('checkmark-2')
     setMessage('Item was created')
-    resetState(resetType)
-    
+    if(resetState) resetState(resetType)
+
     if(editData){
 
       if(type !== editDataType.key){
@@ -118,6 +119,7 @@ const submitCreate = async (e, stateData, type, fileType, setMessage, loadingTyp
     if(changeView) changeView(viewType)
     if(setModal) setModal(modalType)
     if(setEdit) setEdit(type)
+    if(setSelectID) setSelectID(responseCreate.data.item._id)
     
   } catch (error) {
     console.log(error)

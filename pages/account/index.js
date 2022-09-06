@@ -214,6 +214,11 @@ const Dashboard = ({
   }, [nav.view]);
 
   useEffect(() => {
+
+    let localView = window.localStorage.getItem('view')
+    if(!localView) changeView('new')
+    if(localView) changeView(localView)
+    
     buildHeaders(setEdgeHeaders, edgeSort, 'edges')
     buildHeaders(setCutoutHeaders, edgeSort, 'cutouts')
     
@@ -279,6 +284,10 @@ const Dashboard = ({
       setModal(''), changeView('purchaseOrderForm'), setEdit('purchaseOrders');
     }
   }, [edit]);
+
+  useEffect(() => {
+    window.localStorage.setItem('view', nav.view)
+  }, [nav.view])
 
   return (
     <>
@@ -1448,6 +1457,8 @@ const Dashboard = ({
             changeView={changeView}
             submitDeleteFile={submitDeleteFile}
             editData={editData}
+            setSelectID={setSelectID}
+            selectID={selectID}
           ></SlabForm>
         )}
 
@@ -1484,6 +1495,8 @@ const Dashboard = ({
             changeView={changeView}
             submitDeleteFile={submitDeleteFile}
             editData={editData}
+            setSelectID={setSelectID}
+            selectID={selectID}
           ></ProductForm>
         )}
 

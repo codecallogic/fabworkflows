@@ -1,6 +1,6 @@
 let initialState = {
   sidenav: true,
-  view: 'new',
+  view: '',
   form: ''
 }
 

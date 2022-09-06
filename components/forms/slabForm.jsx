@@ -15,6 +15,8 @@ const Form = ({
   setLoading,
   edit,
   setEdit,
+  setSelectID,
+  selectID,
 
   //// VALIDATIONS
   validateNumber,
@@ -53,12 +55,22 @@ const Form = ({
 
   useEffect(() => {
     
+    if(stateData.material && !edit){
+      submitCreate(null, stateData, 'slabs', 'images', setMessage, 'create_slab', setLoading, token, 'slabs/create-slab', null, null, allData, setAllData, setDynamicSVG, changeView, 'slab', null, null, false,  null, null, setEdit, setSelectID)
+    }
+
     const isEmpty = Object.values(stateData).every( x => x === '' || x.length < 1)
     
     if(!isEmpty) return (setMessage(''), setSave(true))
     if(isEmpty) return setSave(false)
 
   }, [stateData])
+
+  useEffect(() => {
+    if(edit == typeOfData){
+      editData('slabs', 'CREATE_SLAB', stateMethod, allData, setSelectID, null, selectID)
+    }
+  }, [selectID])
 
   const handleClickOutside = (event) => {
     if(myRefs.current){
@@ -136,7 +148,7 @@ const Form = ({
               />
               <label 
               className={`input-label ` + (
-                stateData.material.length > 0 || 
+                !Array.isArray(stateData.material) &&
                 typeof stateData.material == 'object' 
                 ? ' labelHover' 
                 : ''
@@ -177,7 +189,7 @@ const Form = ({
                 />
                 <label 
                  className={`input-label ` + (
-                  stateData.color.length > 0 || 
+                  !Array.isArray(stateData.color) &&
                   typeof stateData.color == 'object' 
                   ? ' labelHover' 
                   : ''
@@ -294,7 +306,7 @@ const Form = ({
             onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'supplier', e.target.value))}/>
             <label 
               className={`input-label ` + (
-              stateData.supplier.length > 0 || 
+              !Array.isArray(stateData.supplier) &&
               typeof stateData.supplier == 'object' 
               ? ' labelHover' 
               : ''
@@ -552,7 +564,7 @@ const Form = ({
             onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'location', e.target.value))}/>
             <label 
               className={`input-label ` + (
-              stateData.location.length > 0 || 
+              !Array.isArray(stateData.location) &&
               typeof stateData.location == 'object' 
               ? ' labelHover' 
               : ''
