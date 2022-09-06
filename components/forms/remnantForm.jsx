@@ -14,6 +14,8 @@ const Form = ({
   setLoading,
   edit,
   setEdit,
+  setSelectID,
+  selectID,
 
   //// VALIDATIONS
   validateNumber,
@@ -54,12 +56,24 @@ const Form = ({
 
   useEffect(() => {
     
+    if(stateData.name && !edit){
+
+      submitCreate(null, stateData, 'remnants', 'images', setMessage, 'create_remnant', setLoading, token, 'remnants/create-remnant', null, null, allData, setAllData, setDynamicSVG, changeView, 'remnant', null, null, false,  null, null, setEdit, setSelectID)
+      
+    }    
+    
     const isEmpty = Object.values(stateData).every( x => x === '' || x.length < 1)
     
     if(!isEmpty) return (setMessage(''), setSave(true))
     if(isEmpty) return setSave(false)
 
   }, [stateData])
+
+  useEffect(() => {
+    if(edit == typeOfData){
+      editData('remnants', 'CREATE_REMNANT', stateMethod, allData, setSelectID, null, selectID)
+    }
+  }, [selectID])
 
   const handleClickOutside = (event) => {
     if(myRefs.current){
@@ -150,7 +164,7 @@ const Form = ({
               onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'material', e.target.value))}/>
               <label 
               className={`input-label ` + (
-                stateData.material.length > 0 || 
+                !Array.isArray(stateData.material) && 
                 typeof stateData.material == 'object' 
                 ? ' labelHover' 
                 : ''
@@ -189,7 +203,7 @@ const Form = ({
                 onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'color', e.target.value))}/>
                 <label 
                  className={`input-label ` + (
-                  stateData.color.length > 0 || 
+                  !Array.isArray(stateData.color) && 
                   typeof stateData.color == 'object' 
                   ? ' labelHover' 
                   : ''

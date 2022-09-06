@@ -1534,6 +1534,8 @@ const Dashboard = ({
             changeView={changeView}
             submitDeleteFile={submitDeleteFile}
             editData={editData}
+            setSelectID={setSelectID}
+            selectID={selectID}
           ></RemnantForm>
         )}
 

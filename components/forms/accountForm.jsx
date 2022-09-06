@@ -76,6 +76,17 @@ const AccountForm = ({
   // TODO: Update contacts list when creating new contact after submitting create account, suggest to Diego implementing RTC tech
   
   useEffect(() => {
+
+    if(stateData.name && !edit){
+      if(!stateData.salesperson) return setMessage('Salesperson required')
+      if(!stateData.taxExempt) return setMessage('Tax exempt required')
+      if(!stateData.notes) return setMessage('Notes required')
+      if(!stateData.accountAddress) return setMessage('Account address required')
+      
+      submitCreate(null, stateData, 'accounts', 'files', setMessage, 'create_account', setLoading, token, 'accounts/create-account', null, null, allData, setAllData, setDynamicSVG, changeView, 'accountForm', null, null, false,  null, null, setEdit, setSelectID)
+      
+    }
+    
     const isEmpty = Object.values(stateData).every(
       (x) => x === '' || x.length < 1 || x === ''
     );
@@ -84,6 +95,12 @@ const AccountForm = ({
     if (isEmpty) return setSave(false);
 
   }, [stateData]);
+
+  useEffect(() => {
+    if(edit == typeOfData){
+      editData('accounts', 'CREATE_ACCOUNT', stateMethod, allData, setSelectID, null, selectID)
+    }
+  }, [selectID])
 
   useEffect(() => {
     !stateData.salesperson ? stateMethod(createType, 'salesperson', `${account.firstName} ${account.lastName}`): null;

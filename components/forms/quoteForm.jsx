@@ -77,6 +77,26 @@ const QuoteForm = ({
   const [depositType, setDepositType] = useState( stateData.quote_deposit.includes('$') ? 'percentage' : 'dollar');
 
   useEffect(() => {
+
+    // if(stateData.account && !edit){
+    //   if(!stateData.quote_number) return setMessage('Quote number required')
+    //   if(!stateData.quote_name) return setMessage('Quote name required')
+    //   if(!stateData.quote_date) return setMessage('Quote date required')
+    //   if(!stateData.quote_balance) return setMessage('Quote balance required')
+    //   if(!stateData.quote_total) return setMessage('Quote total required')
+    //   if(!stateData.quote_subtotal) return setMessage('Quote subtotal required')
+    //   if(!stateData.quote_lines) return setMessage('Quote lines required')
+    //   if(!stateData.email) return setMessage('Quote email required')
+    //   if(!stateData.phone) return setMessage('Quote phone required')
+    //   if(!stateData.contact_name) return setMessage('Contact name required')
+      
+    //   submitCreate(null, stateData, 'accounts', 'files', setMessage, 'create_account', setLoading, token, 'accounts/create-account', null, null, allData, setAllData, setDynamicSVG, changeView, 'accountForm', null, null, false,  null, null, setEdit, setSelectID)
+
+    //   setEdit('jobs'),
+    //   submitCreate(e, stateData, 'quotes', 'images', setMessage, 'create_quote', setLoading, token, 'quotes/create-quote', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'job', null, null, false, editData, { key: 'jobs', caseType: 'CREATE_JOB', method: stateMethod, setSelectID: setSelectID }, setEdit)
+      
+    // }
+    
     const isEmpty = Object.values(stateData).every(
       (x) => x === '' || x.length < 1 || x === '0.00'
     );
@@ -92,6 +112,8 @@ const QuoteForm = ({
       }
     }
   };
+
+  
 
   useEffect(() => {
     !stateData.salesperson
