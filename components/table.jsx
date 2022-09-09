@@ -293,7 +293,7 @@ const Table = ({
                   changeView(viewType), 
                   setEdit(typeOfData), 
                   editData(editDataType.key, editDataType.caseType, stateMethod, allData, setSelectID, null, item._id), 
-                  setSelectID(''),
+                  setSelectID(item._id),
                   setControls(''), 
                   resetCheckboxes()
                 )}

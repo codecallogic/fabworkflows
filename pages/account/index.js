@@ -161,7 +161,6 @@ const Dashboard = ({
   addImages,
 }) => {
   const myRefs = useRef(null);
-  // console.log(originalData)
 
   const router = useRouter();
 
@@ -183,6 +182,7 @@ const Dashboard = ({
   const [modalFormType, setModalFormType] = useState('')
   const [typeForm, setTypeForm] = useState('')
   const [theme, setTheme] = useState('light')
+  const [mainID, setMainID] = useState('')
 
   let html
 
@@ -214,7 +214,7 @@ const Dashboard = ({
   }, [nav.view]);
 
   useEffect(() => {
-
+    
     let localView = window.localStorage.getItem('view')
     if(!localView) changeView('new')
     if(localView) changeView(localView)
@@ -1619,6 +1619,8 @@ const Dashboard = ({
             setTypeForm={setTypeForm}
             altEdit={altEdit}
             setAltEdit={setAltEdit}
+            mainID={mainID}
+            setMainID={setMainID}
           ></JobForm>
         )}
 

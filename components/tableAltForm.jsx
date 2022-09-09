@@ -27,6 +27,7 @@ const Table = ({
   setDynamicSVG,
   setAllData,
   searchType,
+  mainID,
 
   ///// EDIT
   viewType,
@@ -95,7 +96,6 @@ const Table = ({
   }
 
   useEffect(() => {    
-  
     document.addEventListener("click", handleClickOutside, true);
 
     return () => {
@@ -109,7 +109,6 @@ const Table = ({
     els.forEach( (el) => { el.checked = false })
 
     e.target.checked = true
-    // window.scrollTo({ top: 0, behavior: 'smooth' });
     setControls(controlsType)
     setSelectID(id)
   }
@@ -134,8 +133,8 @@ const Table = ({
       allData.map((item, idx) => {
         if(item._id == id) idxUpdate = idx
       })
-      
-      editData('activities', 'CREATE_ACTIVITY', stateMethod, allData, setSelectID, idxUpdate, null, allData)
+
+      editData('activities', 'CREATE_ACTIVITY', stateMethod, allData, setSelectID, idxUpdate, null, allData, mainID)
       setAltEdit('activities')
       setModal('activities')
     }
@@ -207,7 +206,7 @@ const Table = ({
               </div>
             }
 
-            {controls == controlsType && 
+            { controls == controlsType && 
               <>
               <div 
                 id="delete" 
@@ -218,7 +217,7 @@ const Table = ({
                 <SVG onClick={() => {extractingStateData(currentItem)}} svg={'thrash-can'} id={'delete'}></SVG>
               </div>
 
-              {cancelControl && controls == 'activityControls' &&
+              { cancelControl && controls == 'activityControls' &&
                 <div 
                   id="edit" 
                   className="table-header-controls-item-svg" 
@@ -232,7 +231,7 @@ const Table = ({
                 </div>
               }
 
-              {completeControl && controls == 'activityControls' &&
+              { completeControl && controls == 'activityControls' &&
                 <div 
                   id="complete" 
                   className="table-header-controls-item" 
@@ -246,7 +245,7 @@ const Table = ({
                 </div>
               }
 
-              {cancelControl && controls == 'activityControls' &&
+              { cancelControl && controls == 'activityControls' &&
                 <div 
                   id="cancel" 
                   className="table-header-controls-item" 
@@ -260,7 +259,7 @@ const Table = ({
                 </div>
               }
 
-              {controls == 'jobIssueControls' &&
+              { controls == 'jobIssueControls' &&
                 returnSelectedData(stateData, 'jobIssues', selectID) ? 
                 <BlobProvider 
                   document={<JobIssuesPDF 
@@ -394,7 +393,7 @@ const Table = ({
                 </div>
               </label>
             </div>
-            {Object.keys(item).sort((a, b) => sortOrder.indexOf(b) - sortOrder.indexOf(a)).map((key, idx, array) => 
+            { Object.keys(item).sort((a, b) => sortOrder.indexOf(b) - sortOrder.indexOf(a)).map((key, idx, array) => 
               key !== '_id' && sortOrder.includes(key) &&
               <div key={idx} className="table-rows-item">
                 { 

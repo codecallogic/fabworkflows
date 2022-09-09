@@ -49,6 +49,8 @@ const JobForm = ({
   setTypeForm,
   altEdit,
   setAltEdit,
+  mainID,
+  setMainID,
 
   //// DATA
   typeOfData,
@@ -85,9 +87,9 @@ const JobForm = ({
   const [activityHeaders, setActivityHeaders] = useState([]);
   const [purchaseOrderHeaders, setPurchaseOrderHeaders] = useState([]);
   const [jobIssueHeaders, setJobIssueHeaders] = useState([]);
-  
-  useEffect(() => {
 
+  useEffect(() => {
+    // console.log(stateData)
     if(stateData.name && !edit){
       if(!stateData.account) return setMessage('Account required')
       if(!stateData.invoice) return setMessage('Invoice required')
@@ -119,6 +121,7 @@ const JobForm = ({
   };
 
   useEffect(() => {
+    setMainID(stateData._id)
     !stateData.salesperson ? stateMethod(createType, 'salesperson', `${account.firstName} ${account.lastName}`): null;
     !stateData.date ? stateMethod(createType, 'date', formatDate(new Date(Date.now()))) : null;
     !stateData.invoice ? stateMethod(createType, 'invoice', Math.floor(Math.random() * 10000000)) : null;
@@ -623,6 +626,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           originalData={allData}
           altEdit={altEdit}
           setAltEdit={setAltEdit}
+          mainID={mainID}
         ></Table>
         <Table
           token={token}

@@ -166,12 +166,14 @@ const Schedule = ({
     
   }, [stateData])
 
-  useEffect(() => {
+  useEffect( async () => {
     
     if(loading == 'update_activity_job_form'){
       
-      submitUpdate(null, stateData, 'jobs', 'files', setMessage, 'update_activity_job_form', setLoading, token, 'jobs/update-job', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'calendar', setModal, setAltEdit)
+      const response = await submitUpdate(null, stateData, 'jobs', 'files', setMessage, 'update_activity_job_form', setLoading, token, 'jobs/update-job', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'calendar', setModal, setAltEdit)
 
+      if(response) setLoading('')
+      
     }
     
   }, [stateData.activities])

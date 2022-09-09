@@ -12,13 +12,14 @@ const initialState = {
   purchaseOrders: [],
   jobIssues: [],
   files: [],
-  contracts: []
+  contracts: [],
 }
 
 export const jobReducer = (state = initialState, action) => {
   switch(action.type){
 
     case 'CREATE_JOB':
+      // console.log("NAME", action.name, "VALUE", action.value)
       return {
         ...state,
         [action.name]: action.value
@@ -52,7 +53,7 @@ export const jobReducer = (state = initialState, action) => {
       let newUpdatedArray = []
       
       newUpdatedArray = updateArray.filter((item, idx) => (item._id ? item._id : idx) !== action.value._id)
-      
+
       newUpdatedArray.push(action.value)
       
       return {

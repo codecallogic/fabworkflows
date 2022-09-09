@@ -10,18 +10,20 @@ export {
 const allowArrays = ['quotes', 'jobs', 'activities', 'activitySets', 'jobIssues', 'accounts', 'purchaseOrders']
 const allowObjects = ['account', 'accountAddress', 'jobAddress']
 
-const populateEditData = (originalData, keyType, caseType, stateMethods, selectID, list, setSelectID) => {
-  stateMethods.createType(caseType, '_id', selectID)
+const populateEditData = (originalData, keyType, caseType, stateMethods, selectID, list, setSelectID, mainID) => {
+
+  if(selectID) stateMethods.createType(caseType, '_id', selectID)
 
   if(originalData[keyType] && originalData[keyType].length > 0){
     for(let key in originalData[keyType]){
       if(originalData[keyType][key]._id == selectID){
         
         let object = originalData[keyType][key]
-
+        
         if(object.jobs && object.jobs.length > 0) stateMethods.createType(caseType, 'jobs', object.jobs)
         
-        for(let keyOfObject in object){
+        Object.keys(object).map((keyOfObject) => {
+          
           stateMethods.createType(caseType, keyOfObject, object[keyOfObject])
 
           if(Array.isArray(object[keyOfObject]) && object[keyOfObject].length > 0){
@@ -40,8 +42,8 @@ const populateEditData = (originalData, keyType, caseType, stateMethods, selectI
               stateMethods.createType(caseType, keyOfObject, object[keyOfObject][0])
             }
           }
-  
-        }
+          
+        })
   
       }
     }
@@ -50,20 +52,20 @@ const populateEditData = (originalData, keyType, caseType, stateMethods, selectI
     if(list.length > 0){
       for(let i = 0; i <= list.length; i++){
         if(i === selectID){
-
           for( let key in list[i]){
+            // console.log('KEY', key, 'VALUE', list[i][key])
             stateMethods.createType(caseType, key, list[i][key])
           }
         }
       }
-      
-      if(setSelectID) setSelectID(selectID + 1)
+      // console.log(mainID)
+      if(setSelectID) setSelectID(mainID)
     }
   }
   
 }
 
-const editData = (keyType, caseType, stateMethod, allData, setSelectID, id, selectID, list) => {
+const editData = (keyType, caseType, stateMethod, allData, setSelectID, id, selectID, list, mainID) => {
   let stateMethods = new Object();
   stateMethods.createType = stateMethod;
 
@@ -74,7 +76,8 @@ const editData = (keyType, caseType, stateMethod, allData, setSelectID, id, sele
     stateMethods,
     typeof id == 'number' ? id : selectID,
     list,
-    setSelectID
+    setSelectID,
+    mainID
   );
   
 }
