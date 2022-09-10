@@ -90,9 +90,9 @@
 .rbc-today {
   background-color: var(--color-scheme-2) !important;
   
-  * {
-    color: white !important;
-  }
+  // * {
+  //   color: white !important;
+  // }
   
 }
 
@@ -146,20 +146,31 @@
 
 .activities-light {
   * {
-    font-weight: 700;
-    color: white!important;
+    font-weight: 500;
   }
 }
 
 .activities-dark {
   * {
-    font-weight: 700;
-    color: black!important;
+    font-weight: 500;
   }
 }
 
-.rbc-event {
-  outline: none!important;
-  border-radius: 1.2rem!important;
-  border: .1rem solid var(--color-dark-shade-scheme-1);
+.rbc-events-container {
+  margin-right: 0!important;
+}
+
+.rbc-timeslot-group {
+  min-height: 20rem!important;
+}
+
+.rbc-label {
+  font-weight: 700;
+  color: #75778B!important;
+}
+
+.rbc-button-link {
+  span {
+    color: #75778B!important;
+  }
 }

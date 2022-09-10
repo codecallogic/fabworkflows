@@ -80,6 +80,26 @@ const getWeekDayList = (startDate, endDate) => {
   
 }
 
+function checkNumber(x) {
+  // check if the passed value is a number
+  if(typeof x == 'number' && !isNaN(x)){
+  
+      // check if it is integer
+      if (Number.isInteger(x)) {
+
+          return false
+      }
+      else {
+
+          return true
+      }
+  
+  } else {
+
+      return false
+  }
+}
+
 export const setAllEvents = (appointments, jobs) => {
 
   let newEvents = []
@@ -372,29 +392,47 @@ export const setAllEvents = (appointments, jobs) => {
   
         let startTime = item.scheduleTime.split(' ')
         let hourTime = startTime[0].split(':')[0]
-  
-        let timePeriod = startTime[1]
-        let minutes = item.duration.split(' ')[0]
-        let minutesType = item.duration.split(' ')[1]
-  
-        if(minutesType !== 'min'){
-          let hours = minutes.split('.')
-          if(hours[0]) minutes = hours[0] * 60
-          if(hours[1]) minutes = minutes + 30
-        }
-  
+        let startMinutes = startTime[0].split(':')[1]
+
+        if(startTime[1] == 'PM') hourTime = +hourTime + 12
+
         let newDate = new Date(item.startDate)
         let endDate = new Date(item.startDate)
         
         if(hourTime){
           newDate.setHours(hourTime)
-          endDate.setHours(hourTime)
+          newDate.setMinutes(+startMinutes)
+
+          let duration = +hourTime
+          let durationMinutes = 0
+          
+          if(item.duration){
+            let type = item.duration.split(' ')[1]
+
+            if(type == 'hour' || type == 'hours'){
+
+              durationMinutes = newDate.getMinutes()
+              
+              if(item.duration.split(' ')[0].split('.')[0]) duration = +duration + +item.duration.split(' ')[0].split('.')[0]
+
+              if(item.duration.split(' ')[0].split('.')[1]) durationMinutes = +durationMinutes + 30
+
+              // if(checkNumber(duration)) durationMinutes += 30
+              
+            }
+
+            if(type == 'min'){
+
+              durationMinutes = newDate.getMinutes()
+              
+              if(item.duration.split(' ')[0]) durationMinutes = +durationMinutes + +item.duration.split(' ')[0]
+            }
+          }
+
+          endDate.setHours(+duration)
+          endDate.setMinutes(+durationMinutes)
         }
-  
-        if(minutes){
-          endDate.setMinutes(minutes)
-        }
-        
+
         activity.type = 'activity'
         activity.start = newDate
         activity.end = endDate

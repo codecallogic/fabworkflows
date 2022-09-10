@@ -50,6 +50,7 @@ const Schedule = ({
   const recurringCreateType = 'CREATE_RECURRING'
   const resetType = 'RESET_JOB'
 
+  const today = new Date();
   const [events, setEvents] = useState([])
   const [dateNow, setDateNow] = useState(new Date(Date.now()))
   const [calendar, setCalendar] = useState(false)
@@ -78,7 +79,11 @@ const Schedule = ({
   const eventStyleGetter = (event) => {
 
     let style = {
-      backgroundColor: event.backgroundColor
+      backgroundColor: '#E4E8F8',
+      border: '0px',
+      borderLeft: `20px solid ${event.backgroundColor}`,
+      borderRadius: '0px',
+      fontSize: '12px'
     }
     
     return {
@@ -226,6 +231,24 @@ const Schedule = ({
           onSelectEvent={onSelectEvent}
           onEventDrop={onEventDrop}
           resizableAccessor={() => false}
+          timeslots={2}
+          step={15}
+          min={
+            new Date(
+              today.getFullYear(), 
+              today.getMonth(), 
+              today.getDate(), 
+              7
+            )
+          }
+          max={
+            new Date(
+              today.getFullYear(), 
+              today.getMonth(), 
+              today.getDate(), 
+              22
+            )
+          }
         />
       </div>
     </div>
