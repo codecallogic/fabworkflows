@@ -3526,9 +3526,11 @@ body {
   color: #75778B !important; }
 
 .rbc-event {
-  overflow-x: auto !important; }
+  overflow-x: auto !important;
+  overflow-y: auto !important; }
   .rbc-event::-webkit-scrollbar {
     height: 0.2rem;
+    width: 0.2rem;
     background-color: #757575; }
   .rbc-event::-webkit-scrollbar-thumb {
     background-color: var(--color-scheme-1) !important; }

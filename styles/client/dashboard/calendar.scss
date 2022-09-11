@@ -173,9 +173,11 @@
 
 .rbc-event {
   overflow-x: auto!important;
+  overflow-y: auto!important;
 
   &::-webkit-scrollbar {
     height: 0.2rem;
+    width: 0.2rem;
     background-color: #757575;
   }
 
