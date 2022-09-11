@@ -1,3 +1,4 @@
+import { listItemClasses } from '@mui/material'
 import { lightOrDark } from './css'
 
 const generateAppointment = (item, day, workday) => {
@@ -13,15 +14,6 @@ const generateAppointment = (item, day, workday) => {
   let minutesType = item.duration.split(' ')[1]
 
   if(startTime[1] == 'PM') hourTime = +hourTime + 12
-
-  // if(minutesType !== 'min'){
-  //   console.log(minutes)
-  //   let hours = minutes.split('.')
-  //   if(hours[0]) minutes = hours[0] * 60
-  //   if(hours[1]) minutes = minutes + 30
-  // }
-
-
 
   let newDate = new Date(item.startDate)
   let endDate = new Date(item.startDate)
@@ -72,17 +64,13 @@ const generateAppointment = (item, day, workday) => {
     endDate.setHours(+duration)
     endDate.setMinutes(+durationMinutes)
   }
-
-  // newDate.setHours(hourTime)
-  // endDate.setHours(hourTime)
-  
-  // endDate.setMinutes(minutes)
   
   appointment.type = 'appointment'
   appointment.start = newDate
   appointment.end = endDate
   appointment.originalData = item
   appointment.className = 'appointments'
+  appointment.assigned = item.assigne
 
   return appointment
 }
@@ -472,12 +460,14 @@ export const setAllEvents = (appointments, jobs) => {
           endDate.setHours(+duration)
           endDate.setMinutes(+durationMinutes)
         }
-
+        
         activity.type = 'activity'
         activity.start = newDate
         activity.end = endDate
         activity.originalData = item
         activity.backgroundColor = item.color
+        activity.jobName = job.name
+        activity.assigned = item.assignee
         
         if(lightOrDark(item.color) == 'dark') activity.className = 'activities-light'
         if(lightOrDark(item.color) == 'light') activity.className = 'activities-dark'

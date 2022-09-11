@@ -32,6 +32,7 @@ const Schedule = ({
   setMessage,
   changeView,
   setDynamicSVG,
+  theme,
 
   // REDUX
   editData,
@@ -81,22 +82,25 @@ const Schedule = ({
     let styleAppointment = {
       border: '0px',
       borderRadius: '0px',
-      fontSize: '12px'
+      borderTop: `3px solid #fd7e3c`,
+      fontSize: '12px',
+      boxShadow: `.3rem .3rem .3rem .3rem rgba(0,0,0, .2)`
     }
 
-
     let styleActivity = {
-      backgroundColor: '#E4E8F8',
+      backgroundColor: theme == 'light' ? '#E4E8F8' : '#383838',
       border: '0px',
-      borderLeft: `20px solid ${event.backgroundColor}`,
+      borderLeft: `10px solid ${event.backgroundColor}`,
       borderRadius: '0px',
-      fontSize: '12px'
+      fontSize: '12px',
+      boxShadow: `.3rem .3rem .3rem .3rem rgba(0,0,0, .2)`
     }
     
     return {
       className: event.className,
       style: event.type == 'activity' ? styleActivity : styleAppointment
     }
+
   }
 
 
@@ -190,6 +194,29 @@ const Schedule = ({
     
   }, [stateData.activities])
 
+  const CustomEvent = (event) => {
+
+    if(event.event.type == 'activity'){
+      return (
+        <div className="customEventActivity">
+          <span><SVG svg={'title'}></SVG>{event.event.jobName}</span>
+          <span><SVG svg={'job'}></SVG>{event.title}</span>
+          <span><SVG svg={'account'}></SVG>{event.event.assigned.length} assigned</span>
+        </div>
+      );
+    }
+
+    if(event.event.type == 'appointment'){      
+      return (
+        <div className="customEventAppointment">
+          <span><SVG svg={'job'}></SVG>{event.title}</span>
+          <span><SVG svg={'account'}></SVG>{event.event.assigned.length} assigned</span>
+        </div>
+      );
+    }
+
+  }
+
   
   return (
     <div className="calendar">
@@ -227,6 +254,9 @@ const Schedule = ({
         <DnDCalendar
           localizer={localizer} 
           events={events}
+          components={{
+            event: CustomEvent
+          }}
           startAccessor="start"
           endAccessor="end"
           view={'week'}
@@ -253,7 +283,7 @@ const Schedule = ({
               today.getFullYear(), 
               today.getMonth(), 
               today.getDate(), 
-              22
+              20
             )
           }
         />

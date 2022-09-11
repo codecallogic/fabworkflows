@@ -170,3 +170,64 @@
     color: #75778B!important;
   }
 }
+
+.rbc-event {
+  overflow-x: auto!important;
+
+  &::-webkit-scrollbar {
+    height: 0.2rem;
+    background-color: #757575;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-scheme-1) !important;
+  }
+  
+}
+
+.rbc-event-label {
+  font-size: 1.1rem!important;
+}
+
+.customEventActivity {
+  display: flex;
+  flex-direction: column;
+
+  span {
+    display: flex;
+    align-items: center;
+    padding: .3rem 0;
+    text-transform: capitalize;
+
+    svg {
+      margin-right: 1rem;
+      width: 2rem;
+      height: 2rem;
+      fill: var(--color-dark-shade-scheme-1);
+    }
+    
+  }
+  
+}
+
+.customEventAppointment {
+  display: flex;
+  flex-direction: column;
+
+  span {
+    display: flex;
+    align-items: center;
+    padding: .3rem 0;
+    text-transform: capitalize;
+    width: max-content!important;
+
+    svg {
+      margin-right: 1rem;
+      width: 2rem;
+      height: 2rem;
+      fill: var(--color-light-shade-scheme-1);
+    }
+    
+  }
+  
+}

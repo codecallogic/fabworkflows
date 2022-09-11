@@ -1768,6 +1768,7 @@ const Dashboard = ({
             setAllData={setAllData}
             setMessage={setMessage}
             setDynamicSVG={setDynamicSVG}
+            theme={theme}
           />
         )}
 

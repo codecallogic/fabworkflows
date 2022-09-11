@@ -11,6 +11,13 @@ const SVG = ({svg, classprop, color, id}) => {
         </svg>  
         break;
 
+      case 'title':
+        return <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+          <title>Title</title>
+          <path d="M14 4l4 4h14v22h-32v-26z"></path>
+        </svg>  
+        break;
+
       case 'operations':
         return <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
           <title>Operations</title>
