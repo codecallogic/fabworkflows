@@ -78,7 +78,14 @@ const Schedule = ({
 
   const eventStyleGetter = (event) => {
 
-    let style = {
+    let styleAppointment = {
+      border: '0px',
+      borderRadius: '0px',
+      fontSize: '12px'
+    }
+
+
+    let styleActivity = {
       backgroundColor: '#E4E8F8',
       border: '0px',
       borderLeft: `20px solid ${event.backgroundColor}`,
@@ -88,7 +95,7 @@ const Schedule = ({
     
     return {
       className: event.className,
-      style: style
+      style: event.type == 'activity' ? styleActivity : styleAppointment
     }
   }
 

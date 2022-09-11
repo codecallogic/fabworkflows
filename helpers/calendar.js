@@ -8,15 +8,20 @@ const generateAppointment = (item, day, workday) => {
 
   let startTime = item.scheduleTime.split(' ')
   let hourTime = startTime[0].split(':')[0]
-  let timePeriod = startTime[1]
+  let startMinutes = startTime[0].split(':')[1]
   let minutes = item.duration.split(' ')[0]
   let minutesType = item.duration.split(' ')[1]
 
-  if(minutesType !== 'min'){
-    let hours = minutes.split('.')
-    if(hours[0]) minutes = hours[0] * 60
-    if(hours[1]) minutes = minutes + 30
-  }
+  if(startTime[1] == 'PM') hourTime = +hourTime + 12
+
+  // if(minutesType !== 'min'){
+  //   console.log(minutes)
+  //   let hours = minutes.split('.')
+  //   if(hours[0]) minutes = hours[0] * 60
+  //   if(hours[1]) minutes = minutes + 30
+  // }
+
+
 
   let newDate = new Date(item.startDate)
   let endDate = new Date(item.startDate)
@@ -33,10 +38,45 @@ const generateAppointment = (item, day, workday) => {
     endDate = new Date(workday)
   }
 
-  newDate.setHours(hourTime)
-  endDate.setHours(hourTime)
+
+  if(hourTime){
+    newDate.setHours(hourTime)
+    newDate.setMinutes(+startMinutes)
+
+    let duration = +hourTime
+    let durationMinutes = 0
+    
+    if(item.duration){
+      let type = item.duration.split(' ')[1]
+
+      if(type == 'hour' || type == 'hours'){
+
+        durationMinutes = newDate.getMinutes()
+        
+        if(item.duration.split(' ')[0].split('.')[0]) duration = +duration + +item.duration.split(' ')[0].split('.')[0]
+
+        if(item.duration.split(' ')[0].split('.')[1]) durationMinutes = +durationMinutes + 30
+
+        // if(checkNumber(duration)) durationMinutes += 30
+        
+      }
+
+      if(type == 'min'){
+
+        durationMinutes = newDate.getMinutes()
+        
+        if(item.duration.split(' ')[0]) durationMinutes = +durationMinutes + +item.duration.split(' ')[0]
+      }
+    }
+
+    endDate.setHours(+duration)
+    endDate.setMinutes(+durationMinutes)
+  }
+
+  // newDate.setHours(hourTime)
+  // endDate.setHours(hourTime)
   
-  endDate.setMinutes(minutes)
+  // endDate.setMinutes(minutes)
   
   appointment.type = 'appointment'
   appointment.start = newDate
