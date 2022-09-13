@@ -9,7 +9,8 @@ const initialState = {
   cost: '',
   dependency: '',
   description: '',
-  active: ''
+  active: '',
+  job: ''
 }
 
 export const activityReducer = (state = initialState, action) => {

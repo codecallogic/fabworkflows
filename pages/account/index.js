@@ -2395,6 +2395,7 @@ const Dashboard = ({
             editData={editData}
             altEdit={altEdit}
             setAltEdit={setAltEdit}
+            setSelectID={setSelectID}
           ></ActivityModal>
         )}
         {modal == 'dependency' && (

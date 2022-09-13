@@ -177,6 +177,7 @@ const Schedule = ({
       })
 
       editData('activities', 'CREATE_ACTIVITY', stateMethod, stateData.activities, null, idxUpdate, null, stateData.activities)
+      stateMethod('CREATE_ACTIVITY', 'job', stateData)
       setAltEdit('activities')
       setModal('activities')
     }

@@ -172,6 +172,7 @@
 .rbc-event {
   overflow-x: auto!important;
   overflow-y: auto!important;
+  height: 100%!important;
 
   &::-webkit-scrollbar {
     height: 0.2rem;
@@ -202,9 +203,10 @@
 //   min-height: max-content!important;
 // }
 
-// .rbc-row-segment {
-//   height: max-content!important;
-// }
+.rbc-row-segment {
+  min-height: 100%!important;
+  max-height: 100%!important;
+}
 
 .rbc-time-header {
   min-height: 100rem;

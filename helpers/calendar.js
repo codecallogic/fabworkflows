@@ -414,7 +414,7 @@ export const setAllEvents = (appointments, jobs) => {
 
       job.activities.forEach((item) => {
         let activity = new Object()
-  
+        
         activity.id = item._id
         activity.title = item.name
   
@@ -472,6 +472,7 @@ export const setAllEvents = (appointments, jobs) => {
         activity.originalData = item
         activity.backgroundColor = item.color
         activity.jobName = job.name
+        activity.jobID = job._id
         activity.assigned = item.assignee
         
         if(lightOrDark(item.color) == 'dark') activity.className = 'activities-light'

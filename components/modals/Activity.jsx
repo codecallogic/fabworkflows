@@ -15,10 +15,12 @@ const ActivityModal = ({
   loading,
   setLoading,
   edit,
+  setEdit,
   dynamicSVG,
   setDynamicSVG,
   altEdit,
   setAltEdit,
+  setSelectID,
 
   //// DATA
   allData,
@@ -29,6 +31,7 @@ const ActivityModal = ({
   stateMethod,
   resetState,
   changeView,
+  editData,
 
   //// CRUD
   submitCreate,
@@ -133,7 +136,35 @@ const ActivityModal = ({
       </div>
       <form 
       className="addFieldItems-modal-form" 
-      >
+      > 
+        {altEdit == 'activities' && stateData.job &&
+        <div className="form-group-noInput mb-5">
+          <SVG svg={'account'}></SVG>
+          <div>
+            <div>Account Name</div>
+            <span 
+            >
+              {stateData.job.account.name}
+            </span>
+          </div>
+        </div>
+        }
+        {altEdit == 'activities' && stateData.job &&
+        <div className="form-group-noInput mb-5">
+          <SVG svg={'job'}></SVG>
+          <div>
+            <div>Job Name</div>
+            <span 
+            onClick={(e) => {
+              editData('jobs', 'CREATE_JOB', stateMethod, allData, setSelectID, null, stateData.job._id),
+              setEdit('jobs'),
+              changeView('job'),
+              setModal('')
+            }}
+            >{stateData.job.name}</span>
+          </div>
+        </div>
+        }
         <div className="form-group">
           <input 
           id="name" 
