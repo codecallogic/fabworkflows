@@ -196,13 +196,14 @@ const Schedule = ({
   }, [stateData.activities])
 
   const CustomEvent = (event) => {
-
+   
     if(event.event.type == 'activity'){
       return (
         <div className="customEventActivity">
           <span><SVG svg={'title'}></SVG>{event.event.jobName}</span>
           <span><SVG svg={'job'}></SVG>{event.title}</span>
           <span><SVG svg={'account'}></SVG>{event.event.assigned.length} assigned</span>
+          <span><SVG svg={'clock'}></SVG>{getTimeHour(event.event.startDateInfo)} - {getTimeHour(event.event.endDateInfo)}</span>
         </div>
       );
     }
@@ -275,6 +276,7 @@ const Schedule = ({
           endAccessor="end"
           view={view}
           views={{
+            day: true,
             week: true,
             month: true
           }}

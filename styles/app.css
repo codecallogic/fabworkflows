@@ -3425,7 +3425,7 @@ body {
   padding: 2rem 1rem;
   position: relative;
   width: 100%;
-  height: 100%;
+  max-height: 100%;
   overflow-x: hidden;
   overflow-y: hidden; }
   .calendar-view {
@@ -3552,7 +3552,7 @@ body {
   height: max-content !important; }
 
 .weekBox {
-  min-height: 12rem !important; }
+  min-height: max-content !important; }
 
 .calendar-view {
   height: 100rem !important; }
@@ -3565,6 +3565,8 @@ body {
     align-items: center;
     padding: .3rem 0;
     text-transform: capitalize; }
+    .customEventActivity span:last-child {
+      font-size: 10px !important; }
     .customEventActivity span svg {
       margin-right: 1rem;
       width: 2rem;

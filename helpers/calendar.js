@@ -426,44 +426,49 @@ export const setAllEvents = (appointments, jobs) => {
 
         let newDate = new Date(item.startDate)
         let endDate = new Date(item.startDate)
+
+        let newDateInfo = new Date(item.startDate)
+        let endDateInfo = new Date(item.startDate)
         
-        // if(hourTime){
-        //   newDate.setHours(hourTime)
-        //   newDate.setMinutes(+startMinutes)
+        if(hourTime){
+          newDateInfo.setHours(hourTime)
+          newDateInfo.setMinutes(+startMinutes)
 
-        //   let duration = +hourTime
-        //   let durationMinutes = 0
+          let duration = +hourTime
+          let durationMinutes = 0
           
-        //   if(item.duration){
-        //     let type = item.duration.split(' ')[1]
+          if(item.duration){
+            let type = item.duration.split(' ')[1]
 
-        //     if(type == 'hour' || type == 'hours'){
+            if(type == 'hour' || type == 'hours'){
 
-        //       durationMinutes = newDate.getMinutes()
+              durationMinutes = newDate.getMinutes()
               
-        //       if(item.duration.split(' ')[0].split('.')[0]) duration = +duration + +item.duration.split(' ')[0].split('.')[0]
+              if(item.duration.split(' ')[0].split('.')[0]) duration = +duration + +item.duration.split(' ')[0].split('.')[0]
 
-        //       if(item.duration.split(' ')[0].split('.')[1]) durationMinutes = +durationMinutes + 30
+              if(item.duration.split(' ')[0].split('.')[1]) durationMinutes = +durationMinutes + 30
 
-        //       // if(checkNumber(duration)) durationMinutes += 30
+              // if(checkNumber(duration)) durationMinutes += 30
               
-        //     }
+            }
 
-        //     if(type == 'min'){
+            if(type == 'min'){
 
-        //       durationMinutes = newDate.getMinutes()
+              durationMinutes = newDate.getMinutes()
               
-        //       if(item.duration.split(' ')[0]) durationMinutes = +durationMinutes + +item.duration.split(' ')[0]
-        //     }
-        //   }
+              if(item.duration.split(' ')[0]) durationMinutes = +durationMinutes + +item.duration.split(' ')[0]
+            }
+          }
 
-        //   endDate.setHours(+duration)
-        //   endDate.setMinutes(+durationMinutes)
-        // }
+          endDateInfo.setHours(+duration)
+          endDateInfo.setMinutes(+durationMinutes)
+        }
         
         activity.type = 'activity'
         activity.start = newDate
         activity.end = endDate
+        activity.startDateInfo = newDateInfo
+        activity.endDateInfo = endDateInfo
         activity.originalData = item
         activity.backgroundColor = item.color
         activity.jobName = job.name
