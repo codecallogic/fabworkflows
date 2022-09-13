@@ -270,6 +270,10 @@
     text-transform: capitalize;
     width: max-content!important;
 
+    &:last-child {
+      font-size: 10px!important;
+    }
+
     svg {
       margin-right: 1rem;
       width: 2rem;

@@ -30,44 +30,49 @@ const generateAppointment = (item, day, workday) => {
     endDate = new Date(workday)
   }
 
+  let startDateInfo = new Date(item.startDate)
+  let endDateInfo = new Date(item.startDate)
 
-  // if(hourTime){
-  //   newDate.setHours(hourTime)
-  //   newDate.setMinutes(+startMinutes)
 
-  //   let duration = +hourTime
-  //   let durationMinutes = 0
+  if(hourTime){
+    startDateInfo.setHours(hourTime)
+    startDateInfo.setMinutes(+startMinutes)
+
+    let duration = +hourTime
+    let durationMinutes = 0
     
-  //   if(item.duration){
-  //     let type = item.duration.split(' ')[1]
+    if(item.duration){
+      let type = item.duration.split(' ')[1]
 
-  //     if(type == 'hour' || type == 'hours'){
+      if(type == 'hour' || type == 'hours'){
 
-  //       durationMinutes = newDate.getMinutes()
+        durationMinutes = newDate.getMinutes()
         
-  //       if(item.duration.split(' ')[0].split('.')[0]) duration = +duration + +item.duration.split(' ')[0].split('.')[0]
+        if(item.duration.split(' ')[0].split('.')[0]) duration = +duration + +item.duration.split(' ')[0].split('.')[0]
 
-  //       if(item.duration.split(' ')[0].split('.')[1]) durationMinutes = +durationMinutes + 30
+        if(item.duration.split(' ')[0].split('.')[1]) durationMinutes = +durationMinutes + 30
 
-  //       // if(checkNumber(duration)) durationMinutes += 30
+        // if(checkNumber(duration)) durationMinutes += 30
         
-  //     }
+      }
 
-  //     if(type == 'min'){
+      if(type == 'min'){
 
-  //       durationMinutes = newDate.getMinutes()
+        durationMinutes = newDate.getMinutes()
         
-  //       if(item.duration.split(' ')[0]) durationMinutes = +durationMinutes + +item.duration.split(' ')[0]
-  //     }
-  //   }
+        if(item.duration.split(' ')[0]) durationMinutes = +durationMinutes + +item.duration.split(' ')[0]
+      }
+    }
 
-  //   endDate.setHours(+duration)
-  //   endDate.setMinutes(+durationMinutes)
-  // }
+    endDateInfo.setHours(+duration)
+    endDateInfo.setMinutes(+durationMinutes)
+  }
   
   appointment.type = 'appointment'
   appointment.start = newDate
   appointment.end = endDate
+  appointment.startDateInfo = startDateInfo
+  appointment.endDateInfo = endDateInfo
   appointment.originalData = item
   appointment.className = 'appointments'
   appointment.assigned = item.assigne

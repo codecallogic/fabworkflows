@@ -214,6 +214,7 @@ const Schedule = ({
         <div className="customEventAppointment">
           <span><SVG svg={'job'}></SVG>{event.title}</span>
           <span><SVG svg={'account'}></SVG>{event.event.assigned.length} assigned</span>
+          <span><SVG svg={'clock'}></SVG>{getTimeHour(event.event.startDateInfo)} - {getTimeHour(event.event.endDateInfo)}</span>
         </div>
       );
     }

@@ -3607,6 +3607,8 @@ body {
     padding: .3rem 0;
     text-transform: capitalize;
     width: max-content !important; }
+    .customEventAppointment span:last-child {
+      font-size: 10px !important; }
     .customEventAppointment span svg {
       margin-right: 1rem;
       width: 2rem;
