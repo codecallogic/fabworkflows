@@ -143,6 +143,12 @@ const ActivityModal = ({
           <div>
             <div>Account Name</div>
             <span 
+              onClick={(e) => {
+                editData('accounts', 'CREATE_ACCOUNT', stateMethod, allData, setSelectID, null, stateData.job.account._id),
+                setEdit('accounts'),
+                changeView('accountForm'),
+                setModal('')
+              }}
             >
               {stateData.job.account.name}
             </span>
