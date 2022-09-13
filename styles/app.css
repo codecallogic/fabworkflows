@@ -3425,7 +3425,9 @@ body {
   padding: 2rem 1rem;
   position: relative;
   width: 100%;
-  height: 100%; }
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden; }
   .calendar-view {
     width: 100%; }
   .calendar-popup {
@@ -3464,9 +3466,6 @@ body {
 
 .rbc-toolbar {
   padding: 1rem 1rem; }
-
-.rbc-row {
-  height: 5rem !important; }
 
 .rbc-header {
   padding: 1rem 0 !important; }
@@ -3537,6 +3536,26 @@ body {
 
 .rbc-event-label {
   font-size: 1.1rem !important; }
+
+.rbc-label {
+  display: none; }
+
+.rbc-time-content {
+  display: none !important; }
+
+.rbc-time-header {
+  min-height: 100rem;
+  max-height: max-content; }
+
+.rbc-time-header-cell {
+  min-height: max-content !important;
+  height: max-content !important; }
+
+.weekBox {
+  min-height: 12rem !important; }
+
+.calendar-view {
+  height: 100rem !important; }
 
 .customEventActivity {
   display: flex;

@@ -56,13 +56,14 @@ const Schedule = ({
   const [dateNow, setDateNow] = useState(new Date(Date.now()))
   const [calendar, setCalendar] = useState(false)
   const [id, setID] = useState('')
+  const [view, setView] = useState('week')
 
   const onNavigate = (newDate) => {
     setDateNow(newDate)
   }
 
-  const onView = (view) => {
-    
+  const onView = (newView) => {    
+    setView(newView)
   }
 
   useEffect(() => {
@@ -217,6 +218,19 @@ const Schedule = ({
 
   }
 
+  useEffect(() => {
+   
+    if(view == 'week'){
+      let els = document.querySelectorAll('.rbc-row')
+
+      els.forEach((el, idx) => {
+        el.classList.add('weekBox')
+      })
+
+    }
+    
+  }, [view])
+
   
   return (
     <div className="calendar">
@@ -259,8 +273,11 @@ const Schedule = ({
           }}
           startAccessor="start"
           endAccessor="end"
-          view={'week'}
-          views={['week']}
+          view={view}
+          views={{
+            week: true,
+            month: true
+          }}
           onNavigate={onNavigate}
           date={dateNow}
           onView={onView}
