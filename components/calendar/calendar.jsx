@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef} from 'react'
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment'
 import CalendarModal from 'react-calendar';
@@ -33,6 +33,8 @@ const Schedule = ({
   changeView,
   setDynamicSVG,
   theme,
+  message,
+  modal,
 
   // REDUX
   editData,
@@ -52,6 +54,7 @@ const Schedule = ({
   const resetType = 'RESET_JOB'
 
   const today = new Date();
+  const myRefs = useRef(null)
   const [events, setEvents] = useState([])
   const [dateNow, setDateNow] = useState(new Date(Date.now()))
   const [calendar, setCalendar] = useState(false)
@@ -72,7 +75,7 @@ const Schedule = ({
 
   useEffect(() => {    
 
-    let newEvents = setAllEvents(allData.appointments, allData.jobs)
+    let newEvents = setAllEvents(allData.appointments, allData.jobs, view)
     
     setEvents(newEvents)
 
@@ -222,7 +225,7 @@ const Schedule = ({
   }
 
   useEffect(() => {
-   
+
     if(view == 'week'){
       let els = document.querySelectorAll('.rbc-row')
 
@@ -231,11 +234,94 @@ const Schedule = ({
       })
 
     }
+
+    // if(view == 'day'){
+    //   let elLabels = document.querySelectorAll('.rbc-label')
+    //   let elContent = document.querySelector('.rbc-time-content')
+
+    //   elLabels.forEach((el, idx) => {
+    //     el.classList.add('displayBlock')
+    //   })
+
+    //   elContent.classList.add('displayBlock')
+      
+    //   console.log(elLabels)
+    //   console.log(elContent)
+
+    //   let newEvents = setAllEvents(allData.appointments, allData.jobs, view)
+    
+    //   setEvents(newEvents)
+
+    // }
     
   }, [view])
 
-  
+  //// HANDLE MODAL DRAG
+  const [prevX, setPrevX] = useState(0)
+  const [prevY, setPrevY] = useState(0)
+  const onPointerDown = () => {}
+  const onPointerUp = () => {}
+  const onPointerMove = () => {}
+  const [isDragging, setIsDragging] = useState(false)
+  const [translate, setTranslate] = useState({
+    x: 0,
+    y: 0
+  });
+
+  const handlePointerDown = (e) => {
+    setPrevX(0)
+    setPrevY(0)
+    setIsDragging(true)
+    onPointerDown(e)
+  }
+
+  const handlePointerUp = (e) => {
+    setIsDragging(false)
+    onPointerUp(e)
+  }
+
+  const handlePointerMove = (e) => {
+    if (isDragging) handleDragMove(e);
+
+    onPointerMove(e);
+  };
+
+  const handleDragMove = (e) => {
+    var movementX = (prevX ? e.screenX - prevX : 0)
+    var movementY = (prevY ? e.screenY - prevY : 0)
+    
+    setPrevX(e.screenX)
+    setPrevY(e.screenY)
+
+    handleModalMove(movementX, movementY)
+  };
+
+  const handleModalMove = (X, Y) => {
+    setTranslate({
+      x: translate.x + X,
+      y: translate.y + Y
+    });
+  }
+
+  // HANDLE DROPDOWNS
+  const handleClickOutside = (event) => {
+    if(myRefs.current){
+      if(!myRefs.current.contains(event.target)){
+        setInputDropdown('')
+      }
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, [])
+
+
   return (
+    <>
     <div className="calendar">
       <div className="calendar-tools"> 
         <div
@@ -250,9 +336,19 @@ const Schedule = ({
           <div className="calendar-tools-controls-item"
             onClick={() => (
               setEdit(''),
+              setModal('calendarOptions')
+            )}
+          >
+            <SVG svg={'options'}></SVG>
+          </div>
+          <div className="calendar-tools-controls-item"
+            onClick={() => (
+              setEdit(''),
               setModal('appointments')
             )}
-          ><SVG svg={'plus'}></SVG></div>
+          >
+            <SVG svg={'plus'}></SVG>
+          </div>
         </div>
       </div>
       {calendar && 
@@ -310,6 +406,59 @@ const Schedule = ({
         />
       </div>
     </div>
+    {modal == 'calendarOptions' &&
+    <div 
+      className="addFieldItems-modal" 
+      data-value="parent" 
+      onClick={(e) => e.target.getAttribute('data-value') == 'parent' ? setIsDragging(false) : null}
+    >
+      <div 
+      className="addFieldItems-modal-box" 
+      onPointerDown={handlePointerDown} 
+      onPointerUp={handlePointerUp} 
+      onPointerMove={handlePointerMove} 
+      style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
+        <div className="addFieldItems-modal-box-header">
+        <span 
+          className="addFieldItems-modal-form-title">
+           Calendar Options
+        </span>
+        <div onClick={() => (setModal(''), resetState(resetType), setMessage(''))}>
+          <SVG svg={'close'}></SVG>
+        </div>
+      </div>
+      <form 
+      className="addFieldItems-modal-form" 
+      > 
+        
+      </form>
+
+      <div className="addFieldItems-modal-box-footer">
+          {message && 
+          <span className="form-group-message">
+            <SVG svg={dynamicSVG} color={'#fd7e3c'}></SVG>
+            {message}
+          </span>
+          }
+          <button 
+          className="form-group-button" 
+          onClick={(e) => null}
+          >
+            {loading == 'create_activity' ? 
+            <div className="loading">
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+            </div>
+            : 
+            'Save'
+            }
+        </button>
+      </div>
+    </div>
+    </div>
+    }
+    </>
   )
 }
 

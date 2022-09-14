@@ -70,7 +70,7 @@ const generateAppointment = (item, day, workday) => {
   
   appointment.type = 'appointment'
   appointment.start = newDate
-  appointment.end = endDate
+  appointment.end = newDate
   appointment.startDateInfo = startDateInfo
   appointment.endDateInfo = endDateInfo
   appointment.originalData = item
@@ -151,7 +151,7 @@ export const setAllEvents = (appointments, jobs) => {
               for(let i = 0; i < item.recurring.rangeEndOccurrence; i++){
                 newDay = newDay + +item.recurring.occurrenceDay
 
-                let appointment = generateAppointment(item, newDay)
+                let appointment = generateAppointment(item, newDay, null)
 
                 newEvents.push(appointment)
 
@@ -165,7 +165,7 @@ export const setAllEvents = (appointments, jobs) => {
               for(let i = 0; i < Math.floor(occurrence); i++){
                 newDay = newDay + +item.recurring.occurrenceDay
 
-                let appointment = generateAppointment(item, newDay)
+                let appointment = generateAppointment(item, newDay, null)
 
                 newEvents.push(appointment)
 
@@ -406,7 +406,7 @@ export const setAllEvents = (appointments, jobs) => {
 
     appointments.forEach((item) => {
 
-      let appointment = generateAppointment(item)
+      let appointment = generateAppointment(item, null, null)
 
       newEvents.push(appointment)
       

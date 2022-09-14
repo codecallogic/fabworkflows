@@ -1753,6 +1753,7 @@ const Dashboard = ({
         {nav.view == 'calendar' && (
           <Calendar 
             setEdit={setEdit}
+            modal={modal}
             setModal={setModal}
             allData={allData}
             editData={editData}
@@ -1769,6 +1770,7 @@ const Dashboard = ({
             setMessage={setMessage}
             setDynamicSVG={setDynamicSVG}
             theme={theme}
+            message={message}
           />
         )}
 

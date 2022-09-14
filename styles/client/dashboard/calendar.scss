@@ -5,7 +5,8 @@
   padding: 2rem 1rem;
   position: relative;
   width: 100%;
-  max-height: 100%;
+  min-height: 100%!important;
+  max-height: 100%!important;
   overflow-x: hidden;
   overflow-y: hidden;
 
@@ -32,6 +33,7 @@
     justify-content: space-between;
     background-color: var(--color-light-shade-scheme-2);
     position: relative;
+    padding: .5rem 0;
 
     svg {
       width: 3rem;
@@ -42,6 +44,11 @@
       &:hover {
         cursor: pointer;
       }
+    }
+
+    &-controls {
+      display: flex;
+      align-items: center;
     }
     
     &-date {
@@ -150,6 +157,24 @@
   }
 }
 
+.rbc-btn-group {
+  button {
+    border: none!important;
+    outline: none!important;
+    background-color: var(--color-scheme-2)!important;
+    color: white!important;
+    
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.rbc-toolbar-label {
+  font-size: 1.6rem!important;
+  font-weight: 700;
+}
+
 .rbc-events-container {
   margin-right: 0!important;
 }
@@ -199,9 +224,13 @@
   display: none!important;
 }
 
-// .rbc-row {
-//   min-height: max-content!important;
+// .rbc-time-view {
+//   border: .2rem solid var(--color-scheme-2)!important;
 // }
+
+.rbc-row {
+  min-height: max-content!important;
+}
 
 .rbc-row-segment {
   min-height: 100%!important;
@@ -224,15 +253,39 @@
 
 
 // MONTHLY
-.calendar-view {
-  height: 100rem!important;
+
+.rbc-row-content {
+  overflow-y: scroll!important;
+
+  &::-webkit-scrollbar {
+    width: 0.3rem;
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-scheme-2) !important;
+  }
 }
 
-// .rbc-date-cell {
-//   background-color: red;
-//   min-height: 2rem!important;
-//   height: 2rem!important;
+.rbc-month-row {
+  min-height: 25rem!important;
+  height: 25rem!important;
+}
+
+// DAY
+// .rbc-allday-cell {
+//   background-color: var(--color-light-shade-scheme-1)!important;
+
+//   * .rbc-today {
+//     background-color: var(--color-light-shade-scheme-1)!important;
+//   }
+  
 // }
+
+// .displayBlock {
+//   display: flex!important;
+// }
+
 
 .customEventActivity {
   display: flex;

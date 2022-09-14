@@ -3445,7 +3445,8 @@ body {
   padding: 2rem 1rem;
   position: relative;
   width: 100%;
-  max-height: 100%;
+  min-height: 100% !important;
+  max-height: 100% !important;
   overflow-x: hidden;
   overflow-y: hidden; }
   .calendar-view {
@@ -3463,7 +3464,8 @@ body {
     align-items: center;
     justify-content: space-between;
     background-color: var(--color-light-shade-scheme-2);
-    position: relative; }
+    position: relative;
+    padding: .5rem 0; }
     .calendar-tools svg {
       width: 3rem;
       height: 3rem;
@@ -3471,6 +3473,9 @@ body {
       margin: .5rem; }
       .calendar-tools svg:hover {
         cursor: pointer; }
+    .calendar-tools-controls {
+      display: flex;
+      align-items: center; }
     .calendar-tools-date {
       display: flex;
       align-items: center; }
@@ -3531,6 +3536,18 @@ body {
 .activities-dark * {
   font-weight: 500; }
 
+.rbc-btn-group button {
+  border: none !important;
+  outline: none !important;
+  background-color: var(--color-scheme-2) !important;
+  color: white !important; }
+  .rbc-btn-group button:hover {
+    cursor: pointer; }
+
+.rbc-toolbar-label {
+  font-size: 1.6rem !important;
+  font-weight: 700; }
+
 .rbc-events-container {
   margin-right: 0 !important; }
 
@@ -3564,6 +3581,9 @@ body {
 .rbc-time-content {
   display: none !important; }
 
+.rbc-row {
+  min-height: max-content !important; }
+
 .rbc-row-segment {
   min-height: 100% !important;
   max-height: 100% !important; }
@@ -3579,8 +3599,17 @@ body {
 .weekBox {
   min-height: max-content !important; }
 
-.calendar-view {
-  height: 100rem !important; }
+.rbc-row-content {
+  overflow-y: scroll !important; }
+  .rbc-row-content::-webkit-scrollbar {
+    width: 0.3rem;
+    background-color: transparent; }
+  .rbc-row-content::-webkit-scrollbar-thumb {
+    background-color: var(--color-scheme-2) !important; }
+
+.rbc-month-row {
+  min-height: 25rem !important;
+  height: 25rem !important; }
 
 .customEventActivity {
   display: flex;
