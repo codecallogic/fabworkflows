@@ -289,6 +289,14 @@ const Dashboard = ({
     window.localStorage.setItem('view', nav.view)
   }, [nav.view])
 
+  // useEffect(() => {
+  //   console.log('JOB', job)
+  // }, [job])
+
+  // useEffect(() => {
+  //   console.log('ACTIVITY', activity)
+  // }, [activity])
+
   return (
     <>
       <TopNav 

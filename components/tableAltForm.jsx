@@ -28,6 +28,7 @@ const Table = ({
   setAllData,
   searchType,
   mainID,
+  setTableType,
 
   ///// EDIT
   viewType,
@@ -379,6 +380,7 @@ const Table = ({
                     setMessage(''),
                     setDynamicType(dynamicType),
                     setDynamicKey(dynamicKey),
+                    setTableType ? setTableType(dynamicKey) : null,
                     handleSelect(e, item._id ? item._id : item.id ? item.id : idx), 
                     setCurrentItem(item)
                   ) 

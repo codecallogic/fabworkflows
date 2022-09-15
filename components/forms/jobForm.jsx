@@ -87,6 +87,7 @@ const JobForm = ({
   const [activityHeaders, setActivityHeaders] = useState([]);
   const [purchaseOrderHeaders, setPurchaseOrderHeaders] = useState([]);
   const [jobIssueHeaders, setJobIssueHeaders] = useState([]);
+  const [tableType, setTableType] = useState('')
 
   useEffect(() => {
     // console.log(stateData)
@@ -106,11 +107,15 @@ const JobForm = ({
     if (isEmpty) return setSave(false);
   }, [stateData]);
 
-  useEffect(() => {
-    if(edit == typeOfData){
-      editData('jobs', 'CREATE_JOB', stateMethod, allData, setSelectID, null, selectID)
-    }
-  }, [selectID])
+  // useEffect(() => {
+  //   console.log(edit)
+  //   console.log(typeOfData)
+  //   if(edit == typeOfData){
+  //     editData('jobs', 'CREATE_JOB', stateMethod, allData, setSelectID, null, selectID)
+  //   }
+
+  //   console.log(tableType)
+  // }, [selectID])
 
   const handleClickOutside = (event) => {
     if (myRefs.current) {
@@ -627,6 +632,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           altEdit={altEdit}
           setAltEdit={setAltEdit}
           mainID={mainID}
+          setTableType={setTableType}
         ></Table>
         <Table
           token={token}
