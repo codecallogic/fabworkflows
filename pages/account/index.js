@@ -103,6 +103,7 @@ import PurchaseOrderLinesModal from '../../components/modals/PurchaseOrderLines'
 import ReceivePurchaseOrdersModal from '../../components/modals/ReceivePurchaseOrders'
 import AppointmentsModal from '../../components/modals/Appointments'
 import RecurringModal from '../../components/modals/Recurring'
+import AccountModal from '../../components/modals/Account'
 
 axios.defaults.withCredentials = true;
 
@@ -582,6 +583,8 @@ const Dashboard = ({
             setLoading={setLoading}
             dynamicSVG={dynamicSVG}
             setDynamicSVG={setDynamicSVG}
+            setDynamicType={setDynamicType}
+            setDynamicKey={setDynamicKey}
             deleteType="quotes/delete-quote"
             searchType={'quotes'}
             searchPlaceholder={'Search by quote number or quote name'}
@@ -1581,6 +1584,8 @@ const Dashboard = ({
             typeOfDataParent={'jobs'}
             secondStateData={job}
             setSelectID={setSelectID}
+            setDynamicType={setDynamicType}
+            setDynamicKey={setDynamicKey}
           ></QuoteForm>
         )}
 
@@ -2908,6 +2913,35 @@ const Dashboard = ({
             setTypeForm={setTypeForm}
             typeOfData={'appointments'}
           ></RecurringModal>
+        )}
+        {modal == 'account' && (
+          <AccountModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={quote}
+            stateMethod={createType}
+            dynamicType={dynamicType}
+            dynamicKey={dynamicKey}
+            setDynamicKey={setDynamicKey}
+            setDynamicType={setDynamicType}
+            extractingStateData={extractingStateData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+            selectID={selectID}
+          ></AccountModal>
         )}
       </div>
     </>

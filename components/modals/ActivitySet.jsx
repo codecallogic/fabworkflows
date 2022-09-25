@@ -152,8 +152,7 @@ const ActivitySetModal = ({
           onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'set', e.target.value))}/>
           <label 
           className={`input-label ` + (
-            stateData.set.length > 0 || 
-            typeof stateData.set == 'object' 
+            stateData.set.length > 0 
             ? ' labelHover' 
             : ''
           )}

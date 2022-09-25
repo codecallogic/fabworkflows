@@ -44,6 +44,8 @@ const QuoteForm = ({
   setModalEdit,
   resetCheckboxes,
   setControls,
+  setDynamicType,
+  setDynamicKey,
 
   //// DATA
   typeOfData,
@@ -139,7 +141,7 @@ const QuoteForm = ({
   //// QUOTE CALCULATIONS
 
   useEffect(() => {
-    // console.log(stateData)
+
     if (stateData.payment == 'deposit' || stateData.payment == 'complete')
       return;
 
@@ -150,6 +152,14 @@ const QuoteForm = ({
     stateData.quote_tax,
     stateData.quote_deposit,
   ]);
+
+  useEffect(() => {
+   if(message == 'account is required'){
+    setModal('account')
+    setDynamicType('CREATE_QUOTE')
+    setDynamicKey('account')
+   }
+  }, [message])
 
   return (
     <div className="table">
@@ -258,7 +268,7 @@ const QuoteForm = ({
               ) : edit == typeOfData ? (
                 'Update'
               ) : (
-                'Create Quote & Job'
+                'Create Job'
               )}
             </div>
             <div

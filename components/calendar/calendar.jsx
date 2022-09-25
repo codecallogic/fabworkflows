@@ -204,7 +204,7 @@ const Schedule = ({
     if(event.event.type == 'activity'){
       return (
         <div className="customEventActivity">
-          <span><SVG svg={'title'}></SVG>{event.event.jobName}</span>
+          <span><SVG svg={'title'}></SVG>{event.event.jobName.substring(0, 20)}</span>
           <span><SVG svg={'job'}></SVG>{event.title}</span>
           <span><SVG svg={'account'}></SVG>{event.event.assigned.length} assigned</span>
           <span><SVG svg={'clock'}></SVG>{getTimeHour(event.event.startDateInfo)} - {getTimeHour(event.event.endDateInfo)}</span>
