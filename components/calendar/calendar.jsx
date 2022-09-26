@@ -85,11 +85,13 @@ const Schedule = ({
   const eventStyleGetter = (event) => {
 
     let styleAppointment = {
+      backgroundColor: theme == 'light' ? '#44A679' : '#44A679',
       border: '0px',
       borderRadius: '0px',
-      borderTop: `3px solid #fd7e3c`,
+      borderLeft: `10px solid #B8E5CF`,
       fontSize: '12px',
-      boxShadow: `.3rem .3rem .3rem .3rem rgba(0,0,0, .2)`
+      fontFamily: 'Arial'
+      // boxShadow: `.3rem .3rem .3rem .3rem rgba(0,0,0, .2)`
     }
 
     let styleActivity = {
@@ -98,7 +100,8 @@ const Schedule = ({
       borderLeft: `10px solid ${event.backgroundColor}`,
       borderRadius: '0px',
       fontSize: '12px',
-      boxShadow: `.3rem .3rem .3rem .3rem rgba(0,0,0, .2)`
+      fontFamily: 'Arial'
+      // boxShadow: `.3rem .3rem .3rem .3rem rgba(0,0,0, .2)`
     }
     
     return {
@@ -216,7 +219,8 @@ const Schedule = ({
     if(event.event.type == 'activity'){
       return (
         <div className="customEventActivity">
-          <span><SVG svg={'title'}></SVG>{event.event.jobName.substring(0, 20)}</span>
+          {/* <SVG svg={'title'}></SVG> */}
+          <span>{event.event.jobName.substring(0, 10)}</span>
           <span><SVG svg={'job'}></SVG>{event.title}</span>
           <span><SVG svg={'account'}></SVG>{event.event.assigned.length} assigned</span>
           <span><SVG svg={'clock'}></SVG>{getTimeHour(event.event.startDateInfo)} - {getTimeHour(event.event.endDateInfo)}</span>
@@ -227,7 +231,8 @@ const Schedule = ({
     if(event.event.type == 'appointment'){      
       return (
         <div className="customEventAppointment">
-          <span><SVG svg={'job'}></SVG>{event.title}</span>
+          {/* <SVG svg={'job'}></SVG> */}
+          <span>{event.title.substring(0, 10)}</span>
           <span><SVG svg={'account'}></SVG>{event.event.assigned.length} assigned</span>
           <span><SVG svg={'clock'}></SVG>{getTimeHour(event.event.startDateInfo)} - {getTimeHour(event.event.endDateInfo)}</span>
         </div>

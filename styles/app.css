@@ -3529,10 +3529,8 @@ body {
 .rbc-time-view {
   min-height: 130% !important; }
 
-.appointments {
-  background-color: var(--color-dark-shade-scheme-1) !important; }
-  .appointments * {
-    color: var(--color-light-shade-scheme-1) !important; }
+.appointments * {
+  color: var(--color-light-shade-scheme-1) !important; }
 
 .activities-light * {
   font-weight: 500; }
@@ -3617,35 +3615,45 @@ body {
 
 .customEventActivity {
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+  font-size: 1.2rem !important; }
   .customEventActivity span {
     display: flex;
     align-items: center;
     padding: .3rem 0;
     text-transform: capitalize; }
+    .customEventActivity span:first-child {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1rem; }
     .customEventActivity span:last-child {
-      font-size: 10px !important; }
+      font-size: 1.2rem !important; }
     .customEventActivity span svg {
       margin-right: 1rem;
-      width: 2rem;
-      height: 2rem;
+      width: 1.8rem;
+      height: 1.8rem;
       fill: var(--color-dark-shade-scheme-1); }
 
 .customEventAppointment {
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+  font-size: 1.2rem !important; }
   .customEventAppointment span {
     display: flex;
     align-items: center;
     padding: .3rem 0;
     text-transform: capitalize;
     width: max-content !important; }
+    .customEventAppointment span:first-child {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1rem; }
     .customEventAppointment span:last-child {
-      font-size: 10px !important; }
+      font-size: 1.2rem !important; }
     .customEventAppointment span svg {
       margin-right: 1rem;
-      width: 2rem;
-      height: 2rem;
+      width: 1.8rem;
+      height: 1.8rem;
       fill: var(--color-light-shade-scheme-1); }
 
 .home {
