@@ -1480,14 +1480,15 @@ body {
     .table-rows-item {
       font-size: 1.2rem;
       font-weight: 300;
+      padding-left: .5rem;
       min-width: 11rem;
       max-width: 11rem;
       max-height: 12rem;
-      text-align: center;
+      text-align: left;
       word-break: break-word;
       display: -webkit-box;
-      -webkit-box-pack: center;
-      -webkit-box-align: center;
+      -webkit-box-pack: left;
+      -webkit-box-align: left;
       -webkit-line-clamp: 4;
       color: var(--color-dark-shade-scheme-1); }
       .table-rows-item img {
