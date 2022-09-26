@@ -644,6 +644,9 @@ body {
   .zindexTop :last-child {
     position: relative; }
 
+.horizontal {
+  display: flex; }
+
 .center {
   text-align: center;
   justify-self: center;

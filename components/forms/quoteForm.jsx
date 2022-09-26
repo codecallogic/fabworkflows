@@ -650,8 +650,12 @@ const QuoteForm = ({
               >
                 Account
               </label>
-              <div onClick={() => setInputDropdown('quote_account')}>
-                <SVG svg={'dropdown-arrow'}></SVG>
+              <div onClick={() => (
+                setModal('account'),
+                setDynamicType('CREATE_QUOTE'),
+                setDynamicKey('account')
+              )}>
+                <SVG svg={'plus-solid'}></SVG>
               </div>
               {input_dropdown == 'quote_account' && (
                 <div className="form-group-list" ref={myRefs}>
@@ -927,7 +931,7 @@ const QuoteForm = ({
                 }
                 htmlFor="quote_deposit"
               >
-                Deposit <span>(credit card fee in %)</span>
+                Deposit
               </label>
               <div
                 onClick={() =>

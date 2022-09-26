@@ -1,5 +1,9 @@
 import {useState, useEffect} from 'react'
 import SVG from '../../files/svgs'
+import { manageFormFields } from '../../helpers/forms';
+import { selectCreateType, selectResetType } from '../../helpers/dispatchTypes';
+import { filterAccountSearch } from '../../helpers/validations';
+
 
 const MaterialModal = ({
   token,
@@ -16,6 +20,7 @@ const MaterialModal = ({
   extractingStateData,
   setDynamicKey,
   setDynamicType,
+  dataType,
 
   //// DATA
   allData,
@@ -36,6 +41,9 @@ const MaterialModal = ({
   const resetType = ''
   const [loadingColor, setLoadingColor] = useState('white')
   const [name, setName] = useState('')
+  const [newAccount, setNewAccount] = useState(true)
+  const [search, setSearch] = useState('');
+  const [sort, setSort] = useState('');
 
   //// HANDLE MODAL DRAG
   const [prevX, setPrevX] = useState(0)
@@ -112,6 +120,53 @@ const MaterialModal = ({
       <form 
       className="addFieldItems-modal-form" 
       >
+        <div className="horizontal">
+          <div className="form-group-checkbox">
+            <input 
+              type="checkbox" 
+              name="account" 
+              id="account" 
+              hidden={true} 
+              checked={newAccount ? true : false} 
+              readOnly
+            />
+            <label 
+              htmlFor="taxable" 
+              onClick={() => (
+                newAccount
+                ? 
+                setNewAccount(false)
+                : 
+                setNewAccount(true)
+              )}
+            >
+            </label>
+            <span>New Account</span>
+          </div>
+          <div className="form-group-checkbox">
+            <input 
+              type="checkbox" 
+              name="accountList" 
+              id="accountList" 
+              hidden={true} 
+              checked={newAccount ? false : true} 
+              readOnly
+            />
+            <label 
+              htmlFor="discount" 
+              onClick={() => (
+                newAccount
+                ? 
+                setNewAccount(false)
+                : 
+                setNewAccount(true)
+              )}
+            >
+            </label>
+            <span>Find Account</span>
+          </div>
+        </div>
+        {newAccount && 
         <div className="form-group">
           <input 
           id="name" 
@@ -128,6 +183,75 @@ const MaterialModal = ({
             Name
           </label>
         </div>
+        }
+        {!newAccount && 
+        <>
+          <div className="form-group">
+            <input
+              value={manageFormFields(name, 'name')}
+              onChange={(e) => (
+                setName(e.target.value),
+                setSearch(e.target.value)
+              )}
+            />
+            <label
+              className={
+                `input-label ` + 
+                (
+                name.length > 0 ||
+                typeof name == 'object' 
+                ? ' labelHover'
+                : ''
+                )
+              }
+              htmlFor={`name`}
+            >
+              Account (search by account name)
+            </label>
+          </div>
+          <div className="addFieldItems-modal-form-container-searchList-container">
+            <div className="addFieldItems-modal-form-container-searchList-table-header">
+              <div
+                className="addFieldItems-modal-form-container-searchList-table-header-item"
+                onClick={() =>
+                  sort === 'down' ? setSort('up') : setSort('down')
+                }
+              >
+                <span>Account</span>
+                <SVG svg={'dropdown-arrow'}></SVG>
+              </div>
+            </div>
+            <div className="addFieldItems-modal-form-container-searchList-list">
+              {allData && allData[dataType]
+              .sort((a, b) => sort === 'down' ? a.name > b.name ? -1 : 1 : a.name > b.name ? 1 : -1)
+              .map((item, idx) =>
+                search.length > 0 ? (
+                  filterAccountSearch(item, search) ? (
+                    <div
+                      key={idx}
+                      className="addFieldItems-modal-form-container-searchList-list-item"
+                      onClick={() =>
+                        setName(item)
+                      }
+                    >
+                      {item.name}
+                    </div>
+                  ) : null
+                ) : 
+                (
+                  <div
+                    key={idx}
+                    className="addFieldItems-modal-form-container-searchList-list-item"
+                    onClick={() => setName(item)}
+                  >
+                    {item.name}
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+        </>          
+        }
         {/* {message && 
         <span className="form-group-message">
           <SVG svg={dynamicSVG} color={'#fd7e3c'}></SVG>
