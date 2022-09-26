@@ -91,6 +91,10 @@ const MaterialModal = ({
       y: translate.y + Y
     });
   }
+
+  useEffect(() => {
+    if(name.length > 0) setMessage('')
+  }, [name])
   
   return (
     <div 
@@ -135,9 +139,15 @@ const MaterialModal = ({
               onClick={() => (
                 newAccount
                 ? 
-                setNewAccount(false)
+                (
+                  setNewAccount(false),
+                  setName('')
+                )
                 : 
-                setNewAccount(true)
+                (
+                  setNewAccount(true),
+                  setName('')
+                )
               )}
             >
             </label>
@@ -157,9 +167,15 @@ const MaterialModal = ({
               onClick={() => (
                 newAccount
                 ? 
-                setNewAccount(false)
+                (
+                  setNewAccount(false),
+                  setName('')
+                )
                 : 
-                setNewAccount(true)
+                (
+                  setNewAccount(true),
+                  setName('')
+                )
               )}
             >
             </label>
@@ -252,12 +268,12 @@ const MaterialModal = ({
           </div>
         </>          
         }
-        {/* {message && 
+        {message && 
         <span className="form-group-message">
           <SVG svg={dynamicSVG} color={'#fd7e3c'}></SVG>
           {message}
         </span>
-        } */}
+        }
         <button 
         className="form-group-button" 
         onClick={(e) => (

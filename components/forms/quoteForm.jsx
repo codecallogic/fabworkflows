@@ -158,6 +158,7 @@ const QuoteForm = ({
     setModal('account')
     setDynamicType('CREATE_QUOTE')
     setDynamicKey('account')
+    setMessage('Quote is not attached to an account')
    }
   }, [message])
 
