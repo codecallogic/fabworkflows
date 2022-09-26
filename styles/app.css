@@ -3529,9 +3529,6 @@ body {
 .rbc-time-view {
   min-height: 130% !important; }
 
-.appointments * {
-  color: var(--color-light-shade-scheme-1) !important; }
-
 .activities-light * {
   font-weight: 500; }
 
@@ -3654,7 +3651,7 @@ body {
       margin-right: 1rem;
       width: 1.8rem;
       height: 1.8rem;
-      fill: var(--color-light-shade-scheme-1); }
+      fill: var(--color-dark-shade-scheme-1); }
 
 .home {
   display: flex;

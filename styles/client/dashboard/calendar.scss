@@ -136,14 +136,14 @@
   min-height: 130% !important ;
 }
 
-.appointments {
-  // background-color: var(--color-dark-shade-scheme-1)!important;
+// .appointments {
+//   // background-color: var(--color-dark-shade-scheme-1)!important;
 
-  * {
-    color: var(--color-light-shade-scheme-1)!important;
-  }
+//   * {
+//     color: var(--color-dark-shade-scheme-1)!important;
+//   }
   
-}
+// }
 
 .activities-light {
   * {
@@ -358,7 +358,7 @@
       margin-right: 1rem;
       width: 1.8rem;
       height: 1.8rem;
-      fill: var(--color-light-shade-scheme-1);
+      fill: var(--color-dark-shade-scheme-1);
     }
     
   }

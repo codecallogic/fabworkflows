@@ -85,10 +85,10 @@ const Schedule = ({
   const eventStyleGetter = (event) => {
 
     let styleAppointment = {
-      backgroundColor: theme == 'light' ? '#44A679' : '#44A679',
+      backgroundColor: theme == 'light' ? '#B8E5CF' : '#B8E5CF',
       border: '0px',
       borderRadius: '0px',
-      borderLeft: `10px solid #B8E5CF`,
+      borderLeft: `10px solid #44A679`,
       fontSize: '12px',
       fontFamily: 'Arial'
       // boxShadow: `.3rem .3rem .3rem .3rem rgba(0,0,0, .2)`
