@@ -289,7 +289,7 @@ const QuoteForm = ({
         {message && (
           <div className="table-header-error">
             <SVG svg={dynamicSVG}></SVG>
-            <span>{message.substr(0, 200)}</span>
+            <span>{message.substr(0, 120)}</span>
           </div>
         )}
       </div>
@@ -1079,6 +1079,8 @@ const QuoteForm = ({
                     >
                       <div className="form-estimate-line">
                         <SVG svg={'adjust'}></SVG>
+                        {item.typeForm !== 'text' &&
+                        <>
                         <div>{item.quantity ? `${item.quantity}` : '0'}</div>
                         <div className="form-estimate-line-description">
                           {item.material
@@ -1113,13 +1115,30 @@ const QuoteForm = ({
                             item.description
                           }
                         </div>
+                        </>
+                        }
+                        {item.typeForm !== 'text' &&
                         <div>
                           {item.price && item.quantity
                           ? manageEstimates( 'lineTotal', item.quantity, item.price )
                           : `(No subtotal)`
                           }
                         </div>
+                        }
+                        {item.typeForm == 'text' &&
+                          <div 
+                            className="form-estimate-line-description"
+                            style={{ 
+                              fontWeight: `${item.bold ? '700' : ''}`,
+                              textDecoration: `${item.underline ? 'underline' : ''}`,
+                              fontStyle: `${item.italic ? 'italic' : ''}`
+                            }}
+                          >
+                            {item.description}
+                          </div>
+                        }
                       </div>
+                      {item.typeForm !== 'text' &&
                       <div className="form-estimate-line-label">
                         <span>
                         {item.typeForm !== 'miscellaneous' && item.category === ''
@@ -1138,6 +1157,7 @@ const QuoteForm = ({
                         {item.price && item.edgeType ? `[${item.price} / linear ft]` : null}
 
                       </div>
+                      }
                     </span>
                   </React.Fragment>
                 ))}

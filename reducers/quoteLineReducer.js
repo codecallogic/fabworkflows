@@ -14,6 +14,10 @@ const initialState = {
   shape: '',
   edgeType: '',
   cutoutType: '',
+  bold: false,
+  underline: false,
+  italic: false,
+  hidden: false,
   idx: ''
 }
 

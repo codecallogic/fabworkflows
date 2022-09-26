@@ -244,6 +244,12 @@ const QuoteLineModal = ({
             )}>
               Miscellaneous
             </div>
+            <div className="form-group-button" onClick={() => (
+              stateMethod(changeFormType, null, 'text'),
+              stateMethod(createType, 'typeForm', 'text')
+            )}>
+              Text
+            </div>
             {/* <div className="form-group-button" onClick={() => (
               stateMethod(changeFormType, null, 'priceList'),
               stateMethod(createType, 'typeForm', 'priceList')
@@ -1763,6 +1769,92 @@ const QuoteLineModal = ({
               >
               </label>
               <span>Allow discount</span>
+            </div>
+            </>
+          }
+
+          { typeForm == 'text' &&
+            <>
+            <div className="form-group-textarea">
+              <label 
+              className={stateData.description.length > 0 ? ' labelHover' : ''}>
+                Text
+              </label>
+              <textarea 
+                id="description" 
+                rows="6" 
+                wrap="hard" 
+                maxLength="500"
+                name="description" 
+                value={stateData.description} 
+                onChange={(e) => stateMethod(createType, 'description', e.target.value)} 
+              />
+            </div>
+            <div className="form-group-checkbox">
+              <input 
+                type="checkbox" 
+                name="bold" 
+                id="bold" 
+                hidden={true} 
+                checked={stateData.bold ? true : false} 
+                readOnly
+              />
+              <label 
+                htmlFor="taxable" 
+                onClick={() => (
+                  stateData.bold
+                  ? 
+                  stateMethod(createType, 'bold', false) 
+                  : 
+                  stateMethod(createType, 'bold', true)
+                )}
+              >
+              </label>
+              <span>Bold</span>
+            </div>
+            <div className="form-group-checkbox">
+              <input 
+                type="checkbox" 
+                name="italic" 
+                id="italic" 
+                hidden={true} 
+                checked={stateData.italic ? true : false} 
+                readOnly
+              />
+              <label 
+                htmlFor="italic" 
+                onClick={() => (
+                  stateData.italic
+                  ? 
+                  stateMethod(createType, 'italic', false) 
+                  : 
+                  stateMethod(createType, 'italic', true)
+                )}
+              >
+              </label>
+              <span>Italic</span>
+            </div>
+            <div className="form-group-checkbox">
+              <input 
+                type="checkbox" 
+                name="underline" 
+                id="underline"  
+                hidden={true} 
+                checked={stateData.underline ? true : false} 
+                readOnly
+              />
+              <label 
+                htmlFor="underline" 
+                onClick={() => (
+                  stateData.underline
+                  ? 
+                  stateMethod(createType, 'underline', false) 
+                  : 
+                  stateMethod(createType, 'underline', true)
+                )}
+              >
+              </label>
+              <span>Underline</span>
             </div>
             </>
           }
