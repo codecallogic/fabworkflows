@@ -510,10 +510,7 @@ const ActivityModal = ({
           onClick={(e) => (
             e.preventDefault(),
             setLoading('update_activity_job_form'),
-            stateMethod(updateJobArrayItem, 'activities', stateData),
-            setModal(''),
-            setAltEdit(''),
-            resetState(resetType)
+            stateMethod(updateJobArrayItem, 'activities', stateData)
           )}>
               {loading == 'update_activity_job_form' ? 
               <div className="loading">

@@ -35,6 +35,7 @@ const Schedule = ({
   theme,
   message,
   modal,
+  altEdit,
 
   // REDUX
   editData,
@@ -107,8 +108,6 @@ const Schedule = ({
 
   }
 
-
-
   const onSelectEvent = (event) => {
     
     if(event.type == 'appointment'){
@@ -180,7 +179,13 @@ const Schedule = ({
       })
 
       editData('activities', 'CREATE_ACTIVITY', stateMethod, stateData.activities, null, idxUpdate, null, stateData.activities)
-      stateMethod('CREATE_ACTIVITY', 'job', stateData)
+
+      const newJob = new Object()
+      newJob.name = stateData.name
+      newJob._id = stateData._id
+      newJob.account = stateData.account
+      
+      stateMethod('CREATE_ACTIVITY', 'job', newJob)
       setAltEdit('activities')
       setModal('activities')
     }
@@ -189,12 +194,19 @@ const Schedule = ({
 
   useEffect( async () => {
     
-    if(loading == 'update_activity_job_form'){
-      
-      const response = await submitUpdate(null, stateData, 'jobs', 'files', setMessage, 'update_activity_job_form', setLoading, token, 'jobs/update-job', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'calendar', setModal, setAltEdit)
+    if(loading == 'update_activity_job_form' && altEdit){
 
-      if(response) setLoading('')
+      try {
       
+        const response = await submitUpdate(null, stateData, 'jobs', 'files', setMessage, 'update_activity_job_form', setLoading, token, 'jobs/update-job', 'RESET_ACTIVITY', resetState, allData, setAllData, setDynamicSVG, changeView, 'calendar', setModal, setAltEdit)
+
+        setLoading('')
+        setAltEdit('')
+
+      } catch (error) {
+        console.log(error)
+        if(error) setMessage(error.response ? error.response.data : error)
+      }
     }
     
   }, [stateData.activities])

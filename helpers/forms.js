@@ -90,8 +90,10 @@ const submitCreate = async (e, stateData, type, fileType, setMessage, loadingTyp
     const responseCreate = await axios.post(`${API}/${path}`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
-        contentType: 'multipart/form-data'
-      }
+        contentType: 'multipart/form-data',
+      },
+      maxContentLength: 1000000000000,
+      maxBodyLength: 10000000000000
     })
     
     setLoading('')
@@ -142,6 +144,7 @@ const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingTy
   
   setMessage('')
   setLoading(loadingType)
+ 
   let data = new FormData()
   
   if(stateData[filesType] && stateData[filesType].length > 0){
@@ -153,16 +156,18 @@ const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingTy
 
   if(stateData){
     for(let key in stateData){
-      data.append(key, JSON.stringify(stateData[key]))
+      if(key !== filesType) data.append(key, JSON.stringify(stateData[key]))
     }
   }
-  
+
   try {
     const responseUpdate = await axios.post(`${API}/${path}`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
         contentType: 'multipart/form-data'
-      }
+      },
+      maxContentLength: 1000000000000,
+      maxBodyLength: 10000000000000
     })
 
     setLoading('')

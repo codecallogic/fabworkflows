@@ -90,7 +90,7 @@ const JobForm = ({
   const [tableType, setTableType] = useState('')
 
   useEffect(() => {
-    // console.log(stateData)
+    
     if(stateData.name && !edit){
       if(!stateData.account) return setMessage('Account required')
       if(!stateData.invoice) return setMessage('Invoice required')

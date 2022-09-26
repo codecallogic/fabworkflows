@@ -1776,6 +1776,7 @@ const Dashboard = ({
             setDynamicSVG={setDynamicSVG}
             theme={theme}
             message={message}
+            altEdit={altEdit}
           />
         )}
 

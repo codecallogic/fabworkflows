@@ -142,10 +142,11 @@ const ActivityListItems = ({
             <label
               className={
                 `input-label ` +
-                (autoFill[autoFillType].length > 0 ||
-                typeof autoFill[autoFillType] == 'object'
+                (
+                search.length > 0 
                   ? ' labelHover'
-                  : '')
+                  : ''
+                )
               }
               htmlFor={`${autoFillType}`}
             >
@@ -174,9 +175,11 @@ const ActivityListItems = ({
                         <div
                           key={idx}
                           className="addFieldItems-modal-form-container-searchList-list-item"
-                          onClick={() =>
-                            stateMethod(createType, autoFillType, item)
-                          }
+                          onClick={() => (
+                            console.log(item),
+                            stateMethod(createType, autoFillType, item), 
+                            setModal('')
+                          )}
                         >
                           {`${item.name} / ${item.status}`}
                         </div>
@@ -185,7 +188,11 @@ const ActivityListItems = ({
                       <div
                         key={idx}
                         className="addFieldItems-modal-form-container-searchList-list-item"
-                        onClick={() => (stateMethod(createType, autoFillType, item), setModal(''))}
+                        onClick={() => (
+                          console.log(item),
+                          stateMethod(createType, autoFillType, item), 
+                          setModal('')
+                        )}
                       >
                          {`${item.name} / ${item.status}`}
                       </div>
