@@ -113,6 +113,36 @@ const getWeekDayList = (startDate, endDate) => {
   
 }
 
+export const getWeekDayListJobActivities = (startDate, daysTimeFrame, type) => {
+  let days = []
+  let start = new Date(startDate)
+  
+  if(type === 'before'){
+    while(days.length < daysTimeFrame){
+      let newDay = start.setDate(start.getDate() - 1)
+      let day = new Date(newDay).getDay();
+
+      if (day != 6 && day != 0) {
+        days.push(new Date(newDay));
+      }
+    }
+  }
+
+  if(type === 'after'){
+    while(days.length < daysTimeFrame){
+      let newDay = start.setDate(start.getDate() + 1)
+      let day = new Date(newDay).getDay();
+
+      if (day != 6 && day != 0) {
+        days.push(new Date(newDay));
+      }
+    }
+  }
+
+  return days
+  
+}
+
 function checkNumber(x) {
   // check if the passed value is a number
   if(typeof x == 'number' && !isNaN(x)){

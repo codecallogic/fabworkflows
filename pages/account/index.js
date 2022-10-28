@@ -90,6 +90,7 @@ import DependencyModal from '../../components/modals/Dependency';
 import ActivityStatusModal from '../../components/modals/ActivityStatus';
 import ActivitySetModal from '../../components/modals/ActivitySet';
 import ActivityListModal from '../../components/modals/ActivityList';
+import ActivityStatusListModal from '../../components/modals/ActivityStatusList';
 import PurchaseOrderModal from '../../components/modals/PurchaseOrder';
 import PurchaseOrderListModal from '../../components/modals/PurchaseList';
 import JobIssueModal from '../../components/modals/JobIssue';
@@ -2515,6 +2516,32 @@ const Dashboard = ({
             typeOfData={'job'}
             setEvent={setEvent}
           ></ActivityListModal>
+        )}
+        {modal == 'activityStatusList' && (
+          <ActivityStatusListModal
+            token={token}
+            message={message}
+            setMessage={setMessage}
+            setModal={setModal}
+            loading={loading}
+            setLoading={setLoading}
+            edit={edit}
+            setEdit={setEdit}
+            stateData={activity}
+            stateMethod={createType}
+            dynamicType={dynamicType}
+            extractingStateData={extractingStateData}
+            dynamicSVG={dynamicSVG}
+            setDynamicSVG={setDynamicSVG}
+            resetState={resetType}
+            submitCreate={submitCreate}
+            allData={allData}
+            setAllData={setAllData}
+            submitUpdate={submitUpdate}
+            changeView={changeView}
+            editData={editData}
+            selectID={selectID}
+          ></ActivityStatusListModal>
         )}
         {modal == 'purchaseOrders' && (
           <PurchaseOrderModal

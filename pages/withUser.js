@@ -22,6 +22,9 @@ const withUser = Page => {
       if(token){newToken = token.split('=')[1]}
 
       if(newToken !== null){
+
+        console.log('ADSFLKASJFOSDIJF')
+        
         try {
           const responseUser = await axios.get(`${API}/auth/user`, {
             headers: {

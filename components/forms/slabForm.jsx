@@ -55,9 +55,9 @@ const Form = ({
 
   useEffect(() => {
     
-    if(stateData.material && !edit){
-      submitCreate(null, stateData, 'slabs', 'images', setMessage, 'create_slab', setLoading, token, 'slabs/create-slab', null, null, allData, setAllData, setDynamicSVG, changeView, 'slab', null, null, false,  null, null, setEdit, setSelectID)
-    }
+    // if(stateData.material && !edit){
+    //   submitCreate(null, stateData, 'slabs', 'images', setMessage, 'create_slab', setLoading, token, 'slabs/create-slab', null, null, allData, setAllData, setDynamicSVG, changeView, 'slab', null, null, false,  null, null, setEdit, setSelectID)
+    // }
 
     const isEmpty = Object.values(stateData).every( x => x === '' || x.length < 1)
     
@@ -698,8 +698,10 @@ const Form = ({
                   className="form-group-gallery-image"
                   src={item.location}
                   />
-                  <span onClick={(e) => (e.stopPropagation(), loading !== 'delete_image' ? 
-                    submitDeleteFile(e, item, 'images', createType, stateMethod, stateData, 'slabs', setMessage, 'delete_image', setLoading, token, 'slabs/delete-image', allData, setAllData, setDynamicSVG, editData) 
+                  <div 
+                    className="form-group-gallery-link-loading"
+                    onClick={(e) => (e.stopPropagation(), loading !== 'delete_image' ? 
+                    submitDeleteFile(e, item, 'images', createType, stateMethod, stateData, 'slabs', setMessage, 'delete_image', setLoading, token, 'slabs/delete-image', allData, setAllData, setDynamicSVG, editData, null, selectID, setSelectID) 
                     : null)
                   }>
                   { loading == 'delete_image' ? 
@@ -707,7 +709,7 @@ const Form = ({
                     :
                     <SVG svg={'close'}></SVG>
                   }
-                  </span>
+                  </div>
                 </a>
               ))}
             </div>

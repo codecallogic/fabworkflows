@@ -503,8 +503,13 @@ const PurchaseOrderForm = ({
                       className="form-group-gallery-image"
                       src="https://static.thenounproject.com/png/47347-200.png"
                     />
-                    <div>Click to view</div>
-                    <span
+                    <div
+                      className="form-group-gallery-link-button"
+                    >
+                      Click to view
+                    </div>
+                    <div
+                      className="form-group-gallery-link-loading"
                       onClick={(e) => (
                         e.stopPropagation(),
                         loading !== 'delete_file'
@@ -518,7 +523,7 @@ const PurchaseOrderForm = ({
                       ) : (
                         <SVG svg={'close'}></SVG>
                       )}
-                    </span>
+                    </div>
                     {item.name ? item.name : item.location.substring(50, 70)}
                   </a>
                 ))}

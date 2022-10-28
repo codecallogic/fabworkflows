@@ -1,3 +1,6 @@
+import { formatDate } from '../helpers/validations'
+import { getWeekDayListJobActivities } from '../helpers/calendar'
+
 const initialState = {
   name: '',
   account: '',
@@ -51,8 +54,67 @@ export const jobReducer = (state = initialState, action) => {
     case 'UPDATE_JOB_ARRAY_ITEM':
       let updateArray = [...state[action.name]]
       let newUpdatedArray = []
+
+      // console.log(updateArray)
+
+      if(action.value.name && action.value.startDate){
+        updateArray.forEach((item, idx) => {
+          
+          if(item.dependency.activity === action.value.name){
+
+            if(item.dependency.typeOfDay === 'days'){
+              
+              if(item.dependency.schedule === 'after'){
+                let date = new Date(action.value.startDate)
+                // console.log('DATE', date)
+                let newDate = new Date(date.setDate(date.getDate() + +item.dependency.days))
+
+                // console.log('NEW DATE AFTER', newDate)
+                item.startDate = formatDate(newDate)
+              }
+
+              if(item.dependency.schedule === 'before'){
+                let date = new Date(action.value.startDate)
+                // console.log('DATE', date)
+                let newDate = new Date(date.setDate(date.getDate() - +item.dependency.days))
+
+                // console.log('NEW DATE BEFORE', newDate)
+                item.startDate = formatDate(newDate)
+
+              }
+
+            }
+            
+            if(item.dependency.typeOfDay === 'workdays'){
+
+              if(item.dependency.schedule === 'after'){
+                let date = new Date(action.value.startDate)
+
+                const days = getWeekDayListJobActivities(date, item.dependency.days, 'after')
+
+                item.startDate = formatDate(days[days.length - 1])
+
+              }
+
+              if(item.dependency.schedule === 'before'){
+                let date = new Date(action.value.startDate)
+
+                const days = getWeekDayListJobActivities(date, item.dependency.days, 'before')
+
+                item.startDate = formatDate(days[days.length - 1])
+
+              }
+
+            }
+            
+          }
+          
+        })
+      }
       
       newUpdatedArray = updateArray.filter((item, idx) => (item._id ? item._id : idx) !== action.value._id)
+
+      console.log(newUpdatedArray)
 
       newUpdatedArray.push(action.value)
       

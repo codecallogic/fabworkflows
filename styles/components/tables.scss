@@ -272,7 +272,7 @@
       min-height: 15rem;
       max-height: 100rem;
       overflow-x: auto;
-      overflow-y: hidden;
+      overflow-y: auto;
       position: relative;
 
       &:last-child {

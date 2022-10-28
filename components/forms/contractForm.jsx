@@ -166,7 +166,7 @@ const ContractForm = ({
           <div
             className="table-header-controls-item-svg"
             onClick={(e) => (
-              submitCreate(e, stateData, 'contracts', 'files', setMessage, 'create_email', setLoading, token, 'contracts/create-contract', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'contractForm', null, null, false, editData, { key: 'contracts', caseType: 'CREATE_CONTRACT', method: stateMethod, setSelectID: setSelectID }, setEdit)
+              submitCreate(e, stateData, 'contracts', 'files', setMessage, 'create_email', setLoading, token, 'contracts/create-contract', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'contracts', null, null, false, editData, { key: 'contracts', caseType: 'CREATE_CONTRACT', method: stateMethod, setSelectID: setSelectID })
             )}
           >
             { loading == 'create_email' ? 

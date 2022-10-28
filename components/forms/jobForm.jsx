@@ -91,13 +91,13 @@ const JobForm = ({
 
   useEffect(() => {
     
-    if(stateData.name && !edit){
-      if(!stateData.account) return setMessage('Account required')
-      if(!stateData.invoice) return setMessage('Invoice required')
+    // if(stateData.name && !edit){
+    //   if(!stateData.account) return setMessage('Account required')
+    //   if(!stateData.invoice) return setMessage('Invoice required')
       
-      submitCreate(null, stateData, 'jobs', 'files', setMessage, 'create_job', setLoading, token, 'jobs/create-job', null, null, allData, setAllData, setDynamicSVG, changeView, 'job', null, null, false,  null, null, setEdit, setSelectID)
+    //   submitCreate(null, stateData, 'jobs', 'files', setMessage, 'create_job', setLoading, token, 'jobs/create-job', null, null, allData, setAllData, setDynamicSVG, changeView, 'job', null, null, false,  null, null, setEdit, setSelectID)
       
-    }
+    // }
     
     const isEmpty = Object.values(stateData).every(
       (x) => x === '' || x.length < 1 || x === '0.00'
@@ -764,8 +764,13 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
                       className="form-group-gallery-image"
                       src={'https://static.thenounproject.com/png/47347-200.png'}
                     />
-                    <div>Click to view</div>
-                    <span
+                    <div
+                      className="form-group-gallery-link-button"
+                    >
+                      Click to view
+                    </div>
+                    <div
+                      className="form-group-gallery-link-loading"
                       onClick={(e) => (
                         e.stopPropagation(),
                         loading !== 'delete_file'
@@ -779,7 +784,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
                       ) : (
                         <SVG svg={'close'}></SVG>
                       )}
-                    </span>
+                    </div>
                     {item.name ? item.name : item.location.substring(50, 70)}
                   </a>
                 ))}

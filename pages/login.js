@@ -1,7 +1,6 @@
 import {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
 import {API} from '../config'
-import SVG from '../files/svgs'
 import axios from 'axios'
 axios.defaults.withCredentials = true
 
@@ -20,6 +19,7 @@ const Login = ({redirectLoginURL}) => {
     setMessage('')
     try {
       const responseLogin = await axios.post(`${API}/auth/login`, {email, password})
+      console.log(responseLogin)
       window.location.href = '/account'
       setLoading(false)
     } catch (error) {

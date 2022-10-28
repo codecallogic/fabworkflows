@@ -56,11 +56,11 @@ const Form = ({
 
   useEffect(() => {
     
-    if(stateData.name && !edit){
+    // if(stateData.name && !edit){
 
-      submitCreate(null, stateData, 'remnants', 'images', setMessage, 'create_remnant', setLoading, token, 'remnants/create-remnant', null, null, allData, setAllData, setDynamicSVG, changeView, 'remnant', null, null, false,  null, null, setEdit, setSelectID)
+    //   submitCreate(null, stateData, 'remnants', 'images', setMessage, 'create_remnant', setLoading, token, 'remnants/create-remnant', null, null, allData, setAllData, setDynamicSVG, changeView, 'remnant', null, null, false,  null, null, setEdit, setSelectID)
       
-    }    
+    // }    
     
     const isEmpty = Object.values(stateData).every( x => x === '' || x.length < 1)
     
@@ -512,11 +512,13 @@ const Form = ({
                 style={{width: '48%'}}
                 >
                   <img 
-                  className="form-group-gallery-image"
-                  src={item.location}
+                    className="form-group-gallery-image"
+                    src={item.location}
                   />
-                  <span onClick={(e) => (e.stopPropagation(), loading !== 'delete_image' ? 
-                    submitDeleteFile(e, item, 'images', createType, stateMethod, stateData, 'remnants', setMessage, 'delete_image', setLoading, token, 'remnants/delete-image', allData, setAllData, setDynamicSVG, editData) 
+                  <div 
+                    className="form-group-gallery-link-loading"
+                    onClick={(e) => (e.stopPropagation(), loading !== 'delete_image' ? 
+                    submitDeleteFile(e, item, 'images', createType, stateMethod, stateData, 'remnants', setMessage, 'delete_image', setLoading, token, 'remnants/delete-image', allData, setAllData, setDynamicSVG, editData, null, selectID, setSelectID) 
                     : null)
                   }>
                     { loading == 'delete_image' ? 
@@ -524,7 +526,7 @@ const Form = ({
                       :
                       <SVG svg={'close'}></SVG>
                     }
-                  </span>
+                  </div>
                 </a>
               ))}
             </div>

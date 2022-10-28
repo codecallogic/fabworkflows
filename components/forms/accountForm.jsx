@@ -77,15 +77,15 @@ const AccountForm = ({
   
   useEffect(() => {
 
-    if(stateData.name && !edit){
-      if(!stateData.salesperson) return setMessage('Salesperson required')
-      if(!stateData.taxExempt) return setMessage('Tax exempt required')
-      if(!stateData.notes) return setMessage('Notes required')
-      if(!stateData.accountAddress) return setMessage('Account address required')
+    // if(stateData.name && !edit){
+    //   if(!stateData.salesperson) return setMessage('Salesperson required')
+    //   if(!stateData.taxExempt) return setMessage('Tax exempt required')
+    //   if(!stateData.notes) return setMessage('Notes required')
+    //   if(!stateData.accountAddress) return setMessage('Account address required')
       
-      submitCreate(null, stateData, 'accounts', 'files', setMessage, 'create_account', setLoading, token, 'accounts/create-account', null, null, allData, setAllData, setDynamicSVG, changeView, 'accountForm', null, null, false,  null, null, setEdit, setSelectID)
+    //   submitCreate(null, stateData, 'accounts', 'files', setMessage, 'create_account', setLoading, token, 'accounts/create-account', null, null, allData, setAllData, setDynamicSVG, changeView, 'accountForm', null, null, false,  null, null, setEdit, setSelectID)
       
-    }
+    // }
     
     const isEmpty = Object.values(stateData).every(
       (x) => x === '' || x.length < 1 || x === ''
@@ -523,13 +523,18 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
                       className="form-group-gallery-image"
                       src="https://static.thenounproject.com/png/47347-200.png"
                     />
-                    <div>Click to view</div>
-                    <span
+                    <div
+                      className="form-group-gallery-link-button"
+                    >
+                      Click to view
+                    </div>
+                    <div
+                      className="form-group-gallery-link-loading"
                       onClick={(e) => (
                         e.stopPropagation(),
                         loading !== 'delete_file'
                           ? 
-                          submitDeleteFile(e, item, 'files', createType, stateMethod, stateData, 'accounts', setMessage, 'delete_file', setLoading, token, 'accounts/delete-file', allData, setAllData, setDynamicSVG, editData, null, stateData._id)
+                          submitDeleteFile(e, item, 'files', createType, stateMethod, stateData, 'accounts', setMessage, 'delete_file', setLoading, token, 'accounts/delete-file', allData, setAllData, setDynamicSVG, editData, null, stateData._id, setSelectID)
                           : null
                       )}
                     >
@@ -538,7 +543,8 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
                       ) : (
                         <SVG svg={'close'}></SVG>
                       )}
-                    </span>
+                       {/* <div className="loading-spinner"></div> */}
+                    </div>
                     {item.name ? item.name : item.location.substring(50, 70)}
                   </a>
                 ))}

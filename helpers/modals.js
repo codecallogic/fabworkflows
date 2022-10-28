@@ -4,7 +4,8 @@ export {
   populateAddress,
   populateDependency,
   handleTableDropdowns,
-  returnSelectedData
+  returnSelectedData,
+  manageAutoSchedule
 }
 
 const allowArrays = ['quotes', 'jobs', 'activities', 'activitySets', 'jobIssues', 'accounts', 'purchaseOrders']
@@ -13,12 +14,16 @@ const allowObjects = ['account', 'accountAddress', 'jobAddress']
 const populateEditData = (originalData, keyType, caseType, stateMethods, selectID, list, setSelectID, mainID) => {
 
   if(selectID) stateMethods.createType(caseType, '_id', selectID)
-
+  
   if(originalData[keyType] && originalData[keyType].length > 0){
     for(let key in originalData[keyType]){
+      console.log(originalData[keyType][key]._id)
+      console.log(selectID)
       if(originalData[keyType][key]._id == selectID){
         
         let object = originalData[keyType][key]
+
+        console.log(originalData[keyType][key])
         
         if(object.jobs && object.jobs.length > 0) stateMethods.createType(caseType, 'jobs', object.jobs)
         
@@ -27,7 +32,7 @@ const populateEditData = (originalData, keyType, caseType, stateMethods, selectI
           stateMethods.createType(caseType, keyOfObject, object[keyOfObject])
 
           if(Array.isArray(object[keyOfObject]) && object[keyOfObject].length > 0){
-  
+            
             if(!object[keyOfObject][0]['location'] ) stateMethods.createType(caseType, keyOfObject, object[keyOfObject][0])
             
             if(object[keyOfObject][0]['location'] !== undefined){
@@ -65,10 +70,15 @@ const populateEditData = (originalData, keyType, caseType, stateMethods, selectI
   
 }
 
-const editData = (keyType, caseType, stateMethod, allData, setSelectID, id, selectID, list, mainID) => {
+const editData = (keyType, caseType, stateMethod, allData, setSelectID, id, selectID, list, mainID, crudType) => {
   let stateMethods = new Object();
   stateMethods.createType = stateMethod;
-
+  
+  if(keyType == 'purchaseOrders' && crudType == 'UPDATE') selectID = selectID ? selectID : id
+  if(keyType == 'jobs') selectID = selectID ? selectID : id
+  if(keyType == 'remnants' && crudType == 'UPDATE') selectID = selectID ? selectID : id
+  if(keyType == 'slabs' && crudType == 'UPDATE') selectID = selectID ? selectID : id
+  
   return populateEditData(
     allData,
     keyType,
@@ -221,5 +231,18 @@ const returnSelectedData = (data, listType, selectID) => {
     })
   }
 
+  selected.job = data
+
   return selected
+}
+
+const manageAutoSchedule = (stateData, setModal, type, stateMethod, arrayType, listType) => {
+
+  if(stateData.startDate && stateData.status){
+    return setModal(type)
+  }
+
+  stateMethod(arrayType, listType, stateData)
+  setModal('')
+  
 }

@@ -79,7 +79,7 @@ const submitCreate = async (e, stateData, type, fileType, setMessage, loadingTyp
       data.append('file', item, `${type}-${fileID}.${item.name.split('.')[1]}`)
     })
   }
-
+  
   if(stateData){
     for(let key in stateData){
       if(key !== fileType) data.append(key, JSON.stringify(stateData[key]))
@@ -156,7 +156,7 @@ const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingTy
 
   if(stateData){
     for(let key in stateData){
-      if(key !== filesType) data.append(key, JSON.stringify(stateData[key]))
+      data.append(key, JSON.stringify(stateData[key]))
     }
   }
 
@@ -188,7 +188,7 @@ const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingTy
   }
 }
 
-const submitDeleteFile = async (e, fileItem, key, caseType, stateMethod, stateData, type, setMessage, loadingType, setLoading, token, path, allData, setAllData, setDynamicSVG, editData, setModal, selectID) => {
+const submitDeleteFile = async (e, fileItem, key, caseType, stateMethod, stateData, type, setMessage, loadingType, setLoading, token, path, allData, setAllData, setDynamicSVG, editData, setModal, selectID, setSelectID) => {
  
 
   if(!fileItem.key){
@@ -205,10 +205,13 @@ const submitDeleteFile = async (e, fileItem, key, caseType, stateMethod, stateDa
         contentType: 'multipart/form-data'
       }
     })
+    
     setLoading('')
-    allData[type]= responseDelete.data
+    allData[type] = responseDelete.data
     setAllData(allData)
-    editData(type, caseType, selectID)
+
+    editData(type, caseType, stateMethod, allData, setSelectID, null, selectID, null, null, 'UPDATE')
+    
     if(setModal) setModal('')
     
   } catch (error) {
@@ -222,15 +225,20 @@ const submitDeleteFile = async (e, fileItem, key, caseType, stateMethod, stateDa
 const submitDeleteRow = async (e, type, setMessage, loadingType, setLoading, token, path, selectID, allData, setAllData, setDynamicSVG, resetCheckboxes, setControls, typeOfDataParent, changeView) => {
   setLoading(loadingType)
   
+  let data = new FormData()
+
+  data.append('id', selectID)
+  
   try {
-    const responseDelete = await axios.post(`${API}/${path}`, {id: selectID}, {
+    const responseDelete = await axios.post(`${API}/${path}`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
         contentType: 'multipart/form-data'
       }
     })
+
     setLoading('')
-    allData[type]= responseDelete.data
+    allData[type] = responseDelete.data
     setAllData(allData)
     setDynamicSVG('checkmark-2')
     setMessage('Item was deleted')
@@ -307,7 +315,7 @@ const getAll = async (setDynamicSVG, setMessage, token, allData, setAllData, typ
       }
     })
 
-    allData[typeOfData] = response.data
+    allData[typeOfData] = response.data.list
     setAllData(allData)
     
   } catch (error) {

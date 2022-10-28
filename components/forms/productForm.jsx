@@ -1,6 +1,6 @@
 import {useState, useEffect, useRef} from 'react'
 import SVG from '../../files/svgs'
-import {manageFormFields} from '../../helpers/forms'
+import { manageFormFields } from '../../helpers/forms'
 
 const Form = ({
   token,
@@ -55,14 +55,14 @@ const Form = ({
 
   useEffect(() => {
 
-    if(stateData.brand && !edit){
-      if(!stateData.model) return setMessage('Model required')
-      if(!stateData.category) return setMessage('Category required')
-      if(!stateData.color) return setMessage('Color required')
+    // if(stateData.brand && !edit){
+    //   if(!stateData.model) return setMessage('Model required')
+    //   if(!stateData.category) return setMessage('Category required')
+    //   if(!stateData.color) return setMessage('Color required')
       
-      submitCreate(null, stateData, 'products', 'images', setMessage, 'create_product', setLoading, token, 'products/create-product', null, null, allData, setAllData, setDynamicSVG, changeView, 'product', null, null, false,  null, null, setEdit, setSelectID)
+    //   submitCreate(null, stateData, 'products', 'images', setMessage, 'create_product', setLoading, token, 'products/create-product', null, null, allData, setAllData, setDynamicSVG, changeView, 'product', null, null, false,  null, null, setEdit, setSelectID)
       
-    }
+    // }
     
     const isEmpty = Object.values(stateData).every( x => x === '' || x.length < 1)
     
@@ -479,7 +479,9 @@ const Form = ({
                   className="form-group-gallery-image"
                   src={item.location}
                   />
-                  <span onClick={(e) => (e.stopPropagation(), loading !== 'delete_image' ? 
+                  <div
+                    className="form-group-gallery-link-loading"
+                    onClick={(e) => (e.stopPropagation(), loading !== 'delete_image' ? 
                     submitDeleteFile(e, item, 'images', createType, stateMethod, stateData, 'products', setMessage, 'delete_image', setLoading, token, 'products/delete-image', allData, setAllData, setDynamicSVG, editData) 
                     : null)
                   }>
@@ -488,7 +490,7 @@ const Form = ({
                       :
                       <SVG svg={'close'}></SVG>
                     }
-                  </span>
+                  </div>
                 </a>
               ))}
             </div>

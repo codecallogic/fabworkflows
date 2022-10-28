@@ -268,7 +268,7 @@
           box-shadow: 0.3rem 0.5rem 0.5rem 0.3rem rgba(0, 0, 0, 0.3);
         }
 
-        div {
+        &-button {
           position: absolute;
           bottom: 10%;
           display: flex;
@@ -286,6 +286,52 @@
             height: 2.5rem;
           }
         }
+
+        &-loading {
+          position: absolute;
+          top: 2%;
+          right: 2%;
+          width: 3rem;
+          height: 3rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 1.8rem;
+          color: white;
+          background-color: var(--color-scheme-2);
+          border-radius: 50%;
+
+          @media only screen and (max-width: $medium) {
+            bottom: 15%;
+            font-size: 1.2rem;
+            height: 2.5rem;
+          }
+          // position: absolute;
+          // top: 2%;
+          // right: 2%;
+          // width: 3rem;
+          // height: 3rem;
+          // display: flex;
+          // justify-content: center;
+          // align-items: center;
+          // background-color: var(--color-scheme-2);
+          // border-radius: 50%;
+          // box-shadow: 0.3rem 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.2);
+          // transition: all 0.5s ease-in-out;
+  
+          &:hover {
+            cursor: pointer;
+            background-color: var(--color-scheme-3);
+          }
+          
+        }
+  
+        svg {
+          width: 2rem;
+          height: 2rem;
+          fill: white;
+        }
+        
       }
 
       &-image {
@@ -295,31 +341,6 @@
         border-radius: 1.2rem;
       }
 
-      span {
-        position: absolute;
-        top: 2%;
-        right: 2%;
-        width: 3rem;
-        height: 3rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: var(--color-scheme-2);
-        border-radius: 50%;
-        box-shadow: 0.3rem 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.2);
-        transition: all 0.5s ease-in-out;
-
-        &:hover {
-          cursor: pointer;
-          background-color: var(--color-scheme-3);
-        }
-      }
-
-      svg {
-        width: 2rem;
-        height: 2rem;
-        fill: white;
-      }
     }
 
     &-textarea {

@@ -109,6 +109,11 @@
     border-radius: 50%;
     animation: loadingSpinner 1s linear infinite;
   }
+
+  &-container {
+    width: 3rem;
+    height: 3rem;
+  }
 }
 
 @keyframes dots {

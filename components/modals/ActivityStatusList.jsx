@@ -34,12 +34,12 @@ const ActivityListItems = ({
   submitUpdate,
 }) => {
 
-  const createType = selectCreateArrayType(typeOfData);
-  const resetType = selectResetType(typeOfData);
+  const createType = 'CREATE_ACTIVITY';
+  const resetType = 'RESET_ACTIVITY';
+  const updateJobArrayItem = 'UPDATE_JOB_ARRAY_ITEM'
   const myRefs = useRef(null);
   const [loadingColor, setLoadingColor] = useState('white');
-  const [search, setSearch] = useState('');
-  const [sort, setSort] = useState('');
+  const [input_dropdown, setInputDropdown] = useState('')
 
   //// HANDLE MODAL DRAG
   const [prevX, setPrevX] = useState(0);
@@ -131,73 +131,40 @@ const ActivityListItems = ({
             <SVG svg={'close'}></SVG>
           </div>
         </div>
-        <form className="addFieldItems-modal-form">
+        <form className="addFieldItems-modal-form" style={{ height:'35rem' }}>
           <div className="form-group">
             <input
-              value={manageFormFields(autoFill[autoFillType], 'contact_name')}
-              onChange={(e) => (
-                setSearch(e.target.value)
-              )}
-            />
-            <label
-              className={
-                `input-label ` +
-                (
-                search.length > 0 
-                  ? ' labelHover'
-                  : ''
-                )
-              }
-              htmlFor={`${autoFillType}`}
-            >
-              Search Activity (Ex. name, status)
+            onClick={() => setInputDropdown('activity_status')} 
+            value={stateData.status.replaceAll('-', ' ')} 
+            onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'status', e.target.value))}/>
+            <label 
+            className={`input-label ` + (
+              stateData.status.length > 0 || 
+              typeof stateData.status == 'object' 
+              ? ' labelHover' 
+              : ''
+            )}
+            htmlFor="status">
+              Status
             </label>
-          </div>
-          <div className="addFieldItems-modal-form-container-searchList-container">
-            <div className="addFieldItems-modal-form-container-searchList-table-header">
-              <div
-                className="addFieldItems-modal-form-container-searchList-table-header-item"
-                onClick={() =>
-                  sort === 'down' ? setSort('up') : setSort('down')
-                }
-              >
-                <span>Activities</span>
-                <SVG svg={'dropdown-arrow'}></SVG>
+            <div 
+            onClick={() => setInputDropdown('activity_status')}><SVG svg={'dropdown-arrow'}></SVG>
+            </div>
+            { input_dropdown == 'activity_status' &&
+              <div 
+              className="form-group-list" 
+              ref={myRefs}>
+                {allData.activityStatus.length > 0 && allData.activityStatus.map((item, idx) => 
+                  item.status !== 'auto-schedule' &&
+                  <div 
+                    key={idx} 
+                    className="form-group-list-item" 
+                    onClick={(e) => (stateMethod(createType, 'status', item.status), setInputDropdown(''))}>
+                      {item.status.replaceAll('-', ' ')}
+                  </div>
+                )}
               </div>
-            </div>
-            <div className="addFieldItems-modal-form-container-searchList-list">
-              {allData &&
-                allData[dataType]
-                  .sort((a, b) => sort === 'down' ? a.name > b.name ? -1 : 1 : a.name > b.name ? 1 : -1)
-                  .map((item, idx) =>
-                    search.length > 0 ? (
-                      filterActivitySearch(item, search) ? (
-                        <div
-                          key={idx}
-                          className="addFieldItems-modal-form-container-searchList-list-item"
-                          onClick={() => (
-                            stateMethod(createType, autoFillType, item), 
-                            setModal('')
-                          )}
-                        >
-                          {`${item.name} / ${item.status}`}
-                        </div>
-                      ) : null
-                    ) : (
-                      <div
-                        key={idx}
-                        className="addFieldItems-modal-form-container-searchList-list-item"
-                        onClick={() => (
-                          console.log(item),
-                          stateMethod(createType, autoFillType, item), 
-                          setModal('')
-                        )}
-                      >
-                         {`${item.name} / ${item.status}`}
-                      </div>
-                    )
-                  )}
-            </div>
+            }
           </div>
         </form>
 
@@ -209,7 +176,13 @@ const ActivityListItems = ({
             </span>
           )}
           {
-            <button className="form-group-button" onClick={(e) => setModal('')}>
+            <button 
+              className="form-group-button" 
+              onClick={(e) => (
+                setModal(''),
+                stateMethod(updateJobArrayItem, 'activities', stateData)
+              )}
+            >
               {loading == 'select_account' ? (
                 <div className="loading">
                   <span style={{ backgroundColor: loadingColor }}></span>
@@ -221,7 +194,7 @@ const ActivityListItems = ({
               )}
             </button>
           }
-          {edit == dataType && (
+          {/* {edit == dataType && (
             <button
               className="form-group-button"
               onClick={(e) => (e.preventDefault(), null)}
@@ -236,7 +209,7 @@ const ActivityListItems = ({
                 'Update'
               )}
             </button>
-          )}
+          )} */}
         </div>
       </div>
     </div>

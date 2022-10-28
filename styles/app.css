@@ -263,7 +263,7 @@ body {
         .form-group-gallery-link:hover {
           cursor: pointer;
           box-shadow: 0.3rem 0.5rem 0.5rem 0.3rem rgba(0, 0, 0, 0.3); }
-        .form-group-gallery-link div {
+        .form-group-gallery-link-button {
           position: absolute;
           bottom: 10%;
           display: flex;
@@ -275,35 +275,40 @@ body {
           width: 100%;
           height: 5rem; }
           @media only screen and (max-width: 768px) {
-            .form-group-gallery-link div {
+            .form-group-gallery-link-button {
               bottom: 15%;
               font-size: 1.2rem;
               height: 2.5rem; } }
+        .form-group-gallery-link-loading {
+          position: absolute;
+          top: 2%;
+          right: 2%;
+          width: 3rem;
+          height: 3rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 1.8rem;
+          color: white;
+          background-color: var(--color-scheme-2);
+          border-radius: 50%; }
+          @media only screen and (max-width: 768px) {
+            .form-group-gallery-link-loading {
+              bottom: 15%;
+              font-size: 1.2rem;
+              height: 2.5rem; } }
+          .form-group-gallery-link-loading:hover {
+            cursor: pointer;
+            background-color: var(--color-scheme-3); }
+        .form-group-gallery-link svg {
+          width: 2rem;
+          height: 2rem;
+          fill: white; }
       .form-group-gallery-image {
         width: 100%;
         object-fit: cover;
         background-color: white;
         border-radius: 1.2rem; }
-      .form-group-gallery span {
-        position: absolute;
-        top: 2%;
-        right: 2%;
-        width: 3rem;
-        height: 3rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: var(--color-scheme-2);
-        border-radius: 50%;
-        box-shadow: 0.3rem 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.2);
-        transition: all 0.5s ease-in-out; }
-        .form-group-gallery span:hover {
-          cursor: pointer;
-          background-color: var(--color-scheme-3); }
-      .form-group-gallery svg {
-        width: 2rem;
-        height: 2rem;
-        fill: white; }
     .form-group-textarea {
       text-transform: capitalize;
       padding: 0.5rem 1.5rem;
@@ -752,6 +757,9 @@ body {
     border-top-color: var(--color-light-shade-scheme-1);
     border-radius: 50%;
     animation: loadingSpinner 1s linear infinite; }
+  .loading-spinner-container {
+    width: 3rem;
+    height: 3rem; }
 
 @keyframes dots {
   50% {
@@ -1410,7 +1418,7 @@ body {
       min-height: 15rem;
       max-height: 100rem;
       overflow-x: auto;
-      overflow-y: hidden;
+      overflow-y: auto;
       position: relative; }
       .table-rows-container:last-child {
         padding-bottom: 10rem; }

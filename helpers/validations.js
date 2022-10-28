@@ -551,6 +551,8 @@ const filterRemnantSearch = (item, search) => {
 
 const validatePDFContent = async (functionType, type, stateData, url, setDynamicSVG, setMessage, selectID) => {
 
+  console.log(stateData)
+  
   for(let i = 0; i < formFields[type].length; i++){
   
     if(!stateData[formFields[type][i]] || stateData[formFields[type][i]].length < 1) return (setDynamicSVG('notification'), setMessage(`${formFields[type][i].replace('_', ' ')} is required`))

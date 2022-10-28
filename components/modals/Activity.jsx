@@ -1,7 +1,8 @@
-import {useState, useEffect, useRef} from 'react'
+import { useState, useEffect, useRef } from 'react'
 import SVG from '../../files/svgs'
 import { HexColorPicker } from "react-colorful";
 import { validateTime, validateNumber, validatePrice, getTimeHour, validateDate, formatDate } from '../../helpers/validations';
+import { manageAutoSchedule } from '../../helpers/modals'
 import { manageFormFields } from '../../helpers/forms';
 import { scheduleList, duration } from '../../utils/schedule'
 import Calendar from 'react-calendar';
@@ -505,23 +506,22 @@ const ActivityModal = ({
           </button>
           }
           {altEdit == 'activities' &&
-          <button 
-          className="form-group-button" 
-          onClick={(e) => (
-            e.preventDefault(),
-            setLoading('update_activity_job_form'),
-            stateMethod(updateJobArrayItem, 'activities', stateData)
-          )}>
-              {loading == 'update_activity_job_form' ? 
-              <div className="loading">
-                <span style={{backgroundColor: loadingColor}}></span>
-                <span style={{backgroundColor: loadingColor}}></span>
-                <span style={{backgroundColor: loadingColor}}></span>
-              </div>
-              : 
-              'Update'
-              }
-          </button>
+            <button 
+            className="form-group-button" 
+            onClick={(e) => (
+              e.preventDefault(),
+              manageAutoSchedule(stateData, setModal, 'activityStatusList', stateMethod, 'UPDATE_JOB_ARRAY_ITEM', 'activities')
+            )}>
+                {loading == 'update_activity_job_form' ? 
+                <div className="loading">
+                  <span style={{backgroundColor: loadingColor}}></span>
+                  <span style={{backgroundColor: loadingColor}}></span>
+                  <span style={{backgroundColor: loadingColor}}></span>
+                </div>
+                : 
+                'Update'
+                }
+            </button>
           }
       </div>
     </div>
