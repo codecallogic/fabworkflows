@@ -13,6 +13,7 @@ const DependencyModal = ({
   dynamicSVG,
   setDynamicSVG,
   selectID,
+  stateDataOther,
 
   //// DATA
   allData,
@@ -92,6 +93,10 @@ const DependencyModal = ({
   }
 
   useEffect(() => {
+    
+    allData['activities'].forEach((item, idx) => {
+      if(item._id == selectID) stateMethod(createType, 'statusType', item.status)
+    })
     
     stateMethod(createType, 'activityID', selectID)
     stateMethod(createType, 'name', 'delete')

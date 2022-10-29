@@ -540,6 +540,7 @@ const Dashboard = ({
             createItem={'activities'}
             createDependency={'activities'}
             stateMethod={createType}
+            setAltEdit={setAltEdit}
           ></Table>
         )}
         {nav.view == 'quotes' && (

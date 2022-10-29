@@ -30,12 +30,12 @@ const Table = ({
   searchType,
   searchPlaceholder,
   typeOfDataParent,
+  setAltEdit,
 
   ///// EDIT
   viewType,
   modalType,
   editDataType,
-
 
   //// OTHER CONTROLS
   createItem,
@@ -138,6 +138,7 @@ const Table = ({
             onClick={() => (
               setModal(modalType), 
               setEdit(''), 
+              setAltEdit(''),
               setControls(''), 
               setMessage(''), 
               resetCheckboxes(),

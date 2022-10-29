@@ -59,8 +59,10 @@ export const jobReducer = (state = initialState, action) => {
 
       if(action.value.name && action.value.startDate){
         updateArray.forEach((item, idx) => {
+
+          console.log(item)
           
-          if(item.dependency.activity === action.value.name){
+          if(item.dependency.activity === action.value.name && item.status === 'auto-schedule'){
 
             if(item.dependency.typeOfDay === 'days'){
               
@@ -113,8 +115,6 @@ export const jobReducer = (state = initialState, action) => {
       }
       
       newUpdatedArray = updateArray.filter((item, idx) => (item._id ? item._id : idx) !== action.value._id)
-
-      console.log(newUpdatedArray)
 
       newUpdatedArray.push(action.value)
       

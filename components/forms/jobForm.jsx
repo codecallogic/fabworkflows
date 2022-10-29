@@ -75,6 +75,7 @@ const JobForm = ({
   submitUpdate,
   submitDeleteFile,
 }) => {
+  
   const createType        = 'CREATE_JOB';
   const resetType         = 'RESET_JOB';
   const resetTypeContact  = 'RESET_CONTACT';

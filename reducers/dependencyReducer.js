@@ -5,7 +5,8 @@ const initialState = {
   days: '',
   typeOfDay: 'workdays',
   ignoreForAutoSchedule: '',
-  activityID: ''
+  activityID: '',
+  statusType: ''
 }
 export const dependencyReducer = (state = initialState, action) => {
   switch (action.type) {

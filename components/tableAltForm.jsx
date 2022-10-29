@@ -435,7 +435,7 @@ const Table = ({
                    
                     key == 'dependency' && typeof item[key] == 'object' 
                     ? 
-                    <span style={{ fontWeight: '600'}}>{item[key].days} days {item[key].schedule} {item[key].activity}</span> 
+                    <span style={{ fontWeight: '600' }}>{item[key].days} days {item[key].schedule} {item[key].activity}</span> 
 
                     : 
 
