@@ -31,6 +31,7 @@ const Schedule = ({
   token,
   setMessage,
   changeView,
+  dynamicSVG,
   setDynamicSVG,
   theme,
   message,

@@ -290,6 +290,7 @@ const Dashboard = ({
   useEffect(() => {
     window.localStorage.setItem('view', nav.view)
   }, [nav.view])
+  
 
   return (
     <>

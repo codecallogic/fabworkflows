@@ -39,7 +39,7 @@ const quoteJobSort = ['quote_date', 'payment', 'quote_number', 'quote_name']
 
 const jobSort = ['priceLists', 'contacts', 'jobAddress', 'account', 'activities', 'quotes', 'accountAddress',  'notes', 'date', 'invoice', 'salesperson', 'name', 'files']
 
-const assigneeSort = ['description', 'color', 'status', 'name']
+const assigneeSort = ['description', 'color', 'status', 'phone', 'name']
 
 const activitySort = ['description', 'assignee', 'dependency', 'status', 'color', 'duration', 'cost', 'active', 'name']
 

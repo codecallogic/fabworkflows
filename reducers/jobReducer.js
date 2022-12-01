@@ -60,7 +60,7 @@ export const jobReducer = (state = initialState, action) => {
       if(action.value.name && action.value.startDate){
         updateArray.forEach((item, idx) => {
 
-          console.log(item)
+          // console.log(item)
           
           if(item.dependency.activity === action.value.name && item.status === 'auto-schedule'){
 

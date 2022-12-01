@@ -104,7 +104,7 @@ const JobForm = ({
       (x) => x === '' || x.length < 1 || x === '0.00'
     );
 
-    if (!isEmpty) return setMessage(''), setSave(true);
+    if (!isEmpty && !loading) return setMessage(''), setSave(true);
     if (isEmpty) return setSave(false);
   }, [stateData]);
 

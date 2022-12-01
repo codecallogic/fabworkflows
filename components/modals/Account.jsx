@@ -120,7 +120,7 @@ const MaterialModal = ({
         <div onClick={() => (setModal(''), resetState(resetType), setMessage(''))}>
           <SVG svg={'close'}></SVG>
         </div>
-      </div>
+        </div>
       <form 
       className="addFieldItems-modal-form" 
       >

@@ -17,13 +17,13 @@ const populateEditData = (originalData, keyType, caseType, stateMethods, selectI
   
   if(originalData[keyType] && originalData[keyType].length > 0){
     for(let key in originalData[keyType]){
-      console.log(originalData[keyType][key]._id)
-      console.log(selectID)
+      // console.log(originalData[keyType][key]._id)
+      // console.log(selectID)
       if(originalData[keyType][key]._id == selectID){
         
         let object = originalData[keyType][key]
 
-        console.log(originalData[keyType][key])
+        // console.log(originalData[keyType][key])
         
         if(object.jobs && object.jobs.length > 0) stateMethods.createType(caseType, 'jobs', object.jobs)
         
@@ -237,8 +237,8 @@ const returnSelectedData = (data, listType, selectID) => {
 }
 
 const manageAutoSchedule = (stateData, setModal, type, stateMethod, arrayType, listType) => {
-
-  if(stateData.startDate && stateData.status){
+  
+  if(stateData.startDate && stateData.status !== 'auto-schedule'){
     return setModal(type)
   }
 

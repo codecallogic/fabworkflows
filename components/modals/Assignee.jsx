@@ -2,6 +2,12 @@ import {useState, useEffect, useRef} from 'react'
 import SVG from '../../files/svgs'
 import { HexColorPicker } from "react-colorful";
 
+//// HELPERS
+import {
+  validateNumber,
+  phoneNumber,
+} from '../../helpers/validations';
+
 const AssigneeModal = ({
   token,
   message,
@@ -139,6 +145,29 @@ const AssigneeModal = ({
           )}
           htmlFor="name">
             Name
+          </label>
+        </div>
+        <div className="form-group">
+          <input
+            id="phone"
+            value={stateData.phone}
+            onChange={(e) => (
+              validateNumber('phone'),
+              stateMethod(createType, 'phone', e.target.value),
+              phoneNumber('phone', createType, stateMethod)
+            )}
+          />
+          <label
+            className={
+              `input-label ` +
+              (stateData.phone.length > 0 ||
+              typeof stateData.phone == 'object'
+                ? ' labelHover'
+                : '')
+            }
+            htmlFor="phone"
+          >
+            Phone
           </label>
         </div>
         <div className="form-group">

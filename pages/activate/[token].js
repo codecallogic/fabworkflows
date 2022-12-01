@@ -54,11 +54,13 @@ const Activate = ({}) => {
         setMessage('')
         setLoading(false)
         window.location.href = '/login'
+
       } catch (error) {
         console.log(error)
         setLoading(false)
         if(error.response.data.error) return setMessage(error.response.data.error.msg)
         if(error) return error.response ? setMessage(error.response.data) : setMessage('')
+        
       }
     }
   }

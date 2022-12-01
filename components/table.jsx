@@ -259,7 +259,6 @@ const Table = ({
       { 
         filterTable(allData[typeOfData]).length > 0 && 
         filterTable(allData[typeOfData], ['createdAt', 'updatedAt', '__v']).sort((a, b) => sortColumns(a, b, filter) ? up : down).map((item, idx) => 
-        // .sort((a, b) => a[filter] > b[filter] ? up : down)
           <div 
           key={idx} 
           className={`table-rows ` + (idx % 2 == 1 ? ' row-odd' : ' row-even')}

@@ -520,7 +520,7 @@ const ActivityModal = ({
                   <span style={{backgroundColor: loadingColor}}></span>
                 </div>
                 : 
-                'Update'
+                'Update Activity'
                 }
             </button>
           }

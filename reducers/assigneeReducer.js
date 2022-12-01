@@ -1,5 +1,6 @@
 const initialState = {
   name: '',
+  phone: '',
   color: '',
   description: '',
   status: ''

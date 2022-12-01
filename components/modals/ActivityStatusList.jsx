@@ -1,10 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import SVG from '../../files/svgs';
-import { manageFormFields } from '../../helpers/forms';
-import { selectCreateArrayType, selectResetType } from '../../helpers/dispatchTypes';
-import { filterActivitySearch } from '../../helpers/validations';
+import { newActivityConfirmed } from '../../helpers/messaging'
 
-const ActivityListItems = ({
+const ActivityStatusList = ({
   token,
   message,
   setMessage,
@@ -127,7 +125,11 @@ const ActivityListItems = ({
           <span className="addFieldItems-modal-form-title">
             {edit == dataType ? 'Edit' : 'Select'}
           </span>
-          <div onClick={() => (setModal(''), setMessage(''))}>
+          <div onClick={() => (
+            setModal(''),
+            setMessage(''),
+            setLoading('')
+          )}>
             <SVG svg={'close'}></SVG>
           </div>
         </div>
@@ -169,21 +171,32 @@ const ActivityListItems = ({
         </form>
 
         <div className="addFieldItems-modal-box-footer">
-          {message && (
+          {message && 
             <span className="form-group-message">
               <SVG svg={dynamicSVG} color={'#fd7e3c'}></SVG>
               {message}
+              <span 
+                className="form-group-message-button"
+                onClick={() => (
+                  setModal('activities'),
+                  setMessage(''),
+                  setLoading('')
+                )}
+              >
+                <SVG svg={'arrow-left'} color={'#fd7e3c'}></SVG>
+                go back
+              </span>
             </span>
-          )}
+          }
           {
             <button 
               className="form-group-button" 
               onClick={(e) => (
-                setModal(''),
-                stateMethod(updateJobArrayItem, 'activities', stateData)
+                stateMethod(updateJobArrayItem, 'activities', stateData),
+                newActivityConfirmed(token, stateData, setModal, setLoading, 'select_activity_status', setMessage, setDynamicSVG)
               )}
             >
-              {loading == 'select_account' ? (
+              {loading == 'select_activity_status' ? (
                 <div className="loading">
                   <span style={{ backgroundColor: loadingColor }}></span>
                   <span style={{ backgroundColor: loadingColor }}></span>
@@ -216,4 +229,4 @@ const ActivityListItems = ({
   );
 };
 
-export default ActivityListItems;
+export default ActivityStatusList;

@@ -355,6 +355,23 @@ body {
         width: 2rem;
         height: 2rem;
         margin-right: 1rem; }
+      .form-group-message-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 1rem;
+        padding: .5em;
+        border: none;
+        outline: none;
+        border-radius: 1.2rem;
+        text-decoration: underline;
+        color: var(--color-dark-shade-scheme-1);
+        cursor: pointer; }
+        .form-group-message-button svg {
+          width: 1.5rem;
+          height: 1.5rem;
+          margin-right: .5rem;
+          fill: var(--color-dark-shade-scheme-1); }
     .form-group-file {
       position: relative; }
       .form-group-file input {

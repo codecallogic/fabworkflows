@@ -100,6 +100,7 @@
           fill: var(--color-dark-shade-scheme-2);
           margin-right: 0.5rem;
         }
+        
       }
     }
   }
@@ -403,6 +404,28 @@
         width: 2rem;
         height: 2rem;
         margin-right: 1rem;
+      }
+
+      &-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 1rem;
+        padding: .5em;
+        border: none;
+        outline: none;
+        border-radius: 1.2rem;
+        text-decoration: underline;
+        color: var(--color-dark-shade-scheme-1);
+        cursor: pointer;
+        
+        svg {
+          width: 1.5rem;
+          height: 1.5rem;
+          margin-right: .5rem;
+          fill: var(--color-dark-shade-scheme-1)
+        }
+        
       }
     }
 
