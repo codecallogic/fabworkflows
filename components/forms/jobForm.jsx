@@ -177,15 +177,6 @@ const JobForm = ({
         </div>
         {save && (
           <div className="table-header-controls">
-            {/* { edit == typeOfData ? 
-              <div
-              className="table-header-controls-item-svg"
-              >
-                <SVG svg={'send'}></SVG>
-              </div>
-              :
-              null
-            } */}
             <div
               id="save"
               className="table-header-controls-item"
@@ -429,11 +420,12 @@ const JobForm = ({
             <div
               className="form-box-heading-item"
               onClick={() => (
-                stateData.jobAddress 
+                typeof stateData.jobAddress == 'object' && !Array.isArray(stateData.jobAddress)
                 ? (
                   setModal('new_contact'),
                   setDynamicType('CREATE_JOB'),
                   setDynamicKey('jobAddress'),
+                  setAltEdit('contactFromJob'),
                   populateAddress(null, stateData.jobAddress, stateMethod, 'CREATE_CONTACT')
                   )
                 : (
@@ -448,7 +440,7 @@ const JobForm = ({
             </div>
             <div
               className="form-box-heading-item"
-              onClick={() => stateMethod(createType, 'jobAddress', '')}
+              onClick={() => stateMethod(createType, 'jobAddress', [])}
             >
               <SVG svg={'thrash-can'}></SVG>
             </div>
@@ -488,11 +480,12 @@ ${returnIfTrue(stateData.jobAddress.contact_notes)}
             <div
               className="form-box-heading-item"
               onClick={() => (
-                stateData.accountAddress 
+                typeof stateData.accountAddress == 'object' && !Array.isArray(stateData.accountAddress)
                 ? (
                   setModal('new_contact'),
                   setDynamicType('CREATE_JOB'),
                   setDynamicKey('accountAddress'),
+                  setAltEdit('contactFromJob'),
                   populateAddress(null, stateData.accountAddress, stateMethod, 'CREATE_CONTACT')
                   )
                 : (
@@ -507,7 +500,7 @@ ${returnIfTrue(stateData.jobAddress.contact_notes)}
             </div>
             <div
               className="form-box-heading-item"
-              onClick={() => stateMethod(createType, 'accountAddress', '')}
+              onClick={() => stateMethod(createType, 'accountAddress', [])}
             >
               <SVG svg={'thrash-can'}></SVG>
             </div>
@@ -524,7 +517,11 @@ ${returnIfTrue(stateData.jobAddress.contact_notes)}
                 wrap="hard"
                 maxLength="400"
                 name="accountAddress"
-                value={`${returnIfTrue(stateData.accountAddress.contact_name)} 
+                value={
+                  checkObjectValues(stateData.accountAddress) 
+                  ?
+                  ` 
+${returnIfTrue(stateData.accountAddress.contact_name)} 
 ${returnIfTrue(stateData.accountAddress.address)}
 ${returnIfTrue(stateData.accountAddress.city)} ${returnIfTrue(stateData.accountAddress.state)} ${returnIfTrue(stateData.accountAddress.zip_code)}
 ${returnIfTrue(stateData.accountAddress.country)}
@@ -533,8 +530,9 @@ ${returnIfTrue(stateData.accountAddress.cell)}
 ${returnIfTrue(stateData.accountAddress.fax)}
 ${returnIfTrue(stateData.accountAddress.email)}
 ${returnIfTrue(stateData.accountAddress.contact_notes)}
-`}
-                readOnly
+                  `
+                  : `(Add account address to confirm activity appointments)`
+              }
               />
             </div>
           </div>
@@ -806,16 +804,6 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
                       className="form-group-gallery-image"
                       src={item.image}
                     />
-                    {/* <span onClick={(e) => (e.stopPropagation(), loading !== 'delete_file' ? 
-                    submitDeleteFile(e, item, 'files', createType, stateMethod, stateData, 'jobs', setMessage, 'delete_file', setLoading, token, 'jobs/delete-file', allData, setAllData, setDynamicSVG, editData, null, stateData._id) 
-                    : null)
-                  }>
-                  { loading == 'delete_file' ? 
-                    <div className="loading-spinner"></div>
-                    :
-                    <SVG svg={'close'}></SVG>
-                  }
-                  </span> */}
                     {item.urlID
                       ? `${item.urlID.substring(0, 15)}.pdf`
                       : item.subject.substring(0, 15)}

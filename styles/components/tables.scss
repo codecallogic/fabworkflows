@@ -195,9 +195,8 @@
       text-transform: capitalize;
 
       &:first-child {
-        width: 3rem;
-        min-width: 5rem;
-        max-width: 5rem;
+        min-width: 7rem;
+        max-width: 7rem;
       }
 
       span {
@@ -385,11 +384,11 @@
       min-width: 12rem;
       max-width: 12rem;
       max-height: 12rem;
-      text-align: left;
+      text-align: center;
       word-break: break-word;
       display: -webkit-box;
-      -webkit-box-pack: left;
-      -webkit-box-align: left;
+      -webkit-box-pack: center;
+      -webkit-box-align: center;
       -webkit-line-clamp: 4;
       color: var(--color-dark-shade-scheme-1);
 

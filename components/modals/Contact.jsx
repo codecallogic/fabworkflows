@@ -10,7 +10,7 @@ const searchOptionsAddress = {
   types: ['address']
 }
 
-const PriceListModal = ({
+const ContactModal = ({
   token,
   message,
   setMessage,
@@ -18,13 +18,16 @@ const PriceListModal = ({
   loading,
   setLoading,
   edit,
+  altEdit,
   dynamicSVG,
   setDynamicSVG,
+  job,
 
   //// DATA
   allData,
   setAllData,
   editData,
+  setAltEdit,
 
   //// REDUX
   stateData,
@@ -33,14 +36,16 @@ const PriceListModal = ({
   changeView,
   dynamicType,
   extractingStateData,
+  setSelectID,
 
   //// CRUD
   submitCreate,
   submitUpdate,
 }) => {
 
-  const createType = 'CREATE_CONTACT'
-  const resetType = 'RESET_CONTACT'
+  const createType          = 'CREATE_CONTACT'
+  const resetType           = 'RESET_CONTACT'
+  const jobCreateType       = 'CREATE_JOB';
   const myRefs = useRef(null)
   const [loadingColor, setLoadingColor] = useState('white')
   const [input_dropdown, setInputDropdown] = useState('')
@@ -103,6 +108,7 @@ const PriceListModal = ({
   }
 
   useEffect(() => {
+
     document.addEventListener("click", handleClickOutside, true);
     return () => {
       document.removeEventListener("click", handleClickOutside, true);
@@ -124,13 +130,23 @@ const PriceListModal = ({
         <div className="addFieldItems-modal-box-header">
         <span 
           className="addFieldItems-modal-form-title">
-            {edit == 'contact' ? 
+            {edit == 'contact' 
+            ? 
             'Edit Contact' 
             : 
+            altEdit == 'contactFromJob'
+            ?
+            'Edit Contact'
+            :
             'New Contact'
             }
         </span>
-        <div onClick={() => (setModal(''), resetState(resetType), setMessage(''))}>
+        <div onClick={() => (
+          setModal(''), 
+          resetState(resetType), 
+          setMessage(''),
+          setAltEdit('')
+        )}>
           <SVG svg={'close'}></SVG>
         </div>
         </div>
@@ -421,7 +437,8 @@ const PriceListModal = ({
 
 
       <div className="addFieldItems-modal-box-footer">
-        { (edit == '' | edit == 'jobs' | edit == 'accounts') && 
+      {/* (edit == '' | edit == 'accounts') */}
+        { !altEdit && 
         <button 
         className="form-group-button" 
         onClick={(e) => dynamicType 
@@ -462,6 +479,22 @@ const PriceListModal = ({
             }
         </button>
         }
+        { altEdit == 'contactFromJob' && 
+        <button 
+          className="form-group-button" 
+          onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'contacts', null, setMessage, 'update_contact', setLoading, token, 'contact/update-contact', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'contacts', setModal, setAltEdit, job._id, editData, jobCreateType , stateMethod, setSelectID, true, 'jobs'))}
+        >
+          {loading == 'update_contact' ? 
+          <div className="loading">
+            <span style={{backgroundColor: loadingColor}}></span>
+            <span style={{backgroundColor: loadingColor}}></span>
+            <span style={{backgroundColor: loadingColor}}></span>
+          </div>
+          : 
+          'Update'
+          }
+        </button>
+        }
       </div>
       
     </div>
@@ -470,4 +503,4 @@ const PriceListModal = ({
   )
 }
 
-export default PriceListModal
+export default ContactModal

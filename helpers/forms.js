@@ -130,7 +130,7 @@ const submitCreate = async (e, stateData, type, fileType, setMessage, loadingTyp
   }
 }
 
-const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType, setModal, setAltEdit, selectID, editData, createType, stateMethod, setSelectID) => {
+const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType, setModal, setAltEdit, selectID, editData, createType, stateMethod, setSelectID, updatePopulatedItem, typeOfParent) => {
   
   for(let i = 0; i < formFields[type].length; i++){
 
@@ -147,7 +147,7 @@ const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingTy
  
   let data = new FormData()
   
-  if(stateData[filesType] && stateData[filesType].length > 0){
+  if(filesType && stateData[filesType] && stateData[filesType].length > 0){
     stateData[filesType].forEach((item) => {
       let fileID = nanoid()
       if(!item.key) return data.append('file', item, `${type}-${fileID}.${item.name.split('.')[1]}`)
@@ -176,12 +176,22 @@ const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingTy
     if(!Array.isArray(responseUpdate.data) && responseUpdate.data.list) allData[type] = responseUpdate.data.list
     
     setAllData(allData)
-    console.log(selectID)
+
+    //// GO TO A DIFFERENT VIEW AFTER UPDATE
     if(viewType && !selectID) changeView(viewType)
-    if(selectID) editData(type, createType, stateMethod, allData, setSelectID, null, selectID)
     if(resetType  && !selectID) resetState(resetType)
-    if(setModal && !selectID) setModal('')
+
+    //// STAY IN SAME VIEW AFTER UPDATE
+    if(selectID && !updatePopulatedItem) editData(type, createType, stateMethod, allData, setSelectID, null, selectID)
+    
+    //// STAY IN SAME VIEW AND UPDATE POPULATED ITEM 
+    if(selectID && updatePopulatedItem) getAllAndUpdatePopulatedItem(setDynamicSVG, setMessage, token, allData, setAllData, typeOfParent, editData, createType, stateMethod, setSelectID, selectID)
+
+    //// CHANGE ALT EDIT
     if(setAltEdit) setAltEdit('')
+
+    //// CHANGE MODAL
+    if(setModal) setModal('')
     
   } catch (error) {
     console.log(error)
@@ -318,6 +328,28 @@ const getAll = async (setDynamicSVG, setMessage, token, allData, setAllData, typ
 
     allData[typeOfData] = response.data.list
     setAllData(allData)
+    
+  } catch (error) {
+    console.log(error)
+    if(error) error.response ? error.response.statusText == 'Unauthorized' ? (setDynamicSVG('notification'), setMessage(error.response.statusText), window.location.href = '/login') : (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred with deleting item'))
+  }
+}
+
+const getAllAndUpdatePopulatedItem = async (setDynamicSVG, setMessage, token, allData, setAllData, typeOfData, editData, createType, stateMethod, setSelectID, selectID) => {
+  try {
+
+    let response
+    
+    if(typeOfData == 'jobs') response = await axios.get(`${API}/jobs/all-jobs`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        contentType: 'multipart/form-data'
+      }
+    })
+
+    allData[typeOfData] = response.data.list
+    setAllData(allData)
+    editData(typeOfData, createType, stateMethod, allData, setSelectID, null, selectID)
     
   } catch (error) {
     console.log(error)

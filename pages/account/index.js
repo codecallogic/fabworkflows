@@ -2233,6 +2233,8 @@ const Dashboard = ({
             setLoading={setLoading}
             edit={edit}
             setEdit={setEdit}
+            altEdit={altEdit}
+            setAltEdit={setAltEdit}
             stateData={contact}
             stateMethod={createType}
             dynamicType={dynamicType}
@@ -2248,6 +2250,8 @@ const Dashboard = ({
             changeView={changeView}
             submitDeleteFile={submitDeleteFile}
             editData={editData}
+            job={job}
+            setSelectID={setSelectID}
           ></ContactModal>
         )}
         {modal == 'new_pdf' && (

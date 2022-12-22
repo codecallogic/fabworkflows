@@ -226,27 +226,6 @@ const Table = ({
           </div>
         }
       </div>
-      {/* <div className="table-headers">
-        <div className="table-headers-item">&nbsp;</div>
-        { 
-          filterTable(componentData).length > 0 && 
-          filterTable(componentData, ['_id', 'createdAt', 'updatedAt', '__v'], 1).map((item, idx, array) => 
-            Object.keys(array[0]).sort((a, b) => sortOrder.indexOf(b) - sortOrder.indexOf(a)).map((key, idx) => 
-              <div key={idx} className="table-headers-item">
-                <span onClick={() => 
-                  (
-                    filter == key ? null : setFilter(key),
-                    setUp(up == 1 ? -1 : 1), setDown(down == -1 ? 1 : -1)
-                  )
-                }>
-                  {(key.replace( /([a-z])([A-Z])/g, "$1 $2")).replaceAll('_', ' ')}
-                  <SVG svg={'sort'}></SVG>
-                </span>
-              </div>
-            )
-          )
-        }
-      </div> */}
       <div 
         id="tableContainer" 
         className="table-rows-container" 
