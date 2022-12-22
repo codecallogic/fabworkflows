@@ -30,7 +30,7 @@ import {
   contactSort,
   edgeSort,
 } from '../../helpers/sorts';
-import { editData, populateEditData } from '../../helpers/modals';
+import { editData } from '../../helpers/modals';
 
 //// DATA
 import { getToken } from '../../helpers/auth';
@@ -2379,6 +2379,8 @@ const Dashboard = ({
             submitUpdate={submitUpdate}
             changeView={changeView}
             editData={editData}
+            submitDeleteFile={submitDeleteFile}
+            addImages={addImages}
           ></AssigneeModal>
         )}
         {modal == 'activities' && (

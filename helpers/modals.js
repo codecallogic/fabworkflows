@@ -58,7 +58,6 @@ const populateEditData = (originalData, keyType, caseType, stateMethods, selectI
       for(let i = 0; i <= list.length; i++){
         if(i === selectID){
           for( let key in list[i]){
-            // console.log('KEY', key, 'VALUE', list[i][key])
             stateMethods.createType(caseType, key, list[i][key])
           }
         }

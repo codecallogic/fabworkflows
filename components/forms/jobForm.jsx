@@ -92,14 +92,6 @@ const JobForm = ({
 
   useEffect(() => {
     
-    // if(stateData.name && !edit){
-    //   if(!stateData.account) return setMessage('Account required')
-    //   if(!stateData.invoice) return setMessage('Invoice required')
-      
-    //   submitCreate(null, stateData, 'jobs', 'files', setMessage, 'create_job', setLoading, token, 'jobs/create-job', null, null, allData, setAllData, setDynamicSVG, changeView, 'job', null, null, false,  null, null, setEdit, setSelectID)
-      
-    // }
-    
     const isEmpty = Object.values(stateData).every(
       (x) => x === '' || x.length < 1 || x === '0.00'
     );
@@ -107,16 +99,6 @@ const JobForm = ({
     if (!isEmpty && !loading) return setMessage(''), setSave(true);
     if (isEmpty) return setSave(false);
   }, [stateData]);
-
-  // useEffect(() => {
-  //   console.log(edit)
-  //   console.log(typeOfData)
-  //   if(edit == typeOfData){
-  //     editData('jobs', 'CREATE_JOB', stateMethod, allData, setSelectID, null, selectID)
-  //   }
-
-  //   console.log(tableType)
-  // }, [selectID])
 
   const handleClickOutside = (event) => {
     if (myRefs.current) {
@@ -214,7 +196,7 @@ const JobForm = ({
                 ? 
                   setMessage('Cannot update quotes with payments processed')
                 : 
-                  submitUpdate(e, stateData, 'jobs', 'files', setMessage, 'update_job', setLoading, token, 'jobs/update-job', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'jobs')
+                  submitUpdate(e, stateData, 'jobs', 'files', setMessage, 'update_job', setLoading, token, 'jobs/update-job', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'jobs', null, null, stateData._id, editData, createType, stateMethod, setSelectID)
                 : 
                   submitCreate( e, stateData, 'jobs', 'files', setMessage, 'create_job', setLoading, token, 'jobs/create-job', resetType, resetState, allData, setAllData, setDynamicSVG)
               }

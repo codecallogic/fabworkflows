@@ -171,7 +171,7 @@ const ActivityStatusList = ({
         </form>
 
         <div className="addFieldItems-modal-box-footer">
-          {message && 
+          {loading == 'error_loading' && 
             <span className="form-group-message">
               <SVG svg={dynamicSVG} color={'#fd7e3c'}></SVG>
               {message}

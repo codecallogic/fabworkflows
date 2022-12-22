@@ -1,4 +1,5 @@
 const initialState = {
+  images: [],
   name: '',
   phone: '',
   color: '',
@@ -12,6 +13,13 @@ export const assigneeReducer = (state = initialState, action) => {
       return {
         ...state,
         [action.name]: action.value
+      }
+      break;
+
+    case 'ASSIGNEE_IMAGE':
+      return {
+        ...state,
+        images: [...action.value]
       }
       break;
     

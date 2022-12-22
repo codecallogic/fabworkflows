@@ -5,22 +5,22 @@ const errorHandlingConfirmed = (error, setLoading, setMessage) => {
   
   if(error == 'startDate'){
     setMessage('Start date required to confirm an activity')
-    // setLoading('')
+    setLoading('error_loading')
   }
 
   if(error == 'scheduleTime'){
     setMessage('Schedule time required to confirm an activity')
-    // setLoading('')
+    setLoading('error_loading')
   }
 
   if(error == 'duration'){
     setMessage('Duration required to confirm an activity')
-    // setLoading('')
+    setLoading('error_loading')
   }
 
   if(error == 'assignee'){
     setMessage('Assignee required to confirm an activity')
-    // setLoading('')
+    setLoading('error_loading')
   }
   
 }
@@ -29,9 +29,7 @@ export const newActivityConfirmed = async (token, stateData, setModal, setLoadin
   
   if(!stateData.status) return setModal('')
 
-  setLoading(loadingType)
-
-  if(stateData.status == 'confirmed'){
+  if(stateData.status === 'confirmed'){
     if(!stateData.startDate) return errorHandlingConfirmed('startDate', setLoading, setMessage)
     if(!stateData.scheduleTime) return errorHandlingConfirmed('scheduleTime', setLoading, setMessage)
     if(!stateData.duration) return errorHandlingConfirmed('duration', setLoading, setMessage)
@@ -39,6 +37,8 @@ export const newActivityConfirmed = async (token, stateData, setModal, setLoadin
   }
 
   if(stateData.status !== 'confirmed') return (setLoading(''), setModal(''))
+
+  setLoading(loadingType)
 
   let data = new FormData()
   

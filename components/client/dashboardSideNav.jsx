@@ -368,7 +368,7 @@ const SideNav = ({
               ? setDropdownToggle('')
               : setDropdownToggle('operations')
           }
-        >
+          >
           <div className="clientDashboard_sidenav-menu-item-tab">
             {!nav.sidenav ? 
               ''
@@ -425,6 +425,36 @@ const SideNav = ({
               }
             />
             Calendar
+          </div>
+        </div>
+        <div className="clientDashboard_sidenav-menu-item-dropdown">
+          <div
+            className={
+              `clientDashboard_sidenav-menu-item-dropdown-fill` +
+              (!nav.sidenav ? ' hide-sidenav-items' : '') +
+              (toggle == 'operations' ? ' hide-sidenav-dropdown' : '')
+            }
+          ></div>
+          <div
+            onClick={() => (
+              changeView('messaging'),
+              width < 992 ? toggleSideNav('toggle_nav_button') : null
+            )}
+            className={
+              `clientDashboard_sidenav-menu-item-dropdown-item` +
+              (!nav.sidenav ? ' hide-sidenav-items' : '') +
+              (toggle == 'operations' ? ' hide-sidenav-dropdown' : '')
+            }
+          >
+            <SVGs
+              svg={'circle-thin'}
+              classprop={
+                `clientDashboard_sidenav-menu-item-arrow` +
+                (!nav.sidenav ? ' hide-sidenav-items' : '') +
+                (toggle == 'operations' ? ' hide-sidenav-dropdown' : '')
+              }
+            />
+            Messaging
           </div>
         </div>
       </div>

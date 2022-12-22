@@ -168,27 +168,6 @@ const Table = ({
           </div>
         }
       </div>
-      <div className="table-headers">
-        <div className="table-headers-item">&nbsp;</div>
-        { 
-          filterTable(componentData).length > 0 && 
-          filterTable(componentData, ['_id', 'createdAt', 'updatedAt', '__v'], 1).map((item, idx, array) => 
-            Object.keys(array[0]).sort((a, b) => sortOrder.indexOf(b) - sortOrder.indexOf(a)).map((key, idx) => 
-              <div key={idx} className="table-headers-item">
-                <span onClick={() => 
-                  (
-                    filter == key ? null : setFilter(key),
-                    setUp(up == 1 ? -1 : 1), setDown(down == -1 ? 1 : -1)
-                  )
-                }>
-                  {(key.replace( /([a-z])([A-Z])/g, "$1 $2")).replace('_', ' ')}
-                  <SVG svg={'sort'}></SVG>
-                </span>
-              </div>
-            )
-          )
-        }
-      </div>
       <div id="tableContainer" className="table-rows-container" style={{ overflowX: loading == 'searching' ? 'hidden' : ''}}>
       {loading == searchType ? 
         <div className="search-loading">
@@ -198,6 +177,29 @@ const Table = ({
         </div>
         : null
       }
+      <div className="table-headers-container">
+        <div className="table-headers">
+          <div className="table-headers-item">&nbsp;</div>
+          { 
+            filterTable(componentData).length > 0 && 
+            filterTable(componentData, ['_id', 'createdAt', 'updatedAt', '__v'], 1).map((item, idx, array) => 
+              Object.keys(array[0]).sort((a, b) => sortOrder.indexOf(b) - sortOrder.indexOf(a)).map((key, idx) => 
+                <div key={idx} className="table-headers-item">
+                  <span onClick={() => 
+                    (
+                      filter == key ? null : setFilter(key),
+                      setUp(up == 1 ? -1 : 1), setDown(down == -1 ? 1 : -1)
+                    )
+                  }>
+                    {(key.replace( /([a-z])([A-Z])/g, "$1 $2")).replace('_', ' ')}
+                    <SVG svg={'sort'}></SVG>
+                  </span>
+                </div>
+              )
+            )
+          }
+        </div>
+      </div>
       { 
         filterTable(allData[typeOfData]).length > 0 && 
         filterTable(allData[typeOfData], ['createdAt', 'updatedAt', '__v']).sort((a, b) => sortColumns(a, b, filter) ? up : down).map((item, idx) => 

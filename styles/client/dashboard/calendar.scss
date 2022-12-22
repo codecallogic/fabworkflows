@@ -6,7 +6,10 @@
   position: relative;
   width: 100%;
   min-height: 100%!important;
-  max-height: 100%!important;
+  height: 90vh!important;
+  border-bottom: .1rem solid var(--color-light-shade-scheme-3);
+  border-radius: 1.2rem;
+  box-shadow: .1rem .1rem .1rem .1rem rgba(0,0,0, .2);
   overflow-x: hidden;
   overflow-y: hidden;
 
@@ -33,11 +36,13 @@
     justify-content: space-between;
     background-color: var(--color-light-shade-scheme-2);
     position: relative;
-    padding: .5rem 0;
+    padding: .5rem 1rem;
+    border-radius: 1.2rem;
+    box-shadow: .1rem .1rem .3rem .1rem rgba(0,0,0, .2);
 
     svg {
-      width: 3rem;
-      height: 3rem;
+      width: 2rem;
+      height: 2rem;
       fill: var(--color-scheme-2);
       margin: .5rem;
 
@@ -134,6 +139,7 @@
 
 .rbc-time-view {
   min-height: 130% !important ;
+  box-shadow: -.1rem .1rem .2rem .1rem rgba(0,0,0, .2);
 }
 
 // .appointments {
@@ -162,7 +168,8 @@
     border: none!important;
     outline: none!important;
     background-color: var(--color-scheme-2)!important;
-    color: white!important;
+    color: var(--color-light-shade-scheme-1)!important;
+    box-shadow: -.1rem .1rem .2rem .1rem rgba(0,0,0, .2);
     
     &:hover {
       cursor: pointer;
@@ -209,10 +216,6 @@
     background-color: var(--color-scheme-1) !important;
   }
 
-  // &-content {
-   
-  // }
-  
 }
 
 // WEEKLY

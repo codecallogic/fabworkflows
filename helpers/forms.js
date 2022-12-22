@@ -32,7 +32,7 @@ const formFields = {
   payment: ['name', 'address', 'city', 'state', 'zip_code'],
   phases: ['name'],
   jobs: ['name', 'account', 'invoice'],
-  assignees: ['name', 'color'],
+  assignees: ['name', 'color', 'phone'],
   activities: ['name'],
   activityStatus: ['status'],
   activitySets: ['name', 'set'],
@@ -130,7 +130,7 @@ const submitCreate = async (e, stateData, type, fileType, setMessage, loadingTyp
   }
 }
 
-const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType, setModal, setAltEdit) => {
+const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType, setModal, setAltEdit, selectID, editData, createType, stateMethod, setSelectID) => {
   
   for(let i = 0; i < formFields[type].length; i++){
 
@@ -176,9 +176,11 @@ const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingTy
     if(!Array.isArray(responseUpdate.data) && responseUpdate.data.list) allData[type] = responseUpdate.data.list
     
     setAllData(allData)
-    if(viewType) changeView(viewType)
-    if(resetType) resetState(resetType)
-    if(setModal) setModal('')
+    console.log(selectID)
+    if(viewType && !selectID) changeView(viewType)
+    if(selectID) editData(type, createType, stateMethod, allData, setSelectID, null, selectID)
+    if(resetType  && !selectID) resetState(resetType)
+    if(setModal && !selectID) setModal('')
     if(setAltEdit) setAltEdit('')
     
   } catch (error) {
@@ -190,7 +192,6 @@ const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingTy
 
 const submitDeleteFile = async (e, fileItem, key, caseType, stateMethod, stateData, type, setMessage, loadingType, setLoading, token, path, allData, setAllData, setDynamicSVG, editData, setModal, selectID, setSelectID) => {
  
-
   if(!fileItem.key){
     let filtered = stateData[key].filter((item) => item.location !== fileItem.location)
     return stateMethod(caseType, key, filtered)

@@ -1,6 +1,7 @@
 import {useState, useEffect, useRef} from 'react'
 import SVG from '../../files/svgs'
 import { HexColorPicker } from "react-colorful";
+import { singleImage } from '../../helpers/validations';
 
 //// HELPERS
 import {
@@ -28,14 +29,18 @@ const AssigneeModal = ({
   stateMethod,
   resetState,
   changeView,
+  editData,
+  addImages,
 
   //// CRUD
   submitCreate,
-  submitUpdate
+  submitUpdate,
+  submitDeleteFile
 }) => {
   
   const createType = 'CREATE_ASSIGNEE'
   const resetType = 'RESET_ASSIGNEE'
+  const imageType = 'ASSIGNEE_IMAGE'
   const myRefs = useRef(null)
   const [loadingColor, setLoadingColor] = useState('white')
   const [input_dropdown, setInputDropdown] = useState('')
@@ -131,6 +136,44 @@ const AssigneeModal = ({
       <form 
       className="addFieldItems-modal-form" 
       >
+        <div className="form-group-file">
+          <label htmlFor="images">
+
+            {stateData.images.length > 0 && stateData.images.map((item, idx) => 
+                <><img key={idx} src={item.location}></img> {item.location} </>
+            )}
+
+            {stateData.images.length == 0 && 
+              <><SVG svg={'upload'}></SVG> Upload image</>
+            }
+
+          </label>
+
+          {stateData.images.length > 0 && stateData.images.map((item, idx) => 
+            <span key={idx} className="form-group-file-close" onClick={(e) => (
+                e.stopPropagation(),
+                loading !== 'delete_image' ? 
+                submitDeleteFile(e, item, 'images', createType, stateMethod, stateData, 'assignees', setMessage, 'delete_image', setLoading, token, 'assignee/delete-image', allData, setAllData, setDynamicSVG, editData, setModal)
+                :
+                null
+            )}>
+            { loading == 'delete_image' ? 
+              <div key={idx} className="loading-spinner"></div>
+              :
+              <SVG svg={'close'}></SVG>
+            }
+            </span>
+          )}
+
+          <input 
+            type="file"
+            id="images" 
+            onChange={(e) => (
+              singleImage(e, stateData, setMessage, imageType, null, addImages)
+            )}
+          />
+          
+        </div>
         <div className="form-group">
           <input 
           id="name" 
@@ -249,7 +292,7 @@ const AssigneeModal = ({
         {!edit && 
         <button 
         className="form-group-button" 
-        onClick={(e) => submitCreate(e, stateData, 'assignees', null, setMessage, 'create_assignee', setLoading, token, 'assignee/create-assignee', resetType, resetState, allData, setAllData, setDynamicSVG)}
+        onClick={(e) => submitCreate(e, stateData, 'assignees', 'images', setMessage, 'create_assignee', setLoading, token, 'assignee/create-assignee', resetType, resetState, allData, setAllData, setDynamicSVG)}
         >
           {loading == 'create_assignee' ? 
             <div className="loading">
@@ -265,7 +308,7 @@ const AssigneeModal = ({
         {edit == 'assignees' && 
         <button 
         className="form-group-button" 
-        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'assignees', null, setMessage, 'update_assignee', setLoading, token, 'assignee/update-assignee', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'assignees', setModal))}
+        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'assignees', 'images', setMessage, 'update_assignee', setLoading, token, 'assignee/update-assignee', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'assignees', setModal))}
         >
           {loading == 'update_assignee' ? 
             <div className="loading">
