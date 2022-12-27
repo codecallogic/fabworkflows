@@ -37,12 +37,14 @@ const Schedule = ({
   message,
   modal,
   altEdit,
+  events,
 
   // REDUX
   editData,
   stateMethod,
   stateData,
   resetState,
+  setEvents,
 
   // DATA
   allData,
@@ -57,7 +59,6 @@ const Schedule = ({
 
   const today = new Date();
   const myRefs = useRef(null)
-  const [events, setEvents] = useState([])
   const [dateNow, setDateNow] = useState(new Date(Date.now()))
   const [calendar, setCalendar] = useState(false)
   const [id, setID] = useState('')
@@ -74,14 +75,6 @@ const Schedule = ({
   useEffect(() => {
     setCalendar(false)
   }, [dateNow])
-
-  useEffect(() => {    
-
-    let newEvents = setAllEvents(allData.appointments, allData.jobs, view)
-    
-    setEvents(newEvents)
-
-  }, [allData.appointments, allData.jobs])
 
   const eventStyleGetter = (event) => {
 
@@ -252,25 +245,6 @@ const Schedule = ({
       })
 
     }
-
-    // if(view == 'day'){
-    //   let elLabels = document.querySelectorAll('.rbc-label')
-    //   let elContent = document.querySelector('.rbc-time-content')
-
-    //   elLabels.forEach((el, idx) => {
-    //     el.classList.add('displayBlock')
-    //   })
-
-    //   elContent.classList.add('displayBlock')
-      
-    //   console.log(elLabels)
-    //   console.log(elContent)
-
-    //   let newEvents = setAllEvents(allData.appointments, allData.jobs, view)
-    
-    //   setEvents(newEvents)
-
-    // }
     
   }, [view])
 

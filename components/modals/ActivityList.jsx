@@ -188,7 +188,7 @@ const ActivityListItems = ({
                         key={idx}
                         className="addFieldItems-modal-form-container-searchList-list-item"
                         onClick={() => (
-                          // console.log(item),
+                          item.job = autoFill,
                           stateMethod(createType, autoFillType, item), 
                           setModal('')
                         )}

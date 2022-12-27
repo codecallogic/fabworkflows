@@ -6,7 +6,7 @@
   position: relative;
   width: 100%;
   min-height: 100%!important;
-  height: 90vh!important;
+  height: 100%!important;
   border-bottom: .1rem solid var(--color-light-shade-scheme-3);
   border-radius: 1.2rem;
   box-shadow: .1rem .1rem .1rem .1rem rgba(0,0,0, .2);
@@ -278,28 +278,6 @@
   min-height: 25rem!important;
   height: 25rem!important;
 }
-
-// DAY
-// .rbc-allday-cell {
-//   background-color: var(--color-light-shade-scheme-1)!important;
-
-//   * .rbc-today {
-//     background-color: var(--color-light-shade-scheme-1)!important;
-//   }
-  
-// }
-
-// .displayBlock {
-//   display: flex!important;
-// }
-
-// .activities-light {
-  // filter: brightness(0.2)!important;
-// }
-
-// .activities-dark {
-//   filter: brightness(0.2)!important;
-// }
 
 .customEventActivity {
   display: flex;

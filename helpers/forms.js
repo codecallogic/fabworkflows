@@ -42,7 +42,8 @@ const formFields = {
   edges: ['price', 'type'],
   cutouts: ['price', 'type'],
   email: ['email'],
-  appointments: ['name', 'status', 'startDate', 'scheduleTime', 'duration']
+  appointments: ['name', 'status', 'startDate', 'scheduleTime', 'duration'],
+  messageTemplates: []
 }
 
 const manageFormFields = (data, key) => {  

@@ -59,3 +59,63 @@ const cutouts = [
   {type: 'outlet cutout'},
   {type: 'farmhouse sink cutout'},
 ]
+
+export const messageType = [
+  'text message',
+  'email',
+]
+
+export const appointmentKeys = [
+  {
+    key: 'job.account.name',
+    title: 'Account Name',
+  },
+  {
+    key: 'job.name',
+    title: 'Job Name'
+  },
+  {
+    key: 'title',
+    title: 'Name'
+  },
+  {
+    key: 'activity.status',
+    title: 'Status'
+  },
+  {
+    key: 'start',
+    title: 'Start Date'
+  },
+  {
+    key: 'activity.scheduleTime',
+    title: 'Schedule'
+  },
+  {
+    key: 'activity.scheduleTime',
+    title: 'Duration'
+  },
+  {
+    key: 'activity.assignee',
+    title: 'Assignee'
+  },
+  {
+    key: 'job.account.name',
+    title: 'Customer'
+  },
+  {
+    key: 'job.accountAddress.address',
+    title: 'Address'
+  },
+  {
+    key: 'job.accountAddress.city',
+    title: 'City'
+  },
+  {
+    key: 'job.accountAddress.state',
+    title: 'State'
+  },
+  {
+    key: 'job.accountAddress.zip_code',
+    title: 'Zip Code'
+  }
+]

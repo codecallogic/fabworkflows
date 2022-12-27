@@ -458,12 +458,12 @@ export const setAllEvents = (appointments, jobs) => {
         let startMinutes = startTime[0].split(':')[1]
 
         if(startTime[1] == 'PM') hourTime = +hourTime + 12
+        
+        let newDate = !isNaN(new Date(item.startDate)) ? new Date(item.startDate) : ''
+        let endDate = !isNaN(new Date(item.startDate)) ? new Date(item.startDate) : ''
 
-        let newDate = new Date(item.startDate)
-        let endDate = new Date(item.startDate)
-
-        let newDateInfo = new Date(item.startDate)
-        let endDateInfo = new Date(item.startDate)
+        let newDateInfo = !isNaN(new Date(item.startDate)) ? new Date(item.startDate) : ''
+        let endDateInfo = !isNaN(new Date(item.startDate)) ? new Date(item.startDate) : ''
         
         if(hourTime){
           newDateInfo.setHours(hourTime)
@@ -499,16 +499,18 @@ export const setAllEvents = (appointments, jobs) => {
           endDateInfo.setMinutes(+durationMinutes)
         }
         
-        activity.type = 'activity'
-        activity.start = newDate
-        activity.end = endDate
-        activity.startDateInfo = newDateInfo
-        activity.endDateInfo = endDateInfo
-        activity.originalData = item
-        activity.backgroundColor = item.color
-        activity.jobName = job.name
-        activity.jobID = job._id
-        activity.assigned = item.assignee
+        activity.type             = 'activity'
+        activity.start            = newDate
+        activity.end              = endDate
+        activity.startDateInfo    = newDateInfo
+        activity.endDateInfo      = endDateInfo
+        activity.activity         = item
+        activity.backgroundColor  = item.color
+        activity.jobName          = job.name
+        activity.accountID        = job.account[0]._id
+        activity.jobID            = job._id
+        activity.job              = job
+        activity.assigned         = item.assignee
         
         if(lightOrDark(item.color) == 'dark') activity.className = 'activities-light'
         if(lightOrDark(item.color) == 'light') activity.className = 'activities-dark'

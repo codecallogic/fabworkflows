@@ -1,5 +1,6 @@
 import { API } from '../config'
 import axios from 'axios'
+import { formatDate, validateZipCode } from './validations'
 
 const errorHandlingConfirmed = (error, setLoading, setMessage) => {
   
@@ -77,5 +78,102 @@ export const newActivityConfirmed = async (token, stateData, setModal, setLoadin
     }
     
   }
+  
+}
+
+export const insertAppointmentKey = (key, data, type) => {
+
+
+  if(type == 0){
+    let content = document.getElementById('messageContent').textContent
+  
+    document.getElementById('messageContent').textContent = content + ` ` + `{{${key}}}`.trim()
+    data.template = content + ` ` + `{{${key}}}`.trim()
+  }
+
+  if(type == 1){
+    let content = document.getElementById('emailContent').textContent
+  
+    document.getElementById('emailContent').textContent = content + ` ` + `{{${key}}}`.trim()
+    data.emailTemplate = content + ` ` + `{{${key}}}`.trim()
+  }
+  
+}
+
+export const onInputContent = (data, content, type) => {
+
+  if(type == 'message') data.template = content
+  if(type == 'email') data.emailTemplate = content
+  
+}
+
+const manageType = (data) => {
+
+  if(Array.isArray(data)) return data[0]
+  if(!Array.isArray(data) && typeof data == 'object') return data
+  if(!Array.isArray(data) && typeof data !== 'object') return data
+}
+
+export const showPreview = (event, template) => {
+  
+  let array = template.split(' ')
+  let newArray = []
+  
+  array.map((item, idx) => {
+    if(item.includes('{{')){
+      let newItem = item.replace(/{{2,}|}{2,}/g, '')
+      let keys = newItem.split('.')
+      
+      if(keys[0]) newItem = manageType(event[keys[0]])
+      if(keys[1]) newItem = manageType(newItem[keys[1]])
+      if(keys[2]) newItem = manageType(newItem[keys[2]])
+      if(keys[3]) newItem = manageType(newItem[keys[3]])
+      
+      console.log(keys)
+      if(validateZipCode(newItem) && !isNaN(new Date(newItem))) newItem = formatDate(newItem)
+      
+      newArray.push(newItem)
+
+    }else{
+      newArray.push(item)
+    }
+  })
+
+  return newArray.join(' ')
+  
+}
+
+export const stringCount = (event, template) => {
+  let regex = /[a-zA-Z0-9]/g
+  
+  let array = template.split(' ')
+  let newArray = []
+  
+  array.map((item, idx) => {
+    if(item.includes('{{')){
+      let newItem = item.replace(/{{2,}|}{2,}/g, '')
+      let keys = newItem.split('.')
+      
+      if(keys[0]) newItem = manageType(event[keys[0]])
+      if(keys[1]) newItem = manageType(newItem[keys[1]])
+      if(keys[2]) newItem = manageType(newItem[keys[2]])
+      if(keys[3]) newItem = manageType(newItem[keys[3]])
+      
+      if(validateZipCode(newItem) && !isNaN(new Date(newItem))) newItem = formatDate(newItem)
+      newArray.push(newItem)
+
+    }else{
+      newArray.push(item)
+    }
+  })
+
+  let str = newArray.join(' ')
+
+  if(str.match(regex)){
+    return str.match(regex).length
+  }
+
+  return ''
+
   
 }

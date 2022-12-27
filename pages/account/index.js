@@ -6,6 +6,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import withUser from '../withUser';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { setAllEvents } from '../../helpers/calendar'
 
 //// TABLE
 import Table from '../../components/table';
@@ -105,6 +106,7 @@ import ReceivePurchaseOrdersModal from '../../components/modals/ReceivePurchaseO
 import AppointmentsModal from '../../components/modals/Appointments'
 import RecurringModal from '../../components/modals/Recurring'
 import AccountModal from '../../components/modals/Account'
+import MessageForm from '../../components/forms/messageForm';
 
 axios.defaults.withCredentials = true;
 
@@ -156,6 +158,7 @@ const Dashboard = ({
   accountItem,
   appointment,
   recurring,
+  messageTemplate,
   
   // DISPATCH
   createType,
@@ -185,6 +188,7 @@ const Dashboard = ({
   const [typeForm, setTypeForm] = useState('')
   const [theme, setTheme] = useState('light')
   const [mainID, setMainID] = useState('')
+  const [events, setEvents] = useState([])
 
   let html
 
@@ -290,6 +294,14 @@ const Dashboard = ({
   useEffect(() => {
     window.localStorage.setItem('view', nav.view)
   }, [nav.view])
+
+  useEffect(() => {    
+
+    let newEvents = setAllEvents(allData.appointments, allData.jobs, 'week')
+    
+    setEvents(newEvents)
+
+  }, [allData.appointments, allData.jobs])
   
 
   return (
@@ -1780,6 +1792,33 @@ const Dashboard = ({
             theme={theme}
             message={message}
             altEdit={altEdit}
+            events={events}
+            setEvents={setEvents}
+          />
+        )}
+
+        {nav.view == 'messaging' && (
+          <MessageForm 
+            setEdit={setEdit}
+            modal={modal}
+            setModal={setModal}
+            allData={allData}
+            editData={editData}
+            stateMethod={createType}
+            setAltEdit={setAltEdit}
+            changeView={changeView}
+            stateData={messageTemplate}
+            loading={loading}
+            setLoading={setLoading}
+            submitUpdate={submitUpdate}
+            token={token}
+            resetState={resetType}
+            setAllData={setAllData}
+            setMessage={setMessage}
+            setDynamicSVG={setDynamicSVG}
+            message={message}
+            altEdit={altEdit}
+            events={events}
           />
         )}
 
@@ -3011,7 +3050,8 @@ const mapStateToProps = (state) => {
     POLine: state.POLine,
     accountItem: state.account,
     appointment: state.appointment,
-    recurring: state.recurring
+    recurring: state.recurring,
+    messageTemplate: state.messageTemplate
   };
 };
 
@@ -3061,6 +3101,7 @@ Dashboard.getInitialProps = async (context) => {
   data.edges              = await tableData(accessToken, 'edges/all-edges')
   data.cutouts            = await tableData(accessToken, 'cutouts/all-cutouts')
   data.appointments       = await tableData(accessToken, 'appointments/all-appointments')
+  data.messageTemplates   = await tableData(accessToken, 'message-templates/all-message-templates')
   deepClone               = _.cloneDeep(data);
 
   return {

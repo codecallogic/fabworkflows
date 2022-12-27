@@ -32,6 +32,7 @@ import { emailReducer } from './emailReducer'
 import { purchaseOrderLineReducer } from './purchaseOrderLineReducer'
 import { appointmentReducer } from './appointmentsReducer'
 import { recurringReducer } from './recurringReducer'
+import { messageReducer } from './messageReducer'
 
 const rootReducer = combineReducers({
   nav: navReducer,
@@ -66,7 +67,8 @@ const rootReducer = combineReducers({
   email: emailReducer,
   POLine: purchaseOrderLineReducer,
   appointment: appointmentReducer,
-  recurring: recurringReducer
+  recurring: recurringReducer,
+  messageTemplate: messageReducer
 })
 
 export default rootReducer
