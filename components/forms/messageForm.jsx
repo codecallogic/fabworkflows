@@ -40,7 +40,7 @@ const MessageForm = ({
   const createType = 'CREATE_MESSAGE';
   const resetType = 'RESET_MESSAGE';
   const myRefs = useRef(null);
-  console.log(events)
+
   const [active, setActive] = useState('0')
   const [type, setType] = useState(0)
   const [inputDropdown, setInputDropdown] = useState('')
@@ -115,7 +115,7 @@ const MessageForm = ({
                   id="messageContent"
                   role="textbox" 
                   contentEditable
-                  onInput={() => onInputContent(messageTemplate, document.getElementById('messageContent', 'message').textContent)} 
+                  onInput={() => onInputContent(messageTemplate, document.getElementById('messageContent').textContent, 'message')} 
                 >
                 </span>
               </div>
