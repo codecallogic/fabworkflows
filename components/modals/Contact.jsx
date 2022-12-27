@@ -108,7 +108,7 @@ const ContactModal = ({
   }
 
   useEffect(() => {
-
+    console.log(altEdit)
     document.addEventListener("click", handleClickOutside, true);
     return () => {
       document.removeEventListener("click", handleClickOutside, true);

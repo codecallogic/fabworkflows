@@ -99,7 +99,7 @@ export const appointmentKeys = [
     title: 'Assignee'
   },
   {
-    key: 'job.account.name',
+    key: 'job.accountAddress.contact_name',
     title: 'Customer'
   },
   {

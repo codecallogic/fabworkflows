@@ -138,7 +138,6 @@ const Table = ({
             onClick={() => (
               setModal(modalType), 
               setEdit(''), 
-              setAltEdit(''),
               setControls(''), 
               setMessage(''), 
               resetCheckboxes(),
@@ -300,7 +299,7 @@ const Table = ({
                   setEdit(typeOfData), 
                   editData(editDataType.key, editDataType.caseType, stateMethod, allData, setSelectID, null, item._id), 
                   setSelectID(item._id),
-                  setControls(''), 
+                  setControls(''),
                   resetCheckboxes()
                 )}
               >

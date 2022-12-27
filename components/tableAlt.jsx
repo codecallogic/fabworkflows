@@ -29,6 +29,7 @@ const Table = ({
   searchPlaceholder,
   setDynamicType,
   setDynamicKey,
+  setAltEdit, 
 
   ///// EDIT
   viewType,
@@ -138,7 +139,7 @@ const Table = ({
             <div 
             id="edit" 
             className="table-header-controls-item" 
-            onClick={(e) => (e.stopPropagation(), setModal(modalType), setEdit(editModalType), editData(editDataType.key, editDataType.caseType, stateMethod, allData, setSelectID, null, selectID), setControls(''), resetCheckboxes())}
+            onClick={(e) => (e.stopPropagation(), setModal(modalType), setEdit(editModalType), editData(editDataType.key, editDataType.caseType, stateMethod, allData, setSelectID, null, selectID), setControls(''), setAltEdit('none'), resetCheckboxes())}
             >
               Edit
             </div>
@@ -230,6 +231,7 @@ const Table = ({
                   setEdit(editModalType), 
                   editData(editDataType.key, editDataType.caseType, stateMethod, allData, setSelectID, null, item._id), 
                   setControls(''), 
+                  setAltEdit('none'),
                   resetCheckboxes()
                 )}
               >

@@ -1180,6 +1180,7 @@ const Dashboard = ({
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
             stateMethod={createType}
+            setAltEdit={setAltEdit}
           ></TableAlt>
         )}
         {nav.view == 'phases' && (
