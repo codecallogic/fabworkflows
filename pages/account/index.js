@@ -189,6 +189,7 @@ const Dashboard = ({
   const [theme, setTheme] = useState('light')
   const [mainID, setMainID] = useState('')
   const [events, setEvents] = useState([])
+  const [update, setUpdate] = useState('')
 
   let html
 
@@ -303,6 +304,15 @@ const Dashboard = ({
 
   }, [allData.appointments, allData.jobs])
   
+  const handleUpdateJob = () => {
+    submitUpdate(null, job, 'jobs', 'files', setMessage, 'update_job', setLoading, token, 'jobs/update-job', 'RESET_JOB', resetType, allData, setAllData, setDynamicSVG, changeView, 'jobs', null, null, job._id, editData, 'CREATE_JOB', createType, setSelectID, true, 'jobs', setUpdate)
+  }
+
+  useEffect(() => {
+    
+    if(update == 'job')  handleUpdateJob()
+    
+  }, [update])
 
   return (
     <>
@@ -2603,6 +2613,7 @@ const Dashboard = ({
             changeView={changeView}
             editData={editData}
             selectID={selectID}
+            setUpdate={setUpdate}
           ></ActivityStatusListModal>
         )}
         {modal == 'purchaseOrders' && (

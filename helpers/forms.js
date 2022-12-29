@@ -131,7 +131,7 @@ const submitCreate = async (e, stateData, type, fileType, setMessage, loadingTyp
   }
 }
 
-const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType, setModal, setAltEdit, selectID, editData, createType, stateMethod, setSelectID, updatePopulatedItem, typeOfParent) => {
+const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingType, setLoading, token, path, resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType, setModal, setAltEdit, selectID, editData, createType, stateMethod, setSelectID, updatePopulatedItem, typeOfParent, setUpdate) => {
   
   for(let i = 0; i < formFields[type].length; i++){
 
@@ -190,6 +190,7 @@ const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingTy
 
     //// CHANGE ALT EDIT
     if(setAltEdit) setAltEdit('')
+    if(setUpdate) setUpdate('')
 
     //// CHANGE MODAL
     if(setModal) setModal('')
@@ -339,6 +340,9 @@ const getAll = async (setDynamicSVG, setMessage, token, allData, setAllData, typ
 const getAllAndUpdatePopulatedItem = async (setDynamicSVG, setMessage, token, allData, setAllData, typeOfData, editData, createType, stateMethod, setSelectID, selectID) => {
   try {
 
+    console.log(typeOfData)
+    console.log(selectID)
+    
     let response
     
     if(typeOfData == 'jobs') response = await axios.get(`${API}/jobs/all-jobs`, {
@@ -347,6 +351,8 @@ const getAllAndUpdatePopulatedItem = async (setDynamicSVG, setMessage, token, al
         contentType: 'multipart/form-data'
       }
     })
+
+    console.log(response)
 
     allData[typeOfData] = response.data.list
     setAllData(allData)

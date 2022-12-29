@@ -169,6 +169,7 @@ const JobForm = ({
     html.default().set(opt).from(element).save();
   };
 
+  
   return (
     <div className="table">
       <div className="table-header">
@@ -179,7 +180,7 @@ const JobForm = ({
           <div className="table-header-controls">
             <div
               id="save"
-              className="table-header-controls-item"
+              className="table-header-controls-item"  
               onClick={(e) =>
                 edit == typeOfData
                 ? 

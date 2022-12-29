@@ -17,6 +17,7 @@ const ActivityStatusList = ({
   //// DATA
   allData,
   setAllData,
+  setUpdate,
 
   //// REDUX
   stateData,
@@ -193,7 +194,8 @@ const ActivityStatusList = ({
               className="form-group-button" 
               onClick={(e) => (
                 stateMethod(updateJobArrayItem, 'activities', stateData),
-                newActivityConfirmed(token, stateData, setModal, setLoading, 'select_activity_status', setMessage, setDynamicSVG)
+                newActivityConfirmed(token, stateData, setModal, setLoading, 'select_activity_status', setMessage, setDynamicSVG),
+                setUpdate('job')
               )}
             >
               {loading == 'select_activity_status' ? (
