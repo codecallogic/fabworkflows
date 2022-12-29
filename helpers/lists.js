@@ -91,7 +91,7 @@ export const appointmentKeys = [
     title: 'Schedule'
   },
   {
-    key: 'activity.scheduleTime',
+    key: 'activity.duration',
     title: 'Duration'
   },
   {

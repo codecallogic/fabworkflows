@@ -844,6 +844,7 @@ const Dashboard = ({
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
             stateMethod={createType}
+            setAltEdit={setAltEdit}
           ></TableAlt>
         )}
         {nav.view == 'colors' && (
@@ -886,6 +887,7 @@ const Dashboard = ({
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
             stateMethod={createType}
+            setAltEdit={setAltEdit}
           ></TableAlt>
         )}
         {nav.view == 'suppliers' && (
@@ -928,6 +930,7 @@ const Dashboard = ({
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
             stateMethod={createType}
+            setAltEdit={setAltEdit}
           ></TableAlt>
         )}
         {nav.view == 'locations' && (
@@ -970,6 +973,7 @@ const Dashboard = ({
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
             stateMethod={createType}
+            setAltEdit={setAltEdit}
           ></TableAlt>
         )}
         {nav.view == 'brands' && (
@@ -1012,6 +1016,7 @@ const Dashboard = ({
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
             stateMethod={createType}
+            setAltEdit={setAltEdit}
           ></TableAlt>
         )}
         {nav.view == 'categories' && (
@@ -1054,6 +1059,7 @@ const Dashboard = ({
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
             stateMethod={createType}
+            setAltEdit={setAltEdit}
           ></TableAlt>
         )}
         {nav.view == 'models' && (
@@ -1096,6 +1102,7 @@ const Dashboard = ({
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
             stateMethod={createType}
+            setAltEdit={setAltEdit}
           ></TableAlt>
         )}
         {nav.view == 'prices' && (
@@ -1138,6 +1145,7 @@ const Dashboard = ({
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
             stateMethod={createType}
+            setAltEdit={setAltEdit}
           ></TableAlt>
         )}
         {nav.view == 'contacts' && (
@@ -1223,6 +1231,7 @@ const Dashboard = ({
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
             stateMethod={createType}
+            setAltEdit={setAltEdit}
           ></TableAlt>
         )}
         {nav.view == 'assignees' && (
@@ -1265,6 +1274,7 @@ const Dashboard = ({
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
             stateMethod={createType}
+            setAltEdit={setAltEdit}
           ></TableAlt>
         )}
         {nav.view == 'activityStatus' && (
@@ -1310,6 +1320,7 @@ const Dashboard = ({
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
             stateMethod={createType}
+            setAltEdit={setAltEdit}
           ></TableAlt>
         )}
         {nav.view == 'purchaseOrders' && (
@@ -1352,6 +1363,7 @@ const Dashboard = ({
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
             stateMethod={createType}
+            setAltEdit={setAltEdit}
           ></TableAlt>
         )}
         {nav.view == 'edges' && (
@@ -1394,6 +1406,7 @@ const Dashboard = ({
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
             stateMethod={createType}
+            setAltEdit={setAltEdit}
           ></TableAlt>
         )}
         {nav.view == 'cutouts' && (
@@ -1436,6 +1449,7 @@ const Dashboard = ({
             setDynamicType={setDynamicType}
             setDynamicKey={setDynamicKey}
             stateMethod={createType}
+            setAltEdit={setAltEdit}
           ></TableAlt>
         )}
 
