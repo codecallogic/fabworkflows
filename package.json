@@ -38,7 +38,8 @@
     "react-redux": "^7.2.4",
     "redux": "^4.1.0",
     "redux-devtools-extension": "^2.13.9",
-    "signature_pad": "^4.0.4"
+    "signature_pad": "^4.0.4",
+    "socket.io-client": "^4.5.4"
   },
   "devDependencies": {
     "eslint": "7.29.0",

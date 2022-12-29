@@ -7,6 +7,10 @@ import withUser from '../withUser';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { setAllEvents } from '../../helpers/calendar'
+import io from 'socket.io-client'
+import { SOCKET } from '../../config';
+
+const socket = io.connect(SOCKET, {transports: ['websocket', 'polling', 'flashsocket']});
 
 //// TABLE
 import Table from '../../components/table';
@@ -313,6 +317,17 @@ const Dashboard = ({
     if(update == 'job')  handleUpdateJob()
     
   }, [update])
+
+  //// SOCKETS
+
+  useEffect(() => {
+    socket.on('checkJobsData', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+      console.log(job)
+      editData('jobs', 'CREATE_JOB', createType, allData, setSelectID, null, job._id)
+    })
+  }, [])
 
   return (
     <>
@@ -2587,6 +2602,8 @@ const Dashboard = ({
             selectID={selectID}
             typeOfData={'job'}
             setEvent={setEvent}
+            setUpdate={setUpdate}
+            nav={nav}
           ></ActivityListModal>
         )}
         {modal == 'activityStatusList' && (

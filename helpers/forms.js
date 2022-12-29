@@ -352,8 +352,6 @@ const getAllAndUpdatePopulatedItem = async (setDynamicSVG, setMessage, token, al
       }
     })
 
-    console.log(response)
-
     allData[typeOfData] = response.data.list
     setAllData(allData)
     editData(typeOfData, createType, stateMethod, allData, setSelectID, null, selectID)

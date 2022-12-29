@@ -15,10 +15,12 @@ const ActivityListItems = ({
   dynamicSVG,
   setDynamicSVG,
   typeOfData,
+  nav,
 
   //// DATA
   allData,
   setAllData,
+  setUpdate,
 
   //// REDUX
   stateData,
@@ -176,6 +178,7 @@ const ActivityListItems = ({
                           key={idx}
                           className="addFieldItems-modal-form-container-searchList-list-item"
                           onClick={() => (
+                            nav.view == 'job' ? setUpdate('job') : null,
                             stateMethod(createType, autoFillType, item), 
                             setModal('')
                           )}
@@ -189,6 +192,7 @@ const ActivityListItems = ({
                         className="addFieldItems-modal-form-container-searchList-list-item"
                         onClick={() => (
                           item.job = autoFill,
+                          nav.view == 'job' ? setUpdate('job') : null,
                           stateMethod(createType, autoFillType, item), 
                           setModal('')
                         )}
