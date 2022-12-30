@@ -16,6 +16,8 @@ const Appointments = ({
   edit,
   dynamicSVG,
   setDynamicSVG,
+  typeOfData,
+  deleteType,
 
   //// DATA
   allData,
@@ -29,7 +31,8 @@ const Appointments = ({
 
   //// CRUD
   submitCreate,
-  submitUpdate
+  submitUpdate,
+  submitDeleteRow
 }) => {
 
   const createType = 'CREATE_APPOINTMENT'
@@ -104,16 +107,30 @@ const Appointments = ({
       onPointerMove={handlePointerMove} 
       style={{transform: `translateX(${translate.x}px) translateY(${translate.y}px)`}}>
         <div className="addFieldItems-modal-box-header">
+          <div
+            className="addFieldItems-modal-box-header-right"
+          >
           <span 
-            className="addFieldItems-modal-form-title">
-              {edit == 'appointment' ? 
-              'Edit Appointment' 
-              : 
-              'New Appointment'
-              }
+            className="addFieldItems-modal-form-title"
+          >
+            {edit == 'appointment' ? 
+            'Edit Appointment' 
+            : 
+            'New Appointment'
+            }
           </span>
-          <div onClick={() => (setModal(''), resetState(resetType), setMessage(''))}>
-            <SVG svg={'close'}></SVG>
+          <div onClick={(e) => (
+              submitDeleteRow(e, typeOfData, setMessage, 'delete_row', setLoading, token, deleteType, stateData._id, allData, setAllData, setDynamicSVG, null, null, null, null, setModal, '')
+          )}>
+            <SVG svg={'thrash-can'}></SVG>
+          </div>
+          </div>
+          <div
+            className="addFieldItems-modal-box-header-right"
+          >
+            <div onClick={() => (setModal(''), resetState(resetType), setMessage(''))}>
+              <SVG svg={'close'}></SVG>
+            </div>
           </div>
         </div>
         <form 

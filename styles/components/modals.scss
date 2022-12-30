@@ -107,6 +107,15 @@
         }
       }
 
+      &-left {
+        display: flex;
+        align-items: center;
+         
+        // div {
+        //   margin-left: 1.5rem;
+        // }
+      }
+
       svg {
         width: 2.5rem;
         height: 2.5rem;

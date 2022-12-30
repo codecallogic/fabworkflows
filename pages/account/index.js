@@ -338,6 +338,15 @@ const Dashboard = ({
      
     })
 
+    socket.on('appointments', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+
+      let newEvents = setAllEvents(allData.appointments, allData.jobs, 'week')
+      setEvents(newEvents)
+     
+    })
+
   }, [])
 
   return (
@@ -3003,6 +3012,7 @@ const Dashboard = ({
             allData={allData}
             setAllData={setAllData}
             submitUpdate={submitUpdate}
+            submitDeleteRow={submitDeleteRow}
             changeView={changeView}
             editData={editData}
             selectID={selectID}
@@ -3011,6 +3021,7 @@ const Dashboard = ({
             typeForm={typeForm}
             setTypeForm={setTypeForm}
             typeOfData={'appointments'}
+            deleteType="appointments/delete-appointment"
           ></AppointmentsModal>
         )}
         {modal == 'recurring' && (

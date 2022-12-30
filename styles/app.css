@@ -1066,6 +1066,9 @@ body {
         align-items: center; }
         .addFieldItems-modal-box-header-right div {
           margin-left: 1.5rem; }
+      .addFieldItems-modal-box-header-left {
+        display: flex;
+        align-items: center; }
       .addFieldItems-modal-box-header svg {
         width: 2.5rem;
         height: 2.5rem;

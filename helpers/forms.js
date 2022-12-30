@@ -238,7 +238,7 @@ const submitDeleteFile = async (e, fileItem, key, caseType, stateMethod, stateDa
   
 }
 
-const submitDeleteRow = async (e, type, setMessage, loadingType, setLoading, token, path, selectID, allData, setAllData, setDynamicSVG, resetCheckboxes, setControls, typeOfDataParent, changeView) => {
+const submitDeleteRow = async (e, type, setMessage, loadingType, setLoading, token, path, selectID, allData, setAllData, setDynamicSVG, resetCheckboxes, setControls, typeOfDataParent, changeView, setModal, modalType) => {
   setLoading(loadingType)
   
   let data = new FormData()
@@ -254,14 +254,17 @@ const submitDeleteRow = async (e, type, setMessage, loadingType, setLoading, tok
     })
 
     setLoading('')
-    allData[type] = responseDelete.data
+    if(Array.isArray(responseDelete.data)) allData[type] = responseDelete.data
+    if(!Array.isArray(responseDelete.data) && responseDelete.data.list) allData[type] = responseDelete.data.list
+
     setAllData(allData)
     setDynamicSVG('checkmark-2')
     setMessage('Item was deleted')
-    setControls('')
-    resetCheckboxes()
+    if(setControls) setControls('')
+    if(resetCheckboxes) resetCheckboxes()
     if(typeOfDataParent) getAll(setDynamicSVG, setMessage, token, allData, setAllData, typeOfDataParent)
     if(changeView) changeView(type)
+    if(setModal) setModal(modalType)
     
   } catch (error) {
     console.log(error)
