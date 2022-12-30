@@ -15,10 +15,12 @@ const PriceListItems = ({
   dynamicSVG,
   setDynamicSVG,
   typeOfData,
+  nav,
 
   //// DATA
   allData,
   setAllData,
+  setUpdate,
 
   //// REDUX
   stateData,
@@ -174,9 +176,11 @@ const PriceListItems = ({
                         <div
                           key={idx}
                           className="addFieldItems-modal-form-container-searchList-list-item"
-                          onClick={() =>
+                          onClick={() => (
+                            nav.view = 'job' ? setUpdate('job') : null,
+                            nav.view = 'job' ? changeView('job') : null,
                             stateMethod(createType, autoFillType, item)
-                          }
+                          )}
                         >
                           {`${item.quote_name} / ${item.quote_number} / ${item.contact_name}`}
                         </div>
@@ -185,7 +189,12 @@ const PriceListItems = ({
                       <div
                         key={idx}
                         className="addFieldItems-modal-form-container-searchList-list-item"
-                        onClick={() => (stateMethod(createType, autoFillType, item), setModal(''))}
+                        onClick={() => (
+                          nav.view = 'job' ? setUpdate('job') : null,
+                          nav.view = 'job' ? changeView('job') : null,
+                          stateMethod(createType, autoFillType, item),
+                          setModal('')
+                        )}
                       >
                          {`${item.quote_name} / ${item.quote_number} / ${item.contact_name}`}
                       </div>

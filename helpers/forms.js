@@ -2,6 +2,7 @@ import { API } from '../config'
 import axios from 'axios'
 import { nanoid } from 'nanoid'
 import { validateEmailData } from '../helpers/validations'
+import { removeCircularObject } from '../helpers/dataManagement'
 
 export {
   formFields,
@@ -155,6 +156,8 @@ const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingTy
     })
   }
 
+  if(stateData['jobIssues']) removeCircularObject(stateData, 'jobIssues')
+  
   if(stateData){
     for(let key in stateData){
       data.append(key, JSON.stringify(stateData[key]))
@@ -340,9 +343,6 @@ const getAll = async (setDynamicSVG, setMessage, token, allData, setAllData, typ
 const getAllAndUpdatePopulatedItem = async (setDynamicSVG, setMessage, token, allData, setAllData, typeOfData, editData, createType, stateMethod, setSelectID, selectID) => {
   try {
 
-    console.log(typeOfData)
-    console.log(selectID)
-    
     let response
     
     if(typeOfData == 'jobs') response = await axios.get(`${API}/jobs/all-jobs`, {

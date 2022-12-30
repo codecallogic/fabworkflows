@@ -12,7 +12,7 @@ const allowArrays = ['quotes', 'jobs', 'activities', 'activitySets', 'jobIssues'
 const allowObjects = ['account', 'accountAddress', 'jobAddress']
 
 const populateEditData = (originalData, keyType, caseType, stateMethods, selectID, list, setSelectID, mainID) => {
-
+  
   if(selectID) stateMethods.createType(caseType, '_id', selectID)
   
   if(originalData[keyType] && originalData[keyType].length > 0){
@@ -55,15 +55,17 @@ const populateEditData = (originalData, keyType, caseType, stateMethods, selectI
   } else {
    
     if(list.length > 0){
-      for(let i = 0; i <= list.length; i++){
-        if(i === selectID){
+      for(let i = 0; i < list.length; i++){
+        
+        if(list[i]._id === selectID){
           for( let key in list[i]){
             stateMethods.createType(caseType, key, list[i][key])
           }
         }
+        
       }
       // console.log(mainID)
-      if(setSelectID) setSelectID(mainID)
+      if(setSelectID && mainID) setSelectID(mainID)
     }
   }
   
@@ -77,6 +79,7 @@ const editData = (keyType, caseType, stateMethod, allData, setSelectID, id, sele
   if(keyType == 'jobs') selectID = selectID ? selectID : id
   if(keyType == 'remnants' && crudType == 'UPDATE') selectID = selectID ? selectID : id
   if(keyType == 'slabs' && crudType == 'UPDATE') selectID = selectID ? selectID : id
+  if(keyType == 'jobIssues') selectID = selectID ? selectID : id
   
   return populateEditData(
     allData,

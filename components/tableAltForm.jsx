@@ -29,6 +29,7 @@ const Table = ({
   searchType,
   mainID,
   setTableType,
+  nav,
 
   ///// EDIT
   viewType,
@@ -46,6 +47,7 @@ const Table = ({
   setTypeForm,
   altEdit,
   setAltEdit,
+  setUpdate,
 
   //// DATA
   componentData,
@@ -115,10 +117,11 @@ const Table = ({
   }
   
   const handleEdit = (id) => {
-
+    
     if(controls == 'jobIssueControls'){
-      setModal('jobIssue')
-      editData('jobIssues', 'CREATE_JOB_ISSUE', stateMethod, allData, setSelectID, null, id, allData)
+      setModal('jobIssue'),
+      setAltEdit('jobIssue'),
+      editData('jobIssues', 'CREATE_JOB_ISSUE', stateMethod, allData, setSelectID, id, id, allData)
     }
 
     if(controls == 'purchaseOrderLinesControls'){
@@ -174,6 +177,7 @@ const Table = ({
                 id="email" 
                 className="table-header-controls-item-svg" 
                 onClick={(e) => (
+                  console.log(currentItem),
                   setModal('email'),
                   stateMethod('CREATE_EMAIL', 'email', currentItem.supplier[0] ? currentItem.supplier[0].contact_email : ''),
                   stateMethod('CREATE_EMAIL', 'data', currentItem),
@@ -213,7 +217,8 @@ const Table = ({
                 id="delete" 
                 className="table-header-controls-item-svg" 
                 onClick={(e) => (
-                  extractingStateData(currentItem)
+                  extractingStateData(currentItem),
+                  nav.view == 'job' ? setUpdate('job') : null
                 )}>
                 <SVG onClick={() => {extractingStateData(currentItem)}} svg={'thrash-can'} id={'delete'}></SVG>
               </div>
@@ -239,6 +244,7 @@ const Table = ({
                   onClick={() => (
                     stateMethod('COMPLETE_ACTIVITY_STATUS', 'activities', currentItem),
                     setControls(''), 
+                    nav.view == 'job' ? setUpdate('job') : null,
                     resetCheckboxes()
                   )}
                 >
@@ -253,6 +259,7 @@ const Table = ({
                   onClick={() => (
                     stateMethod('CANCEL_ACTIVITY_STATUS', 'activities', currentItem),
                     setControls(''), 
+                    nav.view == 'job' ? setUpdate('job') : null,
                     resetCheckboxes()
                   )}
                 >

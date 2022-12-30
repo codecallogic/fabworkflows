@@ -51,6 +51,8 @@ const JobForm = ({
   setAltEdit,
   mainID,
   setMainID,
+  nav,
+  setUpdate,
 
   //// DATA
   typeOfData,
@@ -572,6 +574,8 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           dynamicType={'CREATE_JOB_ARRAY_ITEM'}
           dynamicKey={'quotes'}
           setTypeForm={setTypeForm}
+          setUpdate={setUpdate}
+          nav={nav}
         ></Table>
 
         <Table
@@ -615,6 +619,8 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           setAltEdit={setAltEdit}
           mainID={mainID}
           setTableType={setTableType}
+          setUpdate={setUpdate}
+          nav={nav}
         ></Table>
         <Table
           token={token}
@@ -654,6 +660,8 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           emailModal={true}
           emailRoute='purchase-order/email-purchase-order'
           setTypeForm={setTypeForm}
+          setUpdate={setUpdate}
+          nav={nav}
         ></Table>
         <Table
           token={token}
@@ -691,7 +699,10 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           cancelControl={false}
           stateMethod={stateMethod}
           stateData={stateData}
+          setAltEdit={setAltEdit}
           setTypeForm={setTypeForm}
+          setUpdate={setUpdate}
+          nav={nav}
         ></Table>
 
         <div className="form-box" style={{ width: '100%', padding: '0 2rem' }}>
@@ -703,7 +714,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
                 type="file"
                 accept="*"
                 multiple
-                onChange={(e) =>
+                onChange={(e) => (
                   multipleFiles(
                     e,
                     stateData,
@@ -712,8 +723,9 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
                     filesType,
                     'files',
                     addImages
-                  )
-                }
+                  ),
+                  setUpdate('job')
+                )}
               />
             </label>
           </div>
@@ -757,7 +769,9 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
                         e.stopPropagation(),
                         loading !== 'delete_file'
                           ? 
-                          submitDeleteFile(e, item, 'files', createType, stateMethod, stateData, 'jobs', setMessage, 'delete_file', setLoading, token, 'jobs/delete-file', allData, setAllData, setDynamicSVG, editData, null, stateData._id)
+                          (
+                            submitDeleteFile(e, item, 'files', createType, stateMethod, stateData, 'jobs', setMessage, 'delete_file', setLoading, token, 'jobs/delete-file', allData, setAllData, setDynamicSVG, editData, null, stateData._id)
+                          )
                           : null
                       )}
                     >

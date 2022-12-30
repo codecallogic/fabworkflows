@@ -15,6 +15,8 @@ const PurchaseListItems = ({
   dynamicSVG,
   setDynamicSVG,
   typeOfData,
+  nav,
+  setUpdate,
 
   //// DATA
   allData,
@@ -174,9 +176,10 @@ const PurchaseListItems = ({
                         <div
                           key={idx}
                           className="addFieldItems-modal-form-container-searchList-list-item"
-                          onClick={() =>
+                          onClick={() => (
+                            setUpdate('job'),
                             stateMethod(createType, autoFillType, item)
-                          }
+                          )}
                         >
                           {`${manageFormFields(item.supplier[0], 'name')} / ${item.POnumber} / ${item.orderDate}`}
                         </div>
@@ -185,7 +188,10 @@ const PurchaseListItems = ({
                       <div
                         key={idx}
                         className="addFieldItems-modal-form-container-searchList-list-item"
-                        onClick={() => (stateMethod(createType, autoFillType, item), setModal(''))}
+                        onClick={() => (
+                          setUpdate('job'),
+                          stateMethod(createType, autoFillType, item), setModal('')
+                        )}
                       >
                          {`${manageFormFields(item.supplier[0], 'name')} /  ${item.POnumber} / ${item.orderDate}`}
                       </div>

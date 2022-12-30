@@ -286,6 +286,7 @@ const Dashboard = ({
   }, [router.query.change]);
 
   const extractingStateData = (stateData) => {
+    // console.log(dynamicType, dynamicKey, stateData)
     createType(dynamicType, dynamicKey, stateData);
     setControls('');
   };
@@ -321,12 +322,19 @@ const Dashboard = ({
   //// SOCKETS
 
   useEffect(() => {
+
     socket.on('checkJobsData', (client) => {
       allData[client.type] = client.list
       setAllData(allData)
-      console.log(job)
-      editData('jobs', 'CREATE_JOB', createType, allData, setSelectID, null, job._id)
+      
+      if(client.id){
+        setEdit(client.edit)
+        setSelectID(client.id)
+        editData('jobs', 'CREATE_JOB', createType, allData, setSelectID, null, client.id)
+      }
+     
     })
+
   }, [])
 
   return (
@@ -1681,6 +1689,8 @@ const Dashboard = ({
             setAltEdit={setAltEdit}
             mainID={mainID}
             setMainID={setMainID}
+            setUpdate={setUpdate}
+            nav={nav}
           ></JobForm>
         )}
 
@@ -2437,6 +2447,8 @@ const Dashboard = ({
             selectID={selectID}
             typeOfData={nav.view === 'job' ? 'job' : 'accountForm'}
             setEvent={setEvent}
+            setUpdate={setUpdate}
+            nav={nav}
           ></QuoteModal>
         )}
         {modal == 'assignee' && (
@@ -2689,6 +2701,8 @@ const Dashboard = ({
             selectID={selectID}
             typeOfData={'job'}
             setEvent={setEvent}
+            setUpdate={setUpdate}
+            nav={nav}
           ></PurchaseOrderListModal>
         )}
         {modal == 'jobIssue' && (
@@ -2719,6 +2733,10 @@ const Dashboard = ({
             selectID={selectID}
             typeOfData={edit == 'jobIssues' ? 'jobIssues' : 'jobs'}
             setEvent={setEvent}
+            altEdit={altEdit}
+            setAltEdit={setAltEdit}
+            setUpdate={setUpdate}
+            nav={nav}
           ></JobIssueModal>
         )}
         {modal == 'accounts' && (

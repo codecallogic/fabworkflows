@@ -20,6 +20,8 @@ const JobIssueModal = ({
   dynamicSVG,
   setDynamicSVG,
   setEvent,
+  altEdit,
+  nav,
 
   //// DATA
   allData,
@@ -28,6 +30,8 @@ const JobIssueModal = ({
   autoFill,
   selectID,
   typeOfData,
+  setAltEdit,
+  setUpdate,
 
   //// METHODS
   extractingStateData,
@@ -121,9 +125,9 @@ const JobIssueModal = ({
   }, [])
 
   useEffect(() => {
-    if(!id && stateData.subject && stateData.status && stateData.category && stateData.history.length === 0) logHistory(arrayType)
-    if(!id && stateData.subject && stateData.status && stateData.category && stateData.history.length === 1) logHistory(updateArrayType)
-    if(id && stateData.subject && stateData.status && stateData.category) logHistory(updateArrayType)
+    if(!altEdit && stateData.subject && stateData.status && stateData.category && stateData.history.length === 0) logHistory(arrayType)
+    if(!altEdit && stateData.subject && stateData.status && stateData.category && stateData.history.length === 1) logHistory(updateArrayType)
+    if(altEdit == 'jobIssue' && stateData.subject && stateData.status && stateData.category) logHistory(updateArrayType)
   }, [stateData.subject, stateData.status, stateData.category])
 
   const readyState = () => {
@@ -158,36 +162,6 @@ const JobIssueModal = ({
     stateMethod(reducerType, 'history', history)
   }
 
-  const submitUpdateJobIssue = async (req, res) => {
-    if(!stateData.job) return setMessage('Job is required')
-    if(!stateData.subject) return setMessage('Subject is required')
-    if(!stateData.status) return setMessage('Status is required')
-    if(!stateData.category) return setMessage('Category is required')
-
-    setLoading('update_job_issue')
-
-    try {
-      const response = await axios.post(`${API}/job-issue/update-job-issue`, {data: stateData, account: account}, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          contentType: 'multipart/form-data'
-        }
-      })
-      setLoading('')
-      allData['jobIssues']= response.data.list
-      setAllData(allData)
-      stateMethod(addToJob, 'jobIssues', response.data.item)
-      resetState(resetType)
-      setModal('')
-      setEvent('updated-job-issue')
-      
-    } catch (error) {
-      console.log(error)
-      setLoading('')
-      if(error)  error.response ? error.response.statusText == 'Unauthorized' ? (setDynamicSVG('notification'), setMessage(error.response.statusText), window.location.href = '/login') : (setDynamicSVG('notification'), setMessage(error.response.data)) : (setDynamicSVG('notification'), setMessage('Error ocurred with creating item'))
-    }
-  }
-  
   return (
     <div 
       id='jobIssue'
@@ -204,7 +178,7 @@ const JobIssueModal = ({
         <div className="addFieldItems-modal-box-header">
         <span 
           className="addFieldItems-modal-form-title">
-            {id ? 
+            {altEdit == 'jobIssue' ? 
             'Edit Job Issue' 
             : 
             'New Job Issue'
@@ -327,7 +301,7 @@ const JobIssueModal = ({
             }
           </div>
 
-          {id && stateData.history.length > 0 &&
+          {altEdit == 'jobIssue' && stateData.history.length > 0 &&
             <div className="form-group">
               <input 
               id="history" 
@@ -348,7 +322,7 @@ const JobIssueModal = ({
             </div>
           }
 
-          {id && stateData.history.length > 0 &&
+          {altEdit == 'jobIssue' && stateData.history.length > 0 &&
           <div className="form-group-history">
             {stateData.history.length > 0 && stateData.history.map((item, idx) => 
               <div key={idx} className="form-group-history-item">
@@ -391,13 +365,14 @@ const JobIssueModal = ({
 
 
       <div className="addFieldItems-modal-box-footer">
-        {!id && 
+        {!altEdit && 
         <button 
         className="form-group-button" 
         onClick={(e) => (
           readyState(),
           extractingStateData(stateData),
           resetState(resetType),
+          nav.view = 'job' ? setUpdate('job') : null,
           setModal('')
         )}
         >
@@ -412,12 +387,13 @@ const JobIssueModal = ({
             }
         </button>
         }
-        {id && 
+        {altEdit == 'jobIssue' && 
         <button 
         className="form-group-button" 
         onClick={(e) => (
           stateMethod(addToJob, 'jobIssues', stateData),
           resetState(resetType),
+          nav.view = 'job' ? setUpdate('job') : null,
           setModal('')
         )}
         >
@@ -429,7 +405,7 @@ const JobIssueModal = ({
             </div>
             : 
             'Update'
-            }
+          }
         </button>
         }
       </div>
