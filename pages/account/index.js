@@ -326,8 +326,11 @@ const Dashboard = ({
     socket.on('checkJobsData', (client) => {
       allData[client.type] = client.list
       setAllData(allData)
-      
-      if(client.id){
+
+      let newEvents = setAllEvents(allData.appointments, allData.jobs, 'week')
+      setEvents(newEvents)
+
+      if(client.id && nav.view == 'job'){
         setEdit(client.edit)
         setSelectID(client.id)
         editData('jobs', 'CREATE_JOB', createType, allData, setSelectID, null, client.id)

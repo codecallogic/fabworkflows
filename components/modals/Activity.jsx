@@ -492,7 +492,10 @@ const ActivityModal = ({
           {edit == 'activities' && !altEdit &&
           <button 
             className="form-group-button" 
-            onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'activities', null, setMessage, 'update_activity', setLoading, token, 'activities/update-activity', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'activities', setModal))}
+            onClick={(e) => (
+              e.preventDefault(), 
+              submitUpdate(e, stateData, 'activities', null, setMessage, 'update_activity', setLoading, token, 'activities/update-activity', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'activities', setModal)
+            )}
           >
               {loading == 'update_activity' ? 
               <div className="loading">

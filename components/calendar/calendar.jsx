@@ -128,8 +128,9 @@ const Schedule = ({
     }
 
     if(event.type == 'activity'){
+      console.log(event)
       editData('jobs', 'CREATE_JOB', stateMethod, allData, null, null, event.jobID)
-      setID(event.originalData._id)
+      setID(event.id)
       
     }
     
@@ -168,7 +169,7 @@ const Schedule = ({
 
   useEffect(() => {
     
-    if(stateData.activities && id){
+    if(Array.isArray(stateData.activities) && id){
       let idxUpdate  
 
       stateData.activities.map((item, idx) => {
