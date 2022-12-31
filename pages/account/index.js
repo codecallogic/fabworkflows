@@ -347,6 +347,18 @@ const Dashboard = ({
      
     })
 
+    socket.on('activities', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+      changeView('activities')
+    })
+
+    socket.on('assignees', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+      changeView('assignees')
+    })
+
   }, [])
 
   return (
