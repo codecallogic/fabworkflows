@@ -311,7 +311,7 @@ const Table = ({
               <div key={idxKey} className="table-rows-item">
                 {/* {console.log(key, item[key])} */}
                 { 
-                  Array.isArray(item[key]) && item[key].length > 0 && matchPattern.test(item[key][0].location)
+                  Array.isArray(item[key]) && item[key].length > 0 && item[key][0] && matchPattern.test(item[key][0].location)
                   ? 
                   <a href={`${item[key][0].location}`} target="_blank">
                     { key == 'files' 

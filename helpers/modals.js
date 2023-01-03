@@ -33,9 +33,9 @@ const populateEditData = (originalData, keyType, caseType, stateMethods, selectI
 
           if(Array.isArray(object[keyOfObject]) && object[keyOfObject].length > 0){
             
-            if(!object[keyOfObject][0]['location'] ) stateMethods.createType(caseType, keyOfObject, object[keyOfObject][0])
+            if(object[keyOfObject][0] && !object[keyOfObject][0]['location'] ) stateMethods.createType(caseType, keyOfObject, object[keyOfObject][0])
             
-            if(object[keyOfObject][0]['location'] !== undefined){
+            if(object[keyOfObject][0] && object[keyOfObject][0]['location'] !== undefined){
               return stateMethods.createType(caseType, keyOfObject, object[keyOfObject])
             }
   
