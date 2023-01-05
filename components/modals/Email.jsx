@@ -11,6 +11,7 @@ const EmailModal = ({
   edit,
   dynamicSVG,
   setDynamicSVG,
+  quote,
 
   //// DATA
   allData,

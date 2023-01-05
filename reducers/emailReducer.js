@@ -1,7 +1,8 @@
 const initialState = {
   email: '',
   data: '',
-  route: ''
+  route: '',
+  job: ''
 }
 
 export const emailReducer = (state = initialState, action) => {

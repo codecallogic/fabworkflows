@@ -372,7 +372,7 @@ const JobIssueModal = ({
           readyState(),
           extractingStateData(stateData),
           resetState(resetType),
-          nav.view = 'job' ? setUpdate('job') : null,
+          nav.view == 'job' && stateData._id ? setUpdate('job') : null,
           setModal('')
         )}
         >
@@ -387,13 +387,36 @@ const JobIssueModal = ({
             }
         </button>
         }
+        {altEdit == 'jobIssueUnsaved' && 
+        <button 
+        className="form-group-button" 
+        onClick={(e) => (
+          readyState(),
+          extractingStateData(stateData),
+          resetState(resetType),
+          nav.view == 'job' && stateData._id ? setUpdate('job') : null,
+          setModal('')
+        )}
+        >
+           {loading == 'update_job_issue' ? 
+            <div className="loading">
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+              <span style={{backgroundColor: loadingColor}}></span>
+            </div>
+            : 
+            'Update Unsaved'
+          }
+        </button>
+        }
         {altEdit == 'jobIssue' && 
         <button 
         className="form-group-button" 
         onClick={(e) => (
           stateMethod(addToJob, 'jobIssues', stateData),
           resetState(resetType),
-          nav.view = 'job' ? setUpdate('job') : null,
+          nav.view == 'job' ? setUpdate('job') : null,
+          nav.view == 'job' ? window.scrollTo({ top: 0, behavior: 'smooth' }) : null, 
           setModal('')
         )}
         >

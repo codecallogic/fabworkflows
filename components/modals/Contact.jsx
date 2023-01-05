@@ -27,7 +27,9 @@ const ContactModal = ({
   allData,
   setAllData,
   editData,
+  setEdit,
   setAltEdit,
+  setUpdate,
 
   //// REDUX
   stateData,
@@ -108,7 +110,7 @@ const ContactModal = ({
   }
 
   useEffect(() => {
-    console.log(altEdit)
+    // console.log(altEdit)
     document.addEventListener("click", handleClickOutside, true);
     return () => {
       document.removeEventListener("click", handleClickOutside, true);
@@ -183,7 +185,10 @@ const ContactModal = ({
                 <div 
                 key={idx} 
                 className="form-group-list-item" 
-                onClick={(e) => (populateAddress('address_id', item, stateMethod, createType), setInputDropdown(''))}>
+                onClick={(e) => (
+                  populateAddress('address_id', item, stateMethod, createType), setInputDropdown(''),
+                  setAltEdit('')
+                )}>
                   {item.contact_name}
                 </div>
                 ))}
@@ -426,18 +431,17 @@ const ContactModal = ({
             onChange={(e) => stateMethod(createType, 'contact_notes', e.target.value)} 
           />
         </div>
-
-        {message && 
-        <span className="form-group-message">
-          <SVG svg={dynamicSVG} color={'#fd7e3c'}></SVG>
-          {message}
-        </span>
-        }
       </form>
 
 
       <div className="addFieldItems-modal-box-footer">
       {/* (edit == '' | edit == 'accounts') */}
+        {message && 
+          <span className="form-group-message">
+            <SVG svg={dynamicSVG} color={'#fd7e3c'}></SVG>
+            {message}
+          </span>
+        }
         { !altEdit && 
         <button 
         className="form-group-button" 
@@ -446,7 +450,8 @@ const ContactModal = ({
           (
             extractingStateData(stateData),
             setModal(''),
-            resetState(resetType)
+            resetState(resetType),
+            edit == 'jobs' ? setUpdate('job') : null
           )
           :
           submitCreate(e, stateData, 'contacts', null, setMessage, 'create_contact', setLoading, token, 'contact/create-contact', resetType, resetState, allData, setAllData, setDynamicSVG)

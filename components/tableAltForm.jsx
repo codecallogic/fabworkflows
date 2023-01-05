@@ -117,10 +117,10 @@ const Table = ({
   }
   
   const handleEdit = (id) => {
-    
+
     if(controls == 'jobIssueControls'){
       setModal('jobIssue'),
-      setAltEdit('jobIssue'),
+      typeof id == 'number' ? setAltEdit('jobIssueUnsaved') : setAltEdit('jobIssue'),
       editData('jobIssues', 'CREATE_JOB_ISSUE', stateMethod, allData, setSelectID, id, id, allData)
     }
 
@@ -165,6 +165,7 @@ const Table = ({
                 setControls(''), 
                 setMessage(''),
                 setModal(modalType),
+                setAltEdit(''),
                 manageModalFormTypes(),
                 setTypeForm(''),
                 resetCheckboxes()

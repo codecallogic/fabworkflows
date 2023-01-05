@@ -18,14 +18,14 @@ export const jobIssueReducer = (state = initialState, action) => {
     case 'CREATE_JOB_ISSUE_ARRAY_ITEM':
       let oldArray = [...state[action.name]]
       let newArray = []
-      
+
       if(oldArray.findIndex((item) => item.id == action.value.id) == -1){
         oldArray.push(action.value)
         newArray = [...oldArray]
       }else{
         newArray = oldArray.filter((item) => item.id !== action.value.id)
       }
-
+      
       return {
         ...state,
         [action.name]: newArray

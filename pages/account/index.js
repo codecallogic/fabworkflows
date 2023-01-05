@@ -2048,7 +2048,8 @@ const Dashboard = ({
               <div
                 className="clientDashboard-view-new-item"
                 onClick={() => (
-                  setEdit(''), changeView('job'), resetType('RESET_JOB')
+                  setEdit(''), changeView('job'), resetType('RESET_JOB'),
+                  setAltEdit('')
                 )}
               >
                 <SVGs svg={'job'}></SVGs>
@@ -2365,6 +2366,7 @@ const Dashboard = ({
             editData={editData}
             job={job}
             setSelectID={setSelectID}
+            setUpdate={setUpdate}
           ></ContactModal>
         )}
         {modal == 'new_pdf' && (
@@ -2415,6 +2417,7 @@ const Dashboard = ({
             submitUpdate={submitUpdate}
             changeView={changeView}
             editData={editData}
+            quote={quote}
           ></EmailModal>
         )}
         {modal == 'phase' && (

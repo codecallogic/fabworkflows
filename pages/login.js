@@ -19,7 +19,6 @@ const Login = ({redirectLoginURL}) => {
     setMessage('')
     try {
       const responseLogin = await axios.post(`${API}/auth/login`, {email, password})
-      console.log(responseLogin)
       window.location.href = '/account'
       setLoading(false)
     } catch (error) {

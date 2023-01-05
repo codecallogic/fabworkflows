@@ -114,8 +114,8 @@ export const jobReducer = (state = initialState, action) => {
         })
       }
 
-      console.log(updateArray)
-      console.log(action.value)
+      // console.log(updateArray)
+      // console.log(action.value)
       
       newUpdatedArray = updateArray.filter((item, idx) => (item._id ? item._id : idx) !== action.value._id)
 

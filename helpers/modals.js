@@ -53,8 +53,8 @@ const populateEditData = (originalData, keyType, caseType, stateMethods, selectI
       }
     }
   } else {
-   
-    if(keyType == 'jobIssues'){
+
+    if(keyType == 'jobIssues' &&  typeof selectID !== 'number'){
       
       if(list.length > 0){
         for(let i = 0; i < list.length; i++){
@@ -99,7 +99,7 @@ const editData = (keyType, caseType, stateMethod, allData, setSelectID, id, sele
   if(keyType == 'slabs' && crudType == 'UPDATE') selectID = selectID ? selectID : id
   if(keyType == 'jobIssues') selectID = selectID ? selectID : id
   if(keyType == 'activities') selectID = selectID ? selectID : id
-  
+
   return populateEditData(
     allData,
     keyType,
