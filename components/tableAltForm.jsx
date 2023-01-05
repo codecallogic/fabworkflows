@@ -218,7 +218,8 @@ const Table = ({
                 className="table-header-controls-item-svg" 
                 onClick={(e) => (
                   extractingStateData(currentItem),
-                  nav.view == 'job' ? setUpdate('job') : null
+                  nav.view == 'job' ? setUpdate('job') : null,
+                  nav.view == 'job' ? window.scrollTo({ top: 0, behavior: 'smooth' }) : null
                 )}>
                 <SVG onClick={() => {extractingStateData(currentItem)}} svg={'thrash-can'} id={'delete'}></SVG>
               </div>
@@ -245,6 +246,7 @@ const Table = ({
                     stateMethod('COMPLETE_ACTIVITY_STATUS', 'activities', currentItem),
                     setControls(''), 
                     nav.view == 'job' ? setUpdate('job') : null,
+                    nav.view == 'job' ? window.scrollTo({ top: 0, behavior: 'smooth' }) : null, 
                     resetCheckboxes()
                   )}
                 >
@@ -260,6 +262,7 @@ const Table = ({
                     stateMethod('CANCEL_ACTIVITY_STATUS', 'activities', currentItem),
                     setControls(''), 
                     nav.view == 'job' ? setUpdate('job') : null,
+                    nav.view == 'job' ? window.scrollTo({ top: 0, behavior: 'smooth' }) : null,
                     resetCheckboxes()
                   )}
                 >
@@ -408,7 +411,7 @@ const Table = ({
               key !== '_id' && sortOrder.includes(key) &&
               <div key={idx} className="table-rows-item">
                 { 
-                  Array.isArray(item[key]) && item[key].length > 0 && matchPattern.test(item[key][0].location)
+                  Array.isArray(item[key]) && item[key].length > 0 && item[key][0] && matchPattern.test(item[key][0].location)
                   ? 
                   <img 
                     src={`${item[key][0].location}`}

@@ -179,6 +179,7 @@ const ActivityListItems = ({
                           className="addFieldItems-modal-form-container-searchList-list-item"
                           onClick={() => (
                             nav.view == 'job' ? setUpdate('job') : null,
+                            nav.view == 'job' ? window.scrollTo({ top: 0, behavior: 'smooth' }) : null, 
                             stateMethod(createType, autoFillType, item), 
                             setModal('')
                           )}
@@ -193,6 +194,7 @@ const ActivityListItems = ({
                         onClick={() => (
                           item.job = autoFill,
                           nav.view == 'job' ? setUpdate('job') : null,
+                          nav.view == 'job' ? window.scrollTo({ top: 0, behavior: 'smooth' }) : null, 
                           stateMethod(createType, autoFillType, item), 
                           setModal('')
                         )}
