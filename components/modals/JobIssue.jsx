@@ -373,6 +373,14 @@ const JobIssueModal = ({
           extractingStateData(stateData),
           resetState(resetType),
           nav.view == 'job' && stateData._id ? setUpdate('job') : null,
+          edit == 'jobs' && nav.view == 'job' && !stateData._id 
+          ? 
+          (
+            setUpdate('job'),
+            window.scrollTo({ top: 0, behavior: 'smooth' }) 
+          ) 
+          : 
+          null,
           setModal('')
         )}
         >

@@ -15,10 +15,12 @@ const Accounts = ({
   dynamicSVG,
   setDynamicSVG,
   typeOfData,
+  nav,
 
   //// DATA
   allData,
   setAllData,
+  setUpdate,
 
   //// REDUX
   stateData,
@@ -192,31 +194,31 @@ const Accounts = ({
             <div className="addFieldItems-modal-form-container-searchList-list">
               {allData &&
                 allData[dataType]
-                  .sort((a, b) => sort === 'down' ? a.name > b.name ? -1 : 1 : a.name > b.name ? 1 : -1)
-                  .map((item, idx) =>
-                    search.length > 0 ? (
-                      filterAccountSearch(item, search) ? (
-                        <div
-                          key={idx}
-                          className="addFieldItems-modal-form-container-searchList-list-item"
-                          onClick={() =>
-                            stateMethod(createType, autoFillType, item)
-                          }
-                        >
-                          {item.name}
-                        </div>
-                      ) : null
-                    ) : 
-                    (
+                .sort((a, b) => sort === 'down' ? a.name > b.name ? -1 : 1 : a.name > b.name ? 1 : -1)
+                .map((item, idx) =>
+                  search.length > 0 ? (
+                    filterAccountSearch(item, search) ? (
                       <div
                         key={idx}
                         className="addFieldItems-modal-form-container-searchList-list-item"
-                        onClick={() => stateMethod(createType, autoFillType, item)}
+                        onClick={() =>
+                          stateMethod(createType, autoFillType, item)
+                        }
                       >
                         {item.name}
                       </div>
-                    )
-                  )}
+                    ) : null
+                  ) : 
+                  (
+                    <div
+                      key={idx}
+                      className="addFieldItems-modal-form-container-searchList-list-item"
+                      onClick={() => stateMethod(createType, autoFillType, item)}
+                    >
+                      {item.name}
+                    </div>
+                  )
+              )}
             </div>
           </div>
         </form>
@@ -232,9 +234,14 @@ const Accounts = ({
             <button className="form-group-button" onClick={(e) => 
               typeOfData == 'quote' 
               ?
-              submitCreate( e, autoFill, 'jobs', 'files', setMessage, 'save_account', setLoading, token, 'jobs/create-job', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType, setModal, '')
+              (
+                submitCreate( e, autoFill, 'jobs', 'files', setMessage, 'save_account', setLoading, token, 'jobs/create-job', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, viewType, setModal, '')
+              )
               :
-              setModal('')
+              (
+                setModal(''),
+                nav.view == 'job' ? setUpdate('job') : null
+              )
             }>
               {loading == 'save_account' ? (
                 <div className="loading">

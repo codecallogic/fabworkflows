@@ -177,8 +177,8 @@ const PriceListItems = ({
                           key={idx}
                           className="addFieldItems-modal-form-container-searchList-list-item"
                           onClick={() => (
-                            nav.view = 'job' ? setUpdate('job') : null,
-                            nav.view = 'job' ? changeView('job') : null,
+                            nav.view = 'job' && edit == 'jobs' ? setUpdate('job') : null,
+                            nav.view = 'job' && edit == 'jobs' ? changeView('job') : null,
                             stateMethod(createType, autoFillType, item)
                           )}
                         >

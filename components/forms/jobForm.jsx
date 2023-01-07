@@ -559,6 +559,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           resetCheckboxes={resetCheckboxes}
           editData={editData}
           changeView={changeView}
+          edit={edit}
           setEdit={setEdit}
           viewType={'quotes'}
           modalType={'quote'}
@@ -574,6 +575,8 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           dynamicType={'CREATE_JOB_ARRAY_ITEM'}
           dynamicKey={'quotes'}
           setTypeForm={setTypeForm}
+          altEdit={altEdit}
+          setAltEdit={setAltEdit}
           setUpdate={setUpdate}
           nav={nav}
         ></Table>
@@ -596,6 +599,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           resetCheckboxes={resetCheckboxes}
           editData={editData}
           changeView={changeView}
+          edit={edit}
           setEdit={setEdit}
           viewType={'activities'}
           modalType={'activityList'}
@@ -640,6 +644,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           resetCheckboxes={resetCheckboxes}
           editData={editData}
           changeView={changeView}
+          edit={edit}
           setEdit={setEdit}
           viewType={'purchaseOrders'}
           modalType={'purchaseList'}
@@ -681,6 +686,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           resetCheckboxes={resetCheckboxes}
           editData={editData}
           changeView={changeView}
+          edit={edit}
           setEdit={setEdit}
           viewType={'jobIssues'}
           modalType={'jobIssue'}
@@ -694,6 +700,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           setSelectID={setSelectID}
           extractingStateData={extractingStateData}
           dynamicType={'CREATE_JOB_ISSUE_ITEM'}
+          deleteType={'REMOVE_JOB_ISSUE_ITEM'}
           dynamicKey={'jobIssues'}
           completeControl={false}
           cancelControl={false}

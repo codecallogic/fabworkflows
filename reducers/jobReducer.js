@@ -173,21 +173,42 @@ export const jobReducer = (state = initialState, action) => {
       if(issueArray.findIndex((item) => item.subject == action.value.subject) == -1){
         issueArray.push(action.value)
         newIssueArray = [...issueArray]
-      }else{
-        console.log('HEllo')
-        console.log(action.value)
-
-        newIssueArray = issueArray.filter((item) => item.subject !== action.value.subject)
-        newIssueArray.push(action.value)
-
-        newIssueArray = [...newIssueArray]
+      } else if (issueArray.findIndex((item, idx) => idx == action.value.index) > -1) {
         
-        // newIssueArray = issueArray.filter((item) => item.subject !== action.value.subject)
+        issueArray[action.value.index] = action.value
+
+        newIssueArray = [...issueArray]
+        
+        
+      } else {
+       
+        newIssueArray = issueArray.filter((item) => item.subject !== action.value.subject)
       }
 
+      
+      
       return {
         ...state,
         [action.name]: newIssueArray
+      }
+      break;
+
+    case 'REMOVE_JOB_ISSUE_ITEM':
+      let issueArrayExisting = [...state[action.name]]
+      let removedFromIssueArray = []
+
+      if(issueArrayExisting.findIndex((item, idx) => idx == action.value.index) > -1){
+
+        removedFromIssueArray = issueArrayExisting.filter((item) => item.subject !== action.value.subject)
+        
+      }
+
+      console.log('NEW', removedFromIssueArray)
+
+      
+      return {
+        ...state,
+        [action.name]: removedFromIssueArray
       }
       break;
     

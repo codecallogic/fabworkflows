@@ -285,9 +285,8 @@ const Dashboard = ({
     if (params) params.change ? changeView(params.change) : null;
   }, [router.query.change]);
 
-  const extractingStateData = (stateData) => {
-    // console.log(dynamicType, dynamicKey, stateData)
-    createType(dynamicType, dynamicKey, stateData);
+  const extractingStateData = (stateData, altType) => {
+    createType(altType ? altType : dynamicType, dynamicKey, stateData);
     setControls('');
   };
 
@@ -2797,6 +2796,8 @@ const Dashboard = ({
             selectID={selectID}
             typeOfData={nav.view}
             setEvent={setEvent}
+            setUpdate={setUpdate}
+            nav={nav}
           ></AccountsModal>
         )}
         {modal == 'price_list_items' && (

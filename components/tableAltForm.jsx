@@ -20,6 +20,7 @@ const Table = ({
   setMessage,
   sortOrder,
   resetCheckboxes,
+  edit,
   setEdit,
   loading,
   setLoading,
@@ -30,6 +31,7 @@ const Table = ({
   mainID,
   setTableType,
   nav,
+  deleteType,
 
   ///// EDIT
   viewType,
@@ -178,7 +180,6 @@ const Table = ({
                 id="email" 
                 className="table-header-controls-item-svg" 
                 onClick={(e) => (
-                  console.log(currentItem),
                   setModal('email'),
                   stateMethod('CREATE_EMAIL', 'email', currentItem.supplier[0] ? currentItem.supplier[0].contact_email : ''),
                   stateMethod('CREATE_EMAIL', 'data', currentItem),
@@ -218,11 +219,11 @@ const Table = ({
                 id="delete" 
                 className="table-header-controls-item-svg" 
                 onClick={(e) => (
-                  extractingStateData(currentItem),
-                  nav.view == 'job' ? setUpdate('job') : null,
-                  nav.view == 'job' ? window.scrollTo({ top: 0, behavior: 'smooth' }) : null
+                  extractingStateData(currentItem, edit !== 'jobs' ? deleteType : null),
+                  nav.view == 'job' && edit == 'jobs' ? setUpdate('job') : null,
+                  nav.view == 'job' && edit == 'jobs' ? window.scrollTo({ top: 0, behavior: 'smooth' }) : null
                 )}>
-                <SVG onClick={() => {extractingStateData(currentItem)}} svg={'thrash-can'} id={'delete'}></SVG>
+                <SVG svg={'thrash-can'} id={'delete'}></SVG>
               </div>
 
               { cancelControl && controls == 'activityControls' &&
