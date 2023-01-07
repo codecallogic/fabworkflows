@@ -174,7 +174,15 @@ export const jobReducer = (state = initialState, action) => {
         issueArray.push(action.value)
         newIssueArray = [...issueArray]
       }else{
+        console.log('HEllo')
+        console.log(action.value)
+
         newIssueArray = issueArray.filter((item) => item.subject !== action.value.subject)
+        newIssueArray.push(action.value)
+
+        newIssueArray = [...newIssueArray]
+        
+        // newIssueArray = issueArray.filter((item) => item.subject !== action.value.subject)
       }
 
       return {

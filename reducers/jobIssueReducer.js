@@ -4,6 +4,7 @@ const initialState = {
   status: '',
   category: '',
   notes: '',
+  index: '',
   history: []
 }
 export const jobIssueReducer = (state = initialState, action) => {
