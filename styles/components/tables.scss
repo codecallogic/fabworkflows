@@ -180,7 +180,7 @@
 
     &-item {
       overflow: hidden;
-      text-align: center;
+      text-align: left;
       font-size: 1rem;
       font-weight: 700;
       padding: 1rem 1rem;
@@ -201,7 +201,7 @@
 
       span {
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         width: 100%;
       }
 
@@ -384,11 +384,11 @@
       min-width: 12rem;
       max-width: 12rem;
       max-height: 12rem;
-      text-align: center;
+      text-align: left;
       word-break: break-word;
       display: -webkit-box;
-      -webkit-box-pack: center;
-      -webkit-box-align: center;
+      -webkit-box-pack: left;
+      -webkit-box-align: left;
       -webkit-line-clamp: 4;
       color: var(--color-dark-shade-scheme-1);
 
@@ -629,7 +629,7 @@
 
 .row-odd {
   width: 100%;
-  padding: 1rem 0;
+  padding: 0rem 0;
   background-color: var(--color-light-shade-scheme-3);
 
   & > div {

@@ -1390,7 +1390,7 @@ body {
       background-color: var(--color-light-shade-scheme-3); }
     .table-headers-item {
       overflow: hidden;
-      text-align: center;
+      text-align: left;
       font-size: 1rem;
       font-weight: 700;
       padding: 1rem 1rem;
@@ -1408,7 +1408,7 @@ body {
         max-width: 7rem; }
       .table-headers-item span {
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         width: 100%; }
       .table-headers-item svg {
         width: 1.2rem;
@@ -1536,11 +1536,11 @@ body {
       min-width: 12rem;
       max-width: 12rem;
       max-height: 12rem;
-      text-align: center;
+      text-align: left;
       word-break: break-word;
       display: -webkit-box;
-      -webkit-box-pack: center;
-      -webkit-box-align: center;
+      -webkit-box-pack: left;
+      -webkit-box-align: left;
       -webkit-line-clamp: 4;
       color: var(--color-dark-shade-scheme-1); }
       .table-rows-item img {
@@ -1710,7 +1710,7 @@ body {
 
 .row-odd {
   width: 100%;
-  padding: 1rem 0;
+  padding: 0rem 0;
   background-color: var(--color-light-shade-scheme-3); }
   .row-odd > div {
     background-color: var(--color-light-shade-scheme-3);
