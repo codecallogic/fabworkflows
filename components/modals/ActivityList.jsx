@@ -100,6 +100,7 @@ const ActivityListItems = ({
   };
 
   useEffect(() => {
+    console.log(createType, autoFillType)
     document.addEventListener('click', handleClickOutside, true);
     return () => {
       document.removeEventListener('click', handleClickOutside, true);
@@ -178,8 +179,8 @@ const ActivityListItems = ({
                           key={idx}
                           className="addFieldItems-modal-form-container-searchList-list-item"
                           onClick={() => (
-                            nav.view == 'job' ? setUpdate('job') : null,
-                            nav.view == 'job' ? window.scrollTo({ top: 0, behavior: 'smooth' }) : null, 
+                            nav.view == 'job' && edit == 'jobs' ? setUpdate('job') : null,
+                            nav.view == 'job' && edit == 'jobs' ? window.scrollTo({ top: 0, behavior: 'smooth' }) : null, 
                             stateMethod(createType, autoFillType, item), 
                             setModal('')
                           )}
@@ -193,8 +194,8 @@ const ActivityListItems = ({
                         className="addFieldItems-modal-form-container-searchList-list-item"
                         onClick={() => (
                           item.job = autoFill,
-                          nav.view == 'job' ? setUpdate('job') : null,
-                          nav.view == 'job' ? window.scrollTo({ top: 0, behavior: 'smooth' }) : null, 
+                          nav.view == 'job' && edit == 'jobs' ? setUpdate('job') : null,
+                          nav.view == 'job' && edit == 'jobs' ? window.scrollTo({ top: 0, behavior: 'smooth' }) : null, 
                           stateMethod(createType, autoFillType, item), 
                           setModal('')
                         )}

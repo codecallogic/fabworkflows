@@ -119,3 +119,10 @@ export const appointmentKeys = [
     title: 'Zip Code'
   }
 ]
+
+export const activities = [
+  'Cutting',
+  'Install',
+  'Polishing',
+  'Template'
+]

@@ -7,6 +7,7 @@ import 'react-calendar/dist/Calendar.css';
 //// HELPERS
 import { manageFormFields } from '../../helpers/forms';
 import { populateAddress } from '../../helpers/modals'
+import { activities } from '../../helpers/lists';
 import {
   quoteSort,
   quoteJobSort,
@@ -82,6 +83,7 @@ const JobForm = ({
   const resetType         = 'RESET_JOB';
   const resetTypeContact  = 'RESET_CONTACT';
   const filesType         = 'ADD_ARRAY_WITH_ITEMS';
+  const activitiesType    = 'CREATE_JOB_ARRAY_ITEM'
   const myRefs = useRef(null);
   const [loadingColor, setLoadingColor] = useState('black');
   const [input_dropdown, setInputDropdown] = useState('');
@@ -170,6 +172,20 @@ const JobForm = ({
     };
     html.default().set(opt).from(element).save();
   };
+
+  useEffect(() => {
+   
+    if(allData.activities && edit !== 'jobs'){
+      allData.activities.map((item, idx) => {
+
+        if(activities.includes(item.name)){
+          stateMethod(activitiesType, 'activities', item)
+        }
+        
+      })
+    }
+    
+  }, [])
 
   
   return (

@@ -79,25 +79,6 @@ const QuoteForm = ({
   const [depositType, setDepositType] = useState( stateData.quote_deposit.includes('$') ? 'percentage' : 'dollar');
 
   useEffect(() => {
-
-    // if(stateData.account && !edit){
-    //   if(!stateData.quote_number) return setMessage('Quote number required')
-    //   if(!stateData.quote_name) return setMessage('Quote name required')
-    //   if(!stateData.quote_date) return setMessage('Quote date required')
-    //   if(!stateData.quote_balance) return setMessage('Quote balance required')
-    //   if(!stateData.quote_total) return setMessage('Quote total required')
-    //   if(!stateData.quote_subtotal) return setMessage('Quote subtotal required')
-    //   if(!stateData.quote_lines) return setMessage('Quote lines required')
-    //   if(!stateData.email) return setMessage('Quote email required')
-    //   if(!stateData.phone) return setMessage('Quote phone required')
-    //   if(!stateData.contact_name) return setMessage('Contact name required')
-      
-    //   submitCreate(null, stateData, 'accounts', 'files', setMessage, 'create_account', setLoading, token, 'accounts/create-account', null, null, allData, setAllData, setDynamicSVG, changeView, 'accountForm', null, null, false,  null, null, setEdit, setSelectID)
-
-    //   setEdit('jobs'),
-    //   submitCreate(e, stateData, 'quotes', 'images', setMessage, 'create_quote', setLoading, token, 'quotes/create-quote', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'job', null, null, false, editData, { key: 'jobs', caseType: 'CREATE_JOB', method: stateMethod, setSelectID: setSelectID }, setEdit)
-      
-    // }
     
     const isEmpty = Object.values(stateData).every(
       (x) => x === '' || x.length < 1 || x === '0.00'
@@ -303,6 +284,7 @@ const QuoteForm = ({
                 value={manageFormFields(stateData.contact_name, 'contact_name')}
                 onChange={(e) => (
                   setInputDropdown(''),
+                  stateMethod(createType, 'address_id', ''),
                   stateMethod(createType, 'contact_name', e.target.value),
                   stateMethod(createType, 'quote_name', e.target.value)
                 )}
@@ -349,7 +331,10 @@ const QuoteForm = ({
             </div>
             <PlacesAutocomplete
               value={stateData.address}
-              onChange={(e) => stateMethod(createType, 'address', e)}
+              onChange={(e) => (
+                stateMethod(createType, 'address', e),
+                stateMethod(createType, 'address_id', '')
+              )}
               /////  KEYS RESPECTIVELY: ADDRESS, CITY, STATE, ZIP, COUNTRY
               onSelect={(e) => (
                 setInputDropdown(''),
@@ -420,9 +405,10 @@ const QuoteForm = ({
               <input
                 id="city"
                 value={stateData.city}
-                onChange={(e) =>
+                onChange={(e) => (
+                  stateMethod(createType, 'address_id', ''),
                   stateMethod(createType, 'city', e.target.value)
-                }
+              )}
               />
 
               <label
@@ -442,9 +428,10 @@ const QuoteForm = ({
               <input
                 id="state"
                 value={stateData.state}
-                onChange={(e) =>
+                onChange={(e) => (
+                  stateMethod(createType, 'address_id', ''),
                   stateMethod(createType, 'state', e.target.value)
-                }
+                )}
               />
 
               <label
@@ -464,9 +451,10 @@ const QuoteForm = ({
               <input
                 id="country"
                 value={stateData.country}
-                onChange={(e) =>
+                onChange={(e) => (
+                  stateMethod(createType, 'address_id', ''),
                   stateMethod(createType, 'country', e.target.value)
-                }
+                )}
               />
 
               <label
@@ -488,6 +476,7 @@ const QuoteForm = ({
                 value={stateData.zip_code}
                 onChange={(e) => (
                   validateNumber('zip_code'),
+                  stateMethod(createType, 'address_id', ''),
                   stateMethod(createType, 'zip_code', e.target.value)
                 )}
               />
@@ -511,6 +500,7 @@ const QuoteForm = ({
                 value={stateData.phone}
                 onChange={(e) => (
                   validateNumber('phone'),
+                  stateMethod(createType, 'address_id', ''),
                   stateMethod(createType, 'phone', e.target.value),
                   phoneNumber('phone', createType, stateMethod)
                 )}
@@ -534,6 +524,7 @@ const QuoteForm = ({
                 value={stateData.cell}
                 onChange={(e) => (
                   validateNumber('cell'),
+                  stateMethod(createType, 'address_id', ''),
                   stateMethod(createType, 'cell', e.target.value),
                   phoneNumber('cell', createType, stateMethod)
                 )}
@@ -558,6 +549,7 @@ const QuoteForm = ({
                 value={stateData.fax}
                 onChange={(e) => (
                   validateNumber('fax'),
+                  stateMethod(createType, 'address_id', ''),
                   stateMethod(createType, 'fax', e.target.value)
                 )}
               />
@@ -578,9 +570,10 @@ const QuoteForm = ({
               <input
                 id="email"
                 value={stateData.email}
-                onChange={(e) =>
+                onChange={(e) => (
+                  stateMethod(createType, 'address_id', ''),
                   stateMethod(createType, 'email', e.target.value)
-                }
+                )}
               />
 
               <label
@@ -611,9 +604,10 @@ const QuoteForm = ({
                 maxLength="400"
                 name="contact_notes"
                 value={stateData.contact_notes}
-                onChange={(e) =>
+                onChange={(e) => (
+                  stateMethod(createType, 'address_id', ''),
                   stateMethod(createType, 'contact_notes', e.target.value)
-                }
+                )}
               />
             </div>
           </div>
