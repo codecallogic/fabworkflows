@@ -360,11 +360,6 @@ const Dashboard = ({
 
   }, [])
 
-  useEffect(() => {
-    console.log(nav)
-    console.log(edit)
-  }, [nav, edit])
-
   return (
     <>
       <TopNav 

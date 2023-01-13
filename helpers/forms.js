@@ -109,11 +109,12 @@ const submitCreate = async (e, stateData, type, fileType, setMessage, loadingTyp
     if(editData){
 
       if(type !== editDataType.key){
-        console.log(allData[editDataType.key])
+
         let secondList = [...allData[editDataType.key]]
         secondList.push(responseCreate.data.item)
         allData[editDataType.key] = secondList
         setAllData(allData)
+        
       }
 
       editData(editDataType.key, editDataType.caseType, editDataType.method, allData, editDataType.setSelectID, responseCreate.data.item._id)
