@@ -38,6 +38,9 @@ const AccountForm = ({
   setSelectID,
   event,
   setTypeForm,
+  setAltEdit,
+  altEdit,
+  nav,
 
   //// DATA
   typeOfData,
@@ -76,16 +79,6 @@ const AccountForm = ({
   // TODO: Update contacts list when creating new contact after submitting create account, suggest to Diego implementing RTC tech
   
   useEffect(() => {
-
-    // if(stateData.name && !edit){
-    //   if(!stateData.salesperson) return setMessage('Salesperson required')
-    //   if(!stateData.taxExempt) return setMessage('Tax exempt required')
-    //   if(!stateData.notes) return setMessage('Notes required')
-    //   if(!stateData.accountAddress) return setMessage('Account address required')
-      
-    //   submitCreate(null, stateData, 'accounts', 'files', setMessage, 'create_account', setLoading, token, 'accounts/create-account', null, null, allData, setAllData, setDynamicSVG, changeView, 'accountForm', null, null, false,  null, null, setEdit, setSelectID)
-      
-    // }
     
     const isEmpty = Object.values(stateData).every(
       (x) => x === '' || x.length < 1 || x === ''
@@ -372,6 +365,8 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           dynamicType={'CREATE_ACCOUNT_ARRAY_ITEM'}
           dynamicKey={'contacts'}
           setTypeForm={setTypeForm}
+          setAltEdit={setAltEdit}
+          nav={nav}
         ></Table>
 
         <Table
@@ -407,6 +402,8 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           dynamicType={'CREATE_ACCOUNT_ARRAY_ITEM'}
           dynamicKey={'priceLists'}
           setTypeForm={setTypeForm}
+          setAltEdit={setAltEdit}
+          nav={nav}
         ></Table>
 
         <Table
@@ -442,6 +439,8 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           dynamicType={'CREATE_ACCOUNT_ARRAY_ITEM'}
           dynamicKey={'quotes'}
           setTypeForm={setTypeForm}
+          setAltEdit={setAltEdit}
+          nav={nav}
         ></Table>
 
         <Table
@@ -477,6 +476,8 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           dynamicType={'CREATE_ACCOUNT_ARRAY_ITEM'}
           dynamicKey={'jobs'}
           setTypeForm={setTypeForm}
+          setAltEdit={setAltEdit}
+          nav={nav}
         ></Table>
 
         <div className="form-box" style={{ width: '100%', padding: '0 2rem' }}>

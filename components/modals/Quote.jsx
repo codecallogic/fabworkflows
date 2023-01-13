@@ -4,7 +4,7 @@ import { manageFormFields } from '../../helpers/forms';
 import { selectCreateArrayType, selectResetType } from '../../helpers/dispatchTypes';
 import { filterQuoteSearch } from '../../helpers/validations';
 
-const PriceListItems = ({
+const QuoteList = ({
   token,
   message,
   setMessage,
@@ -177,9 +177,10 @@ const PriceListItems = ({
                           key={idx}
                           className="addFieldItems-modal-form-container-searchList-list-item"
                           onClick={() => (
-                            nav.view = 'job' && edit == 'jobs' ? setUpdate('job') : null,
-                            nav.view = 'job' && edit == 'jobs' ? changeView('job') : null,
-                            stateMethod(createType, autoFillType, item)
+                            nav.view = 'job' && edit == 'jobs' ? setUpdate('job') : nav.view,
+                            nav.view = 'job' && edit == 'jobs' ? changeView('job') : nav.view,
+                            stateMethod(createType, autoFillType, item),
+                            setModal('')
                           )}
                         >
                           {`${item.quote_name} / ${item.quote_number} / ${item.contact_name}`}
@@ -190,8 +191,8 @@ const PriceListItems = ({
                         key={idx}
                         className="addFieldItems-modal-form-container-searchList-list-item"
                         onClick={() => (
-                          nav.view = 'job' ? setUpdate('job') : null,
-                          nav.view = 'job' ? changeView('job') : null,
+                          nav.view = 'job' && edit == 'jobs' ? setUpdate('job') : nav.view,
+                          nav.view = 'job' && edit == 'jobs' ? changeView('job') : nav.view,
                           stateMethod(createType, autoFillType, item),
                           setModal('')
                         )}
@@ -246,4 +247,4 @@ const PriceListItems = ({
   );
 };
 
-export default PriceListItems;
+export default QuoteList;

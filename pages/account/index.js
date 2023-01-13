@@ -313,7 +313,7 @@ const Dashboard = ({
   }
 
   useEffect(() => {
-    
+
     if(update == 'job')  handleUpdateJob()
     
   }, [update])
@@ -359,6 +359,11 @@ const Dashboard = ({
     })
 
   }, [])
+
+  useEffect(() => {
+    console.log(nav)
+    console.log(edit)
+  }, [nav, edit])
 
   return (
     <>
@@ -1840,6 +1845,9 @@ const Dashboard = ({
             event={event}
             setEvent={setEvent}
             setTypeForm={setTypeForm}
+            setAltEdit={setAltEdit}
+            altEdit={altEdit}
+            nav={nav}
           ></AccountForm>
         )}
 
