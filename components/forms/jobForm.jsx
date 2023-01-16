@@ -179,7 +179,7 @@ const JobForm = ({
       allData.activities.map((item, idx) => {
 
         if(activities.includes(item.name)){
-          stateMethod(activitiesType, 'activities', item)
+          return stateMethod(activitiesType, 'activities', item)
         }
         
       })
@@ -551,7 +551,8 @@ ${returnIfTrue(stateData.accountAddress.email)}
 ${returnIfTrue(stateData.accountAddress.contact_notes)}
                   `
                   : `(Add account address to confirm activity appointments)`
-              }
+                }
+                readOnly
               />
             </div>
           </div>

@@ -116,6 +116,30 @@ const buildHeaders = (setHeaders, sortType, tableType) => {
     setHeaders((oldArray) => [...oldArray, objectCutouts]);
   }
 
+  if(tableType == 'quotes'){
+    let objectCutouts = new Object();
+    Object.values(sortType).forEach((item) => { objectCutouts[item] = item });
+    setHeaders((oldArray) => [...oldArray, objectCutouts]);
+  }
+
+  if(tableType == 'jobs'){
+    let objectCutouts = new Object();
+    Object.values(sortType).forEach((item) => { objectCutouts[item] = item });
+    setHeaders((oldArray) => [...oldArray, objectCutouts]);
+  }
+
+  if(tableType == 'contacts'){
+    let objectCutouts = new Object();
+    Object.values(sortType).forEach((item) => { objectCutouts[item] = item });
+    setHeaders((oldArray) => [...oldArray, objectCutouts]);
+  }
+
+  if(tableType == 'accounts'){
+    let objectCutouts = new Object();
+    Object.values(sortType).forEach((item) => { objectCutouts[item] = item });
+    setHeaders((oldArray) => [...oldArray, objectCutouts]);
+  }
+  
 }
 
 const sortColumns = (a, b, type) => {

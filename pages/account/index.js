@@ -188,6 +188,10 @@ const Dashboard = ({
   const [event, setEvent] = useState('');
   const [edgeHeaders, setEdgeHeaders] = useState([]);
   const [cutoutHeaders, setCutoutHeaders] = useState([]);
+  const [quoteHeaders, setQuoteHeaders] = useState([])
+  const [jobHeaders, setJobHeaders] = useState([])
+  const [contactHeaders, setContactHeaders] = useState([])
+  const [accountHeaders, setAccountHeaders] = useState([])
   const [modalFormType, setModalFormType] = useState('')
   const [typeForm, setTypeForm] = useState('')
   const [theme, setTheme] = useState('light')
@@ -232,6 +236,10 @@ const Dashboard = ({
     
     buildHeaders(setEdgeHeaders, edgeSort, 'edges')
     buildHeaders(setCutoutHeaders, edgeSort, 'cutouts')
+    buildHeaders(setQuoteHeaders, quoteSort, 'quotes')
+    buildHeaders(setJobHeaders, jobSort, 'jobs')
+    buildHeaders(setContactHeaders, contactSort, 'contacts')
+    buildHeaders(setAccountHeaders, accountSort, 'accounts')
     
     document.addEventListener('click', handleClickOutside, true);
 
@@ -309,12 +317,13 @@ const Dashboard = ({
   }, [allData.appointments, allData.jobs])
   
   const handleUpdateJob = () => {
+    console.log('hello')
     submitUpdate(null, job, 'jobs', 'files', setMessage, 'update_job', setLoading, token, 'jobs/update-job', 'RESET_JOB', resetType, allData, setAllData, setDynamicSVG, changeView, 'jobs', null, null, job._id, editData, 'CREATE_JOB', createType, setSelectID, true, 'jobs', setUpdate)
   }
 
   useEffect(() => {
 
-    if(update == 'job')  handleUpdateJob()
+    if(update == 'job') return handleUpdateJob()
     
   }, [update])
 
@@ -356,6 +365,16 @@ const Dashboard = ({
       allData[client.type] = client.list
       setAllData(allData)
       changeView('assignees')
+    })
+
+    socket.on('checkAccounts', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+    })
+
+    socket.on('checkContacts', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
     })
 
   }, [])
@@ -617,7 +636,7 @@ const Dashboard = ({
             token={token}
             title={'Quote List'}
             typeOfData={'quotes'}
-            componentData={data.quotes}
+            componentData={quoteHeaders}
             allData={allData}
             setAllData={setAllData}
             stateMethod={createType}
@@ -738,7 +757,7 @@ const Dashboard = ({
             token={token}
             title={'Accounts List'}
             typeOfData={'accounts'}
-            componentData={data.accounts}
+            componentData={accountHeaders}
             allData={allData}
             setAllData={setAllData}
             stateMethod={createType}
@@ -777,7 +796,7 @@ const Dashboard = ({
             token={token}
             title={'Job List'}
             typeOfData={'jobs'}
-            componentData={data.jobs}
+            componentData={jobHeaders}
             allData={allData}
             setAllData={setAllData}
             stateMethod={createType}
@@ -1209,7 +1228,7 @@ const Dashboard = ({
             token={token}
             title={'Contact List'}
             typeOfData={'contacts'}
-            componentData={data.contacts}
+            componentData={contactHeaders}
             allData={allData}
             setAllData={setAllData}
             modal={modal}

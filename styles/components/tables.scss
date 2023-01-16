@@ -183,7 +183,7 @@
       text-align: left;
       font-size: 1rem;
       font-weight: 700;
-      padding: 1rem 1rem;
+      padding: 1rem 0rem;
       min-width: 12rem;
       max-width: 12rem;
       color: var(--color-dark-shade-scheme-1);
@@ -191,7 +191,7 @@
       word-break: break-word;
       display: -webkit-box;
       -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
+      -webkit-line-clamp: 4;
       text-transform: capitalize;
 
       &:first-child {
@@ -300,7 +300,7 @@
     &-checkbox {
       display: flex;
       justify-content: center;
-      align-items: center;
+      // align-items: center;
       width: 3rem;
       min-width: 7rem;
       max-width: 5rem;
@@ -358,12 +358,11 @@
     &-edit {
       display: flex;
       justify-content: center;
-      align-items: center;
       min-width: 3rem;
       
       svg {
-        width: 1.7rem;
-        height: 1.7rem;
+        width: 2rem;
+        height: 2rem;
         fill: var(--color-scheme-3);
         transition: all .5s;
 

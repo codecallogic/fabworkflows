@@ -800,7 +800,8 @@ body {
     animation: loadingSpinner 1s linear infinite; }
   .loading-spinner-container {
     width: 3rem;
-    height: 3rem; }
+    height: 3rem;
+    margin: 0 .3rem; }
 
 @keyframes dots {
   50% {
@@ -1393,7 +1394,7 @@ body {
       text-align: left;
       font-size: 1rem;
       font-weight: 700;
-      padding: 1rem 1rem;
+      padding: 1rem 0rem;
       min-width: 12rem;
       max-width: 12rem;
       color: var(--color-dark-shade-scheme-1);
@@ -1401,7 +1402,7 @@ body {
       word-break: break-word;
       display: -webkit-box;
       -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
+      -webkit-line-clamp: 4;
       text-transform: capitalize; }
       .table-headers-item:first-child {
         min-width: 7rem;
@@ -1475,7 +1476,6 @@ body {
     .table-rows-checkbox {
       display: flex;
       justify-content: center;
-      align-items: center;
       width: 3rem;
       min-width: 7rem;
       max-width: 5rem; }
@@ -1519,11 +1519,10 @@ body {
     .table-rows-edit {
       display: flex;
       justify-content: center;
-      align-items: center;
       min-width: 3rem; }
       .table-rows-edit svg {
-        width: 1.7rem;
-        height: 1.7rem;
+        width: 2rem;
+        height: 2rem;
         fill: var(--color-scheme-3);
         transition: all .5s; }
         .table-rows-edit svg:hover {

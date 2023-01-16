@@ -157,6 +157,15 @@ const Table = ({
       <div className="table-header color-grey-light-scheme-2">
         <div className="table-header-title color-grey-light-scheme-2">{title}</div> 
           <div className="table-header-controls">
+            { loading &&
+              <div className="loading-spinner-container">
+                <div className="loading-spinner">
+                  <span style={{backgroundColor: loadingColor}}></span>
+                  <span style={{backgroundColor: loadingColor}}></span>
+                  <span style={{backgroundColor: loadingColor}}></span>
+                </div>
+              </div>
+            }
             <div 
             id="plus" 
             className="table-header-controls-item-svg" 
