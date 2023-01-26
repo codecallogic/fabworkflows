@@ -349,13 +349,13 @@ const Table = ({
                             > 
                               {
                               data.name ? 
-                              data.name.substring(0, 10) : 
+                              data.name.substring(0, 20) : 
                               data.quote_name ?
                               data.quote_name.substring(0, 30) : 
                               data.contact_name ? 
-                              data.contact_name.substring(0, 10) :
+                              data.contact_name.substring(0, 20) :
                               data.firstName ? 
-                              `${data.lastName.substring(0, 1)}. ${data.firstName.substring(0, 5)} ` :
+                              `${data.lastName.substring(0, 15)}. ${data.firstName.substring(0, 15)} ` :
                               data.supplier ? 
                               manageFormFields(data.supplier[0], 'name') :
                               data.subject ?

@@ -16,6 +16,7 @@ const QuoteList = ({
   setDynamicSVG,
   typeOfData,
   nav,
+  altEdit,
 
   //// DATA
   allData,
@@ -167,26 +168,12 @@ const QuoteList = ({
               </div>
             </div>
             <div className="addFieldItems-modal-form-container-searchList-list">
-              {allData &&
+              {allData && altEdit !== 'activities' &&
                 allData[dataType]
-                  .sort((a, b) => sort === 'down' ? a.quote_name > b.quote_name ? -1 : 1 : a.quote_name > b.quote_name ? 1 : -1)
-                  .map((item, idx) =>
-                    search.length > 0 ? (
-                      filterQuoteSearch(item, search) ? (
-                        <div
-                          key={idx}
-                          className="addFieldItems-modal-form-container-searchList-list-item"
-                          onClick={() => (
-                            nav.view = 'job' && edit == 'jobs' ? setUpdate('job') : nav.view,
-                            nav.view = 'job' && edit == 'jobs' ? changeView('job') : nav.view,
-                            stateMethod(createType, autoFillType, item),
-                            setModal('')
-                          )}
-                        >
-                          {`${item.quote_name} / ${item.quote_number} / ${item.contact_name}`}
-                        </div>
-                      ) : null
-                    ) : (
+                .sort((a, b) => sort === 'down' ? a.quote_name > b.quote_name ? -1 : 1 : a.quote_name > b.quote_name ? 1 : -1)
+                .map((item, idx) =>
+                  search.length > 0 ? (
+                    filterQuoteSearch(item, search) ? (
                       <div
                         key={idx}
                         className="addFieldItems-modal-form-container-searchList-list-item"
@@ -197,10 +184,54 @@ const QuoteList = ({
                           setModal('')
                         )}
                       >
-                         {`${item.quote_name} / ${item.quote_number} / ${item.contact_name}`}
+                        {`${item.quote_name} / ${item.quote_number} / ${item.contact_name}`}
                       </div>
-                    )
-                  )}
+                    ) : null
+                  ) : (
+                    <div
+                      key={idx}
+                      className="addFieldItems-modal-form-container-searchList-list-item"
+                      onClick={() => (
+                        nav.view = 'job' && edit == 'jobs' ? setUpdate('job') : nav.view,
+                        nav.view = 'job' && edit == 'jobs' ? changeView('job') : nav.view,
+                        stateMethod(createType, autoFillType, item),
+                        setModal('')
+                      )}
+                    >
+                        {`${item.quote_name} / ${item.quote_number} / ${item.contact_name}`}
+                    </div>
+                  )
+              )}
+              {allData && altEdit == 'activities' &&
+                allData[dataType]
+                .sort((a, b) => sort === 'down' ? a.quote_name > b.quote_name ? -1 : 1 : a.quote_name > b.quote_name ? 1 : -1)
+                .map((item, idx) =>
+                  search.length > 0 ? (
+                    filterQuoteSearch(item, search) ? (
+                      <div
+                        key={idx}
+                        className="addFieldItems-modal-form-container-searchList-list-item"
+                        onClick={() => (
+                          stateMethod('CREATE_ACTIVITY', 'selectQuoteID', item._id),
+                          setModal('activityStatusList')
+                        )}
+                      >
+                        {`${item.quote_name} / ${item.quote_number} / ${item.contact_name}`}
+                      </div>
+                    ) : null
+                  ) : (
+                    <div
+                      key={idx}
+                      className="addFieldItems-modal-form-container-searchList-list-item"
+                      onClick={() => (
+                        stateMethod('CREATE_ACTIVITY', 'selectQuoteID', item._id),
+                        setModal('activityStatusList')
+                      )}
+                    >
+                        {`${item.quote_name} / ${item.quote_number} / ${item.contact_name}`}
+                    </div>
+                  )
+              )}
             </div>
           </div>
         </form>
@@ -212,7 +243,7 @@ const QuoteList = ({
               {message}
             </span>
           )}
-          {
+          { !edit && !nav.view == 'calendar' &&
             <button className="form-group-button" onClick={(e) => setModal('')}>
               {loading == 'select_account' ? (
                 <div className="loading">
@@ -225,7 +256,7 @@ const QuoteList = ({
               )}
             </button>
           }
-          {edit == dataType && (
+          { edit == dataType && (
             <button
               className="form-group-button"
               onClick={(e) => (e.preventDefault(), null)}
@@ -241,6 +272,25 @@ const QuoteList = ({
               )}
             </button>
           )}
+          { altEdit &&
+            <button
+              className="form-group-button"
+              onClick={(e) => (
+                e.preventDefault(), 
+                setModal('activityStatusList')
+              )}
+            >
+              {loading == 'select_account' ? (
+                <div className="loading">
+                  <span style={{ backgroundColor: loadingColor }}></span>
+                  <span style={{ backgroundColor: loadingColor }}></span>
+                  <span style={{ backgroundColor: loadingColor }}></span>
+                </div>
+              ) : (
+                'Select Quote'
+              )}
+            </button>
+          }
         </div>
       </div>
     </div>

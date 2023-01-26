@@ -10,7 +10,8 @@ const initialState = {
   dependency: '',
   description: '',
   active: '',
-  job: ''
+  job: '',
+  selecteQuoteID: '',
 }
 
 export const activityReducer = (state = initialState, action) => {

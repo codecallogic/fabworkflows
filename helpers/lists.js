@@ -67,12 +67,12 @@ export const messageType = [
 
 export const appointmentKeys = [
   {
-    key: 'job.account.name',
-    title: 'Account Name',
+    key: 'quote.contact_name',
+    title: 'Contact name',
   },
   {
-    key: 'job.name',
-    title: 'Job Name'
+    key: 'quote.quote_name',
+    title: 'Quote Name'
   },
   {
     key: 'title',
@@ -99,24 +99,28 @@ export const appointmentKeys = [
     title: 'Assignee'
   },
   {
-    key: 'job.accountAddress.contact_name',
-    title: 'Customer'
-  },
-  {
-    key: 'job.accountAddress.address',
+    key: 'quote.address',
     title: 'Address'
   },
   {
-    key: 'job.accountAddress.city',
+    key: 'quote.city',
     title: 'City'
   },
   {
-    key: 'job.accountAddress.state',
+    key: 'quote.state',
     title: 'State'
   },
   {
-    key: 'job.accountAddress.zip_code',
+    key: 'quote.zip_code',
     title: 'Zip Code'
+  },
+  {
+    key: 'quote.phone',
+    title: 'Contact Phone'
+  },
+  {
+    key: 'quote.email',
+    title: 'Contact Email'
   }
 ]
 

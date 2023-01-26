@@ -421,22 +421,26 @@
 
       &-dropdown {
         position: relative;
+        height: min-content!important;
 
         span {
           display: flex;
           align-items: center;
           justify-content: center;
-          background-color: var(--color-dark-shade-scheme-1);
+          background-color: var(--color-light-shade-scheme-1);
           min-width: 8rem;
-          color: var(--color-light-shade-scheme-1);
+          color: var(--color-dark-shade-scheme-1);
           padding: 0.5rem 1rem;
+          border-radius: 1.2rem;
+          border: .1rem solid var(--color-scheme-1);
           transition: all 0.5s ease-in-out;
 
           svg {
             margin-left: .5rem;
             width: 2rem;
             height: 2rem;
-            fill: var(--color-scheme-2);
+            fill: var(--color-scheme-1);
+            box-shadow: none;
           }
 
           &:hover {
@@ -446,10 +450,13 @@
 
         &-items {
           position: absolute;
-          top: 100%;
+          top: 115%;
+          left: -50%;
           width: 100%;
           max-height: 10rem;
-          background-color: var(--color-dark-shade-scheme-3);
+          min-width: 200%!important;
+          background-color: var(--color-light-shade-scheme-2);
+          border-radius: 1.2rem;
           overflow-y: scroll;
           z-index: 5000;
           overflow-x: auto;
@@ -462,22 +469,22 @@
           }
 
           &::-webkit-scrollbar-thumb {
-            background-color: var(--color-scheme-3);
+            background-color: var(--color-scheme-1);
 
           }
 
           &-item {
-            width: max-content;
+            width: 100%;
             height: 100%;
             font-size: 1.4rem;
-            background-color: var(--color-dark-shade-scheme-3);
-            color: var(--color-light-shade-scheme-1);
+            color: var(--color-dark-shade-scheme-1);
             padding: 0.5rem 1rem;
             z-index: 5000;
             transition: all 0.3s ease-in-out;
             
             &:hover {
               cursor: pointer;
+              background-color: var(--color-light-shade-scheme-4);
             }
           }
         }

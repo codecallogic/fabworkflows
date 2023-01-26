@@ -317,7 +317,7 @@ const Dashboard = ({
   }, [allData.appointments, allData.jobs])
   
   const handleUpdateJob = () => {
-    console.log('hello')
+
     submitUpdate(null, job, 'jobs', 'files', setMessage, 'update_job', setLoading, token, 'jobs/update-job', 'RESET_JOB', resetType, allData, setAllData, setDynamicSVG, changeView, 'jobs', null, null, job._id, editData, 'CREATE_JOB', createType, setSelectID, true, 'jobs', setUpdate)
   }
 
@@ -2497,6 +2497,7 @@ const Dashboard = ({
             setEvent={setEvent}
             setUpdate={setUpdate}
             nav={nav}
+            altEdit={altEdit}
           ></QuoteModal>
         )}
         {modal == 'assignee' && (
@@ -2691,6 +2692,7 @@ const Dashboard = ({
             editData={editData}
             selectID={selectID}
             setUpdate={setUpdate}
+            nav={nav}
           ></ActivityStatusListModal>
         )}
         {modal == 'purchaseOrders' && (

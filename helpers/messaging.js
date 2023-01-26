@@ -26,7 +26,7 @@ const errorHandlingConfirmed = (error, setLoading, setMessage) => {
   
 }
 
-export const newActivityConfirmed = async (token, stateData, setModal, setLoading, loadingType, setMessage, setDynamicSVG) => {
+export const newActivityConfirmed = async (token, stateData, setModal, nav, setLoading, loadingType, setMessage, setDynamicSVG) => {
   
   if(!stateData.status) return setModal('')
 
@@ -62,7 +62,8 @@ export const newActivityConfirmed = async (token, stateData, setModal, setLoadin
 
     setLoading('')
     setMessage(responseMessage.data)
-    setModal()
+    if(nav.view == 'job') setModal('')
+    if(nav.view == 'calendar') setModal('activities')
     
   } catch (error) {
     

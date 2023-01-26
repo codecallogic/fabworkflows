@@ -513,7 +513,7 @@ const ActivityModal = ({
             className="form-group-button" 
             onClick={(e) => (
               e.preventDefault(),
-              manageAutoSchedule(stateData, setModal, 'activityStatusList', stateMethod, 'UPDATE_JOB_ARRAY_ITEM', 'activities')
+              manageAutoSchedule(stateData, setModal, 'quote', stateMethod, 'UPDATE_JOB_ARRAY_ITEM', 'activities')
             )}>
                 {loading == 'update_activity_job_form' ? 
                 <div className="loading">
@@ -522,7 +522,7 @@ const ActivityModal = ({
                   <span style={{backgroundColor: loadingColor}}></span>
                 </div>
                 : 
-                'Update Activity'
+                'Update Activity' 
                 }
             </button>
           }

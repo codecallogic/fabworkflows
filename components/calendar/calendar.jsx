@@ -128,7 +128,6 @@ const Schedule = ({
     }
 
     if(event.type == 'activity'){
-      console.log(event)
       editData('jobs', 'CREATE_JOB', stateMethod, allData, null, null, event.jobID)
       setID(event.id)
       

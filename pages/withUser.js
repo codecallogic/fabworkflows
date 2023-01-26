@@ -35,10 +35,10 @@ const withUser = Page => {
           account = responseUser.data
         } catch (error) {
           account = null
-          console.log(error) 
+          // console.log(error) 
         }
       }
-
+      
       if(!account){
         context.res.writeHead(302, {
           Location: '/login'

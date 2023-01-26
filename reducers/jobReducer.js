@@ -15,7 +15,7 @@ const initialState = {
   purchaseOrders: [],
   jobIssues: [],
   files: [],
-  contracts: [],
+  contracts: []
 }
 
 export const jobReducer = (state = initialState, action) => {
