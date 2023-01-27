@@ -684,6 +684,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
           setTypeForm={setTypeForm}
           setUpdate={setUpdate}
           nav={nav}
+          setAltEdit={setAltEdit}
         ></Table>
         <Table
           token={token}
