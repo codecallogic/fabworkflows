@@ -529,6 +529,10 @@ const Dashboard = ({
 
   }, [])
 
+  useEffect(() => {
+    changeView(nav.view)
+  }, [allData])
+
   return (
     <>
       <TopNav 

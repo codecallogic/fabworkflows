@@ -3809,27 +3809,35 @@ body {
       color: var(--color-dark-shade-scheme-4); }
 
 .analytics {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: min-content;
   padding: 2rem; }
   .analytics-item {
     display: flex;
     align-items: center;
-    font-size: 2.4rem;
-    background-color: var(--color-scheme-1);
+    font-size: 1.8rem;
+    background-color: var(--color-scheme-5);
     padding: 2rem;
     border-radius: 1.2rem;
-    box-shadow: 0.2rem 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.3); }
+    box-shadow: 0.2rem 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.3);
+    width: 18rem;
+    height: 15rem;
+    margin-right: 2rem;
+    margin-bottom: 2rem; }
     .analytics-item div {
       display: flex;
       flex-direction: column;
       align-items: center;
       color: white; }
     .analytics-item svg {
-      width: 8rem;
-      height: 8rem;
+      width: 5rem;
+      height: 5rem;
       margin: 0 2rem;
       fill: white; }
     .analytics-item span {
-      font-size: 3.2rem;
+      font-size: 2.8rem;
       margin: 0 1rem;
       color: white; }
 
