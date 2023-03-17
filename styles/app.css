@@ -3818,7 +3818,7 @@ body {
     display: flex;
     align-items: center;
     font-size: 1.8rem;
-    background-color: var(--color-scheme-5);
+    background-color: var(--color-scheme-3);
     padding: 2rem;
     border-radius: 1.2rem;
     box-shadow: 0.2rem 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.3);
