@@ -79,7 +79,7 @@ const AccountForm = ({
   // TODO: Update contacts list when creating new contact after submitting create account, suggest to Diego implementing RTC tech
   
   useEffect(() => {
-    
+
     const isEmpty = Object.values(stateData).every(
       (x) => x === '' || x.length < 1 || x === ''
     );
@@ -90,7 +90,7 @@ const AccountForm = ({
   }, [stateData]);
 
   useEffect(() => {
-    if(edit == typeOfData){
+    if(edit == typeOfData && !altEdit){
       editData('accounts', 'CREATE_ACCOUNT', stateMethod, allData, setSelectID, null, selectID)
     }
   }, [selectID])

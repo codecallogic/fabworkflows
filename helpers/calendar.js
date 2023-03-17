@@ -507,7 +507,7 @@ export const setAllEvents = (appointments, jobs) => {
         activity.activity         = item
         activity.backgroundColor  = item.color
         activity.jobName          = job.name
-        activity.accountID        = job.account[0]._id
+        activity.accountID        = job.account[0] ? job.account[0]._id : ''
         activity.jobID            = job._id
         activity.job              = job
         activity.assigned         = item.assignee

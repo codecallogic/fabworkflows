@@ -16,11 +16,10 @@
     flex-direction: column;
     align-items: center;
     margin: 0 auto;
-    width: 80%;
     padding: 0;
 
     & > .table {
-      width: 120% !important;
+      width: 99% !important;
     }
   }
 
@@ -392,8 +391,8 @@
       color: var(--color-dark-shade-scheme-1);
 
       img {
-        width: 10rem;
-        height: 10rem;
+        width: 8rem;
+        height: 8rem;
         box-shadow: 0.3rem 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.2);
         background-color: white;
         border-radius: 1.2rem;

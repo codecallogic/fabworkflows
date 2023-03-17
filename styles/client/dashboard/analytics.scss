@@ -1,0 +1,33 @@
+.analytics {
+  padding: 2rem;
+
+  &-item {
+    display: flex;
+    align-items: center;
+    font-size: 2.4rem;
+    background-color: var(--color-scheme-1);
+    padding: 2rem;
+    border-radius: 1.2rem;
+    box-shadow: .2rem .2rem .2rem .2rem rgba(0,0,0, .3);
+
+    div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: white;
+    }
+
+    svg {
+      width: 8rem;
+      height: 8rem;
+      margin: 0 2rem;
+      fill: white;
+    }
+
+    span {
+      font-size: 3.2rem;
+      margin: 0 1rem;
+      color: white;
+    }
+  }
+}

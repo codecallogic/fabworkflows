@@ -111,6 +111,7 @@ import AppointmentsModal from '../../components/modals/Appointments'
 import RecurringModal from '../../components/modals/Recurring'
 import AccountModal from '../../components/modals/Account'
 import MessageForm from '../../components/forms/messageForm';
+import Analytics from '../../components/account/Analytics';
 
 axios.defaults.withCredentials = true;
 
@@ -352,6 +353,12 @@ const Dashboard = ({
 
       let newEvents = setAllEvents(allData.appointments, allData.jobs, 'week')
       setEvents(newEvents)
+
+      if(client.id && modal == 'add_appointment'){
+        setEdit(client.edit)
+        setSelectID(client.id)
+        editData('appointments', 'CREATE_APPOINTMENT', createType, allData, setSelectID, null, client.id)
+      }
      
     })
 
@@ -375,6 +382,149 @@ const Dashboard = ({
     socket.on('checkContacts', (client) => {
       allData[client.type] = client.list
       setAllData(allData)
+    })
+
+    socket.on('accounts', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+
+      if(client.id && nav.view == 'accountForm'){
+        setEdit(client.edit)
+        setSelectID(client.id)
+        editData('accounts', 'CREATE_ACCOUNT', createType, allData, setSelectID, null, client.id)
+      }
+    })
+
+    socket.on('contracts', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+
+      if(client.id && nav.view == 'contractForm'){
+        setEdit(client.edit)
+        setSelectID(client.id)
+        editData('contracts', 'CREATE_CONTRACT', createType, allData, setSelectID, null, client.id)
+      }
+    })
+
+    socket.on('brands', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+    })
+
+    socket.on('categories', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+    })
+
+    socket.on('colors', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+    })
+
+    socket.on('contacts', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+    })
+
+    socket.on('cutouts', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+    })
+
+    socket.on('edges', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+    })
+
+    socket.on('locations', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+    })
+
+    socket.on('materials', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+    })
+
+    socket.on('messageTemplates', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+    })
+
+    socket.on('models', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+    })
+
+    socket.on('phases', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+    })
+
+    socket.on('prices', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+    })
+
+    socket.on('products', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+
+      if(client.id && nav.view == 'product'){
+        setEdit(client.edit)
+        setSelectID(client.id)
+        editData('products', 'CREATE_PRODUCT', createType, allData, setSelectID, null, client.id)
+      }
+    })
+
+    socket.on('purchaseOrders', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+
+      if(client.id && nav.view == 'purchaseOrderForm'){
+        setEdit(client.edit)
+        setSelectID(client.id)
+        editData('purchaseOrders', 'CREATE_PO', createType, allData, setSelectID, null, client.id)
+      }
+    })
+
+    socket.on('quotes', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+
+      if(client.id && nav.view == 'quote'){
+        setEdit(client.edit)
+        setSelectID(client.id)
+        editData('quotes', 'CREATE_QUOTE', createType, allData, setSelectID, null, client.id)
+      }
+    })
+
+    socket.on('remnants', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+
+      if(client.id && nav.view == 'remnant'){
+        setEdit(client.edit)
+        setSelectID(client.id)
+        editData('remnants', 'CREATE_REMNANT', createType, allData, setSelectID, null, client.id)
+      }
+    })
+
+    socket.on('slabs', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+
+      if(client.id && nav.view == 'slab'){
+        setEdit(client.edit)
+        setSelectID(client.id)
+        editData('slabs', 'CREATE_SLAB', createType, allData, setSelectID, null, client.id)
+      }
+    })
+
+    socket.on('suppliers', (client) => {
+      allData[client.type] = client.list
+      setAllData(allData)
+
     })
 
   }, [])
@@ -1779,6 +1929,7 @@ const Dashboard = ({
             setModalFormType={setModalFormType}
             typeForm={typeForm}
             setTypeForm={setTypeForm}
+            setAltEdit={setAltEdit}
           ></PurchaseOrderForm>
         )}
 
@@ -1914,6 +2065,14 @@ const Dashboard = ({
             message={message}
             altEdit={altEdit}
             events={events}
+          />
+        )}
+
+        {nav.view == 'analytics' && (
+          <Analytics
+            allData={allData}
+            setAllData={setAllData}
+            changeView={changeView}
           />
         )}
 

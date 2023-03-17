@@ -401,6 +401,7 @@ const Table = ({
                 onClick={(e) => e.target.checked == true ?  
                   (
                     setMessage(''),
+                    setAltEdit(typeOfData),
                     setDynamicType(dynamicType),
                     setDynamicKey(dynamicKey),
                     setTableType ? setTableType(dynamicKey) : null,

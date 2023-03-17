@@ -146,7 +146,9 @@ const Form = ({
               <input
               onClick={() => setInputDropdown('product_brand')} 
               value={manageFormFields(stateData.brand, 'name')} 
-              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'brand', e.target.value))}/>
+              onChange={(e) => (setInputDropdown(''), stateMethod(createType, 'brand', e.target.value))}
+              readOnly
+              />
               <label 
               className={`input-label ` + (
                 stateData.brand.length > 0 || 
@@ -482,7 +484,7 @@ const Form = ({
                   <div
                     className="form-group-gallery-link-loading"
                     onClick={(e) => (e.stopPropagation(), loading !== 'delete_image' ? 
-                    submitDeleteFile(e, item, 'images', createType, stateMethod, stateData, 'products', setMessage, 'delete_image', setLoading, token, 'products/delete-image', allData, setAllData, setDynamicSVG, editData) 
+                    submitDeleteFile(e, item, 'images', createType, stateMethod, stateData, 'products', setMessage, 'delete_image', setLoading, token, 'products/delete-image', allData, setAllData, setDynamicSVG, editData, setModal, selectID, setSelectID) 
                     : null)
                   }>
                     { loading == 'delete_image' ? 

@@ -456,6 +456,27 @@ const SideNav = ({
             />
             Messaging
           </div>
+          <div
+            onClick={() => (
+              changeView('analytics'),
+              width < 992 ? toggleSideNav('toggle_nav_button') : null
+            )}
+            className={
+              `clientDashboard_sidenav-menu-item-dropdown-item` +
+              (!nav.sidenav ? ' hide-sidenav-items' : '') +
+              (toggle == 'operations' ? ' hide-sidenav-dropdown' : '')
+            }
+          >
+            <SVGs
+              svg={'circle-thin'}
+              classprop={
+                `clientDashboard_sidenav-menu-item-arrow` +
+                (!nav.sidenav ? ' hide-sidenav-items' : '') +
+                (toggle == 'operations' ? ' hide-sidenav-dropdown' : '')
+              }
+            />
+            Analytics
+          </div>
         </div>
       </div>
     </div>

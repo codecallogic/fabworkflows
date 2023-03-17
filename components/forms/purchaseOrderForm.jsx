@@ -37,6 +37,7 @@ const PurchaseOrderForm = ({
   setSelectID,
   setModalFormType,
   setTypeForm,
+  setAltEdit,
 
   //// DATA
   typeOfData,
@@ -413,6 +414,7 @@ const PurchaseOrderForm = ({
           setModalFormType={setModalFormType}
           setTypeForm={setTypeForm}
           stateMethod={stateMethod}
+          setAltEdit={setAltEdit}
         ></Table>
 
         <Table
@@ -449,6 +451,7 @@ const PurchaseOrderForm = ({
           dynamicKey={'jobs'}
           setTypeForm={setTypeForm}
           stateMethod={stateMethod}
+          setAltEdit={setAltEdit}
         ></Table>
 
         <div className="form-box" style={{ width: '100%', padding: '0 2rem' }}>

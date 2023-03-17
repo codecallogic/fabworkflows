@@ -150,13 +150,6 @@ const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingTy
   setLoading(loadingType)
  
   let data = new FormData()
-  
-  if(filesType && stateData[filesType] && stateData[filesType].length > 0){
-    stateData[filesType].forEach((item) => {
-      let fileID = nanoid()
-      if(!item.key) return data.append('file', item, `${type}-${fileID}.${item.name.split('.')[1]}`)
-    })
-  }
 
   if(stateData['jobIssues']) removeCircularObject(stateData, 'jobIssues')
   
@@ -164,6 +157,13 @@ const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingTy
     for(let key in stateData){
       data.append(key, JSON.stringify(stateData[key]))
     }
+  }
+   
+  if(filesType && stateData[filesType] && stateData[filesType].length > 0){
+    stateData[filesType].forEach((item) => {
+      let fileID = nanoid()
+      if(!item.key) return data.append('file', item, `${type}-${fileID}.${item.name.split('.')[1]}`)
+    })
   }
 
   try {
@@ -227,7 +227,7 @@ const submitDeleteFile = async (e, fileItem, key, caseType, stateMethod, stateDa
     setLoading('')
     allData[type] = responseDelete.data
     setAllData(allData)
-
+    
     editData(type, caseType, stateMethod, allData, setSelectID, null, selectID, null, null, 'UPDATE')
     
     if(setModal) setModal('')

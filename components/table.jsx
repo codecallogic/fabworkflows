@@ -59,7 +59,8 @@ const Table = ({
   //// TABLES WITH DROPDOWNS
   const tableDropdowns = ['jobs', 'activities', 'activitySets', 'jobIssues', 'accounts']
   
-  const matchPattern = /https?:\/\/(www\.)?/gi;
+  // const matchPattern = /https?:\/\/(www\.)?/gi;
+  const matchPattern = /https?:\/\//g;
   const myRefs = useRef([])
   const [loadingColor, setLoadingColor] = useState('black')
   const [up, setUp] = useState(-1)
@@ -309,9 +310,11 @@ const Table = ({
             {Object.keys(item).sort((a, b) => sortOrder.indexOf(b) - sortOrder.indexOf(a)).map((key, idxKey, array) => 
               key !== '_id' && 
               <div key={idxKey} className="table-rows-item">
-                {/* {console.log(key, item[key])} */}
+                {/* {console.log(idxKey, item['images'])} */}
+                {/* {console.log(item[key][0])} */}
+                {/* matchPattern.test(item[key][0].location) */}
                 { 
-                  Array.isArray(item[key]) && item[key].length > 0 && item[key][0].location && matchPattern.test(item[key][0].location)
+                  Array.isArray(item[key]) && item[key].length > 0 && item[key][0].location && item[key][0].location.includes('https://fabworkflow')
                   ? 
                   <a href={`${item[key][0].location}`} target="_blank">
                     { key == 'files' 

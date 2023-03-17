@@ -75,8 +75,6 @@ const CheckoutForm = ({ type, billing, quote, deposit }) => {
           'quote': quote, 
           'deposit': deposit
         })
-
-        console.log(responsePayment.data)
         
         const {
           client_secret, 
