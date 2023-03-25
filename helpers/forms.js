@@ -158,7 +158,7 @@ const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingTy
       data.append(key, JSON.stringify(stateData[key]))
     }
   }
-   
+  
   if(filesType && stateData[filesType] && stateData[filesType].length > 0){
     stateData[filesType].forEach((item) => {
       let fileID = nanoid()
@@ -207,7 +207,7 @@ const submitUpdate = async (e, stateData, type, filesType, setMessage, loadingTy
   }
 }
 
-const submitDeleteFile = async (e, fileItem, key, caseType, stateMethod, stateData, type, setMessage, loadingType, setLoading, token, path, allData, setAllData, setDynamicSVG, editData, setModal, selectID, setSelectID) => {
+const submitDeleteFile = async (e, fileItem, key, caseType, stateMethod, stateData, type, setMessage, loadingType, setLoading, token, path, allData, setAllData, setDynamicSVG, editData, setModal, selectID, setSelectID, setUpdate) => {
  
   if(!fileItem.key){
     let filtered = stateData[key].filter((item) => item.location !== fileItem.location)
@@ -231,6 +231,7 @@ const submitDeleteFile = async (e, fileItem, key, caseType, stateMethod, stateDa
     editData(type, caseType, stateMethod, allData, setSelectID, null, selectID, null, null, 'UPDATE')
     
     if(setModal) setModal('')
+    if(setUpdate) setUpdate('')
     
   } catch (error) {
     console.log(error)

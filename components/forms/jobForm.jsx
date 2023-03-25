@@ -795,7 +795,7 @@ ${returnIfTrue(stateData.accountAddress.contact_notes)}
                         loading !== 'delete_file'
                           ? 
                           (
-                            submitDeleteFile(e, item, 'files', createType, stateMethod, stateData, 'jobs', setMessage, 'delete_file', setLoading, token, 'jobs/delete-file', allData, setAllData, setDynamicSVG, editData, null, stateData._id)
+                            submitDeleteFile(e, item, 'files', createType, stateMethod, stateData, 'jobs', setMessage, 'delete_file', setLoading, token, 'jobs/delete-file', allData, setAllData, setDynamicSVG, editData, null, stateData._id, null, setUpdate)
                           )
                           : null
                       )}
