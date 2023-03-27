@@ -94,7 +94,7 @@ const editData = (keyType, caseType, stateMethod, allData, setSelectID, id, sele
   let stateMethods = new Object();
   stateMethods.createType = stateMethod;
   
-  if(keyType == 'purchaseOrders' && crudType == 'UPDATE') selectID = selectID ? selectID : id
+  if(keyType == 'purchaseOrders') selectID = selectID ? selectID : id
   if(keyType == 'jobs') selectID = selectID ? selectID : id
   if(keyType == 'remnants' && crudType == 'UPDATE') selectID = selectID ? selectID : id
   if(keyType == 'slabs' && crudType == 'UPDATE') selectID = selectID ? selectID : id

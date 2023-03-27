@@ -358,7 +358,14 @@ const getAllAndUpdatePopulatedItem = async (setDynamicSVG, setMessage, token, al
       }
     })
 
-    allData[typeOfData] = response.data.list
+    if(typeOfData == 'purchaseOrders') response = await axios.get(`${API}/purchase-order/all-purchase-orders`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        contentType: 'multipart/form-data'
+      }
+    })
+
+    allData[typeOfData] = response.data.list ? response.data.list : response.data
     setAllData(allData)
     editData(typeOfData, createType, stateMethod, allData, setSelectID, null, selectID)
     

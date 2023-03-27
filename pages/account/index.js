@@ -317,14 +317,22 @@ const Dashboard = ({
 
   }, [allData.appointments, allData.jobs])
   
-  const handleUpdateJob = () => {
+  const handleFormUpdate = (formType) => {
 
-    submitUpdate(null, job, 'jobs', 'files', setMessage, 'update_job', setLoading, token, 'jobs/update-job', 'RESET_JOB', resetType, allData, setAllData, setDynamicSVG, changeView, 'jobs', null, null, job._id, editData, 'CREATE_JOB', createType, setSelectID, true, 'jobs', setUpdate)
+    if(formType == 'job'){
+      submitUpdate(null, job, 'jobs', 'files', setMessage, 'update_job', setLoading, token, 'jobs/update-job', 'RESET_JOB', resetType, allData, setAllData, setDynamicSVG, changeView, 'jobs', null, null, job._id, editData, 'CREATE_JOB', createType, setSelectID, true, 'jobs', setUpdate)
+    }
+
+    if(formType == 'purchaseOrder'){
+      submitUpdate(null, purchaseOrder, 'purchaseOrders', 'files', setMessage, 'create_po', setLoading, token, 'purchase-order/update-purchase-order', 'RESET_PO', resetType, allData, setAllData, setDynamicSVG, changeView, 'purchaseOrders', null, null, purchaseOrder._id, editData, 'CREATE_PO', createType, setSelectID, true, 'purchaseOrders', setUpdate)
+    }
+
   }
 
   useEffect(() => {
 
-    if(update == 'job') return handleUpdateJob()
+    if(update == 'job') return handleFormUpdate('job')
+    if(update == 'purchaseOrder') return handleFormUpdate('purchaseOrder')
     
   }, [update])
 
@@ -1934,6 +1942,7 @@ const Dashboard = ({
             typeForm={typeForm}
             setTypeForm={setTypeForm}
             setAltEdit={setAltEdit}
+            setUpdate={setUpdate}
           ></PurchaseOrderForm>
         )}
 

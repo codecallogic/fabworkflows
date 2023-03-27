@@ -250,7 +250,7 @@ const PurchaseOrderModal = ({
         {edit == 'purchaseOrders' && 
         <button 
         className="form-group-button" 
-        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'purchaseOrders', null, setMessage, 'update_purchase_order', setLoading, token, 'purchase-order/update-purchase-order', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'purchaseOrders', setModal))}
+        onClick={(e) => (e.preventDefault(), submitUpdate(e, stateData, 'purchaseOrders', null, setMessage, 'update_purchase_order', setLoading, token, 'purchase-order/update-purchase-order', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'purchaseOrders', setModal, ''))}
         >
            {loading == 'update_purchase_order' ? 
             <div className="loading">

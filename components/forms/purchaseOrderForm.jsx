@@ -38,6 +38,7 @@ const PurchaseOrderForm = ({
   setModalFormType,
   setTypeForm,
   setAltEdit,
+  setUpdate,
 
   //// DATA
   typeOfData,
@@ -127,7 +128,7 @@ const PurchaseOrderForm = ({
             id="save" 
             className="table-header-controls-item" 
             onClick={(e) => edit == typeOfData ? 
-              submitUpdate(e, stateData, 'purchaseOrders', 'files', setMessage, 'create_po', setLoading, token, 'purchase-order/update-purchase-order', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'purchaseOrders', null)
+              submitUpdate(e, stateData, 'purchaseOrders', 'files', setMessage, 'create_po', setLoading, token, 'purchase-order/update-purchase-order', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'purchaseOrders', null, null, stateData._id, editData, createType, stateMethod, setSelectID)
               : 
               null
               // submitCreate(e, stateData, 'purchaseOrders', 'files', setMessage, 'create_quote', setLoading, token, 'quotes/create-quote', resetType, resetState, allData, setAllData, setDynamicSVG, changeView, 'purchaseOrderForm', null, null, false, editData, { key: 'purchaseOrders', caseType: 'CREATE_PO', method: stateMethod, setSelectID: setSelectID }, setEdit)  
@@ -463,7 +464,7 @@ const PurchaseOrderForm = ({
                 type="file"
                 accept="*"
                 multiple
-                onChange={(e) =>
+                onChange={(e) => (
                   multipleFiles(
                     e,
                     stateData,
@@ -472,8 +473,9 @@ const PurchaseOrderForm = ({
                     filesType,
                     'files',
                     addImages
-                  )
-                }
+                  ),
+                  setUpdate('purchaseOrder')
+                )}
               />
             </label>
           </div>
