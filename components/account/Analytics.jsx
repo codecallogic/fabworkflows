@@ -1,14 +1,73 @@
 import SVG from '../../files/svgs'
+import { Line } from 'react-chartjs-2'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+export const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'top'
+    },
+    title: {
+      display: true,
+      text: 'Jobs & Job Issues (dummy data)',
+    },
+  },
+};
+
+const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+
+export const data = {
+  labels,
+  datasets: [
+    {
+      label: 'Jobs',
+      data: labels.map(() => Math.floor(Math.random() * 200)),
+      borderColor: 'rgb(255, 99, 132)',
+      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+    },
+    {
+      label: 'Job Issues',
+      data: labels.map(() => Math.floor(Math.random() * 200)),
+      borderColor: 'rgb(53, 162, 235)',
+      backgroundColor: 'rgba(53, 162, 235, 0.5)',
+    },
+  ],
+};
 
 const Analytics = ({
   allData,
-
+  
   //// METHODS
   setAllData
 }) => {
   
+  console.log(allData['jobs'])
+  
   return (
     <div className="analytics">
+      <div className="analytics-chart">
+        <Line options={options} data={data} />;
+      </div>
       <div className="analytics-item">
         <div>
         <SVG svg={'stats-chart'}></SVG>

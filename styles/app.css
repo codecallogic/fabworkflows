@@ -4793,6 +4793,11 @@ body::-webkit-scrollbar-thumb {
   margin: 0 1rem;
   color: white;
 }
+.analytics-chart {
+  width: 50rem;
+  height: max-content !important;
+  margin: 4rem;
+}
 
 .home {
   display: flex;
