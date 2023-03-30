@@ -44,7 +44,7 @@
   "devDependencies": {
     "eslint": "7.29.0",
     "eslint-config-next": "11.0.1",
-    "sass": "^1.58.3"
+    "sass": "^1.60.0"
   },
   "engines": {
     "node": "16.x"
