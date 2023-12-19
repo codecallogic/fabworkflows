@@ -10,6 +10,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { isArrayLike } from 'lodash';
 
 ChartJS.register(
   CategoryScale,
@@ -35,6 +36,44 @@ export const options = {
 };
 
 const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+
+export const ordersAndIssues = (data, labels) => {
+
+  let array = []
+  let objectData = []
+  
+  data['jobs'].forEach((item, idx) => {
+
+    const date = new Date(item.createdAt);
+    let newObject
+    // const dateObject = new Object()
+
+    if(!array[labels[date.getUTCMonth()]]){
+
+      newObject = {
+        [labels[date.getUTCMonth()]]: 1
+      }
+      
+    }
+
+    // if(array(labels[date.getUTCMonth()])){
+
+    // }
+
+    // console.log(labels[date.getUTCMonth()])
+    // console.log(dateObject[labels[date.getUTCMonth()]])
+    
+    // dateObject[labels[date.getUTCMonth()]]
+    
+    array.push(newObject)
+    
+    // console.log(date.getUTCMonth())
+    
+  })
+
+  return array
+  
+}
 
 export const data = {
   labels,
@@ -62,6 +101,7 @@ const Analytics = ({
 }) => {
   
   console.log(allData['jobs'])
+  console.log(ordersAndIssues(allData, labels))
   
   return (
     <div className="analytics">
