@@ -233,8 +233,8 @@ const Quote = ({stateData}) => {
             <Text style={styles.headingTableTwo}>Taxable</Text>
             <Text style={styles.headingTableTwo}>Amount</Text>
           </View>
-          {stateData.quote_lines.length > 0 && stateData.quote_lines.map((item) =>
-            <View style={styles.sectionRow}>
+          {stateData.quote_lines.length > 0 && stateData.quote_lines.map((item, idx) =>
+            <View key={idx} style={styles.sectionRow}>
               <Text style={styles.tableRowTwo}>{item.quantity}</Text>
               <Text style={styles.tableRowTwo}>
               {item.material

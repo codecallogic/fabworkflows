@@ -275,7 +275,7 @@ const Checkout = ({
           </div>
           <div className="checkout-box-summary-quote">
             { quote.quote_lines.length > 0 && quote.quote_lines.map((item, idx) => 
-              <div className="form-estimate">
+              <div key={idx} className="form-estimate">
                   <div 
                   className="form-estimate-line"
                   >
