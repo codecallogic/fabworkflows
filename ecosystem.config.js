@@ -8,7 +8,7 @@ module.exports = {
     production : {
       key  : 'deployment.pem',
       user : 'ubuntu',
-      host : '54.193.175.148',
+      host : '18.144.170.159',
       ref  : 'origin/main',
       repo : 'git@github.com:codecallogic/fabworkflows.git',
       path : '/home/ubuntu/client',

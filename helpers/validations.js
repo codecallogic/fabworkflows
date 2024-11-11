@@ -120,7 +120,7 @@ const validateEmailData = (value) => {
 }
 
 const validatePrice = (e) => {
-
+  
   if(e.target.value == ''){ return '' }
   
   if(e.keyCode){

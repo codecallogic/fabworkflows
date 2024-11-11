@@ -662,11 +662,11 @@ const Form = ({
             <label htmlFor="imageFiles" className="form-box-heading-item">
               <SVG svg={'upload'}></SVG> Upload Images
               <input 
-              id="imageFiles" 
-              type="file" 
-              accept="image/*" 
-              multiple
-              onChange={(e) => multipleFiles(e, stateData, 'images', setMessage, imagesType, 'images', addImages)}
+                id="imageFiles" 
+                type="file" 
+                accept="image/*" 
+                multiple
+                onChange={(e) => multipleFiles(e, stateData, 'images', setMessage, imagesType, 'images', addImages)}
               />
             </label>
           </div>
